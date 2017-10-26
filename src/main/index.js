@@ -161,6 +161,10 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
+    // Dirty Hack for Course Pages Mobile
+    if ($('.side-context-course').length > 0) {
+      $('#content-layout').addClass('course-page')
+    }
     $('.text-exercise:has(.input-challenge-group)', $context).InputChallenge()
     $('.text-exercise:has(.single-choice-group)', $context).SingleChoice()
     $('.text-exercise:has(.multiple-choice-group)', $context).MultipleChoice()

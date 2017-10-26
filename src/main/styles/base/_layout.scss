@@ -153,6 +153,12 @@
   min-height: 670px;
   padding: 0 $contentPadding $contentPadding;
 
+  &.course-page {
+    @media screen and (max-width: $screen-sm) {
+      padding: 0 60px $contentPadding 20px;
+    }
+  }
+
   float: left;
   // box-sizing: content-box;
 
@@ -176,6 +182,10 @@
 
 /* Right Context Area */
 .side-context {
+  @media screen and (max-width: $screen-sm) {
+    display: none;
+  }
+
   position: absolute;
   top: $sideNavTopOffset;
   right: -($sidebarWidth + $sidebarGap);

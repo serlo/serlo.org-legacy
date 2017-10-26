@@ -136,6 +136,14 @@
   }
 }
 
+#header {
+  .container {
+    @media screen and (max-width: $screen-sm) {
+      padding: 0;
+    }
+  }
+}
+
 #subject-nav {
   position: relative;
   padding: 0;
@@ -211,7 +219,11 @@
         font-weight: bold;
       }
     }
-
+    @media screen and (max-width: $screen-sm) {
+      .controls {
+        display: none;
+      }
+    }
     .backlink {
       display: none;
     }
@@ -219,37 +231,20 @@
 
   .backlink-only {
     .subject-nav-center {
-      width: 45px;
-    }
-
-    .controls {
-      display: none;
-    }
-
-    #breadcrumbs {
-      padding: 9px 0 6px;
-      margin: 0;
-
-      > li {
-        display: none;
-      }
-
-      .backlink {
-        display: inline-block;
-        font-size: 20px;
-        width: 45px;
-
-        a {
-          display: block;
-          text-align: center;
+      width: 70%;
+      @media screen and (max-width: $screen-sm) {
+        .controls {
+          display: none;
         }
       }
     }
 
     #search-content {
       width: 100%;
-      margin-right: -52px;
-      padding-right: 52px;
+      @media screen and (max-width: $screen-sm) {
+        padding-right: 52px;
+        width: 30%;
+      }
     }
   }
 

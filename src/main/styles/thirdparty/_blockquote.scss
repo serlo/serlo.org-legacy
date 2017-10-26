@@ -39,8 +39,10 @@
       width: 79px;
       padding: 16px 0;
     }
+    @media screen and (max-width: $screen-sm) {
+      max-width: 50px;
+    }
   }
-
   &.blockquote-default {
     border-color: $btn-default-bg;
     .square,
