@@ -1,0 +1,352 @@
+$action-height: 0px;
+$header-height: 57px;
+$gray: #C5C5C5;
+
+body {
+  overflow-y: hidden;
+  background: white;
+}
+
+header {
+  position: relative;
+  // box-shadow: 0 0 3px #333;
+  z-index: 2;
+}
+
+#editor-main-panel {
+  border-radius: 0px;
+  & .panel-heading {
+    border-radius: 0px;
+  }
+}
+
+#serlo-menu {
+  // margin-bottom: 0;
+  // border-bottom: 0 none;
+  // line-height: 28px;
+
+  .navbar-nav a {
+    // padding: 6px 12px;
+  }
+}
+
+#content-layout {
+  min-height: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#editor-wrap {
+  position: absolute;
+  top: $header-height;
+  left: 0;
+  bottom: $action-height;
+  right: 0;
+  z-index: 1;
+  padding: 0;
+}
+
+#preview {
+  border-left: 1px solid $gray;
+
+  float: none;
+
+  background: white;
+  // rendering perf hack
+  transform: translateZ(0);
+
+  .preview-label {
+    display: block;
+    padding: 5px 20px 5px 20px;
+
+    background: #eee;
+    //border-top: 1px solid $gray;
+  }
+
+  .field-checkbox {
+    + .preview-content {
+      display: none;
+    }
+  }
+
+  .preview-checkbox {
+    margin-right: 8px;
+  }
+
+  .preview-radio {
+    margin-right: 8px;
+  }
+
+  .preview-select {
+
+  }
+
+  .has-error {
+    .preview-label {
+      background: #FAC1C1;
+      border-top-color: #FD2222;
+    }
+  }
+}
+
+.preview-content {
+  padding: 5px 20px 5px 20px;
+}
+
+.preview-input {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 14px;
+  color: #333;
+  text-shadow: 1px 1px 0 #FFF;
+  background: #FFF;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 5px #EEE;
+
+  &:focus {
+    outline: none;
+    border-color: #B8B8B8;
+  }
+}
+
+.preview-textarea {
+  width: 100%;
+  max-width: 100%;
+}
+
+.preview-radio-container {
+  font-weight: normal;
+}
+
+#editor-form {
+  display: none;
+}
+
+#main {
+  outline: 1px solid $gray;
+  overflow-x: hidden;
+  // rendering perf hack
+  transform: translateZ(0);
+}
+
+.editor-main {
+  width: 50%;
+  height: 100%;
+  float: left;
+  overflow-y: auto;
+}
+
+.add-layout {
+  position: relative;
+  top: 13px;
+
+  margin: 0 40px;
+  padding-top: 10px;
+
+  text-align: center;
+
+  opacity: 0;
+  transition: 0.3s opacity 0.1s;
+
+  #preview:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    &:before {
+      border-color: darken($gray, 30%);
+    }
+
+    .plus {
+      color: darken($gray, 30%);
+    }
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    border-top: 2px solid $gray;
+    display: block;
+    width: 100%;
+  }
+
+  .plus {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 23px;
+    top: -20px;
+
+    font-size: 26px;
+    line-height: 1;
+
+    color: #A5A5A5;
+    background: white;
+
+    cursor: pointer;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.layout-list {
+  position: relative;
+  top: -10px;
+
+  > a {
+    display: inline-block;
+    margin: 0 5px 10px;
+
+    &:hover {
+      outline: 2px solid $gray;
+    }
+  }
+}
+
+.editor-widget {
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 20px;
+
+  padding: 7px 9px;
+  margin-left: -27px;
+  margin-top: 7px;
+
+  border: 1px solid #878787;
+  border-radius: 3px;
+  background: #FFF;
+
+  font-size: 0.9em;
+  z-index: 2;
+
+  &:before {
+    content: "";
+    border: 7px solid rgba(0, 0, 0, 0);
+    border-bottom-color: #878787;
+    position: absolute;
+    top: -14px;
+    left: 20px;
+  }
+  &:after {
+    content: "";
+    border: 6px solid rgba(0, 0, 0, 0);
+    border-bottom-color: white;
+    position: absolute;
+    top: -12px;
+    left: 21px;
+  }
+}
+
+.editor-plugin-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+
+  background: white;
+  background: rgba(200, 200, 200, 0.54);
+
+  text-align: center;
+
+  z-index: 200;
+  overflow-y: auto;
+}
+
+.editor-plugin {
+  margin-top: 50px;
+  display: inline-block;
+  text-align: left;
+  width: auto;
+}
+
+.editor-geogebra-plugin {
+  .panel-body {
+    width: 80%;
+  }
+}
+
+/* jquery.ui resizable */
+.ui-resizable {
+  position: relative;
+
+  & + {
+    .panel-footer {
+      padding-right: 35px;
+    }
+  }
+}
+
+.ui-resizable-handle {
+  position: absolute;
+  top: auto;
+  bottom: -29px;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+
+  color: black;
+  font-size: 16px;
+}
+
+/* SPOILERS */
+
+.spoiler-content {
+  display: none;
+}
+
+/* Codemirror specific */
+.CodeMirror-linewidget {
+  z-index: 5;
+  overflow: visible;
+}
+
+.CodeMirror-code {
+  .cm-injection,
+  .cm-link,
+  .cm-image,
+  .cm-math,
+  .cm-inline-math {
+    color: lightcoral;
+  }
+}
+
+@keyframes codemirrorActivation {
+  0% {
+    background-color: #FDF8D5;
+  }
+  35% {
+    backround-color: #FDF8D5;
+  }
+  100% {
+    background-color: #FFFFFF;
+  }
+}
+
+.CodeMirror.activated {
+  animation: codemirrorActivation;
+  animation-duration: 1.4s;
+
+}
+
+/* Wiris plugin specific */
+.wrs_editor img {
+  max-width: initial;
+}
+
+/* Geogebra plugin specific */
+
+.gwt-MenuBarPopup,
+.gwt-DialogBox,
+.gwt-PopupPanel {
+  z-index: 350;
+}

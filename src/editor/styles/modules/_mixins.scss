@@ -1,0 +1,28 @@
+%clearfix {
+  &:after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
+}
+
+@mixin theme-font($weight: normal) {
+  font-family: $themeFont;
+  font-weight: $weight;
+  -webkit-font-smoothing: antialiased;
+}
+
+@mixin placeholder-color($color: "white") {
+  &::-webkit-input-placeholder {
+    color: #{$color};
+  }
+  &:-moz-placeholder {
+    color: #{$color};
+  }
+  &::-moz-placeholder {
+    color: #{$color};
+  }
+  &::-ms-placeholder {
+    color: #{$color};
+  }
+}

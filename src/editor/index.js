@@ -38,6 +38,9 @@ import TextEditorHelper from './editor/serlo_texteditor_helper'
 import './libs/quickdiff'
 import Shortcuts from './modules/serlo_shortcuts'
 
+import '../main/styles/main.scss'
+import './styles/editor.scss'
+
 window.$ = $
 window.jQuery = $
 

@@ -1,6 +1,6 @@
 {
   "name": "@serlo-org/athene2-assets",
-  "version": "0.0.0-development",
+  "version": "0.1.0",
   "bugs": {
     "url": "https://github.com/serlo-org/athene2-assets/issues"
   },
@@ -10,15 +10,15 @@
   "scripts": {
     "build": "webpack --config webpack.config.prod -p",
     "commit": "git-cz",
-    "format":
-      "prettier-standard \"{src/**/*,*}.{js,jsx,ts,tsx,css,less,scss,json}\"",
+    "format": "prettier-standard \"{src/**/*,*}.{js,jsx,ts,tsx,css,less,scss,json}\"",
     "lint": "standard \"{src/**/*,*}.js\" | snazzy",
-    "semantic-release":
-      "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "start": "webpack-dev-server --config webpack.config.dev",
     "test": "jest"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "algebra.js": "^0.2.6",
     "autosize": "^4.0.0",
