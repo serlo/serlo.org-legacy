@@ -1,0 +1,46 @@
+.grid-boxes {
+  .grid-box {
+    width: $gridBoxWidth;
+    height: $gridBoxWidth * 9 / 16;
+    display: inline-block;
+    margin: 5px;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 16px;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &:nth-child(3n + 3) {
+      background-color: $themeColorLight;
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: darken($themeColorLight, 10%);
+        cursor: pointer;
+      }
+    }
+
+    &:nth-child(3n + 2) {
+      background-color: $secondaryColor;
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: darken($secondaryColor, 10%);
+        cursor: pointer;
+      }
+    }
+
+    &:nth-child(3n + 1) {
+      background-color: $themeColor;
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: darken($themeColor, 10%);
+        cursor: pointer;
+      }
+    }
+  }
+}

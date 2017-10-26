@@ -1,0 +1,455 @@
+@import '../modules/grid';
+@import '../modules/visibility';
+
+$homeBackgroundColor: #efefef;
+
+$homeColumnWidth: 300px;
+$homeColumnPadding: 30px;
+
+$homeBreakpoint-md: 600px;
+$homeBreakpoint-md-min: $homeBreakpoint-md;
+$homeBreakpoint-md-max: ($homeBreakpoint-md-min - 1);
+
+$homeBreakpoint-lg: 800px;
+$homeBreakpoint-lg-min: $homeBreakpoint-lg;
+$homeBreakpoint-lg-max: ($homeBreakpoint-lg-min - 1);
+
+$homeBreakpoint-xl: 1240px;
+
+$homeBreakpoint-xxl: 1580px;
+
+@include grid('home', 6, ('md', $homeBreakpoint-md), ('lg', $homeBreakpoint-lg));
+@include visibility('home', ('md', $homeBreakpoint-md), ('lg', $homeBreakpoint-lg));
+
+.home-row {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-column {
+  padding: 0 $homeColumnPadding;
+  text-align: center;
+
+  h2 {
+    color: lighten($gray, 10%);
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+}
+.home-subject-wrapper {
+  background-color: #fff;
+  width: 100%;
+}
+
+.home-extra-links {
+  background: #efefef;
+  padding-top: 2rem;
+  padding-bottom: 2.2rem;
+  .home-column {
+    text-align: center;
+    a {
+      white-space: nowrap;
+      @media screen and (min-width: 570px) {
+        padding-left: 8px;
+        padding-bottom: 0;
+        &:first-child {
+          padding-right: 8px;
+        }
+      }
+    }
+  }
+  .home-emph-link {
+    color: #404040;
+
+    i.fa {
+      color: #428bca;
+    }
+  }
+}
+
+.home-subject-row {
+  margin: 0px auto 105px auto;
+  padding: auto;
+
+  .home-column {
+    margin: 0 auto 30px;
+  }
+
+  .home-subject {
+    display: inline-block;
+    vertical-align: middle;
+    br {
+      align: center;
+    }
+  }
+
+  .home-emph-link {
+    font-size: 20px;
+  }
+}
+
+.home-emph-link {
+  font-size: 20px;
+  color: $gray;
+  @media (max-width: 767px) {
+    .home-subject-symbol {
+      .blue {
+        fill: #00b2d8;
+      }
+      .green {
+        fill: #becd2b;
+      }
+    }
+  }
+  &:focus,
+  &:hover,
+  &:active {
+    text-decoration: none;
+    color: $serloBlue;
+    .home-subject-symbol {
+      .blue {
+        fill: #00b2d8;
+      }
+      .green {
+        fill: #becd2b;
+      }
+    }
+    i {
+      color: $serloBlue;
+    }
+  }
+}
+
+.home-header {
+  text-align: center;
+  font-size: 36px;
+  color: $gray;
+  margin: 45px 0;
+  margin-bottom: 80px;
+
+  .serlo-logo {
+    display: inline-block;
+    font-size: 50px;
+    height: 100px;
+    vertical-align: bottom;
+    margin-left: -20px;
+    margin-right: -2px;
+    margin-bottom: 3px;
+  }
+
+  .serlo-brand {
+    display: inline-block;
+    font-size: 41px;
+  }
+
+  .header-text {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: bottom;
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+  }
+}
+
+.home-about-wrapper {
+  margin-right: 0;
+  margin-bottom: 80px;
+}
+
+.home-about-row {
+  background-color: $serloBlue;
+  padding: 80px 50px 50px 50px;
+  font-size: 16px;
+  color: #fff;
+  text-align: left;
+
+  @media (min-width: $homeBreakpoint-xl) {
+    min-height: 740px;
+  }
+
+  @media (min-width: $homeBreakpoint-xxl) {
+    min-height: 640px;
+  }
+  .home-emph-link {
+    color: #fff;
+    &:focus,
+    &:hover,
+    &:active {
+      color: $serloBlueLight;
+      i {
+        color: $serloBlueLight;
+      }
+    }
+  }
+  p {
+    padding-bottom: 20px;
+  }
+}
+
+.home-serlo-row {
+  font-size: 16px;
+  margin: 0 auto 50px auto;
+  padding-bottom: 50px;
+  .home-column {
+    margin-bottom: 25px;
+    @media screen and (min-width: $homeBreakpoint-md-min) {
+      margin-bottom: 0;
+    }
+    a {
+      display: inline-block;
+      padding: 0 20px;
+    }
+  }
+
+  .serlo-en-home & {
+    max-width: 400px;
+  }
+}
+
+.home-partner-row {
+  text-align: center;
+  min-height: 640px;
+  padding-top: 518px;
+
+  @media (min-width: $homeBreakpoint-xl) {
+    min-height: 740px;
+    padding-top: 610px;
+  }
+
+  @media (min-width: $homeBreakpoint-xxl) {
+    min-height: 640px;
+    padding-top: 518px;
+  }
+
+  .partners {
+    display: inline-block;
+    width: 820px;
+  }
+
+  @media screen and (min-width: $homeBreakpoint-md-min) {
+    background-image: url('../../../images/de/serlo_learning_md.jpg');
+  }
+  @media screen and (min-width: $homeBreakpoint-lg-min) {
+    background-image: url('../../../images/de/serlo_learning_lg.jpg');
+  }
+  background-repeat: no-repeat;
+  background-position-y: 100%;
+  background-size: cover;
+  .home-emph-link {
+    color: #fff;
+  }
+  .serlo-de-home & {
+    @media (max-width: $homeBreakpoint-lg-min) {
+      display: none;
+    }
+    h2 {
+      display: inline-block;
+      width: 1/2 * 100%;
+      border-bottom: 1px solid #fff;
+      letter-spacing: 0.3px;
+      color: #fff;
+      padding-bottom: 4px;
+    }
+    a {
+      margin-top: 10px;
+    }
+    img {
+      max-width: 100px;
+      margin: 10px 0 15px 30px;
+      @media (max-width: $homeBreakpoint-lg-min) {
+        max-width: 130px;
+      }
+    }
+    li {
+      padding: 29px 0;
+    }
+    blockquote {
+      border: none;
+      font-size: inherit;
+      margin: 0;
+      footer {
+        padding: 5px 0;
+        font-weight: bold;
+        display: inline-block;
+        &:before {
+          content: '';
+        }
+      }
+    }
+  }
+}
+
+.home-principle-row {
+  padding: 80px 0;
+  background-color: $serloBlue;
+  width: 100%;
+  .serlo-en-home & {
+    margin-bottom: 70px;
+  }
+  @media screen and (min-width: $screen-md) {
+    img {
+      width: 75%;
+    }
+  }
+  @media screen and (min-width: $screen-lg) {
+    img {
+      width: 50%;
+    }
+  }
+}
+
+.home-launch-img-row {
+  clear: both;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 0;
+  padding-top: 43.75%;
+  margin-bottom: 40px;
+
+  .serlo-de-home & {
+    background-image: url('../../../images/de/home_img_launch_sm.jpg');
+
+    @media screen and (min-width: $homeBreakpoint-md-min) {
+      background-image: url('../../../images/de/home_img_launch_md.jpg');
+    }
+
+    @media screen and (min-width: $homeBreakpoint-lg-min) {
+      background-image: url('../../../images/de/home_img_launch_lg.jpg');
+    }
+  }
+
+  .serlo-en-home & {
+    background-image: url('../../../images/en/home_img_launch_sm.jpg');
+
+    @media screen and (min-width: $homeBreakpoint-md-min) {
+      background-image: url('../../../images/en/home_img_launch_md.jpg');
+    }
+
+    @media screen and (min-width: $homeBreakpoint-lg-min) {
+      background-image: url('../../../images/en/home_img_launch_lg.jpg');
+    }
+  }
+}
+
+.home-calls-wrapper {
+  background: #fff;
+  padding: 20px 0px;
+  margin-bottom: 100px;
+}
+
+.home-calls-header {
+  text-align: left;
+  @media (max-width: $screen-lg) {
+    text-align: center;
+  }
+  padding: 0 0 20px 0;
+  margin-top: 20px;
+  color: #333;
+  h2 {
+    margin-bottom: 2px;
+    font-size: 28px;
+    font-weight: bold;
+  }
+}
+.home-calls-column {
+  font-size: 16px;
+  padding: 10px 0;
+  text-align: left;
+  @media (max-width: $screen-lg) {
+    text-align: center;
+  }
+
+  .home-emph-link {
+    font-size: 20px;
+    margin-top: 20px;
+    &:focus,
+    &:hover,
+    &:active {
+      color: $serloGreen;
+    }
+    i {
+      color: $serloGreen;
+    }
+  }
+}
+
+.calls-column-1 {
+  @media (max-width: $screen-md) {
+    padding-bottom: 50px;
+  }
+}
+
+.home-row .extra-icon {
+  text-align: center;
+  padding: 10px 0px;
+  @media (min-width: $screen-lg) {
+    text-align: right;
+    padding: 10px 70px;
+  }
+}
+
+.serlo-home {
+  @media screen and (min-width: $navigationBreakPoint-min) {
+    #header-nav {
+      display: none;
+    }
+  }
+
+  #page {
+    margin-top: 0;
+    background: #fff;
+  }
+
+  #header {
+    background: #fff;
+  }
+
+  #serlo-menu {
+    margin-bottom: 1px;
+  }
+
+  #subject-nav {
+    @include box-shadow(none);
+
+    .subject-nav-center {
+      margin-right: 227px;
+    }
+
+    #subject-nav-wrapper,
+    .subject-nav-center {
+      background: none;
+      @include box-shadow(none);
+    }
+
+    #search-content {
+      width: 220px;
+
+      @media screen and (max-width: $homeBreakpoint-md-max) {
+        width: 100%;
+      }
+
+      form {
+        background: none;
+        @include box-shadow(none);
+        @include bottom-frame($lightGray);
+      }
+    }
+  }
+
+  #content-layout {
+    padding: 0;
+  }
+
+  #footer .navbar-default {
+    background: $homeBackgroundColor;
+  }
+
+  .wrap {
+    background-color: $homeBackgroundColor;
+  }
+}

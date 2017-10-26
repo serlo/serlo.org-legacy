@@ -1,0 +1,111 @@
+.container {
+  &.has-sidebar {
+    @media only screen and (max-width: $sidebarBreakPoint-max) {
+      padding-right: $pagePaddingMedium + $sideElementWidthCollapsed;
+    }
+
+    @media only screen and (max-width: $screen-xs-max) {
+      padding-right: $sideElementWidthCollapsed;
+    }
+  }
+}
+
+.btn-block {
+  padding: inherit;
+}
+
+.btn-group > form {
+  display: inline-block;
+  position: relative;
+  float: left;
+
+  .btn {
+    margin-left: -1px;
+    position: relative;
+    float: left;
+  }
+
+  &:first-child .btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &:last-child .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &:not(:first-child):not(:last-child) .btn {
+    border-radius: 0;
+  }
+}
+
+.page-header > h1 {
+  font-weight: 400;
+  border: none;
+  margin: 0;
+  line-height: 1.1;
+  font-size: 36px;
+  font-family: 'Droid Serif';
+  color: $serloGray;
+}
+
+.fa:empty {
+  width: 1em;
+}
+
+abbr[title],
+abbr[data-original-title] {
+  cursor: help;
+  border-bottom: none;
+  color: $lightGray;
+}
+
+.input-group .form-control {
+  z-index: 0;
+}
+
+.dropdown-menu-item {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857;
+  color: #333;
+  white-space: nowrap;
+
+  &:hover,
+  &:active {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+  }
+}
+
+.nav-right > li {
+  float: right;
+}
+
+.open > a .caret {
+  border-top: none;
+  border-bottom: $caret-width-base dashed;
+}
+
+.dropdown-menu {
+  padding: 0;
+
+  > li > a {
+    padding: 14px 12px 12px;
+  }
+
+  > li > form {
+    display: block;
+
+    & > button {
+      padding: 14px 12px 12px;
+      background-color: transparent;
+      width: 100%;
+      text-align: left;
+    }
+  }
+}

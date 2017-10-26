@@ -1,0 +1,154 @@
+/* THEME */
+
+$baseFont: Arial, serif;
+$themeFont: 'Open Sans', sans-serif;
+
+/* COLORS */
+
+/**
+ * Serlo blue
+ *
+ * Color of logo,
+ * more important blue,
+ * professional, reliable
+ */
+$serloBlue: #007ec1;
+
+/**
+ * (Emergency blue)
+ *
+ * Prefer $serloBlue for the time being,
+ * friendly
+ */
+$serloBlueAlternative: #00b4d5;
+
+/**
+ * Community green
+ *
+ * Color for interaction and collaboration
+ */
+$serloGreen: #95bc1a;
+
+/**
+ * Serlo gray
+ *
+ * Color for areas, icons, logos and big fonts
+ */
+$serloGray: #404040;
+
+/**
+ * Color gradations
+ *
+ * Gradations for the basic colors
+ * Basically all gradations of the basic colors are allowed
+ */
+$serloBlueLight: lighten($serloBlue, 35%);
+$serloBlueAlternativeLight: lighten($serloBlueAlternative, 35%);
+$serloGreenLight: #b4e11f;
+$serloGrayLight: lighten($serloGray, 35%);
+$infoBlue: #d9edf7;
+$infoOrange: #f7b07c;
+
+$themeColor: $serloBlue;
+$themeColorLight: lighten($themeColor, 5%);
+$secondaryColor: #2f6c61;
+$backgroundColor: #e4e6e6;
+
+$white: white;
+$black: black;
+$gray: $serloGray;
+$lightGray: lighten($gray, 34%);
+$lighterGray: #f8f8f8;
+
+// TOP NAV BAR
+$navbarBackground: #fbfbfb;
+$navbarBackgroundHighlight: $navbarBackground;
+
+// FOOTER
+$footerBackground: #fff;
+
+// BORDER RADIUS OVERRIDE
+$border-radius-base: 2px;
+$border-radius-large: 4px;
+$border-radius-small: 1px;
+
+// MAIN LAYOUT
+$minWidth: 400px;
+$maxWidth: 1350px;
+
+$sidebarWidth: 200px;
+$sidebarGap: 7px;
+
+// $contentWidth: 700px;
+// $contentMaxWidth: $maxWidth - 2*$sidebarWidth - 2*$sidebarGap;
+$contentPadding: 20px;
+
+$navigationWidth: $sidebarWidth;
+$navigationMargin: 0;
+
+$headerBreakPoint: 600px;
+$headerBreakPoint-min: $headerBreakPoint;
+$headerBreakPoint-max: ($headerBreakPoint-min - 1);
+
+$sideElementWidthCollapsed: 40px;
+
+// Navigation Breakpoint Grid
+$navigationBreakPoint: 1002px;
+$navigationBreakPoint-min: $navigationBreakPoint;
+$navigationBreakPoint-max: ($navigationBreakPoint-min - 1);
+
+$navigationBreakPoint-2-col: 800px;
+$navigationBreakPoint-2-col-min: $navigationBreakPoint-2-col;
+$navigationBreakPoint-2-col-max: ($navigationBreakPoint-2-col-min - 1);
+
+$navigationBreakPoint-1-col: 500px;
+$navigationBreakPoint-1-col-min: $navigationBreakPoint-1-col;
+$navigationBreakPoint-1-col-max: ($navigationBreakPoint-1-col-min - 1);
+
+// Sidebar Breakpoint Grid
+// $sidebarBreakPoint: 1200px;
+$sidebarBreakPoint: 1002px;
+$sidebarBreakPoint-min: $sidebarBreakPoint;
+$sidebarBreakPoint-max: ($sidebarBreakPoint-min - 1);
+
+// Full Stack Breakpoint Grid
+$fullStackBreakPoint: 1350px;
+$fullStackBreakPoint-min: $fullStackBreakPoint;
+$fullStackBreakPoint-max: ($fullStackBreakPoint-min - 1);
+
+// $pagePaddingSmall: 15px;
+// $pagePaddingMedium: 20px;
+$pagePaddingSmall: 0px;
+$pagePaddingMedium: 15px;
+$pagePaddingLarge: 30px;
+
+// NAVBAR LIGHT
+$navbarLightBackground: $white;
+$navbarLightBackgroundHighlight: $secondaryColor;
+$navbarLightBorder: $white;
+
+$navbarLightText: $secondaryColor;
+$navbarLightLinkColor: $secondaryColor;
+$navbarLightLinkColorHover: $white;
+$navbarLightLinkColorActive: $navbarLightLinkColorHover;
+$navbarLightLinkBackgroundHover: $secondaryColor;
+$navbarLightLinkBackgroundActive: $secondaryColor;
+
+$navbarLightSearchBackground: lighten($navbarLightBackground, 25%);
+$navbarLightSearchBackgroundFocus: $white;
+$navbarLightSearchBorder: $navbarLightBackground;
+$navbarLightSearchPlaceholderColor: #ccc;
+
+$navbarLightBrandColor: $navbarLightLinkColor;
+
+/* Z INDEXES */
+
+$sideElementZIndex: 12;
+$headerZIndex: 13;
+
+/* SIDE NAVS */
+// $sideNavTopOffset: 26px;
+$sideNavTopOffset: 0;
+
+/* GRID BOXES */
+$gridBoxWidth: 200px;

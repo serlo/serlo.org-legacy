@@ -1,0 +1,88 @@
+.ajax-content-active {
+  overflow-y: hidden;
+
+  #page,
+  #header,
+  #footer {
+    // transform: translateX(-70%) rotateY(-12deg) translateZ(-165px);
+    // transform: translateX(-25%) translateY(-4%) translateZ(-150px);
+    transform: translateX(-240px);
+
+    opacity: 0.35;
+  }
+}
+
+#ajax-content-overlay {
+  $overlayWidth: 740px;
+
+  position: fixed;
+
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 100%;
+
+  overflow: hidden;
+
+  background: white;
+
+  z-index: 14;
+
+  // transition: 0.25s width 0.01s ease-in-out;
+  // 0.25s transform 0.01s
+  // transition: 0.35s opacity 0.01s, 0.35s transform 0.01s;
+  // transform: translateY(-100%);
+  // opacity: 0;
+  &.active {
+    width: $overlayWidth;
+    box-shadow: 0 0 9px $lightGray;
+
+    overflow-y: auto;
+
+    #ajax-content-overlay-container {
+      transform: translateX(0);
+    }
+  }
+
+  #ajax-content-overlay-container {
+    width: $overlayWidth;
+    position: absolute;
+    top: 0;
+
+    transform: translateX(30px);
+    transition: 0.15s transform 0s;
+  }
+}
+
+#ajax-content-overlay-loader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+#ajax-content-overlay-head {
+  padding: 12px 20px 0;
+}
+
+#ajax-content-overlay-inner {
+  min-height: 100%;
+  padding: 0 20px;
+}
+
+#ajax-content-overlay-footer {
+  padding: 12px 20px;
+  margin: 0;
+}
+
+#ajax-content-overlay-tabs {
+  li {
+    white-space: nowrap;
+    a {
+      padding: 5px 8px;
+      overflow: hidden;
+    }
+  }
+}

@@ -1,0 +1,256 @@
+/* MAIN PAGE LAYOUT */
+.wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+
+  margin: 0 auto;
+  position: relative;
+
+  @media only screen and (max-width: $navigationBreakPoint-max) {
+    padding: 0 $pagePaddingMedium;
+  }
+  @media only screen and (max-width: $sidebarBreakPoint-max) {
+    padding: 0 $pagePaddingSmall;
+  }
+}
+
+#header {
+  position: relative;
+  z-index: $headerZIndex;
+  clear: both;
+}
+
+#horizon {
+  clear: both;
+  padding: 50px 0 100px 0;
+}
+
+#page {
+  margin-top: 10px;
+}
+
+#noscript-modal {
+  input.modal-closing-trick:checked ~ div {
+    display: none;
+  }
+
+  .btn-transparent {
+    color: black;
+    background-color: transparent;
+  }
+
+  .btn-transparent:hover {
+    color: black;
+    background-color: $lighterGray;
+  }
+}
+
+/* Side Elements (Navigation && Context) */
+.side-element {
+  position: relative;
+
+  &.visible {
+    .side-element-inner {
+      visibility: visible;
+    }
+
+    .layout-toggle {
+      .fa {
+        display: none;
+
+        & + .fa {
+          display: block;
+        }
+      }
+    }
+  }
+
+  .layout-toggle {
+    display: none;
+
+    cursor: pointer;
+    user-select: none;
+
+    .fa {
+      display: block;
+
+      & + .fa {
+        display: none;
+      }
+    }
+  }
+}
+
+/* side element layout toggler */
+.layout-toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+
+  background: $gray;
+  color: white;
+
+  html.no-touch & {
+    &:hover {
+      background: darken($gray, 5%);
+    }
+  }
+
+  .fa {
+    display: block;
+    margin: 0 auto;
+    line-height: $sideElementWidthCollapsed;
+  }
+}
+
+/* Left Navigation */
+.has-navigation {
+  .main {
+    margin-left: ($sidebarWidth + $sidebarGap);
+    @media only screen and (max-width: $navigationBreakPoint-max) {
+      margin-left: 0;
+    }
+    @media only screen and (max-width: $sidebarBreakPoint-max) {
+      margin-left: 0;
+    }
+  }
+}
+
+/* Main Container */
+.main {
+  position: relative;
+
+  margin-right: ($sidebarWidth + $sidebarGap);
+  @media only screen and (max-width: $navigationBreakPoint-max) {
+    margin-right: 0;
+  }
+  @media only screen and (max-width: $sidebarBreakPoint-max) {
+    margin-right: 0;
+  }
+}
+
+.side-navigation {
+  width: $navigationWidth;
+  margin-right: $sidebarGap;
+  float: left;
+  margin-top: $sideNavTopOffset;
+
+  @media only screen and (max-width: $navigationBreakPoint-max) {
+    display: none;
+  }
+}
+
+/* Content */
+#content-layout {
+  //max-width: $contentMaxWidth;
+  width: 100%;
+
+  // For Now
+  min-height: 670px;
+  padding: 0 $contentPadding $contentPadding;
+
+  float: left;
+  // box-sizing: content-box;
+
+  // Hide content that overlaps (MathJax likes to do this)
+  // overflow: hidden;
+
+  line-height: 1.5;
+
+  .has-context & {
+    // margin-right: $sidebarWidth;
+
+    // @media only screen and (max-width: $sidebarBreakPoint) {
+    //     margin-right: $sideElementWidthCollapsed;
+    // }
+
+    // @media only screen and (min-width: $sidebarBreakPoint + 150px) {
+    //     margin-right: $sidebarWidth + 150px;
+    // }
+  }
+}
+
+/* Right Context Area */
+.side-context {
+  position: absolute;
+  top: $sideNavTopOffset;
+  right: -($sidebarWidth + $sidebarGap);
+  width: $sidebarWidth;
+
+  z-index: $sideElementZIndex;
+  // margin-left: $contentMaxWidth + 2 * $contentPadding;
+  // margin-left: $sidebarGap;
+
+  background: $lighterGray;
+  @include block-shadow;
+
+  .side-element-inner {
+    > .fa {
+      color: $themeColor;
+      font-weight: bold;
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+  }
+
+  @media only screen and (max-width: $sidebarBreakPoint-max) {
+    width: $sideElementWidthCollapsed;
+    right: -$sideElementWidthCollapsed;
+
+    .side-element-inner {
+      position: relative;
+
+      visibility: hidden;
+      margin-right: $sideElementWidthCollapsed;
+
+      width: $sidebarWidth;
+      right: $sidebarWidth;
+      background: $lighterGray;
+    }
+
+    .layout-toggle {
+      display: block;
+    }
+  }
+
+  .nav {
+    &:after,
+    &:before {
+      clear: none;
+      display: none;
+    }
+  }
+}
+
+.page-header {
+  position: relative;
+
+  margin: 0 0 20px 0;
+  padding-top: 20px;
+
+  background-color: $white;
+
+  border-bottom: none;
+
+  // transition: 0.3s transform 0s;
+
+  .nav {
+    min-height: 0;
+    margin: 5px 0 0 0;
+
+    .navbar-collapse {
+      padding: 0;
+    }
+
+    &.nav-pills > li > a {
+      color: $gray;
+    }
+  }
+  & > h1 {
+    margin: 0;
+  }
+}

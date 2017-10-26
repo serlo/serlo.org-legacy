@@ -1,0 +1,104 @@
+@mixin theme-font($weight: normal) {
+  font-family: $themeFont;
+  font-weight: $weight;
+  -webkit-font-smoothing: antialiased;
+}
+
+@mixin placeholder-color($color: 'white') {
+  &::-webkit-input-placeholder {
+    color: #{$color};
+  }
+  &:-moz-placeholder {
+    color: #{$color};
+  }
+  &::-moz-placeholder {
+    color: #{$color};
+  }
+  &::-ms-input-placeholder {
+    color: #{$color};
+  }
+}
+
+@mixin triangle($direction, $color, $size) {
+  @if $direction == 'left' {
+    border-bottom: $size solid transparent;
+    border-right: $size solid $color;
+    border-top: $size solid transparent;
+  } @else if $direction == 'right' {
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+    border-top: $size solid transparent;
+  } @else if $direction == 'up' {
+    border-bottom: $size solid $color;
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+  } @else if $direction == 'down' {
+    border-right: $size solid transparent;
+    border-left: $size solid transparent;
+    border-top: $size solid $color;
+  }
+
+  height: 0;
+  width: 0;
+}
+
+@mixin inline-block {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+}
+
+/* main layout boxes */
+@mixin block-shadow($color: lighten($serloGray, 55%), $width: 3px) {
+  @include box-shadow(0 $width 0 $color);
+}
+@mixin no-block-shadow {
+  @include box-shadow(none);
+}
+
+/* for search & comment input */
+@mixin bottom-frame($color) {
+  position: relative;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 10px;
+    z-index: 100;
+    border: 3px solid $color;
+    border-top-width: 0;
+  }
+  input,
+  textarea {
+    box-shadow: none;
+
+    &::-webkit-input-placeholder {
+      color: $color;
+      font-weight: normal;
+      opacity: 1;
+    }
+    &:-moz-placeholder {
+      color: $color;
+      font-weight: normal;
+      opacity: 1;
+    }
+    &::-moz-placeholder {
+      color: $color;
+      font-weight: normal;
+      opacity: 1;
+    }
+    &:-ms-input-placeholder {
+      color: $color;
+      font-weight: normal;
+      opacity: 1;
+    }
+  }
+  .fa {
+    color: $color;
+  }
+}

@@ -1,0 +1,41 @@
+.nav-aside {
+  padding: 3px 0;
+  line-height: 20px;
+
+  li.nav-aside-header {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin: 0;
+    border-bottom: 1px solid $white;
+    small {
+      font-style: italic;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .h1,
+    .h2,
+    .h3,
+    .h4,
+    .h5,
+    .h6 {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  > li > a {
+    padding: 3px 10px;
+    font-size: 13px;
+
+    &.active,
+    &:hover,
+    &:focus {
+      color: $gray;
+      background: $white;
+    }
+  }
+}

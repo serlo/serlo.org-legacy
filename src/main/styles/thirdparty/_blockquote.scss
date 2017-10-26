@@ -1,0 +1,112 @@
+.fa-lg {
+  font-size: 3em;
+}
+
+.blockquote-box {
+  border-right: 5px solid #e6e6e6;
+  margin-bottom: 25px;
+
+  & > .row {
+    margin: 0;
+  }
+
+  &.blockquote-left {
+    border-right: none;
+    border-left: 5px solid #e6e6e6;
+  }
+
+  &.blockquote-noborder {
+    border: none;
+  }
+
+  &.blockquote-light {
+    border-width: 3px;
+  }
+
+  .square {
+    width: 100px;
+    min-height: 50px;
+    text-align: center;
+    background-color: #e6e6e6;
+    padding: 20px 0;
+    position: relative;
+    & > .badge {
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+    }
+    &.square-sm {
+      width: 79px;
+      padding: 16px 0;
+    }
+  }
+
+  &.blockquote-default {
+    border-color: $btn-default-bg;
+    .square,
+    &.square {
+      background-color: $btn-default-border;
+      color: #fff;
+      & > .badge {
+        background-color: lighten($btn-default-border, 10%);
+      }
+    }
+  }
+
+  &.blockquote-primary {
+    border-color: $btn-primary-bg;
+    .square,
+    &.square,
+    &.square {
+      background-color: $btn-primary-border;
+      color: #fff;
+      & > .badge {
+        background-color: lighten($btn-primary-border, 10%);
+      }
+    }
+  }
+
+  &.blockquote-success {
+    border-color: $btn-success-bg;
+    .square {
+      background-color: $btn-success-border;
+      color: #fff;
+      & > .badge {
+        background-color: lighten($btn-success-border, 10%);
+      }
+    }
+  }
+
+  &.blockquote-info {
+    border-color: $btn-info-bg;
+    .square {
+      background-color: $btn-info-border;
+      color: #fff;
+      & > .badge {
+        background-color: lighten($btn-info-border, 10%);
+      }
+    }
+  }
+
+  &.blockquote-warning {
+    border-color: $btn-warning-bg;
+    .square {
+      background-color: $btn-warning-border;
+      color: #fff;
+      & > .badge {
+        background-color: lighten($btn-warning-border, 10%);
+      }
+    }
+  }
+
+  &.blockquote-danger {
+    border-color: $btn-danger-bg;
+    .square {
+      background-color: $btn-danger-border;
+      color: #fff;
+      & > .badge {
+        background-color: lighten($btn-danger-border, 10%);
+      }
+    }
+  }
+}

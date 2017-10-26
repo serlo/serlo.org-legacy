@@ -1,0 +1,47 @@
+.serlo-brand {
+  font-family: 'serlo';
+  & > * {
+    font-family: $themeFont;
+  }
+}
+
+.serlo-logo {
+  font-family: 'serlo';
+  font-size: 70px;
+  color: $themeColor;
+}
+
+#header-nav {
+  .serlo-logo {
+    position: absolute;
+    top: -42px;
+    left: 23px;
+    font-size: 47px;
+  }
+
+  .serlo-brand {
+    position: absolute;
+    top: -9px;
+    left: 85px;
+    margin: 0;
+  }
+
+  @media only screen and (min-width: $navigationBreakPoint-min) {
+    .serlo-logo,
+    .serlo-brand {
+      margin-top: 11px;
+    }
+  }
+}
+
+@font-face {
+  font-family: 'serlo';
+  src: url('../../../fonts/serlo.eot?61257385');
+  src: url('../../../fonts/serlo.eot?61257385#iefix')
+      format('embedded-opentype'),
+    url('../../../fonts/serlo.woff?61257385') format('woff'),
+    url('../../../fonts/serlo.ttf?61257385') format('truetype'),
+    url('../../../fonts/serlo.svg?61257385#serlo') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

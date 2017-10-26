@@ -1,0 +1,85 @@
+.discussions {
+  .archived-toggle span:after {
+    font-family: 'FontAwesome';
+    content: '\f077';
+  }
+
+  .archived-toggle.collapsed span:after {
+    content: '\f078';
+  }
+
+  .discussion-actions {
+    margin: 5px 0;
+  }
+
+  .discussion-head {
+    margin-bottom: 5px;
+    font-size: 15px;
+  }
+
+  .discussion-info {
+    border-bottom: 1px solid $lighterGray;
+  }
+
+  .discussion-body {
+    min-height: 60px;
+    padding-bottom: 20px;
+  }
+
+  .discussion-comments {
+    margin-top: 10px;
+    .row .col-xs-3 {
+      width: 21%;
+    }
+    .discussion-body {
+      min-height: 95px;
+    }
+  }
+
+  .discussion .discussion-archived.collapse:not(.in) {
+    height: 70px !important;
+    overflow: hidden;
+    display: block;
+  }
+
+  .discussion .discussion-archived.collapse:before,
+  .discussion .discussion-archived.collapsing:before {
+    content: ' ';
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
+    position: absolute;
+    width: 100%;
+    height: 70px;
+  }
+
+  .discussion .collapse.discussion-archived.in:before,
+  .discussion .discussion-archived.collapsing:before {
+    background: none;
+  }
+
+  a.list-group-item {
+    text-align: center;
+  }
+
+  a.discussion-start,
+  a.discussion-reply {
+    padding: 10px 16px;
+  }
+}
+
+.discussion-form {
+  margin-top: 15px;
+
+  .form-horizontal .form-group {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+
+.discussion-start {
+  margin-bottom: 10px;
+}
+
+h1 .discussion-start {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}

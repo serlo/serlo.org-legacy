@@ -1,0 +1,106 @@
+.side-context-course {
+  overflow-y: auto;
+  position: relative;
+  float: left;
+  right: 0;
+  display: block;
+
+  @media only screen and (max-width: $sidebarBreakPoint-max) {
+    width: $sideElementWidthCollapsed;
+    overflow-y: inherit;
+    max-height: inherit !important;
+    position: absolute;
+    top: inherit;
+
+    .side-element-inner {
+      position: relative;
+
+      visibility: hidden;
+      margin-right: $sideElementWidthCollapsed;
+
+      width: $sidebarWidth;
+      right: $sidebarWidth;
+      background: $lighterGray;
+    }
+
+    .layout-toggle {
+      display: block;
+    }
+  }
+}
+
+ul.nav-course {
+  list-style: outside none none;
+}
+.nav-course-item {
+  .nav-course-link {
+    padding: 0;
+    margin: 0;
+  }
+  &.active {
+    font-weight: bold;
+  }
+  &.primary {
+    .pipe,
+    .fa {
+      top: 15px;
+      bottom: -1px;
+    }
+  }
+
+  &:last-child {
+    .pipe,
+    .fa {
+      top: auto;
+      bottom: 15px;
+    }
+  }
+}
+
+.nav-bar {
+  position: relative;
+  display: block;
+  height: 100%;
+  top: 0;
+  .pipe {
+    background-color: $serloBlue;
+    bottom: auto;
+    height: 100%;
+    padding-top: 2px;
+    position: absolute;
+    left: 18px;
+    width: 4px;
+    right: auto;
+    top: -1px;
+  }
+  .dots {
+    display: table-cell;
+
+    .dot {
+      background-color: $serloBlue;
+      margin: 4px 0;
+      position: relative;
+      left: 18px;
+      width: 4px;
+      height: 4px;
+      right: auto;
+    }
+  }
+
+  .fa {
+    position: absolute;
+    margin-left: 22px;
+    top: 15px;
+    width: 18px;
+    height: 14px;
+    text-align: center;
+    background-color: $serloBlue;
+    color: #fff;
+  }
+  .list-item {
+    box-sizing: border-box;
+    padding: 12px 15px 12px 48px;
+    vertical-align: middle;
+    display: table-cell;
+  }
+}

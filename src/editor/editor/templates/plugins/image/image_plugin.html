@@ -1,0 +1,29 @@
+<div class="editor-plugin panel panel-default">
+    <div class="panel-heading"><%= name %></div>
+    <div class="panel-body form-group">
+        <input class="title form-control" type="text" value="<%= title %>" />
+        <input class="href form-control" type="text" value="<%= href %>" />
+        <form id="fileupload" action="/upload" method="POST" enctype="multipart/form-data">
+        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+        <div class="row fileupload-buttonbar">
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <input type="hidden" name="type" value="file" />
+                <input type="file" name="file">
+                <!-- The global file processing state -->
+                <span class="fileupload-process"></span>
+            </div>
+            <!-- The global progress state -->
+            <div class="col-lg-5 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress state -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+    </form>
+    </div>
+    <div class="panel-footer"><a href="#" class="btn btn-cancel">Cancel</a><a href="#" class="btn btn-success btn-save pull-right">Save</a></div>
+</div>

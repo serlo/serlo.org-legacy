@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,600|Droid+Serif');
+
+@import 'base/variables';
+@import 'base/bootstrap-var-override';
+@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import 'base/bootstrap-css-override';
+
+// Use this import once https://github.com/jasny/bootstrap/pull/274 got merged
+// @import "jasny-bootstrap/scss/jasny-bootstrap";
+
+@import 'modules/mixins';
+// @import "base/content_layout";
+@import 'base/content';
+
+@import 'modules/alerts';
+@import 'modules/bars';
+@import 'modules/modes';
+@import 'modules/grid_boxes';
+@import 'modules/diff';
+@import 'modules/spaces';
+@import 'modules/dropdown';
+
+@import 'base/layout';
+@import 'base/base';
+@import 'base/typography';
+
+@import 'partials/bootstrap_extension';
+@import 'partials/serlo_ad';
+@import 'partials/serlo_top_menu';
+@import 'partials/serlo_search';
+@import 'partials/serlo_main_menu';
+@import 'partials/serlo_side_context';
+@import 'partials/serlo_mobile_menu';
+@import 'partials/serlo_header';
+@import 'partials/serlo_footer';
+@import 'partials/serlo_home';
+@import 'partials/serlo_sortablelist';
+@import 'partials/serlo_ajax_overlay';
+@import 'partials/serlo_brand';
+@import 'partials/serlo_course_navigation';
+@import 'partials/serlo_editor';
+@import 'partials/serlo_math_puzzle';
+@import 'partials/serlo_exercises';
+@import 'partials/serlo_toc';
+@import 'partials/serlo_sms';
+@import 'partials/serlo_birdnest';
+@import 'partials/serlo_discussions';
+
+@import 'thirdparty/datepicker';
+@import 'thirdparty/jasny_bootstrap';
+@import 'thirdparty/timeline';
+@import 'thirdparty/discussions';
+@import 'thirdparty/blockquote';
+@import 'thirdparty/carousel';
+@import 'thirdparty/magnific_popup';
+
+@import '~font-awesome/scss/variables';
+@import 'base/font-awesome-var-override';
+@import '~font-awesome/scss/mixins';
+@import '~font-awesome/scss/path';
+@import '~font-awesome/scss/core';
+@import '~font-awesome/scss/larger';
+@import '~font-awesome/scss/fixed-width';
+@import '~font-awesome/scss/list';
+@import '~font-awesome/scss/bordered-pulled';
+@import '~font-awesome/scss/animated';
+@import '~font-awesome/scss/rotated-flipped';
+@import '~font-awesome/scss/stacked';
+@import '~font-awesome/scss/icons';
+@import '~font-awesome/scss/screen-reader';
+
+@import 'modules/states';
+
+@import 'shame';
+@import '../../editor/styles/content';

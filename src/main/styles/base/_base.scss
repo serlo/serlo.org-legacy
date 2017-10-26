@@ -1,0 +1,26 @@
+/* BODY / HTML*/
+body,
+html {
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  background: $backgroundColor;
+}
+
+body {
+  background: none transparent;
+
+  transform-origin: 50% 250px;
+
+  //overflow-x: hidden;
+  overflow-y: scroll;
+  // ios overfloy-x hidden fix
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+
+  font-family: $baseFont;
+
+  @include theme-font(normal);
+}

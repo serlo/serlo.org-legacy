@@ -1,0 +1,41 @@
+.ad {
+  color: $lightGray;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+    color: $gray;
+  }
+}
+
+#banner {
+  clear: both;
+  padding: 20px 0;
+
+  .banner-wrapper {
+    background-color: $serloGreen;
+  }
+  .banner-text {
+    padding: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+
+      &:hover {
+        color: $gray;
+      }
+    }
+  }
+
+  .caption {
+    float: right;
+    color: $serloGray;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+}

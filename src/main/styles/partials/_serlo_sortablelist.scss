@@ -1,0 +1,108 @@
+.sortable {
+  > .sortable-list {
+    padding-left: 0;
+  }
+}
+
+.sortable-item {
+  position: relative;
+  list-style: none;
+}
+
+.sortable-item-inner {
+  min-height: 35px;
+  margin-bottom: 8px;
+  padding: 9px 6px 0 6px;
+
+  &.sortable-handle {
+    position: relative;
+    &:hover {
+      background: #f0f0f0;
+    }
+  }
+
+  &:hover {
+    color: $themeColor;
+  }
+}
+
+.sortable-active {
+  .sortable-item-inner {
+    padding-left: 35px;
+  }
+
+  .sortable-handle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 30px;
+    width: 30px;
+
+    cursor: pointer;
+
+    &:before {
+      content: '\2261';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30px;
+
+      text-align: center;
+      font-weight: bold;
+
+      font-size: 20px;
+      line-height: 34px;
+    }
+
+    &.sortable-item-inner {
+      width: auto;
+      position: relative;
+      height: auto;
+    }
+
+    &:hover {
+      background: #f0f0f0;
+    }
+  }
+}
+
+.sortable-placeholder,
+.sortable-empty {
+  padding: 0;
+  min-height: 30px;
+  background: #f2fbff;
+  border: 1px dashed #b6bcbf;
+  box-sizing: border-box;
+}
+
+.sortable-dragel {
+  position: absolute;
+  pointer-events: none;
+  z-index: 9999;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+
+  box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.1);
+
+  background: #fafafa;
+
+  > .sortable-item {
+    margin-top: 0;
+    margin-bottom: 0;
+
+    .sortable-handle {
+      margin-top: 0;
+    }
+  }
+
+  .sortable-list,
+  .sortable-item-inner {
+    margin: 0;
+  }
+}
+
+.sortable-actions {
+  clear: both;
+  padding: 10px;
+}

@@ -1,0 +1,44 @@
+section.discussions {
+  background-color: white;
+  padding: 0 $contentPadding $contentPadding;
+}
+
+.discussion-form {
+  .discussion-content-wrapper {
+    @include bottom-frame($serloGreen);
+
+    &::before {
+      z-index: inherit;
+    }
+  }
+
+  .discussion-content {
+    box-sizing: border-box;
+    border: none;
+    padding: 4px 24px 4px 12px;
+    margin: 0;
+    transition: 0.3s background-color 0s;
+    line-height: 2;
+    // disable iOS input roundings
+    -webkit-appearance: none;
+    border-radius: 0;
+
+    @include placeholder-color($serloGrayLight);
+
+    &:focus {
+      outline: 0;
+    }
+
+    &,
+    &:focus {
+      background: none;
+    }
+
+    color: $black;
+  }
+
+  .discussion-submit {
+    position: relative;
+    bottom: 0px;
+  }
+}

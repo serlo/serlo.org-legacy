@@ -1,0 +1,17 @@
+.nest-statistics {
+  line {
+    stroke-width: 2;
+    stroke: $serloGreen;
+  }
+}
+
+.statistics {
+  text-align: center;
+
+  .count {
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  margin-bottom: 40px;
+}

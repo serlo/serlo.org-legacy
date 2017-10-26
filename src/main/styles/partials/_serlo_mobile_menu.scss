@@ -1,0 +1,317 @@
+$mobile-serlo-nav-bg: darken($lighterGray, 3%);
+
+@mixin mobile-nav-header {
+  &,
+  &:hover {
+    color: $gray;
+    background: $white;
+  }
+  font-size: 12px;
+  font-weight: bold;
+  padding: 23px 16px 5px 8px;
+  cursor: default;
+}
+
+#mobile-serlo-nav,
+#mobile-main-nav,
+#mobile-primary-nav {
+  position: relative;
+  min-height: 1px;
+  padding-left: 2px;
+  padding-right: 2px;
+  float: left;
+
+  width: 100%;
+
+  @media (min-width: $navigationBreakPoint-1-col-min) {
+    width: 50%;
+  }
+
+  @media (min-width: $navigationBreakPoint-2-col-min) {
+    width: 1/3 * 100%;
+  }
+}
+
+#mobile-nav.has-no-main-navigation {
+  #mobile-primary-nav {
+    .dropdown-menu {
+      display: block;
+    }
+
+    li {
+      a {
+        color: $white;
+        background: $serloBlue;
+        font-weight: bold;
+
+        &:hover {
+          background: darken($serloBlue, 5%);
+        }
+
+        .caret {
+          border-top-color: $white;
+          border-bottom-color: $white;
+        }
+      }
+
+      .primary {
+        @include mobile-nav-header;
+
+        .caret {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media (min-width: $navigationBreakPoint-2-col-min) {
+    #mobile-serlo-nav {
+      left: 1/3 * 100%;
+    }
+
+    #mobile-primary-nav {
+      right: 1/3 * 100%;
+    }
+  }
+}
+
+#mobile-nav {
+  @media (min-width: $navigationBreakPoint-min) {
+    display: none !important;
+  }
+
+  @include block-shadow;
+  display: none;
+  overflow: auto;
+
+  margin-bottom: 20px;
+
+  > ul {
+    background: $backgroundColor;
+  }
+
+  ul > li {
+    + li {
+      margin-top: 2px;
+    }
+
+    &.is-hidden {
+      display: none;
+
+      + li {
+        margin-top: 0;
+      }
+    }
+
+    > a {
+      padding: 14px 12px 12px;
+      font-size: 14px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+
+      .caret {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  #mobile-serlo-nav {
+    @media (min-width: $navigationBreakPoint-1-col-min) {
+      left: 50%;
+    }
+
+    @media (min-width: $navigationBreakPoint-2-col-min) {
+      left: 2/3 * 100%;
+    }
+
+    li > a {
+      color: $gray;
+      background: $mobile-serlo-nav-bg;
+
+      &:hover {
+        background: darken($mobile-serlo-nav-bg, 5%);
+      }
+
+      .caret {
+        border-top-color: $gray;
+        border-bottom-color: $gray;
+      }
+    }
+
+    @media only screen and (min-width: $navigationBreakPoint-1-col-min) {
+      .dropdown-menu {
+        display: block;
+      }
+
+      > li > a {
+        @include mobile-nav-header;
+
+        .caret {
+          display: none;
+        }
+      }
+    }
+
+    @media only screen and (max-width: $navigationBreakPoint-1-col-max) {
+      > li > a {
+        font-weight: bold;
+        background: $white;
+      }
+    }
+  }
+
+  #mobile-main-nav {
+    @media (min-width: $navigationBreakPoint-1-col-min) {
+      right: 50%;
+    }
+
+    @media (min-width: $navigationBreakPoint-2-col-min) {
+      right: 2/3 * 100%;
+    }
+
+    li a {
+      color: $white;
+      background: $gray;
+      font-weight: bold;
+
+      &:hover {
+        background: $serloBlue;
+      }
+
+      .caret {
+        border-top-color: $white;
+        border-bottom-color: $white;
+      }
+    }
+
+    .is-community > a {
+      background: $serloGreen;
+      &:hover,
+      &:active,
+      &:focus {
+        background: lighten($serloGreen, 5%);
+      }
+    }
+
+    .dropdown-menu {
+      li a {
+        background: #686868;
+
+        &:hover {
+          background: lighten(#686868, 5%);
+        }
+      }
+    }
+  }
+
+  #mobile-primary-nav {
+    @media (min-width: $navigationBreakPoint-1-col-min) {
+      right: 50%;
+    }
+
+    @media (min-width: $navigationBreakPoint-2-col-min) {
+      right: auto;
+    }
+
+    li {
+      a {
+        color: $serloBlue;
+        background: $mobile-serlo-nav-bg;
+
+        &:hover {
+          background: darken($mobile-serlo-nav-bg, 5%);
+        }
+
+        .caret {
+          border-top-color: $gray;
+          border-bottom-color: $gray;
+        }
+      }
+    }
+
+    @media only screen and (max-width: $navigationBreakPoint-2-col-max) {
+      margin-bottom: 2px;
+
+      li .primary {
+        color: $white;
+        background: $serloBlue;
+        font-weight: bold;
+
+        &:hover {
+          background: lighten($serloBlue, 5%);
+        }
+
+        .caret {
+          border-top-color: $white;
+          border-bottom-color: $white;
+        }
+      }
+    }
+
+    @media only screen and (min-width: $navigationBreakPoint-2-col-min) {
+      .dropdown-menu {
+        display: block;
+      }
+
+      li {
+        a {
+          color: $white;
+          background: $serloBlue;
+          font-weight: bold;
+
+          &:hover {
+            background: darken($serloBlue, 5%);
+          }
+
+          .caret {
+            border-top-color: $white;
+            border-bottom-color: $white;
+          }
+        }
+
+        .primary {
+          @include mobile-nav-header;
+
+          .caret {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  #mobile-serlo-nav,
+  #mobile-main-nav {
+    .mobile-nav-header a {
+      @include mobile-nav-header;
+    }
+  }
+
+  .dropdown {
+    overflow: auto;
+  }
+
+  .dropdown-menu {
+    width: 100%;
+    padding: 2px 0 0;
+    border: none;
+    background: $backgroundColor;
+    margin: 0;
+    position: relative;
+
+    > li > a {
+      white-space: normal;
+    }
+  }
+
+  .icon-only {
+    float: left;
+    width: 50%;
+    text-align: center;
+
+    + .icon-only {
+      padding-left: 2px;
+    }
+  }
+}

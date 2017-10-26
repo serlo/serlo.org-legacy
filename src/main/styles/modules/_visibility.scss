@@ -1,0 +1,15 @@
+@mixin visibility($prefix, $breakpoints...) {
+  @each $breakpoint in $breakpoints {
+    @media (min-width: nth($breakpoint, 2)) {
+      .#{$prefix}-hide-#{nth($breakpoint, 1)} {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: nth($breakpoint, 2)) {
+      .#{$prefix}-show-#{nth($breakpoint, 1)} {
+        display: none !important;
+      }
+    }
+  }
+}

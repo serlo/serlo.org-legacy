@@ -1,0 +1,44 @@
+.is-inline-block {
+  @include inline-block;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.is-invisible {
+  visibility: hidden;
+}
+
+.is-bold {
+  font-weight: bold;
+}
+
+.is-normal {
+  font-weight: normal;
+}
+
+.is-light {
+  font-weight: light;
+}
+
+.is-pointable {
+  cursor: pointer;
+}
+
+.is-alpha-list {
+  > li {
+    list-style: lower-alpha;
+  }
+}
+
+.is-group-headline {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.is-block {
+  display: block;
+}

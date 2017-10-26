@@ -1,0 +1,124 @@
+// Put quick fixes / try-outs / dirty stuff here
+// ...and feel ashamed!
+
+.nav-header {
+  font-weight: bold;
+}
+
+// aeneaspls
+img.license-intext {
+  max-height: 18px;
+  opacity: 0.5;
+}
+
+// I feel ashamed already super hack wow omg
+// See https://github.com/twbs/bootstrap/issues/10000
+.form-group {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.r img {
+  cursor: pointer;
+}
+
+#serlo-menu {
+  .container-fluid {
+    padding: 0;
+  }
+}
+
+#serlo-menu,
+#header-nav {
+  .notifications.nav {
+    /* this is really hacky */
+    .dropdown-menu {
+      word-wrap: normal;
+      min-width: 500px;
+      max-width: 500px;
+      max-height: 300px;
+
+      @media screen and (max-width: $screen-xs-max) {
+        min-width: 250px;
+        max-width: 250px;
+        max-height: 150px;
+      }
+
+      overflow-y: scroll;
+
+      > li > a,
+      > li > .dropdown-menu-item {
+        white-space: normal;
+      }
+    }
+  }
+}
+
+#content-container {
+  .panel-group {
+    .panel {
+      overflow: visible; // Do not crop contents (solves #383)
+    }
+  }
+}
+
+/* Geogebra Popups aren't visible otherwise.. */
+.GeoGebraPopup,
+.DialogBox,
+.gwt-PopupPanel,
+.gwt-SuggestBoxPopup {
+  z-index: 120;
+}
+
+// Hack for anchored links and fixed page headers
+h1[id],
+h2[id],
+h3[id],
+h4[id],
+h5[id],
+h6[id] {
+  margin-top: -50px;
+  padding-top: 80px;
+}
+
+// Search help doesn't really help...
+#search-help {
+  display: none !important;
+}
+
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+// Trick Fanboy Social List, see https://github.com/FortAwesome/Font-Awesome/issues/1799#issuecomment-50438859
+.fa-social-icon-tw:before {
+  content: '\f081';
+}
+.fa-social-icon-fb:before {
+  content: '\f082';
+}
+
+//change offset for inpage links because of sticky nav-bar
+.content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .h5,
+  .h6 {
+    &:before {
+      display: block;
+      content: ' ';
+      margin-top: -50px;
+      height: 50px;
+      visibility: hidden;
+    }
+  }
+}

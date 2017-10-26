@@ -1,0 +1,83 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: $themeFont;
+}
+
+h1,
+.h1 {
+  font-size: 2.3em;
+}
+
+h2,
+.h2 {
+  font-size: 2em;
+}
+
+h3,
+.h3 {
+  font-size: 1.5em;
+}
+
+h4,
+.h4 {
+  font-size: 1.2em;
+}
+
+h5,
+.h5 {
+  font-size: 1em;
+}
+
+h6,
+.h6 {
+  font-size: 1em;
+  color: #888;
+}
+
+h1,
+h2,
+.h1,
+.h2 {
+  &.heading-content,
+  &.heading-markdown {
+    border-bottom: 1px solid #eee;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  &.heading-markdown {
+    margin: 1em 0px 15px;
+    padding: 0px;
+    font-weight: bold;
+    line-height: 1.7;
+    cursor: text;
+  }
+  &.heading-content {
+    margin: 1em 0px 15px;
+    padding: 0px;
+    font-weight: 600;
+    line-height: 1.7;
+    cursor: text;
+  }
+}

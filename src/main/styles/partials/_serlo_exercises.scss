@@ -1,0 +1,244 @@
+.text-exercise {
+  border: 1px solid transparent;
+  border-radius: 2px;
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  margin: -15px -1px 15px -16px;
+
+  .solution a {
+    cursor: pointer;
+  }
+  // Single Choice
+  .single-choice-group,
+  .multiple-choice-group {
+    .single-choice-answer-group,
+    .multiple-choice-answer-group {
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      .single-choice-answer-content,
+      .multiple-choice-answer-content {
+        width: 100%;
+        border: 0 none;
+        color: #000;
+        min-height: 35px;
+        white-space: normal;
+        margin: 5px 0 0;
+      }
+    }
+
+    .btn {
+      box-shadow: none;
+      transition: background-color 0.5s ease;
+
+      &:focus {
+        outline: none;
+      }
+
+      &.button-default {
+        background-color: $lighterGray;
+        border-bottom: 3px solid transparent;
+
+        &.active {
+          background-color: $infoBlue;
+        }
+
+        &:hover {
+          border-bottom: 3px solid $infoBlue;
+        }
+      }
+
+      &.btn-warning {
+        background-color: $infoOrange;
+      }
+
+      &.btn-success {
+        background-color: $serloGreen;
+      }
+    }
+
+    .single-choice-answer-feedback,
+    .multiple-choice-answer-feedback {
+      &.positive {
+        color: $serloGreen;
+        font-weight: bold;
+        padding-right: 45px;
+      }
+
+      &.negative {
+        color: $infoOrange;
+        font-weight: bold;
+        padding-right: 45px;
+      }
+    }
+
+    .btn-group {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .single-choice-solution,
+    .multiple-choice-solution {
+      padding: 8px 15px 10px;
+      margin: 0 -15px;
+
+      .single-choice-submit,
+      .multiple-choice-submit {
+        visibility: hidden;
+        border: 0 none;
+        font-size: 14px;
+      }
+      .solution {
+        display: inline-block;
+      }
+    }
+  }
+  // Input challenges
+  .input-challenge-group {
+    .btn {
+      box-shadow: none;
+      transition: background-color 0.5s ease;
+
+      &.button-default {
+        background-color: $lighterGray;
+
+        &.active,
+        &:hover,
+        &:focus {
+          background-color: $infoBlue;
+        }
+      }
+
+      &.btn-warning {
+        background-color: $infoOrange;
+      }
+
+      &.btn-success {
+        background-color: $serloGreen;
+      }
+    }
+
+    .input-challenge-feedback {
+      text-align: right;
+      color: $infoOrange;
+      font-weight: bold;
+
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      &.positive {
+        color: $serloGreen;
+      }
+    }
+
+    .input-challenge-solution {
+      padding: 11px 15px 10px;
+      margin: 0 -15px;
+
+      .input-challenge-submit {
+        visibility: hidden;
+        border: 0 none;
+        font-size: 14px;
+      }
+      .solution {
+        display: inline-block;
+      }
+    }
+
+    .row {
+      display: none;
+    }
+
+    .input-challenge-input-wrapper {
+      padding-right: 0;
+      margin-bottom: 15px;
+      @include bottom-frame($serloBlue);
+      &::before {
+        z-index: inherit;
+      }
+    }
+
+    input.input-challenge-input {
+      height: 43px;
+      text-align: center;
+
+      box-sizing: border-box;
+      border: none;
+      padding: 4px 24px 4px 12px;
+      margin: 0;
+      transition: 0.3s background-color 0s;
+      line-height: 2;
+      // disable iOS input roundings
+      -webkit-appearance: none;
+      border-radius: 0;
+
+      @include placeholder-color($serloGrayLight);
+
+      &:focus {
+        outline: 0;
+      }
+
+      &,
+      &:focus {
+        background: none;
+      }
+
+      color: $black;
+    }
+  }
+  &.active {
+    border: 1px solid $backgroundColor;
+
+    .input-challenge-solution {
+      padding-top: 8px;
+      margin-top: 15px;
+    }
+
+    .single-choice-solution,
+    .multiple-choice-solution,
+    .input-challenge-solution {
+      background-color: $infoBlue;
+
+      .single-choice-submit,
+      .multiple-choice-submit,
+      .input-challenge-submit {
+        visibility: visible;
+
+        .single-choice-submit-check,
+        &.btn-success .single-choice-submit-correct,
+        .multiple-choice-submit-check,
+        &.btn-success .multiple-choice-submit-correct,
+        .input-challenge-submit-check,
+        &.btn-success .input-challenge-submit-correct {
+          display: block;
+        }
+        .single-choice-submit-correct,
+        &.btn-success .single-choice-submit-check,
+        .multiple-choice-submit-correct,
+        &.btn-success .multiple-choice-submit-check,
+        .input-challenge-submit-correct,
+        &.btn-success .input-challenge-submit-check {
+          display: none;
+        }
+      }
+    }
+
+    .input-challenge-group .row {
+      display: block;
+    }
+  }
+  &.extended {
+    .col-sm-3 {
+      width: 100%;
+    }
+    .btn {
+      text-align: left;
+    }
+  }
+}

@@ -1,0 +1,381 @@
+.side-navigation {
+  &.visible {
+    .side-element-inner {
+      background: #fff;
+      width: 200px;
+    }
+  }
+  position: absolute;
+  z-index: 12;
+}
+
+#subject-nav > .subject-anchor > a,
+#main-nav > li > a {
+  padding: 14px 12px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  background: $gray;
+
+  &:hover {
+    background: $themeColor;
+    color: white;
+  }
+
+  .caret {
+    float: right;
+    margin-top: 8px;
+
+    border-top-color: white;
+    border-bottom-color: white;
+  }
+}
+
+#main-nav {
+  @include theme-font();
+
+  margin-left: 0; // IE7 :)))
+  width: $navigationWidth;
+
+  > li {
+    + li {
+      margin-top: 2px;
+    }
+
+    &.is-hidden {
+      display: none;
+
+      + li {
+        margin-top: 0;
+      }
+    }
+  }
+
+  /*
+  .is-active > a {
+    background: $themeColor;
+    color: white;
+    &:hover, &:active, &:focus {
+      background: lighten($themeColor, 5%);
+    }
+  }
+  */
+
+  .is-community {
+    &,
+    &.is-active,
+    &.is-nav-active {
+      > a {
+        background: $serloGreen;
+        &:hover,
+        &:active,
+        &:focus {
+          background: lighten($serloGreen, 5%);
+        }
+      }
+    }
+  }
+
+  li ul {
+    display: none;
+  }
+
+  .is-nav-active {
+    a {
+      background: $themeColor;
+    }
+  }
+}
+
+#serlo-side-sub-navigation {
+  position: absolute;
+  top: 0;
+  left: $navigationWidth;
+  background: $themeColor;
+  width: 300px;
+  height: 400px;
+
+  z-index: 1;
+  overflow: hidden;
+
+  box-shadow: 0 0 3px rgba(90, 90, 90, 0.6);
+  transform: translateZ(0);
+
+  @media only screen and (max-width: $navigationBreakPoint-max) {
+    left: 240px;
+  }
+
+  a {
+    color: white;
+
+    &:hover {
+      text-decoration: none;
+      .fa {
+        color: $lighterGray;
+      }
+    }
+  }
+
+  .fa {
+    position: absolute;
+    top: 9px;
+    right: 15px;
+  }
+
+  .sub-nav-header {
+    font-size: 17px;
+    font-weight: bold;
+
+    padding: 16px 0 0;
+    margin-left: 24px;
+
+    .fa {
+      top: 28px;
+      left: -10px;
+    }
+  }
+
+  .sub-nav-separator {
+    border-bottom: 1px solid white;
+  }
+
+  .slide-right & {
+    left: $navigationWidth + 40;
+
+    @media only screen and (max-width: $screen-xs-max) {
+      left: 75px;
+    }
+  }
+}
+
+#serlo-side-sub-navigation-mover {
+  position: relative;
+  height: 100%;
+
+  white-space: nowrap;
+
+  .sub-nav-slider {
+    @include inline-block;
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    white-space: normal;
+  }
+
+  ul {
+    padding-left: 0;
+    margin: 0;
+  }
+
+  li {
+    position: relative;
+
+    list-style: none;
+    font-size: 12px;
+    a {
+      display: block;
+      padding: 8px 35px 8px 28px;
+
+      @include theme-font(600);
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: lighten($themeColor, 5%);
+      }
+      // &:last-child {
+      //   &:hover, &:active, &:focus {
+      //     background: $themeColor;
+      //   }
+      // }
+    }
+    &.sub-nav-header > a {
+      padding-left: 14px;
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: $themeColor;
+      }
+    }
+  }
+
+  .is-community {
+    li {
+      a {
+        &,
+        &.is-nav-active {
+          background: $serloGreen;
+
+          &:hover,
+          &:active,
+          &:focus {
+            background-color: lighten($serloGreen, 5%);
+          }
+        }
+      }
+
+      &.sub-nav-header > a {
+        &:hover,
+        &:active,
+        &:focus {
+          background-color: $serloGreen;
+        }
+      }
+    }
+
+    background: $serloGreen;
+  }
+}
+
+#serlo-side-navigation-breadcrumbs {
+  $parentColor: #588ec3;
+  $siblingsColor: #779dc2;
+  $arrowWidth: 8px;
+
+  position: relative;
+
+  padding-top: 5px;
+  background: $parentColor;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -1 * $arrowWidth;
+
+    @include triangle(down, $themeColor, $arrowWidth);
+  }
+
+  > li {
+    a {
+      display: block;
+      padding: 8px 15px 8px 30px;
+
+      @include theme-font(600);
+
+      background: $parentColor;
+      //@include background(linear-gradient(right, darken($themeColor, 4%), $themeColor 12px, $themeColor));
+
+      color: white;
+      font-size: 0.85em;
+    }
+
+    a:hover,
+    a:active,
+    a:focus,
+    &.is-active a:hover {
+      background-color: $parentColor;
+      text-decoration: underline;
+    }
+  }
+
+  + li {
+    margin-top: 2px;
+  }
+
+  > li.is-active {
+    &:after {
+      content: ' ';
+      position: absolute;
+      right: -12px;
+      bottom: 4px;
+
+      @include triangle(right, $parentColor, 12px);
+    }
+
+    > a {
+      background: $parentColor;
+    }
+  }
+
+  > li > ul {
+    position: relative;
+    display: block;
+    padding: 5px 0;
+    background: $siblingsColor;
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      margin-left: -1 * $arrowWidth;
+
+      @include triangle(down, $parentColor, $arrowWidth);
+    }
+
+    > li {
+      list-style: none;
+
+      &.is-active {
+        position: relative;
+
+        &:after {
+          content: ' ';
+          position: absolute;
+          right: -12px;
+          bottom: 4px;
+
+          @include triangle(right, $siblingsColor, 12px);
+        }
+
+        &:hover {
+          &:after {
+            background-color-right: lighten($siblingsColor, 5%);
+          }
+        }
+
+        a {
+          background-color: $siblingsColor;
+
+          &:hover {
+            background-color: lighten($siblingsColor, 5%);
+          }
+        }
+      }
+
+      a {
+        background-color: $siblingsColor;
+        &:hover {
+          background-color: lighten($siblingsColor, 5%);
+        }
+      }
+    }
+  }
+}
+
+#side-navigation-social {
+  margin-top: 10px;
+  padding-left: 20px;
+  list-style: none;
+
+  > li {
+    position: relative;
+    display: block;
+    float: left;
+    line-height: 24px;
+    padding-left: 0;
+    padding-right: 20px;
+
+    > a {
+      color: $serloGray;
+      font-size: 14px;
+
+      &:hover {
+        color: $themeColor;
+        text-decoration: none;
+      }
+
+      > span {
+        font-size: 24px;
+      }
+    }
+  }
+
+  > li:last-child {
+    padding-right: 0;
+  }
+}

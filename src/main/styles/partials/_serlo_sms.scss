@@ -1,0 +1,72 @@
+#header > .navbar {
+  // hack
+  margin-bottom: 0 !important;
+}
+
+#sms-balloon {
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 20px 10px 0 10px;
+  border-color: #95bc1a transparent transparent transparent;
+  position: absolute;
+  top: -87px;
+  left: 60px;
+}
+
+#sms-banner {
+  background-color: #95bc1a;
+  width: 100%;
+  color: white;
+  padding-top: 15px;
+
+  .sms-slogan {
+    padding-top: 15px;
+
+    @media (max-width: $screen-md-min) {
+      padding-top: 0;
+    }
+  }
+
+  .sms-image {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    @media (max-width: $screen-md-min) {
+      position: relative;
+    }
+  }
+
+  .sms-description {
+    line-height: 1.5em;
+
+    .sms-description-text {
+      padding-top: 35px;
+      padding-bottom: 15px;
+
+      @media (max-width: $screen-md-min) {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  &,
+  & span {
+    display: block;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+#sms-disclaimer {
+  text-align: right;
+  margin-bottom: 20px;
+  color: #95bc1a;
+  padding-right: 5px;
+  font-size: 85%;
+}

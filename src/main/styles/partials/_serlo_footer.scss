@@ -1,0 +1,171 @@
+.serlo-de-home #mission-statement {
+  display: none;
+}
+.serlo-de-home #footer {
+  background-color: #efefef;
+}
+
+#footer {
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  background-color: #fff;
+
+  .nav {
+    > li > a {
+      color: $serloBlue;
+      padding: 5px 0;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background: none;
+        color: $serloBlueAlternative;
+      }
+    }
+
+    .fa {
+      display: none;
+    }
+  }
+
+  .footer-wrapper {
+    padding-bottom: 40px;
+
+    nav {
+      padding: 0 15px;
+      margin-top: 0;
+
+      @media (min-width: $screen-lg-min) {
+        padding: 0;
+      }
+
+      .footer-title {
+        padding-top: 30px;
+      }
+    }
+  }
+
+  .logo-wrapper {
+    font-size: 23px;
+    margin-left: -56px;
+    margin-top: 25px;
+
+    @media (max-width: $screen-md-max) {
+      display: none;
+    }
+
+    a {
+      color: $serloGray;
+      text-decoration: none;
+    }
+
+    .serlo-logo {
+      display: inline-block;
+      font-size: 40px;
+      height: 75px;
+      vertical-align: bottom;
+    }
+
+    .serlo-brand {
+      display: inline-block;
+      font-size: 28px;
+    }
+  }
+
+  .footer-title {
+    font-weight: bold;
+    padding: 5px 0;
+  }
+
+  @media (min-width: $screen-lg-min) {
+    .pull-right-lg {
+      float: right;
+    }
+  }
+
+  #mission-statement {
+    padding: 0;
+
+    #mission-statement-claim,
+    #mission-statement-actions {
+      color: $white;
+      font-size: 16px;
+
+      a {
+        color: $white;
+        text-decoration: none;
+      }
+    }
+
+    #mission-statement-head {
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 1.42857;
+    }
+
+    #mission-statement-claim {
+      background-color: $serloBlue;
+      padding: 3px 30px 30px 30px;
+      margin: 0;
+
+      @media (min-width: $screen-lg-min) {
+        padding: 23px 30px 28px 30px;
+        min-height: 230px;
+      }
+
+      a:hover,
+      a:focus {
+        color: $serloBlueLight;
+      }
+    }
+
+    #mission-statement-actions {
+      background-color: $serloGreen;
+      margin: 0;
+      padding: 20px 15px 10px 15px;
+
+      .mission-statement-action {
+        text-align: center;
+
+        img {
+          vertical-align: baseline;
+        }
+
+        img,
+        svg {
+          width: 60px;
+          fill: white !important;
+        }
+      }
+
+      a:hover,
+      a:focus {
+        color: lighten($serloGreen, 35%);
+      }
+    }
+  }
+
+  .social {
+    color: $serloBlue;
+
+    #side-navigation-social {
+      display: inline;
+
+      li {
+        display: inline;
+        float: none;
+      }
+    }
+
+    a {
+      color: $serloBlue;
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: $serloBlueLight;
+      }
+    }
+  }
+}

@@ -1,0 +1,204 @@
+.carousel-tabbed {
+  .item {
+    padding: 0px 20px;
+  }
+
+  .controls {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    text-align: center;
+    position: relative;
+    vertical-align: top;
+  }
+  .controls li {
+    display: inline-block;
+    padding: 5px 20px;
+    cursor: pointer;
+    white-space: normal;
+    max-width: 200px;
+    word-break: break-word;
+    vertical-align: top;
+
+    .square {
+      width: 160px;
+      height: 90px;
+      line-height: 90px;
+      background: white;
+      text-align: center;
+      font-size: 60px;
+      margin: 0 auto;
+      position: relative;
+
+      & > .badge {
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+      }
+
+      &.square-default {
+        border-color: $btn-default-bg;
+        .square,
+        &.square {
+          background-color: $btn-default-border;
+          color: #fff;
+          & > .badge {
+            background-color: lighten($btn-default-border, 10%);
+          }
+        }
+        &:hover,
+        &:active {
+          border-color: darken($btn-default-bg, 10%);
+          .square,
+          &.square,
+          &.square {
+            background-color: darken($btn-default-border, 10%);
+            & > .badge {
+              background-color: $btn-default-border;
+            }
+          }
+        }
+      }
+
+      &.square-primary {
+        border-color: $btn-primary-bg;
+        .square,
+        &.square,
+        &.square {
+          background-color: $btn-primary-border;
+          color: #fff;
+          & > .badge {
+            background-color: lighten($btn-primary-border, 10%);
+          }
+        }
+        &:hover,
+        &:active {
+          border-color: darken($btn-primary-bg, 10%);
+          .square,
+          &.square,
+          &.square {
+            background-color: darken($btn-primary-border, 10%);
+            & > .badge {
+              background-color: $btn-primary-border;
+            }
+          }
+        }
+      }
+
+      &.square-success {
+        border-color: $btn-success-bg;
+        .square {
+          background-color: $btn-success-border;
+          color: #fff;
+          & > .badge {
+            background-color: lighten($btn-success-border, 10%);
+          }
+        }
+        &:hover,
+        &:active {
+          border-color: darken($btn-success-bg, 10%);
+          .square,
+          &.square,
+          &.square {
+            background-color: darken($btn-success-border, 10%);
+            & > .badge {
+              background-color: $btn-success-border;
+            }
+          }
+        }
+      }
+
+      &.square-info {
+        border-color: $btn-info-bg;
+        .square {
+          background-color: $btn-info-border;
+          color: #fff;
+          & > .badge {
+            background-color: lighten($btn-info-border, 10%);
+          }
+        }
+        &:hover,
+        &:active {
+          border-color: darken($btn-info-bg, 10%);
+          .square,
+          &.square,
+          &.square {
+            background-color: darken($btn-info-border, 10%);
+            & > .badge {
+              background-color: $btn-info-border;
+            }
+          }
+        }
+      }
+
+      &.square-warning {
+        border-color: $btn-warning-bg;
+        .square {
+          background-color: $btn-warning-border;
+          color: #fff;
+          & > .badge {
+            background-color: lighten($btn-warning-border, 10%);
+          }
+        }
+        &:hover,
+        &:active {
+          border-color: darken($btn-warning-bg, 10%);
+          .square,
+          &.square,
+          &.square {
+            background-color: darken($btn-warning-border, 10%);
+            & > .badge {
+              background-color: $btn-warning-border;
+            }
+          }
+        }
+      }
+
+      &.square-danger {
+        border-color: $btn-danger-bg;
+        .square {
+          background-color: $btn-danger-border;
+          color: #fff;
+          & > .badge {
+            background-color: lighten($btn-danger-border, 10%);
+          }
+        }
+        &:hover,
+        &:active {
+          border-color: darken($btn-danger-bg, 10%);
+          .square,
+          &.square,
+          &.square {
+            background-color: darken($btn-danger-border, 10%);
+            & > .badge {
+              background-color: $btn-danger-border;
+            }
+          }
+        }
+      }
+    }
+
+    &:hover {
+      border-top: 3px solid lighten(orange, 30%);
+      padding-top: 2px;
+    }
+
+    &.active {
+      border-top: 3px solid orange;
+      padding-top: 2px;
+      &:hover {
+        border-top: 3px solid orange;
+        padding-top: 2px;
+      }
+    }
+  }
+  .controls a small {
+    overflow: hidden;
+    display: block;
+    font-size: 10px;
+    margin-top: 5px;
+    font-weight: bold;
+  }
+}
