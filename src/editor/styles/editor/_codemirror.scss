@@ -21,7 +21,8 @@
   padding: 0 4px; /* Horizontal padding of content */
 }
 
-.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+.CodeMirror-scrollbar-filler,
+.CodeMirror-gutter-filler {
   background-color: white; /* The little square between H and V scrollbars */
 }
 
@@ -168,7 +169,8 @@
   color: #292;
 }
 
-.cm-header, .cm-strong {
+.cm-header,
+.cm-strong {
   font-weight: bold;
 }
 
@@ -234,7 +236,10 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
 /* The fake, visible scrollbars. Used to force redraw during scrolling
    before actuall scrolling happens, thus preventing shaking and
    flickering artifacts. */
-.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+.CodeMirror-vscrollbar,
+.CodeMirror-hscrollbar,
+.CodeMirror-scrollbar-filler,
+.CodeMirror-gutter-filler {
   position: absolute;
   z-index: 6;
   display: none;
@@ -387,7 +392,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
 
 .cm-searching {
   background: #ffa;
-  background: rgba(255, 255, 0, .4);
+  background: rgba(255, 255, 0, 0.4);
 }
 
 /* IE7 hack to prevent it from returning funny offsetTops on the spans */

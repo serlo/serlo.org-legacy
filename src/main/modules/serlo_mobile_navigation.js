@@ -40,11 +40,11 @@ defaults = {
 }
 
 /**
-     * @class MobileNavigation
-     * @param {Object} options See defaults
-     *
-     * Main constructor
-     **/
+ * @class MobileNavigation
+ * @param {Object} options See defaults
+ *
+ * Main constructor
+ **/
 MobileNavigation = function (options) {
   if (!(this instanceof MobileNavigation)) {
     return new MobileNavigation(options)
@@ -104,10 +104,10 @@ MobileNavigation = function (options) {
 }
 
 /**
-     * @method attachEventHandler
-     *
-     * Attaches all needed event handlers
-     **/
+ * @method attachEventHandler
+ *
+ * Attaches all needed event handlers
+ **/
 MobileNavigation.prototype.attachEventHandler = function () {
   var self = this
 
@@ -126,21 +126,21 @@ MobileNavigation.prototype.attachEventHandler = function () {
 }
 
 /**
-     * @method renderSubNavigation
-     * @param {jquery} root root navigation, should be <ul> or <ol>
-     *
-     * Renders the sub navigation as dropdown
-     */
+ * @method renderSubNavigation
+ * @param {jquery} root root navigation, should be <ul> or <ol>
+ *
+ * Renders the sub navigation as dropdown
+ */
 MobileNavigation.prototype.renderSubNavigation = function (root) {
   var self = this
 
   /**
-         * @function loop
-         * @param {jquery} elem the element which the dropdown menu is appended to
-         * @param {Object} navElements contains the navigation elements
-         *
-         * Changes the destination into a dropdown menu and appends the given elements to it.
-         **/
+   * @function loop
+   * @param {jquery} elem the element which the dropdown menu is appended to
+   * @param {Object} navElements contains the navigation elements
+   *
+   * Changes the destination into a dropdown menu and appends the given elements to it.
+   **/
   function loop (elem, navElements) {
     var link = elem.children().first()
     var dropdown = $('<ul>', {
@@ -210,13 +210,13 @@ MobileNavigation.prototype.renderSubNavigation = function (root) {
 }
 
 /**
-     * @method copyNav
-     * @param {string} source source selector, should consist of <ul> or <ol>
-     * @param {jquery} destination destination, should be <ul> or <ol>
-     * @param {Object} params See defaultParams in function
-     *
-     * Copies the <li> from source to destination
-     */
+ * @method copyNav
+ * @param {string} source source selector, should consist of <ul> or <ol>
+ * @param {jquery} destination destination, should be <ul> or <ol>
+ * @param {Object} params See defaultParams in function
+ *
+ * Copies the <li> from source to destination
+ */
 MobileNavigation.prototype.copyNav = function (source, destination, params) {
   var defaultParams = {
     // skips source items that match any of these selectors
@@ -237,12 +237,12 @@ MobileNavigation.prototype.copyNav = function (source, destination, params) {
 }
 
 /**
-     * @method movePrimaries
-     * @param {jquery} source source, should be <ul> or <ol>
-     * @param {jquery} destination destination, should be <ul> or <ol>
-     *
-     * Moves <li> items containing primary <a> from source to destination
-     */
+ * @method movePrimaries
+ * @param {jquery} source source, should be <ul> or <ol>
+ * @param {jquery} destination destination, should be <ul> or <ol>
+ *
+ * Moves <li> items containing primary <a> from source to destination
+ */
 MobileNavigation.prototype.movePrimaries = function (source, destination) {
   source
     .find(this.options.primaryClass)
@@ -251,12 +251,12 @@ MobileNavigation.prototype.movePrimaries = function (source, destination) {
 }
 
 /**
-     * @method attachDropdownEventHandlers
-     * @param {jquery} el the dropdown element
-     *
-     * Modifies the given dropdown s.th. the affix refreshes on open/close and that clicks outside of dropdown
-     * do not close the dropdown.
-     */
+ * @method attachDropdownEventHandlers
+ * @param {jquery} el the dropdown element
+ *
+ * Modifies the given dropdown s.th. the affix refreshes on open/close and that clicks outside of dropdown
+ * do not close the dropdown.
+ */
 MobileNavigation.prototype.attachDropdownEventHandlers = function (el) {
   // refresh affix on open/close
   el.on(

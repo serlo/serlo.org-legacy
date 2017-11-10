@@ -4,10 +4,10 @@ import $ from 'jquery'
 var hasTouch = 'ontouchstart' in window
 
 /**
-     * Detect CSS pointer-events property
-     * events are normally disabled on the dragging element to avoid conflicts
-     * https://github.com/ausi/Feature-detection-technique-for-pointer-events/blob/master/modernizr-pointerevents.js
-     */
+ * Detect CSS pointer-events property
+ * events are normally disabled on the dragging element to avoid conflicts
+ * https://github.com/ausi/Feature-detection-technique-for-pointer-events/blob/master/modernizr-pointerevents.js
+ */
 var hasPointerEvents = (function() {
   var el = document.createElement('div'),
     docEl = document.documentElement
@@ -369,8 +369,8 @@ Plugin.prototype = {
     mouse.dirAx = newAx
 
     /**
-             * move horizontal
-             */
+     * move horizontal
+     */
     if (mouse.dirAx && mouse.distAxX >= opt.threshold) {
       // reset move distance on x-axis for new phase
       mouse.distAxX = 0
@@ -443,8 +443,8 @@ Plugin.prototype = {
         this.dragRootEl.data('nestable-id') !== pointElRoot.data('nestable-id')
 
     /**
-             * move vertical
-             */
+     * move vertical
+     */
     if (!mouse.dirAx || isNewRoot || isEmpty) {
       // check if groups match if dragging over new root
       if (isNewRoot && opt.group !== pointElRoot.data('nestable-group')) {

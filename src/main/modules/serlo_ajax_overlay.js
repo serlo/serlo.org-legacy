@@ -1,17 +1,17 @@
 /**
-* $.SerloAjaxOverlay opens links in an overlay.
-* Creates an AjaxPage for every asynchronous loaded content,
-* caches them and provides tabs
-*
-* Available Callbacks:
-* contentLoaded, contentOpened, beforeClose, beforeOpen, afterClose, beforeClose
-*
-* Usage: $.SerloAjaxOverlay({on: {contentLoaded: function () { ... }}});
-*
-* @class AjaxOverlay
-* @constructor
-* @param {Object} options Check 'defaults' in code
-*/
+ * $.SerloAjaxOverlay opens links in an overlay.
+ * Creates an AjaxPage for every asynchronous loaded content,
+ * caches them and provides tabs
+ *
+ * Available Callbacks:
+ * contentLoaded, contentOpened, beforeClose, beforeOpen, afterClose, beforeClose
+ *
+ * Usage: $.SerloAjaxOverlay({on: {contentLoaded: function () { ... }}});
+ *
+ * @class AjaxOverlay
+ * @constructor
+ * @param {Object} options Check 'defaults' in code
+ */
 import $ from 'jquery'
 
 import Common from '../../modules/common'
@@ -114,11 +114,11 @@ AjaxOverlay.prototype.init = function (context) {
 }
 
 /**
-    * Click handler for links. Triggers the Overlay to start, saves current scroll position.
-    *
-    * @method onLinkClick
-    * @param {Object} e jQuery Event Object
-    */
+ * Click handler for links. Triggers the Overlay to start, saves current scroll position.
+ *
+ * @method onLinkClick
+ * @param {Object} e jQuery Event Object
+ */
 
 AjaxOverlay.prototype.onLinkClick = function (e) {
   if ($(this).hasClass(instance.options.linkClass)) {
@@ -151,11 +151,11 @@ AjaxOverlay.prototype.onLinkClick = function (e) {
 }
 
 /**
-    * Click handler for overlay closing links. Triggers the Overlay to hide.
-    *
-    * @method onCloseClick
-    * @param {Object} e jQuery Event Object
-    */
+ * Click handler for overlay closing links. Triggers the Overlay to hide.
+ *
+ * @method onCloseClick
+ * @param {Object} e jQuery Event Object
+ */
 AjaxOverlay.prototype.onCloseClick = function (e) {
   if (!instance.forceRedirect) {
     e.preventDefault()
@@ -165,12 +165,12 @@ AjaxOverlay.prototype.onCloseClick = function (e) {
 }
 
 /**
-     * A helper function that stops Propagation of click event bubbling:
-     * makes sure the overlay only gets closed, when user did not click on the overlay itself.
-     *
-     * @method preventOverlayClosing
-     * @param {Object} e jQuery Event Object
-     */
+ * A helper function that stops Propagation of click event bubbling:
+ * makes sure the overlay only gets closed, when user did not click on the overlay itself.
+ *
+ * @method preventOverlayClosing
+ * @param {Object} e jQuery Event Object
+ */
 
 AjaxOverlay.prototype.preventOverlayClosing = function (e) {
   if (!instance.forceRedirect) {
@@ -180,14 +180,14 @@ AjaxOverlay.prototype.preventOverlayClosing = function (e) {
 }
 
 /**
-    * Opens the Overlay and loads the given href.
-    *
-    * @method bootAjaxContent
-    * @param {String} url The URL to load
-    * @param {String} title The title of the page
-    * @param {Number} position Where to position the Overlay vertically. Defaults to options.ajaxContentTop
-    * @return Returns itself for chaining
-    */
+ * Opens the Overlay and loads the given href.
+ *
+ * @method bootAjaxContent
+ * @param {String} url The URL to load
+ * @param {String} title The title of the page
+ * @param {Number} position Where to position the Overlay vertically. Defaults to options.ajaxContentTop
+ * @return Returns itself for chaining
+ */
 
 AjaxOverlay.prototype.bootAjaxContent = function (url, title) {
   var self = this
@@ -221,11 +221,11 @@ AjaxOverlay.prototype.bootAjaxContent = function (url, title) {
 }
 
 /**
-    * Closes the overlay, unbinds clickhandler from body, scrolls the body to formerly saved scrollposition
-    *
-    * @method shutDownAjaxContent
-    * @return Returns itself for chaining
-    */
+ * Closes the overlay, unbinds clickhandler from body, scrolls the body to formerly saved scrollposition
+ *
+ * @method shutDownAjaxContent
+ * @return Returns itself for chaining
+ */
 
 AjaxOverlay.prototype.shutDownAjaxContent = function () {
   var self = this
@@ -272,16 +272,16 @@ AjaxOverlay.prototype.shutDownAjaxContent = function () {
 }
 
 /**
-    * AjaxPages are stored by url in var pageCache.
-    *
-    * Creates a new page, or takes the cached one,
-    * adds it to tabPages and triggers AjaxPage.load
-    *
-    * @method addPage
-    * @param {String} url
-    * @param {String} title
-    * @return Returns itself for chaining
-    */
+ * AjaxPages are stored by url in var pageCache.
+ *
+ * Creates a new page, or takes the cached one,
+ * adds it to tabPages and triggers AjaxPage.load
+ *
+ * @method addPage
+ * @param {String} url
+ * @param {String} title
+ * @return Returns itself for chaining
+ */
 
 AjaxOverlay.prototype.addPage = function (url, title) {
   var page =
@@ -297,12 +297,12 @@ AjaxOverlay.prototype.addPage = function (url, title) {
 }
 
 /**
-    * Shows the AjaxPage by url
-    *
-    * @method showPage
-    * @param {number} url
-    * @return Returns itself for chaining
-    */
+ * Shows the AjaxPage by url
+ *
+ * @method showPage
+ * @param {number} url
+ * @return Returns itself for chaining
+ */
 
 AjaxOverlay.prototype.showPage = function (url) {
   var self = this
@@ -319,15 +319,15 @@ AjaxOverlay.prototype.showPage = function (url) {
 }
 
 /**
-    * Renders tabs for all Pages that are in the tabPages array
-    * if options.tabLimit is -1, all tabs
-    * if options.tabLimit is 0, no tabs,
-    * else a limited amount of tabs get rendered
-    *
-    *
-    * @method renderPageTabs
-    * @return Returns itself for chaining
-    */
+ * Renders tabs for all Pages that are in the tabPages array
+ * if options.tabLimit is -1, all tabs
+ * if options.tabLimit is 0, no tabs,
+ * else a limited amount of tabs get rendered
+ *
+ *
+ * @method renderPageTabs
+ * @return Returns itself for chaining
+ */
 
 AjaxOverlay.prototype.renderPageTabs = function () {
   var $li
@@ -402,12 +402,12 @@ AjaxOverlay.prototype.renderPageTabs = function () {
 }
 
 /**
-    * Tells the Overlay to scroll to the top
-    * Gets called, when a new AjaxPage is loaded
-    *
-    * @method scrollToPageTop
-    * @return Returns itself for chaining
-    */
+ * Tells the Overlay to scroll to the top
+ * Gets called, when a new AjaxPage is loaded
+ *
+ * @method scrollToPageTop
+ * @return Returns itself for chaining
+ */
 
 AjaxOverlay.prototype.scrollToPageTop = function () {
   var self = this
@@ -420,11 +420,11 @@ AjaxOverlay.prototype.scrollToPageTop = function () {
 }
 
 /**
-    * Shows loader indicator
-    *
-    * @method showLoader
-    * @return Returns itself for chaining
-    */
+ * Shows loader indicator
+ *
+ * @method showLoader
+ * @return Returns itself for chaining
+ */
 
 AjaxOverlay.prototype.showLoader = function () {
   this.$loader.fadeIn({ queue: false })
@@ -432,11 +432,11 @@ AjaxOverlay.prototype.showLoader = function () {
 }
 
 /**
-    * Hides loader indicator
-    *
-    * @method hideLoader
-    * @return Returns itself for chaining
-    */
+ * Hides loader indicator
+ *
+ * @method hideLoader
+ * @return Returns itself for chaining
+ */
 
 AjaxOverlay.prototype.hideLoader = function () {
   this.$loader.fadeOut({ queue: false })
@@ -444,23 +444,23 @@ AjaxOverlay.prototype.hideLoader = function () {
 }
 
 /**
-    * Error handler
-    *
-    * @method onError
-    */
+ * Error handler
+ *
+ * @method onError
+ */
 
 AjaxOverlay.prototype.onError = function () {
   this.options.on.error.apply(this, Array.prototype.slice.call(arguments, 0))
 }
 
 /**
-    * Constructor for a single AjaxPage. Allows navigation inside the AjaxOverlay
-    *
-    * @class AjaxPage
-    * @constructor
-    * @param {String} url The URL
-    * @param {String} title The pages title for its tab view
-    */
+ * Constructor for a single AjaxPage. Allows navigation inside the AjaxOverlay
+ *
+ * @class AjaxPage
+ * @constructor
+ * @param {String} url The URL
+ * @param {String} title The pages title for its tab view
+ */
 
 AjaxOverlay.AjaxPage = function (url, title) {
   this.uber = instance
@@ -473,14 +473,14 @@ AjaxOverlay.AjaxPage = function (url, title) {
 }
 
 /**
-    * Loads this.url only if it hasnt been loaded earlier
-    * and triggers the AjaxOverlay to show the pages content
-    *
-    * TODO: we do not load the href because of Allowed-X-Origin
-    *
-    * @method load
-    * @return Returns itself for chaining
-    */
+ * Loads this.url only if it hasnt been loaded earlier
+ * and triggers the AjaxOverlay to show the pages content
+ *
+ * TODO: we do not load the href because of Allowed-X-Origin
+ *
+ * @method load
+ * @return Returns itself for chaining
+ */
 
 AjaxOverlay.AjaxPage.prototype.load = function () {
   var self = this
@@ -520,14 +520,14 @@ AjaxOverlay.AjaxPage.prototype.load = function () {
 }
 
 /**
-    * Helper function that checks if an array contains a specific element
-    *
-    * @method elementExistsInArray
-    * @for AjaxOverlay
-    * @param element A string, object, number, function, etc.
-    * @param {array} array The array to search in
-    * @return true or false
-    */
+ * Helper function that checks if an array contains a specific element
+ *
+ * @method elementExistsInArray
+ * @for AjaxOverlay
+ * @param element A string, object, number, function, etc.
+ * @param {array} array The array to search in
+ * @return true or false
+ */
 function elementExistsInArray (element, array) {
   var i
   var length

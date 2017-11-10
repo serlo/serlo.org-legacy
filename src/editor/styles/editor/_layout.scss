@@ -1,6 +1,6 @@
 $action-height: 0px;
 $header-height: 57px;
-$gray: #C5C5C5;
+$gray: #c5c5c5;
 
 body {
   overflow-y: hidden;
@@ -78,13 +78,12 @@ header {
   }
 
   .preview-select {
-
   }
 
   .has-error {
     .preview-label {
-      background: #FAC1C1;
-      border-top-color: #FD2222;
+      background: #fac1c1;
+      border-top-color: #fd2222;
     }
   }
 }
@@ -98,15 +97,15 @@ header {
   padding: 12px 15px;
   font-size: 14px;
   color: #333;
-  text-shadow: 1px 1px 0 #FFF;
-  background: #FFF;
-  border: 1px solid #DDD;
+  text-shadow: 1px 1px 0 #fff;
+  background: #fff;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  box-shadow: inset 0 1px 5px #EEE;
+  box-shadow: inset 0 1px 5px #eee;
 
   &:focus {
     outline: none;
-    border-color: #B8B8B8;
+    border-color: #b8b8b8;
   }
 }
 
@@ -164,7 +163,7 @@ header {
   }
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     top: 1px;
@@ -183,7 +182,7 @@ header {
     font-size: 26px;
     line-height: 1;
 
-    color: #A5A5A5;
+    color: #a5a5a5;
     background: white;
 
     cursor: pointer;
@@ -223,13 +222,13 @@ header {
 
   border: 1px solid #878787;
   border-radius: 3px;
-  background: #FFF;
+  background: #fff;
 
   font-size: 0.9em;
   z-index: 2;
 
   &:before {
-    content: "";
+    content: '';
     border: 7px solid rgba(0, 0, 0, 0);
     border-bottom-color: #878787;
     position: absolute;
@@ -237,7 +236,7 @@ header {
     left: 20px;
   }
   &:after {
-    content: "";
+    content: '';
     border: 6px solid rgba(0, 0, 0, 0);
     border-bottom-color: white;
     position: absolute;
@@ -279,7 +278,7 @@ header {
 .ui-resizable {
   position: relative;
 
-  & + {
+  & +  {
     .panel-footer {
       padding-right: 35px;
     }
@@ -322,20 +321,19 @@ header {
 
 @keyframes codemirrorActivation {
   0% {
-    background-color: #FDF8D5;
+    background-color: #fdf8d5;
   }
   35% {
-    backround-color: #FDF8D5;
+    backround-color: #fdf8d5;
   }
   100% {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 }
 
 .CodeMirror.activated {
   animation: codemirrorActivation;
   animation-duration: 1.4s;
-
 }
 
 /* Wiris plugin specific */

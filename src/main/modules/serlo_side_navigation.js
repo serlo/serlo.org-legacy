@@ -42,12 +42,12 @@ defaults = {
 }
 
 /**
-     * @function deepFlatten
-     * @param {Array} the array
-     * @return {UnderscoreChain}
-     *
-     * Helper function
-     **/
+ * @function deepFlatten
+ * @param {Array} the array
+ * @return {UnderscoreChain}
+ *
+ * Helper function
+ **/
 function deepFlatten (array) {
   function dm (item) {
     if (item.children) {
@@ -67,9 +67,9 @@ function deepFlatten (array) {
 }
 
 /**
-     * @class MenuItem
-     * @param {Object} data All informations about the MenuItem (url, title, position, level)
-     */
+ * @class MenuItem
+ * @param {Object} data All informations about the MenuItem (url, title, position, level)
+ */
 MenuItem = function (data) {
   if (
     data.url === undefined ||
@@ -97,10 +97,10 @@ MenuItem = function (data) {
 }
 
 /**
-     * @method render
-     *
-     * Renders the a <li> and <a> tag on MenuItem.$el
-     **/
+ * @method render
+ *
+ * Renders the a <li> and <a> tag on MenuItem.$el
+ **/
 MenuItem.prototype.render = function () {
   var self = this
   var $a
@@ -164,11 +164,11 @@ MenuItem.prototype.render = function () {
 }
 
 /**
-     * @method onClick
-     * @param {jQuery Click Event} e
-     *
-     * OnClick handler for MenuItem
-     **/
+ * @method onClick
+ * @param {jQuery Click Event} e
+ *
+ * OnClick handler for MenuItem
+ **/
 MenuItem.prototype.onClick = function (e) {
   if (
     this.data.sidenav &&
@@ -189,11 +189,11 @@ MenuItem.prototype.onClick = function (e) {
 }
 
 /**
-     * @class SubNavigation
-     * @param {Array} levels An array of levels, containing MenuItems, to be rendered in an <ul>
-     *
-     * Creates <ul>s for each level and renders them
-     **/
+ * @class SubNavigation
+ * @param {Array} levels An array of levels, containing MenuItems, to be rendered in an <ul>
+ *
+ * Creates <ul>s for each level and renders them
+ **/
 
 SubNavigation = function (levels) {
   this.$el = $('<div id="serlo-side-sub-navigation-mover">')
@@ -202,20 +202,20 @@ SubNavigation = function (levels) {
 }
 
 /**
-     * @method reset
-     * @param {Array} levels An array of levels, containing MenuItems, to be rendered in an <ul>
-     *
-     **/
+ * @method reset
+ * @param {Array} levels An array of levels, containing MenuItems, to be rendered in an <ul>
+ *
+ **/
 SubNavigation.prototype.reset = function (levels) {
   this.levels = levels
   this.render()
 }
 
 /**
-     * @method render
-     *
-     * Creates the <li> and <a> elements
-     **/
+ * @method render
+ *
+ * Creates the <li> and <a> elements
+ **/
 SubNavigation.prototype.render = function () {
   var self = this
   var backBtn
@@ -323,11 +323,11 @@ SubNavigation.prototype.render = function () {
 }
 
 /**
-     * @method getListAtLevel
-     * @param {Number} level
-     * @return {jQueryObject} $ul The actual <ul> element for given level
-     *
-     **/
+ * @method getListAtLevel
+ * @param {Number} level
+ * @return {jQueryObject} $ul The actual <ul> element for given level
+ *
+ **/
 SubNavigation.prototype.getListAtLevel = function (level) {
   return this.$el
     .children()
@@ -337,18 +337,18 @@ SubNavigation.prototype.getListAtLevel = function (level) {
 }
 
 /**
-     * @class Hierarchy
-     **/
+ * @class Hierarchy
+ **/
 Hierarchy = function () {
   this.data = []
 }
 
 /**
-     * @method fetchFromDom
-     * @param {jQueryObject} $root
-     *
-     * Loops through $root and creates an hierarchial array of objects
-     **/
+ * @method fetchFromDom
+ * @param {jQueryObject} $root
+ *
+ * Loops through $root and creates an hierarchial array of objects
+ **/
 Hierarchy.prototype.fetchFromDom = function ($root) {
   var self = this
   var deepness = []
@@ -357,16 +357,16 @@ Hierarchy.prototype.fetchFromDom = function ($root) {
   self.$root = $root
 
   /**
-         * @function loop
-         * @param {jQueryObject} $element The element containing the children to loop through
-         * @param {Array} dataHierarchy The current hierarchy array
-         * @param {Number} level The current level of hierarchy
-         *
-         * Creates a recursive reflection of the <li> tags in the given $element
-         * on the Hierarchy (hierarchy.data)
-         *
-         * Also creates MenuItem instances for every link and adds event handlers
-         **/
+   * @function loop
+   * @param {jQueryObject} $element The element containing the children to loop through
+   * @param {Array} dataHierarchy The current hierarchy array
+   * @param {Number} level The current level of hierarchy
+   *
+   * Creates a recursive reflection of the <li> tags in the given $element
+   * on the Hierarchy (hierarchy.data)
+   *
+   * Also creates MenuItem instances for every link and adds event handlers
+   **/
   function loop ($element, dataHierarchy, level, parent) {
     $('> li', $element).each(function (i) {
       deepness = deepness.splice(0, level)
@@ -427,29 +427,29 @@ Hierarchy.prototype.fetchFromDom = function ($root) {
 }
 
 /**
-     * @method fetchFromJson
-     * @param {Object} object
-     * @param {MenuItem} parent
-     *
-     * Loops through data and creates an hierarchial array of objects
-     **/
+ * @method fetchFromJson
+ * @param {Object} object
+ * @param {MenuItem} parent
+ *
+ * Loops through data and creates an hierarchial array of objects
+ **/
 Hierarchy.prototype.fetchFromJson = function (object, parent) {
   var deepness = parent.data.position.slice()
 
   parent.data.needsFetching = false
 
   /**
-         * @function loop
-         * @param {Object} object The element containing the children to loop through
-         * @param {Array} dataHierarchy The current hierarchy array
-         * @param {Number} level The current level of hierarchy
-         * @param {MenuItem} parent
-         *
-         * Creates a recursive reflection of the <li> tags in the given $element
-         * on the Hierarchy (hierarchy.data)
-         *
-         * Also creates MenuItem instances for every link and adds event handlers
-         **/
+   * @function loop
+   * @param {Object} object The element containing the children to loop through
+   * @param {Array} dataHierarchy The current hierarchy array
+   * @param {Number} level The current level of hierarchy
+   * @param {MenuItem} parent
+   *
+   * Creates a recursive reflection of the <li> tags in the given $element
+   * on the Hierarchy (hierarchy.data)
+   *
+   * Also creates MenuItem instances for every link and adds event handlers
+   **/
   function loop (object, dataHierarchy, level, parent) {
     $.each(object, function (i, item) {
       deepness = deepness.splice(0, level)
@@ -495,12 +495,12 @@ Hierarchy.prototype.fetchFromJson = function (object, parent) {
 }
 
 /**
-     * @method findByUrl
-     * @param {String} url
-     * @return {Object} The first found menu item
-     *
-     * Searches for a menu item by URL
-     **/
+ * @method findByUrl
+ * @param {String} url
+ * @return {Object} The first found menu item
+ *
+ * Searches for a menu item by URL
+ **/
 Hierarchy.prototype.findByUrl = function (url) {
   var self = this
 
@@ -517,11 +517,11 @@ Hierarchy.prototype.findByUrl = function (url) {
 }
 
 /**
-     * @method findActiveByActive
-     * @return {Object} The last found menu item
-     *
-     * Searches for a menu item by active property
-     **/
+ * @method findActiveByActive
+ * @return {Object} The last found menu item
+ *
+ * Searches for a menu item by active property
+ **/
 Hierarchy.prototype.findActiveByActive = function () {
   var self = this
 
@@ -538,12 +538,12 @@ Hierarchy.prototype.findActiveByActive = function () {
 }
 
 /**
-     * @method findActive
-     * @return {Object} The active menu item.
-     *
-     * Finds the active menu item. Searches for both the last available url as well as
-     * the active menu item given by the app.
-     **/
+ * @method findActive
+ * @return {Object} The active menu item.
+ *
+ * Finds the active menu item. Searches for both the last available url as well as
+ * the active menu item given by the app.
+ **/
 Hierarchy.prototype.findActive = function () {
   var self = this
   var foundItem
@@ -564,11 +564,11 @@ Hierarchy.prototype.findActive = function () {
 }
 
 /**
-     * @method findPreviousMenuItem
-     * @return {Object} The first found menu item matching on the last ReferrerHistory entries.
-     *
-     * Searches menu items by URL
-     **/
+ * @method findPreviousMenuItem
+ * @return {Object} The first found menu item matching on the last ReferrerHistory entries.
+ *
+ * Searches menu items by URL
+ **/
 Hierarchy.prototype.findPreviousMenuItem = function () {
   var self = this
   var result
@@ -581,11 +581,11 @@ Hierarchy.prototype.findPreviousMenuItem = function () {
 }
 
 /**
-     * @method findLastAvailableUrl
-     * @return {Object} The first found menu item matching on the last ReferrerHistory entries.
-     *
-     * Searches menu items by URL
-     **/
+ * @method findLastAvailableUrl
+ * @return {Object} The first found menu item matching on the last ReferrerHistory entries.
+ *
+ * Searches menu items by URL
+ **/
 Hierarchy.prototype.findLastAvailableUrl = function () {
   var self = this
   var foundItem
@@ -601,11 +601,11 @@ Hierarchy.prototype.findLastAvailableUrl = function () {
 }
 
 /**
-     * @method findByPosition
-     * @param {Array} position An array of indexes
-     * @return {MenuItem} or false
-     *
-     **/
+ * @method findByPosition
+ * @param {Array} position An array of indexes
+ * @return {MenuItem} or false
+ *
+ **/
 Hierarchy.prototype.findByPosition = function (position) {
   if (position.length === 1) {
     return this.data[position[0]]
@@ -624,19 +624,19 @@ Hierarchy.prototype.findByPosition = function (position) {
 }
 
 /**
-     * @method getFlattened
-     * @return {Array} Returns an array of all MenuItems without hierarchy
-     **/
+ * @method getFlattened
+ * @return {Array} Returns an array of all MenuItems without hierarchy
+ **/
 Hierarchy.prototype.getFlattened = function () {
   return deepFlatten(this.data).value()
 }
 
 /**
-     * @method getLevels
-     * @param {Array} position An array of indexes
-     * @return {Array} an Array of Levels
-     *
-     **/
+ * @method getLevels
+ * @param {Array} position An array of indexes
+ * @return {Array} an Array of Levels
+ *
+ **/
 Hierarchy.prototype.getLevels = function (position) {
   var self = this
   var cursor = self.data
@@ -650,11 +650,11 @@ Hierarchy.prototype.getLevels = function (position) {
 }
 
 /**
-     * @method getParents
-     * @param {Array} position An array of indexes
-     * @return {Array} an Array of menuItems
-     *
-     **/
+ * @method getParents
+ * @param {Array} position An array of indexes
+ * @return {Array} an Array of menuItems
+ *
+ **/
 Hierarchy.prototype.getParents = function (position) {
   var result = []
   var usePosition = position.slice()
@@ -668,11 +668,11 @@ Hierarchy.prototype.getParents = function (position) {
 }
 
 /**
-     * @method getSiblings
-     * @param {Array} position An array of indexes
-     * @return {Array} an Array of menuItems - the siblings of the given array
-     *
-     **/
+ * @method getSiblings
+ * @param {Array} position An array of indexes
+ * @return {Array} an Array of menuItems - the siblings of the given array
+ *
+ **/
 Hierarchy.prototype.getSiblings = function (position) {
   var usePosition = position.slice()
   var parent = this.getParent(this.findByPosition(usePosition))
@@ -681,10 +681,10 @@ Hierarchy.prototype.getSiblings = function (position) {
 }
 
 /**
-     * @method getParent
-     * @param {MenuItem} menuItem A menuItem
-     * @return {MenuItem} The direct parent of the given MenuItem
-     **/
+ * @method getParent
+ * @param {MenuItem} menuItem A menuItem
+ * @return {MenuItem} The direct parent of the given MenuItem
+ **/
 Hierarchy.prototype.getParent = function (menuItem) {
   var parents = this.getParents(menuItem.data.position).reverse()
   parents.pop()
@@ -692,11 +692,11 @@ Hierarchy.prototype.getParent = function (menuItem) {
 }
 
 /**
-     * @class SideNavigation
-     * @param {Object} options See defaults
-     *
-     * Main constructor
-     **/
+ * @class SideNavigation
+ * @param {Object} options See defaults
+ *
+ * Main constructor
+ **/
 SideNavigation = function (options) {
   if (!(this instanceof SideNavigation)) {
     return new SideNavigation(options)
@@ -729,10 +729,10 @@ SideNavigation = function (options) {
 }
 
 /**
-     * @method setActiveBranch
-     *
-     * Sets options.activeClass for active menu item and its parents
-     **/
+ * @method setActiveBranch
+ *
+ * Sets options.activeClass for active menu item and its parents
+ **/
 SideNavigation.prototype.setActiveBranch = function () {
   var self = this
   var position
@@ -810,10 +810,10 @@ SideNavigation.prototype.setActiveBranch = function () {
 }
 
 /**
-     * @method setActiveNavigator
-     *
-     * Sets the options.activeNavigatorClass for menu items the user is navigating with
-     **/
+ * @method setActiveNavigator
+ *
+ * Sets the options.activeNavigatorClass for menu items the user is navigating with
+ **/
 SideNavigation.prototype.setActiveNavigator = function () {
   $('.' + this.options.activeNavigatorClass, this.$el).removeClass(
     this.options.activeNavigatorClass
@@ -832,10 +832,10 @@ SideNavigation.prototype.setActiveNavigator = function () {
 }
 
 /**
-     * @method attachEventHandler
-     *
-     * Attaches all needed event handlers
-     **/
+ * @method attachEventHandler
+ *
+ * Attaches all needed event handlers
+ **/
 SideNavigation.prototype.attachEventHandler = function () {
   var self = this
   var menuItems = this.hierarchy.getFlattened()
@@ -872,10 +872,10 @@ SideNavigation.prototype.attachEventHandler = function () {
 }
 
 /**
-     * @method synchEventHandlers
-     *
-     * Attaches all needed event handlers to new MenuItems
-     **/
+ * @method synchEventHandlers
+ *
+ * Attaches all needed event handlers to new MenuItems
+ **/
 SideNavigation.prototype.synchEventHandlers = function () {
   var self = this
   var menuItems = this.hierarchy.getFlattened()
@@ -900,11 +900,11 @@ SideNavigation.prototype.synchEventHandlers = function () {
 }
 
 /**
-     * @method fetch
-     * @param {MenuItem} menuItem The clicked MenuItem instance
-     *
-     * This method fetches an menuItems children from the server.
-     */
+ * @method fetch
+ * @param {MenuItem} menuItem The clicked MenuItem instance
+ *
+ * This method fetches an menuItems children from the server.
+ */
 SideNavigation.prototype.fetch = function (menuItem) {
   var call
   var options = defaults.asyncNav
@@ -945,11 +945,11 @@ SideNavigation.prototype.fetch = function (menuItem) {
 }
 
 /**
-     * @method open
-     * @param {Object} menuItem The clicked MenuItem instance
-     *
-     * Shows the generated Subnavigation
-     **/
+ * @method open
+ * @param {Object} menuItem The clicked MenuItem instance
+ *
+ * Shows the generated Subnavigation
+ **/
 SideNavigation.prototype.open = function (menuItem) {
   this.isOpen = true
   this.$nav.appendTo(this.$el)
@@ -957,10 +957,10 @@ SideNavigation.prototype.open = function (menuItem) {
 }
 
 /**
-     * @method close
-     *
-     * Hides the generated Subnavigations
-     **/
+ * @method close
+ *
+ * Hides the generated Subnavigations
+ **/
 SideNavigation.prototype.close = function () {
   this.isOpen = false
   this.$nav.detach()
@@ -974,11 +974,11 @@ SideNavigation.prototype.close = function () {
 }
 
 /**
-     * @method jumpTo
-     * @param {Object} menuItem The clicked MenuItem instance
-     *
-     * Starts animation to the clicked MenuItem
-     **/
+ * @method jumpTo
+ * @param {Object} menuItem The clicked MenuItem instance
+ *
+ * Starts animation to the clicked MenuItem
+ **/
 SideNavigation.prototype.jumpTo = function (menuItem) {
   if (!this.isOpen) {
     this.open(menuItem)
@@ -988,11 +988,11 @@ SideNavigation.prototype.jumpTo = function (menuItem) {
 }
 
 /**
-     * @method routeAnimation
-     * @param {Object} menuItem The target MenuItem instance
-     *
-     * Animations!!!!
-     **/
+ * @method routeAnimation
+ * @param {Object} menuItem The target MenuItem instance
+ *
+ * Animations!!!!
+ **/
 SideNavigation.prototype.routeAnimation = function (menuItem) {
   var self = this
   var startLevels
@@ -1048,10 +1048,10 @@ SideNavigation.prototype.routeAnimation = function (menuItem) {
 }
 
 /**
-     * @method animateTo
-     * @param {Number} level
-     * @param {Function} callback
-     **/
+ * @method animateTo
+ * @param {Number} level
+ * @param {Function} callback
+ **/
 SideNavigation.prototype.animateTo = function (level, callback) {
   var self = this
   var targetLeft = (level - 1) * -1 * self.options.subNavigationWidth + 'px'
@@ -1081,10 +1081,10 @@ SideNavigation.prototype.animateTo = function (level, callback) {
 }
 
 /**
-     * @method setMoverHeight
-     * @param {Number} level
-     *
-     **/
+ * @method setMoverHeight
+ * @param {Number} level
+ *
+ **/
 SideNavigation.prototype.setMoverHeight = function (level) {
   var self = this
   var height
@@ -1112,11 +1112,11 @@ SideNavigation.prototype.setMoverHeight = function (level) {
 }
 
 /**
-     * @method determineBreakpoint
-     * @param {Array} start
-     * @param {Array} end
-     * @return {Object} MenuItem
-     **/
+ * @method determineBreakpoint
+ * @param {Array} start
+ * @param {Array} end
+ * @return {Object} MenuItem
+ **/
 SideNavigation.prototype.determineBreakpoint = function (start, end) {
   var result = 1
   var startReverse = start.slice()

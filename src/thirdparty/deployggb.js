@@ -124,29 +124,29 @@ var GGBApplet = function() {
   }
 
   /**
-     * Overrides the codebase for HTML5.
-     * @param codebase Can be an URL or a local file path.
-     * @param offline Set to true, if the codebase is a local URL and no web URL
-     */
+   * Overrides the codebase for HTML5.
+   * @param codebase Can be an URL or a local file path.
+   * @param offline Set to true, if the codebase is a local URL and no web URL
+   */
   applet.setHTML5Codebase = function(codebase, offline) {
     html5OverwrittenCodebase = codebase
     setHTML5CodebaseInternal(codebase, offline)
   }
 
   /**
-     * Overrides the codebase version for Java.
-     * @param version The version of the codebase that shoudl be used for java applets.
-     */
+   * Overrides the codebase version for Java.
+   * @param version The version of the codebase that shoudl be used for java applets.
+   */
   applet.setJavaCodebaseVersion = function(version) {
     javaCodebaseVersion = version
     setDefaultJavaCodebaseForVersion(version)
   }
 
   /**
-     * Overrides the codebase version for HTML5.
-     * If another codebase than the default codebase should be used, this method has to be called before setHTML5Codebase.
-     * @param version The version of the codebase that should be used for HTML5 applets.
-     */
+   * Overrides the codebase version for HTML5.
+   * If another codebase than the default codebase should be used, this method has to be called before setHTML5Codebase.
+   * @param version The version of the codebase that should be used for HTML5 applets.
+   */
   applet.setHTML5CodebaseVersion = function(version, offline) {
     html5OverwrittenCodebaseVersion = version
     setDefaultHTML5CodebaseForVersion(version, offline)
@@ -161,10 +161,10 @@ var GGBApplet = function() {
   }
 
   /**
-     * Overrides the codebase for Java.
-     * @param codebase Can be an URL or a local file path.
-     * @param offline Set to true, if the codebase is a local URL and no web URL
-     */
+   * Overrides the codebase for Java.
+   * @param codebase Can be an URL or a local file path.
+   * @param offline Set to true, if the codebase is a local URL and no web URL
+   */
   applet.setJavaCodebase = function(codebase, offline) {
     isOverriddenJavaCodebase = true
 
@@ -247,19 +247,19 @@ var GGBApplet = function() {
   }
 
   /**
-     * Overrides the JNLP file to use.
-     * By default (if this method is not called), the jnlp file in the codebase directory is used.
-     * Cannot be used in combination with setJNLPBaseDir
-     * @param newJnlpFilePath The absolute path to the JNLP file.
-     */
+   * Overrides the JNLP file to use.
+   * By default (if this method is not called), the jnlp file in the codebase directory is used.
+   * Cannot be used in combination with setJNLPBaseDir
+   * @param newJnlpFilePath The absolute path to the JNLP file.
+   */
   applet.setJNLPFile = function(newJnlpFilePath) {
     jnlpFilePath = newJnlpFilePath
   }
 
   /**
-     * Sets an alternative base directory for the JNLP File. The path must not include the version number.
-     * @param baseDir
-     */
+   * Sets an alternative base directory for the JNLP File. The path must not include the version number.
+   * @param baseDir
+   */
   applet.setJNLPBaseDir = function(baseDir) {
     jnlpBaseDir = baseDir
     applet.setJNLPFile(
@@ -268,13 +268,13 @@ var GGBApplet = function() {
   }
 
   /**
-     * Injects the applet;
-     * @param containerID The id of the HTML element that is the parent of the new applet.
-     * All other content (innerText) of the container will be overwritten with the new applet.
-     * @param type Can be 'preferJava', 'preferHTML5', 'java', 'html5', 'auto' or 'screenshot'. Default='auto';
-     * @param boolean noPreview. Set to true if no preview image should be shown
-     * @return The type of the applet that was injected or null if the applet could not be injected.
-     */
+   * Injects the applet;
+   * @param containerID The id of the HTML element that is the parent of the new applet.
+   * All other content (innerText) of the container will be overwritten with the new applet.
+   * @param type Can be 'preferJava', 'preferHTML5', 'java', 'html5', 'auto' or 'screenshot'. Default='auto';
+   * @param boolean noPreview. Set to true if no preview image should be shown
+   * @return The type of the applet that was injected or null if the applet could not be injected.
+   */
   applet.inject = function() {
     var type = 'auto'
     var container_ID = parameters.id
@@ -409,8 +409,8 @@ var GGBApplet = function() {
   }
 
   /**
-     * @returns boolean Whether the system is capable of showing the GeoGebra Java applet
-     */
+   * @returns boolean Whether the system is capable of showing the GeoGebra Java applet
+   */
   applet.isJavaInstalled = function() {
     if (typeof deployJava === 'undefined') {
       // incase deployJava.js not available
@@ -629,8 +629,8 @@ var GGBApplet = function() {
   }
 
   /**
-     * @return NULL if no version found. Else return some things like: '1.6.0_31'
-     */
+   * @return NULL if no version found. Else return some things like: '1.6.0_31'
+   */
   var JavaVersion = function() {
     var resutl = null
     // Walk through the full list of mime types.
@@ -649,8 +649,8 @@ var GGBApplet = function() {
   }
 
   /**
-     * @returns boolean Whether the system is capable of showing the GeoGebra HTML5 applet
-     */
+   * @returns boolean Whether the system is capable of showing the GeoGebra HTML5 applet
+   */
   applet.isHTML5Installed = function() {
     if (isInternetExplorer()) {
       if (
@@ -669,8 +669,8 @@ var GGBApplet = function() {
   }
 
   /**
-     * @returns boolean Whether the system is capable of showing precompiled HTML5 applets
-     */
+   * @returns boolean Whether the system is capable of showing precompiled HTML5 applets
+   */
   applet.isCompiledInstalled = function() {
     if (isInternetExplorer()) {
       if (views.is3D && getIEVersion() < 11) {
@@ -684,8 +684,8 @@ var GGBApplet = function() {
   }
 
   /**
-     * @returns The type of the loaded applet or null if no applet was loaded yet.
-     */
+   * @returns The type of the loaded applet or null if no applet was loaded yet.
+   */
   applet.getLoadedAppletType = function() {
     return loadedAppletType
   }
@@ -1495,13 +1495,13 @@ var GGBApplet = function() {
   }
 
   /**
-     * Detects the type of the applet (java or html5).
-     * If a fixed type is passed in preferredType (java or html5), this type is forced.
-     * Otherwise the method tries to find out which types are supported by the system.
-     * If a preferredType is passed, this type is used if it is supported.
-     * If auto is passed, the preferred type is html5 for versions >= 4.4 and java for all versions < 4.4.
-     * @param preferredType can be 'preferJava', 'preferHTML5', 'java', 'html5', 'auto' or 'screenshot'. Default='auto'
-     */
+   * Detects the type of the applet (java or html5).
+   * If a fixed type is passed in preferredType (java or html5), this type is forced.
+   * Otherwise the method tries to find out which types are supported by the system.
+   * If a preferredType is passed, this type is used if it is supported.
+   * If auto is passed, the preferred type is html5 for versions >= 4.4 and java for all versions < 4.4.
+   * @param preferredType can be 'preferJava', 'preferHTML5', 'java', 'html5', 'auto' or 'screenshot'. Default='auto'
+   */
   var detectAppletType = function(preferredType) {
     preferredType = preferredType.toLowerCase()
     if (
@@ -1567,8 +1567,8 @@ var GGBApplet = function() {
   }
 
   /**
-     * @param version Can be: 3.2, 4.0, 4.2, 4.4, 5.0, test, test42, test44, test50
-     */
+   * @param version Can be: 3.2, 4.0, 4.2, 4.4, 5.0, test, test42, test44, test50
+   */
   var setDefaultHTML5CodebaseForVersion = function(version, offline) {
     html5CodebaseVersion = version
     if (offline) {

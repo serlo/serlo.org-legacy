@@ -17,10 +17,10 @@ config = {
 }
 
 /**
-     * @function mayTranslate
-     * @param {String} string The string to translate
-     * @return {String} The translated string OR the untouched string
-     **/
+ * @function mayTranslate
+ * @param {String} string The string to translate
+ * @return {String} The translated string OR the untouched string
+ **/
 function mayTranslate (string) {
   if (
     i18n[config.language] &&
@@ -36,11 +36,11 @@ function mayTranslate (string) {
 }
 
 /**
-     * @function replace
-     * @param {String} string The string to translate
-     * @param {Array} replacements An array of strings, to replace placeholders in @param string
-     * @return {String} The string, with placeholders replaced by replacement partials
-     **/
+ * @function replace
+ * @param {String} string The string to translate
+ * @param {Array} replacements An array of strings, to replace placeholders in @param string
+ * @return {String} The string, with placeholders replaced by replacement partials
+ **/
 function replace (string, replacements) {
   _.each(replacements, function (partial) {
     switch (typeof partial) {
@@ -59,12 +59,12 @@ function replace (string, replacements) {
 }
 
 /**
-     * @function t
-     * @param {String} The string to translate
-     * ...
-     * @param {String} String replacements
-     * @return {String} The translated string or the original
-     **/
+ * @function t
+ * @param {String} The string to translate
+ * ...
+ * @param {String} String replacements
+ * @return {String} The translated string or the original
+ **/
 t = Common.memoize(function () {
   var args = Array.prototype.slice.call(arguments)
   var string = args.shift()
@@ -73,11 +73,11 @@ t = Common.memoize(function () {
 })
 
 /**
-     * @method config
-     * @param {Object} configuration
-     *
-     * sets configurations
-     **/
+ * @method config
+ * @param {Object} configuration
+ *
+ * sets configurations
+ **/
 t.config = function (configuration) {
   _.extend(config, configuration)
 }

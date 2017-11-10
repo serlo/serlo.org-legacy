@@ -17,11 +17,11 @@ defaults = {
 }
 
 /**
-     * @class Breadcrumbs
-     * @param {Object} options See defaults
-     *
-     * Main constructor
-     **/
+ * @class Breadcrumbs
+ * @param {Object} options See defaults
+ *
+ * Main constructor
+ **/
 Breadcrumbs = function (options) {
   if (!(this instanceof Breadcrumbs)) {
     return new Breadcrumbs(options)
@@ -79,8 +79,8 @@ Breadcrumbs = function (options) {
 }
 
 /**
-     * @method initDots
-     */
+ * @method initDots
+ */
 Breadcrumbs.prototype.initDots = function () {
   this.$dots = $('<li>', { class: 'hidden' })
   this.$dotsLink = $('<a>', { html: '…' }).append(this.options.icon.clone())
@@ -93,34 +93,34 @@ Breadcrumbs.prototype.initDots = function () {
 }
 
 /**
-     * @method hasShownElements
-     * @return {boolean} true iff there are shown elements
-     */
+ * @method hasShownElements
+ * @return {boolean} true iff there are shown elements
+ */
 Breadcrumbs.prototype.hasShownElements = function () {
   return this.shownElements.length > 0
 }
 
 /**
-     * @method hasHiddenElements
-     * @return {boolean} true iff there are hidden elements
-     */
+ * @method hasHiddenElements
+ * @return {boolean} true iff there are hidden elements
+ */
 Breadcrumbs.prototype.hasHiddenElements = function () {
   return this.hiddenElements.length > 0
 }
 
 /**
-     * @method isTooHigh
-     * @return {boolean} true iff the wrapper is too high
-     */
+ * @method isTooHigh
+ * @return {boolean} true iff the wrapper is too high
+ */
 Breadcrumbs.prototype.isTooHigh = function () {
   return this.$wrapper.height() > this.options.height
 }
 
 /**
-     * @method showElement
-     *
-     * Shows the first hidden element
-     */
+ * @method showElement
+ *
+ * Shows the first hidden element
+ */
 Breadcrumbs.prototype.showNextElement = function () {
   var el = this.hiddenElements.pop()
   el.removeClass('hidden')
@@ -133,10 +133,10 @@ Breadcrumbs.prototype.showNextElement = function () {
 }
 
 /**
-     * @method hideNextElement
-     *
-     * Hides the last shown element
-     */
+ * @method hideNextElement
+ *
+ * Hides the last shown element
+ */
 Breadcrumbs.prototype.hideNextElement = function () {
   var el = this.shownElements.shift()
   el.addClass('hidden')
@@ -154,10 +154,10 @@ Breadcrumbs.prototype.hideNextElement = function () {
 }
 
 /**
-     * @method adaptHeight
-     *
-     * Shows as much elements as possible without breaking the wrappers height. Hides exceeding elements.
-     */
+ * @method adaptHeight
+ *
+ * Shows as much elements as possible without breaking the wrappers height. Hides exceeding elements.
+ */
 Breadcrumbs.prototype.adaptHeight = function () {
   var self = this
 

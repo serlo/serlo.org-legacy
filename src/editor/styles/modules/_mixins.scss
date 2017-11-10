@@ -1,6 +1,6 @@
 %clearfix {
   &:after {
-    content: " ";
+    content: ' ';
     display: block;
     clear: both;
   }
@@ -12,7 +12,7 @@
   -webkit-font-smoothing: antialiased;
 }
 
-@mixin placeholder-color($color: "white") {
+@mixin placeholder-color($color: 'white') {
   &::-webkit-input-placeholder {
     color: #{$color};
   }

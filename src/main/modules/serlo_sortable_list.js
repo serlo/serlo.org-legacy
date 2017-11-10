@@ -33,12 +33,12 @@ SortableList = function () {
     dataDepth = $instance.attr('data-depth') || 50
 
     /**
-             * @function cleanEmptyChildren
-             * @param {Array}
-             *
-             * Removes empty children arrays from serialized nestable,
-             * to be able to hide the $saveBtn
-             **/
+     * @function cleanEmptyChildren
+     * @param {Array}
+     *
+     * Removes empty children arrays from serialized nestable,
+     * to be able to hide the $saveBtn
+     **/
     function cleanEmptyChildren (array) {
       _.each(array, function (child) {
         if (child.children) {

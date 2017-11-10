@@ -9,9 +9,9 @@ var supports = {
   jQueryCookie: typeof $ === 'function' && typeof $.cookie === 'function'
 }
 /**
-   * is the cache supposed to use JSON?
-   *  defaults to true if JSON is available
-   */
+ * is the cache supposed to use JSON?
+ *  defaults to true if JSON is available
+ */
 var useJSON = supports.JSON
 
 /** FakeStorage
@@ -73,20 +73,20 @@ FakeStorage.prototype.clear = function () {
 usedStorage = supports.localStorage ? window.localStorage : new FakeStorage()
 
 /***********
-         *  Private available functions
-         **********/
+ *  Private available functions
+ **********/
 
 /** FN CacheInit
-         *   returns the Cache itself
-         */
+ *   returns the Cache itself
+ */
 
 function CacheInit () {
   return Cache
 }
 
 /**
-         * decodes JSON
-         */
+ * decodes JSON
+ */
 
 function decodeData (data) {
   if (useJSON) {
@@ -100,8 +100,8 @@ function decodeData (data) {
 }
 
 /**
-         * encodes JSON
-         */
+ * encodes JSON
+ */
 
 function encodeData (data) {
   if (useJSON) {
@@ -113,16 +113,16 @@ function encodeData (data) {
 }
 
 /** FN Cache
-         *   returns all available actions on the given memorykey
-         */
+ *   returns all available actions on the given memorykey
+ */
 
 function Cache (memoryKey) {
   return Cache.prototype.functions(memoryKey)
 }
 
 /**
-         *  memorize function
-         */
+ *  memorize function
+ */
 
 function memorize (value) {
   /* jshint validthis:true */
@@ -131,8 +131,8 @@ function memorize (value) {
 }
 
 /**
-         *  remember function
-         */
+ *  remember function
+ */
 
 function remember () {
   /* jshint validthis:true */
@@ -141,8 +141,8 @@ function remember () {
 }
 
 /**
-         *  forget function
-         */
+ *  forget function
+ */
 
 function forget () {
   /* jshint validthis:true */
@@ -150,8 +150,8 @@ function forget () {
 }
 
 /** prototype.functions
-         *    returns an object of actions
-         */
+ *    returns an object of actions
+ */
 
 Cache.prototype.functions = function (memoryKey) {
   if (memoryKey === undefined) {
@@ -188,12 +188,12 @@ function deleteAllCookies () {
 }
 
 /***********
-         *  Public available functions
-         **********/
+ *  Public available functions
+ **********/
 
 /** FN runs
-         *  returns false if Cache has no possibility to store any data
-         */
+ *  returns false if Cache has no possibility to store any data
+ */
 
 Cache.runs = function () {
   return !(
@@ -202,9 +202,9 @@ Cache.runs = function () {
 }
 
 /** FN setStorage
-         *  Sets the Storage Type, if it is supported
-         *   "localStorage" || "sessionStorage"
-         */
+ *  Sets the Storage Type, if it is supported
+ *   "localStorage" || "sessionStorage"
+ */
 
 Cache.setStorage = function (storageType) {
   if (
@@ -218,16 +218,16 @@ Cache.setStorage = function (storageType) {
 }
 
 /**
-         *  returns the current used storage
-         */
+ *  returns the current used storage
+ */
 
 Cache.getStorage = function () {
   return usedStorage
 }
 
 /**
-         *  tells the cache to use JSON
-         */
+ *  tells the cache to use JSON
+ */
 
 Cache.json = function () {
   useJSON = true
@@ -235,8 +235,8 @@ Cache.json = function () {
 }
 
 /**
-         *  tells the cache not to use JSON
-         */
+ *  tells the cache not to use JSON
+ */
 
 Cache.nojson = function () {
   useJSON = false
@@ -244,8 +244,8 @@ Cache.nojson = function () {
 }
 
 /**
-         *  tells the cache, to go out, get drunk and forget about everything
-         */
+ *  tells the cache, to go out, get drunk and forget about everything
+ */
 
 Cache.getDrunk = function () {
   return usedStorage.clear()
