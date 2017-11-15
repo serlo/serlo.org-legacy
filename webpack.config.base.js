@@ -55,5 +55,10 @@ module.exports = {
       name: 'commons',
       filename: 'commons.js'
     })
-  ]
+  ],
+  devServer: {
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
+  }
 }
