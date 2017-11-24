@@ -1,6 +1,16 @@
+/**
+*
+* Interactive Mathematical Puzzles
+* Check validity of algebraic answers
+*
+* @author  Stefan Dirnstorfer
+* @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+* @link        https://github.com/serlo-org/athene2 for the canonical source repository
+*/
+var currentValue = 0
+// Exactract the formula for the user created value.
 function computeValue (obj) {
   var use, value, args, i, sub
-
   // check for redirections
   use = obj.getAttribute('data-use')
   if (use) {
@@ -40,30 +50,37 @@ function computeValue (obj) {
 // verify whether the new object satisfies the winning test
 function verify (svg) {
   // extract the user created formula in json
-  var goal
-  var obj = svg.querySelector('[data-goal]')
-  var value = computeValue(obj)
+  var goal,
+    obj   = svg.querySelector('[data-goal]'),
+    value = computeValue(obj)
 
+  if (value && value.indexOf('$') < 0 && value.indexOf('#') < 0) {
+    currentValue = value
+  } else {
+    currentValue = undefined
+  }
   if (!value || value.indexOf('#') >= 0) {
     // break if formula is incomplete
     smile(svg, false)
   } else {
     // construct the objective function
     goal = obj.getAttribute('data-goal')
-    smile(svg, isEquivalent(value, goal))
+    pass = isEquivalent(value, goal)
+    smile(svg, pass)
+    return pass
   }
 }
 
 // compare two alebraic expressions
 function isEquivalent (value, goal) {
   // check for free variables
-  var tries
-  var context
-  var value1
-  var value2
-  var i
-  var j
-  var vars = (goal + value).match(/\$[a-zA-Z][a-z0-9.]*/g) || []
+  var tries,
+    context,
+    value1,
+    value2,
+    i,
+    j,
+    vars = (goal + value).match(/\$[a-zA-Z][a-z0-9.]*/g) || []
 
   try {
     tries = 1 + 10 * vars.length
@@ -72,10 +89,8 @@ function isEquivalent (value, goal) {
       for (j = 0; j < vars.length; ++j) {
         if (!vars[j].match(/\./)) context[vars[j]] = Math.random() * 6 - 3
       }
-      // eslint-disable-next-line no-eval
-      value1 = eval(value.replace(/\$/g, 'context.'))
-      // eslint-disable-next-line no-eval
-      value2 = eval(goal.replace(/\$/g, 'context.'))
+      value1 = eval(value.replace(/\$/g, 'context.$'))
+      value2 = eval(goal.replace(/\$/g, 'context.$'))
       if (isNaN(value1) !== isNaN(value2)) return false
       if (!isNaN(value1) && Math.abs(value1 - value2) > 1e-10) return false
     }
@@ -87,15 +102,20 @@ function isEquivalent (value, goal) {
 
 // sets the oppacitiy to show either of the two similies
 function smile (svg, win) {
-  var oldstyle = svg.parentNode.getAttribute('class')
-  var newstyle = oldstyle.replace(/ solved/, '')
-
+  var oldstyle = svg.parentNode.getAttribute('class'),
+    newstyle = oldstyle.replace(/ solved/, '')
   if (win) newstyle = newstyle + ' solved'
   svg.parentNode.setAttribute('class', newstyle)
 }
 
+function getLastValue () {
+  return eval(currentValue)
+}
+
 const Algebra = {
-  verify: verify
+  verify: verify,
+  getLastValue: getLastValue,
+  computeValue: computeValue
 }
 
 export default Algebra

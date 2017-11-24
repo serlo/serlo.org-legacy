@@ -1,59 +1,65 @@
+/**
+*
+* Interactive Mathematical Puzzles
+*
+* @author  Stefan Dirnstorfer
+* @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+* @link        https://github.com/serlo-org/athene2 for the canonical source repository
+*/
+
+import d3 from 'd3'
+
 import algebra from './serlo_math_puzzle_algebra'
+
+'use strict'
 
 // setup event listeners for the svg canvas
 function setupCanvas (svgElement) {
   // DnD frame work
   // hand is a reference to the object currently beeing dragged.
-  var hand = null
-  // The screen coordinates of the last drag update.
-  var startPos = [0, 0]
-  var justGrabbed = false
-  // position for long click action, after which the top group is selected
-  var longClick = [0, 0]
+  var hand = null,
+    // The screen coordinates of the last drag update.
+    startPos = [0, 0],
+    hasMoved = false,
+    justGrabbed = false,
+    // position for long click action, after which the top group is selected
+    longClick = [0, 0]
 
-  svgElement.parentNode.addEventListener('mousemove', msMove)
-  svgElement.parentNode.addEventListener('touchmove', msMove)
-  svgElement.parentNode.addEventListener('mouseup', msUp)
-  svgElement.parentNode.addEventListener('touchend', msUp)
-  svgElement.addEventListener('mousedown', msBlur)
-  svgElement.addEventListener('touchstart', msBlur)
-  setupCloneables(svgElement)
+  svgElement.parentNode.addEventListener('mousemove', msMove, {
+    passive: false
+  })
+  svgElement.parentNode.addEventListener('touchmove', msMove, {
+    passive: false
+  })
+  svgElement.parentNode.addEventListener('mouseup', msUp, { passive: false })
+  svgElement.parentNode.addEventListener('touchend', msUp, { passive: false })
+  svgElement.addEventListener('mousedown', msBlur, { passive: false })
+  svgElement.addEventListener('touchstart', msBlur, { passive: false })
+  d3
+    .select(svgElement)
+    .selectAll('[data-ismovable]')
+    .on('mousedown', grabElement)
+    .on('touchstart', grabElement)
   deepLayout(svgElement, true)
-
-  // setup cloneable elements from palette
-  function setupCloneables (svgElement) {
-    var i
-    var paletteEntries = svgElement.querySelectorAll('.cloneme')
-
-    for (i = 0; i < paletteEntries.length; ++i) {
-      paletteEntries[i].addEventListener('mousedown', duplicateElement)
-      paletteEntries[i].addEventListener('touchstart', duplicateElement)
-    }
-  }
+  algebra.verify(svgElement)
 
   // setup event listeners for an element. This function is called
   // when an element is moved out of the palette
-  function duplicateElement (grabEvent) {
-    var operands
-    var i
-    var elt = grabEvent.currentTarget.firstChild
-    var copy = elt.cloneNode(true)
+  function grabElement () {
+    var elt = d3.event.currentTarget,
+      container = elt.parentElement,
+      containerId = container.getAttribute('data-container-id')
 
-    elt.parentNode.appendChild(copy)
-
-    elt.addEventListener('mousedown', msDown)
-    elt.addEventListener('touchstart', msDown)
-    operands = elt.querySelectorAll('.operand')
-    for (i = 0; i < operands.length; ++i) {
-      operands[i].removeAttribute('blocked')
-    }
-    if (grabEvent) {
-      elt.setAttribute('opacity', 0.5)
-      justGrabbed = true
-      sendHome(elt)
+    if (containerId) {
+      d3
+        .select(elt)
+        .attr('data-original-container', containerId)
+        .selectAll('.operand')
+        .attr('blocked', '')
       if (navigator.vibrate) navigator.vibrate(10)
-      msDown(grabEvent)
     }
+
+    msDown(d3.event)
   }
 
   // Perform an initial layout of all objects on the screen.
@@ -96,8 +102,8 @@ function setupCanvas (svgElement) {
 
   // msDown is called whenever the mouse button is pressed anywhere on the root document.
   function msDown (evt0) {
-    var evt = translateTouch(evt0)
-    var grabbed = evt.target
+    var evt = translateTouch(evt0),
+      grabbed = evt.target
 
     if (!hand && evt.target) {
       // find signaling object
@@ -109,22 +115,33 @@ function setupCanvas (svgElement) {
 
       // store mouse position. Will be updated when mouse moves.
       startPos = [evt.clientX, evt.clientY]
+      hasMoved = false
 
       // mark root after time out
       initLongClick(evt.clientX, evt.clientY)
-      if (document.activeElement && document.activeElement.blur) {
-        document.activeElement.blur()
-      }
+      if (document.activeElement && document.activeElement.blur) { document.activeElement.blur() }
     }
   }
 
   // Mouse clicked on the background
   function msBlur (evt) {
     if (!evt.touches) evt.preventDefault()
-    if (document.activeElement && document.activeElement.blur) {
-      document.activeElement.blur()
-    }
+    if (document.activeElement && document.activeElement.blur) { document.activeElement.blur() }
     return false
+  }
+
+  // Recursively put elements back into their palette home spot
+  function moveToPalette (elt) {
+    var paletteHome, child
+    for (child of elt.querySelectorAll('[data-original-container]')) {
+      moveToPalette(child)
+    }
+    paletteHome = svgElement.querySelector(
+      '[data-container-id="' +
+        elt.getAttribute('data-original-container') +
+        '"]'
+    )
+    if (paletteHome) moveToGroup(elt, paletteHome)
   }
 
   // This function is called when the mouse button is released.
@@ -132,9 +149,8 @@ function setupCanvas (svgElement) {
     if (hand) {
       hand.removeAttribute('pointer-events')
       if (hand.getAttribute('opacity')) {
-        var parent = hand.parentNode
-        parent.removeChild(hand)
-        layout(parent)
+        hand.setAttribute('opacity', '')
+        moveToPalette(hand)
       }
       hand = null
       svgElement.classList.remove('grabbed')
@@ -142,22 +158,22 @@ function setupCanvas (svgElement) {
     justGrabbed = false
   }
 
-  // Move the grabbed object "hand" with the mouse
+  // Move the grabbed object "hand" with the mouse if not frozen
   function msMove (evt0) {
-    if (hand) {
+    if (hand && !hand.getAttribute('data-frozen')) {
       // compute relative mouse movements since last call
-      var dropTo
-      var current
-      var isTop
-      var thresh
-      var m
-      var evt = translateTouch(evt0)
-      var dx = evt.clientX - startPos[0]
-      var dy = evt.clientY - startPos[1]
-      var dist = Math.max(
-        Math.abs(dx / hand.getScreenCTM().a),
-        Math.abs(dy / hand.getScreenCTM().d)
-      )
+      var dropTo,
+        current,
+        isTop,
+        thresh,
+        m,
+        evt = translateTouch(evt0),
+        dx = evt.clientX - startPos[0],
+        dy = evt.clientY - startPos[1],
+        dist = Math.max(
+          Math.abs(dx / hand.getScreenCTM().a),
+          Math.abs(dy / hand.getScreenCTM().d)
+        )
 
       // long click action
       initLongClick(evt.clientX, evt.clientY)
@@ -173,18 +189,15 @@ function setupCanvas (svgElement) {
           current.getAttribute('class') === 'operand' &&
           (current.getAttribute('blocked') !== 'true' ||
             current === hand.parentNode)
-        ) {
-          dropTo = current
-        }
-        if (current.getAttribute('class') === 'palette') {
-          hand.setAttribute('opacity', 0.5)
-        }
+        ) { dropTo = current }
+        if (current.getAttribute('class') === 'palette') { hand.setAttribute('opacity', 0.5) }
         if (current === hand) dropTo = undefined
         current = current.parentNode
       }
       if (dropTo) {
         // offset snap region
         if (dropTo !== hand.parentNode) startPos = [evt.clientX, evt.clientY]
+        hasMoved = true
 
         // insert grabbed object into mouse pointer target group
         setFloating(hand, false)
@@ -211,6 +224,7 @@ function setupCanvas (svgElement) {
 
           // offset snap region
           startPos = [evt.clientX, evt.clientY]
+          hasMoved = true
         }
       }
     }
@@ -219,10 +233,10 @@ function setupCanvas (svgElement) {
   // The object obj is inserted into a new group element target. Layouts are updated
   function moveToGroup (obj, target, x, y) {
     // move object from its current to the target container
-    var m
-    var p
-    var oldContainer = obj.parentNode
-
+    var m,
+      p,
+      svg,
+      oldContainer = obj.parentNode
     try {
       target.appendChild(obj)
     } catch (e) {
@@ -249,6 +263,7 @@ function setupCanvas (svgElement) {
       layout(target)
     }
 
+    svg = obj
     algebra.verify(svgElement)
   }
 
@@ -282,13 +297,12 @@ function setupCanvas (svgElement) {
 
   // Transform element and all containing groups to hold new content
   function layout (element) {
-    var ctm2
-    var w
-    var m
-    var obj = element
-    var top = null
-    var ctm1 = obj.getCTM()
-
+    var ctm2,
+      w,
+      m,
+      obj = element,
+      top = null,
+      ctm1 = obj.getCTM()
     do {
       innerLayout(obj)
       if (obj.getAttribute('data-layout')) {
@@ -332,16 +346,15 @@ function setupCanvas (svgElement) {
   // this function inserts parenthesis to ensure syntactic correctness
   function insertParenthesis (obj) {
     // check if object has priority attribute
-    var child
-    var next
-    var subPrio
-    var lpar
-    var rpar
-    var cbox
-    var parbox
-    var scale
-    var myPrio = obj.getAttribute('data-priority')
-
+    var child,
+      next,
+      subPrio,
+      lpar,
+      rpar,
+      cbox,
+      parbox,
+      scale,
+      myPrio = obj.getAttribute('data-priority')
     if (myPrio) {
       // myPrio is the operations priority
       myPrio = parseInt(myPrio, 10)
@@ -386,10 +399,9 @@ function setupCanvas (svgElement) {
   // get an operator's mathematical priority to determine
   // whether parenthesis are required.
   function getPriority (obj) {
-    var i
-    var child
-    var prio = obj.getAttribute('data-priority')
-
+    var i,
+      child,
+      prio = obj.getAttribute('data-priority')
     if (prio) {
       return parseInt(prio, 10)
     } else {
@@ -407,14 +419,13 @@ function setupCanvas (svgElement) {
   // Layouts the content centered to its first child element
   // Creates a snap-in like effect what dropping operands
   function snap (obj) {
-    var child
-    var m
-    var box1
-    var box2
-    var i
-    var back = null
-    var blocked = false
-
+    var child,
+      m,
+      box1,
+      box2,
+      i,
+      back = null,
+      blocked = false
     for (i = 0; i < obj.childNodes.length; ++i) {
       child = obj.childNodes[i]
       if (child.nodeType === 1) {
@@ -461,22 +472,19 @@ function setupCanvas (svgElement) {
   // Layouts all child objects sequentially in one axis,
   // centered in the other axis.
   function boxLayout (obj, horizontal) {
-    var padding = 5
-    var back = null
-    var stretch = null
-    var x = 0
-    var x0 = 0
-    var y = 0
-    var h = 0
-    var child
-    var opt
-    var m
-    var box
-    var i
-
-    if (obj.getAttribute('data-padding')) {
-      padding = parseInt(obj.getAttribute('data-padding'), 10)
-    }
+    var padding = 5,
+      back = null,
+      stretch = null,
+      x = 0,
+      x0 = 0,
+      y = 0,
+      h = 0,
+      child,
+      opt,
+      m,
+      box,
+      i
+    if (obj.getAttribute('data-padding')) { padding = parseInt(obj.getAttribute('data-padding'), 10) }
 
     for (i = 0; i < obj.childNodes.length; ++i) {
       child = obj.childNodes[i]
@@ -550,13 +558,12 @@ function setupCanvas (svgElement) {
   }
 
   function paletteLayout (obj) {
-    var child
-    var m
-    var box
-    var operands
-    var i
-    var x = 10
-
+    var child,
+      m,
+      box,
+      operands,
+      i,
+      x = 10
     for (i = 0; i < obj.childNodes.length; ++i) {
       child = obj.childNodes[i]
       if (child.nodeType === 1 && child.nodeName === 'g') {
@@ -564,7 +571,7 @@ function setupCanvas (svgElement) {
         m = getTransformToElement(child, obj)
         box = child.getBBox()
 
-        m.a = m.d = 50 / (0.1 + box.height)
+        m.a = m.d = 50 / Math.max(50, box.height)
         m.e = x - m.a * box.x
         m.f = 10 - box.y * m.a
         setTransform(child, m)
@@ -589,11 +596,10 @@ function setupCanvas (svgElement) {
 
   // Makes or removes a shadow below movable objects
   function setFloating (obj, doFloat) {
-    var oldShadow
-    var shadow
-    var back
-    var canMove = obj.getAttribute('data-ismovable') === 'true'
-
+    var oldShadow,
+      shadow,
+      back,
+      canMove = obj.getAttribute('data-ismovable') === 'true'
     if (canMove) {
       // the shadow is always the first child
       oldShadow = obj.childNodes[0]
@@ -682,8 +688,13 @@ function getTransformToElement (obj, target) {
     .multiply(obj.getScreenCTM())
 }
 
+function getCurrentValue () {
+  return algebra.getLastValue()
+}
+
 const TouchOp = {
-  setupCanvas: setupCanvas
+  setupCanvas: setupCanvas,
+  getCurrentValue: getCurrentValue
 }
 
 export default TouchOp

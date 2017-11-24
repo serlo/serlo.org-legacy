@@ -1,0 +1,202 @@
+<head>
+  <script src="../../../../node_modules/requirejs/require.js"></script>
+  <link rel="stylesheet" href="style.css"></head>
+  <script>
+  requirejs.config({
+      baseUrl : '../../../../',
+      paths: {
+          'math_puzzle'        : 'src/main/modules/serlo_math_puzzle/serlo_math_puzzle',
+          'math_puzzle_touchop': 'src/main/modules/serlo_math_puzzle/serlo_math_puzzle_touchop',
+          'math_puzzle_algebra': 'src/main/modules/serlo_math_puzzle/serlo_math_puzzle_algebra',
+          'jquery'             : 'node_modules/jquery/dist/jquery',
+          'd3'                 : 'node_modules/d3/d3',
+      }
+  })
+  require(["math_puzzle"], function(math_puzzle) {
+    var puzzles = document.querySelectorAll(".math-puzzle");
+    for (var i=0; i<puzzles.length; ++i) {
+        math_puzzle.makePuzzle(puzzles[i],
+            puzzles[i].getAttribute("data-source"));
+    }
+  })
+  require(["math_puzzle_algebra","jquery"], function(math_puzzle_algebra,$) {
+    var puzzles = document.querySelectorAll(".test");
+    for (var i=0; i<puzzles.length; ++i) {
+      var pass= math_puzzle_algebra.verify(puzzles[i]);
+      var expect= puzzles[i].getAttribute('data-expect');
+      if (JSON.stringify(pass)==expect) {
+        puzzles[i].setAttribute("class","test passed");
+      }
+      else {
+        puzzles[i].setAttribute("class","test failed");
+        $(puzzles[i]).append("<b>Got: " + math_puzzle_algebra.computeValue(puzzles[i]) + " instead of " + puzzles[i].firstElementChild.getAttribute('data-goal') + "</b>");
+      }
+    }
+  })
+  </script>
+  <style>
+    .test {
+      margin: 2px;
+      padding: 2px;
+    }
+    .passed { background-color: YellowGreen }
+    .failed { background-color: coral }
+    .math-puzzle {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="">
+    <h1>Solver tests</h1>
+    <!-- Konstante Terme -->
+
+    <div class="test" data-expect="true">
+      3 = 3
+      <div data-goal="3">
+        <div data-value="3"></div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      3 != 4
+      <div data-goal="4">
+        <div data-value="3"></div>
+      </div>
+    </div>
+
+    <!-- Plus Terme -->
+
+    <div class="test" data-expect="true">
+      1 + 1 = 2
+      <div data-goal="2">
+        <div data-value="#1 + #2">
+          <div data-value="1"></div>
+          <div data-value="1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Minus Terme -->
+
+    <div class="test" data-expect="true">
+      2 - 1 = 1
+      <div data-goal="1">
+        <div data-value="#1 - #2">
+          <div data-value="2"></div>
+          <div data-value="1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      4 - 1 != 2
+      <div data-goal="2">
+        <div data-value="#1 - #2">
+          <div data-value="4"></div>
+          <div data-value="1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Division Terme -->
+
+    <div class="test" data-expect="false">
+      4  :2 != 0.5
+      <div data-goal="0.5">
+        <div data-value="#1 : #2">
+          <div data-value="4"></div>
+          <div data-value="2"></div>
+        </div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      8 : 2 != 0.5
+      <div data-goal="0.5">
+        <div data-value="#1 : #2">
+          <div data-value="8"></div>
+          <div data-value="2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multiplikation Terme -->
+
+    <div class="test" data-expect="true">
+      2 * 2 = 4
+      <div data-goal="4">
+        <div data-value="#1 * #2">
+          <div data-value="2"></div>
+          <div data-value="2"></div>
+        </div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      2 * 8 != 14
+      <div data-goal="14">
+        <div data-value="#1 * #2">
+          <div data-value="2"></div>
+          <div data-value="8"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gemischte Operande Terme -->
+
+    <div class="test" data-expect="true">
+      (1 + 1) * 10 = 20
+      <div data-goal="20">
+        <div data-value="#1 * #2">
+          <div data-value="(#1 + #2)">
+            <div data-value="1"></div>
+            <div data-value="1"></div>
+          </div>
+          <div data-value="10"></div>
+        </div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      1 + 1 * 10 != 20
+      <div data-goal="20">
+        <div data-value="#1 * #2">
+          <div data-value="#1 + #2">
+            <div data-value="1"></div>
+            <div data-value="1"></div>
+          </div>
+          <div data-value="10"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variablen und Konstanten -->
+
+    <div class="test" data-expect="true">
+      x + 1 = x + 1
+      <div data-goal="$x + 1">
+        <div data-value="#1 + #2">
+          <div data-value="$x"></div>
+          <div data-value="1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      x + 3 != x + 1
+      <div data-goal="$x + 1">
+        <div data-value="#1 + #2">
+          <div data-value="$x"></div>
+          <div data-value="3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h1>Construction tests</h1>
+  <div class="math-puzzle" data-source="2 = 1 1 + | + 1 1" data-start='["+","1",1]'>
+      <div class="exercise">Build a formula that evaluates to two.</div>
+  </div>
+  <div class="math-puzzle" data-source="4 = 1 1 + | + * 1 2 2" data-start='["+","",1]'>
+      <div class="exercise">Build a formula that evaluates to two.</div>
+  </div>
+  <div class="math-puzzle" data-source="12 = | * - ^ 5 3 4 + 1 2" data-start='["*",["+","3",""],1]'>
+      <div class="exercise">Build a formula that evaluates to two.</div>
+  </div>
+
+</body>

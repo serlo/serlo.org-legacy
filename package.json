@@ -11,16 +11,16 @@
     "prebuild": "rimraf dist/",
     "build": "webpack --config webpack.config.prod -p",
     "commit": "git-cz",
-    "format":
-      "prettier-standard \"{src/**/*,*}.{js,jsx,ts,tsx,css,less,scss,json}\"",
+    "format": "prettier-standard \"{src/**/*,*}.{js,jsx,ts,tsx,css,less,scss,json}\"",
     "postformat": "prettier --write \"{src/**/*,*}.md\"",
     "lint": "standard \"{src/**/*,*}.js\" | snazzy",
-    "semantic-release":
-      "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "start": "webpack-dev-server --config webpack.config.dev",
     "test": "jest"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "algebra.js": "^0.2.6",
     "autosize": "^4.0.0",
