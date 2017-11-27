@@ -6,7 +6,8 @@ module.exports = {
   target: 'web',
   entry: {
     main: './src/main',
-    editor: './src/editor'
+    editor: './src/editor',
+    oryEditor: './src/ory-editor'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -21,7 +22,7 @@ module.exports = {
         loader: require.resolve('babel-loader')
       },
       {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         use: ExtractTextPlugin.extract({
           use: [
             {
