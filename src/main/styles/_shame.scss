@@ -70,17 +70,6 @@ img.license-intext {
   z-index: 120;
 }
 
-// Hack for anchored links and fixed page headers
-h1[id],
-h2[id],
-h3[id],
-h4[id],
-h5[id],
-h6[id] {
-  margin-top: -50px;
-  padding-top: 80px;
-}
-
 // Search help doesn't really help...
 #search-help {
   display: none !important;
@@ -101,19 +90,9 @@ svg {
 
 //change offset for inpage links because of sticky nav-bar
 .content {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  .h1,
-  .h2,
-  .h3,
-  .h4,
-  .h5,
-  .h6 {
-    &:before {
+  h1, h2, h3, h4, h5, h6,
+  .h1, .h2, .h3, .h4, .h5, .h6 {
+    &:target:before {
       display: block;
       content: ' ';
       margin-top: -50px;
