@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { map } from 'ramda'
+import { map, zipWith } from 'ramda'
 import Editor, { Editable, createEmptyState } from 'ory-editor-core'
+import { HTMLRenderer } from 'ory-editor-renderer'
 import 'ory-editor-core/lib/index.css' // we also want to load the stylesheets
 
 import { Trash, DisplayModeToggle, Toolbar } from 'ory-editor-ui'
@@ -21,30 +22,35 @@ import 'katex/dist/katex.min.css'
 
 require('react-tap-event-plugin')() // react-tap-event-plugin is required by material-ui which is used by ory-editor-ui so we need to call it here
 
-const content = map(
-  element => JSON.parse(element.getAttribute('data-raw-content')),
-  document.querySelectorAll('.rawData')
-)
-console.log(content)
-
-const editor = new Editor({
-  plugins: EditorPlugins,
-  // pass the content state - you can add multiple editables here
-  editables: [...content]
-})
-
 const elements = document.querySelectorAll('.editable')
-let i = 0
-for (const element of elements) {
-  ReactDOM.render(<Editable editor={editor} id={content[i].id} />, element)
-  i++
+const contents = map(element => JSON.parse(element.getAttribute('data-raw-content')), elements)
+
+zipWith((element, content) => {
+  ReactDOM.render(
+    <div className={'editable'} data-raw-content={JSON.stringify(content)}>
+      <HTMLRenderer state={content} plugins={EditorPlugins} />
+    </div>, element)
+}, elements, contents)
+
+const loadEditor = () => {
+  const editor = new Editor({
+    plugins: EditorPlugins,
+    editables: [...contents]
+  })
+  editor.trigger.mode.edit()
+
+  zipWith((element, content) => {
+    ReactDOM.render(<Editable editor={editor} id={content.id} />, element)
+  }, elements, contents)
+
+  ReactDOM.render(
+    <div>
+      <Trash editor={editor} />
+      <DisplayModeToggle editor={editor} />
+      <Toolbar editor={editor} />
+    </div>,
+    document.getElementById('controls')
+  )
 }
 
-ReactDOM.render(
-  <div>
-    <Trash editor={editor} />
-    <DisplayModeToggle editor={editor} />
-    <Toolbar editor={editor} />
-  </div>,
-  document.getElementById('controls')
-)
+export default loadEditor

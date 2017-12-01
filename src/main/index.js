@@ -40,6 +40,8 @@ import './modules/serlo_sortable_list'
 import './modules/serlo_toggle'
 import initTracking from './modules/serlo_tracking'
 import './modules/serlo_trigger'
+import loadEditor from '../ory-editor'
+
 // FIXME historyjs; not needed?
 
 import './styles/main.scss'
@@ -166,6 +168,7 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
+    $('.ory-edit-button', $context).click(loadEditor)
     // Dirty Hack for Course Pages Mobile
     if ($('.side-context-course').length > 0) {
       $('#content-layout').addClass('course-page')
