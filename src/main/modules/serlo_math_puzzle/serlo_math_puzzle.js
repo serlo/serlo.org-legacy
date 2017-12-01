@@ -8,9 +8,10 @@
 */
 
 import $  from 'jquery'
-import d3 from 'd3' 
+import d3 from 'd3'
 
 import touchop from './serlo_math_puzzle_touchop'
+import verify from './serlo_math_puzzle_algebra'
 
 
 // prevent unintended scrolling
@@ -20,10 +21,10 @@ function makePuzzle (parent, inputStr) {
   var emog,
     svg,
     redraw,
-    toggle,
+    toggle, toggleFullscreen,
     operatorNames,
     operatorParent,
-    i,
+    i, res,
     palette,
     solution
   var showResult = false
@@ -168,7 +169,7 @@ function addNamedOperator (operatorName, parent) {
 }
 
 function initializeStructure (array, parent) {
-  var g, ops
+  var g, ops, literals;
   g = addNamedOperator(array[0], parent)
   g.attr('data-frozen', true)
   ops = g.selectAll('.operand')
@@ -356,7 +357,8 @@ $.fn.MathPuzzle = function () {
     makePuzzle(this, $(this).data('source'))
   })
 }
+$.fn.MathPuzzleVerify = verify;
 
-const MathPuzzle = { makePuzzle: makePuzzle } 
+const MathPuzzle = { makePuzzle: makePuzzle }
 
 export default MathPuzzle

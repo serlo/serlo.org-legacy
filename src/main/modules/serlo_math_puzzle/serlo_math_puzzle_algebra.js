@@ -50,7 +50,7 @@ function computeValue (obj) {
 // verify whether the new object satisfies the winning test
 function verify (svg) {
   // extract the user created formula in json
-  var goal,
+  var goal, pass,
     obj   = svg.querySelector('[data-goal]'),
     value = computeValue(obj)
 
