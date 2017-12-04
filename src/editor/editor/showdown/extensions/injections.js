@@ -5,7 +5,7 @@
  * Transforms >[Title](injectionUrl)
  * into <div class="injection"><a href="injectionUrl" class="injection-link">Title</a></div>
  **/
-var injections = function (converter) {
+var injections = function () {
   var filter
   var findInjections = new RegExp(/>\[(.*)\]\((.*)\)/g)
 
@@ -59,7 +59,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.injections = injections
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = injections
-}
+
+export default injections

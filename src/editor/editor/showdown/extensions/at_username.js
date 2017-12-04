@@ -1,5 +1,5 @@
 /* global define */
-var atusername = function (converter) {
+var atusername = function () {
   return [
     // @username syntax
     {
@@ -40,7 +40,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.atusername = atusername
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = atusername
-}
+
+export default atusername

@@ -120,7 +120,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.latex = latex
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = latex
-}
+
+export default latex

@@ -1,6 +1,6 @@
 /* global define */
 /* Prepares Github Style Code */
-var codeoutput = function (converter) {
+var codeoutput = function () {
   return [
     {
       type: 'lang',
@@ -42,7 +42,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.codeoutput = codeoutput
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = codeoutput
-}
+
+export default codeoutput

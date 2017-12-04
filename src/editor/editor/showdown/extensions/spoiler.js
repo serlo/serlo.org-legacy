@@ -4,7 +4,7 @@
  * Spoilers:
  * Transforms ///.../// blocks into spoilers
  **/
-var spoiler = function (converter) {
+var spoiler = function () {
   var filter
   var findSpoilers = new RegExp(/^<p>=,sp. (.*)<\/p>([\s\S]*?)<p>=,sp.<\/p>/gm)
 
@@ -40,7 +40,4 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.spoiler = spoiler
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = spoiler
-}
+export default spoiler;

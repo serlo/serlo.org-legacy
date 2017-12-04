@@ -30,17 +30,17 @@ const port = 7071
 const host = '127.0.0.1'
 
 // Load custom extensions
-Showdown.extensions.serloinjections = serloinjections
-Showdown.extensions.serlotable = serlotable
-Showdown.extensions.serlospoilerprepare = serlospoilerprepare
-Showdown.extensions.serlospoiler = serlospoiler
-Showdown.extensions.serlolatex = serlolatex
-Showdown.extensions.serlolatexoutput = serlolatexoutput
-Showdown.extensions.serlohtmlstrip = serlohtmlstrip
-Showdown.extensions.serloatusername = serloatusername
-Showdown.extensions.serlostrikethrough = serlostrikethrough
-Showdown.extensions.serlocodeprepare = serlocodeprepare
-Showdown.extensions.serlocodeoutput = serlocodeoutput
+Showdown.extension('serloinjections', serloinjections)
+Showdown.extension('serlotable', serlotable)
+Showdown.extension('serlospoilerprepare', serlospoilerprepare)
+Showdown.extension('serlospoiler', serlospoiler)
+Showdown.extension('serlolatex', serlolatex)
+Showdown.extension('serlolatexoutput', serlolatexoutput)
+Showdown.extension('serlohtmlstrip', serlohtmlstrip)
+Showdown.extension('serloatusername', serloatusername)
+Showdown.extension('serlostrikethrough', serlostrikethrough)
+Showdown.extension('serlocodeprepare', serlocodeprepare)
+Showdown.extension('serlocodeoutput', serlocodeoutput)
 
 const markdownConverter = new Showdown.Converter({
   extensions: [

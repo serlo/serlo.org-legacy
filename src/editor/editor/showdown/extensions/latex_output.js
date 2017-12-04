@@ -54,7 +54,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.latexoutput = latexoutput
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = latexoutput
-}
+
+export default latexoutput

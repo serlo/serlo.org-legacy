@@ -26,7 +26,7 @@ var testAllowed = new RegExp('^(' + allowedTags.toLowerCase() + ')$')
 var findTags = /<(\/?)\s*([\w:-]+)([^>]*)>/g
 var findAttribs = /(\s*)([\w:-]+)\s*=\s*(?:(?:(["'])([^\3]+?)(?:\3))|([^\s]+))/g
 
-var htmlstrip = function (converter) {
+var htmlstrip = function () {
   var filter
 
   filter = function (text) {
@@ -141,7 +141,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.htmlstrip = htmlstrip
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = htmlstrip
-}
+
+export default htmlstrip

@@ -1,6 +1,6 @@
 /* global define */
 /* Prepares Github Style Code */
-var codeprepare = function (converter) {
+var codeprepare = function () {
   return [
     {
       type: 'lang',
@@ -55,7 +55,4 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.codeprepare = codeprepare
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = codeprepare
-}
+export default codeprepare

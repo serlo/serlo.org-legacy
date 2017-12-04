@@ -12,16 +12,17 @@
  * | Plain   | Value                                              |
  *
  */
-var table = function (converter) {
+var table = function () {
   var tables = {}
   var style = 'text-align:left;'
   var filter
+  var callbackConverter
 
   tables.th = function (header) {
-    return '<th style="' + style + '">' + converter.makeHtml(header) + '</th>'
+    return '<th style="' + style + '">' + callbackConverter.makeHtml(header) + '</th>'
   }
   tables.td = function (cell) {
-    return '<td style="' + style + '">' + converter.makeHtml(cell) + '</td>'
+    return '<td style="' + style + '">' + callbackConverter.makeHtml(cell) + '</td>'
   }
   tables.ths = function () {
     var out = ''
@@ -60,13 +61,15 @@ var table = function (converter) {
     out += '</tr>\n'
     return out
   }
-  filter = function (text) {
+  filter = function (text, converter) {
     var i = 0
     var lines = text.split('\n')
     var tbl = []
     var line
     var hs
     var out = []
+    callbackConverter = converter
+
     for (i; i < lines.length; i += 1) {
       line = lines[i]
       // looks like a table heading
@@ -127,7 +130,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.table = table
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = table
-}
+
+export default table

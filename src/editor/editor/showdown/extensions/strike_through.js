@@ -1,5 +1,5 @@
 /* global define */
-var strikethrough = function (converter) {
+var strikethrough = function () {
   return [
     {
       // strike-through
@@ -26,7 +26,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.strikethrough = strikethrough
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = strikethrough
-}
+
+export default strikethrough;
