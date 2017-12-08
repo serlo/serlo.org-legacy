@@ -16,11 +16,10 @@ function setupCanvas (svgElement) {
   // DnD frame work
   // hand is a reference to the object currently beeing dragged.
   var hand = null
-    // The screen coordinates of the last drag update.
+  // The screen coordinates of the last drag update.
   var startPos = [0, 0]
-  var hasMoved = false
   var justGrabbed = false
-    // position for long click action, after which the top group is selected
+  // position for long click action, after which the top group is selected
   var longClick = [0, 0]
 
   svgElement.parentNode.addEventListener('mousemove', msMove, {
@@ -113,7 +112,6 @@ function setupCanvas (svgElement) {
 
       // store mouse position. Will be updated when mouse moves.
       startPos = [evt.clientX, evt.clientY]
-      hasMoved = false
 
       // mark root after time out
       initLongClick(evt.clientX, evt.clientY)
@@ -164,18 +162,14 @@ function setupCanvas (svgElement) {
   function msMove (evt0) {
     if (hand && !hand.getAttribute('data-frozen')) {
       // compute relative mouse movements since last call
-      var dropTo,
-        current,
-        isTop,
-        thresh,
-        m
+      var dropTo, current, isTop, thresh, m
       var evt = translateTouch(evt0)
       var dx = evt.clientX - startPos[0]
       var dy = evt.clientY - startPos[1]
       var dist = Math.max(
-          Math.abs(dx / hand.getScreenCTM().a),
-          Math.abs(dy / hand.getScreenCTM().d)
-        )
+        Math.abs(dx / hand.getScreenCTM().a),
+        Math.abs(dy / hand.getScreenCTM().d)
+      )
 
       // long click action
       initLongClick(evt.clientX, evt.clientY)
@@ -203,7 +197,6 @@ function setupCanvas (svgElement) {
       if (dropTo) {
         // offset snap region
         if (dropTo !== hand.parentNode) startPos = [evt.clientX, evt.clientY]
-        hasMoved = true
 
         // insert grabbed object into mouse pointer target group
         setFloating(hand, false)
@@ -230,7 +223,6 @@ function setupCanvas (svgElement) {
 
           // offset snap region
           startPos = [evt.clientX, evt.clientY]
-          hasMoved = true
         }
       }
     }
@@ -239,9 +231,7 @@ function setupCanvas (svgElement) {
   // The object obj is inserted into a new group element target. Layouts are updated
   function moveToGroup (obj, target, x, y) {
     // move object from its current to the target container
-    var m,
-      p,
-      svg
+    var m, p
     var oldContainer = obj.parentNode
     try {
       target.appendChild(obj)
@@ -269,7 +259,6 @@ function setupCanvas (svgElement) {
       layout(target)
     }
 
-    svg = obj
     algebra.verify(svgElement)
   }
 
@@ -303,9 +292,7 @@ function setupCanvas (svgElement) {
 
   // Transform element and all containing groups to hold new content
   function layout (element) {
-    var ctm2,
-      w,
-      m
+    var ctm2, w, m
     var obj = element
     var top = null
     var ctm1 = obj.getCTM()
@@ -352,14 +339,7 @@ function setupCanvas (svgElement) {
   // this function inserts parenthesis to ensure syntactic correctness
   function insertParenthesis (obj) {
     // check if object has priority attribute
-    var child,
-      next,
-      subPrio,
-      lpar,
-      rpar,
-      cbox,
-      parbox,
-      scale
+    var child, next, subPrio, lpar, rpar, cbox, parbox, scale
     var myPrio = obj.getAttribute('data-priority')
     if (myPrio) {
       // myPrio is the operations priority
@@ -405,8 +385,7 @@ function setupCanvas (svgElement) {
   // get an operator's mathematical priority to determine
   // whether parenthesis are required.
   function getPriority (obj) {
-    var i,
-      child
+    var i, child
     var prio = obj.getAttribute('data-priority')
     if (prio) {
       return parseInt(prio, 10)
@@ -425,11 +404,7 @@ function setupCanvas (svgElement) {
   // Layouts the content centered to its first child element
   // Creates a snap-in like effect what dropping operands
   function snap (obj) {
-    var child,
-      m,
-      box1,
-      box2,
-      i
+    var child, m, box1, box2, i
     var back = null
     var blocked = false
     for (i = 0; i < obj.childNodes.length; ++i) {
@@ -478,18 +453,14 @@ function setupCanvas (svgElement) {
   // Layouts all child objects sequentially in one axis,
   // centered in the other axis.
   function boxLayout (obj, horizontal) {
-    var child,
-      opt,
-      m,
-      box,
-      i
+    var child, opt, m, box, i
     var padding = 5
     var back = null
     var stretch = null
     var x = 0
     var x0 = 0
     var y = 0
-    var h = 0 
+    var h = 0
     if (obj.getAttribute('data-padding')) {
       padding = parseInt(obj.getAttribute('data-padding'), 10)
     }
@@ -566,11 +537,7 @@ function setupCanvas (svgElement) {
   }
 
   function paletteLayout (obj) {
-    var child,
-      m,
-      box,
-      operands,
-      i
+    var child, m, box, operands, i
     var x = 10
     for (i = 0; i < obj.childNodes.length; ++i) {
       child = obj.childNodes[i]
@@ -604,9 +571,7 @@ function setupCanvas (svgElement) {
 
   // Makes or removes a shadow below movable objects
   function setFloating (obj, doFloat) {
-    var oldShadow,
-      shadow,
-      back
+    var oldShadow, shadow, back
     var canMove = obj.getAttribute('data-ismovable') === 'true'
     if (canMove) {
       // the shadow is always the first child

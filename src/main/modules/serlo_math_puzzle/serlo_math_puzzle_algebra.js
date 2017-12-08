@@ -74,12 +74,7 @@ function verify (svg) {
 // compare two alebraic expressions
 function isEquivalent (value, goal) {
   // check for free variables
-  var tries,
-    context,
-    value1,
-    value2,
-    i,
-    j
+  var tries, context, value1, value2, i, j
   var vars = (goal + value).match(/\$[a-zA-Z][a-z0-9.]*/g) || []
 
   try {

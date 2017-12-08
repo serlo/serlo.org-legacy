@@ -46,7 +46,7 @@ function makePuzzle (parent, inputStr) {
     .attr('class', 'end-result') */
 
   // fullscreen logic
-  var fullscreen = undefined
+  var fullscreen
   toggleFullscreen = function () {
     fullscreen = fullscreen ? undefined : parent
     redraw()
