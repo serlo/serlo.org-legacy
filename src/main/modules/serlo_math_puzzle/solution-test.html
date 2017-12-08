@@ -7,8 +7,7 @@
     window.onload = function() {
       var puzzles = document.querySelectorAll(".math-puzzle");
       for (var i=0; i<puzzles.length; ++i) {
-          $(puzzles[i]).MathPuzzle(puzzles[i],
-            puzzles[i].getAttribute("data-source"));
+          $(puzzles[i]).MathPuzzle();
       }
       var puzzles = document.querySelectorAll(".test");
       for (var i=0; i<puzzles.length; ++i) {
