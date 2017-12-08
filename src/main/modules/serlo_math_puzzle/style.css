@@ -1,132 +1,133 @@
 .math-puzzle {
-    margin: 5px 0;
-    overflow: hidden;
-    background-color: white;
-    outline: rgba(0,0,0,0.8) solid 1px;
-    position: relative;
+  margin: 5px 0;
+  overflow: hidden;
+  background-color: white;
+  outline: rgba(0, 0, 0, 0.8) solid 1px;
+  position: relative;
 }
 .exercise {
-    margin: 10px 130px -210px 10px;
-    height: 200px;
-    overflow : hidden;
+  margin: 10px 130px -210px 10px;
+  height: 200px;
+  overflow: hidden;
 }
 .status {
-    height : 20px;
-    width: 20px;
-    margin-bottom: -20px;
-    float:right;
-    background-color: black;
-    cursor: pointer;
-    position: relative;
-    z-index: 10;
-    display: none;
+  height: 20px;
+  width: 20px;
+  margin-bottom: -20px;
+  float: right;
+  background-color: black;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  display: none;
 }
 .fullscreen .status {
-    display: inline;
+  display: inline;
 }
-@media (max-width: 768px){
-    .status {
-        display: inline;
-    }
+@media (max-width: 768px) {
+  .status {
+    display: inline;
+  }
 }
 
 text {
-    font-size: 48px;
+  font-size: 48px;
 }
 .atom {
-    text-anchor: middle;
+  text-anchor: middle;
 }
-[data-goal] .background, .palette .background {
-    /*fill: deepskyblue; Philipp*/
-    fill:#428bca;
-    stroke-width: 1;
+[data-goal] .background,
+.palette .background {
+  /*fill: deepskyblue; Philipp*/
+  fill: #428bca;
+  stroke-width: 1;
 }
 .background {
-    fill : lightgray;
-    stroke: rgba(0,0,0,0.2);
+  fill: lightgray;
+  stroke: rgba(0, 0, 0, 0.2);
 }
 
 .operand > .background {
-    fill: #ffffe0;
-    stroke: black;
+  fill: #ffffe0;
+  stroke: black;
 }
 
 .grabbed [data-goal].operand > .background,
 .grabbed [data-goal] .operand > .background {
-    fill: #d9edf7;
-    stroke-width: 4;
-    stroke : black;
+  fill: #d9edf7;
+  stroke-width: 4;
+  stroke: black;
 }
 
-[data-ismovable=true] {
-    cursor: pointer;
+[data-ismovable='true'] {
+  cursor: pointer;
 }
 
 .shadow {
-    fill: black;
-    opacity: 0.4;
+  fill: black;
+  opacity: 0.4;
 }
 
 #plotpath {
-    fill: none;
-    stroke: blue;
-    stroke-width: 3px;
+  fill: none;
+  stroke: blue;
+  stroke-width: 3px;
 }
 
 path.axes {
-    fill: none;
-    stroke: black;
-    stroke-width: 0.5px;
+  fill: none;
+  stroke: black;
+  stroke-width: 0.5px;
 }
 
 circle.graph {
-    fill: navy;
-    stroke: #000000;
-    opacity: 0.9;
-    stroke-width: 1px;
+  fill: navy;
+  stroke: #000000;
+  opacity: 0.9;
+  stroke-width: 1px;
 }
 
 rect.canvas {
-    fill: none;
-    stroke: #000000;
-    stroke-width: 1px;
+  fill: none;
+  stroke: #000000;
+  stroke-width: 1px;
 }
 
 text.axes {
-    font-size: 10pt;
-    text-anchor: middle;
+  font-size: 10pt;
+  text-anchor: middle;
 }
 
 #turtle {
-    fill: red;
-    stroke: #000000;
-    stroke-width: 1px;
+  fill: red;
+  stroke: #000000;
+  stroke-width: 1px;
 }
 
 .move {
-    fill:white;
-    stroke:black;
-    stroke-width:2;
-    opacity: 0.5;
-    pointer-events:none;
+  fill: white;
+  stroke: black;
+  stroke-width: 2;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .palette rect {
-    fill: #d9edf7;
+  fill: #d9edf7;
 }
 
 .solved [data-goal] .background {
-    fill:#95bc1a;
+  fill: #95bc1a;
 }
 
 .end-result {
-    height: 30px;
-    width: 85px;
-    display: block;
-    position: absolute;
-    top: 90%;
-    margin-top: -50px;
-    right: 5px;
-    line-height: 30px;
-    font-size: 1.3em;
+  height: 30px;
+  width: 85px;
+  display: block;
+  position: absolute;
+  top: 90%;
+  margin-top: -50px;
+  right: 5px;
+  line-height: 30px;
+  font-size: 1.3em;
 }

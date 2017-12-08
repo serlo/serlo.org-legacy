@@ -1,30 +1,29 @@
 /**
-*
-* Interactive Mathematical Puzzles
-*
-* @author  Stefan Dirnstorfer
-* @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
-* @link        https://github.com/serlo-org/athene2 for the canonical source repository
-*/
+ *
+ * Interactive Mathematical Puzzles
+ *
+ * @author  Stefan Dirnstorfer
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link        https://github.com/serlo-org/athene2 for the canonical source repository
+ */
 
-import $  from 'jquery'
+import $ from 'jquery'
 import d3 from 'd3'
 
 import touchop from './serlo_math_puzzle_touchop'
 import verify from './serlo_math_puzzle_algebra'
 
-
 // prevent unintended scrolling
-var fullscreen = undefined
+// var fullscreen = undefined
 
 function makePuzzle (parent, inputStr) {
   var emog,
     svg,
     redraw,
-    toggle, toggleFullscreen,
+    toggleFullscreen,
     operatorNames,
     operatorParent,
-    i, res,
+    i,
     palette,
     solution
   var showResult = false
@@ -44,14 +43,14 @@ function makePuzzle (parent, inputStr) {
     .attr('width', '100%')
     .attr('viewBox', '0 0 600 400')
 
-  res = d3
+  /* var res = d3
     .select(parent)
     .append('div')
-    .attr('class', 'end-result')
+    .attr('class', 'end-result') */
 
   // fullscreen logic
   toggleFullscreen = function () {
-    fullscreen = fullscreen ? undefined : parent
+    var fullscreen = undefined || parent
     redraw()
   }
 
@@ -61,10 +60,10 @@ function makePuzzle (parent, inputStr) {
     window.dispatchEvent(evt)
   }
   window.addEventListener('resize', function () {
-    if (fullscreen == parent) {
-      var windowWidth = d3.select('body').node().offsetWidth,
-        width = Math.min(windowWidth - 20, 3 / 2 * (window.innerHeight - 20)),
-        height = Math.min(window.innerHeight - 20, 2 / 3 * (windowWidth - 20))
+    if (fullscreen === parent) {
+      var windowWidth = d3.select('body').node().offsetWidth
+      var width = Math.min(windowWidth - 20, 3 / 2 * (window.innerHeight - 20))
+      var height = Math.min(window.innerHeight - 20, 2 / 3 * (windowWidth - 20))
       d3
         .select(parent)
         .classed('fullscreen', true)
@@ -125,7 +124,9 @@ function makePuzzle (parent, inputStr) {
   // TODO split('|') data
   /* if (startStructure)
         initializeStructure(JSON.parse(startStructure), solution); */
-  if (startStructureStr) { initializeStructure(parse_pn(startStructureStr), solution) }
+  if (startStructureStr) {
+    initializeStructure(parsePn(startStructureStr), solution)
+  }
 
   if (showResult) {
     svg.on('mouseover', function () {
@@ -163,19 +164,25 @@ function addNamedOperator (operatorName, parent) {
       return addAtom(parent, 'Math.PI', '\u03C0')
     default:
       if (operatorName.match(/[0-9.]+/)) return addAtom(parent, operatorName)
-      if (operatorName.match(/^\$.*/)) { return addAtom(parent, operatorName, operatorName.substring(1)) }
+      if (operatorName.match(/^\$.*/)) {
+        return addAtom(parent, operatorName, operatorName.substring(1))
+      }
       break
   }
 }
 
 function initializeStructure (array, parent) {
-  var g, ops, literals;
+  var g, ops, literals
   g = addNamedOperator(array[0], parent)
   g.attr('data-frozen', true)
   ops = g.selectAll('.operand')
   ops.attr('data-frozen', true)
   ops.each(function (x, i) {
-    if (array[i + 1].constructor == Array) { initializeStructure(array[i + 1], d3.select(this)) } else if (array[i + 1] !== '#') { addNamedOperator(array[i + 1].toString(), d3.select(this)) }
+    if (array[i + 1].constructor === Array) {
+      initializeStructure(array[i + 1], d3.select(this))
+    } else if (array[i + 1] !== '#') {
+      addNamedOperator(array[i + 1].toString(), d3.select(this))
+    }
   })
 
   literals = g.selectAll('.atom')
@@ -183,7 +190,7 @@ function initializeStructure (array, parent) {
 }
 
 // Parse polish notation String into start_structure JSON
-function parse_pn (string) {
+function parsePn (string) {
   return string
     .split(' ')
     .reverse()
@@ -191,8 +198,8 @@ function parse_pn (string) {
       return x
     })
     .reduce((stack, value) => {
-      var is_operator = value.match(/[+*/^-]/)
-      if (is_operator) {
+      var isOperator = value.match(/[+*/^-]/)
+      if (isOperator) {
         stack.push([value, stack.pop(), stack.pop()])
       } else {
         stack.push(value)
@@ -357,7 +364,7 @@ $.fn.MathPuzzle = function () {
     makePuzzle(this, $(this).data('source'))
   })
 }
-$.fn.MathPuzzleVerify = verify;
+$.fn.MathPuzzleVerify = verify
 
 const MathPuzzle = { makePuzzle: makePuzzle }
 

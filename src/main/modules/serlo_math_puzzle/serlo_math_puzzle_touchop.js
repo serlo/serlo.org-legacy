@@ -1,29 +1,27 @@
 /**
-*
-* Interactive Mathematical Puzzles
-*
-* @author  Stefan Dirnstorfer
-* @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
-* @link        https://github.com/serlo-org/athene2 for the canonical source repository
-*/
+ *
+ * Interactive Mathematical Puzzles
+ *
+ * @author  Stefan Dirnstorfer
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link        https://github.com/serlo-org/athene2 for the canonical source repository
+ */
 
 import d3 from 'd3'
 
 import algebra from './serlo_math_puzzle_algebra'
 
-'use strict'
-
 // setup event listeners for the svg canvas
 function setupCanvas (svgElement) {
   // DnD frame work
   // hand is a reference to the object currently beeing dragged.
-  var hand = null,
+  var hand = null
     // The screen coordinates of the last drag update.
-    startPos = [0, 0],
-    hasMoved = false,
-    justGrabbed = false,
+  var startPos = [0, 0]
+  var hasMoved = false
+  var justGrabbed = false
     // position for long click action, after which the top group is selected
-    longClick = [0, 0]
+  var longClick = [0, 0]
 
   svgElement.parentNode.addEventListener('mousemove', msMove, {
     passive: false
@@ -46,9 +44,9 @@ function setupCanvas (svgElement) {
   // setup event listeners for an element. This function is called
   // when an element is moved out of the palette
   function grabElement () {
-    var elt = d3.event.currentTarget,
-      container = elt.parentElement,
-      containerId = container.getAttribute('data-container-id')
+    var elt = d3.event.currentTarget
+    var container = elt.parentElement
+    var containerId = container.getAttribute('data-container-id')
 
     if (containerId) {
       d3
@@ -102,8 +100,8 @@ function setupCanvas (svgElement) {
 
   // msDown is called whenever the mouse button is pressed anywhere on the root document.
   function msDown (evt0) {
-    var evt = translateTouch(evt0),
-      grabbed = evt.target
+    var evt = translateTouch(evt0)
+    var grabbed = evt.target
 
     if (!hand && evt.target) {
       // find signaling object
@@ -119,14 +117,18 @@ function setupCanvas (svgElement) {
 
       // mark root after time out
       initLongClick(evt.clientX, evt.clientY)
-      if (document.activeElement && document.activeElement.blur) { document.activeElement.blur() }
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur()
+      }
     }
   }
 
   // Mouse clicked on the background
   function msBlur (evt) {
     if (!evt.touches) evt.preventDefault()
-    if (document.activeElement && document.activeElement.blur) { document.activeElement.blur() }
+    if (document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur()
+    }
     return false
   }
 
@@ -166,11 +168,11 @@ function setupCanvas (svgElement) {
         current,
         isTop,
         thresh,
-        m,
-        evt = translateTouch(evt0),
-        dx = evt.clientX - startPos[0],
-        dy = evt.clientY - startPos[1],
-        dist = Math.max(
+        m
+      var evt = translateTouch(evt0)
+      var dx = evt.clientX - startPos[0]
+      var dy = evt.clientY - startPos[1]
+      var dist = Math.max(
           Math.abs(dx / hand.getScreenCTM().a),
           Math.abs(dy / hand.getScreenCTM().d)
         )
@@ -189,8 +191,12 @@ function setupCanvas (svgElement) {
           current.getAttribute('class') === 'operand' &&
           (current.getAttribute('blocked') !== 'true' ||
             current === hand.parentNode)
-        ) { dropTo = current }
-        if (current.getAttribute('class') === 'palette') { hand.setAttribute('opacity', 0.5) }
+        ) {
+          dropTo = current
+        }
+        if (current.getAttribute('class') === 'palette') {
+          hand.setAttribute('opacity', 0.5)
+        }
         if (current === hand) dropTo = undefined
         current = current.parentNode
       }
@@ -235,8 +241,8 @@ function setupCanvas (svgElement) {
     // move object from its current to the target container
     var m,
       p,
-      svg,
-      oldContainer = obj.parentNode
+      svg
+    var oldContainer = obj.parentNode
     try {
       target.appendChild(obj)
     } catch (e) {
@@ -299,10 +305,10 @@ function setupCanvas (svgElement) {
   function layout (element) {
     var ctm2,
       w,
-      m,
-      obj = element,
-      top = null,
-      ctm1 = obj.getCTM()
+      m
+    var obj = element
+    var top = null
+    var ctm1 = obj.getCTM()
     do {
       innerLayout(obj)
       if (obj.getAttribute('data-layout')) {
@@ -353,8 +359,8 @@ function setupCanvas (svgElement) {
       rpar,
       cbox,
       parbox,
-      scale,
-      myPrio = obj.getAttribute('data-priority')
+      scale
+    var myPrio = obj.getAttribute('data-priority')
     if (myPrio) {
       // myPrio is the operations priority
       myPrio = parseInt(myPrio, 10)
@@ -400,8 +406,8 @@ function setupCanvas (svgElement) {
   // whether parenthesis are required.
   function getPriority (obj) {
     var i,
-      child,
-      prio = obj.getAttribute('data-priority')
+      child
+    var prio = obj.getAttribute('data-priority')
     if (prio) {
       return parseInt(prio, 10)
     } else {
@@ -423,9 +429,9 @@ function setupCanvas (svgElement) {
       m,
       box1,
       box2,
-      i,
-      back = null,
-      blocked = false
+      i
+    var back = null
+    var blocked = false
     for (i = 0; i < obj.childNodes.length; ++i) {
       child = obj.childNodes[i]
       if (child.nodeType === 1) {
@@ -472,19 +478,21 @@ function setupCanvas (svgElement) {
   // Layouts all child objects sequentially in one axis,
   // centered in the other axis.
   function boxLayout (obj, horizontal) {
-    var padding = 5,
-      back = null,
-      stretch = null,
-      x = 0,
-      x0 = 0,
-      y = 0,
-      h = 0,
-      child,
+    var child,
       opt,
       m,
       box,
       i
-    if (obj.getAttribute('data-padding')) { padding = parseInt(obj.getAttribute('data-padding'), 10) }
+    var padding = 5
+    var back = null
+    var stretch = null
+    var x = 0
+    var x0 = 0
+    var y = 0
+    var h = 0 
+    if (obj.getAttribute('data-padding')) {
+      padding = parseInt(obj.getAttribute('data-padding'), 10)
+    }
 
     for (i = 0; i < obj.childNodes.length; ++i) {
       child = obj.childNodes[i]
@@ -562,8 +570,8 @@ function setupCanvas (svgElement) {
       m,
       box,
       operands,
-      i,
-      x = 10
+      i
+    var x = 10
     for (i = 0; i < obj.childNodes.length; ++i) {
       child = obj.childNodes[i]
       if (child.nodeType === 1 && child.nodeName === 'g') {
@@ -598,8 +606,8 @@ function setupCanvas (svgElement) {
   function setFloating (obj, doFloat) {
     var oldShadow,
       shadow,
-      back,
-      canMove = obj.getAttribute('data-ismovable') === 'true'
+      back
+    var canMove = obj.getAttribute('data-ismovable') === 'true'
     if (canMove) {
       // the shadow is always the first child
       oldShadow = obj.childNodes[0]

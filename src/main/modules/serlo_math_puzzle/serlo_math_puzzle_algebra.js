@@ -1,12 +1,12 @@
 /**
-*
-* Interactive Mathematical Puzzles
-* Check validity of algebraic answers
-*
-* @author  Stefan Dirnstorfer
-* @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
-* @link        https://github.com/serlo-org/athene2 for the canonical source repository
-*/
+ *
+ * Interactive Mathematical Puzzles
+ * Check validity of algebraic answers
+ *
+ * @author  Stefan Dirnstorfer
+ * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
+ * @link        https://github.com/serlo-org/athene2 for the canonical source repository
+ */
 var currentValue = 0
 // Exactract the formula for the user created value.
 function computeValue (obj) {
@@ -50,9 +50,9 @@ function computeValue (obj) {
 // verify whether the new object satisfies the winning test
 function verify (svg) {
   // extract the user created formula in json
-  var goal, pass,
-    obj   = svg.querySelector('[data-goal]'),
-    value = computeValue(obj)
+  var goal, pass
+  var obj = svg.querySelector('[data-goal]')
+  var value = computeValue(obj)
 
   if (value && value.indexOf('$') < 0 && value.indexOf('#') < 0) {
     currentValue = value
@@ -79,8 +79,8 @@ function isEquivalent (value, goal) {
     value1,
     value2,
     i,
-    j,
-    vars = (goal + value).match(/\$[a-zA-Z][a-z0-9.]*/g) || []
+    j
+  var vars = (goal + value).match(/\$[a-zA-Z][a-z0-9.]*/g) || []
 
   try {
     tries = 1 + 10 * vars.length
@@ -102,8 +102,8 @@ function isEquivalent (value, goal) {
 
 // sets the oppacitiy to show either of the two similies
 function smile (svg, win) {
-  var oldstyle = svg.parentNode.getAttribute('class'),
-    newstyle = oldstyle.replace(/ solved/, '')
+  var oldstyle = svg.parentNode.getAttribute('class')
+  var newstyle = oldstyle.replace(/ solved/, '')
   if (win) newstyle = newstyle + ' solved'
   svg.parentNode.setAttribute('class', newstyle)
 }
