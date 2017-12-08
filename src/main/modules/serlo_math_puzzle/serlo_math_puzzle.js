@@ -13,9 +13,6 @@ import d3 from 'd3'
 import touchop from './serlo_math_puzzle_touchop'
 import verify from './serlo_math_puzzle_algebra'
 
-// prevent unintended scrolling
-// var fullscreen = undefined
-
 function makePuzzle (parent, inputStr) {
   var emog,
     svg,
@@ -49,8 +46,9 @@ function makePuzzle (parent, inputStr) {
     .attr('class', 'end-result') */
 
   // fullscreen logic
+  var fullscreen = undefined
   toggleFullscreen = function () {
-    var fullscreen = undefined || parent
+    fullscreen = fullscreen ? undefined : parent
     redraw()
   }
 
