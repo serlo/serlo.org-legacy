@@ -25,7 +25,7 @@ var ggbCompiledAppletsLoaded = false
  *              E.g.: {"is3D":false,"AV":false,"SV":false,"CV":false,"EV2":false,"CP":false,"PC":false,"DA":false,"FI":false,"PV":false,"macro":false};
  * @param html5NoWebSimple Set to true to avoid using web Simple for simple html5 applets. In this case the full version is used always.
  */
-var GGBApplet = function() {
+window.GGBApplet = function() {
   'use strict'
   var applet = {}
 
