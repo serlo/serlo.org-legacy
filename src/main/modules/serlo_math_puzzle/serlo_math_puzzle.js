@@ -31,7 +31,7 @@ function makePuzzle (parent, inputStr) {
   emog = d3
     .select(parent)
     .append('div')
-    .attr('class', 'status')
+    .attr('class', 'fullscreen-toggle')
 
   // svg canvas
   svg = d3
