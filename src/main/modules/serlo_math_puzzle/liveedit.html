@@ -1,0 +1,66 @@
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <script src="http://localhost:8080/commons.js"></script>
+  <script src="http://localhost:8080/main.js"></script>
+  <script>
+    window.onload = function() {
+      var puzzle= document.getElementById('math-puzzle');
+      var input= document.getElementById('puzzle-source');
+      var desc= document.getElementById('description');
+      var select= document.getElementById('select');
+      $(puzzle).MathPuzzle(puzzle, input.value);
+      input.addEventListener('input', refresh);
+      desc.addEventListener('input', function(evt) {
+          document.getElementById('exercise').innerHTML= desc.value;
+        })
+      select.addEventListener('change', function(evt) {
+          input.value= select.value;
+          refresh();
+        });
+      function refresh() {
+        var remove= puzzle.querySelectorAll(':not(#exercise)');
+        for (var i=0; i<remove.length; ++i)
+          remove[i].remove();
+        try {
+          $(puzzle).find('svg').remove();
+          $(puzzle).data('source', input.value);
+          $(puzzle).MathPuzzle();
+          input.removeAttribute('invalid')
+        } catch(e) {
+          input.setAttribute('invalid', 'invalid')
+        }
+      }
+    };
+  </script>
+</head>
+<style>
+  input[invalid] { background-color: lightcoral }
+  input,textarea { padding: 2px }
+</style>
+<body style="width:80%;margin-left:10%" id="page">
+    <div class="main" style="position:relative">
+        <h1>Math Puzzle Prototyping</h1>
+        <p>
+          Puzzle source:<br/>
+          <input id="puzzle-source" style="width:70%;padding:2px" value="2 = 1 1 +"></input>
+          <select id="select" style="width:28%">
+            <option value="2 = 1 1 +">2 = 1 1 +</option>
+            <option value="4 = 1 2 2 ^">4 with power</option>
+            <option value="12 = 1 2 3 1 2 3 + + + * | + # #">12</option>
+            <option value="$x+1 = 1 2 3 + $x $y">x+1</option>
+            <option value="2/$x = 1 2 3 $x * / ^">2/x</option>
+            <option value="$a*$b*Math.pow($x, $b-1) = 1 $a $b $x - * ^">a b x^(b-1)</option>
+            <option value="$x+2 = 1 2 4 $x + - *">x+2</option>
+          </select>
+        </p>
+        <p>
+          Puzzle description:<br/>
+          <textarea id="description" style="width:100%">Problem description</textarea>
+        </p>
+        <div id="math-puzzle" class="math-puzzle" data-source="2 = 1 1 +">
+            <div class="exercise" id="exercise">Problem description</div>
+        </div>
+    </div>
+</body>
+</html>

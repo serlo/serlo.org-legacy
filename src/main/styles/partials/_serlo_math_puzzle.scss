@@ -10,26 +10,40 @@
     overflow: hidden;
   }
 
-  .status {
+  &.solved [data-goal] .background {
+    fill: #95bc1a;
+  }
+
+  .fullscreen-toggle {
     height: 80px;
     width: 130px;
     float: right;
     margin: 5px 5px -85px 0;
-    background-image: url('../../../images/puzzle_status.svg');
+    // TODO fix this: url('../../../images/puzzle_status.svg');
+    background-image: url('https://package-registry.serlo.org/athene2-assets@0/b1c16459e37b11d84a559dadf034d968.svg');
     background-size: 130px 320px;
     background-position: right 0;
     cursor: pointer;
     position: relative;
+    display: none;
     z-index: 10;
   }
-  &.open .status {
+  &.fullscreen .fullscreen-toggle {
     background-position: right -80px;
   }
-  &.open.solved .status {
+  &.fullscreen.solved .fullscreen-toggle {
     background-position: right -155px;
   }
-  &.solved .status {
+  &.solved .fullscreen-toggle {
     background-position: right -235px;
+  }
+  &.fullscreen .fullscreen-toggle {
+    display: inline;
+  }
+  @media (max-width: 768px) {
+    .fullscreen-toggle {
+      display: inline;
+    }
   }
 
   text {
@@ -55,9 +69,9 @@
 
   .grabbed [data-goal].operand > .background,
   .grabbed [data-goal] .operand > .background {
-    fill: yellowgreen;
-    stroke-width: 2;
-    stroke: darkgreen;
+    fill: #d9edf7;
+    stroke-width: 4;
+    stroke: black;
   }
 
   [data-ismovable='true'] {
