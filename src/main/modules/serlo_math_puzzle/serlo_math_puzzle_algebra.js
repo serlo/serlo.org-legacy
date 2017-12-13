@@ -84,7 +84,9 @@ function isEquivalent (value, goal) {
       for (j = 0; j < vars.length; ++j) {
         if (!vars[j].match(/\./)) context[vars[j]] = Math.random() * 6 - 3
       }
+      // eslint-disable-next-line no-eval
       value1 = eval(value.replace(/\$/g, 'context.$'))
+      // eslint-disable-next-line no-eval
       value2 = eval(goal.replace(/\$/g, 'context.$'))
       if (isNaN(value1) !== isNaN(value2)) return false
       if (!isNaN(value1) && Math.abs(value1 - value2) > 1e-10) return false
@@ -104,6 +106,7 @@ function smile (svg, win) {
 }
 
 function getLastValue () {
+  // eslint-disable-next-line no-eval
   return eval(currentValue)
 }
 
