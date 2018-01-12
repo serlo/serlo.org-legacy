@@ -14,12 +14,12 @@ import video from 'ory-editor-plugins-video'
 import parallax from 'ory-editor-plugins-parallax-background'
 import injection from './components/plugins/content/injection'
 import geogebra from './components/plugins/content/geogebra'
-
+import spoiler from './components/plugins/layout/spoiler'
 const slate = slateFactory([...defaultSlatePlugins, new KatexPlugin({ P })])
 // slate.unserialize = slateUnserialize
 // slate.serialize = slateSerialize
 
 export default {
   content: [slate, image, injection, geogebra],
-  layout: []
+  layout: [spoiler({ defaultPlugin: slate })]
 }

@@ -168,7 +168,18 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
-    $('.ory-edit-button', $context).click(loadEditor)
+    $('.ory-edit-button.is-edit', $context).click(() => {
+      $(this).removeClass('is-edit').addClass('is-save')
+      $('.ory-edit-button > .fa').removeClass('fa-pencil').addClass('fa-floppy-o')
+      loadEditor()
+    })
+    $('.ory-edit-button.is-save', $context).click(() => {
+      $(this).removeClass('is-save').addClass('is-edit')
+      $('.ory-edit-button > .fa').removeClass('fa-floppy-o').addClass('fa-pencil')
+      console.log('save...')
+
+    })
+
     // Dirty Hack for Course Pages Mobile
     if ($('.side-context-course').length > 0) {
       $('#content-layout').addClass('course-page')

@@ -20,8 +20,7 @@
       "semantic-release pre && npm publish && semantic-release post",
     "start": "webpack-dev-server --config webpack.config.dev",
     "test": "jest",
-    "server":
-      "nodemon -w src/ory-editor --exec \"babel-node src/ory-editor/server.js\""
+    "server": "nodemon -w src/ory-editor --exec \"babel-node src/ory-editor/server.js\""
   },
   "files": ["dist"],
   "dependencies": {

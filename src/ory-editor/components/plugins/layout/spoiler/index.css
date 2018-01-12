@@ -1,0 +1,30 @@
+.spoiler {
+  margin-top: 12px;
+  margin-bottom: 20px;
+
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.spoiler-title {
+  cursor: pointer;
+  position: relative;
+  padding: 10px 15px 10px 40px;
+
+  color: #333;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+  border-top-right-radius: 1px;
+  border-top-left-radius: 1px;
+}
+
+.spoiler-title .fa {
+  position: absolute;
+  top:      13px;
+  left:     15px;
+}
+
+.spoiler-content {
+  padding: 15px;
+}

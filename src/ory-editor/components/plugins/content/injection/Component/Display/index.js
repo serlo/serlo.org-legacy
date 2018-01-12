@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import debounce from 'lodash.debounce'
+import $ from 'jquery'
 import request from 'superagent'
 // import ImageIcon from 'material-ui/svg-icons/image/panorama'
 
@@ -7,10 +8,10 @@ class Display extends Component {
   constructor (props) {
     super(props)
     this.createRequest = debounce(this.createRequest, 500)
-  }
 
-  state = {
-    loaded: null
+    this.state = {
+      loaded: null
+    }
   }
 
   componentDidMount () {
@@ -19,17 +20,36 @@ class Display extends Component {
     }
   }
 
+
+  // Corrects relative urls with missing leading slash
+  correctUrl (url) {
+    url = url.split('/')
+    // Url does start with http
+    if (url[0] === 'http:' || url[0] === 'https:') {
+      // is invalid for injections, but do nothing
+      return url.join('/')
+    }
+
+    // first item is empty, means there already is a leading slash
+    if (url[0] === '') {
+      url.shift()
+    }
+
+    // Url does not start with / or http
+    return '/' + url.join('/')
+  }
+
   createRequest = ({ src, alt }) => {
-    request.get(src).end((err, res) => {
-      if (err || !res.ok) {
-        this.setState({
-          loaded: <div className='injection'>{alt}</div>
-        })
-      } else {
-        this.setState({ loaded: res.text })
-        return true
-      }
-    })
+    src = this.correctUrl(src);
+    $.ajax(src)
+      .done((input) => {
+        try {
+          const data = JSON.parse(input);
+          this.setState({loaded: data.response})
+        } catch (e) {
+          this.setState({loaded: '<div class="alert alert-info">Illegal injection found </div>'})
+        }
+      })
   }
 
   componentWillReceiveProps (nextProps) {
@@ -40,12 +60,16 @@ class Display extends Component {
 
   render () {
     return this.state.loaded ? (
-      <div
-        className='injection'
-        dangerouslySetInnerHTML={{ __html: this.state.loaded }}
-      />
+      <div className="panel panel-default">
+        <div
+          className="panel-body"
+          dangerouslySetInnerHTML={{ __html: this.state.loaded }}
+        />
+      </div>
     ) : (
-      <div className='injection' />
+      <div >
+        <a href={this.props.state.src}>{this.props.state.alt}</a>
+      </div>
     )
   }
 }

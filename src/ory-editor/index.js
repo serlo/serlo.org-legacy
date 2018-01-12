@@ -17,7 +17,7 @@ import 'ory-editor-plugins-parallax-background/lib/index.css' // Stylesheets for
 import 'ory-editor-plugins-spacer/lib/index.css'
 import 'ory-editor-plugins-divider/lib/index.css'
 import 'ory-editor-plugins-video/lib/index.css'
-
+import './components/plugins/layout/spoiler/index.css'
 import 'katex/dist/katex.min.css'
 
 require('react-tap-event-plugin')() // react-tap-event-plugin is required by material-ui which is used by ory-editor-ui so we need to call it here
@@ -26,10 +26,7 @@ const elements = document.querySelectorAll('.editable')
 const contents = map(element => JSON.parse(element.getAttribute('data-raw-content')), elements)
 
 zipWith((element, content) => {
-  ReactDOM.render(
-    <div className={'editable'} data-raw-content={JSON.stringify(content)}>
-      <HTMLRenderer state={content} plugins={EditorPlugins} />
-    </div>, element)
+  ReactDOM.render(<HTMLRenderer state={content} plugins={EditorPlugins} />, element)
 }, elements, contents)
 
 const loadEditor = () => {

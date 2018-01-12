@@ -26,7 +26,7 @@ import serlolatex from '../editor/editor/showdown/extensions/latex'
 import serlolatexoutput from '../editor/editor/showdown/extensions/latex_output'
 import serlocodeoutput from '../editor/editor/showdown/extensions/serlo_code_output'
 
-const port = 7071
+const port = 7072
 const host = '127.0.0.1'
 
 // Load custom extensions
@@ -58,36 +58,6 @@ const markdownConverter = new Showdown.Converter({
   ]
 })
 
-function convert (input, callback) {
-  let data
-
-  // callback(output, Exception, ErrorMessage);
-  if (input === undefined) {
-    callback('', 'InvalidArgumentException', 'No input given')
-    return
-  }
-
-  if (input === '') {
-    callback('')
-  } else {
-    // parse input to object
-    try {
-      input = input.trim().replace(/&quot;/g, '"')
-      data = JSON.parse(input)
-    } catch (e) {
-      callback(
-        '',
-        'InvalidArgumentException',
-        'No valid json string given: ' + input
-      )
-      return
-    }
-    // console.log("converting...");
-
-    const oryState = converter(data)
-    render(JSON.stringify(oryState), callback)
-  }
-}
 // **render**
 // @param {String} input Json string,
 // containing Serlo Flavored Markdown (sfm)
@@ -120,32 +90,10 @@ function render (input, callback) {
     }
     // console.log("converting...");
 
-    if (data['cells']) {
-      const oryState = data
-      const output = ReactDOMServer.renderToString(
-        <div className={'editable'} data-raw-content={JSON.stringify(oryState)}>
-          <HTMLRenderer state={oryState} plugins={EditorPlugins} />
-        </div>
-      )
+    const oryState = data['cells'] ? data : converter(data)
+    const output = ReactDOMServer.renderToString(<HTMLRenderer state={oryState} plugins={EditorPlugins} />)
 
-      callback(output)
-    } else {
-      let output = ''
-
-      for (let i = 0, l = data.length; i < l; i++) {
-        let row = data[i];
-        output += '<div class="r">';
-        for (let j = 0, lj = row.length; j < lj; j++
-        ) {
-          let column = row[j];
-          output += '<div class="c' + column.col + '">'
-          output += markdownConverter.makeHtml(column.content)
-          output += '</div>'
-        }
-        output += '</div>'
-      }
-      callback(output)
-    }
+    callback(`<div class="editable" data-raw-content='${JSON.stringify(oryState)}'>${output}</div>`)
   }
 }
 
@@ -154,7 +102,6 @@ const server = dnode(
     // Populate `render` function for
     // dnode clients.
     this.render = render
-    this.convert = convert
   },
   {
     weak: false
