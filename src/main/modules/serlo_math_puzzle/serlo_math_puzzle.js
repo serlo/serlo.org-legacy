@@ -160,37 +160,47 @@ function addNamedOperator (operatorName, parent) {
       return addMinus(parent)
     case 'pi':
       return addAtom(parent, 'Math.PI', '\u03C0')
+    case '!':
+      return
     default:
-      if (operatorName.match(/[0-9.]+/)) return addAtom(parent, operatorName)
+      if (operatorName.match(/[0-9.]+/)) {
+        return addAtom(parent, operatorName)
+      }
       if (operatorName.match(/^\$.*/)) {
         return addAtom(parent, operatorName, operatorName.substring(1))
       }
-      break
+      if (operatorName)
+        throw new Error("Unknown operator");
   }
 }
 
 function initializeStructure (array, parent) {
   var g, ops, literals
-  g = addNamedOperator(array[0], parent)
-  g.attr('data-frozen', true)
-  ops = g.selectAll('.operand')
-  ops.attr('data-frozen', true)
-  ops.each(function (x, i) {
-    if (array[i + 1].constructor === Array) {
+  if (array.constructor === Array) {
+    g = addNamedOperator(array[0], parent)
+    g.attr('data-frozen', true)
+    ops = g.selectAll('.operand')
+    ops.attr('data-frozen', true)
+    ops.each(function (x, i) {
       initializeStructure(array[i + 1], d3.select(this))
-    } else if (array[i + 1] !== '#') {
-      addNamedOperator(array[i + 1].toString(), d3.select(this))
-    }
-  })
-
-  literals = g.selectAll('.atom')
+    })
+  } else if (array !== '#'){
+    addNamedOperator(array.toString(), parent);
+  }
+  literals = parent.selectAll('.atom')
   literals.attr('data-frozen', true)
+}
+
+function savePop(stack) {
+  let value= stack.pop();
+  if (value===undefined) value='#';
+  return value;
 }
 
 // Parse polish notation String into start_structure JSON
 function parsePn (string) {
   return string
-    .split(' ')
+    .split(/ +/)
     .reverse()
     .filter(function (x) {
       return x
@@ -198,13 +208,13 @@ function parsePn (string) {
     .reduce((stack, value) => {
       var isOperator = value.match(/[+*/^-]/)
       if (isOperator) {
-        stack.push([value, stack.pop(), stack.pop()])
+        stack.push([value, savePop(stack), savePop(stack)])
       } else {
         stack.push(value)
       }
       return stack
     }, [])
-    .pop()
+    .pop() || '#';
 }
 
 // A palette for holding items
@@ -245,7 +255,8 @@ function addLiteral (elt, value) {
 function addAtom (elt, value, text) {
   var g = elt
     .append('g')
-    .attr('data-value', value)
+    .attr('data-atom', value)
+    .attr('data-value', value) // deprecated
     .attr('data-ismovable', 'true')
     .attr('class', 'atom')
   addLiteral(g, text || value)
@@ -282,6 +293,7 @@ function addOperator (elt) {
 function addPower (elt) {
   var g, exponent
   g = addOperator(elt)
+    .attr('data-operator', '^')
     .attr('data-value', 'Math.pow(#1, #2)')
     .attr('data-priority', 91)
     .attr('data-layout', 'horizontalLayout')
@@ -300,6 +312,7 @@ function addPower (elt) {
 
 function addDivide (elt) {
   var g = addOperator(elt)
+    .attr('data-operator','/')
     .attr('data-value', '#1 / #2')
     .attr('data-priority', '99')
     .attr('data-layout', 'verticalLayout')
@@ -324,6 +337,7 @@ function addDivide (elt) {
 // Multiplication operator
 function addTimes (elt) {
   var g = addOperator(elt)
+    .attr('data-operator', '*')
     .attr('data-value', '#1 * #2')
     .attr('data-priority', '100')
     .attr('data-layout', 'horizontalLayout')
@@ -336,6 +350,7 @@ function addTimes (elt) {
 // Addition operator
 function addPlus (elt) {
   var g = addOperator(elt)
+    .attr('data-operator', '+')
     .attr('data-value', '#1 + #2')
     .attr('data-priority', '120')
     .attr('data-layout', 'horizontalLayout')
@@ -348,6 +363,7 @@ function addPlus (elt) {
 // Difference operator
 function addMinus (elt) {
   var g = addOperator(elt)
+    .attr('data-operator', '-')
     .attr('data-value', '#1 - #2')
     .attr('data-priority', '111')
     .attr('data-layout', 'horizontalLayout')
