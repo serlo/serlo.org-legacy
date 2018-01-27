@@ -191,9 +191,9 @@ function initializeStructure (array, parent) {
   literals.attr('data-frozen', true)
 }
 
-function savePop(stack) {
-  let value= stack.pop();
-  if (value===undefined) value='#';
+function safePop(stack) {
+  let value = stack.pop();
+  if (value === undefined) value='#';
   return value;
 }
 
@@ -208,7 +208,7 @@ function parsePn (string) {
     .reduce((stack, value) => {
       var isOperator = value.match(/[+*/^-]/)
       if (isOperator) {
-        stack.push([value, savePop(stack), savePop(stack)])
+        stack.push([value, safePop(stack), safePop(stack)])
       } else {
         stack.push(value)
       }

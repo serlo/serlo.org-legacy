@@ -42,8 +42,8 @@ function computeValue (obj) {
 }
 
 function computePn (obj) {
-  var use, value, args, i, sub
-  //TODO extractPn
+  var use, value, args, i, sub, tokens
+
   // The top:value attribute contains the formula
   value = obj.getAttribute('data-value')
 
@@ -70,7 +70,62 @@ function computePn (obj) {
     // By default return the one input argument
     if (args.length === 1) value = '(' + args[0] + ')'
   }
-  return value
+  
+  if (value != null && value != undefined)
+    tokens = value.split(/ |(\(|\))/).filter((x) => x)
+
+  var extractPN = function ( tokens ) {
+  
+    if ( tokens === undefined) {
+
+      return ['#']
+    }
+
+    else {
+
+      let operators = []
+      let output    = []
+
+      //Shunting Yard Algorithm nach: 
+      //https://en.wikipedia.org/wiki/Shunting-yard_algorithm
+      tokens.reverse()
+          .map(( token ) => {
+
+        let isOperator     = token.match(/[+*/^-]/)
+        let isLeftBracket  = token.match(/\(/)
+        let isRightBracket = token.match(/\)/)
+
+        if(isOperator) {
+          while( operators.length >= 1 && operators[operators.length - 1].match(/\)/) === null ) {      
+            output.push(operators.pop())
+          }
+          operators.push(token)
+        } 
+        else if (isRightBracket) {
+          operators.push(token)
+          //console.log("Added Left Bracket")
+        }
+        else if (isLeftBracket) {
+          let top = operators.pop()
+          if ( top != undefined )
+            while( operators.length >= 1 && top.match(/\)/) === null ) {
+              output.push(top)
+              top = operators.pop()
+            }
+        }
+        else {
+          output.push(token)
+        }
+      })  
+      while( operators.length > 0 ) {
+        output.push(operators.pop())
+      }
+
+    return output.reverse()  
+    }
+  }
+  return extractPN( tokens )
+
 }
 
 // verify whether the new object satisfies the winning test
