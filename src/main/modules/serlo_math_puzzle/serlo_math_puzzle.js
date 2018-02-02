@@ -110,7 +110,8 @@ function makePuzzle (parent, inputStr) {
   solution = addOperand(svg)
     .attr('transform', 'translate(250,150)')
     .attr('data-frozen', true)
-    .attr('data-goal', challengeStr.split(/=/)[0])
+    .attr('data-goal', 'true')
+  solution.node().goal= parsePn(challengeStr.split(/=/)[0])
   operatorNames = challengeStr.replace(/.*= */, '').split(/ +/)
   palette = addPalette(svg)
   for (i in operatorNames) {
@@ -379,6 +380,7 @@ $.fn.MathPuzzle = function () {
   })
 }
 $.fn.MathPuzzleVerify = verify
+$.fn.parsePn = parsePn
 
 const MathPuzzle = { makePuzzle: makePuzzle }
 
