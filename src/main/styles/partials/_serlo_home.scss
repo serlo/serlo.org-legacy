@@ -36,6 +36,12 @@ $homeBreakpoint-xxl: 1580px;
     font-weight: bold;
   }
 
+  h3 {
+    display: inline-block;
+    line-height:1.5;
+    margin:0
+  }
+
   ul {
     list-style-type: none;
     padding: 0;
@@ -86,6 +92,9 @@ $homeBreakpoint-xxl: 1580px;
     br {
       align: center;
     }
+    font-weight: normal;
+    line-height: 1.5;
+    margin: 0;
   }
 
   .home-emph-link {
@@ -131,6 +140,7 @@ $homeBreakpoint-xxl: 1580px;
   color: $gray;
   margin: 45px 0;
   margin-bottom: 80px;
+  line-height: 1.5;
 
   .serlo-logo {
     display: inline-block;
@@ -151,7 +161,7 @@ $homeBreakpoint-xxl: 1580px;
     display: inline-block;
     margin-left: 10px;
     vertical-align: bottom;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     letter-spacing: 0.2px;
   }
 }
