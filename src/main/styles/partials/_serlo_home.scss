@@ -52,12 +52,19 @@ $homeBreakpoint-xxl: 1580px;
   width: 100%;
 }
 
+
 .home-extra-links {
   background: #efefef;
+  font-size: 20px;
+  color: #404040;
   padding-top: 2rem;
   padding-bottom: 2.2rem;
   .home-column {
     text-align: center;
+
+    h3 {
+        display: block;
+    }
     a {
       white-space: nowrap;
       @media screen and (min-width: 570px) {
@@ -77,6 +84,30 @@ $homeBreakpoint-xxl: 1580px;
     }
   }
 }
+
+  @media (min-width: $homeBreakpoint-xl) {
+    .home-extra-links {
+        background-color:inherit;
+        font-size: 20px;
+        position: absolute;
+        top: 142px;
+        right: 0;
+
+        h3{
+            margin-top: -10px;
+        }
+
+        span {
+            margin-right: 32px;
+        }
+
+        .home-column{
+            text-align: right;
+            padding-right: 10px;
+        }
+    }
+}
+
 
 .home-subject-row {
   margin: 0px auto 105px auto;
