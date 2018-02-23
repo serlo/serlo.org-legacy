@@ -172,7 +172,10 @@ $homeBreakpoint-xxl: 1580px;
   margin: 45px 0;
   margin-bottom: 80px;
   line-height: 1.5;
-
+  a {
+    color: #404040;
+    text-decoration: none;
+  }
   .serlo-logo {
     display: inline-block;
     font-size: 50px;
