@@ -84,6 +84,7 @@ function smile (svg, win) {
 function evalPn(structure, getVar) {
   if (structure.constructor===Array) {
     switch (structure[0]) {
+      case ':': return evalPn(structure[1],getVar)/evalPn(structure[2],getVar)
       case '/': return evalPn(structure[1],getVar)/evalPn(structure[2],getVar)
       case '+': return evalPn(structure[1],getVar)+evalPn(structure[2],getVar)
       case '-': return evalPn(structure[1],getVar)-evalPn(structure[2],getVar)

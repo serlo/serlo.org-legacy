@@ -153,6 +153,8 @@ function addNamedOperator (operatorName, parent) {
       return addPower(parent)
     case '/':
       return addDivide(parent)
+    case ':':
+      return addSimpleDivide(parent)
     case '*':
       return addTimes(parent)
     case '+':
@@ -207,7 +209,7 @@ function parsePn (string) {
       return x
     })
     .reduce((stack, value) => {
-      var isOperator = value.match(/[+*/^-]/)
+      var isOperator = value.match(/[+*/^:-]/)
       if (isOperator) {
         stack.push([value, safePop(stack), safePop(stack)])
       } else {
@@ -331,6 +333,19 @@ function addDivide (elt) {
     .append('g')
     .attr('transform', 'scale(0.8)')
     .attr('data-priority', '100')
+  addOperand(g)
+  return g
+}
+
+// Simple Division operator
+function addSimpleDivide (elt) {
+  var g = addOperator(elt)
+    .attr('data-operator', ':')
+    .attr('data-value', '#1 / #2')
+    .attr('data-priority', '99')
+    .attr('data-layout', 'horizontalLayout')
+  addOperand(g)
+  g.append('text').text(':')
   addOperand(g)
   return g
 }
