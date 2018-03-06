@@ -111,7 +111,7 @@ function makePuzzle (parent, inputStr) {
     .attr('transform', 'translate(250,150)')
     .attr('data-frozen', true)
     .attr('data-goal', 'true')
-  solution.node().goal= parsePn(challengeStr.split(/=/)[0])
+  solution.node().goal = parsePn(challengeStr.split(/=/)[0])
   operatorNames = challengeStr.replace(/.*= */, '').split(/ +/)
   palette = addPalette(svg)
   for (i in operatorNames) {
@@ -172,8 +172,7 @@ function addNamedOperator (operatorName, parent) {
       if (operatorName.match(/^\$.*/)) {
         return addAtom(parent, operatorName, operatorName.substring(1))
       }
-      if (operatorName)
-        throw new Error("Unknown operator");
+      if (operatorName) throw new Error('Unknown operator')
   }
 }
 
@@ -187,37 +186,39 @@ function initializeStructure (array, parent) {
     ops.each(function (x, i) {
       initializeStructure(array[i + 1], d3.select(this))
     })
-  } else if (array !== '#'){
-    addNamedOperator(array.toString(), parent);
+  } else if (array !== '#') {
+    addNamedOperator(array.toString(), parent)
   }
   literals = parent.selectAll('.atom')
   literals.attr('data-frozen', true)
 }
 
-function safePop(stack) {
-  let value = stack.pop();
-  if (value === undefined) value='#';
-  return value;
+function safePop (stack) {
+  let value = stack.pop()
+  if (value === undefined) value = '#'
+  return value
 }
 
 // Parse polish notation String into start_structure JSON
 function parsePn (string) {
-  return string
-    .split(/ +/)
-    .reverse()
-    .filter(function (x) {
-      return x
-    })
-    .reduce((stack, value) => {
-      var isOperator = value.match(/[+*/^:-]/)
-      if (isOperator) {
-        stack.push([value, safePop(stack), safePop(stack)])
-      } else {
-        stack.push(value)
-      }
-      return stack
-    }, [])
-    .pop() || '#';
+  return (
+    string
+      .split(/ +/)
+      .reverse()
+      .filter(function (x) {
+        return x
+      })
+      .reduce((stack, value) => {
+        var isOperator = value.match(/[+*/^:-]/)
+        if (isOperator) {
+          stack.push([value, safePop(stack), safePop(stack)])
+        } else {
+          stack.push(value)
+        }
+        return stack
+      }, [])
+      .pop() || '#'
+  )
 }
 
 // A palette for holding items
@@ -315,7 +316,7 @@ function addPower (elt) {
 
 function addDivide (elt) {
   var g = addOperator(elt)
-    .attr('data-operator','/')
+    .attr('data-operator', '/')
     .attr('data-value', '#1 / #2')
     .attr('data-priority', '99')
     .attr('data-layout', 'verticalLayout')

@@ -10,16 +10,14 @@
 
 // Exactract the formula for the user created value.
 function computePn (obj) {
-  var atom, list, op, i, sub;
+  var atom, list, op, i, sub
 
-  atom= obj.getAttribute('data-atom');
-  if (atom)
-    return atom;
+  atom = obj.getAttribute('data-atom')
+  if (atom) return atom
 
-  list = [];
-  op = obj.getAttribute('data-operator');
-  if (op)
-    list.push(op)
+  list = []
+  op = obj.getAttribute('data-operator')
+  if (op) list.push(op)
 
   // recurse through child elements to find open arguments
   for (i = 0; i < obj.childNodes.length; ++i) {
@@ -32,9 +30,8 @@ function computePn (obj) {
       }
     }
   }
-  if (list.length == 0 && obj.getAttribute('class')=='operand')
-    return '#'
-  return op ? list : list[0];
+  if (list.length === 0 && obj.getAttribute('class') === 'operand') return '#'
+  return op ? list : list[0]
 }
 
 // verify whether the new object satisfies the winning test
@@ -50,27 +47,26 @@ function verify (svg) {
   return pass
 }
 
-function isEquivalent(value, goal) {
+function isEquivalent (value, goal) {
   var valueAst, goalAst, i, data, value1, value2, getVar, nonnan
-  valueAst= computePn(value)
-  goalAst= goal
-  nonnan= false
+  valueAst = computePn(value)
+  goalAst = goal
+  nonnan = false
   for (i = 0; i < 10; ++i) {
-    data= {}
-    getVar= function(x) {
-      if (data[x]===undefined)
-        data[x]=Math.random() * 6 - 3
+    data = {}
+    getVar = function (x) {
+      if (data[x] === undefined) data[x] = Math.random() * 6 - 3
       return data[x]
     }
     value1 = evalPn(valueAst, getVar)
     value2 = evalPn(goalAst, getVar)
     if (isNaN(value1) !== isNaN(value2)) return false
     if (!isNaN(value1)) {
-      nonnan= true
+      nonnan = true
       if (Math.abs(value1 - value2) > 1e-10) return false
     }
   }
-  return nonnan;
+  return nonnan
 }
 
 // sets the oppacitiy to show either of the two similies
@@ -81,24 +77,30 @@ function smile (svg, win) {
   svg.parentNode.setAttribute('class', newstyle)
 }
 
-function evalPn(structure, getVar) {
-  if (structure.constructor===Array) {
+function evalPn (structure, getVar) {
+  if (structure.constructor === Array) {
     switch (structure[0]) {
-      case ':': return evalPn(structure[1],getVar)/evalPn(structure[2],getVar)
-      case '/': return evalPn(structure[1],getVar)/evalPn(structure[2],getVar)
-      case '+': return evalPn(structure[1],getVar)+evalPn(structure[2],getVar)
-      case '-': return evalPn(structure[1],getVar)-evalPn(structure[2],getVar)
-      case '*': return evalPn(structure[1],getVar)*evalPn(structure[2],getVar)
-      case '^': return Math.pow(evalPn(structure[1],getVar),evalPn(structure[2],getVar))
+      case ':':
+        return evalPn(structure[1], getVar) / evalPn(structure[2], getVar)
+      case '/':
+        return evalPn(structure[1], getVar) / evalPn(structure[2], getVar)
+      case '+':
+        return evalPn(structure[1], getVar) + evalPn(structure[2], getVar)
+      case '-':
+        return evalPn(structure[1], getVar) - evalPn(structure[2], getVar)
+      case '*':
+        return evalPn(structure[1], getVar) * evalPn(structure[2], getVar)
+      case '^':
+        return Math.pow(
+          evalPn(structure[1], getVar),
+          evalPn(structure[2], getVar)
+        )
     }
-  }
-  else if (structure=='#')
-    return 0/0
+  } else if (structure === '#') return 0 / 0
   else if (structure.match(/^\$/)) {
     return getVar(structure.substring(1))
-  }
-  else {
-    return parseFloat(structure);
+  } else {
+    return parseFloat(structure)
   }
 }
 
