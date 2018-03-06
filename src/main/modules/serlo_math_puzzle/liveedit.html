@@ -29,6 +29,7 @@
           input.removeAttribute('invalid')
         } catch(e) {
           input.setAttribute('invalid', 'invalid')
+          throw e;
         }
       }
     };
@@ -37,23 +38,28 @@
 <style>
   input[invalid] { background-color: lightcoral }
   input,textarea { padding: 2px }
+  input[invalid] ~ .error { display : block }
+  .error { display : none; color: red }
 </style>
 <body style="width:80%;margin-left:10%" id="page">
     <div class="main" style="position:relative">
         <h1>Math Puzzle Prototyping</h1>
-        <p>
+        <div>
           Puzzle source:<br/>
           <input id="puzzle-source" style="width:70%;padding:2px" value="2 = 1 1 +"></input>
+          <div class="error">
+            The Puzzle string is invalid
+          </div>
           <select id="select" style="width:28%">
             <option value="2 = 1 1 +">2 = 1 1 +</option>
             <option value="4 = 1 2 2 ^">4 with power</option>
             <option value="12 = 1 2 3 1 2 3 + + + * | + # #">12</option>
-            <option value="$x+1 = 1 2 3 + $x $y">x+1</option>
-            <option value="2/$x = 1 2 3 $x * / ^">2/x</option>
-            <option value="$a*$b*Math.pow($x, $b-1) = 1 $a $b $x - * ^">a b x^(b-1)</option>
-            <option value="$x+2 = 1 2 4 $x + - *">x+2</option>
+            <option value="+ $x 1 = 1 2 3 + $x $y">x+1</option>
+            <option value="/ 2 $x = 1 2 3 $x * / ^">2/x</option>
+            <option value="* * $a $b ^ $x - $b 1 = 1 $a $b $b $x - * * ^">a b x^(b-1)</option>
+            <option value="+ $x 2 = 1 2 4 $x + - *">x+2</option>
           </select>
-        </p>
+        </div>
         <p>
           Puzzle description:<br/>
           <textarea id="description" style="width:100%">Problem description</textarea>

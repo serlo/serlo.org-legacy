@@ -110,7 +110,8 @@ function makePuzzle (parent, inputStr) {
   solution = addOperand(svg)
     .attr('transform', 'translate(250,150)')
     .attr('data-frozen', true)
-    .attr('data-goal', challengeStr.split(/=/)[0])
+    .attr('data-goal', 'true')
+  solution.node().goal = parsePn(challengeStr.split(/=/)[0])
   operatorNames = challengeStr.replace(/.*= */, '').split(/ +/)
   palette = addPalette(svg)
   for (i in operatorNames) {
@@ -152,6 +153,8 @@ function addNamedOperator (operatorName, parent) {
       return addPower(parent)
     case '/':
       return addDivide(parent)
+    case ':':
+      return addSimpleDivide(parent)
     case '*':
       return addTimes(parent)
     case '+':
@@ -160,51 +163,62 @@ function addNamedOperator (operatorName, parent) {
       return addMinus(parent)
     case 'pi':
       return addAtom(parent, 'Math.PI', '\u03C0')
+    case '!':
+      return
     default:
-      if (operatorName.match(/[0-9.]+/)) return addAtom(parent, operatorName)
+      if (operatorName.match(/[0-9.]+/)) {
+        return addAtom(parent, operatorName)
+      }
       if (operatorName.match(/^\$.*/)) {
         return addAtom(parent, operatorName, operatorName.substring(1))
       }
-      break
+      if (operatorName) throw new Error('Unknown operator')
   }
 }
 
 function initializeStructure (array, parent) {
   var g, ops, literals
-  g = addNamedOperator(array[0], parent)
-  g.attr('data-frozen', true)
-  ops = g.selectAll('.operand')
-  ops.attr('data-frozen', true)
-  ops.each(function (x, i) {
-    if (array[i + 1].constructor === Array) {
+  if (array.constructor === Array) {
+    g = addNamedOperator(array[0], parent)
+    g.attr('data-frozen', true)
+    ops = g.selectAll('.operand')
+    ops.attr('data-frozen', true)
+    ops.each(function (x, i) {
       initializeStructure(array[i + 1], d3.select(this))
-    } else if (array[i + 1] !== '#') {
-      addNamedOperator(array[i + 1].toString(), d3.select(this))
-    }
-  })
-
-  literals = g.selectAll('.atom')
+    })
+  } else if (array !== '#') {
+    addNamedOperator(array.toString(), parent)
+  }
+  literals = parent.selectAll('.atom')
   literals.attr('data-frozen', true)
+}
+
+function safePop (stack) {
+  let value = stack.pop()
+  if (value === undefined) value = '#'
+  return value
 }
 
 // Parse polish notation String into start_structure JSON
 function parsePn (string) {
-  return string
-    .split(' ')
-    .reverse()
-    .filter(function (x) {
-      return x
-    })
-    .reduce((stack, value) => {
-      var isOperator = value.match(/[+*/^-]/)
-      if (isOperator) {
-        stack.push([value, stack.pop(), stack.pop()])
-      } else {
-        stack.push(value)
-      }
-      return stack
-    }, [])
-    .pop()
+  return (
+    string
+      .split(/ +/)
+      .reverse()
+      .filter(function (x) {
+        return x
+      })
+      .reduce((stack, value) => {
+        var isOperator = value.match(/[+*/^:-]/)
+        if (isOperator) {
+          stack.push([value, safePop(stack), safePop(stack)])
+        } else {
+          stack.push(value)
+        }
+        return stack
+      }, [])
+      .pop() || '#'
+  )
 }
 
 // A palette for holding items
@@ -245,7 +259,8 @@ function addLiteral (elt, value) {
 function addAtom (elt, value, text) {
   var g = elt
     .append('g')
-    .attr('data-value', value)
+    .attr('data-atom', value)
+    .attr('data-value', value) // deprecated
     .attr('data-ismovable', 'true')
     .attr('class', 'atom')
   addLiteral(g, text || value)
@@ -282,6 +297,7 @@ function addOperator (elt) {
 function addPower (elt) {
   var g, exponent
   g = addOperator(elt)
+    .attr('data-operator', '^')
     .attr('data-value', 'Math.pow(#1, #2)')
     .attr('data-priority', 91)
     .attr('data-layout', 'horizontalLayout')
@@ -300,6 +316,7 @@ function addPower (elt) {
 
 function addDivide (elt) {
   var g = addOperator(elt)
+    .attr('data-operator', '/')
     .attr('data-value', '#1 / #2')
     .attr('data-priority', '99')
     .attr('data-layout', 'verticalLayout')
@@ -321,9 +338,23 @@ function addDivide (elt) {
   return g
 }
 
+// Simple Division operator
+function addSimpleDivide (elt) {
+  var g = addOperator(elt)
+    .attr('data-operator', ':')
+    .attr('data-value', '#1 / #2')
+    .attr('data-priority', '99')
+    .attr('data-layout', 'horizontalLayout')
+  addOperand(g)
+  g.append('text').text(':')
+  addOperand(g)
+  return g
+}
+
 // Multiplication operator
 function addTimes (elt) {
   var g = addOperator(elt)
+    .attr('data-operator', '*')
     .attr('data-value', '#1 * #2')
     .attr('data-priority', '100')
     .attr('data-layout', 'horizontalLayout')
@@ -336,6 +367,7 @@ function addTimes (elt) {
 // Addition operator
 function addPlus (elt) {
   var g = addOperator(elt)
+    .attr('data-operator', '+')
     .attr('data-value', '#1 + #2')
     .attr('data-priority', '120')
     .attr('data-layout', 'horizontalLayout')
@@ -348,6 +380,7 @@ function addPlus (elt) {
 // Difference operator
 function addMinus (elt) {
   var g = addOperator(elt)
+    .attr('data-operator', '-')
     .attr('data-value', '#1 - #2')
     .attr('data-priority', '111')
     .attr('data-layout', 'horizontalLayout')
@@ -363,6 +396,7 @@ $.fn.MathPuzzle = function () {
   })
 }
 $.fn.MathPuzzleVerify = verify
+$.fn.parsePn = parsePn
 
 const MathPuzzle = { makePuzzle: makePuzzle }
 

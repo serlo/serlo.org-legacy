@@ -7,44 +7,31 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  * @link        https://github.com/serlo-org/athene2 for the canonical source repository
  */
-var currentValue = 0
-// Exactract the formula for the user created value.
-function computeValue (obj) {
-  var use, value, args, i, sub
-  // check for redirections
-  use = obj.getAttribute('data-use')
-  if (use) {
-    obj = document.getElementById('def-' + use)
-    if (obj.getAttribute('class') !== 'valid') return null
-  }
 
-  // The top:value attribute contains the formula
-  value = obj.getAttribute('data-value')
+// Exactract the formula for the user created value.
+function computePn (obj) {
+  var atom, list, op, i, sub
+
+  atom = obj.getAttribute('data-atom')
+  if (atom) return atom
+
+  list = []
+  op = obj.getAttribute('data-operator')
+  if (op) list.push(op)
 
   // recurse through child elements to find open arguments
-  args = []
   for (i = 0; i < obj.childNodes.length; ++i) {
     if (obj.childNodes[i].nodeType === 1) {
       // if the child node has a value, compute it and
       // store in the argument list.
-      sub = computeValue(obj.childNodes[i])
+      sub = computePn(obj.childNodes[i])
       if (sub) {
-        args[args.length] = sub
+        list.push(sub)
       }
     }
   }
-
-  // if value is a formula of child values
-  if (value && value.indexOf('#') >= 0) {
-    // replace #n substrings with appropriate sub values
-    for (i = 0; i < args.length; ++i) {
-      value = value.replace('#' + (i + 1), args[i])
-    }
-  } else {
-    // By default return the one input argument
-    if (args.length === 1) value = '(' + args[0] + ')'
-  }
-  return value
+  if (list.length === 0 && obj.getAttribute('class') === 'operand') return '#'
+  return op ? list : list[0]
 }
 
 // verify whether the new object satisfies the winning test
@@ -52,49 +39,34 @@ function verify (svg) {
   // extract the user created formula in json
   var goal, pass
   var obj = svg.querySelector('[data-goal]')
-  var value = computeValue(obj)
 
-  if (value && value.indexOf('$') < 0 && value.indexOf('#') < 0) {
-    currentValue = value
-  } else {
-    currentValue = undefined
-  }
-  if (!value || value.indexOf('#') >= 0) {
-    // break if formula is incomplete
-    smile(svg, false)
-  } else {
-    // construct the objective function
-    goal = obj.getAttribute('data-goal')
-    pass = isEquivalent(value, goal)
-    smile(svg, pass)
-    return pass
-  }
+  // construct the objective function
+  goal = obj.goal
+  pass = isEquivalent(obj, goal)
+  smile(svg, pass)
+  return pass
 }
 
-// compare two alebraic expressions
 function isEquivalent (value, goal) {
-  // check for free variables
-  var tries, context, value1, value2, i, j
-  var vars = (goal + value).match(/\$[a-zA-Z][a-z0-9.]*/g) || []
-
-  try {
-    tries = 1 + 10 * vars.length
-    for (i = 0; i < tries; ++i) {
-      context = {}
-      for (j = 0; j < vars.length; ++j) {
-        if (!vars[j].match(/\./)) context[vars[j]] = Math.random() * 6 - 3
-      }
-      // eslint-disable-next-line no-eval
-      value1 = eval(value.replace(/\$/g, 'context.$'))
-      // eslint-disable-next-line no-eval
-      value2 = eval(goal.replace(/\$/g, 'context.$'))
-      if (isNaN(value1) !== isNaN(value2)) return false
-      if (!isNaN(value1) && Math.abs(value1 - value2) > 1e-10) return false
+  var valueAst, goalAst, i, data, value1, value2, getVar, nonnan
+  valueAst = computePn(value)
+  goalAst = goal
+  nonnan = false
+  for (i = 0; i < 10; ++i) {
+    data = {}
+    getVar = function (x) {
+      if (data[x] === undefined) data[x] = Math.random() * 6 - 3
+      return data[x]
     }
-    return true
-  } catch (e) {
-    return false
+    value1 = evalPn(valueAst, getVar)
+    value2 = evalPn(goalAst, getVar)
+    if (isNaN(value1) !== isNaN(value2)) return false
+    if (!isNaN(value1)) {
+      nonnan = true
+      if (Math.abs(value1 - value2) > 1e-10) return false
+    }
   }
+  return nonnan
 }
 
 // sets the oppacitiy to show either of the two similies
@@ -105,15 +77,34 @@ function smile (svg, win) {
   svg.parentNode.setAttribute('class', newstyle)
 }
 
-function getLastValue () {
-  // eslint-disable-next-line no-eval
-  return eval(currentValue)
+function evalPn (structure, getVar) {
+  if (structure.constructor === Array) {
+    switch (structure[0]) {
+      case ':':
+        return evalPn(structure[1], getVar) / evalPn(structure[2], getVar)
+      case '/':
+        return evalPn(structure[1], getVar) / evalPn(structure[2], getVar)
+      case '+':
+        return evalPn(structure[1], getVar) + evalPn(structure[2], getVar)
+      case '-':
+        return evalPn(structure[1], getVar) - evalPn(structure[2], getVar)
+      case '*':
+        return evalPn(structure[1], getVar) * evalPn(structure[2], getVar)
+      case '^':
+        return Math.pow(
+          evalPn(structure[1], getVar),
+          evalPn(structure[2], getVar)
+        )
+    }
+  } else if (structure === '#') return 0 / 0
+  else if (structure.match(/^\$/)) {
+    return getVar(structure.substring(1))
+  } else {
+    return parseFloat(structure)
+  }
 }
 
 const Algebra = {
-  verify: verify,
-  getLastValue: getLastValue,
-  computeValue: computeValue
+  verify: verify
 }
-
 export default Algebra

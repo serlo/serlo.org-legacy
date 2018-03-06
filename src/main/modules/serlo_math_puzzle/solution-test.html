@@ -8,16 +8,21 @@
       for (var i=0; i<puzzles.length; ++i) {
           $(puzzles[i]).MathPuzzle();
       }
+      $('[data-goal]').each(function(index, elt) {
+        elt.goal= $(puzzles[i]).parsePn(elt.getAttribute('data-goal'));
+      });
       var puzzles = document.querySelectorAll(".test");
       for (var i=0; i<puzzles.length; ++i) {
-        var pass= $(puzzles[i]).MathPuzzleVerify.verify(puzzles[i]);
-        var expect= puzzles[i].getAttribute('data-expect');
-        if (JSON.stringify(pass)==expect) {
-          puzzles[i].setAttribute("class","test passed");
-        }
-        else {
+        try {
+          var pass= $(puzzles[i]).MathPuzzleVerify.verify(puzzles[i]);
+          var expect= puzzles[i].getAttribute('data-expect');
+          if (JSON.stringify(pass)==expect) {
+            puzzles[i].setAttribute("class","test passed");
+          } else
+          throw new Error("did not pass")
+        } catch(e) {
           puzzles[i].setAttribute("class","test failed");
-          $(puzzles[i]).append("<b>Got: " + $(puzzles[i]).MathPuzzleVerify.computeValue(puzzles[i]) + " instead of " + puzzles[i].firstElementChild.getAttribute('data-goal') + "</b>");
+          $(puzzles[i]).append("<b>" + e.message + "</b>");
         }
       }
     }
@@ -42,13 +47,13 @@
     <div class="test" data-expect="true">
       3 = 3
       <div data-goal="3">
-        <div data-value="3"></div>
+        <div data-atom="3"></div>
       </div>
     </div>
     <div class="test" data-expect="false">
       3 != 4
       <div data-goal="4">
-        <div data-value="3"></div>
+        <div data-atom="3"></div>
       </div>
     </div>
 
@@ -57,9 +62,9 @@
     <div class="test" data-expect="true">
       1 + 1 = 2
       <div data-goal="2">
-        <div data-value="#1 + #2">
-          <div data-value="1"></div>
-          <div data-value="1"></div>
+        <div data-operator="+">
+          <div data-atom="1"></div>
+          <div data-atom="1"></div>
         </div>
       </div>
     </div>
@@ -69,18 +74,18 @@
     <div class="test" data-expect="true">
       2 - 1 = 1
       <div data-goal="1">
-        <div data-value="#1 - #2">
-          <div data-value="2"></div>
-          <div data-value="1"></div>
+        <div data-operator="-">
+          <div data-atom="2"></div>
+          <div data-atom="1"></div>
         </div>
       </div>
     </div>
     <div class="test" data-expect="false">
       4 - 1 != 2
       <div data-goal="2">
-        <div data-value="#1 - #2">
-          <div data-value="4"></div>
-          <div data-value="1"></div>
+        <div data-operator="-">
+          <div data-atom="4"></div>
+          <div data-atom="1"></div>
         </div>
       </div>
     </div>
@@ -90,18 +95,18 @@
     <div class="test" data-expect="false">
       4  :2 != 0.5
       <div data-goal="0.5">
-        <div data-value="#1 : #2">
-          <div data-value="4"></div>
-          <div data-value="2"></div>
+        <div data-operator="/">
+          <div data-atom="4"></div>
+          <div data-atom="2"></div>
         </div>
       </div>
     </div>
     <div class="test" data-expect="false">
       8 : 2 != 0.5
       <div data-goal="0.5">
-        <div data-value="#1 : #2">
-          <div data-value="8"></div>
-          <div data-value="2"></div>
+        <div data-operator="/">
+          <div data-atom="8"></div>
+          <div data-atom="2"></div>
         </div>
       </div>
     </div>
@@ -111,18 +116,18 @@
     <div class="test" data-expect="true">
       2 * 2 = 4
       <div data-goal="4">
-        <div data-value="#1 * #2">
-          <div data-value="2"></div>
-          <div data-value="2"></div>
+        <div data-operator="*">
+          <div data-atom="2"></div>
+          <div data-atom="2"></div>
         </div>
       </div>
     </div>
     <div class="test" data-expect="false">
       2 * 8 != 14
       <div data-goal="14">
-        <div data-value="#1 * #2">
-          <div data-value="2"></div>
-          <div data-value="8"></div>
+        <div data-operator="*">
+          <div data-atom="2"></div>
+          <div data-atom="8"></div>
         </div>
       </div>
     </div>
@@ -132,24 +137,24 @@
     <div class="test" data-expect="true">
       (1 + 1) * 10 = 20
       <div data-goal="20">
-        <div data-value="#1 * #2">
-          <div data-value="(#1 + #2)">
-            <div data-value="1"></div>
-            <div data-value="1"></div>
+        <div data-operator="*">
+          <div data-operator="+">
+            <div data-atom="1"></div>
+            <div data-atom="1"></div>
           </div>
-          <div data-value="10"></div>
+          <div data-atom="10"></div>
         </div>
       </div>
     </div>
     <div class="test" data-expect="false">
       1 + 1 * 10 != 20
       <div data-goal="20">
-        <div data-value="#1 * #2">
-          <div data-value="#1 + #2">
-            <div data-value="1"></div>
-            <div data-value="1"></div>
+        <div data-opertor="*">
+          <div data-operator="+">
+            <div data-atom="1"></div>
+            <div data-atom="1"></div>
           </div>
-          <div data-value="10"></div>
+          <div data-atom="10"></div>
         </div>
       </div>
     </div>
@@ -159,18 +164,18 @@
     <div class="test" data-expect="true">
       x + 1 = x + 1
       <div data-goal="$x + 1">
-        <div data-value="#1 + #2">
-          <div data-value="$x"></div>
-          <div data-value="1"></div>
+        <div data-operator="+">
+          <div data-atom="$x"></div>
+          <div data-atom="1"></div>
         </div>
       </div>
     </div>
     <div class="test" data-expect="false">
       x + 3 != x + 1
-      <div data-goal="$x + 1">
-        <div data-value="#1 + #2">
-          <div data-value="$x"></div>
-          <div data-value="3"></div>
+      <div data-goal="+ $x 1">
+        <div data-operator="+">
+          <div data-atom="$x"></div>
+          <div data-atom="3"></div>
         </div>
       </div>
     </div>
@@ -186,5 +191,4 @@
   <div class="math-puzzle" data-source="12 = | * - 4 2 + 2 4">
       <div class="exercise">Build a formula that evaluates to two.</div>
   </div>
-
 </body>

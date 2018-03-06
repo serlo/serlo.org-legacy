@@ -90,8 +90,18 @@ svg {
 
 //change offset for inpage links because of sticky nav-bar
 .content {
-  h1, h2, h3, h4, h5, h6,
-  .h1, .h2, .h3, .h4, .h5, .h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .h5,
+  .h6 {
     &:target:before {
       display: block;
       content: ' ';
