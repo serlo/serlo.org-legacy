@@ -36,6 +36,12 @@ $homeBreakpoint-xxl: 1580px;
     font-weight: bold;
   }
 
+  h3 {
+    display: inline-block;
+    line-height:1.5;
+    margin:0
+  }
+
   ul {
     list-style-type: none;
     padding: 0;
@@ -46,12 +52,19 @@ $homeBreakpoint-xxl: 1580px;
   width: 100%;
 }
 
+
 .home-extra-links {
   background: #efefef;
+  font-size: 20px;
+  color: #404040;
   padding-top: 2rem;
   padding-bottom: 2.2rem;
   .home-column {
     text-align: center;
+
+    h3 {
+        display: block;
+    }
     a {
       white-space: nowrap;
       @media screen and (min-width: 570px) {
@@ -72,6 +85,30 @@ $homeBreakpoint-xxl: 1580px;
   }
 }
 
+  @media (min-width: $homeBreakpoint-xl) {
+    .home-extra-links {
+        background-color:inherit;
+        font-size: 20px;
+        position: absolute;
+        top: 142px;
+        right: 0;
+
+        h3{
+            margin-top: -10px;
+        }
+
+        span {
+            margin-right: 32px;
+        }
+
+        .home-column{
+            text-align: right;
+            padding-right: 10px;
+        }
+    }
+}
+
+
 .home-subject-row {
   margin: 0px auto 105px auto;
   padding: auto;
@@ -86,6 +123,9 @@ $homeBreakpoint-xxl: 1580px;
     br {
       align: center;
     }
+    font-weight: normal;
+    line-height: 1.5;
+    margin: 0;
   }
 
   .home-emph-link {
@@ -131,7 +171,11 @@ $homeBreakpoint-xxl: 1580px;
   color: $gray;
   margin: 45px 0;
   margin-bottom: 80px;
-
+  line-height: 1.5;
+  a {
+    color: #404040;
+    text-decoration: none;
+  }
   .serlo-logo {
     display: inline-block;
     font-size: 50px;
@@ -151,7 +195,7 @@ $homeBreakpoint-xxl: 1580px;
     display: inline-block;
     margin-left: 10px;
     vertical-align: bottom;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     letter-spacing: 0.2px;
   }
 }
