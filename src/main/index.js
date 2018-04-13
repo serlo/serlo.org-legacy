@@ -40,7 +40,7 @@ import './modules/serlo_sortable_list'
 import './modules/serlo_toggle'
 import initTracking from './modules/serlo_tracking'
 import './modules/serlo_trigger'
-import loadEditor from '../ory-editor'
+import { loadEditor, renderContent } from '../ory-editor'
 
 // FIXME historyjs; not needed?
 
@@ -140,6 +140,7 @@ const init = $context => {
   setLanguage()
   initResizeEvent()
   initContentApi()
+  renderContent()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
@@ -168,16 +169,30 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
-    $('.ory-edit-button.is-edit', $context).click(() => {
-      $(this).removeClass('is-edit').addClass('is-save')
-      $('.ory-edit-button > .fa').removeClass('fa-pencil').addClass('fa-floppy-o')
-      loadEditor()
-    })
-    $('.ory-edit-button.is-save', $context).click(() => {
-      $(this).removeClass('is-save').addClass('is-edit')
-      $('.ory-edit-button > .fa').removeClass('fa-floppy-o').addClass('fa-pencil')
-      console.log('save...')
+    $('.ory-edit-button', $context).click((e) => loadEditor(e.target.dataset.id))
 
+    $('.convert-button').click(function () {
+      const id = $(this).data('content-id')
+      $.ajax({
+        url: `/entity/repository/convert/${id}`,
+        type: 'GET',
+        async: true,
+        beforeSend: () => {
+          $('#loading').show()
+        },
+        complete: () => {
+          $('#loading').hide()
+        }
+      })
+        .done(function (data) {
+          const $editable = $(`.editable[data-id=${id}]`)
+          const $target = $editable.closest('article').length ? $editable.closest('article') : $('#content-layout article', $context)
+          $target.html(data)
+          //$(`.btn[data-id=${id}]`).click(() => loadEditor(id)).removeAttr('href')
+          renderContent()
+          loadEditor(id)
+          Common.trigger('new context', $target)
+        })
     })
 
     // Dirty Hack for Course Pages Mobile

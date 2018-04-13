@@ -187,11 +187,11 @@
     padding-left: $pagePaddingMedium;
   }
 
-  #subject-nav-wrapper {
+  #subject-nav-wrapper, #ory-editor-toolbar {
     background: $backgroundColor;
   }
 
-  #breadcrumbs {
+  #breadcrumbs, #ory-editor-toolbar-functions {
     padding: 14px 10px 11px;
     margin: 0 10px;
     min-height: 45px;

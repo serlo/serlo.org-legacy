@@ -1,6 +1,11 @@
-const extractSpoilers = normalizedObj => {
-  const spoilerRegEx = new RegExp(/^\/\/\/ (.*)\n([\s\S]*?)(\n|\r)+\/\/\//m)
-  return extract(
+const spoilerRegEx = new RegExp(/^\/\/\/ (.*)\n([\s\S]*?)(\n|\r)+\/\/\//m)
+const injectionRegEx = new RegExp(/>\[(.*)\]\(((?!ggt\/).*)\)/)
+const geogebraInjectionRegEx = new RegExp(/>\[(.*)\]\(ggt\/(.*)\)/)
+const linkRegEx = new RegExp(/[^!>]\[(([^[()\]]*?(\[.*?\]\(.*?\))?)*?)\]\((.*?)\)/)
+const imagesRegEx = new RegExp(/!\[(.*?)\]\((.*?)( "(.*)?")?\)/)
+const linkedImagesRegEx = new RegExp(/\[!\[(.*?)\]\((.*?)( "(.*)?")?\)\]\((.*?)\)/)
+
+const extractSpoilers = normalizedObj => extract(
     spoilerRegEx,
     match => ({
       name: 'spoiler',
@@ -9,11 +14,8 @@ const extractSpoilers = normalizedObj => {
     }),
     normalizedObj
   )
-}
 
-const extractInjections = normalizedObj => {
-  const injectionRegEx = new RegExp(/>\[(.*)\]\(((?!ggt\/).*)\)/)
-  return extract(
+const extractInjections = normalizedObj => extract(
     injectionRegEx,
     match => ({
       name: 'injection',
@@ -22,11 +24,8 @@ const extractInjections = normalizedObj => {
     }),
     normalizedObj
   )
-}
 
-const extractGeogebra = normalizedObj => {
-  const geogebraInjectionRegEx = new RegExp(/>\[(.*)\]\(ggt\/(.*)\)/)
-  return extract(
+const extractGeogebra = normalizedObj => extract(
     geogebraInjectionRegEx,
     match => ({
       name: 'geogebra',
@@ -35,33 +34,29 @@ const extractGeogebra = normalizedObj => {
     }),
     normalizedObj
   )
-}
 
-const extractLinkedImages = normalizedObj => {
-  const linkedImagesRegEx = new RegExp(/\[!\[(.*?)\]\((.*?)\)\]\((.*?)\)/)
-  return extract(
+const extractLinkedImages = normalizedObj => extract(
     linkedImagesRegEx,
     match => ({
       name: 'image',
       alt: match[1],
       src: match[2],
-      href: match[3]
+      title: match[4],
+      href: match[5]
     }),
     normalizedObj
   )
-}
-const extractImages = normalizedObj => {
-  const imagesRegEx = new RegExp(/!\[(.*?)\]\((.*?)\)/)
-  return extract(
+
+const extractImages = normalizedObj => extract(
     imagesRegEx,
     match => ({
       name: 'image',
       alt: match[1],
-      src: match[2]
+      src: match[2],
+      title: match[4]
     }),
     normalizedObj
   )
-}
 
 const normalizeMarkdown = markdown => {
   var normalizedObj = {

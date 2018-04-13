@@ -53,6 +53,21 @@ const cases = [
     }
   },
   {
+    description: 'split images with title',
+    input: 'Lorem ![image](url "title") ipsum',
+    output: {
+      normalized: 'Lorem §0§ ipsum',
+      elements: [
+        {
+          name: 'image',
+          alt: 'image',
+          src: 'url',
+          title: 'title'
+        }
+      ]
+    }
+  },
+  {
     description: 'split images in spoilers',
     input: '/// title\nmarkdowntext with image ![image](url)\n///',
     output: {
@@ -68,6 +83,30 @@ const cases = [
                 name: 'image',
                 alt: 'image',
                 src: 'url'
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    description: 'split images with title in spoilers',
+    input: '/// title\nmarkdowntext with image ![image](url "title")\n///',
+    output: {
+      normalized: '§0§',
+      elements: [
+        {
+          name: 'spoiler',
+          title: 'title',
+          content: {
+            normalized: 'markdowntext with image §0§',
+            elements: [
+              {
+                name: 'image',
+                alt: 'image',
+                src: 'url',
+                title: 'title'
               }
             ]
           }
@@ -120,6 +159,22 @@ const cases = [
           name: 'image',
           alt: 'image',
           src: 'imageurl',
+          href: 'linkurl'
+        }
+      ]
+    }
+  },
+  {
+    description: 'split linked images with title',
+    input: 'Lorem [![image](imageurl "imagetitle")](linkurl) ipsum',
+    output: {
+      normalized: 'Lorem §0§ ipsum',
+      elements: [
+        {
+          name: 'image',
+          alt: 'image',
+          src: 'imageurl',
+          title: 'imagetitle',
           href: 'linkurl'
         }
       ]

@@ -61,10 +61,11 @@ const markdownConverter = new Showdown.Converter({
 // **render**
 // @param {String} input Json string,
 // containing Serlo Flavored Markdown (sfm)
-// structured for layout.
+// structured for layout, that should be converted,
 // or OryEditor formated JsonState
+// @param {Integer} id
 // @param {Function} callback
-function render (input, callback) {
+function render (input, id, callback) {
   let data
 
   // callback(output, Exception, ErrorMessage);
@@ -80,6 +81,7 @@ function render (input, callback) {
     try {
       input = input.trim().replace(/&quot;/g, '"')
       data = JSON.parse(input)
+      data.id = id
     } catch (e) {
       callback(
         '',
@@ -90,10 +92,11 @@ function render (input, callback) {
     }
     // console.log("converting...");
 
-    const oryState = data['cells'] ? data : converter(data)
+    const oryState = data['cells'] ? data : converter(data, id)
     const output = ReactDOMServer.renderToString(<HTMLRenderer state={oryState} plugins={EditorPlugins} />)
 
-    callback(`<div class="editable" data-raw-content='${JSON.stringify(oryState)}'>${output}</div>`)
+//    callback(`<div class="editable" data-id='${id}' data-raw-content='${JSON.stringify(oryState)}'>${output}</div>`)
+    callback(`<div data-raw-content='${JSON.stringify(oryState)}'>${output}</div>`)
   }
 }
 
