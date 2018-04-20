@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import {forEach, map, zipWith} from 'ramda'
+import {forEachObjIndexed} from 'ramda'
 import Editor, {Editable, createEmptyState} from 'ory-editor-core'
 import {HTMLRenderer} from 'ory-editor-renderer'
 import 'ory-editor-core/lib/index.css' // we also want to load the stylesheets
@@ -10,7 +10,7 @@ import {Trash, DisplayModeToggle, Toolbar} from 'ory-editor-ui'
 import 'ory-editor-ui/lib/index.css'
 
 // Load some exemplary plugins:
-import EditorPlugins from './plugins'
+import EditorPlugins, { defaultPlugin } from './plugins'
 import 'ory-editor-plugins-slate/lib/index.css' // Stylesheets for the rich text area plugin
 import 'ory-editor-plugins-image/lib/index.css'
 import 'ory-editor-plugins-parallax-background/lib/index.css' // Stylesheets for parallax background images
@@ -21,10 +21,11 @@ import './components/plugins/layout/spoiler/index.css'
 import 'katex/dist/katex.min.css'
 import $ from 'jquery'
 import t from '../modules/translator'
+import convert from './converter'
 
 require('react-tap-event-plugin')() // react-tap-event-plugin is required by material-ui which is used by ory-editor-ui so we need to call it here
 
-export const renderContent = () => {
+export const renderEditable = () => {
   const $elements = $('.editable[data-edit-type="ory"] > div[data-raw-content]')
   $elements.each((i, element) => {
     const content = $(element).data('rawContent')
@@ -34,7 +35,8 @@ export const renderContent = () => {
 
 const editor = new Editor({
   plugins: EditorPlugins,
-  editables: []
+  editables: [],
+  defaultPlugin
 })
 
 let editorState = []
@@ -94,9 +96,11 @@ export const loadEditor = (id) => {
     url: `/entity/repository/form/${id}`
   }).done((response) => {
     populateEditor(id, response)
+    lastPersisted[id] = collectData(id)
   })
 
   $('#ory-editor-save').click(() => save(id))
+  $('#ory-editor-abort').click(() => restore(id))
 }
 
 const populateEditor = (id, formHTML) => {
@@ -110,24 +114,45 @@ const populateEditor = (id, formHTML) => {
     })
     .each((i, el) => {
       const name = el.getAttribute('name')
-      const type = el.tagName === 'TEXTAREA' ? 'textarea' : el.getAttribute('type')
+      const type = el.tagName === 'INPUT'
+        ? el.getAttribute('type')
+        : el.classList.contains('plain')
+          ? 'textarea'
+          : 'ory'
       $('#ory-editor-meta-data').append(createFormElement(el, id, name, type))
     })
 }
 
 const createFormElement = (el, id, name, type) => {
-  return $(`<div class="editable" data-id="${id}" data-edit-type="${type}" data-edit-field="${name}"></div>`)
-    .html(type === 'hidden' ? el : $(el).parents('.form-group'))
+
+  const $wrapper = $(`<div class="editable" data-id="${id}" data-edit-type="${type}" data-edit-field="${name}"></div>`)
+    if (type === 'ory') {
+      let data = $(el).val();
+      console.log(data)
+      if(data === '') {
+        data = createEmptyState()
+      } else if(data.cells === undefined) {
+        data = convert(data)
+      }
+      data.id = id + name
+      editor.trigger.editable.add(data)
+      $wrapper.html($(el).parents('.form-group'))
+      ReactDOM.render(
+        <Editable
+          editor={editor}
+          id={id + name}
+          onChange={(newState) => {
+            editorState[name] = newState
+          }}
+        />, $(el, $wrapper).get(0))
+      return $wrapper
+    } else {
+      return $wrapper.html(type === 'hidden' ? el : $(el).parents('.form-group'))
+    }
 }
 
-/*    forEach(content => {
-      editor.trigger.editable.add(content)
-      lastPersisted[content.id] = content
-    }, contents)
-*/
-
-export const save = (id) => {
-  let data = {}
+const collectData = (id) => {
+  const data = {}
   $(`.editable[data-id="${id}"]`).each(
     (i, element) => {
       const key = $(element).data('editField')
@@ -138,9 +163,11 @@ export const save = (id) => {
       }
     }
   )
+  return data
+}
 
-  console.log(data)
-
+export const save = (id) => {
+  const data = collectData(id)
   $.ajax({
     type: 'POST',
     url: `/entity/repository/add-revision/${id}`,
@@ -149,4 +176,23 @@ export const save = (id) => {
     window.alert('Successfully saved revision')
     lastPersisted[id] = data
   })
+}
+
+export const restore = (id) => {
+  forEachObjIndexed((data, key) => {
+    const $element = $(`.editable[data-edit-field="${key}"]`)
+    if ($element.data('editType') === 'ory') {
+      editor.trigger.editable.update(JSON.parse(data))
+      ReactDOM.render(
+        <Editable
+          editor={editor}
+          id={id + key}
+          onChange={(newState) => {
+            editorState[key] = newState
+          }}
+        />, $element.get(0))
+    } else {
+      $element.find('input,textarea').val(data)
+    }
+  }, lastPersisted[id])
 }

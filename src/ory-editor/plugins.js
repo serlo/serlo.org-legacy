@@ -23,3 +23,5 @@ export default {
   content: [slate, image, injection, geogebra],
   layout: [spoiler({ defaultPlugin: slate })]
 }
+
+export const defaultPlugin = slate

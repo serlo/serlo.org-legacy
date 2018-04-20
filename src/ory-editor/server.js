@@ -13,50 +13,9 @@ import { HTMLRenderer } from 'ory-editor-renderer'
 import EditorPlugins from './plugins'
 import dnode from 'dnode'
 
-import Showdown from 'showdown'
-import serlocodeprepare from '../editor/editor/showdown/extensions/serlo_code_prepare'
-import serloinjections from '../editor/editor/showdown/extensions/injections'
-import serloatusername from '../editor/editor/showdown/extensions/at_username'
-import serlostrikethrough from '../editor/editor/showdown/extensions/strike_through'
-import serlotable from '../editor/editor/showdown/extensions/table'
-import serlospoilerprepare from '../editor/editor/showdown/extensions/spoiler_prepare'
-import serlospoiler from '../editor/editor/showdown/extensions/spoiler'
-import serlohtmlstrip from '../editor/editor/showdown/extensions/html_strip'
-import serlolatex from '../editor/editor/showdown/extensions/latex'
-import serlolatexoutput from '../editor/editor/showdown/extensions/latex_output'
-import serlocodeoutput from '../editor/editor/showdown/extensions/serlo_code_output'
-
 const port = 7072
 const host = '127.0.0.1'
 
-// Load custom extensions
-Showdown.extension('serloinjections', serloinjections)
-Showdown.extension('serlotable', serlotable)
-Showdown.extension('serlospoilerprepare', serlospoilerprepare)
-Showdown.extension('serlospoiler', serlospoiler)
-Showdown.extension('serlolatex', serlolatex)
-Showdown.extension('serlolatexoutput', serlolatexoutput)
-Showdown.extension('serlohtmlstrip', serlohtmlstrip)
-Showdown.extension('serloatusername', serloatusername)
-Showdown.extension('serlostrikethrough', serlostrikethrough)
-Showdown.extension('serlocodeprepare', serlocodeprepare)
-Showdown.extension('serlocodeoutput', serlocodeoutput)
-
-const markdownConverter = new Showdown.Converter({
-  extensions: [
-    'serlocodeprepare',
-    'serloinjections',
-    'serloatusername',
-    'serlostrikethrough',
-    'serlotable',
-    'serlospoilerprepare',
-    'serlospoiler',
-    'serlohtmlstrip',
-    'serlolatex',
-    'serlolatexoutput',
-    'serlocodeoutput'
-  ]
-})
 
 // **render**
 // @param {String} input Json string,

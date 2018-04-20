@@ -40,7 +40,7 @@ import './modules/serlo_sortable_list'
 import './modules/serlo_toggle'
 import initTracking from './modules/serlo_tracking'
 import './modules/serlo_trigger'
-import { loadEditor, renderContent } from '../ory-editor'
+import { loadEditor, renderEditable } from '../ory-editor'
 
 // FIXME historyjs; not needed?
 
@@ -140,7 +140,7 @@ const init = $context => {
   setLanguage()
   initResizeEvent()
   initContentApi()
-  renderContent()
+  renderEditable()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
@@ -189,7 +189,7 @@ const init = $context => {
           const $target = $editable.closest('article').length ? $editable.closest('article') : $('#content-layout article', $context)
           $target.html(data)
           //$(`.btn[data-id=${id}]`).click(() => loadEditor(id)).removeAttr('href')
-          renderContent()
+          renderEditable()
           loadEditor(id)
           Common.trigger('new context', $target)
         })
