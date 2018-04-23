@@ -1,0 +1,78 @@
+@media print {
+  #serlo-menu,
+  aside.side-navigation,
+  aside.side-context,
+  #horizon,
+  #banner,
+  #subject-nav-sticky-wrapper,
+  #mobile-nav-toggle,
+  #mission-statement,
+  #footer,
+  section.discussions,
+  #mobile-nav-toggle button,
+  #mobile-nav-right {
+    display: none;
+  }
+
+  .has-navigation section.main {
+    margin: 0;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a,
+  a:visited,
+  .serlo-logo {
+    color: #337ab7 !important;
+  }
+
+  a[href]:after {
+    content: '';
+  }
+
+  .main a[href]:after {
+    content: ' (' attr(href) ')';
+  }
+
+  abbr[title]:after {
+    content: ' (' attr(title) ')';
+  }
+
+  // Don't show links that are fragment identifiers,
+  // or use the `javascript:` pseudo protocol
+  a[href^='#']:after,
+  a[href^='javascript:']:after {
+    content: '';
+  }
+
+  .main a[href^='/'] {
+    font-weight: bold;
+  }
+
+  .main a[href^='/']:after {
+    content: '';
+  }
+
+  a[rel^='license'] {
+    text-decoration: none;
+  }
+
+  #header-nav .serlo-logo {
+    top: -31px;
+  }
+
+  #header-nav .serlo-brand {
+    top: 2px;
+  }
+
+  .hidden-xs .main-headline-link {
+    display: block !important;
+  }
+}

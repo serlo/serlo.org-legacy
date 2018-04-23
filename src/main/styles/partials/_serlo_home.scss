@@ -38,8 +38,8 @@ $homeBreakpoint-xxl: 1580px;
 
   h3 {
     display: inline-block;
-    line-height:1.5;
-    margin:0
+    line-height: 1.5;
+    margin: 0;
   }
 
   ul {
@@ -52,7 +52,6 @@ $homeBreakpoint-xxl: 1580px;
   width: 100%;
 }
 
-
 .home-extra-links {
   background: #efefef;
   font-size: 20px;
@@ -63,7 +62,7 @@ $homeBreakpoint-xxl: 1580px;
     text-align: center;
 
     h3 {
-        display: block;
+      display: block;
     }
     a {
       white-space: nowrap;
@@ -85,29 +84,28 @@ $homeBreakpoint-xxl: 1580px;
   }
 }
 
-  @media (min-width: $homeBreakpoint-xl) {
-    .home-extra-links {
-        background-color:inherit;
-        font-size: 20px;
-        position: absolute;
-        top: 142px;
-        right: 0;
+@media (min-width: $homeBreakpoint-xl) {
+  .home-extra-links {
+    background-color: inherit;
+    font-size: 20px;
+    position: absolute;
+    top: 142px;
+    right: 0;
 
-        h3{
-            margin-top: -10px;
-        }
-
-        span {
-            margin-right: 32px;
-        }
-
-        .home-column{
-            text-align: right;
-            padding-right: 10px;
-        }
+    h3 {
+      margin-top: -10px;
     }
-}
 
+    span {
+      margin-right: 32px;
+    }
+
+    .home-column {
+      text-align: right;
+      padding-right: 10px;
+    }
+  }
+}
 
 .home-subject-row {
   margin: 0px auto 105px auto;
