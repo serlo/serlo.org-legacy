@@ -1,5 +1,5 @@
 // @flow
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import uuid from 'uuid'
 import FilterFrames from 'material-ui/svg-icons/image/filter-frames'
 import type {
@@ -13,36 +13,37 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class PluginComponent extends Component {
-  state = {hidden: true}
+  state = { hidden: true }
   props: LayoutPluginProps<{}> & { children: any }
 
   onToggle = () => {
-    this.setState({hidden: !this.state.hidden})
+    this.setState({ hidden: !this.state.hidden })
   }
 
-  render() {
-    const {
-      children,
-      focused,
-      onChange,
-      state: {title = ' '}
-    } = this.props
+  render () {
+    const { children, focused, onChange, state: { title = ' ' } } = this.props
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <div className="ory-plugins-layout-spoiler spoiler">
-          <div className="spoiler-title" onClick={this.onToggle}>
-            <span className={this.state.hidden
-              ? "fa fa-caret-square-o-down"
-              : "fa fa-caret-square-o-up"
-            }/>
-            { title }
+        <div className='ory-plugins-layout-spoiler spoiler'>
+          <div className='spoiler-title' onClick={this.onToggle}>
+            <span
+              className={
+                this.state.hidden
+                  ? 'fa fa-caret-square-o-down'
+                  : 'fa fa-caret-square-o-up'
+              }
+            />
+            {title}
           </div>
 
-          <div className="spoiler-content" style={{display: this.state.hidden ? 'none' : 'block'}}>
+          <div
+            className='spoiler-content'
+            style={{ display: this.state.hidden ? 'none' : 'block' }}
+          >
             {children}
           </div>
 
-          {/*<BottomToolbar open={focused}>
+          {/* <BottomToolbar open={focused}>
             <TextField
               hintText="Title"
               floatingLabelText="Title of spoiler"
@@ -53,20 +54,20 @@ class PluginComponent extends Component {
               value={title}
               onChange={(e, value) => onChange({ title: value })}
             />
-          </BottomToolbar>*/}
+          </BottomToolbar> */}
         </div>
       </MuiThemeProvider>
     )
   }
 }
 
-export default ({defaultPlugin}: { defaultPlugin: ContentPlugin }) => ({
+export default ({ defaultPlugin }: { defaultPlugin: ContentPlugin }) => ({
   Component: PluginComponent,
   name: 'serlo/layout/spoiler',
   version: '0.0.1',
 
   text: 'Hidden Text',
-  IconComponent: <FilterFrames/>,
+  IconComponent: <FilterFrames />,
 
   createInitialChildren: () => ({
     id: uuid(),

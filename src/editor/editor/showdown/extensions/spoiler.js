@@ -40,4 +40,4 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.spoiler = spoiler
 }
-export default spoiler;
+export default spoiler

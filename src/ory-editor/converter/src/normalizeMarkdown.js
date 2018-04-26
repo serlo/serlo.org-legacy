@@ -1,11 +1,16 @@
 const spoilerRegEx = new RegExp(/^\/\/\/ (.*)\n([\s\S]*?)(\n|\r)+\/\/\//m)
 const injectionRegEx = new RegExp(/>\[(.*)\]\(((?!ggt\/).*)\)/)
 const geogebraInjectionRegEx = new RegExp(/>\[(.*)\]\(ggt\/(.*)\)/)
-const linkRegEx = new RegExp(/[^!>]\[(([^[()\]]*?(\[.*?\]\(.*?\))?)*?)\]\((.*?)\)/)
+const linkRegEx = new RegExp(
+  /[^!>]\[(([^[()\]]*?(\[.*?\]\(.*?\))?)*?)\]\((.*?)\)/
+)
 const imagesRegEx = new RegExp(/!\[(.*?)\]\((.*?)( "(.*)?")?\)/)
-const linkedImagesRegEx = new RegExp(/\[!\[(.*?)\]\((.*?)( "(.*)?")?\)\]\((.*?)\)/)
+const linkedImagesRegEx = new RegExp(
+  /\[!\[(.*?)\]\((.*?)( "(.*)?")?\)\]\((.*?)\)/
+)
 
-const extractSpoilers = normalizedObj => extract(
+const extractSpoilers = normalizedObj =>
+  extract(
     spoilerRegEx,
     match => ({
       name: 'spoiler',
@@ -15,7 +20,8 @@ const extractSpoilers = normalizedObj => extract(
     normalizedObj
   )
 
-const extractInjections = normalizedObj => extract(
+const extractInjections = normalizedObj =>
+  extract(
     injectionRegEx,
     match => ({
       name: 'injection',
@@ -25,7 +31,8 @@ const extractInjections = normalizedObj => extract(
     normalizedObj
   )
 
-const extractGeogebra = normalizedObj => extract(
+const extractGeogebra = normalizedObj =>
+  extract(
     geogebraInjectionRegEx,
     match => ({
       name: 'geogebra',
@@ -35,7 +42,8 @@ const extractGeogebra = normalizedObj => extract(
     normalizedObj
   )
 
-const extractLinkedImages = normalizedObj => extract(
+const extractLinkedImages = normalizedObj =>
+  extract(
     linkedImagesRegEx,
     match => ({
       name: 'image',
@@ -47,7 +55,8 @@ const extractLinkedImages = normalizedObj => extract(
     normalizedObj
   )
 
-const extractImages = normalizedObj => extract(
+const extractImages = normalizedObj =>
+  extract(
     imagesRegEx,
     match => ({
       name: 'image',

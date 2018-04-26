@@ -37,4 +37,4 @@ if (typeof define === 'function' && define.amd) {
   window.Showdown.extensions.spoilerprepare = spoilerprepare
 }
 
-export default spoilerprepare;
+export default spoilerprepare

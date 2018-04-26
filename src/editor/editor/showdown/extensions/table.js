@@ -19,10 +19,18 @@ var table = function () {
   var callbackConverter
 
   tables.th = function (header) {
-    return '<th style="' + style + '">' + callbackConverter.makeHtml(header) + '</th>'
+    return (
+      '<th style="' +
+      style +
+      '">' +
+      callbackConverter.makeHtml(header) +
+      '</th>'
+    )
   }
   tables.td = function (cell) {
-    return '<td style="' + style + '">' + callbackConverter.makeHtml(cell) + '</td>'
+    return (
+      '<td style="' + style + '">' + callbackConverter.makeHtml(cell) + '</td>'
+    )
   }
   tables.ths = function () {
     var out = ''

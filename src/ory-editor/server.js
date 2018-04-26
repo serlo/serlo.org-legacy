@@ -16,7 +16,6 @@ import dnode from 'dnode'
 const port = 7072
 const host = '127.0.0.1'
 
-
 // **render**
 // @param {String} input Json string,
 // containing Serlo Flavored Markdown (sfm)
@@ -52,10 +51,14 @@ function render (input, id, callback) {
     // console.log("converting...");
 
     const oryState = data['cells'] ? data : converter(data, id)
-    const output = ReactDOMServer.renderToString(<HTMLRenderer state={oryState} plugins={EditorPlugins} />)
+    const output = ReactDOMServer.renderToString(
+      <HTMLRenderer state={oryState} plugins={EditorPlugins} />
+    )
 
-//    callback(`<div class="editable" data-id='${id}' data-raw-content='${JSON.stringify(oryState)}'>${output}</div>`)
-    callback(`<div data-raw-content='${JSON.stringify(oryState)}'>${output}</div>`)
+    //    callback(`<div class="editable" data-id='${id}' data-raw-content='${JSON.stringify(oryState)}'>${output}</div>`)
+    callback(
+      `<div data-raw-content='${JSON.stringify(oryState)}'>${output}</div>`
+    )
   }
 }
 

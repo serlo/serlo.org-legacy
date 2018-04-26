@@ -6,6 +6,16 @@
   }
 }
 
-#ory-editor-meta-data {
+#ory-editor-meta-data-wrapper {
   clear: both;
+  padding-top: $contentPadding;
+}
+
+#ory-editor-meta-data {
+  background-color: #ffffff;
+  padding: $contentPadding;
+}
+
+.ory-content {
+  border: 1px solid black;
 }

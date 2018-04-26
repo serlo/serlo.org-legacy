@@ -169,7 +169,17 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
-    $('.ory-edit-button', $context).click((e) => loadEditor(e.target.dataset.id))
+    $('.ory-edit-button', $context).click(e => {
+      if (e.target.dataset.id) loadEditor(e.target.dataset.id)
+      else {
+        console.error(
+          'data-id is undefined',
+          event,
+          event.target,
+          event.target.dataset
+        )
+      }
+    })
 
     $('.convert-button').click(function () {
       const id = $(this).data('content-id')
@@ -183,16 +193,17 @@ const init = $context => {
         complete: () => {
           $('#loading').hide()
         }
+      }).done(function (data) {
+        const $editable = $(`.editable[data-id=${id}]`)
+        const $target = $editable.closest('article').length
+          ? $editable.closest('article')
+          : $('#content-layout article', $context)
+        $target.html(data)
+        // $(`.btn[data-id=${id}]`).click(() => loadEditor(id)).removeAttr('href')
+        renderEditable()
+        loadEditor(id)
+        Common.trigger('new context', $target)
       })
-        .done(function (data) {
-          const $editable = $(`.editable[data-id=${id}]`)
-          const $target = $editable.closest('article').length ? $editable.closest('article') : $('#content-layout article', $context)
-          $target.html(data)
-          //$(`.btn[data-id=${id}]`).click(() => loadEditor(id)).removeAttr('href')
-          renderEditable()
-          loadEditor(id)
-          Common.trigger('new context', $target)
-        })
     })
 
     // Dirty Hack for Course Pages Mobile

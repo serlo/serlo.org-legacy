@@ -27,4 +27,4 @@ if (typeof define === 'function' && define.amd) {
   window.Showdown.extensions.strikethrough = strikethrough
 }
 
-export default strikethrough;
+export default strikethrough

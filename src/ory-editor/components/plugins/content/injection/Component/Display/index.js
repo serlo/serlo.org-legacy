@@ -20,7 +20,6 @@ class Display extends Component {
     }
   }
 
-
   // Corrects relative urls with missing leading slash
   correctUrl (url) {
     url = url.split('/')
@@ -40,16 +39,17 @@ class Display extends Component {
   }
 
   createRequest = ({ src, alt }) => {
-    src = this.correctUrl(src);
-    $.ajax(src)
-      .done((input) => {
-        try {
-          const data = JSON.parse(input);
-          this.setState({loaded: data.response})
-        } catch (e) {
-          this.setState({loaded: '<div class="alert alert-info">Illegal injection found </div>'})
-        }
-      })
+    src = this.correctUrl(src)
+    $.ajax(src).done(input => {
+      try {
+        const data = JSON.parse(input)
+        this.setState({ loaded: data.response })
+      } catch (e) {
+        this.setState({
+          loaded: '<div class="alert alert-info">Illegal injection found </div>'
+        })
+      }
+    })
   }
 
   componentWillReceiveProps (nextProps) {
@@ -60,14 +60,14 @@ class Display extends Component {
 
   render () {
     return this.state.loaded ? (
-      <div className="panel panel-default">
+      <div className='panel panel-default'>
         <div
-          className="panel-body"
+          className='panel-body'
           dangerouslySetInnerHTML={{ __html: this.state.loaded }}
         />
       </div>
     ) : (
-      <div >
+      <div>
         <a href={this.props.state.src}>{this.props.state.alt}</a>
       </div>
     )
