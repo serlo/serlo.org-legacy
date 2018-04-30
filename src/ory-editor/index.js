@@ -24,22 +24,9 @@ import $ from 'jquery'
 import t from '../modules/translator'
 import Modals from '../modules/modals'
 import convert from './converter'
+import base64 from 'base-64'
 
 require('react-tap-event-plugin')() // react-tap-event-plugin is required by material-ui which is used by ory-editor-ui so we need to call it here
-
-export const renderEditable = () => {
-  const $elements = $('.editable[data-edit-type="ory"] > div[data-raw-content]')
-  $elements.each((i, element) => {
-    const content = $(element).data('rawContent')
-    ReactDOM.render(
-      <HTMLRenderer state={content} plugins={EditorPlugins} />,
-      element
-    )
-  })
-}
-
-const parse = content =>
-  typeof content === 'string' ? JSON.parse(content) : content
 
 const editor = new Editor({
   plugins: EditorPlugins,
@@ -50,36 +37,21 @@ const editor = new Editor({
 let editorState = []
 let lastPersisted = []
 let $saveModalContent = $('<div></div>')
+const $editData = $('#first-data')
 
-export const unloadEditor = id => {
-  $('#ory-editor-meta-data').empty()
-  $(`.editable[data-id="${id}"]`).each((i, editable) => {
-    const type = $(editable).data('editType')
-    const key = $(editable).data('editField')
+const parse = content =>
+  typeof content === 'string' ? JSON.parse(content) : content
 
-    switch (type) {
-      case 'ory':
-        const element = $(editable).children()[0]
-        console.log(lastPersisted[id][key])
-        const content = parse(lastPersisted[id][key])
-        ReactDOM.render(
-          <HTMLRenderer state={content} plugins={EditorPlugins} />,
-          element
-        )
-        break
-      case 'text':
-        const value = $('input', editable).val()
-        $(editable).text(value)
-        break
-    }
+export const renderEditable = () => {
+  const $elements = $('.editable[data-edit-type="ory"] > div[data-raw-content]')
+  $elements.each((i, element) => {
+    console.log($(element).data('rawContent'))
+    const content = parse(base64.decode($(element).data('rawContent')))
+    ReactDOM.render(
+      <HTMLRenderer state={content} plugins={EditorPlugins} />,
+      element
+    )
   })
-  ReactDOM.unmountComponentAtNode(document.getElementById('controls'))
-  $('#subject-nav-wrapper').show()
-  $('#ory-editor-toolbar').hide()
-  $('#ory-editor-meta-data').hide()
-  $(window).unbind('beforeunload')
-  $('#ory-editor-save').off('click')
-  $('#ory-editor-abort').off('click')
 }
 
 export const loadEditor = id => {
@@ -89,11 +61,17 @@ export const loadEditor = id => {
 
     switch (type) {
       case 'ory':
-        const element = $(editable).children()[0]
-        const content = parse($(element).data('rawContent'))
-        content.id = id + key
-        editor.trigger.editable.add(content)
+        const element = $(editable).find('.ory-content')[0]
 
+        if (!editorState[key]) {
+          console.log($(element).data('rawContent'))
+          let data = parse(base64.decode($(element).data('rawContent')))
+          data.id = id + key
+          editorState[key] = data
+        }
+        const content = editorState[key]
+
+        editor.trigger.editable.add(content)
         ReactDOM.render(
           <Editable
             editor={editor}
@@ -132,51 +110,97 @@ export const loadEditor = id => {
     )
   })
 
-  $.ajax({
-    type: 'GET',
-    url: `/entity/repository/form/${id}`
-  }).done(response => {
-    populateEditor(id, response)
+  if ($editData.length) {
+    populateEditor(id, $editData[0].outerHTML)
     lastPersisted[id] = collectData(id)
-  })
+  } else {
+    $.ajax({
+      type: 'GET',
+      url: `/entity/repository/add-revision/${id}`
+    }).done(response => {
+      populateEditor(id, response)
+      lastPersisted[id] = collectData(id)
+    })
+  }
 
-  $('#ory-editor-save').click(() => {
-    Modals.show(
-      {
-        title: t('Save'),
-        content: $saveModalContent.html(),
-        cancel: t('Cancel'),
-        okayLabel: t('Save')
-      },
-      'save-modal',
-      () => save(id)
-    )
+  $('#ory-editor-save').click(showSaveModal(id))
+  $('#ory-editor-abort').click(showCancelModal(id))
+}
+
+export const unloadEditor = id => {
+  $('#ory-editor-meta-data').empty()
+  $(`.editable[data-id="${id}"]`).each((i, editable) => {
+    const type = $(editable).data('editType')
+    const key = $(editable).data('editField')
+
+    switch (type) {
+      case 'ory':
+        const element = $(editable).children()[0]
+        const content = parse(lastPersisted[id][key])
+        ReactDOM.render(
+          <HTMLRenderer state={content} plugins={EditorPlugins} />,
+          element
+        )
+        break
+      case 'text':
+        const value = $('input', editable).val()
+        $(editable).text(value)
+        break
+    }
   })
-  $('#ory-editor-abort').click(() =>
-    Modals.show(
-      {
-        type: 'danger',
-        title: t('Cancel'),
-        content: t(
-          'Are you sure you want to abort editing? All of your unsaved changes will be lost!'
-        ),
-        cancel: t('Cancel'),
-        okayLabel: t('Save')
-      },
-      'abort-modal',
-      () => restore(id)
-    )
-  )
+  ReactDOM.unmountComponentAtNode(document.getElementById('controls'))
+  $('#subject-nav-wrapper').show()
+  $('#ory-editor-toolbar').hide()
+  $('#ory-editor-meta-data').hide()
+  $(window).unbind('beforeunload')
+  $('#ory-editor-save').off('click')
+  $('#ory-editor-abort').off('click')
+}
+
+
+export const save = id => {
+  const data = collectData(id)
+  $.ajax({
+    type: 'POST',
+    url: `/entity/repository/add-revision/${id}`,
+    data: data
+  }).done(response => {
+    if ($('.has-error', response).length > 0) {
+      populateEditor(id, response)
+      window.alert('There was something wrong, please try again')
+      if ($saveModalContent.find('.has-error')) {
+        showSaveModal(id)
+      }
+    } else {
+      window.alert('Successfully saved revision. Changed meta-data will be visible after reloading the page.')
+      lastPersisted[id] = data
+      unloadEditor(id)
+    }
+  })
+}
+
+export const restore = id => {
+  forEachObjIndexed((data, key) => {
+    const $element = $(`.editable[data-id="${id}"][data-edit-field="${key}"]`)
+    if ($element.data('editType') === 'ory') {
+      editor.trigger.editable.update(parse(data))
+    } else {
+      $element.find('input,textarea,select').val(data)
+    }
+  }, lastPersisted[id])
+
+  unloadEditor(id)
 }
 
 const populateEditor = (id, html) => {
   const $form = $('form', html)
 
+  console.log($form)
   $('#ory-editor-meta-data').empty()
   $saveModalContent = $('<div></div>')
   // normal form inputs
   $form
-    .find('input, textarea')
+    .find('input, textarea, select')
     .filter((i, el) => {
       const name = el.getAttribute('name')
       return (
@@ -188,7 +212,9 @@ const populateEditor = (id, html) => {
       const type = getType(el)
       const $destination = el.classList.contains('control')
         ? $saveModalContent
-        : $('#ory-editor-meta-data')
+        : $editData.length
+          ? $editData.parent()
+          : $('#ory-editor-meta-data')
 
       $destination.append(createFormElement(el, id, name, type))
     })
@@ -200,6 +226,8 @@ const getType = el => {
       return el.getAttribute('type')
     case 'TEXTAREA':
       return el.classList.contains('plain') ? 'plaintext' : 'ory'
+    case 'SELECT':
+      return 'select'
   }
 }
 
@@ -207,7 +235,7 @@ const createFormElement = (el, id, name, type) => {
   const $wrapper = $(
     `<div class="editable" data-id="${id}" data-edit-type="${
       type
-    }" data-edit-field="${name}"></div>`
+      }" data-edit-field="${name}"></div>`
   )
   if (type === 'ory') {
     let data = $(el).val()
@@ -228,7 +256,7 @@ const createFormElement = (el, id, name, type) => {
       .parents('.form-group')
       .find('.control-label')
     const $wrappedLabel = $('<div class="form-group"></div>').html($label)
-    $wrappedLabel.append('<div class="ory-content"></div>')
+    $wrappedLabel.append('<div class="ory-content bordered"></div>')
     $wrapper.html($wrappedLabel)
     setTimeout(() => {
       ReactDOM.render(
@@ -242,7 +270,7 @@ const createFormElement = (el, id, name, type) => {
         $(
           `.editable[data-id="${id}"][data-edit-type="${
             type
-          }"][data-edit-field="${name}"] .ory-content`
+            }"][data-edit-field="${name}"] .ory-content`
         )[0]
       )
     })
@@ -256,53 +284,44 @@ const collectData = id => {
   const data = {}
   $(`.editable[data-id="${id}"]`).each((i, element) => {
     const key = $(element).data('editField')
-    if ($(element).data('editType') === 'ory') {
-      data[key] = JSON.stringify(editorState[key])
-    } else {
-      data[key] = $('input, textarea', element).val()
+    switch($(element).data('editType')) {
+      case 'ory':
+        data[key] = JSON.stringify(editorState[key])
+        break
+      case 'checkbox':
+        if ($('input', element).is(':checked')) {
+          data[key] = 1
+        }
+        break
+      default:
+        data[key] = $('input, textarea, select', element).val()
     }
   })
   return data
 }
 
-export const save = id => {
-  const data = collectData(id)
-  console.log(data)
-  $.ajax({
-    type: 'POST',
-    url: `/entity/repository/add-revision/${id}`,
-    data: data
-  }).done(response => {
-    if ($('.has-error', response).length > 0) {
-      populateEditor(id, response)
-      window.alert('There was something wrong, please try again')
-    } else {
-      window.alert('Successfully saved revision')
-      lastPersisted[id] = data
-    }
-    unloadEditor(id)
-  })
+const showSaveModal = id => () => {
+  Modals.show(
+    {
+      title: t('Save'),
+      content: $saveModalContent.html(),
+      cancel: t('Cancel'),
+      label: t('Save')
+    }, `save-${id}` ,
+    () => save(id)
+  )
 }
 
-export const restore = id => {
-  forEachObjIndexed((data, key) => {
-    const $element = $(`.editable[data-id="${id}"][data-edit-field="${key}"]`)
-    if ($element.data('editType') === 'ory') {
-      editor.trigger.editable.update(parse(data))
-      /*ReactDOM.render(
-        <Editable
-          editor={editor}
-          id={id + key}
-          onChange={newState => {
-            editorState[key] = newState
-          }}
-        />,
-        $element.get(0)
-      )*/
-    } else {
-      $element.find('input,textarea').val(data)
-    }
-  }, lastPersisted[id])
-
-  unloadEditor(id)
+const showCancelModal = id => () => {
+  Modals.show(
+    {
+      type: 'danger',
+      title: t('Cancel'),
+      content: t(
+        'Are you sure you want to abort editing? All of your unsaved changes will be lost!'
+      )
+    },
+    'abort-modal',
+    () => restore(id)
+  )
 }

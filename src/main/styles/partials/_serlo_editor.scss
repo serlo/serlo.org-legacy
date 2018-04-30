@@ -16,6 +16,14 @@
   padding: $contentPadding;
 }
 
-.ory-content {
-  border: 1px solid black;
+.ory-content.bordered {
+  border: 1px solid darkgray;
+  padding: 5px 10px 0;
+}
+
+.has-error {
+  label {
+    background: #fac1c1;
+    border-top-color: #fd2222;
+  }
 }

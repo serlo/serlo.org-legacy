@@ -12,6 +12,7 @@ import converter from './converter'
 import { HTMLRenderer } from 'ory-editor-renderer'
 import EditorPlugins from './plugins'
 import dnode from 'dnode'
+import base64 from 'base-64'
 
 const port = 7072
 const host = '127.0.0.1'
@@ -55,9 +56,8 @@ function render (input, id, callback) {
       <HTMLRenderer state={oryState} plugins={EditorPlugins} />
     )
 
-    //    callback(`<div class="editable" data-id='${id}' data-raw-content='${JSON.stringify(oryState)}'>${output}</div>`)
     callback(
-      `<div data-raw-content='${JSON.stringify(oryState)}'>${output}</div>`
+      `<div class="ory-content" data-raw-content='${base64.encode(JSON.stringify(oryState))}'>${output}</div>`
     )
   }
 }

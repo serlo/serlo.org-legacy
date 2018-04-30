@@ -169,16 +169,8 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
-    $('.ory-edit-button', $context).click(e => {
-      if (e.target.dataset.id) loadEditor(e.target.dataset.id)
-      else {
-        console.error(
-          'data-id is undefined',
-          event,
-          event.target,
-          event.target.dataset
-        )
-      }
+    $('.ory-edit-button', $context).click(function () {
+      loadEditor($(this).data('id'))
     })
 
     $('.convert-button').click(function () {
@@ -194,18 +186,20 @@ const init = $context => {
           $('#loading').hide()
         }
       }).done(function (data) {
-        const $editable = $(`.editable[data-id=${id}]`)
+        const $editable = $(`.editable[data-id=${id}][data-edit-type="ory"]`)
         const $target = $editable.closest('article').length
           ? $editable.closest('article')
           : $('#content-layout article', $context)
         $target.html(data)
-        // $(`.btn[data-id=${id}]`).click(() => loadEditor(id)).removeAttr('href')
         renderEditable()
         loadEditor(id)
         Common.trigger('new context', $target)
       })
     })
 
+    if ($('#edit-data').length) {
+      loadEditor($('#edit-data').data('id'))
+    }
     // Dirty Hack for Course Pages Mobile
     if ($('.side-context-course').length > 0) {
       $('#content-layout').addClass('course-page')
