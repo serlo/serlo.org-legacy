@@ -70,6 +70,11 @@ Modal.prototype.hide = function () {
   return this
 }
 
+Modal.prototype.remove = function () {
+  this.$el.remove()
+  return this
+}
+
 SerloModals = function () {
   return $(this).each(function () {
     var $self = $(this)
@@ -107,6 +112,12 @@ const Modals = {
         : (modals[uid] = new Modal(options, cb))
     }
     return new Modal(options, cb)
+  },
+  remove: function (uid) {
+    if (modals[uid]) {
+      modals[uid].remove()
+      modals[uid] = undefined
+    }
   }
 }
 

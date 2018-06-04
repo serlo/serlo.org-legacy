@@ -40,7 +40,8 @@ import './modules/serlo_sortable_list'
 import './modules/serlo_toggle'
 import initTracking from './modules/serlo_tracking'
 import './modules/serlo_trigger'
-import { loadEditor, renderEditable } from '../ory-editor'
+import EntityEditor, { renderServersideContent } from '../ory-editor'
+import convertWithAjax from '../ory-editor/convertAction'
 
 // FIXME historyjs; not needed?
 
@@ -140,7 +141,7 @@ const init = $context => {
   setLanguage()
   initResizeEvent()
   initContentApi()
-  renderEditable()
+  renderServersideContent()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
@@ -170,35 +171,20 @@ const init = $context => {
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
     $('.ory-edit-button', $context).click(function () {
-      loadEditor($(this).data('id'))
+      new EntityEditor($(this).data('id'))
     })
 
-    $('.convert-button').click(function () {
+    $('.convert-button', $context).click(function (e) {
+      e.preventDefault()
       const id = $(this).data('content-id')
-      $.ajax({
-        url: `/entity/repository/convert/${id}`,
-        type: 'GET',
-        async: true,
-        beforeSend: () => {
-          $('#loading').show()
-        },
-        complete: () => {
-          $('#loading').hide()
-        }
-      }).done(function (data) {
-        const $editable = $(`.editable[data-id=${id}][data-edit-type="ory"]`)
-        const $target = $editable.closest('article').length
-          ? $editable.closest('article')
-          : $('#content-layout article', $context)
-        $target.html(data)
-        renderEditable()
-        loadEditor(id)
+      const href = $(this).attr('href')
+      convertWithAjax(id, href, ($target) => {
         Common.trigger('new context', $target)
       })
     })
 
-    if ($('#edit-data').length) {
-      loadEditor($('#edit-data').data('id'))
+    if ($('#ory-edit-form', $context).length > 0) {
+      new EntityEditor($('#ory-edit-form', $context).data('id'))
     }
     // Dirty Hack for Course Pages Mobile
     if ($('.side-context-course').length > 0) {

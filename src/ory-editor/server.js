@@ -13,6 +13,7 @@ import { HTMLRenderer } from 'ory-editor-renderer'
 import EditorPlugins from './plugins'
 import dnode from 'dnode'
 import base64 from 'base-64'
+import utf8 from 'utf8'
 
 const port = 7072
 const host = '127.0.0.1'
@@ -22,9 +23,8 @@ const host = '127.0.0.1'
 // containing Serlo Flavored Markdown (sfm)
 // structured for layout, that should be converted,
 // or OryEditor formated JsonState
-// @param {Integer} id
 // @param {Function} callback
-function render (input, id, callback) {
+function render (input, callback) {
   let data
 
   // callback(output, Exception, ErrorMessage);
@@ -40,7 +40,6 @@ function render (input, id, callback) {
     try {
       input = input.trim().replace(/&quot;/g, '"')
       data = JSON.parse(input)
-      data.id = id
     } catch (e) {
       callback(
         '',
@@ -49,15 +48,15 @@ function render (input, id, callback) {
       )
       return
     }
-    // console.log("converting...");
-
-    const oryState = data['cells'] ? data : converter(data, id)
+    const oryState = data['cells'] ? data : converter(data)
     const output = ReactDOMServer.renderToString(
       <HTMLRenderer state={oryState} plugins={EditorPlugins} />
     )
 
     callback(
-      `<div class="ory-content" data-raw-content='${base64.encode(JSON.stringify(oryState))}'>${output}</div>`
+      `<div class="ory-content" data-raw-content='${base64.encode(
+        utf8.encode(JSON.stringify(oryState))
+      )}'>${output}</div>`
     )
   }
 }
