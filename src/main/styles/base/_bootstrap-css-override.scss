@@ -1,14 +1,12 @@
 .container {
   &.has-sidebar {
-    @media only screen and (max-width: $sidebarBreakPoint-max) {
+    @media only screen and (max-width: $sidebarBreakPoint-max) and (min-width: $screen-sm-min) {
       padding-right: $pagePaddingMedium + $sideElementWidthCollapsed;
     }
-
-    @media only screen and (max-width: $screen-sm) {
-      padding-right: $sideElementWidthCollapsed;
-      padding-right: 0;
-      padding-left: 0;
-    }
+  }
+  @media only screen and (max-width: $screen-sm-max) {
+    padding-right: 0;
+    padding-left: 0;
   }
 }
 
