@@ -52,6 +52,46 @@ SortableList = function () {
       return array
     }
 
+    /**
+     * @function cleanUnchangedParents
+     * @param {Array}
+     *
+     * Searches for unchanged subtrees and removes all children in that tree.
+     * This helps reduce the changes send to the server A LOT in most cases.
+     **/
+    function cleanUnchangedParents (array) {
+      _.each(array, function (parent) {
+        if (parent.children) {
+          const originalParent = findDeepElementWithId(originalData, parent.id)
+          if (_.isEqual(parent, originalParent)) {
+            delete parent.children
+          } else {
+            cleanUnchangedParents(parent.children)
+          }
+        }
+      })
+      return array;
+    }
+
+    function findDeepElementWithId(array, id) {
+      const elementOnThisLevel = _.findWhere(array, {id: id})
+      if (elementOnThisLevel) {
+        return elementOnThisLevel
+      } else {
+        let elementOnDeeperLevel
+        _.find(array, function (child) {
+           if (!child.children) {
+              return false
+           }
+           elementOnDeeperLevel = findDeepElementWithId(child.children, id)
+           if (elementOnDeeperLevel) {
+             return true
+           }
+        })
+        return elementOnDeeperLevel
+      }
+    }
+
     function storeOriginalData () {
       originalHTML = $instance
         .find('> ol')
@@ -108,6 +148,7 @@ SortableList = function () {
       } else {
         $saveBtn.hide()
       }
+      updatedData = cleanUnchangedParents(updatedData)
     })
 
     $saveBtn.click(function (e) {
