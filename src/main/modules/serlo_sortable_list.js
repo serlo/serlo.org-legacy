@@ -70,23 +70,23 @@ SortableList = function () {
           }
         }
       })
-      return array;
+      return array
     }
 
-    function findDeepElementWithId(array, id) {
+    function findDeepElementWithId (array, id) {
       const elementOnThisLevel = _.findWhere(array, {id: id})
       if (elementOnThisLevel) {
         return elementOnThisLevel
       } else {
         let elementOnDeeperLevel
         _.find(array, function (child) {
-           if (!child.children) {
-              return false
-           }
-           elementOnDeeperLevel = findDeepElementWithId(child.children, id)
-           if (elementOnDeeperLevel) {
-             return true
-           }
+          if (!child.children) {
+            return false
+          }
+          elementOnDeeperLevel = findDeepElementWithId(child.children, id)
+          if (elementOnDeeperLevel) {
+            return true
+          }
         })
         return elementOnDeeperLevel
       }

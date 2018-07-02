@@ -133,9 +133,31 @@ const initSubjectNav = $context => {
   })
 }
 
+const initContentApi = () => {
+  const $page = $('#header, #page')
+  const $links = $page.find('a')
+
+  const { href, origin, pathname } = window.location
+  const query = href.substr(origin.length + pathname.length)
+
+  $links.each(function () {
+    const $link = $(this)
+    const url = $link.attr('href')
+    const target = $link.attr('target')
+
+    const isInternalLink = url && (url.startsWith('/') || url.startsWith(origin))
+    const isBlank = target && target === '_blank'
+
+    if (isInternalLink && !isBlank) {
+      $link.attr('href', `${url}${query}`)
+    }
+  })
+}
+
 const init = $context => {
   setLanguage()
   initResizeEvent()
+  initContentApi()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
