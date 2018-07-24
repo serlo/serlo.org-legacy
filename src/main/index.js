@@ -23,6 +23,7 @@ import './libs/easing'
 import './libs/event_extensions'
 import AjaxOverlay from './modules/serlo_ajax_overlay'
 import Breadcrumbs from './modules/serlo_breadcrumbs'
+import { initContentApi } from './modules/serlo_content_api'
 import './modules/serlo_forum_select'
 import './modules/serlo_input_challenge'
 import './modules/serlo_math_puzzle/serlo_math_puzzle'
@@ -129,27 +130,6 @@ const initSubjectNav = $context => {
     $dropdown.toggleClass('open', opened)
     if (opened) {
       $context.click(closeDropdown)
-    }
-  })
-}
-
-const initContentApi = () => {
-  const $page = $('#header, #page')
-  const $links = $page.find('a')
-
-  const { href, origin, pathname } = window.location
-  const query = href.substr(origin.length + pathname.length)
-
-  $links.each(function () {
-    const $link = $(this)
-    const url = $link.attr('href')
-    const target = $link.attr('target')
-
-    const isInternalLink = url && (url.startsWith('/') || url.startsWith(origin))
-    const isBlank = target && target === '_blank'
-
-    if (isInternalLink && !isBlank) {
-      $link.attr('href', `${url}${query}`)
     }
   })
 }

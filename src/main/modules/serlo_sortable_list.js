@@ -74,7 +74,7 @@ SortableList = function () {
     }
 
     function findDeepElementWithId (array, id) {
-      const elementOnThisLevel = _.findWhere(array, {id: id})
+      const elementOnThisLevel = _.findWhere(array, { id: id })
       if (elementOnThisLevel) {
         return elementOnThisLevel
       } else {
