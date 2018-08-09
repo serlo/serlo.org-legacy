@@ -10,11 +10,12 @@
   "scripts": {
     "prebuild": "rimraf dist/",
     "build": "webpack --config webpack.config.prod -p",
+    "build:cf": "webpack --config webpack.config.cf",
     "commit": "git-cz",
     "format":
-      "prettier-standard \"{src/**/*,*}.{js,jsx,ts,tsx,css,less,scss,json}\"",
-    "postformat": "prettier --write \"{src/**/*,*}.md\"",
-    "lint": "standard \"{src/**/*,*}.js\" | snazzy",
+      "prettier-standard \"{{__tests__,src}/**/*,*}.{js,jsx,ts,tsx,css,less,scss,json}\"",
+    "postformat": "prettier --write \"{{__tests__,src}/**/*,*}.md\"",
+    "lint": "standard \"{{__tests__,src}/**/*,*}.js\" | snazzy",
     "semantic-release":
       "semantic-release pre && npm publish && semantic-release post",
     "start": "webpack-dev-server --config webpack.config.dev",
