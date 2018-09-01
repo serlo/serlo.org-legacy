@@ -8,6 +8,7 @@ const imagesRegEx = new RegExp(/!\[(.*?)\]\((.*?)( "(.*)?")?\)/)
 const linkedImagesRegEx = new RegExp(
   /\[!\[(.*?)\]\((.*?)( "(.*)?")?\)\]\((.*?)\)/
 )
+const tableRegEx = new RegExp(/(((\|[^|\r\n]*)+\|( |\t)*(\r?\n|\r)?)+)/)
 
 const extractSpoilers = normalizedObj =>
   extract(
@@ -19,6 +20,16 @@ const extractSpoilers = normalizedObj =>
     }),
     normalizedObj
   )
+
+const extractTable = normalizedObj =>
+    extract(
+        tableRegEx,
+        match => ({
+            name: 'table',
+            src: match[0]
+        }),
+        normalizedObj
+    )
 
 const extractInjections = normalizedObj =>
   extract(
@@ -73,6 +84,7 @@ const normalizeMarkdown = markdown => {
     elements: []
   }
   normalizedObj = extractSpoilers(normalizedObj)
+  normalizedObj = extractTable(normalizedObj)
   normalizedObj = extractInjections(normalizedObj)
   normalizedObj = extractGeogebra(normalizedObj)
   normalizedObj = extractLinkedImages(normalizedObj)

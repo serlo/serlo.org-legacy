@@ -28,6 +28,17 @@ const createPlugins = ({ normalized, elements }) => {
 }
 const createPluginCell = elem => {
   switch (elem.name) {
+    case 'table':
+      return {
+        content: {
+          plugin: {
+            name: 'serlo/content/markdown'
+          },
+          state: {
+            src: elem.src
+          }
+        }
+      }
     case 'spoiler':
       return {
         layout: {
