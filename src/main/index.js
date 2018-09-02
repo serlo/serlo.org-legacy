@@ -173,6 +173,7 @@ const init = $context => {
     $('.ory-edit-button', $context).click(function (e) {
       e.preventDefault()
       new EntityEditor($(this).data('id'), $(this).attr('href'))
+      $('.convert-button').hide();
     })
 
     $('.convert-button', $context).click(function (e) {
@@ -181,6 +182,7 @@ const init = $context => {
       const href = $(this).attr('href')
       convertWithAjax(id, href, ($target) => {
         Common.trigger('new context', $target)
+        $('.convert-button').hide();
       })
     })
 
@@ -189,6 +191,7 @@ const init = $context => {
           $('#ory-edit-form', $context).data('id'),
           $('#ory-edit-form form', $context).attr('action') || window.location.pathname
       )
+      $('.convert-button').hide();
     }
     // Dirty Hack for Course Pages Mobile
     if ($('.side-context-course').length > 0) {
