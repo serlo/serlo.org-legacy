@@ -44,7 +44,7 @@ const parse = content =>
 const decodeRawContent = element => parse(utf8.decode(base64.decode($(element).data('rawContent'))))
 
 export const renderServersideContent = () => {
-  // render the server-side rendered ory editables
+  // render the server-side rendered ory editables with react
   const $elements = $('.editable[data-edit-type="ory"] > div[data-raw-content]')
   $elements.each((i, element) => {
     const content = decodeRawContent(element)
@@ -56,8 +56,9 @@ export const renderServersideContent = () => {
 }
 
 export default class EntityEditor {
-  constructor (id) {
+  constructor (id, editPath) {
     this.id = id
+    this.editPath = editPath;
     this.editorState = []
     this.loadEditor()
     require('jquery.redirect')
@@ -120,7 +121,7 @@ export default class EntityEditor {
     } else {
       $.ajax({
         type: 'GET',
-        url: `/entity/repository/add-revision/${this.id}`
+        url: `${this.editPath}`
       }).done(response => {
         this.populateEditor($('#ory-edit-form form', response))
       })
@@ -136,16 +137,12 @@ export default class EntityEditor {
   save = () => {
     const data = this.collectData()
     $(window).unbind('beforeunload')
-    if (window.location.pathname.startsWith('/entity/repository/add-revision/')) {
-      $.redirect(window.location.pathname, data)
-    } else {
-      $.redirect(`/entity/repository/add-revision/${this.id}`, data)
-    }
+    $.redirect(this.editPath, data)
   }
 
   restore = () => {
     $(window).unbind('beforeunload')
-    if (window.location.pathname.startsWith('/entity/repository/add-revision/')) {
+    if (window.location.pathname.startsWith(this.editPath)) {
       window.location.assign(`/${this.id}`)
     } else {
       window.location.reload(true)

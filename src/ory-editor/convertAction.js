@@ -27,7 +27,8 @@ export default (id, href, callback) => {
     const $dataArticle = getEditedArticle($(data))
     $target.html($dataArticle.html())
     renderServersideContent()
-    new EntityEditor(id)
+    const $editButton = $(`.ory-edit-button[data-id=${id}]`)
+    new EntityEditor(id, $editButton.attr('href'))
     callback($target)
   })
 

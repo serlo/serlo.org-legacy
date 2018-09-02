@@ -170,8 +170,9 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
-    $('.ory-edit-button', $context).click(function () {
-      new EntityEditor($(this).data('id'))
+    $('.ory-edit-button', $context).click(function (e) {
+      e.preventDefault()
+      new EntityEditor($(this).data('id'), $(this).attr('href'))
     })
 
     $('.convert-button', $context).click(function (e) {
@@ -184,7 +185,10 @@ const init = $context => {
     })
 
     if ($('#ory-edit-form', $context).length > 0) {
-      new EntityEditor($('#ory-edit-form', $context).data('id'))
+      new EntityEditor(
+          $('#ory-edit-form', $context).data('id'),
+          $('#ory-edit-form form', $context).attr('action') || window.location.pathname
+      )
     }
     // Dirty Hack for Course Pages Mobile
     if ($('.side-context-course').length > 0) {
