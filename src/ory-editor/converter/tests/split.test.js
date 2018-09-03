@@ -454,6 +454,95 @@ const cases = [
         }
       ]
     }
+  },
+  {
+    description: 'Empty columns layout',
+    input: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                { size: 3, raw: 'Lorem ipsum' },
+                { size: 3, raw: 'dolor adipiscing amet' },
+                { size: 3, raw: '' },
+                { size: 3, raw: '' }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    output: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 3,
+                  rows: [
+                    {
+                      cells: [
+                        {
+                          markdown: 'Lorem ipsum'
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  size: 3,
+                  rows: [
+                    {
+                      cells: [
+                        {
+                          markdown: 'dolor adipiscing amet'
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  size: 3,
+                  rows: [
+                    {
+                      cells: [
+                        {
+                          content: {
+                            plugin: {
+                              name: 'ory/editor/core/content/spacer'
+                            },
+                            state: {}
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  size: 3,
+                  rows: [
+                    {
+                      cells: [
+                        {
+                          content: {
+                            plugin: {
+                              name: 'ory/editor/core/content/spacer'
+                            },
+                            state: {}
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
 

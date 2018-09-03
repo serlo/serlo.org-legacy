@@ -9,6 +9,18 @@ const splitCell = cell => {
       size: cell.size,
       rows: splitMarkdown(cell.raw)
     }
+  } else if (cell.raw === '') {
+    return {
+      size: cell.size,
+      rows: createPlugins({
+        normalized: '§0§',
+        elements: [
+          {
+            name: 'spacer'
+          }
+        ]
+      })
+    }
   } else {
     const { rows = [] } = cell
     return {
