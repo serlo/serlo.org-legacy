@@ -1,6 +1,3 @@
-/**
- * Created by benny on 24.11.16.
- */
 import renderMarkdown from './markdownToHtml'
 
 const renderCell = cell => {

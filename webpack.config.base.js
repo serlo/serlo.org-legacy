@@ -14,11 +14,19 @@ module.exports = {
     filename: '[name].js',
     publicPath: '/'
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        include: path.join(__dirname, 'src'),
+        test: /\.(tsx?|js)$/,
+        exclude: /node_modules/,
+        loader: require.resolve('babel-loader')
+      },
+      {
+        test: /\.(tsx?|js)$/,
+        include: /node_modules\/(@serlo-org|@splish-me)\//,
         loader: require.resolve('babel-loader')
       },
       {

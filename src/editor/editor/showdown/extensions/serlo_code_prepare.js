@@ -55,4 +55,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.codeprepare = codeprepare
 }
+
 export default codeprepare

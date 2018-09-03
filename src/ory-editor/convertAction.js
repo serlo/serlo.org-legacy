@@ -26,7 +26,11 @@ export default (id, href, callback) => {
     const $target = getEditedArticle($('body'))
     const $dataArticle = getEditedArticle($(data))
     $target.html($dataArticle.html())
-    renderServersideContent()
+    // TODO: Can we really drop this?
+    // renderServersideContent()
+
+
+    // FIXME: this is definitely not defined
     const $editButton = $(`.ory-edit-button[data-id=${id}]`)
     new EntityEditor(id, $editButton.attr('href'))
     callback($target)

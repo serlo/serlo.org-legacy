@@ -7,9 +7,9 @@
  *
  */
 import React from 'react'
-import ReactDOMServer from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 import converter from './converter'
-import { HTMLRenderer } from 'ory-editor-renderer'
+import { HtmlRenderer } from '@splish-me/editor-core/src/html-renderer.component'
 import EditorPlugins from './plugins'
 import dnode from 'dnode'
 import base64 from 'base-64'
@@ -49,8 +49,11 @@ function render (input, callback) {
       return
     }
     const oryState = data['cells'] ? data : converter(data)
-    const output = ReactDOMServer.renderToString(
-      <HTMLRenderer state={oryState} plugins={EditorPlugins} />
+
+    console.log(JSON.stringify({ state: JSON.stringify(oryState)}))
+
+    const output = renderToString(
+      <HtmlRenderer state={oryState} plugins={EditorPlugins.content} />
     )
 
     callback(

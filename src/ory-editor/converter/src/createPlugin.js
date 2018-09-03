@@ -1,6 +1,8 @@
 /**
  * Created by benny on 17.11.16.
  */
+import { v4 } from 'uuid'
+import markdownToSlate from './markdownToSlate'
 
 const createPlugins = ({ normalized, elements }) => {
   const split = normalized
@@ -40,16 +42,30 @@ const createPluginCell = elem => {
         }
       }
     case 'spoiler':
+      const rows = createPlugins(elem.content)
+
       return {
-        layout: {
+        content: {
           plugin: {
-            name: 'serlo/layout/spoiler'
+            name: 'ory/editor/core/layout/spoiler'
           },
           state: {
-            title: elem.title
+            title: elem.title,
+            content: {
+              type: '@splish-me/editor-core/editable',
+              // FIXME: can we move that before createPlugin?
+              state: markdownToSlate({
+                id: v4(),
+                cells: [
+                  {
+                    id: v4(),
+                    rows
+                  }
+                ]
+              })
+            }
           }
-        },
-        rows: createPlugins(elem.content)
+        }
       }
     case 'injection':
       return {
