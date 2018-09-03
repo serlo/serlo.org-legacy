@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -16,7 +17,7 @@ import { AddSidebar } from '@splish-me/editor-ui/src/add-sidebar.component'
 import { PluginSidebar } from '@splish-me/editor-ui/src/plugin-sidebar.component'
 
 // Load some exemplary plugins:
-import EditorPlugins, { defaultPlugin } from './plugins'
+import createEditorPlugins, { defaultPlugin } from './plugins'
 import 'ory-editor-plugins-slate/lib/index.css' // Stylesheets for the rich text area plugin
 import 'ory-editor-plugins-image/lib/index.css'
 import 'ory-editor-plugins-parallax-background/lib/index.css' // Stylesheets for parallax background images
@@ -62,11 +63,23 @@ class EditorComponent extends React.Component {
   editor = React.createRef()
 
   addEditable = (editable) => {
-    editable.element.innerHTML = ''
+    console.log('add-editable', editable)
+    this.setState(({ editables }) => {
+      const existsAlready = R.find((e) => e.id.id === editable.id, editables)
 
-    this.setState(({ editables }) => ({
-      editables: [...editables, editable]
-    }))
+      if (existsAlready) {
+        console.log(editable.id, 'exists already')
+        console.log('previous element', existsAlready.element, 'new element', editable.element, existsAlready.element === editable.element)
+        return null
+      }
+
+      editable.element.innerHTML = ''
+
+      return { editables: [...editables, {
+        ...editable,
+        id: createEditableIdentifier(editable.id)
+      }] }
+    })
   }
 
   getState = (id) => {
@@ -74,10 +87,11 @@ class EditorComponent extends React.Component {
   }
 
   render() {
+    const { type } = this.props
     const { editables } = this.state
 
     return (
-      <E ref={this.editor} defaultPlugin={defaultPlugin} plugins={EditorPlugins.content}>
+      <E ref={this.editor} defaultPlugin={defaultPlugin} plugins={createEditorPlugins(type)}>
         <EditorConsumer>
           {({ currentMode }) => {
             return (
@@ -88,9 +102,7 @@ class EditorComponent extends React.Component {
                   hideToggle={currentMode === 'layout'}
                 >
                   {currentMode === 'layout' ? (
-                    <MuiThemeProvider muiTheme={getMuiTheme()}>
-                      <AddSidebar />
-                    </MuiThemeProvider>
+                    <AddSidebar />
                   ) : (
                     <PluginSidebar />
                   )}
@@ -100,9 +112,11 @@ class EditorComponent extends React.Component {
           }}
         </EditorConsumer>
         {editables.map((editable) => {
+          console.log('rendering', editable)
           return ReactDOM.createPortal(
-            <Editable id={createEditableIdentifier(editable.id)} initialState={editable.initialState} />,
-            editable.element
+            <Editable id={editable.id} initialState={editable.initialState} />,
+            editable.element,
+            editable.id.id
           )
         })}
       </E>
@@ -111,7 +125,7 @@ class EditorComponent extends React.Component {
 }
 
 export default class EntityEditor {
-  constructor (id, editPath) {
+  constructor (id, editPath, type) {
     this.id = id
     this.editPath = editPath;
 
@@ -119,12 +133,12 @@ export default class EntityEditor {
 
     this.editorState = []
     this.editorComponent = React.createRef()
+    this.type = type // article, text-exericse, ..., page, user
     this.loadEditor()
     require('jquery.redirect')
   }
 
   prerenderExistingOryEditables = () => {
-    console.log('prerender')
     $(`.editable[data-id="${this.id}"][data-edit-type="ory"]`).each(
       (i, editable) => {
         const key = $(editable).data('editField')
@@ -144,7 +158,7 @@ export default class EntityEditor {
 
   loadEditor() {
     ReactDOM.render(
-      <EditorComponent ref={this.editorComponent} />,
+      <EditorComponent ref={this.editorComponent} type={this.type} />,
       document.getElementById('controls')
     )
 

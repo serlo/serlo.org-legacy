@@ -1,7 +1,11 @@
-import { editorPlugins } from '@serlo-org/ory-editor-plugins-workspace/.storybook/helpers/Renderer'
+import { defaultPlugins, exercisePlugins } from '@serlo-org/ory-editor-plugins-workspace/.storybook/helpers/Renderer'
 
-const plugins = editorPlugins
+export default (type) => {
+  if (type === 'text-exercise' || type === 'grouped-text-exercise') {
+    return [...defaultPlugins, ...exercisePlugins]
+  }
 
-export default editorPlugins
+  return defaultPlugins
+}
 
 export const defaultPlugin = editorPlugins.content[0]

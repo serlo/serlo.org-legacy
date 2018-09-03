@@ -4,22 +4,10 @@ import createPlugins from './createPlugin'
 const splitMarkdown = markdown => createPlugins(normalizeMarkdown(markdown))
 
 const splitCell = cell => {
-  if (cell.raw) {
+  if (typeof cell.raw !== 'undefined') {
     return {
       size: cell.size,
       rows: splitMarkdown(cell.raw)
-    }
-  } else if (cell.raw === '') {
-    return {
-      size: cell.size,
-      rows: createPlugins({
-        normalized: '§0§',
-        elements: [
-          {
-            name: 'spacer'
-          }
-        ]
-      })
     }
   } else {
     const { rows = [] } = cell

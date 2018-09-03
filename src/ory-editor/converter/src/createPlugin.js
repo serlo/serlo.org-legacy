@@ -104,15 +104,6 @@ const createPluginCell = elem => {
           }
         }
       }
-    case 'spacer':
-      return {
-        content: {
-          plugin: {
-            name: 'ory/editor/core/content/spacer'
-          },
-          state: {}
-        }
-      }
     default:
       return {}
   }

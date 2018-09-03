@@ -172,7 +172,7 @@ const init = $context => {
     $('.math-puzzle', $context).MathPuzzle()
     $('.ory-edit-button', $context).click(function (e) {
       e.preventDefault()
-      new EntityEditor($(this).data('id'), $(this).attr('href'))
+      new EntityEditor($(this).data('id'), $(this).attr('href'), $(this).data('type'))
       $('.convert-button').hide();
     })
 
@@ -189,7 +189,8 @@ const init = $context => {
     if ($('#ory-edit-form', $context).length > 0) {
       new EntityEditor(
           $('#ory-edit-form', $context).data('id'),
-          $('#ory-edit-form form', $context).attr('action') || window.location.pathname
+          $('#ory-edit-form form', $context).attr('action') || window.location.pathname,
+          $('#ory-edit-form', $context).data('type')
       )
       $('.convert-button').hide();
     }
