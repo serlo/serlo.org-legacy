@@ -42,7 +42,8 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: '@splish-me/image'
+                                      name: '@splish-me/image',
+                                      version: '0.0.4'
                                     },
                                     state: {
                                       alt: 'image',
@@ -97,7 +98,8 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: '@splish-me/slate'
+                                      name: '@splish-me/slate',
+                                      version: '0.0.5'
                                     },
                                     state: {
                                       importFromHtml:
@@ -112,7 +114,8 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: '@splish-me/image'
+                                      name: '@splish-me/image',
+                                        version: '0.0.4'
                                     },
                                     state: {
                                       alt: 'image',
@@ -127,7 +130,8 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: '@splish-me/slate'
+                                      name: '@splish-me/slate',
+                                        version: '0.0.5'
                                     },
                                     state: {
                                       importFromHtml:

@@ -96,7 +96,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: '@splish-me/image'
+                              name: '@splish-me/image',
+                              version: '0.0.4'
                             },
                             state: {
                               alt: 'image',
@@ -156,7 +157,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: '@serlo-org/injection'
+                              name: '@serlo-org/injection',
+                              version: '0.0.2'
                             },
                             state: {
                               alt: 'alttext',
@@ -366,7 +368,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: '@serlo-org/geogebra'
+                              name: '@serlo-org/geogebra',
+                                version: '0.0.4'
                             },
                             state: {
                               alt: 'alttext',
@@ -431,7 +434,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: '@splish-me/image'
+                              name: '@splish-me/image',
+                                version: '0.0.4'
                             },
                             state: {
                               alt: 'image',

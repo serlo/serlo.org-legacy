@@ -1,15 +1,30 @@
-/**
- * Created by benny on 24.11.16.
- */
+import Showdown from 'showdown'
+import latexOutput from "../../../editor/editor/showdown/extensions/latex_output";
+import htmlStrip from "../../../editor/editor/showdown/extensions/html_strip";
+import codePrepare from "../../../editor/editor/showdown/extensions/serlo_code_prepare";
+import atUsername from "../../../editor/editor/showdown/extensions/at_username";
+import strikeThrough from "../../../editor/editor/showdown/extensions/strike_through";
+import latex from "../../../editor/editor/showdown/extensions/latex";
+import codeOutput from "../../../editor/editor/showdown/extensions/serlo_code_output";
 
-import showdown from 'showdown'
+const converter = new Showdown.Converter({
+    extensions: [
+        codePrepare,
+        htmlStrip,
+        latex,
+        atUsername,
+        strikeThrough,
+        latexOutput,
+        codeOutput
+    ]
+})
 
 const renderMarkdown = input => {
-  const converter = new showdown.Converter()
   let html = converter.makeHtml(input)
+  console.log(html)
   html = html.replace(/"/gm, '"')
   return html
-    .replace(/%%(.*?)%%/gm, '<katexinline>$1</katexinline>')
-    .replace(/\$\$(.*?)\$\$/gm, '<katexblock>$1</katexblock>')
+    .replace(/<span class="mathInline">%%(.*?)%%<\/span>/gm, '<katexinline>$1</katexinline>')
+    .replace(/<span class="math">\$\$(.*?)\$\$<\/span>/gm, '<katexblock>$1</katexblock>')
 }
 export default renderMarkdown

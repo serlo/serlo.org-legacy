@@ -8,7 +8,7 @@ const imagesRegEx = new RegExp(/!\[(.*?)\]\((.*?)( "(.*)?")?\)/)
 const linkedImagesRegEx = new RegExp(
   /\[!\[(.*?)\]\((.*?)( "(.*)?")?\)\]\((.*?)\)/
 )
-const tableRegEx = new RegExp(/^(((\|[^|\r\n]*)+\|( |\t)*(\r?\n|\r)?)+)/)
+const tableRegEx = new RegExp(/(^|\n)(((\|[^|\r\n]*)+\|( |\t)*(\r?\n|\r)?)+)/)
 
 const extractSpoilers = normalizedObj =>
   extract(

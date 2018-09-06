@@ -30,7 +30,7 @@ var latex = function () {
       return m1 + '<span class="mathInline">%%' + c + '%%</span>'
     })
 
-    text = text.replace(/(^|[^\\])(~D~D)([^\r]*?[^~])\2(?!~D)/gm, function (
+    text = text.replace(/(^|[^\\])(¨D¨D)([^\r]*?[^~])\2(?!¨D)/gm, function (
       wholeMatch,
       m1,
       m2,
@@ -42,8 +42,8 @@ var latex = function () {
       c = _EncodeCode(c)
       // Escape already transliterated $
       // However, do not escape already escaped $s
-      text = text.replace(/[^\\]~D/g, '\\~D')
-      return m1 + '<span class="math">~D~D' + c + '~D~D</span>'
+      text = text.replace(/[^\\]¨D/g, '\\¨D')
+      return m1 + '<span class="math">¨D¨D' + c + '¨D¨D</span>'
     })
 
     return text

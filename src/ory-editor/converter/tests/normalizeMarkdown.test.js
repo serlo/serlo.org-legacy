@@ -183,11 +183,11 @@ const cases = [
       description: 'split tables',
       input: 'Lorem \n|header1|header2 | \n|--|--|\n| row1 col1 | row1 *col2* | \n|row2 col1 | row2 col2| row2 col3|\n ipsum',
       output: {
-          normalized: 'Lorem \n§0§ ipsum',
+          normalized: 'Lorem §0§ ipsum',
           elements: [
               {
                   name: 'table',
-                  src: '|header1|header2 | \n|--|--|\n| row1 col1 | row1 *col2* | \n|row2 col1 | row2 col2| row2 col3|\n',
+                  src: '\n|header1|header2 | \n|--|--|\n| row1 col1 | row1 *col2* | \n|row2 col1 | row2 col2| row2 col3|\n',
               }
           ]
       }
