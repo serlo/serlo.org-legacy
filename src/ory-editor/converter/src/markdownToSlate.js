@@ -1,4 +1,7 @@
 import renderMarkdown from './markdownToHtml'
+import createSlate from '@splish-me/editor-plugin-slate'
+
+const slate = createSlate()
 
 const renderCell = cell => {
   const { rows = [] } = cell
@@ -6,7 +9,7 @@ const renderCell = cell => {
   if (cell.markdown) {
     return {
       content: {
-        plugin: { name: 'ory/editor/core/content/slate' },
+        plugin: { name: slate.name, version: slate.version },
         state: {
           importFromHtml: renderMarkdown(cell.markdown)
         }

@@ -96,7 +96,7 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: 'ory/editor/core/content/image'
+                              name: '@splish-me/image'
                             },
                             state: {
                               alt: 'image',
@@ -156,7 +156,7 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: 'serlo/content/injection'
+                              name: '@serlo-org/injection'
                             },
                             state: {
                               alt: 'alttext',
@@ -182,153 +182,156 @@ const cases = [
       ]
     }
   },
-  {
-    description: 'Layout with spoiler',
-    input: {
-      cells: [
-        {
-          rows: [
-            {
-              cells: [
-                {
-                  size: 12,
-                  raw: 'Lorem \n/// title\nmarkdowntext\n///\n ipsum'
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    output: {
-      cells: [
-        {
-          rows: [
-            {
-              cells: [
-                {
-                  size: 12,
-                  rows: [
-                    {
-                      cells: [
-                        {
-                          markdown: 'Lorem'
-                        }
-                      ]
-                    },
-                    {
-                      cells: [
-                        {
-                          layout: {
-                            plugin: {
-                              name: 'serlo/layout/spoiler'
-                            },
-                            state: {
-                              title: 'title'
-                            }
-                          },
-                          rows: [
-                            {
-                              cells: [
-                                {
-                                  markdown: 'markdowntext'
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      cells: [
-                        {
-                          markdown: 'ipsum'
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  },
-  {
-    description: 'Layout with image in spoiler',
-    input: {
-      cells: [
-        {
-          rows: [
-            {
-              cells: [
-                {
-                  size: 12,
-                  raw: '/// title\nmarkdowntext with image ![image](url)\n///'
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    output: {
-      cells: [
-        {
-          rows: [
-            {
-              cells: [
-                {
-                  size: 12,
-                  rows: [
-                    {
-                      cells: [
-                        {
-                          layout: {
-                            plugin: {
-                              name: 'serlo/layout/spoiler'
-                            },
-                            state: {
-                              title: 'title'
-                            }
-                          },
-                          rows: [
-                            {
-                              cells: [
-                                {
-                                  markdown: 'markdowntext with image'
-                                }
-                              ]
-                            },
-                            {
-                              cells: [
-                                {
-                                  content: {
-                                    plugin: {
-                                      name: 'ory/editor/core/content/image'
-                                    },
-                                    state: {
-                                      alt: 'image',
-                                      src: 'url'
-                                    }
-                                  }
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  },
+  // {
+  //   description: 'Layout with spoiler',
+  //   input: {
+  //     cells: [
+  //       {
+  //         rows: [
+  //           {
+  //             cells: [
+  //               {
+  //                 size: 12,
+  //                 raw: 'Lorem \n/// title\nmarkdowntext\n///\n ipsum'
+  //               }
+  //             ]
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   },
+  //   output: {
+  //     cells: [
+  //       {
+  //         rows: [
+  //           {
+  //             cells: [
+  //               {
+  //                 size: 12,
+  //                 rows: [
+  //                   {
+  //                     cells: [
+  //                       {
+  //                         markdown: 'Lorem'
+  //                       }
+  //                     ]
+  //                   },
+  //                   {
+  //                     cells: [
+  //                       {
+  //                         layout: {
+  //                           plugin: {
+  //                             name: '@serlo-org/spoiler'
+  //                           },
+  //                           state: {
+  //                             title: 'title',
+  //                             content: {
+  //                               // FIXME:
+  //                             }
+  //                           }
+  //                         },
+  //                         rows: [
+  //                           {
+  //                             cells: [
+  //                               {
+  //                                 markdown: 'markdowntext'
+  //                               }
+  //                             ]
+  //                           }
+  //                         ]
+  //                       }
+  //                     ]
+  //                   },
+  //                   {
+  //                     cells: [
+  //                       {
+  //                         markdown: 'ipsum'
+  //                       }
+  //                     ]
+  //                   }
+  //                 ]
+  //               }
+  //             ]
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // },
+  // {
+  //   description: 'Layout with image in spoiler',
+  //   input: {
+  //     cells: [
+  //       {
+  //         rows: [
+  //           {
+  //             cells: [
+  //               {
+  //                 size: 12,
+  //                 raw: '/// title\nmarkdowntext with image ![image](url)\n///'
+  //               }
+  //             ]
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   },
+  //   output: {
+  //     cells: [
+  //       {
+  //         rows: [
+  //           {
+  //             cells: [
+  //               {
+  //                 size: 12,
+  //                 rows: [
+  //                   {
+  //                     cells: [
+  //                       {
+  //                         layout: {
+  //                           plugin: {
+  //                             name: 'serlo/layout/spoiler'
+  //                           },
+  //                           state: {
+  //                             title: 'title'
+  //                           }
+  //                         },
+  //                         rows: [
+  //                           {
+  //                             cells: [
+  //                               {
+  //                                 markdown: 'markdowntext with image'
+  //                               }
+  //                             ]
+  //                           },
+  //                           {
+  //                             cells: [
+  //                               {
+  //                                 content: {
+  //                                   plugin: {
+  //                                     name: 'ory/editor/core/content/image'
+  //                                   },
+  //                                   state: {
+  //                                     alt: 'image',
+  //                                     src: 'url'
+  //                                   }
+  //                                 }
+  //                               }
+  //                             ]
+  //                           }
+  //                         ]
+  //                       }
+  //                     ]
+  //                   }
+  //                 ]
+  //               }
+  //             ]
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // },
   {
     description: 'Layout with geogebra injection',
     input: {
@@ -363,7 +366,7 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: 'serlo/content/geogebra'
+                              name: '@serlo-org/geogebra'
                             },
                             state: {
                               alt: 'alttext',
@@ -428,7 +431,7 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: 'ory/editor/core/content/image'
+                              name: '@splish-me/image'
                             },
                             state: {
                               alt: 'image',
@@ -506,35 +509,11 @@ const cases = [
                 {
                   size: 3,
                   rows: [
-                    {
-                      cells: [
-                        {
-                          content: {
-                            plugin: {
-                              name: 'ory/editor/core/content/spacer'
-                            },
-                            state: {}
-                          }
-                        }
-                      ]
-                    }
                   ]
                 },
                 {
                   size: 3,
                   rows: [
-                    {
-                      cells: [
-                        {
-                          content: {
-                            plugin: {
-                              name: 'ory/editor/core/content/spacer'
-                            },
-                            state: {}
-                          }
-                        }
-                      ]
-                    }
                   ]
                 }
               ]

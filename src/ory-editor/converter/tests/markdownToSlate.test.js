@@ -23,7 +23,7 @@ const cases = [
                         {
                           layout: {
                             plugin: {
-                              name: 'ory/editor/core/layout/spoiler'
+                              name: '@serlo-org/spoiler'
                             },
                             state: {
                               title: 'title'
@@ -42,7 +42,7 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: 'ory/editor/core/content/image'
+                                      name: '@splish-me/image'
                                     },
                                     state: {
                                       alt: 'image',
@@ -85,7 +85,7 @@ const cases = [
                         {
                           layout: {
                             plugin: {
-                              name: 'ory/editor/core/layout/spoiler'
+                              name: '@serlo-org/spoiler'
                             },
                             state: {
                               title: 'title'
@@ -97,7 +97,7 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: 'ory/editor/core/content/slate'
+                                      name: '@splish-me/slate'
                                     },
                                     state: {
                                       importFromHtml:
@@ -112,7 +112,7 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: 'ory/editor/core/content/image'
+                                      name: '@splish-me/image'
                                     },
                                     state: {
                                       alt: 'image',
@@ -127,7 +127,7 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: 'ory/editor/core/content/slate'
+                                      name: '@splish-me/slate'
                                     },
                                     state: {
                                       importFromHtml:

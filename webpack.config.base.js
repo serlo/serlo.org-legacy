@@ -6,8 +6,7 @@ module.exports = {
   target: 'web',
   entry: {
     main: './src/main',
-    editor: './src/editor',
-    oryEditor: './src/ory-editor'
+    editor: './src/editor'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -22,11 +21,6 @@ module.exports = {
       {
         test: /\.(tsx?|js)$/,
         exclude: /node_modules/,
-        loader: require.resolve('babel-loader')
-      },
-      {
-        test: /\.(tsx?|js)$/,
-        include: /node_modules\/(@serlo-org|@splish-me)\//,
         loader: require.resolve('babel-loader')
       },
       {

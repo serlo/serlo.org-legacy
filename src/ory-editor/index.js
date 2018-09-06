@@ -2,29 +2,29 @@ import * as R from 'ramda'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 
-import { HtmlRenderer } from '@splish-me/editor-core/src/html-renderer.component'
-import 'ory-editor-core/lib/index.css' // we also want to load the stylesheets
+import { HtmlRenderer } from '@splish-me/editor-core/lib/html-renderer.component'
+import '@splish-me/ory-editor-core/src/index.css'
 
-import { EditorConsumer } from '@splish-me/editor-core/src/contexts'
+import { EditorConsumer } from '@splish-me/editor-core/lib/contexts'
 import {
   Editable,
   createEditableIdentifier
-} from '@splish-me/editor-core/src/editable.component'
-import { Editor as E } from '@splish-me/editor-core/src/editor.component'
-import { ModeToolbar } from '@splish-me/editor-ui/src/mode-toolbar.component'
-import { Sidebar } from '@splish-me/editor-ui/src/sidebar.component'
-import { AddSidebar } from '@splish-me/editor-ui/src/add-sidebar.component'
-import { PluginSidebar } from '@splish-me/editor-ui/src/plugin-sidebar.component'
+} from '@splish-me/editor-core/lib/editable.component'
+import { Editor as E } from '@splish-me/editor-core/lib/editor.component'
+import { ModeToolbar } from '@splish-me/editor-ui/lib/mode-toolbar.component'
+import { Sidebar } from '@splish-me/editor-ui/lib/sidebar.component'
+import { AddSidebar } from '@splish-me/editor-ui/lib/add-sidebar.component'
+import { PluginSidebar } from '@splish-me/editor-ui/lib/plugin-sidebar.component'
 
 // Load some exemplary plugins:
 import createEditorPlugins, { defaultPlugin } from './plugins'
-import 'ory-editor-plugins-slate/lib/index.css' // Stylesheets for the rich text area plugin
-import 'ory-editor-plugins-image/lib/index.css'
-import 'ory-editor-plugins-parallax-background/lib/index.css' // Stylesheets for parallax background images
-import 'ory-editor-plugins-spacer/lib/index.css'
-import 'ory-editor-plugins-divider/lib/index.css'
-import 'ory-editor-plugins-video/lib/index.css'
-import 'katex/dist/katex.min.css'
+// import 'ory-editor-plugins-slate/lib/index.css' // Stylesheets for the rich text area plugin
+// import 'ory-editor-plugins-image/lib/index.css'
+// import 'ory-editor-plugins-parallax-background/lib/index.css' // Stylesheets for parallax background images
+// import 'ory-editor-plugins-spacer/lib/index.css'
+// import 'ory-editor-plugins-divider/lib/index.css'
+// import 'ory-editor-plugins-video/lib/index.css'
+// import 'katex/dist/katex.min.css'
 
 import $ from 'jquery'
 import t from '../modules/translator'
@@ -48,8 +48,8 @@ export const renderServersideContent = () => {
   $elements.each((i, element) => {
     const content = decodeRawContent(element)
 
-    ReactDOM.render(
-      <HtmlRenderer state={content} plugins={EditorPlugins.content} />,
+    ReactDOM.hydrate(
+      <HtmlRenderer state={content} plugins={createEditorPlugins()} />,
       element
     )
   })
@@ -63,13 +63,10 @@ class EditorComponent extends React.Component {
   editor = React.createRef()
 
   addEditable = (editable) => {
-    console.log('add-editable', editable)
     this.setState(({ editables }) => {
       const existsAlready = R.find((e) => e.id.id === editable.id, editables)
 
       if (existsAlready) {
-        console.log(editable.id, 'exists already')
-        console.log('previous element', existsAlready.element, 'new element', editable.element, existsAlready.element === editable.element)
         return null
       }
 
@@ -112,7 +109,6 @@ class EditorComponent extends React.Component {
           }}
         </EditorConsumer>
         {editables.map((editable) => {
-          console.log('rendering', editable)
           return ReactDOM.createPortal(
             <Editable id={editable.id} initialState={editable.initialState} />,
             editable.element,
@@ -128,8 +124,6 @@ export default class EntityEditor {
   constructor (id, editPath, type) {
     this.id = id
     this.editPath = editPath;
-
-    console.log(id, editPath)
 
     this.editorState = []
     this.editorComponent = React.createRef()

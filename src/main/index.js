@@ -43,6 +43,8 @@ import './modules/serlo_trigger'
 import EntityEditor, { renderServersideContent } from '../ory-editor'
 import convertWithAjax from '../ory-editor/convertAction'
 
+import 'katex/dist/katex.css'
+
 // FIXME historyjs; not needed?
 
 import './styles/main.scss'

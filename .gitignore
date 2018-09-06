@@ -60,3 +60,4 @@ typings/
 # Bundled code
 dist
 dist-cf
+dist-gcf

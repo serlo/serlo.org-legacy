@@ -3,6 +3,11 @@
  */
 import { v4 } from 'uuid'
 import markdownToSlate from './markdownToSlate'
+import table from '@serlo-org/editor-plugin-table'
+import spoiler from '@serlo-org/editor-plugin-spoiler'
+import injection from '@serlo-org/editor-plugin-injection'
+import geogebra from '@serlo-org/editor-plugin-geogebra'
+import image from '@splish-me/editor-plugin-image'
 
 const createPlugins = ({ normalized, elements }) => {
   const split = normalized
@@ -34,7 +39,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: 'serlo/content/markdown'
+            name: table.name,
+            version: table.version
           },
           state: {
             src: elem.src
@@ -47,7 +53,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: 'ory/editor/core/layout/spoiler'
+            name: spoiler.name,
+            version: spoiler.version
           },
           state: {
             title: elem.title,
@@ -71,7 +78,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: 'serlo/content/injection'
+            name: injection.name,
+            version: injection.version
           },
           state: {
             alt: elem.alt,
@@ -83,7 +91,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: 'serlo/content/geogebra'
+            name: geogebra.name,
+            version: geogebra.version
           },
           state: {
             alt: elem.alt,
@@ -95,7 +104,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: 'ory/editor/core/content/image'
+            name: image.name,
+            version: image.version
           },
           state: {
             alt: elem.alt,
