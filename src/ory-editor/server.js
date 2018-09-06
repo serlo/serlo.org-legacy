@@ -9,8 +9,11 @@
 import express from 'express'
 
 import { render } from './index.gcf'
+import bodyParser from 'body-parser'
 
 const app = express()
+
+app.use(bodyParser.json());
 
 app.post('/', render);
 
