@@ -49,7 +49,7 @@ export const renderServersideContent = () => {
     const content = decodeRawContent(element)
 
     ReactDOM.hydrate(
-      <HtmlRenderer state={content} plugins={createEditorPlugins()} />,
+      <HtmlRenderer state={content} plugins={createRenderPlugins()} />,
       element
     )
   })
@@ -210,7 +210,7 @@ export default class EntityEditor {
       const name = el.getAttribute('name')
       const type = this.getType(el)
       const existingElement = $(
-        `.editable[data-id=${this.id}][data-edit-field="${
+        `.editable[data-id="${this.id}"][data-edit-field="${
           name
         }"][data-edit-type="${type}"]`
       )
@@ -294,7 +294,7 @@ export default class EntityEditor {
       if ($formDataOnPage.length) {
         return $formDataOnPage.parent()
       } else {
-        const $editable = $(`.editable[data-id=${this.id}]`)
+        const $editable = $(`.editable[data-id="${this.id}"]`)
         return $editable.closest('article').length
           ? $editable.closest('article')
           : $('#content-layout article')

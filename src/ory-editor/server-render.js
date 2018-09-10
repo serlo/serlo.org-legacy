@@ -31,11 +31,6 @@ export function render (input, callback) {
       return
     }
     const oryState = data['cells'] ? data : converter(data)
-
-    console.log('------------------------------------')
-    console.log(JSON.stringify({ state: JSON.stringify(oryState)}))
-    console.log('------------------------------------')
-
     const output = renderToString(
       <HtmlRenderer state={oryState} plugins={createEditorPlugins()} />
     )

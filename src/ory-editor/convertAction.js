@@ -16,7 +16,7 @@ export default (id, href, callback) => {
   }).done(function (data) {
     function getEditedArticle ($all) {
       const $editable = $all.find(
-        `.editable[data-id=${id}][data-edit-type="ory"]`
+        `.editable[data-id="${id}"][data-edit-type="ory"]`
       )
       return $editable.closest('article').length
         ? $editable.closest('article')
@@ -26,7 +26,7 @@ export default (id, href, callback) => {
     const $target = getEditedArticle($('body'))
     const $dataArticle = getEditedArticle($(data))
     $target.html($dataArticle.html())
-    const $editButton = $(`.ory-edit-button[data-id=${id}]`, data)
+    const $editButton = $(`.ory-edit-button[data-id="${id}"]`, data)
     new EntityEditor(id, $editButton.attr('href'), $editButton.data('type'))
     callback($target)
   })
