@@ -1,7 +1,6 @@
 import renderMarkdown from './markdownToHtml'
-import createSlate from '@splish-me/editor-plugin-slate'
 
-const slate = createSlate()
+const slate = require('@splish-me/editor-plugin-slate/package.json')
 
 const renderCell = cell => {
   const { rows = [] } = cell
@@ -9,7 +8,7 @@ const renderCell = cell => {
   if (cell.markdown) {
     return {
       content: {
-        plugin: { name: slate.name, version: slate.version },
+        plugin: { name: '@splish-me/slate', version: slate.version },
         state: {
           importFromHtml: renderMarkdown(cell.markdown)
         }

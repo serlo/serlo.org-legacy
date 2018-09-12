@@ -1,10 +1,14 @@
+import { HtmlRenderer } from '@serlo-org/html-renderer'
+import PluginService from '@splish-me/ory-editor-core/lib/service/plugin'
+import base64 from 'base-64'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import converter from './converter'
-import { HtmlRenderer } from '@splish-me/editor-core/lib/html-renderer.component'
-import createEditorPlugins from './plugins'
-import base64 from 'base-64'
 import utf8 from 'utf8'
+
+import converter from './converter'
+import createEditorPlugins from './plugins';
+import createRenderPlugins from './plugins.render';
+
 
 export function render (input, callback) {
   let data
@@ -30,9 +34,14 @@ export function render (input, callback) {
       )
       return
     }
-    const oryState = data['cells'] ? data : converter(data)
+
+    const plugins = new PluginService({
+      content: createEditorPlugins()
+    })
+    const oryState = data['cells'] ? data : (plugins.serialize(plugins.unserialize(converter(data))))
+
     const output = renderToString(
-      <HtmlRenderer state={oryState} plugins={createEditorPlugins()} />
+      <HtmlRenderer state={oryState} plugins={createRenderPlugins()} />
     )
 
     callback(

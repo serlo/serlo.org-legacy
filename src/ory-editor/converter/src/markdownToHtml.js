@@ -21,10 +21,10 @@ const converter = new Showdown.Converter({
 
 const renderMarkdown = input => {
   let html = converter.makeHtml(input)
-  console.log(html)
   html = html.replace(/"/gm, '"')
   return html
     .replace(/<span class="mathInline">%%(.*?)%%<\/span>/gm, '<katexinline>$1</katexinline>')
     .replace(/<span class="math">\$\$(.*?)\$\$<\/span>/gm, '<katexblock>$1</katexblock>')
+    .replace(/\n/, '')
 }
 export default renderMarkdown

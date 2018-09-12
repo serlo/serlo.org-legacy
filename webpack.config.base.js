@@ -43,13 +43,13 @@ module.exports = {
         loader: 'html-loader'
       },
       {
-        test: /\.(eot|svg|ttf|woff2?)$/,
-        loader: 'file-loader'
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2)(\?.*)?$/,
+        loader: require.resolve('file-loader'),
       },
       {
-        test: /\.(jpe?g|png|gif)$/i,
-        loader: 'file-loader'
-      }
+        test: /\.svg$/,
+        loader: require.resolve('svg-url-loader'),
+      },
     ]
   },
   externals: [require('webpack-require-http')],

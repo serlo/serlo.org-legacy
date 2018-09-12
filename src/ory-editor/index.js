@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 
-import { HtmlRenderer } from '@splish-me/editor-core/lib/html-renderer.component'
+import { HtmlRenderer } from '@serlo-org/html-renderer'
 import '@splish-me/ory-editor-core/src/index.css'
 
 import { EditorConsumer } from '@splish-me/editor-core/lib/contexts'
@@ -18,6 +18,7 @@ import { PluginSidebar } from '@splish-me/editor-ui/lib/plugin-sidebar.component
 
 // Load some exemplary plugins:
 import createEditorPlugins, { defaultPlugin } from './plugins'
+import createRenderPlugins from './plugins.render'
 // import 'ory-editor-plugins-slate/lib/index.css' // Stylesheets for the rich text area plugin
 // import 'ory-editor-plugins-image/lib/index.css'
 // import 'ory-editor-plugins-parallax-background/lib/index.css' // Stylesheets for parallax background images
