@@ -26,6 +26,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.0.0",
+    "@serlo-org/editor-plugin-blockquote": "^0.0.0",
     "@serlo-org/editor-plugin-geogebra": "^0.0.4",
     "@serlo-org/editor-plugin-hint": "^0.0.3",
     "@serlo-org/editor-plugin-injection": "^0.0.2",

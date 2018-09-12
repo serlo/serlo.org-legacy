@@ -5,15 +5,10 @@ import { v4 } from 'uuid'
 import markdownToSlate from './markdownToSlate'
 import table from '@serlo-org/editor-plugin-table'
 import spoiler from '@serlo-org/editor-plugin-spoiler'
-// import blockquote from '@serlo-org/editor-plugin-blockquote'
+import blockquote from '@serlo-org/editor-plugin-blockquote'
 import injection from '@serlo-org/editor-plugin-injection'
 import geogebra from '@serlo-org/editor-plugin-geogebra'
 import image from '@splish-me/editor-plugin-image'
-
-const blockquote = {
-    name: '@serlo-org/blockquote',
-    version: '0.0.1'
-}
 
 const createPlugins = ({ normalized, elements }) => {
   const split = normalized
