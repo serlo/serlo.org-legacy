@@ -9,6 +9,7 @@ const linkedImagesRegEx = new RegExp(
   /\[!\[(.*?)\]\((.*?)( "(.*)?")?\)\]\((.*?)\)/
 )
 const tableRegEx = new RegExp(/(^|\n)(((\|[^|\r\n]*)+\|( |\t)*(\r?\n|\r)?)+)/)
+const blockquoteRegEx = new RegExp(/((^|\n)> ?[\s\S]+?)(?=(\r?\n\r?\n\w)|\Z)/m)
 
 const extractSpoilers = normalizedObj =>
   extract(
@@ -36,7 +37,7 @@ const extractInjections = normalizedObj =>
     injectionRegEx,
     match => ({
       name: 'injection',
-      alt: match[1],
+      description: match[1],
       src: match[2]
     }),
     normalizedObj
@@ -47,7 +48,7 @@ const extractGeogebra = normalizedObj =>
     geogebraInjectionRegEx,
     match => ({
       name: 'geogebra',
-      alt: match[1],
+      description: match[1],
       src: match[2]
     }),
     normalizedObj
@@ -58,7 +59,7 @@ const extractLinkedImages = normalizedObj =>
     linkedImagesRegEx,
     match => ({
       name: 'image',
-      alt: match[1],
+      description: match[1],
       src: match[2],
       title: match[4],
       href: match[5]
@@ -71,12 +72,22 @@ const extractImages = normalizedObj =>
     imagesRegEx,
     match => ({
       name: 'image',
-      alt: match[1],
+      description: match[1],
       src: match[2],
       title: match[4]
     }),
     normalizedObj
   )
+
+const extractBlockquote = normalizedObj =>
+    extract(
+        blockquoteRegEx,
+        match => ({
+            name: 'blockquote',
+            content: normalizeMarkdown(match[1].replace(/(^|\n)>/g, '$1'))
+        }),
+        normalizedObj
+    )
 
 const normalizeMarkdown = markdown => {
   var normalizedObj = {
@@ -85,6 +96,7 @@ const normalizeMarkdown = markdown => {
   }
   normalizedObj = extractSpoilers(normalizedObj)
   normalizedObj = extractTable(normalizedObj)
+  normalizedObj = extractBlockquote(normalizedObj)
   normalizedObj = extractInjections(normalizedObj)
   normalizedObj = extractGeogebra(normalizedObj)
   normalizedObj = extractLinkedImages(normalizedObj)

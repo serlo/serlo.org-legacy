@@ -936,6 +936,13 @@
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@serlo-org/editor-plugin-injection/-/editor-plugin-injection-0.0.2.tgz#2c5a896de5f9aa343d7b7e46ad086885d0dca801"
 
+"@serlo-org/editor-plugin-input-exercise@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@serlo-org/editor-plugin-input-exercise/-/editor-plugin-input-exercise-0.0.2.tgz#29092753b53a9070815d79aa82949c621d5b88e5"
+  dependencies:
+    algebra.js "^0.2.6"
+    string "^3.3.3"
+
 "@serlo-org/editor-plugin-input-exercise@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@serlo-org/editor-plugin-input-exercise/-/editor-plugin-input-exercise-0.0.3.tgz#f4e2e46b5c587a720c8b4b16f7dfed0a2f0f3677"
@@ -946,6 +953,10 @@
 "@serlo-org/editor-plugin-license@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@serlo-org/editor-plugin-license/-/editor-plugin-license-0.0.1.tgz#f854b40ab778620ad7a1553202ffc11f7d83730f"
+
+"@serlo-org/editor-plugin-sc-mc-exercise@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@serlo-org/editor-plugin-sc-mc-exercise/-/editor-plugin-sc-mc-exercise-0.0.2.tgz#bba495dca390f2422da0b5571eb424210d7971e0"
 
 "@serlo-org/editor-plugin-sc-mc-exercise@^0.0.3":
   version "0.0.3"
@@ -958,6 +969,13 @@
 "@serlo-org/editor-plugin-spoiler@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@serlo-org/editor-plugin-spoiler/-/editor-plugin-spoiler-0.0.3.tgz#9908d9a7ebbcf9044fc45793c2f1529ece72dc98"
+
+"@serlo-org/editor-plugin-table@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@serlo-org/editor-plugin-table/-/editor-plugin-table-0.0.1.tgz#d589bcd959308a6da0540168894622cbe5f6c8f6"
+  dependencies:
+    react-markdown "^3.3.2"
+    react-textarea-autosize "^6.1.0"
 
 "@serlo-org/editor-plugin-table@^0.0.2":
   version "0.0.2"
@@ -993,9 +1011,9 @@
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/@sheerun/eslint-config-standard/-/eslint-config-standard-10.2.1.tgz#7d73397369c396b3625cab6ec313f6d4208300ef"
 
-"@splish-me/editor-core@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@splish-me/editor-core/-/editor-core-0.0.2.tgz#9ad3db7769f7797479c2b6c5ba0a476c8d9c05a0"
+"@splish-me/editor-core@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@splish-me/editor-core/-/editor-core-0.0.1.tgz#a606c1c49ef510fc0637b0b400e4c305e1191c20"
   dependencies:
     "@babel/cli" "^7.0.0"
     "@types/classnames" "^2.2.6"
@@ -1010,6 +1028,27 @@
 "@splish-me/editor-plugin-image@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@splish-me/editor-plugin-image/-/editor-plugin-image-0.0.4.tgz#20d09c6028887db39d350bd29e6c19c0c3b80f2e"
+
+"@splish-me/editor-plugin-slate@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@splish-me/editor-plugin-slate/-/editor-plugin-slate-0.0.5.tgz#8524c052d5a82cdc2ce2d470e8f639b9aa1e99a2"
+  dependencies:
+    "@material-ui/core" "^1.5.1"
+    "@material-ui/icons" "^2.0.3"
+    deep-rename-keys "^0.2.1"
+    immutable "^3.8.2"
+    katex "^0.10.0-rc.1"
+    parse5 "^3.0.2"
+    ramda "^0.24.1"
+    react-portal "4.1.5"
+    redux-undo "1.0.0-beta9-7"
+    selection-position "^1.0.0"
+    slate "^0.38.2"
+    slate-edit-blockquote "^0.6.1"
+    slate-edit-list "^0.12.0"
+    slate-html-serializer "^0.7.2"
+    slate-plain-serializer "^0.5.30"
+    slate-react "^0.15.4"
 
 "@splish-me/editor-plugin-slate@^0.0.9":
   version "0.0.9"
@@ -1038,13 +1077,14 @@
   dependencies:
     react-resizable "^1.7.5"
 
-"@splish-me/editor-ui@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@splish-me/editor-ui/-/editor-ui-0.0.3.tgz#3e61e2144b71f9724a2848e8fb031d12fa59be8b"
+"@splish-me/editor-ui@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@splish-me/editor-ui/-/editor-ui-0.0.0.tgz#498bc758e5d7467b20cd26714fa107b23b440dca"
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.4"
     "@fortawesome/free-solid-svg-icons" "^5.3.1"
     "@fortawesome/react-fontawesome" "^0.1.2"
+    "@splish-me/editor-core" "^0.0.1"
     emotion "^9.2.8"
     react-autosuggest "^9.4.0"
     react-emotion "^9.2.8"
@@ -1101,8 +1141,8 @@
     "@types/react" "*"
 
 "@types/react@*":
-  version "16.4.14"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.14.tgz#47c604c8e46ed674bbdf4aabf82b34b9041c6a04"
+  version "16.4.13"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.13.tgz#1385f5dc3486aa493849a32ccce626a817543e28"
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -5195,6 +5235,10 @@ is-dotfile@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.3.tgz#a6a2f32ffd2dfb04f5ca25ecd0f6b83cf798a1e1"
 
+is-empty@^1.0.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/is-empty/-/is-empty-1.2.0.tgz#de9bb5b278738a05a0b09a57e1fb4d4a341a9f6b"
+
 is-equal-shallow@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/is-equal-shallow/-/is-equal-shallow-0.1.3.tgz#2238098fc221de0bcfa5d9eac4c45d638aa1c534"
@@ -6023,7 +6067,13 @@ katex@^0.10.0-rc.1:
   dependencies:
     commander "^2.16.0"
 
-keycode@^2.1.9:
+katex@^0.9.0-alpha1:
+  version "0.9.0-alpha1"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.9.0-alpha1.tgz#95e2899fa2aac9927f7e3bc2744d39670dfd8cc5"
+  dependencies:
+    match-at "^0.1.1"
+
+keycode@^2.1.2, keycode@^2.1.9:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.2.0.tgz#3d0af56dc7b8b8e5cba8d0a97f107204eec22b04"
 
@@ -6398,6 +6448,10 @@ map-visit@^1.0.0:
 markdown-escapes@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/markdown-escapes/-/markdown-escapes-1.0.2.tgz#e639cbde7b99c841c0bacc8a07982873b46d2122"
+
+match-at@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/match-at/-/match-at-0.1.1.tgz#25d040d291777704d5e6556bbb79230ec2de0540"
 
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
@@ -8111,6 +8165,10 @@ react-jss@^8.1.0:
     prop-types "^15.6.0"
     theming "^1.3.0"
 
+react-katex@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-katex/-/react-katex-1.2.0.tgz#bdbdbd98856ebc1448b607487d9385b7dca06907"
+
 react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
@@ -8129,6 +8187,18 @@ react-markdown@^3.3.2:
 react-portal@4.1.5:
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-4.1.5.tgz#6665d4d2a92d47d6f8b07a6529e26fc52d5cccde"
+  dependencies:
+    prop-types "^15.5.8"
+
+react-portal@^3.1.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-3.2.0.tgz#4224e19b2b05d5cbe730a7ba0e34ec7585de0043"
+  dependencies:
+    prop-types "^15.5.8"
+
+react-portal@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-4.0.0.tgz#d327b495dc72a305e8a3e351f212a2d94677f913"
   dependencies:
     prop-types "^15.5.8"
 
@@ -8239,7 +8309,7 @@ readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable
 
 readable-stream@^2.3.5:
   version "2.3.6"
-  resolved "http://registry.npmjs.org/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
   dependencies:
     core-util-is "~1.0.0"
     inherits "~2.0.3"
@@ -9015,7 +9085,7 @@ slash@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-2.0.0.tgz#de552851a1759df3a8f206535442f5ec4ddeab44"
 
-slate-base64-serializer@^0.2.63:
+slate-base64-serializer@^0.2.53, slate-base64-serializer@^0.2.63:
   version "0.2.63"
   resolved "https://registry.yarnpkg.com/slate-base64-serializer/-/slate-base64-serializer-0.2.63.tgz#b086dfce5145c29b8465dc54ff5493b726ddca07"
   dependencies:
@@ -9027,6 +9097,10 @@ slate-dev-environment@^0.2.0:
   dependencies:
     is-in-browser "^1.1.3"
 
+slate-dev-logger@^0.1.43:
+  version "0.1.43"
+  resolved "https://registry.yarnpkg.com/slate-dev-logger/-/slate-dev-logger-0.1.43.tgz#77f6ca7207fcbf453a5516f3aa8b19794d1d26dc"
+
 slate-dev-warning@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/slate-dev-warning/-/slate-dev-warning-0.0.1.tgz#f6c36731babea5e301b5bd504fe64911dd24200a"
@@ -9035,7 +9109,7 @@ slate-edit-blockquote@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/slate-edit-blockquote/-/slate-edit-blockquote-0.6.1.tgz#ac145210f50b749ea06f547763b9a2f57187a550"
 
-slate-edit-list@^0.12.1:
+slate-edit-list@^0.12.0, slate-edit-list@^0.12.1:
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/slate-edit-list/-/slate-edit-list-0.12.1.tgz#11a83e4c91af858b37a516ef0b2a868910eb4903"
 
@@ -9052,13 +9126,40 @@ slate-html-serializer@^0.7.2:
   dependencies:
     type-of "^2.0.1"
 
+slate-plain-serializer@^0.5.30, slate-plain-serializer@^0.5.34:
+  version "0.5.41"
+  resolved "https://registry.yarnpkg.com/slate-plain-serializer/-/slate-plain-serializer-0.5.41.tgz#dc2d219602c2cb8dc710ac660e108f3b3cc4dc80"
+  dependencies:
+    slate-dev-logger "^0.1.43"
+
 slate-plain-serializer@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/slate-plain-serializer/-/slate-plain-serializer-0.6.2.tgz#8d406f9523d7ba219d14bf300d30d7e093430247"
 
-slate-prop-types@^0.4.61:
+slate-prop-types@^0.4.51, slate-prop-types@^0.4.61:
   version "0.4.61"
   resolved "https://registry.yarnpkg.com/slate-prop-types/-/slate-prop-types-0.4.61.tgz#141c109bed81b130dd03ab86dd7541b28d6d962a"
+
+slate-react@^0.15.4:
+  version "0.15.9"
+  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.15.9.tgz#7a11746fbe5554e5cff020f1c430e266f0d995f5"
+  dependencies:
+    debug "^3.1.0"
+    get-window "^1.1.1"
+    is-window "^1.0.2"
+    keycode "^2.1.2"
+    lodash "^4.1.1"
+    memoize-one "^4.0.0"
+    prop-types "^15.5.8"
+    react-immutable-proptypes "^2.1.0"
+    react-portal "^3.1.0"
+    selection-is-backward "^1.0.0"
+    slate-base64-serializer "^0.2.53"
+    slate-dev-environment "^0.2.0"
+    slate-dev-logger "^0.1.43"
+    slate-hotkeys "^0.2.3"
+    slate-plain-serializer "^0.5.34"
+    slate-prop-types "^0.4.51"
 
 slate-react@^0.18.5:
   version "0.18.5"
@@ -9078,6 +9179,24 @@ slate-react@^0.18.5:
     slate-hotkeys "^0.2.3"
     slate-plain-serializer "^0.6.2"
     slate-prop-types "^0.4.61"
+
+slate-schema-violations@^0.1.35:
+  version "0.1.39"
+  resolved "https://registry.yarnpkg.com/slate-schema-violations/-/slate-schema-violations-0.1.39.tgz#854ab5624136419cef4c803b1823acabe11f1c15"
+
+slate@^0.38.2:
+  version "0.38.2"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.38.2.tgz#973c8e0b1f31f2fc5edfeaf4572ab5e04b58adcb"
+  dependencies:
+    debug "^3.1.0"
+    direction "^0.1.5"
+    esrever "^0.2.0"
+    is-empty "^1.0.0"
+    is-plain-object "^2.0.4"
+    lodash "^4.17.4"
+    slate-dev-logger "^0.1.43"
+    slate-schema-violations "^0.1.35"
+    type-of "^2.0.1"
 
 slate@^0.40.2:
   version "0.40.2"

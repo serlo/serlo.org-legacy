@@ -5,9 +5,15 @@ import { v4 } from 'uuid'
 import markdownToSlate from './markdownToSlate'
 import table from '@serlo-org/editor-plugin-table'
 import spoiler from '@serlo-org/editor-plugin-spoiler'
+// import blockquote from '@serlo-org/editor-plugin-blockquote'
 import injection from '@serlo-org/editor-plugin-injection'
 import geogebra from '@serlo-org/editor-plugin-geogebra'
 import image from '@splish-me/editor-plugin-image'
+
+const blockquote = {
+    name: '@serlo-org/blockquote',
+    version: '0.0.1'
+}
 
 const createPlugins = ({ normalized, elements }) => {
   const split = normalized
@@ -47,7 +53,7 @@ const createPluginCell = elem => {
           }
         }
       }
-    case 'spoiler':
+    case 'spoiler': {
       const rows = createPlugins(elem.content)
 
       return {
@@ -74,7 +80,28 @@ const createPluginCell = elem => {
           }
         }
       }
-    case 'injection':
+    }
+      case 'blockquote': {
+      const rows = createPlugins(elem.content)
+      return {
+        content: {
+          plugin: {
+            name: blockquote.name,
+            version: blockquote.version
+          },
+          state: markdownToSlate({
+            id: v4(),
+            cells: [
+              {
+                id: v4(),
+                rows
+              }
+            ]
+          })
+        }
+      }
+    }
+      case 'injection':
       return {
         content: {
           plugin: {
@@ -82,7 +109,7 @@ const createPluginCell = elem => {
             version: injection.version
           },
           state: {
-            alt: elem.alt,
+            description: elem.description,
             src: elem.src
           }
         }
@@ -95,7 +122,7 @@ const createPluginCell = elem => {
             version: geogebra.version
           },
           state: {
-            alt: elem.alt,
+            description: elem.description,
             src: elem.src
           }
         }
@@ -108,7 +135,8 @@ const createPluginCell = elem => {
             version: image.version
           },
           state: {
-            alt: elem.alt,
+            description: elem.description,
+            title: elem.title,
             src: elem.src,
             href: elem.href ? elem.href : undefined
           }

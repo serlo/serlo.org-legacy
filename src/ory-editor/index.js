@@ -17,8 +17,8 @@ import { AddSidebar } from '@splish-me/editor-ui/lib/add-sidebar.component'
 import { PluginSidebar } from '@splish-me/editor-ui/lib/plugin-sidebar.component'
 
 // Load some exemplary plugins:
-import createEditorPlugins, { defaultPlugin } from './plugins'
-import createRenderPlugins from './plugins.render'
+import createEditorPlugins, {defaultPlugin} from '@serlo-org/editor-plugins'
+import createRenderPlugins from '@serlo-org/editor-plugins/lib/index.render'
 // import 'ory-editor-plugins-slate/lib/index.css' // Stylesheets for the rich text area plugin
 // import 'ory-editor-plugins-image/lib/index.css'
 // import 'ory-editor-plugins-parallax-background/lib/index.css' // Stylesheets for parallax background images
