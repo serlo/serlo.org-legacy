@@ -100,7 +100,7 @@ const cases = [
                               version: '0.0.4'
                             },
                             state: {
-                              alt: 'image',
+                              description: 'image',
                               src: 'url'
                             }
                           }
@@ -161,7 +161,7 @@ const cases = [
                               version: '0.0.2'
                             },
                             state: {
-                              alt: 'alttext',
+                              description: 'alttext',
                               src: 'url'
                             }
                           }
@@ -314,7 +314,7 @@ const cases = [
   //                                     name: 'ory/editor/core/content/image'
   //                                   },
   //                                   state: {
-  //                                     alt: 'image',
+  //                                     description: 'image',
   //                                     src: 'url'
   //                                   }
   //                                 }
@@ -372,7 +372,7 @@ const cases = [
                                 version: '0.0.4'
                             },
                             state: {
-                              alt: 'alttext',
+                              description: 'alttext',
                               src: 'url'
                             }
                           }
@@ -438,7 +438,7 @@ const cases = [
                                 version: '0.0.4'
                             },
                             state: {
-                              alt: 'image',
+                              description: 'image',
                               src: 'imageurl',
                               href: 'linkurl'
                             }
@@ -526,7 +526,73 @@ const cases = [
         }
       ]
     }
-  }
+  },
+    // {
+    //     description: 'Blockquote',
+    //     input: {
+    //         cells: [
+    //             {
+    //                 rows: [
+    //                     {
+    //                         cells: [
+    //                             {
+    //                                 size: 12,
+    //                                 raw: 'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur'
+    //                             }
+    //                         ]
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     },
+    //     output: {
+    //         cells: [
+    //             {
+    //                 rows: [
+    //                     {
+    //                         cells: [
+    //                             {
+    //                                 size: 12,
+    //                                 rows: [
+    //                                     {
+    //                                         cells: [
+    //                                             {
+    //                                                 markdown: 'Lorem'
+    //                                             }
+    //                                         ]
+    //                                     },
+    //                                     {
+    //                                         cells: [
+    //                                             {
+    //                                                 content: {
+    //                                                     plugin: {
+    //                                                         name: '@serlo-org/blockquote',
+    //                                                         version: '0.0.1'
+    //                                                     },
+    //                                                     state: {
+    //                                                       //actually some slate plugin
+    //                                                       text: 'ipsum\n dolor\n\nsit amet'
+    //                                                     }
+    //                                                 }
+    //                                             }
+    //                                         ]
+    //                                     },
+    //                                     {
+    //                                         cells: [
+    //                                             {
+    //                                                 markdown: 'consectetur'
+    //                                             }
+    //                                         ]
+    //                                     }
+    //                                 ]
+    //                             }
+    //                         ]
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     }
+    // }
 ]
 
 cases.forEach(testcase => {

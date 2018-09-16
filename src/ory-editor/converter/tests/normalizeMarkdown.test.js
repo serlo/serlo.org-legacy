@@ -32,7 +32,7 @@ const cases = [
       elements: [
         {
           name: 'injection',
-          alt: 'alttext',
+          description: 'alttext',
           src: 'url'
         }
       ]
@@ -46,7 +46,7 @@ const cases = [
       elements: [
         {
           name: 'image',
-          alt: 'image',
+          description: 'image',
           src: 'url'
         }
       ]
@@ -60,7 +60,7 @@ const cases = [
       elements: [
         {
           name: 'image',
-          alt: 'image',
+          description: 'image',
           src: 'url',
           title: 'title'
         }
@@ -81,7 +81,7 @@ const cases = [
             elements: [
               {
                 name: 'image',
-                alt: 'image',
+                description: 'image',
                 src: 'url'
               }
             ]
@@ -104,7 +104,7 @@ const cases = [
             elements: [
               {
                 name: 'image',
-                alt: 'image',
+                description: 'image',
                 src: 'url',
                 title: 'title'
               }
@@ -124,12 +124,12 @@ const cases = [
       elements: [
         {
           name: 'image',
-          alt: 'image',
+          description: 'image',
           src: 'url'
         },
         {
           name: 'image',
-          alt: 'image2',
+          description: 'image2',
           src: 'url2'
         }
       ]
@@ -143,7 +143,7 @@ const cases = [
       elements: [
         {
           name: 'geogebra',
-          alt: 'alttext',
+          description: 'alttext',
           src: 'url'
         }
       ]
@@ -157,7 +157,7 @@ const cases = [
       elements: [
         {
           name: 'image',
-          alt: 'image',
+          description: 'image',
           src: 'imageurl',
           href: 'linkurl'
         }
@@ -172,7 +172,7 @@ const cases = [
       elements: [
         {
           name: 'image',
-          alt: 'image',
+          description: 'image',
           src: 'imageurl',
           title: 'imagetitle',
           href: 'linkurl'
