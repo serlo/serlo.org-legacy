@@ -922,9 +922,9 @@
     react-markdown "^3.3.2"
     react-textarea-autosize "^6.1.0"
 
-"@serlo-org/editor-plugins@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@serlo-org/editor-plugins/-/editor-plugins-0.0.3.tgz#6153508ecf82d13c8f5e06a1ff381a19473c9588"
+"@serlo-org/editor-plugins@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@serlo-org/editor-plugins/-/editor-plugins-0.0.4.tgz#55aca3bc14cb3433639a36002d084dc293143106"
   dependencies:
     "@serlo-org/editor-plugin-blockquote" "^0.0.0"
     "@serlo-org/editor-plugin-geogebra" "^0.0.4"
@@ -938,16 +938,16 @@
     "@serlo-org/editor-plugin-table" "^0.0.2"
     "@splish-me/editor-plugin-divider" "^0.0.2"
     "@splish-me/editor-plugin-image" "^0.0.4"
-    "@splish-me/editor-plugin-slate" "^0.0.10"
+    "@splish-me/editor-plugin-slate" "^0.0.11"
     "@splish-me/editor-plugin-spacer" "^0.0.2"
 
 "@serlo-org/html-renderer@^0.0.0":
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/@serlo-org/html-renderer/-/html-renderer-0.0.0.tgz#179bed39cd9fdee4e94081ba17248883b9c296c2"
 
-"@splish-me/editor-core@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@splish-me/editor-core/-/editor-core-0.0.2.tgz#9ad3db7769f7797479c2b6c5ba0a476c8d9c05a0"
+"@splish-me/editor-core@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@splish-me/editor-core/-/editor-core-0.0.4.tgz#cd5e782d901f47375aab552d99d5ff95ea45c13e"
   dependencies:
     "@babel/cli" "^7.0.0"
     "@types/classnames" "^2.2.6"
@@ -963,9 +963,9 @@
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@splish-me/editor-plugin-image/-/editor-plugin-image-0.0.4.tgz#20d09c6028887db39d350bd29e6c19c0c3b80f2e"
 
-"@splish-me/editor-plugin-slate@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@splish-me/editor-plugin-slate/-/editor-plugin-slate-0.0.10.tgz#358800052b88300473fe6c8dffd35f7f69c92485"
+"@splish-me/editor-plugin-slate@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@splish-me/editor-plugin-slate/-/editor-plugin-slate-0.0.11.tgz#145343eed104a0b2e065ad05bc7efa159cd90491"
   dependencies:
     "@material-ui/core" "^1.5.1"
     "@material-ui/icons" "^2.0.3"

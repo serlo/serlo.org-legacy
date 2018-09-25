@@ -25,9 +25,9 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@serlo-org/editor-plugins": "^0.0.3",
+    "@serlo-org/editor-plugins": "^0.0.4",
     "@serlo-org/html-renderer": "^0.0.0",
-    "@splish-me/editor-core": "^0.0.2",
+    "@splish-me/editor-core": "^0.0.4",
     "@splish-me/editor-ui": "^0.0.3",
     "@splish-me/ory-editor-core": "^0.0.5",
     "algebra.js": "^0.2.6",
