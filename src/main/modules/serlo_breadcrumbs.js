@@ -22,7 +22,7 @@ defaults = {
  *
  * Main constructor
  **/
-Breadcrumbs = function (options) {
+Breadcrumbs = function(options) {
   if (!(this instanceof Breadcrumbs)) {
     return new Breadcrumbs(options)
   }
@@ -38,7 +38,7 @@ Breadcrumbs = function (options) {
   self.$wrapper = $(this.options.wrapperId)
   self.$breadcrumbs = $(this.options.breadcrumbId)
 
-  self.$breadcrumbs.children().each(function () {
+  self.$breadcrumbs.children().each(function() {
     $(this)
       .find('a')
       .append(self.options.icon.clone())
@@ -53,7 +53,7 @@ Breadcrumbs = function (options) {
   self.hiddenElements = []
 
   if (len > 0) {
-    elements.each(function (i, el) {
+    elements.each(function(i, el) {
       //  dont add subject, topic name and entity name yet
       if (i === 0 || i === len - 2 || i === len - 1) {
         return true
@@ -73,7 +73,7 @@ Breadcrumbs = function (options) {
 
   // adapt height; repeat on resize
   this.adaptHeight()
-  $(window).bind('resizeDelay', function () {
+  $(window).bind('resizeDelay', function() {
     self.adaptHeight()
   })
 }
@@ -81,7 +81,7 @@ Breadcrumbs = function (options) {
 /**
  * @method initDots
  */
-Breadcrumbs.prototype.initDots = function () {
+Breadcrumbs.prototype.initDots = function() {
   this.$dots = $('<li>', { class: 'hidden' })
   this.$dotsLink = $('<a>', { html: '…' }).append(this.options.icon.clone())
   this.$dots.append(this.$dotsLink)
@@ -96,7 +96,7 @@ Breadcrumbs.prototype.initDots = function () {
  * @method hasShownElements
  * @return {boolean} true iff there are shown elements
  */
-Breadcrumbs.prototype.hasShownElements = function () {
+Breadcrumbs.prototype.hasShownElements = function() {
   return this.shownElements.length > 0
 }
 
@@ -104,7 +104,7 @@ Breadcrumbs.prototype.hasShownElements = function () {
  * @method hasHiddenElements
  * @return {boolean} true iff there are hidden elements
  */
-Breadcrumbs.prototype.hasHiddenElements = function () {
+Breadcrumbs.prototype.hasHiddenElements = function() {
   return this.hiddenElements.length > 0
 }
 
@@ -112,7 +112,7 @@ Breadcrumbs.prototype.hasHiddenElements = function () {
  * @method isTooHigh
  * @return {boolean} true iff the wrapper is too high
  */
-Breadcrumbs.prototype.isTooHigh = function () {
+Breadcrumbs.prototype.isTooHigh = function() {
   return this.$wrapper.height() > this.options.height
 }
 
@@ -121,7 +121,7 @@ Breadcrumbs.prototype.isTooHigh = function () {
  *
  * Shows the first hidden element
  */
-Breadcrumbs.prototype.showNextElement = function () {
+Breadcrumbs.prototype.showNextElement = function() {
   var el = this.hiddenElements.pop()
   el.removeClass('hidden')
   this.shownElements.unshift(el)
@@ -137,7 +137,7 @@ Breadcrumbs.prototype.showNextElement = function () {
  *
  * Hides the last shown element
  */
-Breadcrumbs.prototype.hideNextElement = function () {
+Breadcrumbs.prototype.hideNextElement = function() {
   var el = this.shownElements.shift()
   el.addClass('hidden')
   this.hiddenElements.push(el)
@@ -158,7 +158,7 @@ Breadcrumbs.prototype.hideNextElement = function () {
  *
  * Shows as much elements as possible without breaking the wrappers height. Hides exceeding elements.
  */
-Breadcrumbs.prototype.adaptHeight = function () {
+Breadcrumbs.prototype.adaptHeight = function() {
   var self = this
 
   // try to show more elements

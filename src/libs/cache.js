@@ -20,15 +20,15 @@ var useJSON = supports.JSON
  *   - gets used, when there is no Storage available
  *   - uses jQuery.cookie if available
  */
-function FakeStorage () {
+function FakeStorage() {
   this.values = {}
 }
 
-FakeStorage.prototype.isFake = function () {
+FakeStorage.prototype.isFake = function() {
   return !supports.jQueryCookie
 }
 
-FakeStorage.prototype.setItem = function (key, value) {
+FakeStorage.prototype.setItem = function(key, value) {
   if (supports.jQueryCookie) {
     return $.cookie(key, value, {
       json: useJSON
@@ -38,7 +38,7 @@ FakeStorage.prototype.setItem = function (key, value) {
   return value
 }
 
-FakeStorage.prototype.getItem = function (key) {
+FakeStorage.prototype.getItem = function(key) {
   if (supports.jQueryCookie) {
     return $.cookie(key, undefined, {
       json: useJSON
@@ -47,7 +47,7 @@ FakeStorage.prototype.getItem = function (key) {
   return this.values[key] || null
 }
 
-FakeStorage.prototype.removeItem = function (key) {
+FakeStorage.prototype.removeItem = function(key) {
   if (supports.jQueryCookie) {
     return $.removeCookie(key)
   }
@@ -55,7 +55,7 @@ FakeStorage.prototype.removeItem = function (key) {
   return true
 }
 
-FakeStorage.prototype.clear = function () {
+FakeStorage.prototype.clear = function() {
   if (supports.jQueryCookie) {
     deleteAllCookies()
   } else {
@@ -80,7 +80,7 @@ usedStorage = supports.localStorage ? window.localStorage : new FakeStorage()
  *   returns the Cache itself
  */
 
-function CacheInit () {
+function CacheInit() {
   return Cache
 }
 
@@ -88,7 +88,7 @@ function CacheInit () {
  * decodes JSON
  */
 
-function decodeData (data) {
+function decodeData(data) {
   if (useJSON) {
     try {
       return JSON.parse(data)
@@ -103,7 +103,7 @@ function decodeData (data) {
  * encodes JSON
  */
 
-function encodeData (data) {
+function encodeData(data) {
   if (useJSON) {
     try {
       return JSON.stringify(data)
@@ -116,7 +116,7 @@ function encodeData (data) {
  *   returns all available actions on the given memorykey
  */
 
-function Cache (memoryKey) {
+function Cache(memoryKey) {
   return Cache.prototype.functions(memoryKey)
 }
 
@@ -124,7 +124,7 @@ function Cache (memoryKey) {
  *  memorize function
  */
 
-function memorize (value) {
+function memorize(value) {
   /* jshint validthis:true */
   usedStorage.setItem(this.memoryKey, encodeData(value))
   return value
@@ -134,7 +134,7 @@ function memorize (value) {
  *  remember function
  */
 
-function remember () {
+function remember() {
   /* jshint validthis:true */
   var value = usedStorage.getItem(this.memoryKey)
   return decodeData(value)
@@ -144,7 +144,7 @@ function remember () {
  *  forget function
  */
 
-function forget () {
+function forget() {
   /* jshint validthis:true */
   return usedStorage.removeItem(this.memoryKey)
 }
@@ -153,7 +153,7 @@ function forget () {
  *    returns an object of actions
  */
 
-Cache.prototype.functions = function (memoryKey) {
+Cache.prototype.functions = function(memoryKey) {
   if (memoryKey === undefined) {
     throw new Error('No valid memory key given')
   }
@@ -171,7 +171,7 @@ Cache.prototype.functions = function (memoryKey) {
          * see http://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
          */
 
-function deleteAllCookies () {
+function deleteAllCookies() {
   var cookies = window.document.cookie.split(';')
   var i
   var length
@@ -195,7 +195,7 @@ function deleteAllCookies () {
  *  returns false if Cache has no possibility to store any data
  */
 
-Cache.runs = function () {
+Cache.runs = function() {
   return !(
     typeof usedStorage.isFake === 'function' && usedStorage.isFake() === true
   )
@@ -206,7 +206,7 @@ Cache.runs = function () {
  *   "localStorage" || "sessionStorage"
  */
 
-Cache.setStorage = function (storageType) {
+Cache.setStorage = function(storageType) {
   if (
     (storageType === 'localStorage' || storageType === 'sessionStorage') &&
     supports[storageType]
@@ -221,7 +221,7 @@ Cache.setStorage = function (storageType) {
  *  returns the current used storage
  */
 
-Cache.getStorage = function () {
+Cache.getStorage = function() {
   return usedStorage
 }
 
@@ -229,7 +229,7 @@ Cache.getStorage = function () {
  *  tells the cache to use JSON
  */
 
-Cache.json = function () {
+Cache.json = function() {
   useJSON = true
   return useJSON
 }
@@ -238,7 +238,7 @@ Cache.json = function () {
  *  tells the cache not to use JSON
  */
 
-Cache.nojson = function () {
+Cache.nojson = function() {
   useJSON = false
   return !useJSON
 }
@@ -247,7 +247,7 @@ Cache.nojson = function () {
  *  tells the cache, to go out, get drunk and forget about everything
  */
 
-Cache.getDrunk = function () {
+Cache.getDrunk = function() {
   return usedStorage.clear()
 }
 

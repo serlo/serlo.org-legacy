@@ -12,13 +12,13 @@
  * | Plain   | Value                                              |
  *
  */
-var table = function () {
+var table = function() {
   var tables = {}
   var style = 'text-align:left;'
   var filter
   var callbackConverter
 
-  tables.th = function (header) {
+  tables.th = function(header) {
     return (
       '<th style="' +
       style +
@@ -27,12 +27,12 @@ var table = function () {
       '</th>'
     )
   }
-  tables.td = function (cell) {
+  tables.td = function(cell) {
     return (
       '<td style="' + style + '">' + callbackConverter.makeHtml(cell) + '</td>'
     )
   }
-  tables.ths = function () {
+  tables.ths = function() {
     var out = ''
     var i = 0
     var hs = [].slice.apply(arguments)
@@ -42,7 +42,7 @@ var table = function () {
     }
     return out
   }
-  tables.tds = function () {
+  tables.tds = function() {
     var out = ''
     var i = 0
     var ds = [].slice.apply(arguments)
@@ -51,7 +51,7 @@ var table = function () {
     }
     return out
   }
-  tables.thead = function () {
+  tables.thead = function() {
     var out
     var hs = [].slice.apply(arguments)
     out = '<thead>\n'
@@ -61,7 +61,7 @@ var table = function () {
     out += '</thead>\n'
     return out
   }
-  tables.tr = function () {
+  tables.tr = function() {
     var out
     var cs = [].slice.apply(arguments)
     out = '<tr>\n'
@@ -69,7 +69,7 @@ var table = function () {
     out += '</tr>\n'
     return out
   }
-  filter = function (text, converter) {
+  filter = function(text, converter) {
     var i = 0
     var lines = text.split('\n')
     var tbl = []
@@ -127,7 +127,7 @@ var table = function () {
 
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_table', ['showdown'], function (Showdown) {
+  define('showdown_table', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.table = table
   })

@@ -21,7 +21,7 @@ commandWrapper = {
   shift: Common.KeyCode.shift
 }
 
-checkWrapper = Common.memoize(function (keyCode) {
+checkWrapper = Common.memoize(function(keyCode) {
   var key
   var result = keyCode
 
@@ -35,7 +35,7 @@ checkWrapper = Common.memoize(function (keyCode) {
   return result
 })
 
-function triggerShortcut (e) {
+function triggerShortcut(e) {
   var commands = []
 
   if (e.metaKey) {
@@ -66,13 +66,13 @@ function triggerShortcut (e) {
   this.trigger('always', commands, e)
 }
 
-Shortcuts = function () {
+Shortcuts = function() {
   var that = this
 
   eventScope(that)
 
   $(window).keydown(
-    _.throttle(function (e) {
+    _.throttle(function(e) {
       triggerShortcut.call(that, e)
     }, 150)
   )

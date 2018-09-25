@@ -23,14 +23,14 @@ const extractSpoilers = normalizedObj =>
   )
 
 const extractTable = normalizedObj =>
-    extract(
-        tableRegEx,
-        match => ({
-            name: 'table',
-            src: match[0]
-        }),
-        normalizedObj
-    )
+  extract(
+    tableRegEx,
+    match => ({
+      name: 'table',
+      src: match[0]
+    }),
+    normalizedObj
+  )
 
 const extractInjections = normalizedObj =>
   extract(
@@ -80,14 +80,14 @@ const extractImages = normalizedObj =>
   )
 
 const extractBlockquote = normalizedObj =>
-    extract(
-        blockquoteRegEx,
-        match => ({
-            name: 'blockquote',
-            content: normalizeMarkdown(match[1].replace(/(^|\n)>/g, '$1'))
-        }),
-        normalizedObj
-    )
+  extract(
+    blockquoteRegEx,
+    match => ({
+      name: 'blockquote',
+      content: normalizeMarkdown(match[1].replace(/(^|\n)>/g, '$1'))
+    }),
+    normalizedObj
+  )
 
 const normalizeMarkdown = markdown => {
   var normalizedObj = {

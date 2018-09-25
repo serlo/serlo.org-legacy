@@ -13,7 +13,7 @@ import d3 from 'd3'
 import touchop from './serlo_math_puzzle_touchop'
 import verify from './serlo_math_puzzle_algebra'
 
-function makePuzzle (parent, inputStr) {
+function makePuzzle(parent, inputStr) {
   var emog,
     svg,
     redraw,
@@ -47,23 +47,28 @@ function makePuzzle (parent, inputStr) {
 
   // fullscreen logic
   var fullscreen
-  toggleFullscreen = function () {
+  toggleFullscreen = function() {
     fullscreen = fullscreen ? undefined : parent
     redraw()
   }
 
-  redraw = function () {
+  redraw = function() {
     var evt = document.createEvent('CustomEvent')
     evt.initCustomEvent('resize', false, false, {})
     window.dispatchEvent(evt)
   }
-  window.addEventListener('resize', function () {
+  window.addEventListener('resize', function() {
     if (fullscreen === parent) {
       var windowWidth = d3.select('body').node().offsetWidth
-      var width = Math.min(windowWidth - 20, 3 / 2 * (window.innerHeight - 20))
-      var height = Math.min(window.innerHeight - 20, 2 / 3 * (windowWidth - 20))
-      d3
-        .select(parent)
+      var width = Math.min(
+        windowWidth - 20,
+        (3 / 2) * (window.innerHeight - 20)
+      )
+      var height = Math.min(
+        window.innerHeight - 20,
+        (2 / 3) * (windowWidth - 20)
+      )
+      d3.select(parent)
         .classed('fullscreen', true)
         .style('position', 'fixed')
         .style('z-index', 20)
@@ -77,8 +82,7 @@ function makePuzzle (parent, inputStr) {
         .style('width', width + 'px')
         .style('height', height + 'px')
     } else {
-      d3
-        .select(parent)
+      d3.select(parent)
         .classed('fullscreen', false)
         .style('z-index', 0)
         .style('outline-width', '1px')
@@ -90,7 +94,7 @@ function makePuzzle (parent, inputStr) {
     }
   })
 
-  emog.on('click', function () {
+  emog.on('click', function() {
     toggleFullscreen()
   })
   redraw()
@@ -128,17 +132,15 @@ function makePuzzle (parent, inputStr) {
   }
 
   if (showResult) {
-    svg.on('mouseover', function () {
+    svg.on('mouseover', function() {
       var val = touchop.getCurrentValue()
       if (val) {
         val = Math.round(val * 1000) / 1000
-        d3
-          .select(parent)
+        d3.select(parent)
           .select('.end-result')
           .html('= ' + val)
       } else {
-        d3
-          .select(parent)
+        d3.select(parent)
           .select('.end-result')
           .html('= ?')
       }
@@ -147,7 +149,7 @@ function makePuzzle (parent, inputStr) {
   touchop.setupCanvas(svg[0][0])
 }
 
-function addNamedOperator (operatorName, parent) {
+function addNamedOperator(operatorName, parent) {
   switch (operatorName) {
     case '^':
       return addPower(parent)
@@ -176,14 +178,14 @@ function addNamedOperator (operatorName, parent) {
   }
 }
 
-function initializeStructure (array, parent) {
+function initializeStructure(array, parent) {
   var g, ops, literals
   if (array.constructor === Array) {
     g = addNamedOperator(array[0], parent)
     g.attr('data-frozen', true)
     ops = g.selectAll('.operand')
     ops.attr('data-frozen', true)
-    ops.each(function (x, i) {
+    ops.each(function(x, i) {
       initializeStructure(array[i + 1], d3.select(this))
     })
   } else if (array !== '#') {
@@ -193,19 +195,19 @@ function initializeStructure (array, parent) {
   literals.attr('data-frozen', true)
 }
 
-function safePop (stack) {
+function safePop(stack) {
   let value = stack.pop()
   if (value === undefined) value = '#'
   return value
 }
 
 // Parse polish notation String into start_structure JSON
-function parsePn (string) {
+function parsePn(string) {
   return (
     string
       .split(/ +/)
       .reverse()
-      .filter(function (x) {
+      .filter(function(x) {
         return x
       })
       .reduce((stack, value) => {
@@ -222,7 +224,7 @@ function parsePn (string) {
 }
 
 // A palette for holding items
-function addPalette (elt) {
+function addPalette(elt) {
   var palette = elt
     .append('g')
     .attr('class', 'palette')
@@ -238,7 +240,7 @@ function addPalette (elt) {
 }
 
 // A literal placed on the screen
-function addLiteral (elt, value) {
+function addLiteral(elt, value) {
   var len = value.toString().replace(/ /g, '').length
   elt
     .append('rect')
@@ -256,7 +258,7 @@ function addLiteral (elt, value) {
 }
 
 // Atomic element with text
-function addAtom (elt, value, text) {
+function addAtom(elt, value, text) {
   var g = elt
     .append('g')
     .attr('data-atom', value)
@@ -269,13 +271,12 @@ function addAtom (elt, value, text) {
 }
 
 // Generic drop area for operator arguments
-function addOperand (elt) {
+function addOperand(elt) {
   var g = elt
     .append('g')
     .attr('data-layout', 'snap')
     .attr('class', 'operand')
-  g
-    .append('rect')
+  g.append('rect')
     .attr('height', '50')
     .attr('width', '50')
     .attr('rx', 5)
@@ -284,17 +285,16 @@ function addOperand (elt) {
   return g
 }
 
-function addOperator (elt) {
+function addOperator(elt) {
   var g = elt.append('g').attr('data-ismovable', 'true')
-  g
-    .append('rect')
+  g.append('rect')
     .attr('class', 'background')
     .attr('rx', 5)
     .attr('ry', 5)
   return g
 }
 
-function addPower (elt) {
+function addPower(elt) {
   var g, exponent
   g = addOperator(elt)
     .attr('data-operator', '^')
@@ -314,24 +314,21 @@ function addPower (elt) {
   return g
 }
 
-function addDivide (elt) {
+function addDivide(elt) {
   var g = addOperator(elt)
     .attr('data-operator', '/')
     .attr('data-value', '#1 / #2')
     .attr('data-priority', '99')
     .attr('data-layout', 'verticalLayout')
-  g
-    .append('g')
+  g.append('g')
     .attr('transform', 'scale(0.8)')
     .attr('data-priority', '100')
   addOperand(g)
-  g
-    .append('rect')
+  g.append('rect')
     .attr('width', 80)
     .attr('height', 3)
     .attr('data-layoutOpt', 'stretch')
-  g
-    .append('g')
+  g.append('g')
     .attr('transform', 'scale(0.8)')
     .attr('data-priority', '100')
   addOperand(g)
@@ -339,7 +336,7 @@ function addDivide (elt) {
 }
 
 // Simple Division operator
-function addSimpleDivide (elt) {
+function addSimpleDivide(elt) {
   var g = addOperator(elt)
     .attr('data-operator', ':')
     .attr('data-value', '#1 / #2')
@@ -352,7 +349,7 @@ function addSimpleDivide (elt) {
 }
 
 // Multiplication operator
-function addTimes (elt) {
+function addTimes(elt) {
   var g = addOperator(elt)
     .attr('data-operator', '*')
     .attr('data-value', '#1 * #2')
@@ -365,7 +362,7 @@ function addTimes (elt) {
 }
 
 // Addition operator
-function addPlus (elt) {
+function addPlus(elt) {
   var g = addOperator(elt)
     .attr('data-operator', '+')
     .attr('data-value', '#1 + #2')
@@ -378,7 +375,7 @@ function addPlus (elt) {
 }
 
 // Difference operator
-function addMinus (elt) {
+function addMinus(elt) {
   var g = addOperator(elt)
     .attr('data-operator', '-')
     .attr('data-value', '#1 - #2')
@@ -390,8 +387,8 @@ function addMinus (elt) {
   return g
 }
 
-$.fn.MathPuzzle = function () {
-  return $(this).each(function () {
+$.fn.MathPuzzle = function() {
+  return $(this).each(function() {
     makePuzzle(this, $(this).data('source'))
   })
 }

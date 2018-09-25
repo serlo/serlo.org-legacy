@@ -115,7 +115,7 @@ const cases = [
                                   content: {
                                     plugin: {
                                       name: '@splish-me/image',
-                                        version: '0.0.4'
+                                      version: '0.0.4'
                                     },
                                     state: {
                                       alt: 'image',
@@ -131,7 +131,7 @@ const cases = [
                                   content: {
                                     plugin: {
                                       name: '@splish-me/slate',
-                                        version: '0.0.5'
+                                      version: '0.0.5'
                                     },
                                     state: {
                                       importFromHtml:

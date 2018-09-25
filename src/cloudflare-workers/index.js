@@ -3,14 +3,14 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
-export async function handleRequest (request) {
+export async function handleRequest(request) {
   const response =
     (await handleSemanticAssetsFilenames(request)) || (await fetch(request))
 
   return response
 }
 
-async function handleSemanticAssetsFilenames (request) {
+async function handleSemanticAssetsFilenames(request) {
   const re = /^https:\/\/assets.serlo.org\/(legacy\/|)((?!legacy)\w+)\/([\w\-+]+)\.(\w+)$/
   const match = request.url.match(re)
 

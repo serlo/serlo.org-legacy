@@ -1,12 +1,12 @@
 /* global define */
-var strikethrough = function () {
+var strikethrough = function() {
   return [
     {
       // strike-through
       // NOTE: showdown already replaced "~" with "~T", so we need to adjust accordingly.
       type: 'lang',
       regex: '(~T){2}([^~]+)(~T){2}',
-      replace: function (match, prefix, content, suffix) {
+      replace: function(match, prefix, content, suffix) {
         return '<del>' + content + '</del>'
       }
     }
@@ -15,7 +15,7 @@ var strikethrough = function () {
 
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_strikethrough', ['showdown'], function (Showdown) {
+  define('showdown_strikethrough', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.strikethrough = strikethrough
   })

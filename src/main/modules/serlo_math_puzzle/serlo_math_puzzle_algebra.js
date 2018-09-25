@@ -9,7 +9,7 @@
  */
 
 // Exactract the formula for the user created value.
-function computePn (obj) {
+function computePn(obj) {
   var atom, list, op, i, sub
 
   atom = obj.getAttribute('data-atom')
@@ -35,7 +35,7 @@ function computePn (obj) {
 }
 
 // verify whether the new object satisfies the winning test
-function verify (svg) {
+function verify(svg) {
   // extract the user created formula in json
   var goal, pass
   var obj = svg.querySelector('[data-goal]')
@@ -47,14 +47,14 @@ function verify (svg) {
   return pass
 }
 
-function isEquivalent (value, goal) {
+function isEquivalent(value, goal) {
   var valueAst, goalAst, i, data, value1, value2, getVar, nonnan
   valueAst = computePn(value)
   goalAst = goal
   nonnan = false
   for (i = 0; i < 10; ++i) {
     data = {}
-    getVar = function (x) {
+    getVar = function(x) {
       if (data[x] === undefined) data[x] = Math.random() * 6 - 3
       return data[x]
     }
@@ -70,14 +70,14 @@ function isEquivalent (value, goal) {
 }
 
 // sets the oppacitiy to show either of the two similies
-function smile (svg, win) {
+function smile(svg, win) {
   var oldstyle = svg.parentNode.getAttribute('class')
   var newstyle = oldstyle.replace(/ solved/, '')
   if (win) newstyle = newstyle + ' solved'
   svg.parentNode.setAttribute('class', newstyle)
 }
 
-function evalPn (structure, getVar) {
+function evalPn(structure, getVar) {
   if (structure.constructor === Array) {
     switch (structure[0]) {
       case ':':

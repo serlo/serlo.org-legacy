@@ -7,8 +7,8 @@ import t from '../../modules/translator'
 
 var SortableList
 
-SortableList = function () {
-  return $(this).each(function (group) {
+SortableList = function() {
+  return $(this).each(function(group) {
     var $instance = $(this)
     var $saveBtn = $('.sortable-save-action', this)
     var $activateBtn = $('.sortable-activate-action', this)
@@ -39,8 +39,8 @@ SortableList = function () {
      * Removes empty children arrays from serialized nestable,
      * to be able to hide the $saveBtn
      **/
-    function cleanEmptyChildren (array) {
-      _.each(array, function (child) {
+    function cleanEmptyChildren(array) {
+      _.each(array, function(child) {
         if (child.children) {
           if (child.children.length) {
             cleanEmptyChildren(child.children)
@@ -59,8 +59,8 @@ SortableList = function () {
      * Searches for unchanged subtrees and removes all children in that tree.
      * This helps reduce the changes send to the server A LOT in most cases.
      **/
-    function cleanUnchangedParents (array) {
-      _.each(array, function (parent) {
+    function cleanUnchangedParents(array) {
+      _.each(array, function(parent) {
         if (parent.children) {
           const originalParent = findDeepElementWithId(originalData, parent.id)
           if (_.isEqual(parent, originalParent)) {
@@ -73,13 +73,13 @@ SortableList = function () {
       return array
     }
 
-    function findDeepElementWithId (array, id) {
+    function findDeepElementWithId(array, id) {
       const elementOnThisLevel = _.findWhere(array, { id: id })
       if (elementOnThisLevel) {
         return elementOnThisLevel
       } else {
         let elementOnDeeperLevel
-        _.find(array, function (child) {
+        _.find(array, function(child) {
           if (!child.children) {
             return false
           }
@@ -92,7 +92,7 @@ SortableList = function () {
       }
     }
 
-    function storeOriginalData () {
+    function storeOriginalData() {
       originalHTML = $instance
         .find('> ol')
         .first()
@@ -100,7 +100,7 @@ SortableList = function () {
       originalData = cleanEmptyChildren($instance.nestable('serialize'))
     }
 
-    function activate () {
+    function activate() {
       $instance.addClass(activeClass)
 
       $activateBtn.hide()
@@ -127,7 +127,7 @@ SortableList = function () {
       storeOriginalData()
     }
 
-    function deactivate () {
+    function deactivate() {
       // Router.reload();
       $instance
         .removeClass(activeClass)
@@ -141,7 +141,7 @@ SortableList = function () {
       $activateBtn.show()
     }
 
-    $instance.on('change', function () {
+    $instance.on('change', function() {
       updatedData = cleanEmptyChildren($instance.nestable('serialize'))
       if (!_.isEqual(updatedData, originalData)) {
         $saveBtn.show()
@@ -151,7 +151,7 @@ SortableList = function () {
       updatedData = cleanUnchangedParents(updatedData)
     })
 
-    $saveBtn.click(function (e) {
+    $saveBtn.click(function(e) {
       e.preventDefault()
       $.ajax({
         url: dataUrl,
@@ -161,7 +161,7 @@ SortableList = function () {
         },
         method: 'post'
       })
-        .then(function () {
+        .then(function() {
           SystemNotification.notify(t('Order successfully saved'), 'success')
 
           storeOriginalData()
@@ -172,18 +172,18 @@ SortableList = function () {
 
           $saveBtn.hide()
         })
-        .fail(function () {
+        .fail(function() {
           Common.genericError(arguments)
         })
     })
 
-    $abortBtn.click(function () {
+    $abortBtn.click(function() {
       if (!dataActive) {
         deactivate()
       }
     })
 
-    $activateBtn.click(function () {
+    $activateBtn.click(function() {
       activate()
     })
 

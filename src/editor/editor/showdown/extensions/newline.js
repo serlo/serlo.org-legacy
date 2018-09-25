@@ -1,10 +1,10 @@
 /* global define */
-var newline = function (converter) {
+var newline = function(converter) {
   var filter
   var findNewlines = new RegExp(/^\n--$/gm)
 
-  filter = function (text) {
-    return text.replace(findNewlines, function () {
+  filter = function(text) {
+    return text.replace(findNewlines, function() {
       return '<br>'
     })
   }
@@ -19,7 +19,7 @@ var newline = function (converter) {
 
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_newline', ['showdown'], function (Showdown) {
+  define('showdown_newline', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.newline = newline
   })

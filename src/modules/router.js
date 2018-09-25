@@ -3,11 +3,11 @@ import $ from 'jquery'
 
 var Router
 
-function navigate (url) {
+function navigate(url) {
   window.location.href = url
 }
 
-function post (path, params, method) {
+function post(path, params, method) {
   var key, $form
 
   method = method || 'post'
@@ -34,7 +34,7 @@ function post (path, params, method) {
   $form.submit()
 }
 
-function reload () {
+function reload() {
   if (typeof window.location.reload === 'function') {
     window.location.reload()
     return
@@ -44,13 +44,13 @@ function reload () {
 }
 
 Router = {
-  navigate: function (url) {
+  navigate: function(url) {
     navigate(url)
   },
-  post: function (url, params, method) {
+  post: function(url, params, method) {
     post(url, params, method)
   },
-  reload: function () {
+  reload: function() {
     reload()
   }
 }

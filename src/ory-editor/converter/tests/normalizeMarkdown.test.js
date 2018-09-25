@@ -179,20 +179,23 @@ const cases = [
         }
       ]
     }
-  }, {
-      description: 'split tables',
-      input: 'Lorem \n|header1|header2 | \n|--|--|\n| row1 col1 | row1 *col2* | \n|row2 col1 | row2 col2| row2 col3|\n ipsum',
-      output: {
-          normalized: 'Lorem §0§ ipsum',
-          elements: [
-              {
-                  name: 'table',
-                  src: '\n|header1|header2 | \n|--|--|\n| row1 col1 | row1 *col2* | \n|row2 col1 | row2 col2| row2 col3|\n',
-              }
-          ]
-      }
-    },
-    {
+  },
+  {
+    description: 'split tables',
+    input:
+      'Lorem \n|header1|header2 | \n|--|--|\n| row1 col1 | row1 *col2* | \n|row2 col1 | row2 col2| row2 col3|\n ipsum',
+    output: {
+      normalized: 'Lorem §0§ ipsum',
+      elements: [
+        {
+          name: 'table',
+          src:
+            '\n|header1|header2 | \n|--|--|\n| row1 col1 | row1 *col2* | \n|row2 col1 | row2 col2| row2 col3|\n'
+        }
+      ]
+    }
+  },
+  {
     description: 'parse escape parameters correctly',
     input: 'Lorem \\!\\[image](imageurl) ipsum',
     output: {

@@ -4,13 +4,13 @@
  * Spoilers:
  * Transforms ///.../// blocks into spoilers
  **/
-var spoilerprepare = function () {
+var spoilerprepare = function() {
   var filter
   var findSpoilers = new RegExp(/^\/\/\/ (.*)\n([\s\S]*?)(\n|\r)+\/\/\//gm)
 
-  filter = function (text) {
+  filter = function(text) {
     // convert all "///"s into "=,sp."s
-    return text.replace(findSpoilers, function (original, title, content) {
+    return text.replace(findSpoilers, function(original, title, content) {
       return '<p>=,sp. ' + title + '</p>\n' + content + '<p>=,sp.</p>'
     })
   }
@@ -25,7 +25,7 @@ var spoilerprepare = function () {
 
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_spoiler_prepare', ['showdown'], function (Showdown) {
+  define('showdown_spoiler_prepare', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.spoilerprepare = spoilerprepare
   })

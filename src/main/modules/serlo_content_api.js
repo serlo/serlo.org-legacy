@@ -27,7 +27,7 @@ export const initContentApi = () => {
   )
   const contentApiQueryString = stringifyQueryParams(contentApiQueryParams)
 
-  $links.each(function () {
+  $links.each(function() {
     const $link = $(this)
     const url = $link.attr('href')
     const target = $link.attr('target')

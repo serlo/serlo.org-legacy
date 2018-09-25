@@ -51,10 +51,10 @@ var $body = $('body')
 var $window = $(window)
 var Editor
 
-function getCompleteToken (editor, pos, maxLines, currentToken, firstRun) {
+function getCompleteToken(editor, pos, maxLines, currentToken, firstRun) {
   var prevStartPos = {}
 
-  function loop (pos, maxLines, currentToken, firstRun) {
+  function loop(pos, maxLines, currentToken, firstRun) {
     // Get the token at current position
     var token = editor.getTokenAt(pos)
 
@@ -90,11 +90,11 @@ function getCompleteToken (editor, pos, maxLines, currentToken, firstRun) {
   return loop(pos, maxLines, currentToken, firstRun)
 }
 
-Editor = function (settings) {
+Editor = function(settings) {
   this.helpers = []
   eventScope(this)
 
-  Content.add(function (context) {
+  Content.add(function(context) {
     var $context = $(context)
 
     MathJax.Hub.Queue(['Typeset', MathJax.Hub, context])
@@ -120,15 +120,15 @@ Editor = function (settings) {
   return this.updateSettings(settings)
 }
 
-Editor.prototype.updateSettings = function (settings) {
+Editor.prototype.updateSettings = function(settings) {
   return $.extend(this, settings)
 }
 
-Editor.prototype.initialize = function () {
+Editor.prototype.initialize = function() {
   var that = this
 
   $window
-    .resize(function () {
+    .resize(function() {
       that.resize()
     })
     .resize()
@@ -139,13 +139,13 @@ Editor.prototype.initialize = function () {
 
   that.textEditor.on(
     'change',
-    _.throttle(function () {
+    _.throttle(function() {
       if (that.editable) {
         var value = that.textEditor.getValue()
         var patch = that.editable.update(value, that.parser.parse(value))
 
         if (patch.type !== 'identical' && patch.replace.length > 0) {
-          _.each(patch.replace, function (el) {
+          _.each(patch.replace, function(el) {
             if (el.innerHTML) {
               Content.init(el)
             }
@@ -157,10 +157,10 @@ Editor.prototype.initialize = function () {
 
   that.textEditor.on(
     'cursorActivity',
-    _.throttle(function () {
+    _.throttle(function() {
       var cursor = that.textEditor.getCursor()
 
-      that.textEditor.operation(function () {
+      that.textEditor.operation(function() {
         var token = that.textEditor.getTokenAt(cursor)
 
         if (!that.currentToken || !_.isEqual(that.currentToken, token)) {
@@ -174,7 +174,7 @@ Editor.prototype.initialize = function () {
 
   that.textEditor.on(
     'cursorActivity',
-    _.throttle(function () {
+    _.throttle(function() {
       if (that.editable) {
         that.preview.scrollSync(
           that.editable.$el,
@@ -184,7 +184,7 @@ Editor.prototype.initialize = function () {
     }, 1500)
   )
 
-  that.addEventListener('tokenChange', function (token) {
+  that.addEventListener('tokenChange', function(token) {
     var state = token.type
     var plugin
 
@@ -199,7 +199,7 @@ Editor.prototype.initialize = function () {
       plugin = that.pluginManager.matchState(state)
       if (plugin) {
         that.$widget = plugin.getActivateLink()
-        that.$widget.click(function () {
+        that.$widget.click(function() {
           var maxLines = that.textEditor.doc.size
 
           that.$widget.remove()
@@ -229,11 +229,11 @@ Editor.prototype.initialize = function () {
     }
   })
 
-  that.pluginManager.addEventListener('close', function () {
+  that.pluginManager.addEventListener('close', function() {
     that.$pluginWrapper.detach()
   })
 
-  that.pluginManager.addEventListener('save', function (plugin) {
+  that.pluginManager.addEventListener('save', function(plugin) {
     // plugin.data.content is the updated value
     //
     that.textEditor.replaceRange(
@@ -243,12 +243,12 @@ Editor.prototype.initialize = function () {
     )
   })
 
-  that.pluginManager.addEventListener('toggle-plugin', function (plugin) {
+  that.pluginManager.addEventListener('toggle-plugin', function(plugin) {
     that.activePlugin = plugin
     that.showPlugin()
   })
 
-  that.preview.addEventListener('field-select', function (field, column) {
+  that.preview.addEventListener('field-select', function(field, column) {
     if (that.editable) {
       if (that.editable === column) {
         return
@@ -265,7 +265,7 @@ Editor.prototype.initialize = function () {
 
       that.preview.scrollSync(that.editable.$el, 1)
 
-      that.textEditor.operation(function () {
+      that.textEditor.operation(function() {
         var classList = that.textEditor.getWrapperElement().classList
 
         that.textEditor.setValue(column.data)
@@ -282,7 +282,7 @@ Editor.prototype.initialize = function () {
         // add and remove class 'activated'
         // to trigger css animation keyframes.
         classList.add('activated')
-        setTimeout(function () {
+        setTimeout(function() {
           classList.remove('activated')
         }, 2000)
       })
@@ -291,7 +291,7 @@ Editor.prototype.initialize = function () {
     }
   })
 
-  that.preview.addEventListener('blur', function () {
+  that.preview.addEventListener('blur', function() {
     if (that.editable) {
       that.editable.$el.removeClass('active')
       that.editable = null
@@ -299,7 +299,7 @@ Editor.prototype.initialize = function () {
     that.emptyTextEditor()
   })
 
-  that.preview.addEventListener('column-add', function (column) {
+  that.preview.addEventListener('column-add', function(column) {
     column.set(that.parser.parse(column.data))
   })
 
@@ -307,7 +307,7 @@ Editor.prototype.initialize = function () {
   that.preview.createFromForm(that.$form)
 
   Content.init(that.preview.$el[0])
-  ;(function () {
+  ;(function() {
     var $possibleErrors = that.preview.$el.find('.has-error')
     if ($possibleErrors.length) {
       that.preview.$el.parent().animate({
@@ -316,7 +316,7 @@ Editor.prototype.initialize = function () {
     }
   })()
 
-  that.$submit.click(function () {
+  that.$submit.click(function() {
     if (that.preview.submit) {
       $(window).unbind('beforeunload')
       $(that.preview.submit).click()
@@ -324,24 +324,24 @@ Editor.prototype.initialize = function () {
   })
 }
 
-Editor.prototype.initKeyshortCuts = function (shortcuts) {
+Editor.prototype.initKeyshortCuts = function(shortcuts) {
   var that = this
-  shortcuts.addEventListener('cmd+shift+right', function (e) {
+  shortcuts.addEventListener('cmd+shift+right', function(e) {
     e.stopPropagation()
     that.preview.focusNextColumn()
   })
 
-  shortcuts.addEventListener('cmd+shift+left', function (e) {
+  shortcuts.addEventListener('cmd+shift+left', function(e) {
     e.stopPropagation()
     that.preview.focusPreviousColumn()
   })
 
-  shortcuts.addEventListener('cmd+shift+up', function (e) {
+  shortcuts.addEventListener('cmd+shift+up', function(e) {
     e.stopPropagation()
     that.preview.focusPreviousRow()
   })
 
-  shortcuts.addEventListener('cmd+shift+down', function (e) {
+  shortcuts.addEventListener('cmd+shift+down', function(e) {
     e.stopPropagation()
     that.preview.focusNextRow()
   })
@@ -349,10 +349,10 @@ Editor.prototype.initKeyshortCuts = function (shortcuts) {
   // send all shortcuts
   // to texteditor helpers,
   // if there is an active editable
-  shortcuts.addEventListener('always', function (shortcut, e) {
+  shortcuts.addEventListener('always', function(shortcut, e) {
     if (that.editable) {
       e.stopPropagation()
-      _.each(that.helpers, function (helper) {
+      _.each(that.helpers, function(helper) {
         if (helper.trigger) {
           helper.trigger(shortcut, e)
         }
@@ -361,7 +361,7 @@ Editor.prototype.initKeyshortCuts = function (shortcuts) {
   })
 }
 
-Editor.prototype.addHelper = function (helper, id) {
+Editor.prototype.addHelper = function(helper, id) {
   var $group = $('#editor-plugin-group-' + id)
   if (!$group.length) {
     $group = $('<div>')
@@ -373,12 +373,12 @@ Editor.prototype.addHelper = function (helper, id) {
   this.helpers.push(helper)
 }
 
-Editor.prototype.addPlugin = function (plugin) {
+Editor.prototype.addPlugin = function(plugin) {
   this.plugins.push(plugin)
   return this
 }
 
-Editor.prototype.showPlugin = function () {
+Editor.prototype.showPlugin = function() {
   if (this.activePlugin) {
     this.$pluginWrapper.append(this.activePlugin.$el).appendTo($body)
 
@@ -386,23 +386,23 @@ Editor.prototype.showPlugin = function () {
   }
 }
 
-Editor.prototype.resize = function () {
+Editor.prototype.resize = function() {
   if (this.textEditor) {
     this.textEditor.setSize($window.width() / 2, $window.height() - 58)
   }
   return this
 }
 
-Editor.prototype.emptyTextEditor = function () {
+Editor.prototype.emptyTextEditor = function() {
   var that = this
 
-  that.textEditor.operation(function () {
+  that.textEditor.operation(function() {
     that.textEditor.setValue('')
     that.textEditor.setOption('readOnly', true)
   })
 }
 
-$(function () {
+$(function() {
   // Set language
   t.config({
     language: $('html').attr('lang') || 'de'
@@ -412,10 +412,10 @@ $(function () {
   $.fn.quickdiff(
     'filter',
     'mathSpanInline',
-    function (node) {
+    function(node) {
       return node.nodeName === 'SPAN' && $(node).hasClass('mathInline')
     },
-    function (a, b) {
+    function(a, b) {
       var aHTML = $.trim($('script', a).text())
       var bHTML = $.trim($(b).text())
 
@@ -427,10 +427,10 @@ $(function () {
   $.fn.quickdiff(
     'filter',
     'mathSpan',
-    function (node) {
+    function(node) {
       return node.nodeName === 'SPAN' && $(node).hasClass('math')
     },
-    function (a, b) {
+    function(a, b) {
       var aHTML = $.trim($('script', a).text())
       var bHTML = $.trim($(b).text())
 
@@ -445,7 +445,7 @@ $(function () {
     a: ['href', 'title']
   })
 
-  function init () {
+  function init() {
     var editor
     var textEditor
     var layoutBuilderConfiguration = new LayoutBuilderConfiguration()
@@ -458,7 +458,8 @@ $(function () {
         htmlStrip,
         latex,
         atUsername,
-        strikeThrough,,
+        strikeThrough,
+        ,
         spoiler,
         spoilerPrepare,
         latexOutput,
@@ -501,7 +502,7 @@ $(function () {
       )
       .addPlugin(new EditorPlugin.Wiris())
       .addPlugin(
-        (function () {
+        (function() {
           // Inline Math Plugin
           var plugin = new EditorPlugin.Wiris()
           plugin.state = 'inline-math'
@@ -570,11 +571,11 @@ $(function () {
     })
 
     window.editor = editor
-    Common.addEventListener('generic error', function () {
+    Common.addEventListener('generic error', function() {
       SystemNotification.error()
     })
 
-    $(window).bind('beforeunload', function () {
+    $(window).bind('beforeunload', function() {
       return t(
         'Are you sure you want to leave this page? All of your unsaved changes will be lost!'
       )

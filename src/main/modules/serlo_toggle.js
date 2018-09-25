@@ -3,13 +3,13 @@ import $ from 'jquery'
 
 var ToggleAction
 
-ToggleAction = function () {
-  return $(this).each(function () {
+ToggleAction = function() {
+  return $(this).each(function() {
     // Edit mode toggle
     if ($(this).data('toggle') === 'edit-controls') {
       $(this)
         .unbind('click')
-        .click(function (e) {
+        .click(function(e) {
           e.preventDefault()
           var $that = $(this)
           $that.toggleClass('active')
@@ -19,7 +19,7 @@ ToggleAction = function () {
     } else if ($(this).data('toggle') === 'discussions') {
       $(this)
         .unbind('click')
-        .click(function (e) {
+        .click(function(e) {
           e.preventDefault()
           var $that = $(this)
           var $target = $($that.data('target'))
@@ -37,7 +37,7 @@ ToggleAction = function () {
     } else if ($(this).data('toggle') === 'visibility') {
       $(this)
         .unbind('click')
-        .click(function () {
+        .click(function() {
           var $that = $(this)
           var $target = $($that.data('target'))
 
@@ -51,7 +51,7 @@ ToggleAction = function () {
         if (!$base.length) {
           $base = $target
         }
-        $target.one('show.bs.collapse', function () {
+        $target.one('show.bs.collapse', function() {
           MathJax.Hub.Queue(['Reprocess', MathJax.Hub, $target.get()])
         })
       }

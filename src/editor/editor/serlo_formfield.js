@@ -5,12 +5,12 @@ import eventScope from '../../libs/eventscope'
 import SystemNotification from '../../modules/system_notification'
 import LayoutBuilder from './serlo_layout_builder'
 
-function invoke (instance, constructor) {
+function invoke(instance, constructor) {
   $.extend(instance, constructor.prototype)
   constructor.apply(instance, Array.prototype.slice.call(arguments, 2))
 }
 
-var Field = function (field, type, label) {
+var Field = function(field, type, label) {
   var $errorList
   this.field = field
   this.$field = $(field)
@@ -22,7 +22,7 @@ var Field = function (field, type, label) {
 
   if (this.hasError) {
     $errorList = this.$field.parents('.form-group').find('.help-block')
-    $('li', $errorList).each(function () {
+    $('li', $errorList).each(function() {
       SystemNotification.notify(this.innerHTML, 'danger', true)
     })
   }
@@ -32,7 +32,7 @@ var Field = function (field, type, label) {
   this.init()
 }
 
-Field.prototype.init = function () {
+Field.prototype.init = function() {
   var self = this
   self.$el = $('<div>')
   self.$inner = $('<div>').addClass('preview-content')
@@ -43,32 +43,32 @@ Field.prototype.init = function () {
 
   self.$el.append(self.$inner)
 
-  self.$inner.click(function () {
+  self.$inner.click(function() {
     self.trigger('select', self)
   })
 
   self.data = this.$field.val()
 }
 
-Field.prototype.setLabel = function (label) {
+Field.prototype.setLabel = function(label) {
   this.label = label
   this.$label.append(label)
   this.$el.prepend(this.$label)
 }
 
-Field.Textarea = function (field, label) {
+Field.Textarea = function(field, label) {
   var self = this
   invoke(self, Field, field, 'textarea', label)
 
   self.$inner.unbind('click')
   self.data = this.$field.val()
 
-  self.updateField = _.throttle(function () {
+  self.updateField = _.throttle(function() {
     var updatedValue = []
-    _.each(self.layoutBuilder.rows, function (row) {
+    _.each(self.layoutBuilder.rows, function(row) {
       var _row = []
 
-      _.each(row.columns, function (column) {
+      _.each(row.columns, function(column) {
         _row.push({
           col: column.type,
           content: column.data
@@ -86,7 +86,7 @@ Field.Textarea = function (field, label) {
     }
   }, 300)
 
-  function focusJump (iterate, onlyRows) {
+  function focusJump(iterate, onlyRows) {
     var next, columnIndex
 
     if (self.activeRow) {
@@ -111,30 +111,30 @@ Field.Textarea = function (field, label) {
     }
   }
 
-  self.addEventListener('focus-next-column', function () {
+  self.addEventListener('focus-next-column', function() {
     focusJump(1)
   })
 
-  self.addEventListener('focus-previous-column', function () {
+  self.addEventListener('focus-previous-column', function() {
     focusJump(-1)
   })
 
-  self.addEventListener('focus-next-row', function () {
+  self.addEventListener('focus-next-row', function() {
     focusJump(1, true)
   })
 
-  self.addEventListener('focus-previous-row', function () {
+  self.addEventListener('focus-previous-row', function() {
     focusJump(-1, true)
   })
 }
 
-Field.Textarea.prototype.addLayoutBuilder = function (
+Field.Textarea.prototype.addLayoutBuilder = function(
   layoutBuilderConfiguration
 ) {
   var self = this
   self.layoutBuilder = new LayoutBuilder(layoutBuilderConfiguration)
 
-  function putRowInPlace (row) {
+  function putRowInPlace(row) {
     var $rows = $('.r', self.$inner)
     if ($rows.length && row.index < $rows.length) {
       $($rows.eq(row.index)).before(row.$el)
@@ -143,28 +143,28 @@ Field.Textarea.prototype.addLayoutBuilder = function (
     }
   }
 
-  self.layoutBuilder.addEventListener('add', function (row) {
+  self.layoutBuilder.addEventListener('add', function(row) {
     putRowInPlace(row)
 
     self.activeRow = row
 
-    row.addEventListener('select', function (column) {
+    row.addEventListener('select', function(column) {
       self.activeRow = row
       self.trigger('select', self, column)
     })
 
-    row.addEventListener('update', function (column) {
+    row.addEventListener('update', function(column) {
       self.updateField()
       self.trigger('update', column)
     })
 
-    row.addEventListener('reorder', function () {
+    row.addEventListener('reorder', function() {
       row.$el.detach()
       putRowInPlace(row)
       self.updateField()
     })
 
-    _.each(row.columns, function (column) {
+    _.each(row.columns, function(column) {
       self.trigger('column-add', column)
     })
 
@@ -176,7 +176,7 @@ Field.Textarea.prototype.addLayoutBuilder = function (
   this.parseFieldData()
 }
 
-Field.Textarea.prototype.parseFieldData = function () {
+Field.Textarea.prototype.parseFieldData = function() {
   var self = this
   var data = $(self.field).val() || '[]'
 
@@ -194,12 +194,12 @@ Field.Textarea.prototype.parseFieldData = function () {
     ]
   }
 
-  _.each(data, function (columns, key) {
+  _.each(data, function(columns, key) {
     var row = []
     var data = []
     var layout
 
-    _.each(columns, function (column) {
+    _.each(columns, function(column) {
       row.push(column.col)
       data.push(column.content)
     })
@@ -212,7 +212,7 @@ Field.Textarea.prototype.parseFieldData = function () {
   })
 }
 
-Field.PlainText = function (field, label) {
+Field.PlainText = function(field, label) {
   var self = this
   invoke(self, Field, field, 'plaintext', label)
 
@@ -224,13 +224,13 @@ Field.PlainText = function (field, label) {
     .text(self.data.value)
 
   self.$inner.append(self.$input)
-  self.$input.on('keyup', function () {
+  self.$input.on('keyup', function() {
     self.data.value = this.value
     self.$field.text(self.data.value)
   })
 }
 
-Field.Input = function (field, label) {
+Field.Input = function(field, label) {
   var self = this
   invoke(self, Field, field, 'input', label)
 
@@ -252,17 +252,17 @@ Field.Input = function (field, label) {
       .datepicker({
         format: 'yy-mm-dd'
       })
-      .on('changeDate', function () {
+      .on('changeDate', function() {
         self.$input.trigger('keyup')
       })
   }
 
-  self.$input.on('keyup', function () {
+  self.$input.on('keyup', function() {
     self.data.value = self.field.value = this.value
   })
 }
 
-Field.Checkbox = function (field, label) {
+Field.Checkbox = function(field, label) {
   var self = this
   invoke(self, Field, field, 'input', label)
 
@@ -274,13 +274,13 @@ Field.Checkbox = function (field, label) {
 
   self.$label.addClass('field-checkbox').prepend(self.$checkbox)
 
-  self.$checkbox.change(function () {
+  self.$checkbox.change(function() {
     self.data = self.$checkbox.is(':checked')
     self.$field.attr('checked', self.data).val(self.data ? 1 : 0)
   })
 }
 
-Field.Select = function (field, label) {
+Field.Select = function(field, label) {
   var self = this
   invoke(self, Field, field, 'input', label)
 
@@ -290,11 +290,11 @@ Field.Select = function (field, label) {
     self.$select.attr('multiple', true)
   }
 
-  $('option', self.$field).each(function () {
+  $('option', self.$field).each(function() {
     self.$select.append($(this).clone())
   })
 
-  self.$select.change(function () {
+  self.$select.change(function() {
     self.data = $(this).val()
     self.$field.val(self.data)
   })
@@ -302,7 +302,7 @@ Field.Select = function (field, label) {
   self.$inner.append(self.$select)
 }
 
-Field.Radio = function (field, label) {
+Field.Radio = function(field, label) {
   var self = this
   invoke(self, Field, field, 'input', label)
 
@@ -317,7 +317,7 @@ Field.Radio = function (field, label) {
   self.$inner = $('<label class="preview-content preview-radio-container">')
   self.$el.append(self.$inner)
 
-  self.$radio.change(function () {
+  self.$radio.change(function() {
     self.data = self.$radio.is(':checked')
     self.$field.attr('checked', self.data)
   })

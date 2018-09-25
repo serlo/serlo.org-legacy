@@ -44,8 +44,8 @@ module.exports = {
       },
       {
         test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-        loader: require.resolve('file-loader'),
-      },
+        loader: require.resolve('file-loader')
+      }
     ]
   },
   externals: [require('webpack-require-http')],

@@ -5,12 +5,12 @@
  * Transforms >[Title](injectionUrl)
  * into <div class="injection"><a href="injectionUrl" class="injection-link">Title</a></div>
  **/
-var injections = function () {
+var injections = function() {
   var filter
   var findInjections = new RegExp(/>\[(.*)\]\((.*)\)/g)
 
   // Corrects relative urls with missing leading slash
-  function correctUrl (url) {
+  function correctUrl(url) {
     url = url.split('/')
     // Url does start with http
     if (url[0] === 'http:' || url[0] === 'https:') {
@@ -27,8 +27,8 @@ var injections = function () {
     return '/' + url.join('/')
   }
 
-  filter = function (text) {
-    return text.replace(findInjections, function (original, title, url) {
+  filter = function(text) {
+    return text.replace(findInjections, function(original, title, url) {
       return (
         '<div class="injection"><a href="' +
         correctUrl(url) +
@@ -48,7 +48,7 @@ var injections = function () {
 }
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_injections', ['showdown'], function (Showdown) {
+  define('showdown_injections', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.injections = injections
   })

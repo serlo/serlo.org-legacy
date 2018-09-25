@@ -4,12 +4,12 @@ import moment from 'moment'
 
 var TimeAgo
 
-function updateTime ($elem, datetime) {
+function updateTime($elem, datetime) {
   $elem.text(datetime.fromNow())
 }
 
-TimeAgo = function () {
-  return $(this).each(function () {
+TimeAgo = function() {
+  return $(this).each(function() {
     var self = this
     var $self = $(self)
     var text = $self.text()
@@ -29,7 +29,7 @@ TimeAgo = function () {
 
     updateTime($self, datetime)
 
-    self.interval = setInterval(function () {
+    self.interval = setInterval(function() {
       updateTime($self, datetime)
     }, 45000)
   })

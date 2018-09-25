@@ -1,12 +1,12 @@
 require.extensions['.css'] = () => {
   return null
 }
-require("@babel/register")({
+require('@babel/register')({
   ignore: [
-    (path) => {
+    path => {
       return path.indexOf('node_modules') !== -1
     }
   ],
-  extensions: [".tsx", ".ts", ".js"],
-});
+  extensions: ['.tsx', '.ts', '.js']
+})
 require('./server')

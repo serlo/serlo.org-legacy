@@ -21,7 +21,7 @@ config = {
  * @param {String} string The string to translate
  * @return {String} The translated string OR the untouched string
  **/
-function mayTranslate (string) {
+function mayTranslate(string) {
   if (
     i18n[config.language] &&
     i18n[config.language][string] &&
@@ -41,8 +41,8 @@ function mayTranslate (string) {
  * @param {Array} replacements An array of strings, to replace placeholders in @param string
  * @return {String} The string, with placeholders replaced by replacement partials
  **/
-function replace (string, replacements) {
-  _.each(replacements, function (partial) {
+function replace(string, replacements) {
+  _.each(replacements, function(partial) {
     switch (typeof partial) {
       case 'string':
         string = string.replace(/%s/, partial)
@@ -65,7 +65,7 @@ function replace (string, replacements) {
  * @param {String} String replacements
  * @return {String} The translated string or the original
  **/
-t = Common.memoize(function () {
+t = Common.memoize(function() {
   var args = Array.prototype.slice.call(arguments)
   var string = args.shift()
 
@@ -78,11 +78,11 @@ t = Common.memoize(function () {
  *
  * sets configurations
  **/
-t.config = function (configuration) {
+t.config = function(configuration) {
   _.extend(config, configuration)
 }
 
-t.getLanguage = function () {
+t.getLanguage = function() {
   return config.language
 }
 

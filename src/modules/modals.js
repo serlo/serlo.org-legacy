@@ -7,7 +7,7 @@ var Modal
 var modals = {}
 var modalTemplate = '#modalTemplate'
 
-Modal = function (options, successCallback) {
+Modal = function(options, successCallback) {
   this.$el = $(modalTemplate).clone()
 
   this.type = options.type || false
@@ -20,14 +20,14 @@ Modal = function (options, successCallback) {
   this.render().show(successCallback)
 }
 
-Modal.prototype.render = function () {
+Modal.prototype.render = function() {
   var self = this
   var $btn = $('.btn-primary', self.$el)
 
   $('.modal-body', self.$el).html(self.content)
   $('body').append(self.$el)
 
-  $btn.click(function () {
+  $btn.click(function() {
     if (self.successCallback) {
       self.successCallback()
       self.successCallback = null
@@ -59,24 +59,24 @@ Modal.prototype.render = function () {
   return self
 }
 
-Modal.prototype.show = function (cb) {
+Modal.prototype.show = function(cb) {
   this.successCallback = cb
   this.$el.modal('show')
   return this
 }
 
-Modal.prototype.hide = function () {
+Modal.prototype.hide = function() {
   this.$el.modal('hide')
   return this
 }
 
-Modal.prototype.remove = function () {
+Modal.prototype.remove = function() {
   this.$el.remove()
   return this
 }
 
-SerloModals = function () {
-  return $(this).each(function () {
+SerloModals = function() {
+  return $(this).each(function() {
     var $self = $(this)
     var options = {
       type: $self.attr('data-type'),
@@ -87,11 +87,11 @@ SerloModals = function () {
       label: $self.attr('data-label')
     }
 
-    $self.click(function (e) {
+    $self.click(function(e) {
       e.preventDefault()
       if ($self.parent('form')) {
         // eslint-disable-next-line no-new
-        new Modal(options, function () {
+        new Modal(options, function() {
           $self.parent('form').submit()
         })
       } else {
@@ -105,7 +105,7 @@ SerloModals = function () {
 $.fn.SerloModals = SerloModals
 
 const Modals = {
-  show: function (options, uid, cb) {
+  show: function(options, uid, cb) {
     if (uid) {
       return modals[uid]
         ? modals[uid].show(cb)
@@ -113,7 +113,7 @@ const Modals = {
     }
     return new Modal(options, cb)
   },
-  remove: function (uid) {
+  remove: function(uid) {
     if (modals[uid]) {
       modals[uid].remove()
       modals[uid] = undefined

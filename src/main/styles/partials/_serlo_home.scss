@@ -18,8 +18,17 @@ $homeBreakpoint-xl: 1240px;
 
 $homeBreakpoint-xxl: 1580px;
 
-@include grid('home', 6, ('md', $homeBreakpoint-md), ('lg', $homeBreakpoint-lg));
-@include visibility('home', ('md', $homeBreakpoint-md), ('lg', $homeBreakpoint-lg));
+@include grid(
+  'home',
+  6,
+  ('md', $homeBreakpoint-md),
+  ('lg', $homeBreakpoint-lg)
+);
+@include visibility(
+  'home',
+  ('md', $homeBreakpoint-md),
+  ('lg', $homeBreakpoint-lg)
+);
 
 .home-row {
   margin: 0 auto;

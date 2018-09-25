@@ -13,10 +13,10 @@ import bodyParser from 'body-parser'
 
 const app = express()
 
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
-app.post('/', render);
+app.post('/', render)
 
 app.listen(3000, () => {
-    console.log('Listening...');
-});
+  console.log('Listening...')
+})

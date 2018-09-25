@@ -9,7 +9,7 @@ import pluginHtmlTemplate from '../templates/plugins/default.html'
 var EditorPlugin
 var defaults = {}
 
-EditorPlugin = function (settings) {
+EditorPlugin = function(settings) {
   eventScope(this)
   this.settings = $.extend(settings, defaults)
   this.state = this.settings.state
@@ -22,31 +22,31 @@ EditorPlugin = function (settings) {
   this.template = _.template(pluginHtmlTemplate)
 }
 
-EditorPlugin.prototype.setData = function (key, value) {
+EditorPlugin.prototype.setData = function(key, value) {
   this.data[key] = value
   this.updateContentString()
   this.trigger('update', this)
 }
 
-EditorPlugin.prototype.updateContentString = function () {
+EditorPlugin.prototype.updateContentString = function() {
   // rebuild markdown query
   this.data.content = '**' + this.name + '**'
 }
 
-EditorPlugin.prototype.save = function () {
+EditorPlugin.prototype.save = function() {
   this.trigger('save')
   return this.data
 }
 
-EditorPlugin.prototype.close = function () {
+EditorPlugin.prototype.close = function() {
   this.trigger('close')
 }
 
-EditorPlugin.prototype.render = function () {
+EditorPlugin.prototype.render = function() {
   // should be called, after a Plugins $el has been added to the dom
 }
 
-EditorPlugin.prototype.activate = function () {
+EditorPlugin.prototype.activate = function() {
   this.$el = $(this.template(this.data))
 
   this.makeRezisable()
@@ -54,7 +54,7 @@ EditorPlugin.prototype.activate = function () {
   return this.$el
 }
 
-EditorPlugin.prototype.makeRezisable = function () {
+EditorPlugin.prototype.makeRezisable = function() {
   var that = this
   var $iframe = $('iframe', that.$el)
 
@@ -68,7 +68,7 @@ EditorPlugin.prototype.makeRezisable = function () {
     handles: {
       se: $('.ui-resizable-se', that.$el)
     },
-    resize: function (event, ui) {
+    resize: function(event, ui) {
       var newWidth =
         ui.originalSize.width + (ui.size.width - ui.originalSize.width) * 2
 
@@ -89,11 +89,11 @@ EditorPlugin.prototype.makeRezisable = function () {
   })
 }
 
-EditorPlugin.prototype.deactivate = function () {
+EditorPlugin.prototype.deactivate = function() {
   this.$el.detach()
 }
 
-EditorPlugin.prototype.getActivateLink = function () {
+EditorPlugin.prototype.getActivateLink = function() {
   return (
     this.widget ||
     (this.widget = $('<a class="editor-widget" href="#">').text(

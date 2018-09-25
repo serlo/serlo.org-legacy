@@ -17,7 +17,7 @@ import { AddSidebar } from '@splish-me/editor-ui/lib/add-sidebar.component'
 import { PluginSidebar } from '@splish-me/editor-ui/lib/plugin-sidebar.component'
 
 // Load some exemplary plugins:
-import createEditorPlugins, {defaultPlugin} from '@serlo-org/editor-plugins'
+import createEditorPlugins, { defaultPlugin } from '@serlo-org/editor-plugins'
 import createRenderPlugins from '@serlo-org/editor-plugins/lib/index.render'
 // import 'ory-editor-plugins-slate/lib/index.css' // Stylesheets for the rich text area plugin
 // import 'ory-editor-plugins-image/lib/index.css'
@@ -41,7 +41,8 @@ const $formDataOnPage = $('#ory-edit-form')
 const parse = content =>
   typeof content === 'string' ? JSON.parse(content) : content
 
-const decodeRawContent = element => parse(utf8.decode(base64.decode($(element).data('rawContent'))))
+const decodeRawContent = element =>
+  parse(utf8.decode(base64.decode($(element).data('rawContent'))))
 
 export const renderServersideContent = () => {
   // render the server-side rendered ory editables with react
@@ -63,9 +64,9 @@ class EditorComponent extends React.Component {
 
   editor = React.createRef()
 
-  addEditable = (editable) => {
+  addEditable = editable => {
     this.setState(({ editables }) => {
-      const existsAlready = R.find((e) => e.id.id === editable.id, editables)
+      const existsAlready = R.find(e => e.id.id === editable.id, editables)
 
       if (existsAlready) {
         return null
@@ -73,14 +74,19 @@ class EditorComponent extends React.Component {
 
       editable.element.innerHTML = ''
 
-      return { editables: [...editables, {
-        ...editable,
-        id: createEditableIdentifier(editable.id)
-      }] }
+      return {
+        editables: [
+          ...editables,
+          {
+            ...editable,
+            id: createEditableIdentifier(editable.id)
+          }
+        ]
+      }
     })
   }
 
-  getState = (id) => {
+  getState = id => {
     return this.editor.current.serializeState({ id })
   }
 
@@ -89,7 +95,11 @@ class EditorComponent extends React.Component {
     const { editables } = this.state
 
     return (
-      <E ref={this.editor} defaultPlugin={defaultPlugin} plugins={createEditorPlugins(type)}>
+      <E
+        ref={this.editor}
+        defaultPlugin={defaultPlugin}
+        plugins={createEditorPlugins(type)}
+      >
         <EditorConsumer>
           {({ currentMode }) => {
             return (
@@ -109,7 +119,7 @@ class EditorComponent extends React.Component {
             )
           }}
         </EditorConsumer>
-        {editables.map((editable) => {
+        {editables.map(editable => {
           return ReactDOM.createPortal(
             <Editable id={editable.id} initialState={editable.initialState} />,
             editable.element,
@@ -122,9 +132,9 @@ class EditorComponent extends React.Component {
 }
 
 export default class EntityEditor {
-  constructor (id, editPath, type) {
+  constructor(id, editPath, type) {
     this.id = id
-    this.editPath = editPath;
+    this.editPath = editPath
 
     this.editorState = []
     this.editorComponent = React.createRef()
@@ -163,7 +173,7 @@ export default class EntityEditor {
     $('#ory-editor-toolbar').show()
     $('#ory-editor-meta-data').show()
 
-    $(window).bind('beforeunload', function () {
+    $(window).bind('beforeunload', function() {
       return t(
         'Are you sure you want to leave this page? All of your unsaved changes will be lost!'
       )
@@ -181,7 +191,9 @@ export default class EntityEditor {
     }
 
     if ($('.has-error').length || $('.has-error', $saveModalContent).length) {
-      SystemNotification.error(t( `Something went wrong. Please check the fields and send again`))
+      SystemNotification.error(
+        t(`Something went wrong. Please check the fields and send again`)
+      )
       setTimeout(this.showSaveModal, 100)
     }
     $('#ory-editor-save').click(this.showSaveModal)
@@ -211,9 +223,9 @@ export default class EntityEditor {
       const name = el.getAttribute('name')
       const type = this.getType(el)
       const existingElement = $(
-        `.editable[data-id="${this.id}"][data-edit-field="${
-          name
-        }"][data-edit-type="${type}"]`
+        `.editable[data-id="${
+          this.id
+        }"][data-edit-field="${name}"][data-edit-type="${type}"]`
       )
       const newElement = this.createFormElement(el, name, type)
 
@@ -230,9 +242,9 @@ export default class EntityEditor {
 
   createFormElement = (el, name, type) => {
     const $wrapper = $(
-      `<div class="editable" data-id="${this.id}" data-edit-type="${
-        type
-      }" data-edit-field="${name}"></div>`
+      `<div class="editable" data-id="${
+        this.id
+      }" data-edit-type="${type}" data-edit-field="${name}"></div>`
     )
     if (type === 'ory') {
       let data = $(el).val()
@@ -261,9 +273,9 @@ export default class EntityEditor {
           id: this.id + name,
           initialState: data,
           element: $(
-            `.editable[data-id="${this.id}"][data-edit-type="${
-              type
-            }"][data-edit-field="${name}"] .ory-content`
+            `.editable[data-id="${
+              this.id
+            }"][data-edit-type="${type}"][data-edit-field="${name}"] .ory-content`
           )[0]
         })
       })
@@ -309,7 +321,6 @@ export default class EntityEditor {
       const key = $(element).data('editField')
       switch ($(element).data('editType')) {
         case 'ory':
-
           const state = this.editorComponent.current.getState(this.id + key)
           data[key] = JSON.stringify(state)
           break

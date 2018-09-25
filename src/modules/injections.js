@@ -23,16 +23,16 @@ var $geogebraTubeTemplate = $(
 
 // terrible geogebra oninit handler..
 // that doesnt work.....
-window.ggbOnInit = function (id) {
+window.ggbOnInit = function(id) {
   if (ggbApplets[id]) {
     ggbApplets[id]()
   }
 }
 
-Injections = function () {
+Injections = function() {
   var totalInjectionsCount = $(this).length
 
-  return $(this).each(function () {
+  return $(this).each(function() {
     var $that = $(this)
     var $a = $('> a', $that)
     var title = $a.text()
@@ -42,7 +42,7 @@ Injections = function () {
       return true
     }
 
-    function initGeogebraApplet (xml) {
+    function initGeogebraApplet(xml) {
       var ggbAppletID = 'ggbApplet' + ggbAppletsCount
       var $clone = $geogebraTemplate.clone()
 
@@ -58,7 +58,7 @@ Injections = function () {
       )
 
       // the following doesnt work.
-      ggbApplets[ggbAppletID] = function () {
+      ggbApplets[ggbAppletID] = function() {
         var applet = window[ggbAppletID]
         applet.setXML(xml)
       }
@@ -68,7 +68,7 @@ Injections = function () {
       // web();
     }
 
-    function initGeogebraTube () {
+    function initGeogebraTube() {
       var transform
       var scale
       var gtAppletID = 'gtApplet' + gtAppletsCount
@@ -84,7 +84,7 @@ Injections = function () {
       applet = new GGBApplet({ material_id: href.substr(5) }, true)
       applet.inject(gtAppletID, 'preferHTML5')
 
-      transform = function () {
+      transform = function() {
         setTimeout(transform, 1000)
         scale =
           $clone.parent().width() /
@@ -109,7 +109,7 @@ Injections = function () {
       $($clone[1]).text(title)
     }
 
-    function notSupportedYet ($context) {
+    function notSupportedYet($context) {
       Common.log('Illegal injection found: ' + href)
       $context.html(
         '<div class="alert alert-info">' +
@@ -118,7 +118,7 @@ Injections = function () {
       )
     }
 
-    function handleResponse (data, contentType) {
+    function handleResponse(data, contentType) {
       cache[href] = {
         data: data,
         contentType: contentType
@@ -161,13 +161,13 @@ Injections = function () {
 
     // by default load injections from the server
     $.ajax(href)
-      .done(function () {
+      .done(function() {
         handleResponse(
           arguments[0],
           arguments[2].getResponseHeader('Content-Type')
         )
       })
-      .always(function () {
+      .always(function() {
         totalInjectionsCount -= 1
         if (totalInjectionsCount === 0 && ggbAppletsCount > 0) {
           // if all injections have been loaded,
@@ -178,7 +178,7 @@ Injections = function () {
         }
       })
       // This error could mean that the injection is of type GeoGebraTube
-      .fail(function () {
+      .fail(function() {
         Common.log('Could not load injection from Serlo server')
       })
   })

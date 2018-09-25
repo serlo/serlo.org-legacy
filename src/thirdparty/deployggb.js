@@ -1462,8 +1462,8 @@ window.GGBApplet = function() {
       previewLoading.style.opacity = 1.0
       previewLoading.setAttribute('src', previewLoadingPath)
       var pWidth = 360
-      if (pWidth > oriWidth / 4 * 3) {
-        pWidth = oriWidth / 4 * 3
+      if (pWidth > (oriWidth / 4) * 3) {
+        pWidth = (oriWidth / 4) * 3
       }
       var pHeight = pWidth / 5.8
       var pX = (oriWidth - pWidth) / 2

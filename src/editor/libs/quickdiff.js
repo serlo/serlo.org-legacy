@@ -4,7 +4,7 @@ var filters = {}
 var attributes = {}
 
 // Given a root element and a path of offsets, return the targetted element.
-var navigatePath = function (root, path) {
+var navigatePath = function(root, path) {
   path = path.slice(0)
   while (path.length > 0) {
     root = root.childNodes[path.shift()]
@@ -13,7 +13,7 @@ var navigatePath = function (root, path) {
 }
 
 // Return the shared elements of 2 arrays from the beginning.
-var arrayPrefix = function (a, b) {
+var arrayPrefix = function(a, b) {
   var sharedlen = Math.min(a.length, b.length)
   var i
 
@@ -28,13 +28,13 @@ var arrayPrefix = function (a, b) {
   return true
 }
 
-var cons = function (arr, c) {
+var cons = function(arr, c) {
   var n = arr.slice(0)
   n.push(c)
   return n
 }
 
-var checkFilters = function (selectedFilters, a, b) {
+var checkFilters = function(selectedFilters, a, b) {
   for (var f = 0; f < selectedFilters.length; f++) {
     if (
       filters[selectedFilters[f]].condition(a) &&
@@ -50,7 +50,7 @@ var checkFilters = function (selectedFilters, a, b) {
   return undefined
 }
 
-var checkAttributes = function (a, b) {
+var checkAttributes = function(a, b) {
   var attrs
   if ((attrs = attributes[a.nodeName.toLowerCase()])) {
     for (var i = 0, len = attrs.length; i < len; i++) {
@@ -63,7 +63,7 @@ var checkAttributes = function (a, b) {
 }
 
 // Scan over two DOM trees a, b and return the first path at which they differ.
-var forwardScan = function (a, b, apath, selectedFilters) {
+var forwardScan = function(a, b, apath, selectedFilters) {
   // Quick exit.
   if (a.nodeName !== b.nodeName || checkAttributes(a, b)) {
     return apath
@@ -114,7 +114,7 @@ var forwardScan = function (a, b, apath, selectedFilters) {
 }
 
 // Scan backwards over two DOM trees a, b and return the paths where they differ
-var reverseScan = function (a, b, apath, bpath, selectedFilters) {
+var reverseScan = function(a, b, apath, bpath, selectedFilters) {
   if (a.nodeName !== b.nodeName || checkAttributes(a, b)) {
     return [apath, bpath]
   }
@@ -173,7 +173,7 @@ var reverseScan = function (a, b, apath, bpath, selectedFilters) {
 }
 
 // Return a slice of childNodes from a parent.
-var childNodesSlice = function (parentNode, start, end) {
+var childNodesSlice = function(parentNode, start, end) {
   var arr = []
   var i = 0
   var cnode = parentNode.firstChild
@@ -191,7 +191,7 @@ var childNodesSlice = function (parentNode, start, end) {
 }
 
 // Find the difference between two DOM trees, and the operation to change a to b
-var scanDiff = function (a, b, filters) {
+var scanDiff = function(a, b, filters) {
   var forDiff = forwardScan(a, b, [], filters)
   if (forDiff === false) {
     return { type: 'identical' }
@@ -246,7 +246,7 @@ var scanDiff = function (a, b, filters) {
 // Use the scan result to patch one DOM tree into the other.
 // This is the only part of the code dependent upon jQuery (as it removes nodes,
 // framework specific data may need to be removed).
-var executePatch = function (patch) {
+var executePatch = function(patch) {
   if (patch.type === 'identical') {
     return
   }
@@ -269,26 +269,26 @@ var executePatch = function (patch) {
 }
 
 var methods = {
-  diff: function (targetDOM, filters) {
+  diff: function(targetDOM, filters) {
     var patch = scanDiff(this.get(0), targetDOM.get(0), filters)
-    patch.patch = function () {
+    patch.patch = function() {
       executePatch(patch)
     }
     return patch
   },
-  patch: function (targetDOM, filters) {
+  patch: function(targetDOM, filters) {
     var patch = scanDiff(this.get(0), targetDOM.get(0), filters)
     executePatch(patch)
     return patch
   },
-  filter: function (name, condition, test) {
+  filter: function(name, condition, test) {
     if (condition && test) {
       filters[name] = { condition: condition, test: test }
     } else {
       delete filters[name]
     }
   },
-  attributes: function (newAttributes) {
+  attributes: function(newAttributes) {
     if (newAttributes === undefined) {
       return attributes
     } else {
@@ -297,7 +297,7 @@ var methods = {
   }
 }
 
-$.fn.quickdiff = function (method) {
+$.fn.quickdiff = function(method) {
   // Method calling logic
   if (methods[method]) {
     return methods[method].apply(this, Array.prototype.slice.call(arguments, 1))

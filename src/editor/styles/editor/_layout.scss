@@ -278,7 +278,7 @@ header {
 .ui-resizable {
   position: relative;
 
-  & +  {
+  & + {
     .panel-footer {
       padding-right: 35px;
     }

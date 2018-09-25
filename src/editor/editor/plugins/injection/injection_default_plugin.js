@@ -9,7 +9,7 @@ var DefaultInjectionPlugin, titleRegexp, hrefRegexp
 titleRegexp = new RegExp(/\[[^\]]*\]\(/)
 hrefRegexp = new RegExp(/\([^)]*\)/)
 
-DefaultInjectionPlugin = function (data) {
+DefaultInjectionPlugin = function(data) {
   this.state = 'default-injection'
   this.info = data || {}
   this.init()
@@ -18,7 +18,7 @@ DefaultInjectionPlugin = function (data) {
 DefaultInjectionPlugin.prototype = new EditorPlugin()
 DefaultInjectionPlugin.prototype.constructor = DefaultInjectionPlugin
 
-DefaultInjectionPlugin.prototype.init = function () {
+DefaultInjectionPlugin.prototype.init = function() {
   var that = this
 
   that.template = _.template(pluginHtmlTemplate)
@@ -26,7 +26,7 @@ DefaultInjectionPlugin.prototype.init = function () {
   that.data.name = 'Injection'
 }
 
-DefaultInjectionPlugin.prototype.activate = function (token) {
+DefaultInjectionPlugin.prototype.activate = function(token) {
   var that = this
   var title
   var href
@@ -40,22 +40,22 @@ DefaultInjectionPlugin.prototype.activate = function (token) {
 
   that.$el = $(that.template(that.data))
 
-  that.$el.on('click', '.btn-save', function () {
+  that.$el.on('click', '.btn-save', function() {
     that.save()
   })
 
-  that.$el.on('click', '.btn-cancel', function (e) {
+  that.$el.on('click', '.btn-cancel', function(e) {
     e.preventDefault()
     that.trigger('close')
   })
 }
 
-DefaultInjectionPlugin.prototype.save = function () {
+DefaultInjectionPlugin.prototype.save = function() {
   this.setAndValidateContent()
   this.trigger('save', this)
 }
 
-DefaultInjectionPlugin.prototype.setAndValidateContent = function () {
+DefaultInjectionPlugin.prototype.setAndValidateContent = function() {
   var href = $('.href', this.$el).val()
 
   if (href.substr(0, 1) !== '/') {
