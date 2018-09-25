@@ -9,7 +9,14 @@ const linkedImagesRegEx = new RegExp(
   /\[!\[(.*?)\]\((.*?)( "(.*)?")?\)\]\((.*?)\)/
 )
 const tableRegEx = new RegExp(/(^|\n)(((\|[^|\r\n]*)+\|( |\t)*(\r?\n|\r)?)+)/)
-const blockquoteRegEx = new RegExp(/((^|\n)> ?[\s\S]+?)(?=(\r?\n\r?\n\w)|\Z)/m)
+
+/**
+ * Blockquote RegEx:
+ *  1. Negative Lookahead: Ignore when start is injection not blockquote;
+ *  2. match /> ?[\s\S]+?
+ *  3. Lookahead: Match is finished, when two linebreaks, end of line or injection
+ */
+const blockquoteRegEx = new RegExp(/(^(?!>\[.*?\]\(.*?\))> ?[\s\S]+?)(?=(\r?\n\r?\n\w)|\Z|(>\[.*?\]\(.*?\)))/m)
 
 const extractSpoilers = normalizedObj =>
   extract(

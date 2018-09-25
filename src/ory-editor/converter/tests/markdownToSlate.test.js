@@ -1,8 +1,8 @@
-/**
- * Created by benny on 24.11.16.
- */
 import unexpected from 'unexpected'
 import markdownToSlate from '../src/markdownToSlate'
+import image from '@splish-me/editor-plugin-image'
+import spoiler from '@serlo-org/editor-plugin-spoiler'
+import { slatePlugin } from '@serlo-org/editor-plugins/lib/slate'
 
 const expect = unexpected.clone()
 
@@ -23,7 +23,8 @@ const cases = [
                         {
                           layout: {
                             plugin: {
-                              name: '@serlo-org/spoiler'
+                              name: spoiler.name,
+                              version: spoiler.version
                             },
                             state: {
                               title: 'title'
@@ -42,8 +43,8 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: '@splish-me/image',
-                                      version: '0.0.4'
+                                      name: image.name,
+                                      version: image.version
                                     },
                                     state: {
                                       alt: 'image',
@@ -86,7 +87,8 @@ const cases = [
                         {
                           layout: {
                             plugin: {
-                              name: '@serlo-org/spoiler'
+                              name: spoiler.name,
+                              version: spoiler.version
                             },
                             state: {
                               title: 'title'
@@ -98,13 +100,13 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: '@splish-me/slate',
-                                      version: '0.0.5'
+                                      name: slatePlugin.name,
+                                      version: slatePlugin.version
                                     },
-                                    state: {
+                                    state: slatePlugin.serialize(slatePlugin.unserialize({
                                       importFromHtml:
                                         '<h1 id="header">header</h1>'
-                                    }
+                                    }))
                                   }
                                 }
                               ]
@@ -114,8 +116,8 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: '@splish-me/image',
-                                      version: '0.0.4'
+                                      name: image.name,
+                                        version: image.version
                                     },
                                     state: {
                                       alt: 'image',
@@ -130,13 +132,13 @@ const cases = [
                                 {
                                   content: {
                                     plugin: {
-                                      name: '@splish-me/slate',
-                                      version: '0.0.5'
+                                      name: slatePlugin.name,
+                                      version: slatePlugin.version
                                     },
-                                    state: {
+                                    state: slatePlugin.serialize(slatePlugin.unserialize({
                                       importFromHtml:
                                         '<p><strong>bold text</strong></p>'
-                                    }
+                                    }))
                                   }
                                 }
                               ]

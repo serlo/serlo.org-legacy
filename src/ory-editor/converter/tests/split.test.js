@@ -3,6 +3,12 @@ import unexpected from 'unexpected'
 import split from '../src/split'
 
 const expect = unexpected.clone()
+import spoiler from '@serlo-org/editor-plugin-spoiler'
+import blockquote from '@serlo-org/editor-plugin-blockquote'
+import injection from '@serlo-org/editor-plugin-injection'
+import geogebra from '@serlo-org/editor-plugin-geogebra'
+import image from '@splish-me/editor-plugin-image'
+
 
 const cases = [
   {
@@ -96,8 +102,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: '@splish-me/image',
-                              version: '0.0.4'
+                              name: image.name,
+                              version: image.version
                             },
                             state: {
                               description: 'image',
@@ -157,8 +163,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: '@serlo-org/injection',
-                              version: '0.0.2'
+                              name: injection.name,
+                              version: injection.version
                             },
                             state: {
                               description: 'alttext',
@@ -223,7 +229,8 @@ const cases = [
   //                       {
   //                         layout: {
   //                           plugin: {
-  //                             name: '@serlo-org/spoiler'
+  //                             name: spoiler.name,
+  //                             version: spoiler.version
   //                           },
   //                           state: {
   //                             title: 'title',
@@ -292,7 +299,8 @@ const cases = [
   //                       {
   //                         layout: {
   //                           plugin: {
-  //                             name: 'serlo/layout/spoiler'
+  //                             name: spoiler.name,
+  //                             version: spoiler.version
   //                           },
   //                           state: {
   //                             title: 'title'
@@ -311,7 +319,8 @@ const cases = [
   //                               {
   //                                 content: {
   //                                   plugin: {
-  //                                     name: 'ory/editor/core/content/image'
+  //                                     name: image.name,
+  //                                     version: image.version
   //                                   },
   //                                   state: {
   //                                     description: 'image',
@@ -368,8 +377,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: '@serlo-org/geogebra',
-                              version: '0.0.4'
+                              name: geogebra.name,
+                                version: geogebra.version
                             },
                             state: {
                               description: 'alttext',
@@ -434,8 +443,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: '@splish-me/image',
-                              version: '0.0.4'
+                              name: image.name,
+                              version: image.version
                             },
                             state: {
                               description: 'image',
@@ -525,72 +534,72 @@ const cases = [
       ]
     }
   }
-  // {
-  //     description: 'Blockquote',
-  //     input: {
-  //         cells: [
-  //             {
-  //                 rows: [
-  //                     {
-  //                         cells: [
-  //                             {
-  //                                 size: 12,
-  //                                 raw: 'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur'
-  //                             }
-  //                         ]
-  //                     }
-  //                 ]
-  //             }
-  //         ]
-  //     },
-  //     output: {
-  //         cells: [
-  //             {
-  //                 rows: [
-  //                     {
-  //                         cells: [
-  //                             {
-  //                                 size: 12,
-  //                                 rows: [
-  //                                     {
-  //                                         cells: [
-  //                                             {
-  //                                                 markdown: 'Lorem'
-  //                                             }
-  //                                         ]
-  //                                     },
-  //                                     {
-  //                                         cells: [
-  //                                             {
-  //                                                 content: {
-  //                                                     plugin: {
-  //                                                         name: '@serlo-org/blockquote',
-  //                                                         version: '0.0.1'
-  //                                                     },
-  //                                                     state: {
-  //                                                       //actually some slate plugin
-  //                                                       text: 'ipsum\n dolor\n\nsit amet'
-  //                                                     }
-  //                                                 }
-  //                                             }
-  //                                         ]
-  //                                     },
-  //                                     {
-  //                                         cells: [
-  //                                             {
-  //                                                 markdown: 'consectetur'
-  //                                             }
-  //                                         ]
-  //                                     }
-  //                                 ]
-  //                             }
-  //                         ]
-  //                     }
-  //                 ]
-  //             }
-  //         ]
-  //     }
-  // }
+    // {
+    //     description: 'Blockquote',
+    //     input: {
+    //         cells: [
+    //             {
+    //                 rows: [
+    //                     {
+    //                         cells: [
+    //                             {
+    //                                 size: 12,
+    //                                 raw: 'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur'
+    //                             }
+    //                         ]
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     },
+    //     output: {
+    //         cells: [
+    //             {
+    //                 rows: [
+    //                     {
+    //                         cells: [
+    //                             {
+    //                                 size: 12,
+    //                                 rows: [
+    //                                     {
+    //                                         cells: [
+    //                                             {
+    //                                                 markdown: 'Lorem'
+    //                                             }
+    //                                         ]
+    //                                     },
+    //                                     {
+    //                                         cells: [
+    //                                             {
+    //                                                 content: {
+    //                                                     plugin: {
+    //                                                         name: blockquote.name,
+    //                                                         version: blockquote.version
+    //                                                     },
+    //                                                     state: {
+    //                                                       //actually some slate plugin
+    //                                                       text: 'ipsum\n dolor\n\nsit amet'
+    //                                                     }
+    //                                                 }
+    //                                             }
+    //                                         ]
+    //                                     },
+    //                                     {
+    //                                         cells: [
+    //                                             {
+    //                                                 markdown: 'consectetur'
+    //                                             }
+    //                                         ]
+    //                                     }
+    //                                 ]
+    //                             }
+    //                         ]
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     }
+    // }
 ]
 
 cases.forEach(testcase => {
