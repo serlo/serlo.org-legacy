@@ -1,6 +1,6 @@
-import { renderServersideContent } from "./index";
-import $ from "jquery";
-import EntityEditor from "./index";
+import { renderServersideContent } from './index'
+import $ from 'jquery'
+import EntityEditor from './index'
 
 export default (id, href, callback) => {
   $.ajax({
@@ -13,8 +13,8 @@ export default (id, href, callback) => {
     complete: () => {
       $('#loading').hide()
     }
-  }).done(function (data) {
-    function getEditedArticle ($all) {
+  }).done(function(data) {
+    function getEditedArticle($all) {
       const $editable = $all.find(
         `.editable[data-id="${id}"][data-edit-type="ory"]`
       )
@@ -30,5 +30,4 @@ export default (id, href, callback) => {
     new EntityEditor(id, $editButton.attr('href'), $editButton.data('type'))
     callback($target)
   })
-
 }

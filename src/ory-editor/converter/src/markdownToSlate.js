@@ -1,6 +1,6 @@
 import renderMarkdown from './markdownToHtml'
 
-const slate = require('@splish-me/editor-plugin-slate/package.json')
+import { slatePlugin } from '@serlo-org/editor-plugins/lib/slate'
 
 const renderCell = cell => {
   const { rows = [] } = cell
@@ -8,10 +8,12 @@ const renderCell = cell => {
   if (cell.markdown) {
     return {
       content: {
-        plugin: { name: '@splish-me/slate', version: slate.version },
-        state: {
-          importFromHtml: renderMarkdown(cell.markdown)
-        }
+        plugin: { name: slatePlugin.name, version: slatePlugin.version },
+        state: slatePlugin.serialize(
+          slatePlugin.unserialize({
+            importFromHtml: renderMarkdown(cell.markdown)
+          })
+        )
       }
     }
   } else if (rows.length > 0) {

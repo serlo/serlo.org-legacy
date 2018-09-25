@@ -43,12 +43,8 @@ module.exports = {
         loader: 'html-loader'
       },
       {
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2)(\?.*)?$/,
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
         loader: require.resolve('file-loader'),
-      },
-      {
-        test: /\.svg$/,
-        loader: require.resolve('svg-url-loader'),
       },
     ]
   },

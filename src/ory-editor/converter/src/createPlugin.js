@@ -1,14 +1,12 @@
-/**
- * Created by benny on 17.11.16.
- */
-import { v4 } from 'uuid'
-import markdownToSlate from './markdownToSlate'
-import table from '@serlo-org/editor-plugin-table'
-import spoiler from '@serlo-org/editor-plugin-spoiler'
 import blockquote from '@serlo-org/editor-plugin-blockquote'
-import injection from '@serlo-org/editor-plugin-injection'
 import geogebra from '@serlo-org/editor-plugin-geogebra'
 import image from '@splish-me/editor-plugin-image'
+import injection from '@serlo-org/editor-plugin-injection'
+import spoiler from '@serlo-org/editor-plugin-spoiler'
+import table from '@serlo-org/editor-plugin-table'
+import { v4 } from 'uuid'
+
+import markdownToSlate from './markdownToSlate'
 
 const createPlugins = ({ normalized, elements }) => {
   const split = normalized
@@ -61,7 +59,6 @@ const createPluginCell = elem => {
             title: elem.title,
             content: {
               type: '@splish-me/editor-core/editable',
-              // FIXME: can we move that before createPlugin?
               state: markdownToSlate({
                 id: v4(),
                 cells: [
@@ -76,7 +73,7 @@ const createPluginCell = elem => {
         }
       }
     }
-      case 'blockquote': {
+    case 'blockquote': {
       const rows = createPlugins(elem.content)
       return {
         content: {
@@ -84,19 +81,24 @@ const createPluginCell = elem => {
             name: blockquote.name,
             version: blockquote.version
           },
-          state: markdownToSlate({
-            id: v4(),
-            cells: [
-              {
+          state: {
+            child: {
+              type: '@splish-me/editor-core/editable',
+              state: markdownToSlate({
                 id: v4(),
-                rows
-              }
-            ]
-          })
+                cells: [
+                  {
+                    id: v4(),
+                    rows
+                  }
+                ]
+              })
+            }
+          }
         }
       }
     }
-      case 'injection':
+    case 'injection':
       return {
         content: {
           plugin: {

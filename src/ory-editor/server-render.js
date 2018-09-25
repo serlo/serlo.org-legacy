@@ -1,20 +1,17 @@
 import { HtmlRenderer } from '@serlo-org/html-renderer'
-import PluginService from '@splish-me/ory-editor-core/lib/service/plugin'
 import base64 from 'base-64'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import utf8 from 'utf8'
 
 import converter from './converter'
-import createEditorPlugins from './plugins';
-import createRenderPlugins from './plugins.render';
+import createRenderPlugins from './plugins.render'
 
-
-export function render (input, callback) {
+export function render(input, callback) {
   let data
 
   // callback(output, Exception, ErrorMessage);
-  if (input === undefined) {
+  if (typeof input === 'undefined') {
     callback('', 'InvalidArgumentException', 'No input given')
     return
   }
@@ -24,6 +21,7 @@ export function render (input, callback) {
   } else {
     // parse input to object
     try {
+      // FIXME:
       input = input.trim().replace(/&quot;/g, '"')
       data = JSON.parse(input)
     } catch (e) {
@@ -35,10 +33,7 @@ export function render (input, callback) {
       return
     }
 
-    const plugins = new PluginService({
-      content: createEditorPlugins()
-    })
-    const oryState = data['cells'] ? data : (plugins.serialize(plugins.unserialize(converter(data))))
+    const oryState = data['cells'] ? data : converter(data)
 
     const output = renderToString(
       <HtmlRenderer state={oryState} plugins={createRenderPlugins()} />
