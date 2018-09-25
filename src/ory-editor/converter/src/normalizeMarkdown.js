@@ -16,7 +16,7 @@ const tableRegEx = new RegExp(/(^|\n)(((\|[^|\r\n]*)+\|( |\t)*(\r?\n|\r)?)+)/)
  *  2. match /> ?[\s\S]+?
  *  3. Lookahead: Match is finished, when two linebreaks, end of line or injection
  */
-const blockquoteRegEx = new RegExp(/(^(?!>\[.*?\]\(.*?\))> ?[\s\S]+?)(?=(\r?\n\r?\n\w)|\Z|(>\[.*?\]\(.*?\)))/m)
+const blockquoteRegEx = new RegExp(/((((\A|\n*)(?!>\[.*?\]\(.*?\))>[\s\S]+?)(?=(\r?\n\r?\n\w)|$|(>\[.*?\]\(.*?\))))+)/m)
 
 const extractSpoilers = normalizedObj =>
   extract(
