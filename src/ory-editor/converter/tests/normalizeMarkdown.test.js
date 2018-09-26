@@ -1,10 +1,5 @@
-/**
- * Created by benny on 17.11.16.
- */
-import unexpected from 'unexpected'
+import { expect } from './common'
 import normalizeMarkdown from '../src/normalizeMarkdown'
-
-const expect = unexpected.clone()
 
 const cases = [
   {

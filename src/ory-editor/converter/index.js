@@ -3,7 +3,7 @@ import split from './src/split'
 import markdownToSlate from './src/markdownToSlate'
 
 const convert = (content, id) => {
-  const cells = markdownToSlate(split(transform(content)))
+  const cells = split(transform(content))
   return {
     id: id,
     ...cells

@@ -31,6 +31,6 @@ const renderMarkdown = input => {
       /<span class="math">\$\$(.*?)\$\$<\/span>/gm,
       '<katexblock>$1</katexblock>'
     )
-    .replace(/\n/, '')
+    .replace(/\r?\n/gm, '')
 }
 export default renderMarkdown

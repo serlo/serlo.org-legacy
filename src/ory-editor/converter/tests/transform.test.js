@@ -1,8 +1,6 @@
 /* eslint-env jest */
-import unexpected from 'unexpected'
+import { expect } from './common'
 import transform from '../src/transform'
-
-const expect = unexpected.clone()
 
 const cases = [
   {

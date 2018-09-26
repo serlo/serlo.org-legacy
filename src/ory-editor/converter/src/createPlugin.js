@@ -17,11 +17,7 @@ const createPlugins = ({ normalized, elements }) => {
   if (!split.length) {
     return [
       {
-        cells: [
-          {
-            markdown: ''
-          }
-        ]
+        cells: [markdownToSlate('')]
       }
     ]
   }
@@ -35,11 +31,7 @@ const createPlugins = ({ normalized, elements }) => {
       }
     } else {
       return {
-        cells: [
-          {
-            markdown: markdown
-          }
-        ]
+        cells: [markdownToSlate(markdown)]
       }
     }
   })
@@ -58,9 +50,7 @@ const createPluginCell = elem => {
           }
         }
       }
-    case 'spoiler': {
-      const rows = createPlugins(elem.content)
-
+    case 'spoiler':
       return {
         content: {
           plugin: {
@@ -71,22 +61,20 @@ const createPluginCell = elem => {
             title: elem.title,
             content: {
               type: '@splish-me/editor-core/editable',
-              state: markdownToSlate({
+              state: {
                 id: v4(),
                 cells: [
                   {
                     id: v4(),
-                    rows
+                    rows: createPlugins(elem.content)
                   }
                 ]
-              })
+              }
             }
           }
         }
       }
-    }
-    case 'blockquote': {
-      const rows = createPlugins(elem.content)
+    case 'blockquote':
       return {
         content: {
           plugin: {
@@ -96,20 +84,19 @@ const createPluginCell = elem => {
           state: {
             child: {
               type: '@splish-me/editor-core/editable',
-              state: markdownToSlate({
+              state: {
                 id: v4(),
                 cells: [
                   {
                     id: v4(),
-                    rows
+                    rows: createPlugins(elem.content)
                   }
                 ]
-              })
+              }
             }
           }
         }
       }
-    }
     case 'injection':
       return {
         content: {
@@ -152,7 +139,16 @@ const createPluginCell = elem => {
         }
       }
     default:
-      return {}
+      return {
+        content: {
+          plugin: {
+            name: elem.name
+          },
+          state: {
+            ...elem
+          }
+        }
+      }
   }
 }
 

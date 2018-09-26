@@ -1,13 +1,15 @@
 /* eslint-env jest */
-import unexpected from 'unexpected'
+import { expect, expectSlate } from './common'
 import split from '../src/split'
 
-const expect = unexpected.clone()
+
 import spoiler from '@serlo-org/editor-plugin-spoiler'
 import blockquote from '@serlo-org/editor-plugin-blockquote'
 import injection from '@serlo-org/editor-plugin-injection'
 import geogebra from '@serlo-org/editor-plugin-geogebra'
 import image from '@splish-me/editor-plugin-image'
+
+import { slatePlugin } from '@serlo-org/editor-plugins/lib/slate'
 
 const cases = [
   {
@@ -36,11 +38,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [
-                        {
-                          markdown: 'Lorem ipsum'
-                        }
-                      ]
+                      cells: [expectSlate('Lorem ipsum')]
                     }
                   ]
                 }
@@ -52,11 +50,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [
-                        {
-                          markdown: 'dolor adipiscing amet'
-                        }
-                      ]
+                      cells: [expectSlate('dolor adipiscing amet')]
                     }
                   ]
                 }
@@ -90,11 +84,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [
-                        {
-                          markdown: 'Lorem'
-                        }
-                      ]
+                      cells: [expectSlate('Lorem')]
                     },
                     {
                       cells: [
@@ -113,11 +103,7 @@ const cases = [
                       ]
                     },
                     {
-                      cells: [
-                        {
-                          markdown: 'ipsum'
-                        }
-                      ]
+                      cells: [expectSlate('ipsum')]
                     }
                   ]
                 }
@@ -151,11 +137,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [
-                        {
-                          markdown: 'Lorem'
-                        }
-                      ]
+                      cells: [expectSlate('Lorem')]
                     },
                     {
                       cells: [
@@ -174,9 +156,161 @@ const cases = [
                       ]
                     },
                     {
+                      cells: [expectSlate('ipsum')]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    description: 'Layout with spoiler',
+    input: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 12,
+                  raw: 'Lorem \n/// title\nmarkdowntext\n///\n ipsum'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    output: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 12,
+                  rows: [
+                    {
+                      cells: [expectSlate('Lorem')]
+                    },
+                    {
                       cells: [
                         {
-                          markdown: 'ipsum'
+                          content: {
+                            plugin: {
+                              name: spoiler.name,
+                              version: spoiler.version
+                            },
+                            state: {
+                              title: 'title',
+                              content: {
+                                type: '@splish-me/editor-core/editable',
+                                state: {
+                                  cells: [
+                                    {
+                                      rows: [
+                                        {
+                                          cells: [expectSlate('markdowntext')]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      cells: [expectSlate('ipsum')]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    description: 'Layout with image in spoiler',
+    input: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 12,
+                  raw: '/// title\nmarkdowntext with image ![image](url)\n///'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    output: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 12,
+                  rows: [
+                    {
+                      cells: [
+                        {
+                          content: {
+                            plugin: {
+                              name: spoiler.name,
+                              version: spoiler.version
+                            },
+                            state: {
+                              title: 'title',
+                              content: {
+                                type: '@splish-me/editor-core/editable',
+                                state: {
+                                  cells: [
+                                    {
+                                      rows: [
+                                        {
+                                          cells: [
+                                            expectSlate(
+                                              'markdowntext with image'
+                                            )
+                                          ]
+                                        },
+                                        {
+                                          cells: [
+                                            {
+                                              content: {
+                                                plugin: {
+                                                  name: image.name,
+                                                  version: image.version
+                                                },
+                                                state: {
+                                                  description: 'image',
+                                                  src: 'url'
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
                         }
                       ]
                     }
@@ -189,159 +323,6 @@ const cases = [
       ]
     }
   },
-  // {
-  //   description: 'Layout with spoiler',
-  //   input: {
-  //     cells: [
-  //       {
-  //         rows: [
-  //           {
-  //             cells: [
-  //               {
-  //                 size: 12,
-  //                 raw: 'Lorem \n/// title\nmarkdowntext\n///\n ipsum'
-  //               }
-  //             ]
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   },
-  //   output: {
-  //     cells: [
-  //       {
-  //         rows: [
-  //           {
-  //             cells: [
-  //               {
-  //                 size: 12,
-  //                 rows: [
-  //                   {
-  //                     cells: [
-  //                       {
-  //                         markdown: 'Lorem'
-  //                       }
-  //                     ]
-  //                   },
-  //                   {
-  //                     cells: [
-  //                       {
-  //                         layout: {
-  //                           plugin: {
-  //                             name: spoiler.name,
-  //                             version: spoiler.version
-  //                           },
-  //                           state: {
-  //                             title: 'title',
-  //                             content: {
-  //                               // FIXME:
-  //                             }
-  //                           }
-  //                         },
-  //                         rows: [
-  //                           {
-  //                             cells: [
-  //                               {
-  //                                 markdown: 'markdowntext'
-  //                               }
-  //                             ]
-  //                           }
-  //                         ]
-  //                       }
-  //                     ]
-  //                   },
-  //                   {
-  //                     cells: [
-  //                       {
-  //                         markdown: 'ipsum'
-  //                       }
-  //                     ]
-  //                   }
-  //                 ]
-  //               }
-  //             ]
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   }
-  // },
-  // {
-  //   description: 'Layout with image in spoiler',
-  //   input: {
-  //     cells: [
-  //       {
-  //         rows: [
-  //           {
-  //             cells: [
-  //               {
-  //                 size: 12,
-  //                 raw: '/// title\nmarkdowntext with image ![image](url)\n///'
-  //               }
-  //             ]
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   },
-  //   output: {
-  //     cells: [
-  //       {
-  //         rows: [
-  //           {
-  //             cells: [
-  //               {
-  //                 size: 12,
-  //                 rows: [
-  //                   {
-  //                     cells: [
-  //                       {
-  //                         layout: {
-  //                           plugin: {
-  //                             name: spoiler.name,
-  //                             version: spoiler.version
-  //                           },
-  //                           state: {
-  //                             title: 'title'
-  //                           }
-  //                         },
-  //                         rows: [
-  //                           {
-  //                             cells: [
-  //                               {
-  //                                 markdown: 'markdowntext with image'
-  //                               }
-  //                             ]
-  //                           },
-  //                           {
-  //                             cells: [
-  //                               {
-  //                                 content: {
-  //                                   plugin: {
-  //                                     name: image.name,
-  //                                     version: image.version
-  //                                   },
-  //                                   state: {
-  //                                     description: 'image',
-  //                                     src: 'url'
-  //                                   }
-  //                                 }
-  //                               }
-  //                             ]
-  //                           }
-  //                         ]
-  //                       }
-  //                     ]
-  //                   }
-  //                 ]
-  //               }
-  //             ]
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   }
-  // },
   {
     description: 'Layout with geogebra injection',
     input: {
@@ -365,11 +346,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [
-                        {
-                          markdown: 'Lorem'
-                        }
-                      ]
+                      cells: [expectSlate('Lorem')]
                     },
                     {
                       cells: [
@@ -388,11 +365,7 @@ const cases = [
                       ]
                     },
                     {
-                      cells: [
-                        {
-                          markdown: 'ipsum'
-                        }
-                      ]
+                      cells: [expectSlate('ipsum')]
                     }
                   ]
                 }
@@ -431,11 +404,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [
-                        {
-                          markdown: 'Lorem'
-                        }
-                      ]
+                      cells: [expectSlate('Lorem')]
                     },
                     {
                       cells: [
@@ -455,11 +424,7 @@ const cases = [
                       ]
                     },
                     {
-                      cells: [
-                        {
-                          markdown: 'ipsum'
-                        }
-                      ]
+                      cells: [expectSlate('ipsum')]
                     }
                   ]
                 }
@@ -498,11 +463,7 @@ const cases = [
                   size: 3,
                   rows: [
                     {
-                      cells: [
-                        {
-                          markdown: 'Lorem ipsum'
-                        }
-                      ]
+                      cells: [expectSlate('Lorem ipsum')]
                     }
                   ]
                 },
@@ -510,11 +471,7 @@ const cases = [
                   size: 3,
                   rows: [
                     {
-                      cells: [
-                        {
-                          markdown: 'dolor adipiscing amet'
-                        }
-                      ]
+                      cells: [expectSlate('dolor adipiscing amet')]
                     }
                   ]
                 },
@@ -522,11 +479,7 @@ const cases = [
                   size: 3,
                   rows: [
                     {
-                      cells: [
-                        {
-                          markdown: ''
-                        }
-                      ]
+                      cells: [expectSlate('')]
                     }
                   ]
                 },
@@ -534,11 +487,82 @@ const cases = [
                   size: 3,
                   rows: [
                     {
+                      cells: [expectSlate('')]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    description: 'Blockquote',
+    input: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 12,
+                  // raw: 'Ausgehend von der Normalparabelkann man jede beliebige Parabel konstruieren.Dazu benutzt man die  [Scheitelform](/2073): \n\n>%%f\\left(x\\right)=a(x-d)^2+e%%'
+                  raw: 'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    output: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 12,
+                  rows: [
+                    {
+                      cells: [expectSlate('Lorem')]
+                    },
+                    {
                       cells: [
                         {
-                          markdown: ''
+                          content: {
+                            plugin: {
+                              name: blockquote.name,
+                              version: blockquote.version
+                            },
+                            state: {
+                              child: {
+                                type: '@splish-me/editor-core/editable',
+                                state: {
+                                  cells: [
+                                    {
+                                      rows: [
+                                        {
+                                          cells: [
+                                            expectSlate(
+                                              '<p>ipsum dolor</p><p>sit amet</p>'
+                                            )
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
                         }
                       ]
+                    },
+                    {
+                      cells: [expectSlate('consectetur')]
                     }
                   ]
                 }
@@ -549,73 +573,6 @@ const cases = [
       ]
     }
   }
-  // {
-  //     description: 'Blockquote',
-  //     input: {
-  //         cells: [
-  //             {
-  //                 rows: [
-  //                     {
-  //                         cells: [
-  //                             {
-  //                                 size: 12,
-  //                                 // raw: 'Ausgehend von der Normalparabelkann man jede beliebige Parabel konstruieren.Dazu benutzt man die  [Scheitelform](/2073): \n\n>%%f\\left(x\\right)=a(x-d)^2+e%%'
-  //                                 raw: 'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur'
-  //                             }
-  //                         ]
-  //                     }
-  //                 ]
-  //             }
-  //         ]
-  //     },
-  //     output: {
-  //         cells: [
-  //             {
-  //                 rows: [
-  //                     {
-  //                         cells: [
-  //                             {
-  //                                 size: 12,
-  //                                 rows: [
-  //                                     {
-  //                                         cells: [
-  //                                             {
-  //                                                 markdown: 'Lorem'
-  //                                             }
-  //                                         ]
-  //                                     },
-  //                                     {
-  //                                         cells: [
-  //                                             {
-  //                                                 content: {
-  //                                                     plugin: {
-  //                                                         name: blockquote.name,
-  //                                                         version: blockquote.version
-  //                                                     },
-  //                                                     state: {
-  //                                                       //actually some slate plugin
-  //                                                       text: 'ipsum\n dolor\n\nsit amet'
-  //                                                     }
-  //                                                 }
-  //                                             }
-  //                                         ]
-  //                                     },
-  //                                     {
-  //                                         cells: [
-  //                                             {
-  //                                                 markdown: 'consectetur'
-  //                                             }
-  //                                         ]
-  //                                     }
-  //                                 ]
-  //                             }
-  //                         ]
-  //                     }
-  //                 ]
-  //             }
-  //         ]
-  //     }
-  // }
 ]
 
 cases.forEach(testcase => {
