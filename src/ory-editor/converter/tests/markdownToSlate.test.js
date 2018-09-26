@@ -103,10 +103,12 @@ const cases = [
                                       name: slatePlugin.name,
                                       version: slatePlugin.version
                                     },
-                                    state: slatePlugin.serialize(slatePlugin.unserialize({
-                                      importFromHtml:
-                                        '<h1 id="header">header</h1>'
-                                    }))
+                                    state: slatePlugin.serialize(
+                                      slatePlugin.unserialize({
+                                        importFromHtml:
+                                          '<h1 id="header">header</h1>'
+                                      })
+                                    )
                                   }
                                 }
                               ]
@@ -117,7 +119,7 @@ const cases = [
                                   content: {
                                     plugin: {
                                       name: image.name,
-                                        version: image.version
+                                      version: image.version
                                     },
                                     state: {
                                       alt: 'image',
@@ -135,10 +137,12 @@ const cases = [
                                       name: slatePlugin.name,
                                       version: slatePlugin.version
                                     },
-                                    state: slatePlugin.serialize(slatePlugin.unserialize({
-                                      importFromHtml:
-                                        '<p><strong>bold text</strong></p>'
-                                    }))
+                                    state: slatePlugin.serialize(
+                                      slatePlugin.unserialize({
+                                        importFromHtml:
+                                          '<p><strong>bold text</strong></p>'
+                                      })
+                                    )
                                   }
                                 }
                               ]

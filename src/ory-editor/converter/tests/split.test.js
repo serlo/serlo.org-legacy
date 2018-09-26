@@ -9,7 +9,6 @@ import injection from '@serlo-org/editor-plugin-injection'
 import geogebra from '@serlo-org/editor-plugin-geogebra'
 import image from '@splish-me/editor-plugin-image'
 
-
 const cases = [
   {
     description: 'Simple Layout no split',
@@ -378,7 +377,7 @@ const cases = [
                           content: {
                             plugin: {
                               name: geogebra.name,
-                                version: geogebra.version
+                              version: geogebra.version
                             },
                             state: {
                               description: 'alttext',
@@ -521,11 +520,27 @@ const cases = [
                 },
                 {
                   size: 3,
-                  rows: []
+                  rows: [
+                    {
+                      cells: [
+                        {
+                          markdown: ''
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   size: 3,
-                  rows: []
+                  rows: [
+                    {
+                      cells: [
+                        {
+                          markdown: ''
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -533,74 +548,74 @@ const cases = [
         }
       ]
     }
-  },
-    // {
-    //     description: 'Blockquote',
-    //     input: {
-    //         cells: [
-    //             {
-    //                 rows: [
-    //                     {
-    //                         cells: [
-    //                             {
-    //                                 size: 12,
-    //                                 // raw: 'Ausgehend von der Normalparabelkann man jede beliebige Parabel konstruieren.Dazu benutzt man die  [Scheitelform](/2073): \n\n>%%f\\left(x\\right)=a(x-d)^2+e%%'
-    //                                 raw: 'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur'
-    //                             }
-    //                         ]
-    //                     }
-    //                 ]
-    //             }
-    //         ]
-    //     },
-    //     output: {
-    //         cells: [
-    //             {
-    //                 rows: [
-    //                     {
-    //                         cells: [
-    //                             {
-    //                                 size: 12,
-    //                                 rows: [
-    //                                     {
-    //                                         cells: [
-    //                                             {
-    //                                                 markdown: 'Lorem'
-    //                                             }
-    //                                         ]
-    //                                     },
-    //                                     {
-    //                                         cells: [
-    //                                             {
-    //                                                 content: {
-    //                                                     plugin: {
-    //                                                         name: blockquote.name,
-    //                                                         version: blockquote.version
-    //                                                     },
-    //                                                     state: {
-    //                                                       //actually some slate plugin
-    //                                                       text: 'ipsum\n dolor\n\nsit amet'
-    //                                                     }
-    //                                                 }
-    //                                             }
-    //                                         ]
-    //                                     },
-    //                                     {
-    //                                         cells: [
-    //                                             {
-    //                                                 markdown: 'consectetur'
-    //                                             }
-    //                                         ]
-    //                                     }
-    //                                 ]
-    //                             }
-    //                         ]
-    //                     }
-    //                 ]
-    //             }
-    //         ]
-    //     }
-    // }
+  }
+  // {
+  //     description: 'Blockquote',
+  //     input: {
+  //         cells: [
+  //             {
+  //                 rows: [
+  //                     {
+  //                         cells: [
+  //                             {
+  //                                 size: 12,
+  //                                 // raw: 'Ausgehend von der Normalparabelkann man jede beliebige Parabel konstruieren.Dazu benutzt man die  [Scheitelform](/2073): \n\n>%%f\\left(x\\right)=a(x-d)^2+e%%'
+  //                                 raw: 'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur'
+  //                             }
+  //                         ]
+  //                     }
+  //                 ]
+  //             }
+  //         ]
+  //     },
+  //     output: {
+  //         cells: [
+  //             {
+  //                 rows: [
+  //                     {
+  //                         cells: [
+  //                             {
+  //                                 size: 12,
+  //                                 rows: [
+  //                                     {
+  //                                         cells: [
+  //                                             {
+  //                                                 markdown: 'Lorem'
+  //                                             }
+  //                                         ]
+  //                                     },
+  //                                     {
+  //                                         cells: [
+  //                                             {
+  //                                                 content: {
+  //                                                     plugin: {
+  //                                                         name: blockquote.name,
+  //                                                         version: blockquote.version
+  //                                                     },
+  //                                                     state: {
+  //                                                       //actually some slate plugin
+  //                                                       text: 'ipsum\n dolor\n\nsit amet'
+  //                                                     }
+  //                                                 }
+  //                                             }
+  //                                         ]
+  //                                     },
+  //                                     {
+  //                                         cells: [
+  //                                             {
+  //                                                 markdown: 'consectetur'
+  //                                             }
+  //                                         ]
+  //                                     }
+  //                                 ]
+  //                             }
+  //                         ]
+  //                     }
+  //                 ]
+  //             }
+  //         ]
+  //     }
+  // }
 ]
 
 cases.forEach(testcase => {

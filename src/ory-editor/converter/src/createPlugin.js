@@ -13,13 +13,25 @@ const createPlugins = ({ normalized, elements }) => {
     .split(/(§\d+§)/)
     .map(s => s.trim())
     .filter(s => s !== '')
+
+  if (!split.length) {
+    return [
+      {
+        cells: [
+          {
+            markdown: ''
+          }
+        ]
+      }
+    ]
+  }
   return split.map(markdown => {
     // console.log(markdown)
-    var elementID = /§(\d+)§/.exec(markdown)
+    const elementIDMatch = /§(\d+)§/.exec(markdown)
     // console.log(elementID)
-    if (elementID !== null) {
+    if (elementIDMatch !== null) {
       return {
-        cells: [createPluginCell(elements[elementID[1]])]
+        cells: [createPluginCell(elements[elementIDMatch[1]])]
       }
     } else {
       return {
