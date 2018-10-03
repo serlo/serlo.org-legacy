@@ -1191,10 +1191,20 @@
     semver "^5.3.0"
     uuid "^3.0.1"
 
+"@types/base-64@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@types/base-64/-/base-64-0.1.2.tgz#63ac318302cdabb5f04e8ae2a56e54d4832107e2"
+  integrity sha1-Y6wxgwLNq7XwToripW5U1IMhB+I=
+
 "@types/classnames@^2.2.6":
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.6.tgz#dbe8a666156d556ed018e15a4c65f08937c3f628"
   integrity sha512-XHcYvVdbtAxVstjKxuULYqYaWIzHR15yr1pZj4fnGChuBVJlIAp9StJna0ZJNSgxPh4Nac2FL4JM3M11Tm6fqQ==
+
+"@types/jquery@^3.3.10":
+  version "3.3.10"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.10.tgz#d0afaec7ee55f591992e74c607df5dc7cd9c76ab"
+  integrity sha512-W2bE8pGh9Tsg8mxh+B6BSH8lTG6ZV7K2ZMAlEwSTqKFU1wMI5HShyRKSp3DngnxCmDu35tW3RAC4mxBFYRsTuw==
 
 "@types/jss@^9.5.3":
   version "9.5.5"
@@ -1216,6 +1226,14 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-dom@^16.0.8":
+  version "16.0.8"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.8.tgz#6e1366ed629cadf55860cbfcc25db533f5d2fa7d"
+  integrity sha512-WF/KAOia7pskV+J8f+UlNuFeCRkJuJAkyyeYPPtNe6suw0y7cWyUP/DPdPXsGUwQEkv2qlLVSrgVaoCm/PmO0Q==
+  dependencies:
+    "@types/node" "*"
+    "@types/react" "*"
+
 "@types/react-transition-group@^2.0.8":
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-2.0.14.tgz#afd0cd785a97f070b55765e9f9d76ff568269001"
@@ -1230,6 +1248,11 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
+
+"@types/utf8@^2.1.6":
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/@types/utf8/-/utf8-2.1.6.tgz#430cabb71a42d0a3613cce5621324fe4f5a25753"
+  integrity sha512-pRs2gYF5yoKYrgSaira0DJqVg2tFuF+Qjp838xS7K+mJyY2jJzjsrl6y17GbIa4uMRogMbxs+ghNCvKg6XyNrA==
 
 "@webassemblyjs/ast@1.7.8":
   version "1.7.8"
@@ -5717,7 +5740,7 @@ jquery.redirect@^1.1.4:
   resolved "https://registry.yarnpkg.com/jquery.redirect/-/jquery.redirect-1.1.4.tgz#3fc6e1e842f19312e47415012065a08d97f71b24"
   integrity sha512-t6YUxbTwTNSXEMww0x6QD3RnlmbtmItDo4IiK3lo4AEqbpq9gUx50HCBCGRpKaF0aTBQAOW/vSnzPjV+Nrlf4Q==
 
-jquery@*, "jquery@>=1.7.1 <4.0.0", jquery@^3.2.1:
+jquery@*, "jquery@>=1.7.1 <4.0.0", jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
   integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
