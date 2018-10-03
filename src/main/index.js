@@ -7,6 +7,7 @@ import 'magnific-popup'
 import moment from 'moment'
 import _ from 'underscore'
 
+import { initContent, initEntityEditor } from '../editor'
 import '../libs/polyfills'
 import Common from '../modules/common'
 import Content from '../modules/content'
@@ -40,8 +41,6 @@ import './modules/serlo_sortable_list'
 import './modules/serlo_toggle'
 import initTracking from './modules/serlo_tracking'
 import './modules/serlo_trigger'
-import EntityEditor, { renderServersideContent } from '../ory-editor'
-import convertWithAjax from '../ory-editor/convertAction'
 
 import 'katex/dist/katex.css'
 
@@ -55,7 +54,7 @@ window.jQuery = $
 // Needs to be a require call since `window.$` is needed
 require('bootstrap-sass')
 require('bootstrap-datepicker')
-// FIXME needed?
+// FIXME: needed?
 require('jasny-bootstrap/dist/js/jasny-bootstrap.js')
 
 // const App = () => {
@@ -143,7 +142,7 @@ const init = $context => {
   setLanguage()
   initResizeEvent()
   initContentApi()
-  renderServersideContent()
+  initContent()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
@@ -174,7 +173,7 @@ const init = $context => {
     $('.math-puzzle', $context).MathPuzzle()
     $('.ory-edit-button', $context).click(function(e) {
       e.preventDefault()
-      new EntityEditor(
+      initEntityEditor(
         $(this).data('id'),
         $(this).attr('href'),
         $(this).data('type')
@@ -186,14 +185,69 @@ const init = $context => {
       e.preventDefault()
       const id = $(this).data('content-id')
       const href = $(this).attr('href')
-      convertWithAjax(id, href, $target => {
-        Common.trigger('new context', $target)
-        $('.convert-button').hide()
+      $.ajax({
+        url: href,
+        type: 'GET',
+        async: true,
+        beforeSend: () => {
+          $('#loading').show()
+        },
+        complete: () => {
+          $('#loading').hide()
+        }
+      }).done(function(data) {
+        function getEditedArticle($all) {
+          const $editable = $all.find(
+            `.editable[data-id="${id}"][data-edit-type="ory"]`
+          )
+          return $editable.closest('article').length
+            ? $editable.closest('article')
+            : $all.find('#content-layout article')
+        }
+
+        const $target = getEditedArticle($('body'))
+        const $dataArticle = getEditedArticle($(data))
+        $target.html($dataArticle.html())
+      })
+
+      $.ajax({
+        url: href,
+        type: 'GET',
+        async: true,
+        beforeSend: () => {
+          $('#loading').show()
+        },
+        complete: () => {
+          $('#loading').hide()
+        }
+      }).done(function(data) {
+        function getEditedArticle($all) {
+          const $editable = $all.find(
+            `.editable[data-id="${id}"][data-edit-type="ory"]`
+          )
+          return $editable.closest('article').length
+            ? $editable.closest('article')
+            : $all.find('#content-layout article')
+        }
+
+        const $target = getEditedArticle($('body'))
+        const $dataArticle = getEditedArticle($(data))
+        $target.html($dataArticle.html())
+
+        const $editButton = $(`.ory-edit-button[data-id="${id}"]`, data)
+        initEntityEditor(
+          id,
+          $editButton.attr('href'),
+          $editButton.data('type')
+        ).then(() => {
+          Common.trigger('new context', $target)
+          $('.convert-button').hide()
+        })
       })
     })
 
     if ($('#ory-edit-form', $context).length > 0) {
-      new EntityEditor(
+      initEntityEditor(
         $('#ory-edit-form', $context).data('id'),
         $('#ory-edit-form form', $context).attr('action') ||
           window.location.pathname,

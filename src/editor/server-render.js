@@ -1,11 +1,16 @@
 import { HtmlRenderer } from '@serlo-org/html-renderer'
-import base64 from 'base-64'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import utf8 from 'utf8'
 
 import converter from './converter'
 import createRenderPlugins from './plugins.render'
+import { stringifyState } from './helpers'
+
+const wrapOutput = ({ state, children }) => {
+  return `<div class="ory-content" data-raw-content='${stringifyState(
+    state
+  )}'>${children || ''}</div>`
+}
 
 export function render(input, callback) {
   let data
@@ -33,16 +38,19 @@ export function render(input, callback) {
       return
     }
 
-    const oryState = data['cells'] ? data : converter(data)
+    const state = data['cells'] ? data : converter(data)
 
-    const output = renderToString(
-      <HtmlRenderer state={oryState} plugins={createRenderPlugins()} />
-    )
+    try {
+      const children = renderToString(
+        <HtmlRenderer
+          state={oryState}
+          plugins={createRenderPlugins('text-exercise')}
+        />
+      )
 
-    callback(
-      `<div class="ory-content" data-raw-content='${base64.encode(
-        utf8.encode(JSON.stringify(oryState))
-      )}'>${output}</div>`
-    )
+      callback(wrapOutput({ state, children }))
+    } catch (e) {
+      callback(wrapOutput({ state }))
+    }
   }
 }

@@ -18,7 +18,7 @@
     "format": "prettier --write \"{{__tests__,src/**/*,*},*}.{js,jsx,ts,tsx,css,scss,json,md,markdown}\"",
     "start": "webpack-dev-server --config webpack.main.dev.config",
     "test": "jest",
-    "server": "nodemon -w src/ory-editor --exec \"node src/ory-editor/index.server.js\""
+    "server": "nodemon -w src/ory-editor --exec \"node src/editor/index.server.js\""
   },
   "files": [
     "dist"

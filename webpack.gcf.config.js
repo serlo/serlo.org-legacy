@@ -3,7 +3,7 @@ const createNodeExternals = require('webpack-node-externals')
 
 module.exports = {
   mode: 'production',
-  entry: path.join(__dirname, 'src', 'ory-editor', 'index.gcf'),
+  entry: path.join(__dirname, 'src', 'editor', 'index.gcf'),
   output: {
     path: path.resolve(__dirname, 'dist-gcf'),
     filename: 'index.js',

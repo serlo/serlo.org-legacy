@@ -4,9 +4,18 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+### Added
+
+- Dynamically import the new editor and its renderer. This leads to a much smaller bundle size for the initial load.
+
 ### Changed
 
 - Upgrade to Webpack 4
+
+### Fixed
+
+- Load all plugins in render server for new editor
+- When server side rendering fails, still pass state down to client for improved debugging
 
 ### Breaking Changes
 

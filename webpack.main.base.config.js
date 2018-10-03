@@ -4,7 +4,7 @@ const path = require('path')
 module.exports = {
   entry: {
     main: path.join(__dirname, 'src', 'main'),
-    editor: path.join(__dirname, 'src', 'editor')
+    'legacy-editor': path.join(__dirname, 'src', 'legacy-editor')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
