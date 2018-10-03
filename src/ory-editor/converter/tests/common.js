@@ -12,26 +12,26 @@ const expectInstance = unexpected.clone()
  * @param keys An array of property names (strings) to remove
  */
 const removeKeys = (obj, keys) => {
-  let index;
+  let index
   for (let prop in obj) {
     // important check that this is objects own property
     // not from prototype prop inherited
     if (obj.hasOwnProperty(prop)) {
-      switch (typeof(obj[prop])) {
+      switch (typeof obj[prop]) {
         case 'string':
-          index = keys.indexOf(prop);
+          index = keys.indexOf(prop)
           if (index > -1) {
-            delete obj[prop];
+            delete obj[prop]
           }
-          break;
+          break
         case 'object':
-          index = keys.indexOf(prop);
+          index = keys.indexOf(prop)
           if (index > -1) {
-            delete obj[prop];
+            delete obj[prop]
           } else {
-            removeKeys(obj[prop], keys);
+            removeKeys(obj[prop], keys)
           }
-          break;
+          break
       }
     }
   }
@@ -40,9 +40,12 @@ const removeKeys = (obj, keys) => {
 const ignoreIrrelevantKeys = obj => removeKeys(obj, ['id'])
 
 export const expect = (input, method, output) => {
-  expectInstance(ignoreIrrelevantKeys(input), method, ignoreIrrelevantKeys(output))
+  expectInstance(
+    ignoreIrrelevantKeys(input),
+    method,
+    ignoreIrrelevantKeys(output)
+  )
 }
-
 
 export const expectSlate = html => ({
   content: {

@@ -2,7 +2,6 @@
 import { expect, expectSlate } from './common'
 import split from '../src/split'
 
-
 import spoiler from '@serlo-org/editor-plugin-spoiler'
 import blockquote from '@serlo-org/editor-plugin-blockquote'
 import injection from '@serlo-org/editor-plugin-injection'
