@@ -1,20 +1,15 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
-const webpack = require('webpack')
 
 module.exports = {
-  target: 'web',
   entry: {
-    main: './src/main',
-    editor: './src/editor'
+    main: path.join(__dirname, 'src', 'main'),
+    editor: path.join(__dirname, 'src', 'editor')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     publicPath: '/'
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js']
   },
   module: {
     rules: [
@@ -25,18 +20,17 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'sass-loader'
-            }
-          ],
-          fallback: 'style-loader',
-          publicPath: './'
-        })
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
       },
       {
         test: /\.html$/,
@@ -48,17 +42,20 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
+  },
+  target: 'web',
   externals: [require('webpack-require-http')],
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'commons',
-      filename: 'commons.js'
-    })
-  ],
   devServer: {
     headers: {
       'Access-Control-Allow-Origin': '*'
     },
     port: 8081
-  }
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    })
+  ]
 }
