@@ -1,10 +1,10 @@
 /* global define */
 /* Prepares Github Style Code */
-var codeoutput = function (converter) {
+var codeoutput = function() {
   return [
     {
       type: 'lang',
-      filter: (function () {
+      filter: (function() {
         var charsToEncode = ['~D', '%', '|', '/']
         var replacements = {}
         var regexp
@@ -17,11 +17,11 @@ var codeoutput = function (converter) {
 
         regexp = new RegExp('§SC([0-9])', 'gm')
 
-        function replace (whole, match) {
+        function replace(whole, match) {
           return replacements[parseInt(match)] || match
         }
 
-        return function (text) {
+        return function(text) {
           return text.replace(regexp, replace)
         }
       })()
@@ -31,7 +31,7 @@ var codeoutput = function (converter) {
 
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_code_output', ['showdown'], function (Showdown) {
+  define('showdown_code_output', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.codeoutput = codeoutput
   })
@@ -42,7 +42,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.codeoutput = codeoutput
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = codeoutput
-}
+
+export default codeoutput

@@ -10,7 +10,7 @@ var InjectionPlugin, hrefRegexp
 
 hrefRegexp = new RegExp(/\([^)]*\)/)
 
-InjectionPlugin = function (fileuploadOptions) {
+InjectionPlugin = function(fileuploadOptions) {
   this.state = 'injection'
   this.init(fileuploadOptions)
 }
@@ -18,7 +18,7 @@ InjectionPlugin = function (fileuploadOptions) {
 InjectionPlugin.prototype = new EditorPlugin()
 InjectionPlugin.prototype.constructor = InjectionPlugin
 
-InjectionPlugin.prototype.init = function () {
+InjectionPlugin.prototype.init = function() {
   var that = this
 
   that.template = _.template(pluginHtmlTemplate)
@@ -26,7 +26,7 @@ InjectionPlugin.prototype.init = function () {
   that.data.name = 'Injection'
 }
 
-InjectionPlugin.prototype.activate = function (token) {
+InjectionPlugin.prototype.activate = function(token) {
   var that = this
   var href
   var availablePlugins
@@ -40,7 +40,7 @@ InjectionPlugin.prototype.activate = function (token) {
 
   $body = $('.panel-body', that.$el)
 
-  that.$el.on('click', '.btn-cancel', function (e) {
+  that.$el.on('click', '.btn-cancel', function(e) {
     e.preventDefault()
     that.trigger('close')
   })
@@ -60,7 +60,7 @@ InjectionPlugin.prototype.activate = function (token) {
       href[2] = 'info'
       href.pop()
       $.ajax(href.join('/'))
-        .then(function (data) {
+        .then(function(data) {
           //
           if (data && data.success) {
             if (data.type === 'geogebra' || data.files.length === 2) {
@@ -83,7 +83,7 @@ InjectionPlugin.prototype.activate = function (token) {
             that.trigger('close')
           }
         })
-        .error(function () {
+        .error(function() {
           Common.genericError()
           that.trigger('close')
         }) //   /ggt/123456
@@ -122,7 +122,7 @@ InjectionPlugin.prototype.activate = function (token) {
       )
     )
 
-    _.each(availablePlugins, function (plugin) {
+    _.each(availablePlugins, function(plugin) {
       var key = plugin.key
 
       $('<a>')
@@ -131,7 +131,7 @@ InjectionPlugin.prototype.activate = function (token) {
           class: 'btn btn-default',
           href: '#'
         })
-        .click(function (e) {
+        .click(function(e) {
           e.preventDefault()
           that.trigger('toggle-plugin', key, token)
         })

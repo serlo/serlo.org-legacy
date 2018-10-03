@@ -1741,7 +1741,7 @@ window.CodeMirror = (function() {
         part.level < order[partPos + 1].level
       ) {
         part = order[++partPos]
-        ch = bidiLeft(part) - part.level % 2
+        ch = bidiLeft(part) - (part.level % 2)
         right = false
       }
       if (right && ch == part.to && ch > part.from) return get(ch - 1)
@@ -2579,7 +2579,9 @@ window.CodeMirror = (function() {
         var outside =
           e.clientY < editorSize.top
             ? -20
-            : e.clientY > editorSize.bottom ? 20 : 0
+            : e.clientY > editorSize.bottom
+              ? 20
+              : 0
         if (outside) {
           setTimeout(
             operation(cm, function() {
@@ -3961,7 +3963,11 @@ window.CodeMirror = (function() {
         var cur = lineObj.text.charAt(ch) || '\n'
         var type = isWordChar(cur)
           ? 'w'
-          : !group ? null : /\s/.test(cur) ? null : 'p'
+          : !group
+            ? null
+            : /\s/.test(cur)
+              ? null
+              : 'p'
         if (sawType && sawType != type) {
           if (dir < 0) {
             dir = 1
@@ -4265,7 +4271,9 @@ window.CodeMirror = (function() {
         var prop =
           where == 'text'
             ? 'textClass'
-            : where == 'background' ? 'bgClass' : 'wrapClass'
+            : where == 'background'
+              ? 'bgClass'
+              : 'wrapClass'
         if (!line[prop]) line[prop] = cls
         else if (new RegExp('(?:^|\\s)' + cls + '(?:$|\\s)').test(line[prop])) {
           return false
@@ -4279,7 +4287,9 @@ window.CodeMirror = (function() {
         var prop =
           where == 'text'
             ? 'textClass'
-            : where == 'background' ? 'bgClass' : 'wrapClass'
+            : where == 'background'
+              ? 'bgClass'
+              : 'wrapClass'
         var cur = line[prop]
         if (!cur) return false
         else if (cls == null) line[prop] = null
@@ -6275,7 +6285,7 @@ window.CodeMirror = (function() {
         pos += skipped + 1
         if (m[0] == '\t') {
           var tabSize = builder.cm.options.tabSize,
-            tabWidth = tabSize - builder.col % tabSize
+            tabWidth = tabSize - (builder.col % tabSize)
           content.appendChild(elt('span', spaceStr(tabWidth), 'cm-tab'))
           builder.col += tabWidth
         } else {
@@ -7610,7 +7620,7 @@ window.CodeMirror = (function() {
       if (end == -1) end = string.length
     }
     for (var i = startIndex || 0, n = startValue || 0; i < end; ++i) {
-      if (string.charAt(i) == '\t') n += tabSize - n % tabSize
+      if (string.charAt(i) == '\t') n += tabSize - (n % tabSize)
       else ++n
     }
     return n
@@ -7996,7 +8006,9 @@ window.CodeMirror = (function() {
     var order = getOrder(visual)
     var ch = !order
       ? 0
-      : order[0].level % 2 ? lineRight(visual) : lineLeft(visual)
+      : order[0].level % 2
+        ? lineRight(visual)
+        : lineLeft(visual)
     return Pos(lineN, ch)
   }
   function lineEnd(cm, lineN) {
@@ -8007,7 +8019,9 @@ window.CodeMirror = (function() {
     var order = getOrder(line)
     var ch = !order
       ? line.text.length
-      : order[0].level % 2 ? lineLeft(line) : lineRight(line)
+      : order[0].level % 2
+        ? lineLeft(line)
+        : lineRight(line)
     return Pos(lineN, ch)
   }
 

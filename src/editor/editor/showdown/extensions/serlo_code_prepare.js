@@ -1,10 +1,10 @@
 /* global define */
 /* Prepares Github Style Code */
-var codeprepare = function (converter) {
+var codeprepare = function() {
   return [
     {
       type: 'lang',
-      filter: (function () {
+      filter: (function() {
         var replacements = {}
         var replacementRegexp = ''
         var codeRegexp = /(?:^|\n)```(.*)\n([\s\S]*?)\n```/gm
@@ -25,16 +25,16 @@ var codeprepare = function (converter) {
           'gm'
         )
 
-        function replace (whole, language, code) {
+        function replace(whole, language, code) {
           // escape all chars in code
-          code = code.replace(replacementRegexp, function (match) {
+          code = code.replace(replacementRegexp, function(match) {
             return replacements[match] || match
           })
 
           return '\n```' + language + '\n' + code + '\n```'
         }
 
-        return function (text) {
+        return function(text) {
           return text.replace(codeRegexp, replace)
         }
       })()
@@ -44,7 +44,7 @@ var codeprepare = function (converter) {
 
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_code_prepare', ['showdown'], function (Showdown) {
+  define('showdown_code_prepare', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.codeprepare = codeprepare
   })
@@ -55,7 +55,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.codeprepare = codeprepare
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = codeprepare
-}
+
+export default codeprepare

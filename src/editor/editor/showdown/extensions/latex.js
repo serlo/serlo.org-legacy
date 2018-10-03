@@ -1,12 +1,12 @@
 /* global define */
 var _EncodeCode
 var serloSpecificCharsToEscape
-var latex = function () {
+var latex = function() {
   var filter
 
-  filter = function (text) {
+  filter = function(text) {
     // text = text.replace(/(^|[^\\])(%%)([^\r]*?[^%])\2(?!%)/gm,
-    text = text.replace(/(^|[^\\])(%%)([^\r]*?[^%])(%%?%)/gm, function (
+    text = text.replace(/(^|[^\\])(%%)([^\r]*?[^%])(%%?%)/gm, function(
       wholeMatch,
       m1,
       m2,
@@ -30,7 +30,7 @@ var latex = function () {
       return m1 + '<span class="mathInline">%%' + c + '%%</span>'
     })
 
-    text = text.replace(/(^|[^\\])(~D~D)([^\r]*?[^~])\2(?!~D)/gm, function (
+    text = text.replace(/(^|[^\\])(¨D¨D)([^\r]*?[^~])\2(?!¨D)/gm, function(
       wholeMatch,
       m1,
       m2,
@@ -42,8 +42,8 @@ var latex = function () {
       c = _EncodeCode(c)
       // Escape already transliterated $
       // However, do not escape already escaped $s
-      text = text.replace(/[^\\]~D/g, '\\~D')
-      return m1 + '<span class="math">~D~D' + c + '~D~D</span>'
+      text = text.replace(/[^\\]¨D/g, '\\¨D')
+      return m1 + '<span class="math">¨D¨D' + c + '¨D¨D</span>'
     })
 
     return text
@@ -58,7 +58,7 @@ var latex = function () {
 }
 
 // FROM shodown.js
-_EncodeCode = function (text) {
+_EncodeCode = function(text) {
   //
   // Encode/escape certain characters inside Markdown code runs.
   // The point is that in code, these characters are literals,
@@ -76,7 +76,7 @@ _EncodeCode = function (text) {
   return text
 }
 
-serloSpecificCharsToEscape = (function () {
+serloSpecificCharsToEscape = (function() {
   var regexp = ''
   var chars = ['*', '`', '_', '{', '}', '[', ']', '<', '\\']
   var replacements = {}
@@ -90,7 +90,7 @@ serloSpecificCharsToEscape = (function () {
 
   regexp = new RegExp('([' + regexp + '])', 'gm')
 
-  function replace (match) {
+  function replace(match) {
     return replacements[match] || match
   }
 
@@ -100,7 +100,7 @@ serloSpecificCharsToEscape = (function () {
   }
 })()
 
-function escapeSerloSpecificCharacters (text) {
+function escapeSerloSpecificCharacters(text) {
   return text.replace(
     serloSpecificCharsToEscape.regexp,
     serloSpecificCharsToEscape.replace
@@ -109,7 +109,7 @@ function escapeSerloSpecificCharacters (text) {
 
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_latex', ['showdown'], function (Showdown) {
+  define('showdown_latex', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.latex = latex
   })
@@ -120,7 +120,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.latex = latex
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = latex
-}
+
+export default latex

@@ -48,8 +48,8 @@ defaults = {
  *
  * Helper function
  **/
-function deepFlatten (array) {
-  function dm (item) {
+function deepFlatten(array) {
+  function dm(item) {
     if (item.children) {
       return [].concat(
         item,
@@ -70,7 +70,7 @@ function deepFlatten (array) {
  * @class MenuItem
  * @param {Object} data All informations about the MenuItem (url, title, position, level)
  */
-MenuItem = function (data) {
+MenuItem = function(data) {
   if (
     data.url === undefined ||
     !data.title ||
@@ -101,7 +101,7 @@ MenuItem = function (data) {
  *
  * Renders the a <li> and <a> tag on MenuItem.$el
  **/
-MenuItem.prototype.render = function () {
+MenuItem.prototype.render = function() {
   var self = this
   var $a
   var $children
@@ -109,13 +109,13 @@ MenuItem.prototype.render = function () {
   this.$el.empty()
 
   if (self.data.level === 0) {
-    self.data.$a.click(function (e) {
+    self.data.$a.click(function(e) {
       self.onClick(e)
     })
   } else {
     $a = $('<a>')
       .text(self.data.title)
-      .click(function (e) {
+      .click(function(e) {
         self.onClick(e)
       })
       .attr('href', self.data.url)
@@ -139,7 +139,7 @@ MenuItem.prototype.render = function () {
       $children = $('<ul>')
       self.$children = $children
 
-      _.each(self.data.renderedChildren, function (child) {
+      _.each(self.data.renderedChildren, function(child) {
         var childItem = new MenuItem(
           _.extend({}, child.data, {
             icon: false,
@@ -147,7 +147,7 @@ MenuItem.prototype.render = function () {
           })
         )
 
-        childItem.addEventListener('reload', function (e) {
+        childItem.addEventListener('reload', function(e) {
           self.trigger('reload', {
             originalEvent: e.originalEvent
           })
@@ -169,7 +169,7 @@ MenuItem.prototype.render = function () {
  *
  * OnClick handler for MenuItem
  **/
-MenuItem.prototype.onClick = function (e) {
+MenuItem.prototype.onClick = function(e) {
   if (
     this.data.sidenav &&
     (this.data.needsFetching || this.children) &&
@@ -195,7 +195,7 @@ MenuItem.prototype.onClick = function (e) {
  * Creates <ul>s for each level and renders them
  **/
 
-SubNavigation = function (levels) {
+SubNavigation = function(levels) {
   this.$el = $('<div id="serlo-side-sub-navigation-mover">')
   eventScope(this)
   this.reset(levels)
@@ -206,7 +206,7 @@ SubNavigation = function (levels) {
  * @param {Array} levels An array of levels, containing MenuItems, to be rendered in an <ul>
  *
  **/
-SubNavigation.prototype.reset = function (levels) {
+SubNavigation.prototype.reset = function(levels) {
   this.levels = levels
   this.render()
 }
@@ -216,7 +216,7 @@ SubNavigation.prototype.reset = function (levels) {
  *
  * Creates the <li> and <a> elements
  **/
-SubNavigation.prototype.render = function () {
+SubNavigation.prototype.render = function() {
   var self = this
   var backBtn
   var parentData
@@ -224,7 +224,7 @@ SubNavigation.prototype.render = function () {
 
   self.$el.empty()
 
-  _.each(self.levels, function (level) {
+  _.each(self.levels, function(level) {
     var $div = $('<div>')
     var $ul = $('<ul>')
     var msg
@@ -244,7 +244,7 @@ SubNavigation.prototype.render = function () {
           level: -1
         })
 
-        backBtn.$el.unbind('click').click(function (e) {
+        backBtn.$el.unbind('click').click(function(e) {
           self.trigger('close', {
             originalEvent: e,
             menuItem: backBtn
@@ -272,7 +272,7 @@ SubNavigation.prototype.render = function () {
             })
           )
 
-          parentLink.$el.unbind('click').click(function (e) {
+          parentLink.$el.unbind('click').click(function(e) {
             self.trigger('navigate', {
               original: e,
               menuItem: parentLink
@@ -287,7 +287,7 @@ SubNavigation.prototype.render = function () {
           })
         )
 
-        backBtn.$el.unbind('click').click(function (e) {
+        backBtn.$el.unbind('click').click(function(e) {
           self.trigger('go back', {
             originalEvent: e,
             menuItem: backBtn
@@ -307,7 +307,7 @@ SubNavigation.prototype.render = function () {
     $ul.append('<li class="sub-nav-separator">')
 
     // add nav links
-    _.each(level, function (menuItem) {
+    _.each(level, function(menuItem) {
       $ul.append(menuItem.render().$el)
     })
 
@@ -328,7 +328,7 @@ SubNavigation.prototype.render = function () {
  * @return {jQueryObject} $ul The actual <ul> element for given level
  *
  **/
-SubNavigation.prototype.getListAtLevel = function (level) {
+SubNavigation.prototype.getListAtLevel = function(level) {
   return this.$el
     .children()
     .eq(level)
@@ -339,7 +339,7 @@ SubNavigation.prototype.getListAtLevel = function (level) {
 /**
  * @class Hierarchy
  **/
-Hierarchy = function () {
+Hierarchy = function() {
   this.data = []
 }
 
@@ -349,7 +349,7 @@ Hierarchy = function () {
  *
  * Loops through $root and creates an hierarchial array of objects
  **/
-Hierarchy.prototype.fetchFromDom = function ($root) {
+Hierarchy.prototype.fetchFromDom = function($root) {
   var self = this
   var deepness = []
 
@@ -367,8 +367,8 @@ Hierarchy.prototype.fetchFromDom = function ($root) {
    *
    * Also creates MenuItem instances for every link and adds event handlers
    **/
-  function loop ($element, dataHierarchy, level, parent) {
-    $('> li', $element).each(function (i) {
+  function loop($element, dataHierarchy, level, parent) {
+    $('> li', $element).each(function(i) {
       deepness = deepness.splice(0, level)
       deepness.push(i)
 
@@ -433,7 +433,7 @@ Hierarchy.prototype.fetchFromDom = function ($root) {
  *
  * Loops through data and creates an hierarchial array of objects
  **/
-Hierarchy.prototype.fetchFromJson = function (object, parent) {
+Hierarchy.prototype.fetchFromJson = function(object, parent) {
   var deepness = parent.data.position.slice()
 
   parent.data.needsFetching = false
@@ -450,8 +450,8 @@ Hierarchy.prototype.fetchFromJson = function (object, parent) {
    *
    * Also creates MenuItem instances for every link and adds event handlers
    **/
-  function loop (object, dataHierarchy, level, parent) {
-    $.each(object, function (i, item) {
+  function loop(object, dataHierarchy, level, parent) {
+    $.each(object, function(i, item) {
       deepness = deepness.splice(0, level)
       deepness.push(i)
 
@@ -501,12 +501,12 @@ Hierarchy.prototype.fetchFromJson = function (object, parent) {
  *
  * Searches for a menu item by URL
  **/
-Hierarchy.prototype.findByUrl = function (url) {
+Hierarchy.prototype.findByUrl = function(url) {
   var self = this
 
   return _.first(
     deepFlatten(self.data)
-      .filter(function (menuItem) {
+      .filter(function(menuItem) {
         if (menuItem.data.url === url) {
           return menuItem
         }
@@ -522,12 +522,12 @@ Hierarchy.prototype.findByUrl = function (url) {
  *
  * Searches for a menu item by active property
  **/
-Hierarchy.prototype.findActiveByActive = function () {
+Hierarchy.prototype.findActiveByActive = function() {
   var self = this
 
   return _.last(
     deepFlatten(self.data)
-      .filter(function (menuItem) {
+      .filter(function(menuItem) {
         if (menuItem.data.active) {
           return true
         }
@@ -544,7 +544,7 @@ Hierarchy.prototype.findActiveByActive = function () {
  * Finds the active menu item. Searches for both the last available url as well as
  * the active menu item given by the app.
  **/
-Hierarchy.prototype.findActive = function () {
+Hierarchy.prototype.findActive = function() {
   var self = this
   var foundItem
   var fromStorageItem
@@ -569,7 +569,7 @@ Hierarchy.prototype.findActive = function () {
  *
  * Searches menu items by URL
  **/
-Hierarchy.prototype.findPreviousMenuItem = function () {
+Hierarchy.prototype.findPreviousMenuItem = function() {
   var self = this
   var result
   var lastUrl = ReferrerHistory.getPrevious()
@@ -586,12 +586,12 @@ Hierarchy.prototype.findPreviousMenuItem = function () {
  *
  * Searches menu items by URL
  **/
-Hierarchy.prototype.findLastAvailableUrl = function () {
+Hierarchy.prototype.findLastAvailableUrl = function() {
   var self = this
   var foundItem
   var lastUrls = ReferrerHistory.getAll()
 
-  _.each(lastUrls, function (lastUrl) {
+  _.each(lastUrls, function(lastUrl) {
     foundItem = self.findByUrl(lastUrl)
     if (foundItem) {
     }
@@ -606,7 +606,7 @@ Hierarchy.prototype.findLastAvailableUrl = function () {
  * @return {MenuItem} or false
  *
  **/
-Hierarchy.prototype.findByPosition = function (position) {
+Hierarchy.prototype.findByPosition = function(position) {
   if (position.length === 1) {
     return this.data[position[0]]
   }
@@ -616,7 +616,7 @@ Hierarchy.prototype.findByPosition = function (position) {
   position = position.slice()
   position.shift()
 
-  _.each(position, function (index) {
+  _.each(position, function(index) {
     cursor = cursor.children[index]
   })
 
@@ -627,7 +627,7 @@ Hierarchy.prototype.findByPosition = function (position) {
  * @method getFlattened
  * @return {Array} Returns an array of all MenuItems without hierarchy
  **/
-Hierarchy.prototype.getFlattened = function () {
+Hierarchy.prototype.getFlattened = function() {
   return deepFlatten(this.data).value()
 }
 
@@ -637,12 +637,12 @@ Hierarchy.prototype.getFlattened = function () {
  * @return {Array} an Array of Levels
  *
  **/
-Hierarchy.prototype.getLevels = function (position) {
+Hierarchy.prototype.getLevels = function(position) {
   var self = this
   var cursor = self.data
   var result = []
 
-  _.each(position, function (index) {
+  _.each(position, function(index) {
     result.push(cursor[index].children)
     cursor = cursor[index].children
   })
@@ -655,7 +655,7 @@ Hierarchy.prototype.getLevels = function (position) {
  * @return {Array} an Array of menuItems
  *
  **/
-Hierarchy.prototype.getParents = function (position) {
+Hierarchy.prototype.getParents = function(position) {
   var result = []
   var usePosition = position.slice()
 
@@ -673,7 +673,7 @@ Hierarchy.prototype.getParents = function (position) {
  * @return {Array} an Array of menuItems - the siblings of the given array
  *
  **/
-Hierarchy.prototype.getSiblings = function (position) {
+Hierarchy.prototype.getSiblings = function(position) {
   var usePosition = position.slice()
   var parent = this.getParent(this.findByPosition(usePosition))
 
@@ -685,7 +685,7 @@ Hierarchy.prototype.getSiblings = function (position) {
  * @param {MenuItem} menuItem A menuItem
  * @return {MenuItem} The direct parent of the given MenuItem
  **/
-Hierarchy.prototype.getParent = function (menuItem) {
+Hierarchy.prototype.getParent = function(menuItem) {
   var parents = this.getParents(menuItem.data.position).reverse()
   parents.pop()
   return parents[parents.length - 1]
@@ -697,7 +697,7 @@ Hierarchy.prototype.getParent = function (menuItem) {
  *
  * Main constructor
  **/
-SideNavigation = function (options) {
+SideNavigation = function(options) {
   if (!(this instanceof SideNavigation)) {
     return new SideNavigation(options)
   }
@@ -733,7 +733,7 @@ SideNavigation = function (options) {
  *
  * Sets options.activeClass for active menu item and its parents
  **/
-SideNavigation.prototype.setActiveBranch = function () {
+SideNavigation.prototype.setActiveBranch = function() {
   var self = this
   var position
   // parents,
@@ -814,7 +814,7 @@ SideNavigation.prototype.setActiveBranch = function () {
  *
  * Sets the options.activeNavigatorClass for menu items the user is navigating with
  **/
-SideNavigation.prototype.setActiveNavigator = function () {
+SideNavigation.prototype.setActiveNavigator = function() {
   $('.' + this.options.activeNavigatorClass, this.$el).removeClass(
     this.options.activeNavigatorClass
   )
@@ -836,19 +836,19 @@ SideNavigation.prototype.setActiveNavigator = function () {
  *
  * Attaches all needed event handlers
  **/
-SideNavigation.prototype.attachEventHandler = function () {
+SideNavigation.prototype.attachEventHandler = function() {
   var self = this
   var menuItems = this.hierarchy.getFlattened()
 
   // add 'open' click event to first-level items
-  _.each(menuItems, function (menuItem) {
-    menuItem.addEventListener('click', function (e) {
+  _.each(menuItems, function(menuItem) {
+    menuItem.addEventListener('click', function(e) {
       e.originalEvent.preventDefault()
       self.navigatedMenuItem = e.menuItem
       self.fetch(e.menuItem)
     })
 
-    menuItem.addEventListener('reload', function () {
+    menuItem.addEventListener('reload', function() {
       self.force = true
       self.close()
     })
@@ -856,13 +856,13 @@ SideNavigation.prototype.attachEventHandler = function () {
     menuItem.data.attached = true
   })
 
-  $('body').on('click', function () {
+  $('body').on('click', function() {
     if (self.isOpen) {
       self.close()
     }
   })
 
-  self.$el.click(function (e) {
+  self.$el.click(function(e) {
     if (!self.force) {
       e.preventDefault()
       e.stopPropagation()
@@ -876,20 +876,20 @@ SideNavigation.prototype.attachEventHandler = function () {
  *
  * Attaches all needed event handlers to new MenuItems
  **/
-SideNavigation.prototype.synchEventHandlers = function () {
+SideNavigation.prototype.synchEventHandlers = function() {
   var self = this
   var menuItems = this.hierarchy.getFlattened()
 
   // add 'open' click event to first-level items
-  _.each(menuItems, function (menuItem) {
+  _.each(menuItems, function(menuItem) {
     if (!menuItem.data.attached) {
-      menuItem.addEventListener('click', function (e) {
+      menuItem.addEventListener('click', function(e) {
         e.originalEvent.preventDefault()
         self.navigatedMenuItem = e.menuItem
         self.fetch(e.menuItem, e)
       })
 
-      menuItem.addEventListener('reload', function () {
+      menuItem.addEventListener('reload', function() {
         self.force = true
         self.close()
       })
@@ -905,7 +905,7 @@ SideNavigation.prototype.synchEventHandlers = function () {
  *
  * This method fetches an menuItems children from the server.
  */
-SideNavigation.prototype.fetch = function (menuItem) {
+SideNavigation.prototype.fetch = function(menuItem) {
   var call
   var options = defaults.asyncNav
   var max = options.max
@@ -925,7 +925,7 @@ SideNavigation.prototype.fetch = function (menuItem) {
     dataType: 'json'
   })
 
-  call.done(function (data) {
+  call.done(function(data) {
     // We triggered a false positive, there are no children for this item.
     // Therefore, let's open the damn link!
     if (data.length === 0) {
@@ -939,7 +939,7 @@ SideNavigation.prototype.fetch = function (menuItem) {
     self.jumpTo(menuItem)
   })
 
-  call.fail(function () {
+  call.fail(function() {
     console.log('Fetch not successfull :(')
   })
 }
@@ -950,7 +950,7 @@ SideNavigation.prototype.fetch = function (menuItem) {
  *
  * Shows the generated Subnavigation
  **/
-SideNavigation.prototype.open = function (menuItem) {
+SideNavigation.prototype.open = function(menuItem) {
   this.isOpen = true
   this.$nav.appendTo(this.$el)
   this.routeAnimation(menuItem)
@@ -961,7 +961,7 @@ SideNavigation.prototype.open = function (menuItem) {
  *
  * Hides the generated Subnavigations
  **/
-SideNavigation.prototype.close = function () {
+SideNavigation.prototype.close = function() {
   this.isOpen = false
   this.$nav.detach()
 
@@ -979,7 +979,7 @@ SideNavigation.prototype.close = function () {
  *
  * Starts animation to the clicked MenuItem
  **/
-SideNavigation.prototype.jumpTo = function (menuItem) {
+SideNavigation.prototype.jumpTo = function(menuItem) {
   if (!this.isOpen) {
     this.open(menuItem)
   } else {
@@ -993,7 +993,7 @@ SideNavigation.prototype.jumpTo = function (menuItem) {
  *
  * Animations!!!!
  **/
-SideNavigation.prototype.routeAnimation = function (menuItem) {
+SideNavigation.prototype.routeAnimation = function(menuItem) {
   var self = this
   var startLevels
   var breakpoint
@@ -1002,13 +1002,13 @@ SideNavigation.prototype.routeAnimation = function (menuItem) {
     self.activeLevels = self.hierarchy.getLevels(menuItem.data.position)
 
     self.subNavigation = new SubNavigation(self.activeLevels)
-    self.subNavigation.addEventListener('go back', function (e) {
+    self.subNavigation.addEventListener('go back', function(e) {
       self.jumpTo(e.menuItem.data.parent)
     })
-    self.subNavigation.addEventListener('close', function () {
+    self.subNavigation.addEventListener('close', function() {
       self.close()
     })
-    self.subNavigation.addEventListener('navigate', function () {
+    self.subNavigation.addEventListener('navigate', function() {
       self.force = true
       self.close()
     })
@@ -1038,7 +1038,7 @@ SideNavigation.prototype.routeAnimation = function (menuItem) {
       // we need two animations,
       // first to our breakpoint
       // then to our target
-      self.animateTo(breakpoint, function () {
+      self.animateTo(breakpoint, function() {
         self.subNavigation.reset(self.activeLevels)
         self.setActiveNavigator()
         self.animateTo(self.activeLevels.length)
@@ -1052,7 +1052,7 @@ SideNavigation.prototype.routeAnimation = function (menuItem) {
  * @param {Number} level
  * @param {Function} callback
  **/
-SideNavigation.prototype.animateTo = function (level, callback) {
+SideNavigation.prototype.animateTo = function(level, callback) {
   var self = this
   var targetLeft = (level - 1) * -1 * self.options.subNavigationWidth + 'px'
 
@@ -1069,7 +1069,7 @@ SideNavigation.prototype.animateTo = function (level, callback) {
       left: targetLeft
     },
     {
-      complete: function () {
+      complete: function() {
         if (callback !== undefined) {
           callback()
         }
@@ -1085,7 +1085,7 @@ SideNavigation.prototype.animateTo = function (level, callback) {
  * @param {Number} level
  *
  **/
-SideNavigation.prototype.setMoverHeight = function (level) {
+SideNavigation.prototype.setMoverHeight = function(level) {
   var self = this
   var height
   var $ul
@@ -1117,7 +1117,7 @@ SideNavigation.prototype.setMoverHeight = function (level) {
  * @param {Array} end
  * @return {Object} MenuItem
  **/
-SideNavigation.prototype.determineBreakpoint = function (start, end) {
+SideNavigation.prototype.determineBreakpoint = function(start, end) {
   var result = 1
   var startReverse = start.slice()
   var endReverse = end.slice().splice(0, start.length)
@@ -1126,7 +1126,7 @@ SideNavigation.prototype.determineBreakpoint = function (start, end) {
     startReverse = startReverse.splice(0, endReverse.length)
   }
 
-  _.each(startReverse, function (level, index) {
+  _.each(startReverse, function(level, index) {
     if (endReverse[index] !== undefined) {
       if (
         _.isEqual(level[0].data.position, endReverse[index][0].data.position)

@@ -1,17 +1,17 @@
 /* global define */
 var serloSpecificCharsToEncode
-var latexoutput = function () {
+var latexoutput = function() {
   return [
     {
       type: 'output',
-      filter: function (text) {
+      filter: function(text) {
         return encodeSerloSpecificChars(text)
       }
     }
   ]
 }
 
-serloSpecificCharsToEncode = (function () {
+serloSpecificCharsToEncode = (function() {
   var regexp
   var chars = ['*', '`', '_', '{', '}', '[', ']', '&lt;', '\\']
   var replacements = {}
@@ -24,7 +24,7 @@ serloSpecificCharsToEncode = (function () {
 
   regexp = new RegExp('§LT([0-9])', 'gm')
 
-  function replace (whole, match) {
+  function replace(whole, match) {
     return replacements[parseInt(match)] || match
   }
 
@@ -34,7 +34,7 @@ serloSpecificCharsToEncode = (function () {
   }
 })()
 
-function encodeSerloSpecificChars (text) {
+function encodeSerloSpecificChars(text) {
   return text.replace(
     serloSpecificCharsToEncode.regexp,
     serloSpecificCharsToEncode.replace
@@ -43,7 +43,7 @@ function encodeSerloSpecificChars (text) {
 
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_latex_output', ['showdown'], function (Showdown) {
+  define('showdown_latex_output', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.latexoutput = latexoutput
   })
@@ -54,7 +54,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.latexoutput = latexoutput
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = latexoutput
-}
+
+export default latexoutput

@@ -5,3 +5,25 @@
     }
   }
 }
+
+#ory-editor-meta-data-wrapper {
+  clear: both;
+  padding-top: $contentPadding;
+}
+
+#ory-editor-meta-data {
+  background-color: #ffffff;
+  padding: $contentPadding;
+}
+
+.ory-content.bordered {
+  border: 1px solid darkgray;
+  padding: 5px 10px 0;
+}
+
+.has-error {
+  label {
+    background: #fac1c1;
+    border-top-color: #fd2222;
+  }
+}

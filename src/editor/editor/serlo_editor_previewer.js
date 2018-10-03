@@ -6,7 +6,7 @@ import Field from './serlo_formfield'
 var Preview
 var slice = Array.prototype.slice
 
-Preview = function (options) {
+Preview = function(options) {
   this.$el = options.$el
   this.formFields = []
 
@@ -15,27 +15,27 @@ Preview = function (options) {
   this.init()
 }
 
-Preview.prototype.init = function () {
+Preview.prototype.init = function() {
   var that = this
 
-  that.$el.click(function () {
+  that.$el.click(function() {
     that.trigger('blur')
   })
 }
 
-Preview.prototype.setLayoutBuilderConfiguration = function (
+Preview.prototype.setLayoutBuilderConfiguration = function(
   layoutBuilderConfiguration
 ) {
   this.layoutBuilderConfiguration = layoutBuilderConfiguration
 }
 
-Preview.prototype.createFromForm = function ($form) {
+Preview.prototype.createFromForm = function($form) {
   var self = this
 
   if ($form.children().length) {
     self.formFields = []
 
-    $('input,textarea,select,button', $form).each(function () {
+    $('input,textarea,select,button', $form).each(function() {
       var field
       var $label
       var type = self.getFieldType(this)
@@ -59,11 +59,11 @@ Preview.prototype.createFromForm = function ($form) {
           field.setLabel($label.text())
         }
 
-        field.addEventListener('column-add', function () {
+        field.addEventListener('column-add', function() {
           self.trigger.apply(self, ['column-add'].concat(slice.call(arguments)))
         })
 
-        field.addEventListener('select', function (field) {
+        field.addEventListener('select', function(field) {
           self.activeField = field
           self.trigger.apply(
             self,
@@ -71,7 +71,7 @@ Preview.prototype.createFromForm = function ($form) {
           )
         })
 
-        field.addEventListener('update', function () {
+        field.addEventListener('update', function() {
           self.trigger.apply(self, ['update'].concat(slice.call(arguments)))
         })
 
@@ -89,31 +89,31 @@ Preview.prototype.createFromForm = function ($form) {
   }
 }
 
-Preview.prototype.focusNextColumn = function () {
+Preview.prototype.focusNextColumn = function() {
   if (this.activeField) {
     this.activeField.trigger('focus-next-column')
   }
 }
 
-Preview.prototype.focusPreviousColumn = function () {
+Preview.prototype.focusPreviousColumn = function() {
   if (this.activeField) {
     this.activeField.trigger('focus-previous-column')
   }
 }
 
-Preview.prototype.focusNextRow = function () {
+Preview.prototype.focusNextRow = function() {
   if (this.activeField) {
     this.activeField.trigger('focus-next-row')
   }
 }
 
-Preview.prototype.focusPreviousRow = function () {
+Preview.prototype.focusPreviousRow = function() {
   if (this.activeField) {
     this.activeField.trigger('focus-previous-row')
   }
 }
 
-Preview.prototype.getFieldType = function (field) {
+Preview.prototype.getFieldType = function(field) {
   var self = this
   var type
 
@@ -164,7 +164,7 @@ Preview.prototype.getFieldType = function (field) {
   return type
 }
 
-Preview.prototype.scrollSync = function ($elem, percentage) {
+Preview.prototype.scrollSync = function($elem, percentage) {
   var $parent = this.$el.parent()
   var target
   var maxScroll
@@ -201,12 +201,12 @@ Preview.prototype.scrollSync = function ($elem, percentage) {
   }
 }
 
-Preview.prototype.scrollTo = function ($elem, offset) {
+Preview.prototype.scrollTo = function($elem, offset) {
   offset = offset || 0
 
   var $parent = this.$el.parent()
   var top = $elem.offset().top + $parent.scrollTop()
-  var target = (function () {
+  var target = (function() {
     var maxScroll = $parent[0].scrollHeight - $parent[0].clientHeight
     var elemTarget = top + offset
 

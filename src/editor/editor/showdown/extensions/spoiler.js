@@ -4,12 +4,12 @@
  * Spoilers:
  * Transforms ///.../// blocks into spoilers
  **/
-var spoiler = function (converter) {
+var spoiler = function() {
   var filter
   var findSpoilers = new RegExp(/^<p>=,sp. (.*)<\/p>([\s\S]*?)<p>=,sp.<\/p>/gm)
 
-  filter = function (text) {
-    return text.replace(findSpoilers, function (original, title, content) {
+  filter = function(text) {
+    return text.replace(findSpoilers, function(original, title, content) {
       return (
         '<div class="spoiler panel panel-default"><div class="spoiler-teaser panel-heading"><span class="fa fa-caret-square-o-down"></span>' +
         title +
@@ -29,7 +29,7 @@ var spoiler = function (converter) {
 }
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_spoiler', ['showdown'], function (Showdown) {
+  define('showdown_spoiler', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.spoiler = spoiler
   })
@@ -40,7 +40,4 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.spoiler = spoiler
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = spoiler
-}
+export default spoiler

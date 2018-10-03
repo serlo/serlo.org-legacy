@@ -13,15 +13,18 @@ module.exports = {
     filename: '[name].js',
     publicPath: '/'
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        include: path.join(__dirname, 'src'),
+        test: /\.(tsx?|js)$/,
+        exclude: /node_modules/,
         loader: require.resolve('babel-loader')
       },
       {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         use: ExtractTextPlugin.extract({
           use: [
             {
@@ -40,12 +43,8 @@ module.exports = {
         loader: 'html-loader'
       },
       {
-        test: /\.(eot|svg|ttf|woff2?)$/,
-        loader: 'file-loader'
-      },
-      {
-        test: /\.(jpe?g|png|gif)$/i,
-        loader: 'file-loader'
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+        loader: require.resolve('file-loader')
       }
     ]
   },

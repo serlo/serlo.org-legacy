@@ -12,18 +12,27 @@
  * | Plain   | Value                                              |
  *
  */
-var table = function (converter) {
+var table = function() {
   var tables = {}
   var style = 'text-align:left;'
   var filter
+  var callbackConverter
 
-  tables.th = function (header) {
-    return '<th style="' + style + '">' + converter.makeHtml(header) + '</th>'
+  tables.th = function(header) {
+    return (
+      '<th style="' +
+      style +
+      '">' +
+      callbackConverter.makeHtml(header) +
+      '</th>'
+    )
   }
-  tables.td = function (cell) {
-    return '<td style="' + style + '">' + converter.makeHtml(cell) + '</td>'
+  tables.td = function(cell) {
+    return (
+      '<td style="' + style + '">' + callbackConverter.makeHtml(cell) + '</td>'
+    )
   }
-  tables.ths = function () {
+  tables.ths = function() {
     var out = ''
     var i = 0
     var hs = [].slice.apply(arguments)
@@ -33,7 +42,7 @@ var table = function (converter) {
     }
     return out
   }
-  tables.tds = function () {
+  tables.tds = function() {
     var out = ''
     var i = 0
     var ds = [].slice.apply(arguments)
@@ -42,7 +51,7 @@ var table = function (converter) {
     }
     return out
   }
-  tables.thead = function () {
+  tables.thead = function() {
     var out
     var hs = [].slice.apply(arguments)
     out = '<thead>\n'
@@ -52,7 +61,7 @@ var table = function (converter) {
     out += '</thead>\n'
     return out
   }
-  tables.tr = function () {
+  tables.tr = function() {
     var out
     var cs = [].slice.apply(arguments)
     out = '<tr>\n'
@@ -60,13 +69,15 @@ var table = function (converter) {
     out += '</tr>\n'
     return out
   }
-  filter = function (text) {
+  filter = function(text, converter) {
     var i = 0
     var lines = text.split('\n')
     var tbl = []
     var line
     var hs
     var out = []
+    callbackConverter = converter
+
     for (i; i < lines.length; i += 1) {
       line = lines[i]
       // looks like a table heading
@@ -116,7 +127,7 @@ var table = function (converter) {
 
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_table', ['showdown'], function (Showdown) {
+  define('showdown_table', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.table = table
   })
@@ -127,7 +138,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.table = table
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = table
-}
+
+export default table

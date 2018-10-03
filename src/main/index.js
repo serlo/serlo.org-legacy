@@ -40,6 +40,11 @@ import './modules/serlo_sortable_list'
 import './modules/serlo_toggle'
 import initTracking from './modules/serlo_tracking'
 import './modules/serlo_trigger'
+import EntityEditor, { renderServersideContent } from '../ory-editor'
+import convertWithAjax from '../ory-editor/convertAction'
+
+import 'katex/dist/katex.css'
+
 // FIXME historyjs; not needed?
 
 import './styles/main.scss'
@@ -70,7 +75,7 @@ const initResizeEvent = () => {
 
   // `resizeDelay` will be triggered if it wasn't triggered for 0.5s
   $window.resize(
-    _.debounce(function () {
+    _.debounce(function() {
       const width = $window.width()
       if (cachedWidth !== width) {
         $(this).trigger('resizeDelay')
@@ -97,10 +102,10 @@ const initFooter = () => {
 
   $footerPush.css('height', $footer.height())
   $wrap.css('margin-bottom', -$footer.height())
-  setTimeout(function () {
+  setTimeout(function() {
     $sideContextCourse.css('max-height', $contentLayout.outerHeight())
   }, 300)
-  $(window).bind('resizeDelay', function () {
+  $(window).bind('resizeDelay', function() {
     $footerPush.css('height', $footer.height())
     $wrap.css('margin-bottom', -$footer.height())
     $sideContextCourse.css('max-height', $contentLayout.outerHeight())
@@ -138,6 +143,7 @@ const init = $context => {
   setLanguage()
   initResizeEvent()
   initContentApi()
+  renderServersideContent()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
@@ -166,6 +172,35 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
+    $('.ory-edit-button', $context).click(function(e) {
+      e.preventDefault()
+      new EntityEditor(
+        $(this).data('id'),
+        $(this).attr('href'),
+        $(this).data('type')
+      )
+      $('.convert-button').hide()
+    })
+
+    $('.convert-button', $context).click(function(e) {
+      e.preventDefault()
+      const id = $(this).data('content-id')
+      const href = $(this).attr('href')
+      convertWithAjax(id, href, $target => {
+        Common.trigger('new context', $target)
+        $('.convert-button').hide()
+      })
+    })
+
+    if ($('#ory-edit-form', $context).length > 0) {
+      new EntityEditor(
+        $('#ory-edit-form', $context).data('id'),
+        $('#ory-edit-form form', $context).attr('action') ||
+          window.location.pathname,
+        $('#ory-edit-form', $context).data('type')
+      )
+      $('.convert-button').hide()
+    }
     // Dirty Hack for Course Pages Mobile
     if ($('.side-context-course').length > 0) {
       $('#content-layout').addClass('course-page')
@@ -174,7 +209,7 @@ const init = $context => {
     $('.text-exercise:has(.single-choice-group)', $context).SingleChoice()
     $('.text-exercise:has(.multiple-choice-group)', $context).MultipleChoice()
     autosize($('textarea.autosize'))
-    $('.r img', $context).each(function () {
+    $('.r img', $context).each(function() {
       var $that = $(this)
       $that.magnificPopup({
         type: 'image',
@@ -186,7 +221,7 @@ const init = $context => {
         image: {
           verticalFit: true
         },
-        disableOn: function () {
+        disableOn: function() {
           return $that.parents('a').length <= 0
         }
       })
@@ -207,10 +242,10 @@ const init = $context => {
   let ajaxOverlay
   ajaxOverlay = new AjaxOverlay({
     on: {
-      contentOpened: function () {
+      contentOpened: function() {
         Content.init(this.$el)
       },
-      error: function (err) {
+      error: function(err) {
         ajaxOverlay.shutDownAjaxContent()
         SystemNotification.error(
           t(
@@ -229,7 +264,7 @@ const init = $context => {
   SideElement.init()
 
   // Google Analytics opt out
-  $('a[href=ga-opt-out]').click(function (e) {
+  $('a[href=ga-opt-out]').click(function(e) {
     e.preventDefault()
     gaOptout()
     SystemNotification.notify(

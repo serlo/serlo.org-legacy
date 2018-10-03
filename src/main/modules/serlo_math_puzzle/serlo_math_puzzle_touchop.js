@@ -12,7 +12,7 @@ import d3 from 'd3'
 import algebra from './serlo_math_puzzle_algebra'
 
 // setup event listeners for the svg canvas
-function setupCanvas (svgElement) {
+function setupCanvas(svgElement) {
   // DnD frame work
   // hand is a reference to the object currently beeing dragged.
   var hand = null
@@ -32,8 +32,7 @@ function setupCanvas (svgElement) {
   svgElement.parentNode.addEventListener('touchend', msUp, { passive: false })
   svgElement.addEventListener('mousedown', msBlur, { passive: false })
   svgElement.addEventListener('touchstart', msBlur, { passive: false })
-  d3
-    .select(svgElement)
+  d3.select(svgElement)
     .selectAll('[data-ismovable]')
     .on('mousedown', grabElement)
     .on('touchstart', grabElement)
@@ -42,14 +41,13 @@ function setupCanvas (svgElement) {
 
   // setup event listeners for an element. This function is called
   // when an element is moved out of the palette
-  function grabElement () {
+  function grabElement() {
     var elt = d3.event.currentTarget
     var container = elt.parentElement
     var containerId = container.getAttribute('data-container-id')
 
     if (containerId) {
-      d3
-        .select(elt)
+      d3.select(elt)
         .attr('data-original-container', containerId)
         .selectAll('.operand')
         .attr('blocked', '')
@@ -60,7 +58,7 @@ function setupCanvas (svgElement) {
   }
 
   // Perform an initial layout of all objects on the screen.
-  function deepLayout (obj, doFloat) {
+  function deepLayout(obj, doFloat) {
     var isObj, i, m, box
     if (obj.nodeType === 1 && obj.getAttribute('display') !== 'none') {
       // layout children
@@ -83,7 +81,7 @@ function setupCanvas (svgElement) {
   }
 
   // Translate events that come from touch devices
-  function translateTouch (evt) {
+  function translateTouch(evt) {
     if (evt.touches) {
       var evt2 = {}
       evt2.clientX = evt.touches[0].clientX
@@ -98,7 +96,7 @@ function setupCanvas (svgElement) {
   }
 
   // msDown is called whenever the mouse button is pressed anywhere on the root document.
-  function msDown (evt0) {
+  function msDown(evt0) {
     var evt = translateTouch(evt0)
     var grabbed = evt.target
 
@@ -122,7 +120,7 @@ function setupCanvas (svgElement) {
   }
 
   // Mouse clicked on the background
-  function msBlur (evt) {
+  function msBlur(evt) {
     if (!evt.touches) evt.preventDefault()
     if (document.activeElement && document.activeElement.blur) {
       document.activeElement.blur()
@@ -131,7 +129,7 @@ function setupCanvas (svgElement) {
   }
 
   // Recursively put elements back into their palette home spot
-  function moveToPalette (elt) {
+  function moveToPalette(elt) {
     var paletteHome, child
     for (child of elt.querySelectorAll('[data-original-container]')) {
       moveToPalette(child)
@@ -145,7 +143,7 @@ function setupCanvas (svgElement) {
   }
 
   // This function is called when the mouse button is released.
-  function msUp () {
+  function msUp() {
     if (hand) {
       hand.removeAttribute('pointer-events')
       if (hand.getAttribute('opacity')) {
@@ -159,7 +157,7 @@ function setupCanvas (svgElement) {
   }
 
   // Move the grabbed object "hand" with the mouse if not frozen
-  function msMove (evt0) {
+  function msMove(evt0) {
     if (hand && !hand.getAttribute('data-frozen')) {
       // compute relative mouse movements since last call
       var dropTo, current, isTop, thresh, m
@@ -229,7 +227,7 @@ function setupCanvas (svgElement) {
   }
 
   // The object obj is inserted into a new group element target. Layouts are updated
-  function moveToGroup (obj, target, x, y) {
+  function moveToGroup(obj, target, x, y) {
     // move object from its current to the target container
     var m, p
     var oldContainer = obj.parentNode
@@ -252,7 +250,7 @@ function setupCanvas (svgElement) {
 
     // layout old and new container
     if (oldContainer !== target) {
-      setTimeout(function () {
+      setTimeout(function() {
         layout(oldContainer)
       }, 1)
       innerLayout(obj)
@@ -264,7 +262,7 @@ function setupCanvas (svgElement) {
 
   // This method is called when an object is draged on the background.
   // The draged object is inserted into its home group and the transformation is adjusted
-  function sendHome (obj) {
+  function sendHome(obj) {
     // move this object to the root element
     var m, m1, m2
     if (obj.parentNode !== svgElement) {
@@ -291,7 +289,7 @@ function setupCanvas (svgElement) {
   }
 
   // Transform element and all containing groups to hold new content
-  function layout (element) {
+  function layout(element) {
     var ctm2, w, m
     var obj = element
     var top = null
@@ -319,7 +317,7 @@ function setupCanvas (svgElement) {
   }
 
   // call the referenced layout function in the data-layout attribute
-  function innerLayout (element) {
+  function innerLayout(element) {
     switch (element.getAttribute('data-layout')) {
       case 'paletteLayout':
         paletteLayout(element)
@@ -337,7 +335,7 @@ function setupCanvas (svgElement) {
   }
 
   // this function inserts parenthesis to ensure syntactic correctness
-  function insertParenthesis (obj) {
+  function insertParenthesis(obj) {
     // check if object has priority attribute
     var child, next, subPrio, lpar, rpar, cbox, parbox, scale
     var myPrio = obj.getAttribute('data-priority')
@@ -384,7 +382,7 @@ function setupCanvas (svgElement) {
 
   // get an operator's mathematical priority to determine
   // whether parenthesis are required.
-  function getPriority (obj) {
+  function getPriority(obj) {
     var i, child
     var prio = obj.getAttribute('data-priority')
     if (prio) {
@@ -403,7 +401,7 @@ function setupCanvas (svgElement) {
 
   // Layouts the content centered to its first child element
   // Creates a snap-in like effect what dropping operands
-  function snap (obj) {
+  function snap(obj) {
     var child, m, box1, box2, i
     var back = null
     var blocked = false
@@ -440,19 +438,19 @@ function setupCanvas (svgElement) {
   }
 
   // Layouts all child objects horizontally.
-  function horizontalLayout (obj) {
+  function horizontalLayout(obj) {
     insertParenthesis(obj)
     boxLayout(obj, true)
   }
 
   // Layouts all child objects horizontally.
-  function verticalLayout (obj) {
+  function verticalLayout(obj) {
     boxLayout(obj, false)
   }
 
   // Layouts all child objects sequentially in one axis,
   // centered in the other axis.
-  function boxLayout (obj, horizontal) {
+  function boxLayout(obj, horizontal) {
     var child, opt, m, box, i
     var padding = 5
     var back = null
@@ -536,7 +534,7 @@ function setupCanvas (svgElement) {
     }
   }
 
-  function paletteLayout (obj) {
+  function paletteLayout(obj) {
     var child, m, box, operands, i
     var x = 10
     for (i = 0; i < obj.childNodes.length; ++i) {
@@ -562,7 +560,7 @@ function setupCanvas (svgElement) {
   }
 
   // Set the boundaries for the background rectangular element
-  function scaleRect (obj, x0, x1, y0, y1) {
+  function scaleRect(obj, x0, x1, y0, y1) {
     obj.setAttribute('width', x1 - x0)
     obj.setAttribute('height', y1 - y0)
     obj.setAttribute('x', x0)
@@ -570,7 +568,7 @@ function setupCanvas (svgElement) {
   }
 
   // Makes or removes a shadow below movable objects
-  function setFloating (obj, doFloat) {
+  function setFloating(obj, doFloat) {
     var oldShadow, shadow, back
     var canMove = obj.getAttribute('data-ismovable') === 'true'
     if (canMove) {
@@ -601,15 +599,15 @@ function setupCanvas (svgElement) {
   }
 
   // select root expression after 500ms stable click on sub expression
-  function initLongClick (x, y) {
+  function initLongClick(x, y) {
     longClick = [x, y]
-    setTimeout(function () {
+    setTimeout(function() {
       longClickAction(x, y)
     }, 500)
   }
 
   // select the root element in case of long clicks
-  function longClickAction (x, y) {
+  function longClickAction(x, y) {
     if (
       hand &&
       !justGrabbed &&
@@ -623,7 +621,7 @@ function setupCanvas (svgElement) {
 }
 
 // find the largest moveable group in which obj is contained
-function findRoot (obj) {
+function findRoot(obj) {
   var root = obj
   while (obj && obj.nodeType === 1) {
     if (obj.getAttribute('data-ismovable') === 'true') root = obj
@@ -633,7 +631,7 @@ function findRoot (obj) {
 }
 
 // Applys the transformation matrix m to the SVG element obj
-function setTransform (obj, m) {
+function setTransform(obj, m) {
   // For some very strange reasons conversion to string is 2x faster.
   obj.setAttribute(
     'transform',
@@ -654,14 +652,14 @@ function setTransform (obj, m) {
 }
 
 // Replacement for the deprecated function
-function getTransformToElement (obj, target) {
+function getTransformToElement(obj, target) {
   return target
     .getScreenCTM()
     .inverse()
     .multiply(obj.getScreenCTM())
 }
 
-function getCurrentValue () {
+function getCurrentValue() {
   return algebra.getLastValue()
 }
 

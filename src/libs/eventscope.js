@@ -1,25 +1,25 @@
 import _ from 'underscore'
 
-function eventScope (element) {
+function eventScope(element) {
   var Events = {}
   var fn = {}
 
-  fn.addEventListener = function (type, fn) {
+  fn.addEventListener = function(type, fn) {
     Events[type] = Events[type] || []
     Events[type].push(fn)
     return true
   }
 
-  fn.removeEventListener = function (type, fn) {
+  fn.removeEventListener = function(type, fn) {
     return (
       !Events[type] ||
-      (function () {
+      (function() {
         if (fn === undefined) {
           delete Events[type]
           return true
         }
 
-        _.each(Events[type], function (i) {
+        _.each(Events[type], function(i) {
           if (Events[type][i] === fn) {
             Events[type].splice(i, 1)
             return false
@@ -29,7 +29,7 @@ function eventScope (element) {
     )
   }
 
-  fn.trigger = function (type) {
+  fn.trigger = function(type) {
     var self = this
     var slice = Array.prototype.slice.bind(arguments)
 
@@ -37,7 +37,7 @@ function eventScope (element) {
       return true
     }
 
-    _.each(Events[type], function (fn) {
+    _.each(Events[type], function(fn) {
       fn.apply(self, slice(1))
     })
   }

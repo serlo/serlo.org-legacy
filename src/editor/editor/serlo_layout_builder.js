@@ -8,7 +8,7 @@ import Row from './serlo_layout_row'
 
 var LayoutBuilder
 
-LayoutBuilder = function (configuration) {
+LayoutBuilder = function(configuration) {
   if (configuration === undefined) {
     throw new Error('No LayoutBuilderConfiguration set for LayoutBuilder')
   }
@@ -23,14 +23,14 @@ LayoutBuilder = function (configuration) {
 
   layoutAdd = new LayoutAdd(that.layouts)
 
-  layoutAdd.addEventListener('add-layout', function (layout) {
+  layoutAdd.addEventListener('add-layout', function(layout) {
     that.addRow(layout)
   })
 
   that.$el = layoutAdd.$el
 }
 
-LayoutBuilder.prototype.addRow = function (
+LayoutBuilder.prototype.addRow = function(
   requestedLayout,
   data,
   atIndex,
@@ -42,7 +42,7 @@ LayoutBuilder.prototype.addRow = function (
 
   newRow = new Row(requestedLayout, that.rows.length, data, that.layouts)
 
-  newRow.addEventListener('remove', function (row) {
+  newRow.addEventListener('remove', function(row) {
     Modal.show(
       {
         type: 'danger',
@@ -52,21 +52,21 @@ LayoutBuilder.prototype.addRow = function (
         okayLabel: 'Yes'
       },
       'delete-row',
-      function () {
+      function() {
         that.removeRow(row)
       }
     )
   })
 
-  newRow.addEventListener('add-layout', function (layout) {
+  newRow.addEventListener('add-layout', function(layout) {
     that.addRow(layout, null, newRow.index)
   })
 
-  newRow.addEventListener('move-up', function () {
+  newRow.addEventListener('move-up', function() {
     that.reOrderRows(newRow, -1)
   })
 
-  newRow.addEventListener('move-down', function () {
+  newRow.addEventListener('move-down', function() {
     that.reOrderRows(newRow, +1)
   })
 
@@ -89,7 +89,7 @@ LayoutBuilder.prototype.addRow = function (
   return newRow
 }
 
-LayoutBuilder.prototype.removeRow = function (row) {
+LayoutBuilder.prototype.removeRow = function(row) {
   row.$el.remove()
 
   this.rows.splice(row.index, 1)
@@ -99,7 +99,7 @@ LayoutBuilder.prototype.removeRow = function (row) {
   row = null
 }
 
-LayoutBuilder.prototype.reOrderRows = function (rowToUpdate, upOrDown) {
+LayoutBuilder.prototype.reOrderRows = function(rowToUpdate, upOrDown) {
   var that = this
   var before
 
@@ -115,8 +115,8 @@ LayoutBuilder.prototype.reOrderRows = function (rowToUpdate, upOrDown) {
   rowToUpdate.trigger('reorder')
 }
 
-LayoutBuilder.prototype.updateRowIndexes = function () {
-  _.each(this.rows, function (row, i) {
+LayoutBuilder.prototype.updateRowIndexes = function() {
+  _.each(this.rows, function(row, i) {
     row.index = i
   })
 }

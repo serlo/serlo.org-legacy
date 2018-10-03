@@ -8,7 +8,7 @@ import t from './translator'
 var checkSupportFor = ['JSON', 'localStorage']
 var fails = []
 
-function check () {
+function check() {
   if ($('html').hasClass('old-ie')) {
     SystemNotification.notify(
       t('You are using an outdated web browser. Please consider an update!'),
@@ -16,7 +16,7 @@ function check () {
     )
   }
   // check for browser support
-  _.each(checkSupportFor, function (value) {
+  _.each(checkSupportFor, function(value) {
     if (typeof value === 'function') {
       var failed = value()
       if (failed) {
@@ -42,7 +42,7 @@ function check () {
   return fails
 }
 
-function add (support) {
+function add(support) {
   checkSupportFor.push(support)
 }
 

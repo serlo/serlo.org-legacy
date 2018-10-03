@@ -26,10 +26,10 @@ var testAllowed = new RegExp('^(' + allowedTags.toLowerCase() + ')$')
 var findTags = /<(\/?)\s*([\w:-]+)([^>]*)>/g
 var findAttribs = /(\s*)([\w:-]+)\s*=\s*(?:(?:(["'])([^\3]+?)(?:\3))|([^\s]+))/g
 
-var htmlstrip = function (converter) {
+var htmlstrip = function() {
   var filter
 
-  filter = function (text) {
+  filter = function(text) {
     return stripUnwantedHTML(text)
   }
 
@@ -41,7 +41,7 @@ var htmlstrip = function (converter) {
   ]
 }
 
-function stripUnwantedHTML (html) {
+function stripUnwantedHTML(html) {
   // convert all strings patterns into regexp objects (if not already converted)
   for (var i in allowedAttributes) {
     if (
@@ -55,7 +55,7 @@ function stripUnwantedHTML (html) {
   }
 
   // find and match html tags
-  return html.replace(findTags, function (original, lslash, tag, params) {
+  return html.replace(findTags, function(original, lslash, tag, params) {
     var tagAttr
     var wildcardAttr
     var rslash = (params.substr(-1) === '/' && '/') || ''
@@ -80,7 +80,7 @@ function stripUnwantedHTML (html) {
       }
 
       // find and remove unwanted attributes
-      params = params.replace(findAttribs, function (
+      params = params.replace(findAttribs, function(
         original,
         space,
         name,
@@ -130,7 +130,7 @@ function stripUnwantedHTML (html) {
 
 // Client-side export
 if (typeof define === 'function' && define.amd) {
-  define('showdown_htmlstrip', ['showdown'], function (Showdown) {
+  define('showdown_htmlstrip', ['showdown'], function(Showdown) {
     Showdown.extensions = Showdown.extensions || {}
     Showdown.extensions.htmlstrip = htmlstrip
   })
@@ -141,7 +141,5 @@ if (typeof define === 'function' && define.amd) {
 ) {
   window.Showdown.extensions.htmlstrip = htmlstrip
 }
-// Server-side export
-if (typeof module !== 'undefined') {
-  module.exports = htmlstrip
-}
+
+export default htmlstrip
