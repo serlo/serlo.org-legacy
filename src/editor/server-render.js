@@ -43,7 +43,7 @@ export function render(input, callback) {
     try {
       const children = renderToString(
         <HtmlRenderer
-          state={oryState}
+          state={state}
           plugins={createRenderPlugins('text-exercise')}
         />
       )
