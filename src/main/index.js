@@ -57,6 +57,12 @@ require('bootstrap-datepicker')
 // FIXME: needed?
 require('jasny-bootstrap/dist/js/jasny-bootstrap.js')
 
+const { version } = require('../../package.json')
+
+console.log('########################')
+console.log(`# athene2-assets@${version} #`)
+console.log('########################')
+
 // const App = () => {
 const setLanguage = () => {
   const language = $('html').attr('lang') || 'de'

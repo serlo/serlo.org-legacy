@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Added
 
 - Dynamically import the new editor and its renderer. This leads to a much smaller bundle size for the initial load.
+- Log version to browser console
 
 ### Changed
 
