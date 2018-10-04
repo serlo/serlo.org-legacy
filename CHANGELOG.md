@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Breaking Changes
 
 - Removed `CommonsChunkPlugin`, i.e. there are no more `commons.js` and `common.css`
+- Renamed `editor` to `legacy-editor`, i.e. one has to include `legacy-editor.js` resp. `legacy-editor.css` instead of `editor.js` resp. `editor.css`
 
 ## [2.0.4] - 2017-09-28
 
