@@ -171,7 +171,7 @@ export default class EntityEditor {
 
     $('#subject-nav-wrapper').hide()
     $('#ory-editor-toolbar').show()
-    $('#ory-editor-meta-data').show()
+    $('#ory-editor-meta-data-wrapper').show()
 
     $(window).bind('beforeunload', function() {
       return t(
