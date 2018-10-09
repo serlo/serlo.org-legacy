@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Added
 
 - Dynamically import the new editor and its renderer. This leads to a much smaller bundle size for the initial load.
+- Automated blue-green deployment of athene2-assets and server side renderer for new editor
 - Log version to browser console
 
 ### Changed
@@ -22,6 +23,8 @@ All notable changes to this project will be documented in this file. The format 
 
 - Removed `CommonsChunkPlugin`, i.e. there are no more `commons.js` and `common.css`
 - Renamed `editor` to `legacy-editor`, i.e. one has to include `legacy-editor.js` resp. `legacy-editor.css` instead of `editor.js` resp. `editor.css`
+- Asset bundle moved to `https://packages.serlo.org/athene2-assets@a/` resp. `https://packages.serlo.org/athene2-assets@b/` (blue-green deployment)
+- Google Cloud Function moved to `https://europe-west1-serlo-assets.cloudfunctions.net/editor-renderer-a` resp. `https://europe-west1-serlo-assets.cloudfunctions.net/editor-renderer-b` (blue-green deployment)
 
 ## [2.0.4] - 2017-09-28
 
