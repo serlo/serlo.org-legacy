@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file. The format 
 - Dynamically import the new editor and its renderer. This leads to a much smaller bundle size for the initial load.
 - Automated blue-green deployment of athene2-assets and server side renderer for new editor
 - Log version to browser console
+- Add a content hash of length 8 to file names of chunks and assets (e.g. fonts and images)
 
 ### Changed
 

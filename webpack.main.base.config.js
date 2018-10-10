@@ -8,6 +8,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
+    chunkFilename: '[name].[chunkhash:8].js',
     filename: '[name].js',
     publicPath: '/'
   },
@@ -19,7 +20,7 @@ module.exports = {
         loader: require.resolve('babel-loader')
       },
       {
-        test: /\.(scss|css)$/,
+        test: /\.(s?css)$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader
@@ -38,7 +39,10 @@ module.exports = {
       },
       {
         test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-        loader: require.resolve('file-loader')
+        loader: require.resolve('file-loader'),
+        options: {
+          name: '[name].[hash:8].[ext]'
+        }
       }
     ]
   },
@@ -47,14 +51,9 @@ module.exports = {
   },
   target: 'web',
   externals: [require('webpack-require-http')],
-  devServer: {
-    headers: {
-      'Access-Control-Allow-Origin': '*'
-    },
-    port: 8081
-  },
   plugins: [
     new MiniCssExtractPlugin({
+      chunkFilename: '[id].[chunkhash:8].css',
       filename: '[name].css'
     })
   ]
