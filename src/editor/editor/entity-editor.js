@@ -1,8 +1,8 @@
+import $ from 'jquery'
 import * as R from 'ramda'
 import * as React from 'react'
-import ReactDOM from 'react-dom'
+import * as ReactDOM from 'react-dom'
 
-import { HtmlRenderer } from '@serlo-org/html-renderer'
 import '@splish-me/ory-editor-core/src/index.css'
 
 import { EditorConsumer } from '@splish-me/editor-core/lib/contexts'
@@ -16,46 +16,16 @@ import { Sidebar } from '@splish-me/editor-ui/lib/sidebar.component'
 import { AddSidebar } from '@splish-me/editor-ui/lib/add-sidebar.component'
 import { PluginSidebar } from '@splish-me/editor-ui/lib/plugin-sidebar.component'
 
-// Load some exemplary plugins:
 import createEditorPlugins, { defaultPlugin } from '@serlo-org/editor-plugins'
-import createRenderPlugins from '@serlo-org/editor-plugins/lib/index.render'
-// import 'ory-editor-plugins-slate/lib/index.css' // Stylesheets for the rich text area plugin
-// import 'ory-editor-plugins-image/lib/index.css'
-// import 'ory-editor-plugins-parallax-background/lib/index.css' // Stylesheets for parallax background images
-// import 'ory-editor-plugins-spacer/lib/index.css'
-// import 'ory-editor-plugins-divider/lib/index.css'
-// import 'ory-editor-plugins-video/lib/index.css'
-// import 'katex/dist/katex.min.css'
 
-import $ from 'jquery'
-import t from '../modules/translator'
-import Modals from '../modules/modals'
-import SystemNotification from '../modules/system_notification'
-import convert from './converter'
-import base64 from 'base-64'
-import utf8 from 'utf8'
+import t from '../../modules/translator'
+import Modals from '../../modules/modals'
+import SystemNotification from '../../modules/system_notification'
+import convert from '../converter'
+import { getStateFromElement, parseState } from '../helpers'
 
 let $saveModalContent = $('<div></div>')
 const $formDataOnPage = $('#ory-edit-form')
-
-const parse = content =>
-  typeof content === 'string' ? JSON.parse(content) : content
-
-const decodeRawContent = element =>
-  parse(utf8.decode(base64.decode($(element).data('rawContent'))))
-
-export const renderServersideContent = () => {
-  // render the server-side rendered ory editables with react
-  const $elements = $('.editable[data-edit-type="ory"] > div[data-raw-content]')
-  $elements.each((i, element) => {
-    const content = decodeRawContent(element)
-
-    ReactDOM.hydrate(
-      <HtmlRenderer state={content} plugins={createRenderPlugins()} />,
-      element
-    )
-  })
-}
 
 class EditorComponent extends React.Component {
   state = {
@@ -131,7 +101,7 @@ class EditorComponent extends React.Component {
   }
 }
 
-export default class EntityEditor {
+export class EntityEditor {
   constructor(id, editPath, type) {
     this.id = id
     this.editPath = editPath
@@ -149,7 +119,7 @@ export default class EntityEditor {
         const key = $(editable).data('editField')
         const element = $(editable).find('.ory-content')[0]
 
-        const content = decodeRawContent(element)
+        const content = getStateFromElement(element)
         content.id = this.id + key
 
         this.editorComponent.current.addEditable({
@@ -251,7 +221,7 @@ export default class EntityEditor {
       if (data === '') {
         data = null
       } else {
-        data = parse(data)
+        data = parseState(data)
         if (data.cells === undefined) {
           data = convert(data)
         }

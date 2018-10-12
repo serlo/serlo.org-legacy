@@ -1,5 +1,5 @@
-import unexpected from 'unexpected'
 import { slatePlugin } from '@serlo-org/editor-plugins/lib/slate'
+import unexpected from 'unexpected'
 
 const expectInstance = unexpected.clone()
 
