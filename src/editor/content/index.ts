@@ -7,12 +7,7 @@ export const initContent = () => {
     return
   }
 
-  // prettier-ignore
-  return import(
-    /* webpackMode: "lazy-once" */
-    // @ts-ignore FIXME:
-    './init-element'
-  ).then(({ initElement }) => {
+  return import('./init-element').then(({ initElement }) => {
     $elements.each((_i, element) => {
       initElement(element)
     })
