@@ -64,9 +64,7 @@ async function run() {
     await flushCache(files)
     // TODO: verify package-registry/athene2-assets@major (to warm up cache and verify deployment)
 
-    signale.pending(
-      `[4/${numberOfSteps}]: Deploying Google Cloud Function Cloudflare cache…`
-    )
+    signale.pending(`[4/${numberOfSteps}]: Deploying Google Cloud Function…`)
     deployGcf(environment)
 
     signale.pending(
