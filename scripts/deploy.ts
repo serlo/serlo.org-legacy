@@ -1,27 +1,23 @@
 import { Storage } from '@google-cloud/storage'
 import { spawnSync } from 'child_process'
-// @ts-ignore
-import * as createCloudflare from 'cloudflare'
 import * as fs from 'fs'
 import * as inquirer from 'inquirer'
+// @ts-ignore
+import * as runAll from 'npm-run-all'
 import * as os from 'os'
 import * as path from 'path'
 import * as R from 'ramda'
 import * as semver from 'semver'
 import { Signale } from 'signale'
 import * as util from 'util'
-// @ts-ignore
-import * as runAll from 'npm-run-all'
+
+import { zoneId, cloudflare } from './cloudflare'
 
 const root = path.join(__dirname, '..')
 
 enum Environment {
   blue = 'a',
   green = 'b'
-}
-
-const cloudflareOptions = {
-  zoneId: '1a4afa776acb2e40c3c8a135248328ae'
 }
 
 const gcloudOptions = {
@@ -54,7 +50,7 @@ async function run() {
     const packageJSON = await fetchPackageJSON()
     const { version, environment } = await prompt(packageJSON)
 
-    signale.pending(`[0/${numberOfSteps}]: Incrementing…`)
+    signale.pending(`[0/${numberOfSteps}]: Incrementing version…`)
     await incrementVersion({ version, packageJSON })
 
     signale.pending(`[1/${numberOfSteps}]: Bundling…`)
@@ -62,16 +58,16 @@ async function run() {
 
     signale.pending(`[2/${numberOfSteps}]: Uploading bundle…`)
     const files = await uploadBundle(environment)
-    // // TODO: verify successful upload of bundle
+    // TODO: verify successful upload
 
     signale.pending(`[3/${numberOfSteps}]: Flushing Cloudflare cache…`)
     await flushCache(files)
-    // TODO: verify package-registry/athene2-assets@major (to fill cache and verify deployment)
+    // TODO: verify package-registry/athene2-assets@major (to warm up cache and verify deployment)
 
     signale.pending(
       `[4/${numberOfSteps}]: Deploying Google Cloud Function Cloudflare cache…`
     )
-    deployGCF(environment)
+    deployGcf(environment)
 
     signale.pending(
       `[5/${numberOfSteps}]: Successfully deployed athene2-assets@${version} (${environment})`
@@ -131,7 +127,11 @@ function incrementVersion({
 }
 
 async function build(packageJSON: unknown): Promise<void> {
-  await runAll(['build:*'], { parallel: true })
+  await runAll(['build:assets', 'build:gcf'], {
+    parallel: true,
+    stdout: process.stdout,
+    stderr: process.stderr
+  })
 
   return Promise.resolve(packageJSON as { dependencies: unknown })
     .then(R.prop('dependencies'))
@@ -165,9 +165,6 @@ async function uploadBundle(environment: Environment): Promise<string[]> {
 }
 
 async function flushCache(files: string[]): Promise<void> {
-  // @ts-ignore
-  const cloudflare = createCloudflare(require('../cloudflare.secret.json'))
-
   const urls = R.splitEvery(
     30,
     R.map(file => `https://packages.serlo.org/${file}`, files)
@@ -175,14 +172,14 @@ async function flushCache(files: string[]): Promise<void> {
 
   await Promise.all(
     R.map(files => {
-      return cloudflare.zones.purgeCache(cloudflareOptions.zoneId, {
+      return cloudflare.zones.purgeCache(zoneId, {
         files
       })
     }, urls)
   )
 }
 
-function deployGCF(environment: Environment): void {
+function deployGcf(environment: Environment): void {
   spawnSync('gcloud', [
     'auth',
     'activate-service-account',
