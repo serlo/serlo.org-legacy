@@ -1,9 +1,6 @@
-import { Storage } from '@google-cloud/storage'
 import { spawnSync } from 'child_process'
 import * as fs from 'fs'
 import * as inquirer from 'inquirer'
-// @ts-ignore
-import * as runAll from 'npm-run-all'
 import * as os from 'os'
 import * as path from 'path'
 import * as R from 'ramda'
@@ -12,17 +9,14 @@ import { Signale } from 'signale'
 import * as util from 'util'
 
 import { zoneId, cloudflare } from './cloudflare'
+import { project } from './gcloud'
 
 const root = path.join(__dirname, '..')
+const distPath = path.join(__dirname, '..', 'dist')
 
 enum Environment {
   blue = 'a',
   green = 'b'
-}
-
-const gcloudOptions = {
-  projectId: 'serlo-assets',
-  keyFilename: path.join(root, 'gcloud.secret.json')
 }
 
 const gCloudStorageOptions = {
@@ -39,7 +33,6 @@ const readFile = util.promisify(fs.readFile)
 const writeFile = util.promisify(fs.writeFile)
 
 const signale = new Signale({ interactive: true })
-const numberOfSteps = 5
 
 run()
 
@@ -48,27 +41,38 @@ async function run() {
     signale.info('Deploying athene2-assets')
 
     const packageJSON = await fetchPackageJSON()
-    const { version, environment } = await prompt(packageJSON)
+    const { version, environment, steps } = await prompt(packageJSON)
 
-    signale.pending(`[0/${numberOfSteps}]: Incrementing version…`)
+    console.log(steps)
+
+    signale.pending(`Incrementing version…`)
     await incrementVersion({ version, packageJSON })
 
-    signale.pending(`[1/${numberOfSteps}]: Bundling…`)
-    await build(packageJSON)
+    if (R.contains('build', steps)) {
+      signale.pending(`Bundling…`)
+      await build({ environment, packageJSON })
+    }
 
-    signale.pending(`[2/${numberOfSteps}]: Uploading bundle…`)
-    const files = await uploadBundle(environment)
+    if (R.contains('upload', steps)) {
+      signale.pending(`Uploading bundle…`)
+      await uploadBundle(environment)
+    }
+
     // TODO: verify successful upload
 
-    signale.pending(`[3/${numberOfSteps}]: Flushing Cloudflare cache…`)
-    await flushCache(files)
-    // TODO: verify package-registry/athene2-assets@major (to warm up cache and verify deployment)
+    if (R.contains('flush', steps)) {
+      signale.pending(`Flushing Cloudflare cache…`)
+      await flushCache(environment)
+    }
+    // TODO: verify https://packages.serlo.org/athene2-assets@major (to warm up cache and verify deployment)
 
-    signale.pending(`[4/${numberOfSteps}]: Deploying Google Cloud Function…`)
-    deployGcf(environment)
+    if (R.contains('deploy-gcf', steps)) {
+      signale.pending(`Deploying Google Cloud Function…`)
+      deployGcf(environment)
+    }
 
-    signale.pending(
-      `[5/${numberOfSteps}]: Successfully deployed athene2-assets@${version} (${environment})`
+    signale.success(
+      `Successfully deployed athene2-assets@${version} (${environment})`
     )
   } catch (e) {
     signale.fatal(e.message)
@@ -79,12 +83,13 @@ function fetchPackageJSON(): unknown {
   return readFile(packageJsonPath, fsOptions).then(JSON.parse)
 }
 
-async function prompt(packageJSON: unknown) {
+function prompt(packageJSON: unknown) {
   const { version } = packageJSON as { version: string }
 
   return inquirer.prompt<{
     version: string
     environment: Environment
+    steps: string[]
   }>([
     {
       name: 'version',
@@ -107,6 +112,33 @@ async function prompt(packageJSON: unknown) {
           return { value, name }
         }, Environment)
       )
+    },
+    {
+      name: 'steps',
+      message: 'Steps',
+      type: 'checkbox',
+      choices: [
+        {
+          name: 'Bundling',
+          value: 'build',
+          checked: true
+        },
+        {
+          name: 'Uploading bundle',
+          value: 'upload',
+          checked: true
+        },
+        {
+          name: 'Flushing cache',
+          value: 'flush',
+          checked: true
+        },
+        {
+          name: 'Deploying Google Cloud Function',
+          value: 'deploy-gcf',
+          checked: true
+        }
+      ]
     }
   ])
 }
@@ -124,12 +156,23 @@ function incrementVersion({
     .then(data => writeFile(packageJsonPath, data + os.EOL, fsOptions))
 }
 
-async function build(packageJSON: unknown): Promise<void> {
-  await runAll(['build:assets', 'build:gcf'], {
-    parallel: true,
-    stdout: process.stdout,
-    stderr: process.stderr
-  })
+async function build({
+  environment,
+  packageJSON
+}: {
+  environment: Environment
+  packageJSON: unknown
+}): Promise<void> {
+  spawnSync(
+    'yarn',
+    [
+      'build:assets',
+      `--output-public-path=https://packages.serlo.org/athene2-assets@${environment}/`
+    ],
+    { stdio: 'inherit' }
+  )
+
+  spawnSync('yarn', ['build:gcf'], { stdio: 'inherit' })
 
   return Promise.resolve(packageJSON as { dependencies: unknown })
     .then(R.prop('dependencies'))
@@ -139,30 +182,23 @@ async function build(packageJSON: unknown): Promise<void> {
     )
 }
 
-async function uploadBundle(environment: Environment): Promise<string[]> {
-  const storage = new Storage(gcloudOptions)
-  const bucket = storage.bucket(gCloudStorageOptions.bucket)
+async function uploadBundle(environment: Environment): Promise<void> {
+  const prefix = `athene2-assets@${environment}`
+  const bucket = `gs://${gCloudStorageOptions.bucket}`
+  const dest = `${bucket}/${prefix}/`
+  const tmp = `${bucket}/${prefix}-tmp/`
 
-  const distPath = path.join(__dirname, '..', 'dist')
-  const files = await readDir(distPath)
-  const prefix = `athene2-assets@${environment}/`
-
-  await bucket.deleteFiles({
-    prefix
+  spawnSync(`gsutil`, ['-m', 'cp', '-r', path.join(distPath, '*'), tmp], {
+    stdio: 'inherit'
   })
-
-  await Promise.all(
-    R.map(file => {
-      return bucket.upload(path.join(distPath, file), {
-        destination: `${prefix}${file}`
-      })
-    }, files)
-  )
-
-  return R.map(file => `${prefix}${file}`, files)
+  spawnSync(`gsutil`, ['-m', 'rm', '-r', dest], { stdio: 'inherit' })
+  spawnSync(`gsutil`, ['-m', 'mv', `${tmp}*`, dest], { stdio: 'inherit' })
 }
 
-async function flushCache(files: string[]): Promise<void> {
+async function flushCache(environment: Environment): Promise<void> {
+  const prefix = `athene2-assets@${environment}/`
+  const files = await readDir(distPath).then(R.map(file => `${prefix}${file}`))
+
   const urls = R.splitEvery(
     30,
     R.map(file => `https://packages.serlo.org/${file}`, files)
@@ -178,12 +214,6 @@ async function flushCache(files: string[]): Promise<void> {
 }
 
 function deployGcf(environment: Environment): void {
-  spawnSync('gcloud', [
-    'auth',
-    'activate-service-account',
-    `--key-file=${gcloudOptions.keyFilename}`
-  ])
-
   spawnSync(
     'gcloud',
     [
@@ -196,7 +226,7 @@ function deployGcf(environment: Environment): void {
       '--runtime=nodejs8',
       `--source=${gcfDir}`,
       '--trigger-http',
-      `--project=${gcloudOptions.projectId}`
+      project
     ],
     { stdio: 'inherit' }
   )
