@@ -27,7 +27,7 @@ async function run() {
     signale.pending(`[1/${numberOfSteps}]: Uploading workers…`)
     await uploadWorkers()
 
-    signale.pending(
+    signale.success(
       `[2/${numberOfSteps}]: Successfully deployed Cloudflare workers`
     )
   } catch (e) {
