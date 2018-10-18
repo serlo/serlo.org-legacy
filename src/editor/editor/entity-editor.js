@@ -22,7 +22,7 @@ import t from '../../modules/translator'
 import Modals from '../../modules/modals'
 import SystemNotification from '../../modules/system_notification'
 import convert from '../converter'
-import { getStateFromElement, parseState } from '../helpers'
+import { getStateFromElement } from '../helpers'
 
 let $saveModalContent = $('<div></div>')
 const $formDataOnPage = $('#ory-edit-form')
@@ -221,7 +221,8 @@ export class EntityEditor {
       if (data === '') {
         data = null
       } else {
-        data = parseState(data)
+        data = typeof data === 'string' ? JSON.parse(data) : data
+
         if (data.cells === undefined) {
           data = convert(data)
         }
@@ -287,7 +288,7 @@ export class EntityEditor {
 
   collectData = () => {
     let data = {}
-    $(`.editable[data-id="${this.id}"]`).each((i, element) => {
+    $(`.editable[data-id="${this.id}"]`).each((_i, element) => {
       const key = $(element).data('editField')
       switch ($(element).data('editType')) {
         case 'ory':
