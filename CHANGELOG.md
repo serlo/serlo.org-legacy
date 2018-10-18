@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file. The format 
 
 - Load all plugins in render server for new editor
 - When server side rendering fails, still pass state down to client for improved debugging
+- Hide double sidebar outside the editor
 
 ### Breaking Changes
 
@@ -27,6 +28,7 @@ All notable changes to this project will be documented in this file. The format 
 - Renamed `editor` to `legacy-editor`, i.e. one has to include `legacy-editor.js` resp. `legacy-editor.css` instead of `editor.js` resp. `editor.css`
 - Asset bundle moved to `https://packages.serlo.org/athene2-assets@a/` resp. `https://packages.serlo.org/athene2-assets@b/` (blue-green deployment)
 - Google Cloud Function moved to `https://europe-west1-serlo-assets.cloudfunctions.net/editor-renderer-a` resp. `https://europe-west1-serlo-assets.cloudfunctions.net/editor-renderer-b` (blue-green deployment)
+- Needs an element with id `ory-editor-meta-data-wrapper` around the element with id `ory-editor-meta-data`
 
 ## [2.0.4] - 2017-09-28
 
