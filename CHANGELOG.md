@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+## [3.0.0] - 2017-10-30
 
 ### Added
 
@@ -32,5 +32,6 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [2.0.4] - 2017-09-28
 
-[unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/6f69feb2bd6d4da735e760d3d640717b900f5959...HEAD
+[unreleased]: https://github.com/serlo-org/athene2-assets/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/serlo-org/athene2-assets/compare/3.0.0...6f69feb2bd6d4da735e760d3d640717b900f5959
 [2.0.4]: https://github.com/serlo-org/athene2-assets/commit/6f69feb2bd6d4da735e760d3d640717b900f5959
