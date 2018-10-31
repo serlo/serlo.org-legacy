@@ -3,14 +3,7 @@ module.exports = api => {
   api.cache(isProduction)
 
   const presets = [
-    [
-      '@babel/preset-env',
-      {
-        targets: {
-          browsers: ['>0.25%']
-        }
-      }
-    ],
+    '@babel/preset-env',
     '@babel/preset-typescript',
     '@babel/preset-react',
     '@babel/preset-flow'

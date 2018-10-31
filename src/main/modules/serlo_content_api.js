@@ -33,7 +33,7 @@ export const initContentApi = () => {
     const target = $link.attr('target')
 
     const isInternalLink =
-      url && (url.startsWith('/') || url.startsWith(origin))
+      url && (url[0] === '/' || url.substr(0, origin.length) === origin)
     const isBlank = target && target === '_blank'
 
     if (isInternalLink && !isBlank) {
