@@ -2,7 +2,7 @@
 import { handleRequest } from '../../src/cloudflare-workers'
 
 expect.extend({
-  toHaveBeenCalledWithRequest (fetch, req) {
+  toHaveBeenCalledWithRequest(fetch, req) {
     try {
       expect(fetch).toHaveBeenCalledTimes(1)
 
@@ -82,6 +82,16 @@ describe('Cloudflare Workers', () => {
       expect(fetch).toHaveBeenCalledWithRequest({
         url:
           'https://assets.serlo.org/legacy/58eb97b7e5376_7d4211710d8bab642798e39e07788e6f2912e86a.gif'
+      })
+    })
+
+    it(`doesn't rewrite requests to meta directory`, async () => {
+      await handleRequest({
+        url: 'https://assets.serlo.org/meta/serlo.jpg'
+      })
+
+      expect(fetch).toHaveBeenCalledWithRequest({
+        url: 'https://assets.serlo.org/meta/serlo.jpg'
       })
     })
   })

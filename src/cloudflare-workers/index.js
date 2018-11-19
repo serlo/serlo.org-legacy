@@ -31,7 +31,7 @@ export async function handleRequest(request) {
 }
 
 async function handleSemanticAssetsFilenames(request) {
-  const re = /^https:\/\/assets.serlo.org\/(legacy\/|)((?!legacy)\w+)\/([\w\-+]+)\.(\w+)$/
+  const re = /^https:\/\/assets.serlo.org\/(legacy\/|meta\/|)((?!legacy|meta)\w+)\/([\w\-+]+)\.(\w+)$/
   const match = request.url.match(re)
 
   if (!match) {
