@@ -123,10 +123,7 @@ Injections = function() {
           .height('100%')
       }
       transform()
-      $($clone[1]).attr(
-        'href',
-        'http://tube.geogebra.org/student/m' + href.substr(5)
-      )
+      $($clone[1]).attr('href', 'https://serlo.org/ggt/' + href.substr(5))
       $($clone[1]).text(title)
     }
 
