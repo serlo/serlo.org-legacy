@@ -28,6 +28,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.1.2",
+    "@sentry/browser": "^4.3.4",
     "@serlo-org/editor-plugins": "^0.0.5",
     "@serlo-org/html-renderer": "^0.0.0",
     "@splish-me/editor-core": "^0.0.4",
