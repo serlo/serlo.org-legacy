@@ -321,16 +321,6 @@ const init = $context => {
 
   SideElement.init()
 
-  // Google Analytics opt out
-  $('a[href=ga-opt-out]').click(function(e) {
-    e.preventDefault()
-    gaOptout()
-    SystemNotification.notify(
-      t('Successfully deactivated Google Analytics'),
-      'success'
-    )
-    window.scrollTo(0, 0)
-  })
   initTracking($context)
 }
 
