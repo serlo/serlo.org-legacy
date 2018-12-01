@@ -480,7 +480,6 @@ $(function() {
         latex,
         atUsername,
         strikeThrough,
-        ,
         spoiler,
         spoilerPrepare,
         latexOutput,

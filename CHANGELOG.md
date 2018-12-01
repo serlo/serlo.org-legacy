@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.2.0] - 2018-12-01
+
+### Added
+
+- Add Sentry to monitor JavaScript runtime errors
+- Add consent banner for privacy policy and terms of use (de.serlo.org only for now)
+
 ## [3.1.1] - 2018-11-22
 
 ### Fixed
@@ -58,7 +65,8 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [2.0.4] - 2018-09-28
 
-[unreleased]: https://github.com/serlo-org/athene2-assets/compare/3.1.1...HEAD
+[unreleased]: https://github.com/serlo-org/athene2-assets/compare/3.2.0...HEAD
+[3.2.0]: https://github.com/serlo-org/athene2-assets/compare/3.1.1...3.2.0
 [3.1.1]: https://github.com/serlo-org/athene2-assets/compare/3.1.0...3.1.1
 [3.1.0]: https://github.com/serlo-org/athene2-assets/compare/3.0.1...3.1.0
 [3.0.1]: https://github.com/serlo-org/athene2-assets/compare/3.0.0...3.0.1
