@@ -17,7 +17,7 @@ export function initConsentBanner() {
       const $div = $(`
         <div id="consent-banner">
             Mit der Nutzung dieser Webseite erklärst du dich mit unserer
-            <a href="/datenschutz">Datenschutzerklärung</a> und unseren
+            <a href="/datenschutz">Datenschutzerklärung</a> und
             <a href="/21654">Nutzungsbedingungen</a> einverstanden.
         </div>
        `)
