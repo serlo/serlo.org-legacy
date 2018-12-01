@@ -46,6 +46,7 @@ import './libs/event_extensions'
 import AjaxOverlay from './modules/serlo_ajax_overlay'
 import Breadcrumbs from './modules/serlo_breadcrumbs'
 import { initContentApi } from './modules/serlo_content_api'
+import { initConsentBanner } from './modules/serlo_consent_banner'
 import './modules/serlo_forum_select'
 import './modules/serlo_input_challenge'
 import './modules/serlo_math_puzzle/serlo_math_puzzle'
@@ -85,7 +86,6 @@ console.log('########################')
 console.log(`# athene2-assets@${version} #`)
 console.log('########################')
 
-// const App = () => {
 const setLanguage = () => {
   const language = $('html').attr('lang') || 'de'
 
@@ -171,6 +171,7 @@ const init = $context => {
   initResizeEvent()
   initContentApi()
   initContent()
+  initConsentBanner()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {

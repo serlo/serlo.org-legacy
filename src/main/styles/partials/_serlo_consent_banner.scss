@@ -1,0 +1,19 @@
+#consent-banner {
+  position: fixed;
+  bottom: 0;
+  padding: 20px;
+  background: $serloBlue;
+  color: $white;
+  width: 100%;
+  text-align: center;
+
+  a {
+    color: $white;
+    text-decoration: underline;
+  }
+
+  button {
+    margin-left: 20px;
+  }
+}
+
