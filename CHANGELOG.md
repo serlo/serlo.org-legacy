@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Added
 
 - Add Sentry to monitor JavaScript runtime errors
+- Add consent banner for privacy policy and terms of use (de.serlo.org only for now)
 
 ## [3.1.1] - 2018-11-22
 
