@@ -1,7 +1,7 @@
-import * as $ from "jquery"
+import * as $ from 'jquery'
 
 export function initConsentBanner() {
-  const { hostname } = window.location;
+  const { hostname } = window.location
 
   // Only use on de.serlo.org for now
   if (/^de\.serlo/.test(hostname)) {
@@ -11,7 +11,7 @@ export function initConsentBanner() {
       const consent = localStorage.getItem(localStorageKey)
 
       if (consent === currentRevision) {
-        return;
+        return
       }
 
       const $div = $(`
@@ -20,16 +20,16 @@ export function initConsentBanner() {
             <a href="/datenschutz">Datenschutzerklärung</a> und unseren
             <a href="/21654">Nutzungsbedingungen</a> einverstanden.
         </div>
-       `);
-      const $button = $('<button class="btn btn-success">Verstanden</button>');
-      $div.append($button);
+       `)
+      const $button = $('<button class="btn btn-success">Verstanden</button>')
+      $div.append($button)
 
       $button.on('click', () => {
-        localStorage.setItem(localStorageKey, currentRevision);
-        $div.remove();
-      });
+        localStorage.setItem(localStorageKey, currentRevision)
+        $div.remove()
+      })
 
-      $('body').append($div);
-    });
+      $('body').append($div)
+    })
   }
 }
