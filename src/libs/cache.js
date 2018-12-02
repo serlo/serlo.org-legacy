@@ -188,9 +188,9 @@ Cache.prototype.functions = function(memoryKey) {
 }
 
 /*
-         * helper function to delete all javascript cookies
-         * see http://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
-         */
+ * helper function to delete all javascript cookies
+ * see http://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
+ */
 
 function deleteAllCookies() {
   var cookies = window.document.cookie.split(';')

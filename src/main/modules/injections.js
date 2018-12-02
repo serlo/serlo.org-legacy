@@ -22,16 +22,15 @@
 /* global require, window, GGBApplet */
 import $ from 'jquery'
 
-import '../thirdparty/deployggb.js'
-import Common from './common'
-import './content'
-import t from './translator'
+import Common from '../../modules/common'
+import '../../modules/content'
+import t from '../../modules/translator'
+import { Sentry } from './sentry'
 
 var Injections
 var cache = {}
 var ggbApplets = {}
 var ggbAppletsCount = 0
-var geogebraScriptSource = 'https://www.geogebra.org/web/4.4/web/web.nocache.js'
 var $geogebraTemplate = $(
   '<article class="geogebraweb" data-param-width="700" data-param-height="525" data-param-usebrowserforjs="true" data-param-enableRightClick="false"></article>'
 )
@@ -188,11 +187,7 @@ Injections = function() {
       .always(function() {
         totalInjectionsCount -= 1
         if (totalInjectionsCount === 0 && ggbAppletsCount > 0) {
-          // if all injections have been loaded,
-          // load the geogebra script and there
-          // have been some gegeogebra injections
-          // load the geogegebra script
-          require([geogebraScriptSource])
+          Sentry.captureMessage('Legacy GeoGebra applet')
         }
       })
       // This error could mean that the injection is of type GeoGebraTube

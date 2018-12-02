@@ -23,8 +23,8 @@
 import $ from 'jquery'
 import _ from 'underscore'
 
-import SystemNotification from './system_notification'
-import t from './translator'
+import SystemNotification from '../../modules/system_notification'
+import t from '../../modules/translator'
 
 var checkSupportFor = ['JSON', 'localStorage']
 var fails = []

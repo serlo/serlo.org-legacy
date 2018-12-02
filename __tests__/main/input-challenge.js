@@ -7,9 +7,9 @@ require('bootstrap-sass')
 
 // Mocks
 window.MathJax = { Hub: { Queue: () => {} } }
-jest.mock('../../src/main/modules/serlo_sounds')
+jest.mock('../../src/main/modules/sounds')
 
-require('../../src/main/modules/serlo_input_challenge')
+require('../../src/main/modules/input_challenge')
 
 describe('Input challenge', function() {
   describe('input-string-exact-match-challenge', function() {

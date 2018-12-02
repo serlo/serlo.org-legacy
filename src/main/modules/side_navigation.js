@@ -25,7 +25,7 @@ import _ from 'underscore'
 import eventScope from '../../libs/eventscope'
 import Common from '../../modules/common'
 import t from '../../modules/translator'
-import ReferrerHistory from './serlo_referrer_history'
+import ReferrerHistory from './referrer_history'
 
 var defaults, Hierarchy, MenuItem, SubNavigation, SideNavigation
 

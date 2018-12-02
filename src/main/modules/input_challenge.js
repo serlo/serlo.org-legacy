@@ -24,7 +24,7 @@ import $ from 'jquery'
 import S from 'string'
 import A from 'algebra.js'
 
-import play from './serlo_sounds'
+import play from './sounds'
 
 var InputChallenge = function($container) {
   var type
