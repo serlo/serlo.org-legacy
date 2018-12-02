@@ -65,7 +65,7 @@ async function run() {
 
     // TODO: verify https://packages.serlo.org/athene2-assets@major (to warm up cache and verify deployment)
 
-    if (R.contains('sentry-release')) {
+    if (R.contains('sentry-release', steps)) {
       signale.pending('Creating sentry release')
       createSentryRelease(version)
     }
@@ -223,6 +223,8 @@ async function flushCache(environment: Environment): Promise<void> {
 }
 
 function createSentryRelease(version: string): void {
+  const release = `athene2-assets@${version}`
+
   const env = {
     'SENTRY_AUTH_TOKEN': require('../sentry.secret.json'),
     'SENTRY_ORG': 'serlo-org'
@@ -233,18 +235,20 @@ function createSentryRelease(version: string): void {
     'new',
     '--project',
     'athene2-assets',
-    version
+    release
   ], {
-    env
+    env,
+    stdio: 'inherit'
   })
 
   spawnSync('sentry-cli', [
     'releases',
     'set-commits',
     '--auto',
-    version
+    release
   ], {
-    env
+    env,
+    stdio: 'inherit'
   })
 }
 
