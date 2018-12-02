@@ -22,7 +22,7 @@
 /* global MathJax */
 import $ from 'jquery'
 
-import play from './serlo_sounds'
+import play from './sounds'
 
 var MultipleChoice
 

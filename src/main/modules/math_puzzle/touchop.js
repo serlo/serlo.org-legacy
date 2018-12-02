@@ -22,7 +22,7 @@
 
 import d3 from 'd3'
 
-import algebra from './serlo_math_puzzle_algebra'
+import algebra from './algebra'
 
 // setup event listeners for the svg canvas
 function setupCanvas(svgElement) {

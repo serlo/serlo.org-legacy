@@ -50,13 +50,13 @@ var injections = function() {
 
   filter = function(text) {
     return text.replace(findInjections, function(original, title, url) {
-      return (
-        '<div class="injection"><a href="' +
-        correctUrl(url) +
-        '" class="injection-link">' +
-        title +
-        '</a></div>'
-      )
+      const href = correctUrl(url)
+
+      if (/assets\.serlo\.org\/legacy\//.test(href)) {
+        return `<div class="legacy-injection">Legacy GeoGebra applets aren't supported anymore. Please upload the applet to GeoGebra instead.</div>`
+      }
+
+      return `<div class="injection"><a href="${href}" class="injection-link">${title}</a></div>`
     })
   }
 

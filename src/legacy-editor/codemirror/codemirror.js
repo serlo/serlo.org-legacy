@@ -2601,8 +2601,8 @@ window.CodeMirror = (function() {
           e.clientY < editorSize.top
             ? -20
             : e.clientY > editorSize.bottom
-              ? 20
-              : 0
+            ? 20
+            : 0
         if (outside) {
           setTimeout(
             operation(cm, function() {
@@ -3985,10 +3985,10 @@ window.CodeMirror = (function() {
         var type = isWordChar(cur)
           ? 'w'
           : !group
-            ? null
-            : /\s/.test(cur)
-              ? null
-              : 'p'
+          ? null
+          : /\s/.test(cur)
+          ? null
+          : 'p'
         if (sawType && sawType != type) {
           if (dir < 0) {
             dir = 1
@@ -4042,12 +4042,12 @@ window.CodeMirror = (function() {
       var check = isWordChar(startChar)
         ? isWordChar
         : /\s/.test(startChar)
-          ? function(ch) {
-              return /\s/.test(ch)
-            }
-          : function(ch) {
-              return !/\s/.test(ch) && !isWordChar(ch)
-            }
+        ? function(ch) {
+            return /\s/.test(ch)
+          }
+        : function(ch) {
+            return !/\s/.test(ch) && !isWordChar(ch)
+          }
       while (start > 0 && check(line.charAt(start - 1))) --start
       while (end < line.length && check(line.charAt(end))) ++end
     }
@@ -4162,8 +4162,8 @@ window.CodeMirror = (function() {
       // while (stream.pos < pos.ch && !stream.eol()) {
       while (stream.pos <= pos.ch && !stream.eol()) {
         /*
-       * FNC HACK END
-       */
+         * FNC HACK END
+         */
         stream.start = stream.pos
         var style = mode.token(stream, state)
       }
@@ -4293,8 +4293,8 @@ window.CodeMirror = (function() {
           where == 'text'
             ? 'textClass'
             : where == 'background'
-              ? 'bgClass'
-              : 'wrapClass'
+            ? 'bgClass'
+            : 'wrapClass'
         if (!line[prop]) line[prop] = cls
         else if (new RegExp('(?:^|\\s)' + cls + '(?:$|\\s)').test(line[prop])) {
           return false
@@ -4309,8 +4309,8 @@ window.CodeMirror = (function() {
           where == 'text'
             ? 'textClass'
             : where == 'background'
-              ? 'bgClass'
-              : 'wrapClass'
+            ? 'bgClass'
+            : 'wrapClass'
         var cur = line[prop]
         if (!cur) return false
         else if (cls == null) line[prop] = null
@@ -8028,8 +8028,8 @@ window.CodeMirror = (function() {
     var ch = !order
       ? 0
       : order[0].level % 2
-        ? lineRight(visual)
-        : lineLeft(visual)
+      ? lineRight(visual)
+      : lineLeft(visual)
     return Pos(lineN, ch)
   }
   function lineEnd(cm, lineN) {
@@ -8041,8 +8041,8 @@ window.CodeMirror = (function() {
     var ch = !order
       ? line.text.length
       : order[0].level % 2
-        ? lineLeft(line)
-        : lineRight(line)
+      ? lineLeft(line)
+      : lineRight(line)
     return Pos(lineN, ch)
   }
 
