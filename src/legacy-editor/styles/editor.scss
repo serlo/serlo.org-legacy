@@ -1,3 +1,9 @@
 @import 'modules/mixins';
 @import 'editor/codemirror';
 @import 'editor/layout';
+
+.legacy-injection {
+  color: #a94442;
+  background: #f2dede;
+  padding: 20px;
+}

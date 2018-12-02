@@ -102,13 +102,13 @@ Common.genericError = function() {
 }
 
 /*
-    * memoize.js
-    * by @philogb and @addyosmani
-    * with further optimizations by @mathias
-    * and @DmitryBaranovsk
-    * perf tests: http://bit.ly/q3zpG3
-    * Released under an MIT license.
-    */
+ * memoize.js
+ * by @philogb and @addyosmani
+ * with further optimizations by @mathias
+ * and @DmitryBaranovsk
+ * perf tests: http://bit.ly/q3zpG3
+ * Released under an MIT license.
+ */
 Common.memoize = function(fn) {
   return function() {
     var args = Array.prototype.slice.call(arguments)

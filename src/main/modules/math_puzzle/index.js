@@ -23,8 +23,8 @@
 import $ from 'jquery'
 import d3 from 'd3'
 
-import touchop from './serlo_math_puzzle_touchop'
-import verify from './serlo_math_puzzle_algebra'
+import touchop from './touchop'
+import verify from './algebra'
 
 function makePuzzle(parent, inputStr) {
   var emog,
