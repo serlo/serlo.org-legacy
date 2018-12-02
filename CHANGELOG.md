@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+## [3.2.2] - 2018-12-02
 
 ### Fixed
 
@@ -81,7 +81,8 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [2.0.4] - 2018-09-28
 
-[unreleased]: https://github.com/serlo-org/athene2-assets/compare/3.2.1...HEAD
+[unreleased]: https://github.com/serlo-org/athene2-assets/compare/3.2.2...HEAD
+[3.2.2]: https://github.com/serlo-org/athene2-assets/compare/3.2.1...3.2.2
 [3.2.1]: https://github.com/serlo-org/athene2-assets/compare/3.2.0...3.2.1
 [3.2.0]: https://github.com/serlo-org/athene2-assets/compare/3.1.1...3.2.0
 [3.1.1]: https://github.com/serlo-org/athene2-assets/compare/3.1.0...3.1.1
