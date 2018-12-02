@@ -43,8 +43,6 @@ async function run() {
     const packageJSON = await fetchPackageJSON()
     const { version, environment, steps } = await prompt(packageJSON)
 
-    console.log(steps)
-
     signale.pending(`Incrementing version…`)
     await incrementVersion({ version, packageJSON })
 
@@ -64,7 +62,13 @@ async function run() {
       signale.pending(`Flushing Cloudflare cache…`)
       await flushCache(environment)
     }
+
     // TODO: verify https://packages.serlo.org/athene2-assets@major (to warm up cache and verify deployment)
+
+    if (R.contains('sentry-release')) {
+      signale.pending('Creating sentry release')
+      createSentryRelease(version)
+    }
 
     if (R.contains('deploy-gcf', steps)) {
       signale.pending(`Deploying Google Cloud Function…`)
@@ -119,22 +123,27 @@ function prompt(packageJSON: unknown) {
       type: 'checkbox',
       choices: [
         {
-          name: 'Bundling',
+          name: 'Bundle',
           value: 'build',
           checked: true
         },
         {
-          name: 'Uploading bundle',
+          name: 'Upload bundle',
           value: 'upload',
           checked: true
         },
         {
-          name: 'Flushing cache',
+          name: 'Flush cache',
           value: 'flush',
           checked: true
         },
         {
-          name: 'Deploying Google Cloud Function',
+          name: 'Create Sentry release',
+          value: 'sentry-release',
+          checked: true
+        },
+        {
+          name: 'Deploy Google Cloud Function',
           value: 'deploy-gcf',
           checked: true
         }
@@ -211,6 +220,32 @@ async function flushCache(environment: Environment): Promise<void> {
       })
     }, urls)
   )
+}
+
+function createSentryRelease(version: string): void {
+  const env = {
+    'SENTRY_AUTH_TOKEN': require('../sentry.secret.json'),
+    'SENTRY_ORG': 'serlo-org'
+  }
+
+  spawnSync('sentry-cli', [
+    'releases',
+    'new',
+    '--project',
+    'athene2-assets',
+    version
+  ], {
+    env
+  })
+
+  spawnSync('sentry-cli', [
+    'releases',
+    'set-commits',
+    '--auto',
+    version
+  ], {
+    env
+  })
 }
 
 function deployGcf(environment: Environment): void {

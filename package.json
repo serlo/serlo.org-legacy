@@ -85,6 +85,7 @@
     "@babel/preset-typescript": "^7.1.0",
     "@babel/register": "^7.0.0",
     "@google-cloud/storage": "^2.1.0",
+    "@sentry/cli": "^1.37.0",
     "@splish-me/copyright-headers": "^0.0.2",
     "@types/base-64": "^0.1.2",
     "@types/glob": "^7.1.1",

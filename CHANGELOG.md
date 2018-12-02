@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+### Added
+
+- Associate commit with Sentry release on deployment
+
 ### Fixed
 
 - Show consent banner always on top
