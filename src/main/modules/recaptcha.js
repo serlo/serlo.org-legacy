@@ -1,15 +1,15 @@
 import $ from 'jquery'
 
-const ReCaptcha = ($container, index) => {
-  window[`reCaptchaCallbacks_${index}`] = submitCallback($container)
-  $('button.g-recaptcha', $container).attr(
+const bindCallback = (index, $form) => {
+  window[`reCaptchaCallbacks_${index}`] = createSubmitCallback($form)
+  $('button.g-recaptcha', $form).attr(
     'data-callback',
     `reCaptchaCallbacks_${index}`
   )
 }
 
-const submitCallback = $el => () => {
-  $el.submit()
+const createSubmitCallback = $form => () => {
+  $form.submit()
 }
 
 const injectReCaptchaScript = () => {
@@ -19,8 +19,9 @@ const injectReCaptchaScript = () => {
 }
 
 $.fn.ReCaptcha = function() {
-  $(this).each(function(index) {
-    new ReCaptcha($(this), index)
-  })
-  injectReCaptchaScript()
+  const $forms = $(this)
+  $forms.each(bindCallback)
+  if ($forms.length > 0) {
+    injectReCaptchaScript()
+  }
 }
