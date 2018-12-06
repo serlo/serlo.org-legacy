@@ -51,6 +51,7 @@ import './modules/input_challenge'
 import './modules/math_puzzle'
 import './modules/math_puzzle/algebra'
 import './modules/math_puzzle/touchop'
+import './modules/recaptcha'
 import MobileNavigation from './modules/mobile_navigation'
 import './modules/multiple_choice'
 import './modules/profile_birdnest'
@@ -195,6 +196,7 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
+    $('form:has(button.g-recaptcha)').ReCaptcha()
     $('.ory-edit-button', $context).click(function(e) {
       e.preventDefault()
       initEntityEditor(
