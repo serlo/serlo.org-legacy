@@ -63,10 +63,14 @@ export function render(input, callback) {
 
     try {
       const children = renderToString(
-        <HtmlRenderer
-          state={state}
-          plugins={createRenderPlugins('text-exercise')}
-        />
+        <div className="r">
+          <div className="c24">
+            <HtmlRenderer
+              state={state}
+              plugins={createRenderPlugins('text-exercise')}
+            />
+          </div>
+        </div>
       )
 
       callback(wrapOutput({ state, children }))
