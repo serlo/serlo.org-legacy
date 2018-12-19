@@ -11,7 +11,11 @@ export const initElement = (element: HTMLElement) => {
   const content = getStateFromElement(element)
 
   hydrate(
-    <HtmlRenderer state={content} plugins={createRenderPlugins()} />,
+    <div className="r">
+      <div className="c24">
+        <HtmlRenderer state={content} plugins={createRenderPlugins()} />
+      </div>
+    </div>,
     element
   )
 }

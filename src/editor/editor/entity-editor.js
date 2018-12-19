@@ -112,7 +112,14 @@ class EditorComponent extends React.Component {
         </EditorConsumer>
         {editables.map(editable => {
           return ReactDOM.createPortal(
-            <Editable id={editable.id} initialState={editable.initialState} />,
+            <div className="r">
+              <div className="c24">
+                <Editable
+                  id={editable.id}
+                  initialState={editable.initialState}
+                />
+              </div>
+            </div>,
             editable.element,
             editable.id.id
           )
@@ -127,7 +134,6 @@ export class EntityEditor {
     this.id = id
     this.editPath = editPath
 
-    this.editorState = []
     this.editorComponent = React.createRef()
     this.type = type // article, text-exericse, ..., page, user
     this.loadEditor()
