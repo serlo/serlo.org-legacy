@@ -516,7 +516,7 @@ $(function() {
           type: 'post',
           url: '/attachment/upload',
           paramName: 'attachment[file]',
-          loadImageMaxFileSize: 8000000,
+          loadImageMaxFileSize: 2 * 1024 * 1024,
           maxNumberOfFiles: 1
         })
       )
