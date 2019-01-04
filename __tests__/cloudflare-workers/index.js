@@ -94,5 +94,15 @@ describe('Cloudflare Workers', () => {
         url: 'https://assets.serlo.org/meta/serlo.jpg'
       })
     })
+
+    it(`doesn't rewrite requests to meta subdirectories`, async () => {
+      await handleRequest({
+        url: 'https://assets.serlo.org/meta/de/serlo.jpg'
+      })
+
+      expect(fetch).toHaveBeenCalledWithRequest({
+        url: 'https://assets.serlo.org/meta/de/serlo.jpg'
+      })
+    })
   })
 })
