@@ -28,12 +28,37 @@ expect.extend({
 
 describe('Cloudflare Workers', () => {
   let fetch
+  let Response
 
   beforeEach(() => {
     fetch = jest.fn((...args) => {
       return true
     })
+    Response = {
+      redirect: jest.fn()
+    }
     window.fetch = fetch
+    window.Response = Response
+  })
+
+  describe('Redirects', () => {
+    it('start.serlo.org (https)', async () => {
+      await handleRequest({
+        url:
+          'https://start.serlo.org'
+      })
+
+      expect(Response.redirect).toHaveBeenCalledWith('https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/')
+    })
+
+    it('start.serlo.org (http)', async () => {
+      await handleRequest({
+        url:
+          'http://start.serlo.org'
+      })
+
+      expect(Response.redirect).toHaveBeenCalledWith('https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/')
+    })
   })
 
   describe('semantic file names for assets', () => {

@@ -25,9 +25,21 @@ addEventListener('fetch', event => {
 
 export async function handleRequest(request) {
   const response =
-    (await handleSemanticAssetsFilenames(request)) || (await fetch(request))
+    (await handleRedirects(request)) ||
+    (await handleSemanticAssetsFilenames(request)) ||
+    (await fetch(request))
 
   return response
+}
+
+async function handleRedirects(request) {
+  const { url } = request
+
+  if (/^https?:\/\/start.serlo.org/.test(url)) {
+    return Response.redirect(
+      'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
+    )
+  }
 }
 
 async function handleSemanticAssetsFilenames(request) {
