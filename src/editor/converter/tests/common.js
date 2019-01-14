@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { slatePlugin } from '@serlo-org/editor-plugins/lib/slate'
+import { textPlugin as slatePlugin } from '@serlo/editor-plugin-text'
 import unexpected from 'unexpected'
 
 const expectInstance = unexpected.clone()

@@ -19,6 +19,14 @@ module.exports = {
         loader: require.resolve('babel-loader')
       },
       {
+        test: /\.mjs$/,
+        resolve: {
+          mainFields: ['module', 'main']
+        },
+        include: /node_modules/,
+        type: 'javascript/auto'
+      },
+      {
         test: /\.(s?css)$/,
         use: [
           {
@@ -46,7 +54,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.mjs', '.js']
   },
   target: 'web',
   externals: [require('webpack-require-http')],

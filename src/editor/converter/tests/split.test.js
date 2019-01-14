@@ -23,13 +23,13 @@
 import { expect, expectSlate } from './common'
 import split from '../src/split'
 
-import spoiler from '@serlo-org/editor-plugin-spoiler'
-import blockquote from '@serlo-org/editor-plugin-blockquote'
-import injection from '@serlo-org/editor-plugin-injection'
-import geogebra from '@serlo-org/editor-plugin-geogebra'
-import image from '@splish-me/editor-plugin-image'
+import { spoilerRendererPlugin as spoiler } from '@serlo/editor-plugin-spoiler-renderer'
+import { blockquoteRendererPlugin as blockquote } from '@serlo/editor-plugin-blockquote-renderer'
+import { createImageRendererPlugin } from '@serlo/editor-plugin-image-renderer'
+import { injectionRendererPlugin as injection } from '@serlo/editor-plugin-injection-renderer'
+import { geogebraRendererPlugin as geogebra } from '@serlo/editor-plugin-geogebra-renderer'
 
-import { slatePlugin } from '@serlo-org/editor-plugins/lib/slate'
+const image = createImageRendererPlugin()
 
 const cases = [
   {

@@ -19,11 +19,12 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
+import { createImageRendererPlugin } from '@serlo/editor-plugin-image-renderer'
+
 import { expect, expectSlate } from './common'
 import convert from '../index'
-import image from '@splish-me/editor-plugin-image'
-import { slatePlugin } from '@serlo-org/editor-plugins/lib/slate'
 
+const image = createImageRendererPlugin()
 const cases = [
   {
     description: 'Convert chains methods together correctly',

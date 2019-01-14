@@ -19,15 +19,17 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import blockquote from '@serlo-org/editor-plugin-blockquote'
-import geogebra from '@serlo-org/editor-plugin-geogebra'
-import image from '@splish-me/editor-plugin-image'
-import injection from '@serlo-org/editor-plugin-injection'
-import spoiler from '@serlo-org/editor-plugin-spoiler'
-import table from '@serlo-org/editor-plugin-table'
+import { blockquoteRendererPlugin as blockquote } from '@serlo/editor-plugin-blockquote-renderer'
+import { geogebraRendererPlugin as geogebra } from '@serlo/editor-plugin-geogebra-renderer'
+import { createImageRendererPlugin } from '@serlo/editor-plugin-image-renderer'
+import { injectionRendererPlugin as injection } from '@serlo/editor-plugin-injection-renderer'
+import { spoilerRendererPlugin as spoiler } from '@serlo/editor-plugin-spoiler-renderer'
+import { tableRendererPlugin as table } from '@serlo/editor-plugin-table-renderer'
 import { v4 } from 'uuid'
 
 import markdownToSlate from './markdownToSlate'
+
+const image = createImageRendererPlugin()
 
 const createPlugins = ({ normalized, elements }) => {
   const split = normalized

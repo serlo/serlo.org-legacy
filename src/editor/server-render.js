@@ -19,12 +19,12 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { HtmlRenderer } from '@serlo-org/html-renderer'
+import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
+import { HtmlRenderer } from '@serlo/html-renderer'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 
 import converter from './converter'
-import createRenderPlugins from './plugins.render'
 import { stringifyState } from './helpers'
 
 const wrapOutput = ({ state, children }) => {
@@ -67,7 +67,7 @@ export function render(input, callback) {
           <div className="c24">
             <HtmlRenderer
               state={state}
-              plugins={createRenderPlugins('text-exercise')}
+              plugins={createRendererPlugins('all')}
             />
           </div>
         </div>

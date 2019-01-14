@@ -21,7 +21,7 @@
  */
 import renderMarkdown from './markdownToHtml'
 
-import { slatePlugin } from '@serlo-org/editor-plugins/lib/slate'
+import { textPlugin as slatePlugin } from '@serlo/editor-plugin-text'
 
 const markdownToSlate = markdown => ({
   content: {
