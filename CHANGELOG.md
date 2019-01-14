@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [Unreleased]
+
+### Added
+
+- Lazy load ReCAPTCHA
+- Redirect from https://start.serlo.org to team overview document
+
+### Changed
+
+- Update @serlo/editor to v0.4.0
+
+### Fixed
+
+- Correct heading styles in new editor
+- Set max filesize limit of old image upload to 2MB
+- Handle rewriting of https://assets.serlo.org/meta correctly
+
 ## [3.3.0] - 2018-12-02
 
 ### Changed
