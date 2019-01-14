@@ -1,7 +1,7 @@
 /**
  * This file is part of Athene2 Assets.
  *
- * Copyright (c) 2017-2018 Serlo Education e.V.
+ * Copyright (c) 2017-2019 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2018 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
@@ -51,6 +51,7 @@ import './modules/input_challenge'
 import './modules/math_puzzle'
 import './modules/math_puzzle/algebra'
 import './modules/math_puzzle/touchop'
+import './modules/recaptcha'
 import MobileNavigation from './modules/mobile_navigation'
 import './modules/multiple_choice'
 import './modules/profile_birdnest'
@@ -195,6 +196,7 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
+    $('form:has(button.g-recaptcha)').ReCaptcha()
     $('.ory-edit-button', $context).click(function(e) {
       e.preventDefault()
       initEntityEditor(

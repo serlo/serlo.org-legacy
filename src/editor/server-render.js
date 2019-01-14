@@ -1,7 +1,7 @@
 /**
  * This file is part of Athene2 Assets.
  *
- * Copyright (c) 2017-2018 Serlo Education e.V.
+ * Copyright (c) 2017-2019 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,16 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2018 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { HtmlRenderer } from '@serlo-org/html-renderer'
+import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
+import { HtmlRenderer } from '@serlo/html-renderer'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 
 import converter from './converter'
-import createRenderPlugins from './plugins.render'
 import { stringifyState } from './helpers'
 
 const wrapOutput = ({ state, children }) => {
@@ -63,10 +63,14 @@ export function render(input, callback) {
 
     try {
       const children = renderToString(
-        <HtmlRenderer
-          state={state}
-          plugins={createRenderPlugins('text-exercise')}
-        />
+        <div className="r">
+          <div className="c24">
+            <HtmlRenderer
+              state={state}
+              plugins={createRendererPlugins('all')}
+            />
+          </div>
+        </div>
       )
 
       callback(wrapOutput({ state, children }))
