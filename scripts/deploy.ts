@@ -227,7 +227,7 @@ function createSentryRelease(version: string): void {
 
   const env = {
     'SENTRY_AUTH_TOKEN': require('../sentry.secret.json'),
-    'SENTRY_ORG': 'serlo-org'
+    'SENTRY_ORG': 'serlo'
   }
 
   spawnSync('sentry-cli', [
