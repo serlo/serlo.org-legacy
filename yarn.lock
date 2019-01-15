@@ -958,9 +958,9 @@
     tslib "^1.9.3"
 
 "@sentry/cli@^1.0.0":
-  version "1.37.2"
-  resolved "https://registry.yarnpkg.com/@sentry/cli/-/cli-1.37.2.tgz#6c2abad08c6a85adaa3bd7221ef054036c9347ac"
-  integrity sha512-AWZ2Pbp2hhtJag9sH4qP07vlEt7Y3sGdr0x+dxAkTMbUIRyFQeMycpGc4+sKt26bl0LIdp6FVoYhP/Ix2LqyEw==
+  version "1.37.3"
+  resolved "https://registry.yarnpkg.com/@sentry/cli/-/cli-1.37.3.tgz#5d65de4492ed89c3ed66978fa51bef9cba0d3301"
+  integrity sha512-x1/ebWlbwHGPy4Dv8McskB5Ze1cmCNs1FZBA8uRWoE2yF3qvqNAAAKFo0Y1JiFi3N5mlawCFyhqNoPIMZ8xuwQ==
   dependencies:
     fs-copy-file-sync "^1.1.1"
     https-proxy-agent "^2.2.1"
@@ -1234,10 +1234,10 @@
     "@serlo/editor-plugin-table-renderer" "^0.4.5"
     react-textarea-autosize "^7.0.0"
 
-"@serlo/editor-plugin-text-renderer@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@serlo/editor-plugin-text-renderer/-/editor-plugin-text-renderer-0.4.5.tgz#30f332c821e4db2e22a88b29d17515379918fd72"
-  integrity sha512-7lHn7eTt85MV7zEzJ0RRNTKkTEQ2X7OPFu/38Hdm5ST7Y2skr6YdFiKFLVtp1ZmnICbKl2YKLvSG3S3Z95J5bA==
+"@serlo/editor-plugin-text-renderer@^0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@serlo/editor-plugin-text-renderer/-/editor-plugin-text-renderer-0.4.6.tgz#b871c792b542a4fa6d37b1fc6a28fd41cdc5daab"
+  integrity sha512-gv0kjzFUWFsj0KlwNPZeWBhRcv/XHorM4x2bv2dtfo0z3zwUlceunyXYj4y2fvyjONSE1xtVH5Ws20LJuSBvtA==
   dependencies:
     "@splish-me/editor-plugin-text-plugin" "^0.4.0"
     "@splish-me/editor-plugin-text-plugin-code" "^0.4.0"
@@ -1252,12 +1252,12 @@
     react "^16.0.0"
     slate "^0.41.0"
 
-"@serlo/editor-plugin-text@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@serlo/editor-plugin-text/-/editor-plugin-text-0.4.5.tgz#8e75dc3908c434d6ca802676c68b009bff3baef1"
-  integrity sha512-p6GUeGzYFBz2XaD96vS+VkhSnPNh9XQPX4uQTeDrpePGhJjXcJ2S4rhyyRh1cN0ywgTSMH0VeFKiH/1X0QpuHA==
+"@serlo/editor-plugin-text@^0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@serlo/editor-plugin-text/-/editor-plugin-text-0.4.6.tgz#d5b3fe499c28844e1b9c6f14b9f5207535b7730f"
+  integrity sha512-W4Szs7qMgFRc6EC2oRhDYGxP9yR8u4O/aH2w6AL30Fu9kp/2gg+jCEIZSb5aZ2/d5nLlKPXPgSeL4AMRbKl/nA==
   dependencies:
-    "@serlo/editor-plugin-text-renderer" "^0.4.5"
+    "@serlo/editor-plugin-text-renderer" "^0.4.6"
     "@splish-me/editor-plugin-text" "^0.4.0"
     "@splish-me/editor-plugin-text-plugin-code" "^0.4.0"
     "@splish-me/editor-plugin-text-plugin-headings" "^0.4.0"
@@ -1275,10 +1275,10 @@
   resolved "https://registry.yarnpkg.com/@serlo/editor-plugins-registry/-/editor-plugins-registry-0.4.1.tgz#e06abbf1cdb9d01cafd73e7662f1ee4be3b28e59"
   integrity sha512-pUpCc+isttvMO/zoL228K3rE4brtj8FBMGX7Fp2nkRSjEfnx6aMGy4wHD1C+HT1COkcGfOKfIl7UCabJZpbhlQ==
 
-"@serlo/editor-plugins-renderer@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@serlo/editor-plugins-renderer/-/editor-plugins-renderer-0.4.5.tgz#08bd20a76ae4e1a97189621f1b2063bbf893c8ac"
-  integrity sha512-4/7v4yRYQleOkqW5MXYl1YlvYALFR5skNEq9WBpBp5K6Ak7iMPPglH7Vus1OAqi4D6shaU9Tujrc0FykHXynqA==
+"@serlo/editor-plugins-renderer@^0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@serlo/editor-plugins-renderer/-/editor-plugins-renderer-0.4.6.tgz#e66579c7578a2206c09136e629084cb05ccff1f3"
+  integrity sha512-hlLquG0i7VVLkwDNXZm2Zlzvm/Z+UE7o8Afl2ZLTTml1cKTsHdzZFq/v7QvPkY9DqWy6AjJZ7FIwH6gcrX/Y0g==
   dependencies:
     "@serlo/editor-plugin-anchor-renderer" "^0.4.5"
     "@serlo/editor-plugin-blockquote-renderer" "^0.4.3"
@@ -1296,13 +1296,13 @@
     "@serlo/editor-plugin-spoiler-renderer" "^0.4.5"
     "@serlo/editor-plugin-step-by-step-renderer" "^0.4.5"
     "@serlo/editor-plugin-table-renderer" "^0.4.5"
-    "@serlo/editor-plugin-text-renderer" "^0.4.5"
+    "@serlo/editor-plugin-text-renderer" "^0.4.6"
     "@serlo/editor-plugins-registry" "0.4.1"
 
-"@serlo/editor-plugins@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@serlo/editor-plugins/-/editor-plugins-0.4.5.tgz#f4ce523c0e94c6c1d8fe5ca065e49db61d025026"
-  integrity sha512-4m5EZG1uqI7Vl5pdfbhBV6uXGCFmSe9K+XEm4sEqA6aFbJbGxB5D4qQLVriKR7k8QJwTxQ5iNEwCJKBglZQEBw==
+"@serlo/editor-plugins@^0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@serlo/editor-plugins/-/editor-plugins-0.4.6.tgz#f37e22237bb65eda8d612148ea21c8b8d982e55a"
+  integrity sha512-qYDvEaHk//pdYjqb7GkPCf8rDnOrMe42G6YozzBiwuepLtW/dAh0JH6c9N9sx8qkLpUYeF+CkT4MxHlvxIjuDQ==
   dependencies:
     "@serlo/editor-plugin-anchor" "^0.4.5"
     "@serlo/editor-plugin-blockquote" "^0.4.5"
@@ -1320,7 +1320,7 @@
     "@serlo/editor-plugin-spoiler" "^0.4.5"
     "@serlo/editor-plugin-step-by-step" "^0.4.5"
     "@serlo/editor-plugin-table" "^0.4.5"
-    "@serlo/editor-plugin-text" "^0.4.5"
+    "@serlo/editor-plugin-text" "^0.4.6"
     "@serlo/editor-plugins-registry" "0.4.1"
 
 "@serlo/editor-ui@^0.4.3":
@@ -1333,12 +1333,12 @@
     "@fortawesome/react-fontawesome" "^0.1.0"
 
 "@serlo/editor@^0.4.0":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@serlo/editor/-/editor-0.4.5.tgz#3a42e0c17a3bef8c03282e7f2814b713909d1082"
-  integrity sha512-84ERTZp8bn4yOosNWPey0KO7wUnfFlbqHSOuq8WbAqCC7LVk5zreua092jP/PA+SNZO8OLbcr0EIPvxuYfgySg==
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@serlo/editor/-/editor-0.4.6.tgz#ae58a520e7e2034ef7a2a514b82e45393af046b5"
+  integrity sha512-hT9NT+74Zh2YT6J6JAMN75MUjnr7Qil/In6WIoAD9/tmGcfsssU9BHfax59gzIG8T7kX3E8ZcdNXlz7EkmGFQg==
   dependencies:
-    "@serlo/editor-plugins" "^0.4.5"
-    "@serlo/editor-plugins-renderer" "^0.4.5"
+    "@serlo/editor-plugins" "^0.4.6"
+    "@serlo/editor-plugins-renderer" "^0.4.6"
     "@serlo/editor-ui" "^0.4.3"
     "@serlo/html-renderer" "^0.4.3"
     "@splish-me/editor-core" "^0.4.0"
@@ -4122,9 +4122,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.100:
-  version "1.3.102"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.102.tgz#3ac43a037c8a63bca3dfa189eb3d90f097196787"
-  integrity sha512-2nzZuXw/KBPnI3QX3UOCSRvJiVy7o9+VHRDQ3D/EHCvVc89X6aj/GlNmEgiR2GBIhmSWXIi4W1M5okA5ScSlNg==
+  version "1.3.103"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.103.tgz#a695777efdbc419cad6cbb0e58458251302cd52f"
+  integrity sha512-tObPqGmY9X8MUM8i3MEimYmbnLLf05/QV5gPlkR8MQ3Uj8G8B2govE1U4cQcBYtv3ymck9Y8cIOu4waoiykMZQ==
 
 element-resize-detector@^1.1.9:
   version "1.2.0"
@@ -7053,9 +7053,9 @@ masonry-layout@^4.2.0:
     outlayer "^2.1.0"
 
 math-random@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/math-random/-/math-random-1.0.2.tgz#8ab7f026363816c1e00b774d87dee67f61e37ad6"
-  integrity sha512-Bp2Bx2wFaUymE7pWi0bbldiheIXMvyzC3hRkT5YAv2qiqqJO5VB8KafgYgZmGCxkTmloLuAx3Jv2OmJ66990mg==
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/math-random/-/math-random-1.0.3.tgz#5843d8307f8d2fd83de240701eeb2dc7bc77a104"
+  integrity sha512-hULdrPg17lCyaJOrDwS4RSGQcc/MFyv1aujidohCsBq2zotkhIns8mMDQ7B8VnKG23xcpa+haU5MLDNyNzCesQ==
 
 md5.js@^1.3.4:
   version "1.3.5"
