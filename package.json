@@ -29,7 +29,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@sentry/browser": "^4.0.0",
-    "@serlo/editor": "^0.4.0",
+    "@serlo/editor": "^0.4.6",
     "algebra.js": "^0.2.0",
     "autosize": "^4.0.0",
     "base-64": "^0.1.0",
