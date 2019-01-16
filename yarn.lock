@@ -1072,10 +1072,10 @@
   resolved "https://registry.yarnpkg.com/@serlo/editor-plugin-h5p-renderer/-/editor-plugin-h5p-renderer-0.4.7.tgz#aef642b1c8e58cccfc4cef91caa5fbf5508a3003"
   integrity sha512-9PuqMbLrSM5aKqtlpbbg80XFGLrNXFaY1J5fWHOFNw0X2SlWxhtJCdBuzXOn7g+PhRXKki1hU6AQ1nMZyiFT9w==
 
-"@serlo/editor-plugin-h5p@^0.4.7":
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/@serlo/editor-plugin-h5p/-/editor-plugin-h5p-0.4.7.tgz#f2fb6e879517a472549a0eca5b3461b6bff626dd"
-  integrity sha512-h4E2PHWPRgQx6n/M9dzl7H2YE5p1LfsGSOUOipWTfsQhJUlKXpHeBs5uwwlewi58Evy/j6pnHfcbxUVuKKR4nQ==
+"@serlo/editor-plugin-h5p@^0.4.8":
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/@serlo/editor-plugin-h5p/-/editor-plugin-h5p-0.4.8.tgz#211db592e8dc349b09656e47d362ba2f2cc9e280"
+  integrity sha512-gYDPsA5hf2p96iS1PL23QBUcUAsBDH93f0OwEJMutlH8CYIZ8n/RNo1W2zFxHzctgUnlFy2sMjrx5RvhDIiRBQ==
   dependencies:
     "@serlo/editor-plugin-h5p-renderer" "^0.4.7"
 
@@ -1282,15 +1282,15 @@
     ramda "^0.26.0"
     slate "^0.41.0"
 
-"@serlo/editor-plugins-registry@^0.4.7":
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/@serlo/editor-plugins-registry/-/editor-plugins-registry-0.4.7.tgz#2192839ce685d9520e46ffdad6b5072d7603b2a5"
-  integrity sha512-ym60pJXJispSFpVkxtIRAbga9EOiKCemmPAMc7TfMsmaqnDGZujGUXuv7qYAQqPer7NfKGp+PVqb0l6JuvB1FA==
+"@serlo/editor-plugins-registry@^0.4.8":
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/@serlo/editor-plugins-registry/-/editor-plugins-registry-0.4.8.tgz#2f8c2756e81963ca4067a404aa6d9eac83f760e4"
+  integrity sha512-UKQi6h1XtzS4iuMGgbVkUxRqaWCnNsqASN5RtiN95e6zKOtnRNo08YXnRE1qfU0Ams34BxcjFosz1Id6+bOptg==
 
-"@serlo/editor-plugins-renderer@^0.4.7":
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/@serlo/editor-plugins-renderer/-/editor-plugins-renderer-0.4.7.tgz#78e3ab245ee4f4ab8c73e6197b67118bd90ca741"
-  integrity sha512-Fbtpuh7A1X0BF1i9NQmO15qr4VOTv3YiO2Xo/12PADaZdC9npFxV4eC/vaLihPKzrKWQa1It4Go2tC/vsHFcxQ==
+"@serlo/editor-plugins-renderer@^0.4.8":
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/@serlo/editor-plugins-renderer/-/editor-plugins-renderer-0.4.8.tgz#2b837f9cd9853b23cae834849cba8bf8e78046af"
+  integrity sha512-q+jD6NeedYuYs/mdWiatc71K7hqNY0EZ7SlAH4XB5Ho1WO9xOFegtlP/iMNtnFRn6BnGSpir+C+nQPIgUvT0HQ==
   dependencies:
     "@serlo/editor-plugin-anchor-renderer" "^0.4.7"
     "@serlo/editor-plugin-blockquote-renderer" "^0.4.7"
@@ -1310,18 +1310,18 @@
     "@serlo/editor-plugin-step-by-step-renderer" "^0.4.7"
     "@serlo/editor-plugin-table-renderer" "^0.4.7"
     "@serlo/editor-plugin-text-renderer" "^0.4.7"
-    "@serlo/editor-plugins-registry" "^0.4.7"
+    "@serlo/editor-plugins-registry" "^0.4.8"
 
-"@serlo/editor-plugins@^0.4.7":
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/@serlo/editor-plugins/-/editor-plugins-0.4.7.tgz#3588768c674ce9df1e33369b419748d6410bfdc8"
-  integrity sha512-dj2vjYvQyX4odpRbdN+A/ikWiZqf90bM6fBtM+AR8r9jhMrPNpi09PjG3i6BEfy9xMuhG2nAeiYVaIUjkdkVEw==
+"@serlo/editor-plugins@^0.4.8":
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/@serlo/editor-plugins/-/editor-plugins-0.4.8.tgz#f7dd22deaf51fbef73cdda6c9b2d9be34944d4e1"
+  integrity sha512-E3AlzC8+2VUcP0bL1dShuVkCOg5nEaiydMD/pfC1eb2Jv/RGcdVcB4tx4EE//g4hrOcJsEbxKbn+a4VsniUQFQ==
   dependencies:
     "@serlo/editor-plugin-anchor" "^0.4.7"
     "@serlo/editor-plugin-blockquote" "^0.4.7"
     "@serlo/editor-plugin-equations" "^0.4.7"
     "@serlo/editor-plugin-geogebra" "^0.4.7"
-    "@serlo/editor-plugin-h5p" "^0.4.7"
+    "@serlo/editor-plugin-h5p" "^0.4.8"
     "@serlo/editor-plugin-highlight" "^0.4.7"
     "@serlo/editor-plugin-hint" "^0.4.7"
     "@serlo/editor-plugin-image" "^0.4.7"
@@ -1335,7 +1335,7 @@
     "@serlo/editor-plugin-step-by-step" "^0.4.7"
     "@serlo/editor-plugin-table" "^0.4.7"
     "@serlo/editor-plugin-text" "^0.4.7"
-    "@serlo/editor-plugins-registry" "^0.4.7"
+    "@serlo/editor-plugins-registry" "^0.4.8"
 
 "@serlo/editor-ui@^0.4.7":
   version "0.4.7"
@@ -1347,12 +1347,12 @@
     "@fortawesome/react-fontawesome" "^0.1.0"
 
 "@serlo/editor@^0.4.0":
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/@serlo/editor/-/editor-0.4.7.tgz#35dff97ad379009df65c666d6a0b8df9711fdefe"
-  integrity sha512-n7W+guu/BFm61wopogDwMQdFMubkLtD3tVWWN1RikgXCLtS2b+1/oO+/ozkHC4bEhZPEZsIq8lPRw3OwQQqzIQ==
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/@serlo/editor/-/editor-0.4.8.tgz#8cace9a7c8cd4a85ecfd9fad242eb50257d42e73"
+  integrity sha512-e8yKOgDA+vH0D0zgpXtU/fELeLXpmxjVAXMbC9HNiVv1Yg6l9y0O+u6AQlacqFmHf/YcCtNhCBRDd+YADb6Bdw==
   dependencies:
-    "@serlo/editor-plugins" "^0.4.7"
-    "@serlo/editor-plugins-renderer" "^0.4.7"
+    "@serlo/editor-plugins" "^0.4.8"
+    "@serlo/editor-plugins-renderer" "^0.4.8"
     "@serlo/editor-ui" "^0.4.7"
     "@serlo/html-renderer" "^0.4.7"
     "@splish-me/editor-core" "^0.4.0"
