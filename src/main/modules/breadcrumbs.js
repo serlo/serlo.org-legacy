@@ -94,7 +94,7 @@ Breadcrumbs = function(options) {
 
   // adapt height; repeat on resize
   this.adaptHeight()
-  $(window).bind('resizeDelay', function() {
+  $(window).bind('change-width', function() {
     self.adaptHeight()
   })
 }

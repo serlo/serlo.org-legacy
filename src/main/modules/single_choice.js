@@ -59,7 +59,7 @@ SingleChoice = function() {
     var $singleChoice = $('.single-choice-group', $self)
 
     handleResize($self)
-    $(window).bind('resizeDelay', function() {
+    $(window).bind('change-width', function() {
       handleResize($self)
     })
 
