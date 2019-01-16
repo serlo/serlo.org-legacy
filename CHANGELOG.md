@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+### Added
+
+- H5P.com editor plugin
+
 ### Fixed
 
 - Upload `yarn.lock` with Google Cloud Function for consistent dependencies
