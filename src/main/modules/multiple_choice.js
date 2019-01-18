@@ -59,7 +59,7 @@ MultipleChoice = function() {
     var $group = $('.multiple-choice-group', $self)
 
     handleResize($self)
-    $(window).bind('resizeDelay', function() {
+    $(window).bind('change-width', function() {
       handleResize($self)
     })
 
