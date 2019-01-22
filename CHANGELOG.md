@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Added
 
-- Content API: notify parent window of actual content dimensions 
+- Content API: notify parent window of actual content dimensions
 
 ## [3.5.0] - 2019-01-16
 

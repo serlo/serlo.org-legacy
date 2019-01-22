@@ -19,12 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { createImageRendererPlugin } from '@serlo/editor-plugin-image-renderer'
+import { Plugin } from '@serlo/editor-plugins-registry'
 
 import { expect, expectSlate } from './common'
 import convert from '../index'
 
-const image = createImageRendererPlugin()
 const cases = [
   {
     description: 'Convert chains methods together correctly',
@@ -105,8 +104,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: image.name,
-                              version: image.version
+                              name: Plugin.Image,
+                              version: '0.0.0'
                             },
                             state: {
                               description: 'image',

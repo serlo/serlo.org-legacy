@@ -17,11 +17,6 @@
     "strictPropertyInitialization": true,
     "strictNullChecks": true,
     "target": "es6",
-    "baseUrl": "../packages",
-    "paths": {
-      "@splish-me/editor-core/*": ["./core/src/*"],
-      "@splish-me/editor-ui/*": ["./ui/src/*"],
-      "@splish-me/ory-editor-core/*": ["./ory-editor-core/src/*"]
-    }
+    "baseUrl": "../packages"
   }
 }

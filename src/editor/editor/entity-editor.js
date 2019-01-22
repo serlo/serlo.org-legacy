@@ -27,16 +27,18 @@ import * as ReactDOM from 'react-dom'
 import 'ory-editor-core/lib/index.css'
 
 import { createEditorPlugins, defaultPlugin } from '@serlo/editor-plugins'
-import { EditorContext } from '@splish-me/editor-core-contexts'
 import {
   createDocumentIdentifier,
-  Document
-} from '@splish-me/editor-core-document'
-import { Editor as E } from '@splish-me/editor-core'
-import { AddSidebar } from '@splish-me/editor-ui-add-sidebar'
-import { ModeToolbar } from '@splish-me/editor-ui-mode-toolbar'
-import { PluginSidebar } from '@splish-me/editor-ui-plugin-sidebar'
-import { Sidebar } from '@splish-me/editor-ui-sidebar'
+  Document,
+  EditorContext,
+  Editor as E
+} from '@splish-me/editor'
+import {
+  AddSidebar,
+  ModeToolbar,
+  PluginSidebar,
+  Sidebar
+} from '@splish-me/editor-ui'
 
 import t from '../../modules/translator'
 import Modals from '../../modules/modals'
@@ -134,7 +136,7 @@ export class EntityEditor {
     this.editPath = editPath
 
     this.editorComponent = React.createRef()
-    this.type = type // article, text-exericse, ..., page, user
+    this.type = type // article, text-exercise, ..., page, user
     this.loadEditor()
     require('jquery.redirect')
   }

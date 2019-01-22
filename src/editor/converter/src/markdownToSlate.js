@@ -21,11 +21,12 @@
  */
 import renderMarkdown from './markdownToHtml'
 
+import { Plugin } from '@serlo/editor-plugins-registry'
 import { textPlugin as slatePlugin } from '@serlo/editor-plugin-text'
 
 const markdownToSlate = markdown => ({
   content: {
-    plugin: { name: slatePlugin.name, version: slatePlugin.version },
+    plugin: { name: Plugin.Text, version: '0.0.0' },
     state: slatePlugin.serialize(
       slatePlugin.unserialize({
         importFromHtml: renderMarkdown(markdown)

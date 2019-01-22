@@ -25,6 +25,7 @@ import { createImageRendererPlugin } from '@serlo/editor-plugin-image-renderer'
 import { injectionRendererPlugin as injection } from '@serlo/editor-plugin-injection-renderer'
 import { spoilerRendererPlugin as spoiler } from '@serlo/editor-plugin-spoiler-renderer'
 import { tableRendererPlugin as table } from '@serlo/editor-plugin-table-renderer'
+import { Plugin } from '@serlo/editor-plugins-registry'
 import { v4 } from 'uuid'
 
 import markdownToSlate from './markdownToSlate'
@@ -65,8 +66,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: table.name,
-            version: table.version
+            name: Plugin.Table,
+            version: '0.0.0'
           },
           state: {
             src: elem.src
@@ -77,8 +78,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: spoiler.name,
-            version: spoiler.version
+            name: Plugin.Spoiler,
+            version: '0.0.0'
           },
           state: {
             title: elem.title,
@@ -101,8 +102,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: blockquote.name,
-            version: blockquote.version
+            name: Plugin.Blockquote,
+            version: '0.0.0'
           },
           state: {
             child: {
@@ -124,8 +125,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: injection.name,
-            version: injection.version
+            name: Plugin.Injection,
+            version: '0.0.0'
           },
           state: {
             description: elem.description,
@@ -137,8 +138,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: geogebra.name,
-            version: geogebra.version
+            name: Plugin.Geogebra,
+            version: '0.0.0'
           },
           state: {
             description: elem.description,
@@ -150,8 +151,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: image.name,
-            version: image.version
+            name: Plugin.Image,
+            version: '0.0.0'
           },
           state: {
             description: elem.description,

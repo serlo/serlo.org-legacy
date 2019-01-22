@@ -23,13 +23,7 @@
 import { expect, expectSlate } from './common'
 import split from '../src/split'
 
-import { spoilerRendererPlugin as spoiler } from '@serlo/editor-plugin-spoiler-renderer'
-import { blockquoteRendererPlugin as blockquote } from '@serlo/editor-plugin-blockquote-renderer'
-import { createImageRendererPlugin } from '@serlo/editor-plugin-image-renderer'
-import { injectionRendererPlugin as injection } from '@serlo/editor-plugin-injection-renderer'
-import { geogebraRendererPlugin as geogebra } from '@serlo/editor-plugin-geogebra-renderer'
-
-const image = createImageRendererPlugin()
+import { Plugin } from '@serlo/editor-plugins-registry'
 
 const cases = [
   {
@@ -111,8 +105,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: image.name,
-                              version: image.version
+                              name: Plugin.Image,
+                              version: '0.0.0'
                             },
                             state: {
                               description: 'image',
@@ -164,8 +158,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: injection.name,
-                              version: injection.version
+                              name: Plugin.Injection,
+                              version: '0.0.0'
                             },
                             state: {
                               description: 'alttext',
@@ -222,8 +216,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: spoiler.name,
-                              version: spoiler.version
+                              name: Plugin.Spoiler,
+                              version: '0.0.0'
                             },
                             state: {
                               title: 'title',
@@ -290,8 +284,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: spoiler.name,
-                              version: spoiler.version
+                              name: Plugin.Spoiler,
+                              version: '0.0.0'
                             },
                             state: {
                               title: 'title',
@@ -313,8 +307,8 @@ const cases = [
                                             {
                                               content: {
                                                 plugin: {
-                                                  name: image.name,
-                                                  version: image.version
+                                                  name: Plugin.Image,
+                                                  version: '0.0.0'
                                                 },
                                                 state: {
                                                   description: 'image',
@@ -373,8 +367,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: geogebra.name,
-                              version: geogebra.version
+                              name: Plugin.Geogebra,
+                              version: '0.0.0'
                             },
                             state: {
                               description: 'alttext',
@@ -431,8 +425,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: image.name,
-                              version: image.version
+                              name: Plugin.Image,
+                              version: '0.0.0'
                             },
                             state: {
                               description: 'image',
@@ -554,8 +548,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: blockquote.name,
-                              version: blockquote.version
+                              name: Plugin.Blockquote,
+                              version: '0.0.0'
                             },
                             state: {
                               child: {

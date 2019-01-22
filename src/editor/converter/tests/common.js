@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
+import { Plugin } from '@serlo/editor-plugins-registry'
 import { textPlugin as slatePlugin } from '@serlo/editor-plugin-text'
 import unexpected from 'unexpected'
 
@@ -70,7 +71,7 @@ export const expect = (input, method, output) => {
 
 export const expectSlate = html => ({
   content: {
-    plugin: { name: slatePlugin.name, version: slatePlugin.version },
+    plugin: { name: Plugin.Text, version: '0.0.0' },
     state: slatePlugin.serialize(
       slatePlugin.unserialize({
         importFromHtml: html
