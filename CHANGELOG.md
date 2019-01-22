@@ -2,11 +2,16 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+## [3.6.0] - 2019-01-22
 
 ### Added
 
 - Content API: notify parent window of actual content dimensions
+- Editor: shortcuts for undo/redo
+
+### Fixed
+
+- Editor: various fixes
 
 ## [3.5.0] - 2019-01-16
 
@@ -124,7 +129,8 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [2.0.4] - 2018-09-28
 
-[unreleased]: https://github.com/serlo-org/athene2-assets/compare/3.5.0...HEAD
+[unreleased]: https://github.com/serlo-org/athene2-assets/compare/3.6.0...HEAD
+[3.6.0]: https://github.com/serlo-org/athene2-assets/compare/3.5.0...3.6.0
 [3.5.0]: https://github.com/serlo-org/athene2-assets/compare/3.4.0...3.5.0
 [3.4.0]: https://github.com/serlo-org/athene2-assets/compare/3.3.0...3.4.0
 [3.3.0]: https://github.com/serlo-org/athene2-assets/compare/3.2.2...3.3.0
