@@ -157,6 +157,10 @@
   min-height: 670px;
   padding: 0 $contentPadding $contentPadding;
 
+  @media only screen and (min-width: $screen-lg-min) {
+    padding: $contentPadding $contentPadding*2 $contentPadding*2;
+  }
+
   &.course-page {
     @media screen and (max-width: $screen-sm) {
       padding: 0 60px $contentPadding 20px;
