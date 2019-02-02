@@ -17,11 +17,14 @@
     "build:gcf": "webpack --config webpack.gcf.config",
     "deploy": "ts-node scripts/deploy",
     "deploy:cf": "ts-node scripts/deploy-cf",
-    "format": "prettier --write \"{{__tests__,src/**/*,*},*}.{js,jsx,ts,tsx,css,scss,json,md,markdown}\"",
+    "format": "yarn _prettier --write",
+    "lint": "yarn _prettier --check",
+    "changelog": "ts-node scripts/changelog",
     "license": "ts-node scripts/license-headers",
     "start": "webpack-dev-server --config webpack.main.dev.config",
     "test": "jest",
-    "server": "nodemon -w src/ory-editor --exec \"node src/editor/index.server.js\""
+    "server": "nodemon -w src/ory-editor --exec \"node src/editor/index.server.js\"",
+    "_prettier": "prettier \"{{__tests__,scripts,src}/**/*,*}.{js,jsx,ts,tsx,css,scss,json,md,markdown}\""
   },
   "files": [
     "dist"
@@ -83,6 +86,7 @@
     "@babel/register": "^7.0.0",
     "@google-cloud/storage": "^2.0.0",
     "@sentry/cli": "^1.0.0",
+    "@splish-me/changelog": "^0.1.0",
     "@splish-me/copyright-headers": "^0.0.2",
     "@types/base-64": "^0.1.0",
     "@types/glob": "^7.0.0",

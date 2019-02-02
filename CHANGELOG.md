@@ -1,14 +1,19 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [Unreleased](https://github.com/serlo/athene2-assets/compare/3.6.0..HEAD)
 
 ### Changed
 
 - Improved content styles
 
-## [3.6.0] - 2019-01-22
+### Internal
+
+- Move to CircleCI from Travis
+- Use [@splish-me/changelog](https://github.com/splish/changelog) to generate changelogs
+
+## [3.6.0](https://github.com/serlo/athene2-assets/compare/3.5.0..3.6.0) - January 22, 2019
 
 ### Added
 
@@ -19,34 +24,37 @@ All notable changes to this project will be documented in this file. The format 
 
 - Editor: various fixes
 
-## [3.5.0] - 2019-01-16
+## [3.5.0](https://github.com/serlo/athene2-assets/compare/3.4.0..3.5.0) - January 16, 2019
 
 ### Added
 
 - H5P.com editor plugin
 
-### Fixed
+### Internal
 
 - Upload `yarn.lock` with Google Cloud Function for consistent dependencies
 
-## [3.4.0] - 2019-01-14
+## [3.4.0](https://github.com/serlo/athene2-assets/compare/3.3.0..3.4.0) - January 14, 2019
 
 ### Added
 
-- Lazy load ReCAPTCHA
-- Redirect from https://start.serlo.org to team overview document
+- Redirect from <https://start.serlo.org> to team overview document
 
 ### Changed
 
-- Update @serlo/editor to v0.4.0
+- Update `@serlo/editor` to 0.4.0
 
 ### Fixed
 
 - Correct heading styles in new editor
-- Set max filesize limit of old image upload to 2MB
-- Handle rewriting of https://assets.serlo.org/meta correctly
+- Set max file size limit of old image upload to 2MB
+- Handle rewriting of <https://assets.serlo.org/meta> links correctly
 
-## [3.3.0] - 2018-12-02
+### Internal
+
+- Lazy load ReCAPTCHA
+
+## [3.3.0](https://github.com/serlo/athene2-assets/compare/3.2.2..3.3.0) - December 2, 2018
 
 ### Changed
 
@@ -54,38 +62,41 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Fixed
 
-- Fix slate plugin
+- Fix text plugin
 
-## [3.2.2] - 2018-12-02
+## [3.2.2](https://github.com/serlo/athene2-assets/compare/3.2.1..3.2.2) - December 2, 2018
 
-### Fixed
+### Internal
 
 - Associate commit with Sentry release on deployment correctly
 
-## [3.2.1] - 2018-12-02
-
-### Added
-
-- Associate commit with Sentry release on deployment
+## [3.2.1](https://github.com/serlo/athene2-assets/compare/3.2.0..3.2.1) - December 2, 2018
 
 ### Fixed
 
-- Show consent banner always on top
+- Always show consent banner on top
 
-## [3.2.0] - 2018-12-01
+### Internal
+
+- Associate commit with Sentry release on deployment
+
+## [3.2.0](https://github.com/serlo/athene2-assets/compare/3.1.1..3.2.0) - December 1, 2018
 
 ### Added
 
-- Add Sentry to monitor JavaScript runtime errors
 - Add consent banner for privacy policy and terms of use (de.serlo.org only for now)
 
-## [3.1.1] - 2018-11-22
+### Internal
+
+- Add Sentry to monitor JavaScript runtime errors
+
+## [3.1.1](https://github.com/serlo/athene2-assets/compare/3.1.0..3.1.1) - November 22, 2018
 
 ### Fixed
 
 - Handle `ggt/{id}` links correctly
 
-## [3.1.0] - 2018-11-18
+## [3.1.0](https://github.com/serlo/athene2-assets/compare/3.0.1..3.1.0) - November 18, 2018
 
 ### Added
 
@@ -93,9 +104,9 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Fixed
 
-- Polyfill css class .fa-1-5x
+- Polyfill css class `.fa-1-5-x`
 
-## [3.0.1] - 2018-10-31
+## [3.0.1](https://github.com/serlo/athene2-assets/compare/3.0.0..3.0.1) - October 31, 2018
 
 ### Changed
 
@@ -105,25 +116,7 @@ All notable changes to this project will be documented in this file. The format 
 
 - Replace usages of `String.startsWith` for IE compatibility
 
-## [3.0.0] - 2018-10-30
-
-### Added
-
-- Dynamically import the new editor and its renderer. This leads to a much smaller bundle size for the initial load.
-- Automated blue-green deployment of athene2-assets and server side renderer for new editor
-- Automated deployment of Cloudflare workers
-- Log version to browser console
-- Add a content hash of length 8 to file names of chunks and assets (e.g. fonts and images)
-
-### Changed
-
-- Upgrade to Webpack 4
-
-### Fixed
-
-- Load all plugins in render server for new editor
-- When server side rendering fails, still pass state down to client for improved debugging
-- Hide double sidebar outside the editor
+## [3.0.0](https://github.com/serlo/athene2-assets/compare/2.0.4..3.0.0) - October 30, 2018
 
 ### Breaking Changes
 
@@ -133,18 +126,19 @@ All notable changes to this project will be documented in this file. The format 
 - Google Cloud Function moved to `https://europe-west1-serlo-assets.cloudfunctions.net/editor-renderer-a` resp. `https://europe-west1-serlo-assets.cloudfunctions.net/editor-renderer-b` (blue-green deployment)
 - Needs an element with id `ory-editor-meta-data-wrapper` around the element with id `ory-editor-meta-data`
 
-## [2.0.4] - 2018-09-28
+### Fixed
 
-[unreleased]: https://github.com/serlo-org/athene2-assets/compare/3.6.0...HEAD
-[3.6.0]: https://github.com/serlo-org/athene2-assets/compare/3.5.0...3.6.0
-[3.5.0]: https://github.com/serlo-org/athene2-assets/compare/3.4.0...3.5.0
-[3.4.0]: https://github.com/serlo-org/athene2-assets/compare/3.3.0...3.4.0
-[3.3.0]: https://github.com/serlo-org/athene2-assets/compare/3.2.2...3.3.0
-[3.2.2]: https://github.com/serlo-org/athene2-assets/compare/3.2.1...3.2.2
-[3.2.1]: https://github.com/serlo-org/athene2-assets/compare/3.2.0...3.2.1
-[3.2.0]: https://github.com/serlo-org/athene2-assets/compare/3.1.1...3.2.0
-[3.1.1]: https://github.com/serlo-org/athene2-assets/compare/3.1.0...3.1.1
-[3.1.0]: https://github.com/serlo-org/athene2-assets/compare/3.0.1...3.1.0
-[3.0.1]: https://github.com/serlo-org/athene2-assets/compare/3.0.0...3.0.1
-[3.0.0]: https://github.com/serlo-org/athene2-assets/compare/6f69feb2bd6d4da735e760d3d640717b900f5959...3.0.0
-[2.0.4]: https://github.com/serlo-org/athene2-assets/commit/6f69feb2bd6d4da735e760d3d640717b900f5959
+- Load all plugins in render server for new editor
+- When server side rendering fails, still pass state down to client for improved debugging
+- Hide double sidebar outside the editor
+
+### Internal
+
+- Dynamically import the new editor and its renderer. This leads to a much smaller bundle size for the initial load.
+- Automated blue-green deployment of athene2-assets and server side renderer for new editor
+- Automated deployment of Cloudflare workers
+- Log version to browser console
+- Add a content hash of length 8 to file names of chunks and assets (e.g. fonts and images)
+- Upgrade to Webpack 4
+
+## [2.0.4](https://github.com/serlo/athene2-assets/compare/bc6106e006b1633f5e6c15f6af2eef0443d8e81f..2.0.4) - September 28, 2018

@@ -44,20 +44,22 @@ describe('Cloudflare Workers', () => {
   describe('Redirects', () => {
     it('start.serlo.org (https)', async () => {
       await handleRequest({
-        url:
-          'https://start.serlo.org'
+        url: 'https://start.serlo.org'
       })
 
-      expect(Response.redirect).toHaveBeenCalledWith('https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/')
+      expect(Response.redirect).toHaveBeenCalledWith(
+        'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
+      )
     })
 
     it('start.serlo.org (http)', async () => {
       await handleRequest({
-        url:
-          'http://start.serlo.org'
+        url: 'http://start.serlo.org'
       })
 
-      expect(Response.redirect).toHaveBeenCalledWith('https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/')
+      expect(Response.redirect).toHaveBeenCalledWith(
+        'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
+      )
     })
   })
 
