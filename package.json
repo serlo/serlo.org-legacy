@@ -17,11 +17,13 @@
     "build:gcf": "webpack --config webpack.gcf.config",
     "deploy": "ts-node scripts/deploy",
     "deploy:cf": "ts-node scripts/deploy-cf",
-    "format": "prettier --write \"{{__tests__,src/**/*,*},*}.{js,jsx,ts,tsx,css,scss,json,md,markdown}\"",
+    "format": "yarn _prettier --write",
+    "lint": "yarn _prettier --check",
     "license": "ts-node scripts/license-headers",
     "start": "webpack-dev-server --config webpack.main.dev.config",
     "test": "jest",
-    "server": "nodemon -w src/ory-editor --exec \"node src/editor/index.server.js\""
+    "server": "nodemon -w src/ory-editor --exec \"node src/editor/index.server.js\"",
+    "_prettier": "prettier \"{{__tests__,src/**/*,*},*}.{js,jsx,ts,tsx,css,scss,json,md,markdown}\""
   },
   "files": [
     "dist"
