@@ -1,6 +1,6 @@
 {
   "name": "@serlo/athene2-assets",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "bugs": {
     "url": "https://github.com/serlo-org/athene2-assets/issues"
   },
@@ -15,8 +15,15 @@
     "build:cf": "webpack --config-register babel-register --config webpack.cf.config",
     "prebuild:gcf": "rimraf dist-gcf",
     "build:gcf": "webpack --config webpack.gcf.config",
+    "predeploy": "yarn changelog",
     "deploy": "ts-node scripts/deploy",
     "deploy:cf": "ts-node scripts/deploy-cf",
+    "deploy-finalize": "run-s deploy-finalize:git sentry-release",
+    "deploy-finalize:git": "git tag --force $npm_package_version && git push --tags",
+    "sentry-release": "run-s sentry-release:create sentry-release:set-commits sentry-release:deploy",
+    "sentry-release:create": "sentry-cli releases new --project athene2-assets athene2-assets@$npm_package_version",
+    "sentry-release:set-commits": "sentry-cli releases set-commits --auto athene2-assets@$npm_package_version",
+    "sentry-release:deploy": "sentry-cli releases deploys athene2-assets@$npm_package_version new --env production",
     "format": "yarn _prettier --write",
     "lint": "yarn _prettier --check",
     "changelog": "ts-node scripts/changelog",

@@ -106,6 +106,8 @@ const releases: Parameters<typeof generateChangelog>['0'] = [
     fixed: ['Editor: various fixes']
   },
   {
+    tagName: '3.7.0',
+    date: '2019-02-02',
     changed: ['Improved content styles'],
     internal: [
       'Move to CircleCI from Travis',
