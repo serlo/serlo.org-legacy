@@ -158,7 +158,7 @@
   padding: 0 $contentPadding $contentPadding;
 
   @media only screen and (min-width: $screen-lg-min) {
-    padding: $contentPadding $contentPadding*2 $contentPadding*2;
+    padding: $contentPadding $contentPadding * 2 $contentPadding * 2;
   }
 
   &.course-page {
