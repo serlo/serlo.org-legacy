@@ -1,7 +1,7 @@
 /**
  * This file is part of Athene2 Assets.
  *
- * Copyright (c) 2017-2018 Serlo Education e.V.
+ * Copyright (c) 2017-2019 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2018 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
@@ -24,20 +24,21 @@ import * as R from 'ramda'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import '@splish-me/ory-editor-core/src/index.css'
+import 'ory-editor-core/lib/index.css'
 
-import { EditorConsumer } from '@splish-me/editor-core/lib/contexts'
+import { createEditorPlugins, defaultPlugin } from '@serlo/editor-plugins'
 import {
-  Editable,
-  createEditableIdentifier
-} from '@splish-me/editor-core/lib/editable.component'
-import { Editor as E } from '@splish-me/editor-core/lib/editor.component'
-import { ModeToolbar } from '@splish-me/editor-ui/lib/mode-toolbar.component'
-import { Sidebar } from '@splish-me/editor-ui/lib/sidebar.component'
-import { AddSidebar } from '@splish-me/editor-ui/lib/add-sidebar.component'
-import { PluginSidebar } from '@splish-me/editor-ui/lib/plugin-sidebar.component'
-
-import createEditorPlugins, { defaultPlugin } from '@serlo-org/editor-plugins'
+  createDocumentIdentifier,
+  Document,
+  EditorContext,
+  Editor as E
+} from '@splish-me/editor'
+import {
+  AddSidebar,
+  ModeToolbar,
+  PluginSidebar,
+  Sidebar
+} from '@splish-me/editor-ui'
 
 import t from '../../modules/translator'
 import Modals from '../../modules/modals'
@@ -70,7 +71,7 @@ class EditorComponent extends React.Component {
           ...editables,
           {
             ...editable,
-            id: createEditableIdentifier(editable.id)
+            id: createDocumentIdentifier(editable.id)
           }
         ]
       }
@@ -91,7 +92,7 @@ class EditorComponent extends React.Component {
         defaultPlugin={defaultPlugin}
         plugins={createEditorPlugins(type)}
       >
-        <EditorConsumer>
+        <EditorContext.Consumer>
           {({ currentMode }) => {
             return (
               <React.Fragment>
@@ -109,10 +110,17 @@ class EditorComponent extends React.Component {
               </React.Fragment>
             )
           }}
-        </EditorConsumer>
+        </EditorContext.Consumer>
         {editables.map(editable => {
           return ReactDOM.createPortal(
-            <Editable id={editable.id} initialState={editable.initialState} />,
+            <div className="r">
+              <div className="c24">
+                <Document
+                  state={editable.id}
+                  initialState={editable.initialState}
+                />
+              </div>
+            </div>,
             editable.element,
             editable.id.id
           )
@@ -127,9 +135,8 @@ export class EntityEditor {
     this.id = id
     this.editPath = editPath
 
-    this.editorState = []
     this.editorComponent = React.createRef()
-    this.type = type // article, text-exericse, ..., page, user
+    this.type = type // article, text-exercise, ..., page, user
     this.loadEditor()
     require('jquery.redirect')
   }

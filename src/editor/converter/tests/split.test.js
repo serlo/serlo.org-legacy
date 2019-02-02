@@ -1,7 +1,7 @@
 /**
  * This file is part of Athene2 Assets.
  *
- * Copyright (c) 2017-2018 Serlo Education e.V.
+ * Copyright (c) 2017-2019 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2018 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
@@ -23,13 +23,7 @@
 import { expect, expectSlate } from './common'
 import split from '../src/split'
 
-import spoiler from '@serlo-org/editor-plugin-spoiler'
-import blockquote from '@serlo-org/editor-plugin-blockquote'
-import injection from '@serlo-org/editor-plugin-injection'
-import geogebra from '@serlo-org/editor-plugin-geogebra'
-import image from '@splish-me/editor-plugin-image'
-
-import { slatePlugin } from '@serlo-org/editor-plugins/lib/slate'
+import { Plugin } from '@serlo/editor-plugins-registry'
 
 const cases = [
   {
@@ -111,8 +105,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: image.name,
-                              version: image.version
+                              name: Plugin.Image,
+                              version: '0.0.0'
                             },
                             state: {
                               description: 'image',
@@ -164,8 +158,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: injection.name,
-                              version: injection.version
+                              name: Plugin.Injection,
+                              version: '0.0.0'
                             },
                             state: {
                               description: 'alttext',
@@ -222,8 +216,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: spoiler.name,
-                              version: spoiler.version
+                              name: Plugin.Spoiler,
+                              version: '0.0.0'
                             },
                             state: {
                               title: 'title',
@@ -290,8 +284,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: spoiler.name,
-                              version: spoiler.version
+                              name: Plugin.Spoiler,
+                              version: '0.0.0'
                             },
                             state: {
                               title: 'title',
@@ -313,8 +307,8 @@ const cases = [
                                             {
                                               content: {
                                                 plugin: {
-                                                  name: image.name,
-                                                  version: image.version
+                                                  name: Plugin.Image,
+                                                  version: '0.0.0'
                                                 },
                                                 state: {
                                                   description: 'image',
@@ -373,8 +367,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: geogebra.name,
-                              version: geogebra.version
+                              name: Plugin.Geogebra,
+                              version: '0.0.0'
                             },
                             state: {
                               description: 'alttext',
@@ -431,8 +425,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: image.name,
-                              version: image.version
+                              name: Plugin.Image,
+                              version: '0.0.0'
                             },
                             state: {
                               description: 'image',
@@ -554,8 +548,8 @@ const cases = [
                         {
                           content: {
                             plugin: {
-                              name: blockquote.name,
-                              version: blockquote.version
+                              name: Plugin.Blockquote,
+                              version: '0.0.0'
                             },
                             state: {
                               child: {

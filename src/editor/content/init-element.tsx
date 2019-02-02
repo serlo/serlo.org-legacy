@@ -1,7 +1,5 @@
-// @ts-ignore FIXME:
-import createRenderPlugins from '@serlo-org/editor-plugins/lib/index.render'
-// @ts-ignore FIXME:
-import { HtmlRenderer } from '@serlo-org/html-renderer'
+import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
+import { HtmlRenderer } from '@serlo/html-renderer'
 import * as React from 'react'
 import { hydrate } from 'react-dom'
 
@@ -11,7 +9,11 @@ export const initElement = (element: HTMLElement) => {
   const content = getStateFromElement(element)
 
   hydrate(
-    <HtmlRenderer state={content} plugins={createRenderPlugins()} />,
+    <div className="r">
+      <div className="c24">
+        <HtmlRenderer state={content} plugins={createRendererPlugins('all')} />
+      </div>
+    </div>,
     element
   )
 }

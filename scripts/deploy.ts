@@ -28,6 +28,7 @@ const gcfDir = path.join(root, 'dist-gcf')
 
 const fsOptions = { encoding: 'utf-8' }
 
+const copyFile = util.promisify(fs.copyFile)
 const readDir = util.promisify(fs.readdir)
 const readFile = util.promisify(fs.readFile)
 const writeFile = util.promisify(fs.writeFile)
@@ -189,6 +190,9 @@ async function build({
     .then(data =>
       writeFile(path.join(gcfDir, 'package.json'), data + os.EOL, fsOptions)
     )
+    .then(() =>
+      copyFile(path.join(root, 'yarn.lock'), path.join(gcfDir, 'yarn.lock'))
+    )
 }
 
 async function uploadBundle(environment: Environment): Promise<void> {
@@ -226,27 +230,20 @@ function createSentryRelease(version: string): void {
   const release = `athene2-assets@${version}`
 
   const env = {
-    'SENTRY_AUTH_TOKEN': require('../sentry.secret.json'),
-    'SENTRY_ORG': 'serlo-org'
+    SENTRY_AUTH_TOKEN: require('../sentry.secret.json'),
+    SENTRY_ORG: 'serlo'
   }
 
-  spawnSync('sentry-cli', [
-    'releases',
-    'new',
-    '--project',
-    'athene2-assets',
-    release
-  ], {
-    env,
-    stdio: 'inherit'
-  })
+  spawnSync(
+    'sentry-cli',
+    ['releases', 'new', '--project', 'athene2-assets', release],
+    {
+      env,
+      stdio: 'inherit'
+    }
+  )
 
-  spawnSync('sentry-cli', [
-    'releases',
-    'set-commits',
-    '--auto',
-    release
-  ], {
+  spawnSync('sentry-cli', ['releases', 'set-commits', '--auto', release], {
     env,
     stdio: 'inherit'
   })

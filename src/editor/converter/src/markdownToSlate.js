@@ -1,7 +1,7 @@
 /**
  * This file is part of Athene2 Assets.
  *
- * Copyright (c) 2017-2018 Serlo Education e.V.
+ * Copyright (c) 2017-2019 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,17 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2018 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
 import renderMarkdown from './markdownToHtml'
 
-import { slatePlugin } from '@serlo-org/editor-plugins/lib/slate'
+import { Plugin } from '@serlo/editor-plugins-registry'
+import { textPlugin as slatePlugin } from '@serlo/editor-plugin-text'
 
 const markdownToSlate = markdown => ({
   content: {
-    plugin: { name: slatePlugin.name, version: slatePlugin.version },
+    plugin: { name: Plugin.Text, version: '0.0.0' },
     state: slatePlugin.serialize(
       slatePlugin.unserialize({
         importFromHtml: renderMarkdown(markdown)

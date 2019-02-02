@@ -1,7 +1,7 @@
 /**
  * This file is part of Athene2 Assets.
  *
- * Copyright (c) 2017-2018 Serlo Education e.V.
+ * Copyright (c) 2017-2019 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,19 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2018 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import blockquote from '@serlo-org/editor-plugin-blockquote'
-import geogebra from '@serlo-org/editor-plugin-geogebra'
-import image from '@splish-me/editor-plugin-image'
-import injection from '@serlo-org/editor-plugin-injection'
-import spoiler from '@serlo-org/editor-plugin-spoiler'
-import table from '@serlo-org/editor-plugin-table'
+import { blockquoteRendererPlugin as blockquote } from '@serlo/editor-plugin-blockquote-renderer'
+import { geogebraRendererPlugin as geogebra } from '@serlo/editor-plugin-geogebra-renderer'
+import { createImageRendererPlugin } from '@serlo/editor-plugin-image-renderer'
+import { injectionRendererPlugin as injection } from '@serlo/editor-plugin-injection-renderer'
+import { spoilerRendererPlugin as spoiler } from '@serlo/editor-plugin-spoiler-renderer'
+import { tableRendererPlugin as table } from '@serlo/editor-plugin-table-renderer'
+import { Plugin } from '@serlo/editor-plugins-registry'
 import { v4 } from 'uuid'
 
 import markdownToSlate from './markdownToSlate'
+
+const image = createImageRendererPlugin()
 
 const createPlugins = ({ normalized, elements }) => {
   const split = normalized
@@ -63,8 +66,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: table.name,
-            version: table.version
+            name: Plugin.Table,
+            version: '0.0.0'
           },
           state: {
             src: elem.src
@@ -75,8 +78,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: spoiler.name,
-            version: spoiler.version
+            name: Plugin.Spoiler,
+            version: '0.0.0'
           },
           state: {
             title: elem.title,
@@ -99,8 +102,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: blockquote.name,
-            version: blockquote.version
+            name: Plugin.Blockquote,
+            version: '0.0.0'
           },
           state: {
             child: {
@@ -122,8 +125,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: injection.name,
-            version: injection.version
+            name: Plugin.Injection,
+            version: '0.0.0'
           },
           state: {
             description: elem.description,
@@ -135,8 +138,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: geogebra.name,
-            version: geogebra.version
+            name: Plugin.Geogebra,
+            version: '0.0.0'
           },
           state: {
             description: elem.description,
@@ -148,8 +151,8 @@ const createPluginCell = elem => {
       return {
         content: {
           plugin: {
-            name: image.name,
-            version: image.version
+            name: Plugin.Image,
+            version: '0.0.0'
           },
           state: {
             description: elem.description,

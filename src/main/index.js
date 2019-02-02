@@ -1,7 +1,7 @@
 /**
  * This file is part of Athene2 Assets.
  *
- * Copyright (c) 2017-2018 Serlo Education e.V.
+ * Copyright (c) 2017-2019 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2018 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
@@ -27,7 +27,6 @@ import 'jquery-ui'
 import 'katex/dist/katex.css'
 import 'magnific-popup'
 import moment from 'moment'
-import _ from 'underscore'
 
 import { initContent, initEntityEditor } from '../editor'
 import '../libs/polyfills'
@@ -43,6 +42,7 @@ import './libs/easing'
 import './libs/event_extensions'
 import AjaxOverlay from './modules/ajax_overlay'
 import Breadcrumbs from './modules/breadcrumbs'
+import { initChangeDimensionEvents } from './modules/change-dimension-events'
 import { initContentApi } from './modules/content_api'
 import { initConsentBanner } from './modules/consent_banner'
 import './modules/forum_select'
@@ -54,6 +54,7 @@ import './modules/math_puzzle/touchop'
 import MobileNavigation from './modules/mobile_navigation'
 import './modules/multiple_choice'
 import './modules/profile_birdnest'
+import './modules/recaptcha'
 import './modules/sentry'
 import SideElement from './modules/side_element'
 import SideNavigation from './modules/side_navigation'
@@ -91,22 +92,6 @@ const setLanguage = () => {
   moment.locale(language)
 }
 
-const initResizeEvent = () => {
-  const $window = $(window)
-  let cachedWidth = $window.width()
-
-  // `resizeDelay` will be triggered if it wasn't triggered for 0.5s
-  $window.resize(
-    _.debounce(function() {
-      const width = $window.width()
-      if (cachedWidth !== width) {
-        $(this).trigger('resizeDelay')
-        cachedWidth = width
-      }
-    }, 500)
-  )
-}
-
 const initNavigation = () => {
   /* eslint-disable no-new */
   new MobileNavigation()
@@ -127,7 +112,7 @@ const initFooter = () => {
   setTimeout(function() {
     $sideContextCourse.css('max-height', $contentLayout.outerHeight())
   }, 300)
-  $(window).bind('resizeDelay', function() {
+  $(window).bind('change-width', function() {
     $footerPush.css('height', $footer.height())
     $wrap.css('margin-bottom', -$footer.height())
     $sideContextCourse.css('max-height', $contentLayout.outerHeight())
@@ -163,7 +148,7 @@ const initSubjectNav = $context => {
 
 const init = $context => {
   setLanguage()
-  initResizeEvent()
+  initChangeDimensionEvents()
   initContentApi()
   initContent()
   initConsentBanner()
@@ -195,6 +180,7 @@ const init = $context => {
     $('.carousel.slide.carousel-tabbed', $context).Slider()
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
+    $('form:has(button.g-recaptcha)').ReCaptcha()
     $('.ory-edit-button', $context).click(function(e) {
       e.preventDefault()
       initEntityEditor(

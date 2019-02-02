@@ -10,6 +10,8 @@ module.exports = R.mergeDeepRight(baseConfig, {
   },
   devtool: 'cheap-module-source-map',
   devServer: {
+    // workaround for https://github.com/webpack/webpack-dev-server/issues/1604
+    disableHostCheck: true,
     headers: {
       'Access-Control-Allow-Origin': '*'
     },
