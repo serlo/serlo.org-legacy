@@ -1,3 +1,4 @@
+import { zoneId, cloudflare } from '@serlo/cloudflare'
 import { spawnSync } from 'child_process'
 import * as fs from 'fs'
 import * as inquirer from 'inquirer'
@@ -8,7 +9,6 @@ import * as semver from 'semver'
 import { Signale } from 'signale'
 import * as util from 'util'
 
-import { zoneId, cloudflare } from './cloudflare'
 import { project } from './gcloud'
 
 const root = path.join(__dirname, '..')
