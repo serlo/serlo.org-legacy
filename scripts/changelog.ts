@@ -113,6 +113,11 @@ const releases: Parameters<typeof generateChangelog>['0'] = [
       'Move to CircleCI from Travis',
       'Use [@splish-me/changelog](https://github.com/splish/changelog) to generate changelogs'
     ]
+  },
+  {
+    tagName: '3.7.1',
+    date: '2019-02-12',
+    fixed: ['Fixed image upload in new editor']
   }
 ]
 
