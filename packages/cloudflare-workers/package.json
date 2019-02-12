@@ -1,0 +1,10 @@
+{
+  "name": "@serlo/cloudflare-workers",
+  "version": "0.0.0",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "webpack",
+    "deploy": "ts-node scripts/deploy"
+  },
+  "private": true
+}

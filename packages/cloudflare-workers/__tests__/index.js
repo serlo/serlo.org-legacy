@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { handleRequest } from '../../src/cloudflare-workers'
+import { handleRequest } from '../src'
 
 expect.extend({
   toHaveBeenCalledWithRequest(fetch, req) {

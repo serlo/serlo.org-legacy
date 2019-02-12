@@ -1,3 +1,4 @@
+import { zoneId, secret } from '@serlo/cloudflare'
 import * as fs from 'fs'
 // @ts-ignore
 import * as runAll from 'npm-run-all'
@@ -5,8 +6,6 @@ import * as path from 'path'
 import * as request from 'request'
 import { Signale } from 'signale'
 import * as util from 'util'
-
-import { zoneId, secret } from './cloudflare'
 
 const readFile = util.promisify(fs.readFile)
 
@@ -36,7 +35,7 @@ async function run() {
 }
 
 function build(): Promise<void> {
-  return runAll(['build:cf'], {
+  return runAll(['build'], {
     parallel: true,
     stdout: process.stdout,
     stderr: process.stderr
@@ -45,7 +44,7 @@ function build(): Promise<void> {
 
 async function uploadWorkers(): Promise<void> {
   const content = await readFile(
-    path.join(__dirname, '..', 'dist-cf', 'index.js'),
+    path.join(__dirname, '..', 'dist', 'index.js'),
     fsOptions
   )
 

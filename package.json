@@ -11,13 +11,12 @@
     "build": "npm-run-all build:*",
     "prebuild:assets": "rimraf dist",
     "build:assets": "webpack --config webpack.main.prod.config",
-    "prebuild:cf": "rimraf dist-cf",
-    "build:cf": "webpack --config-register babel-register --config webpack.cf.config",
+    "build:cf": "lerna run --scope @serlo/cloudflare-workers build",
     "prebuild:gcf": "rimraf dist-gcf",
     "build:gcf": "webpack --config webpack.gcf.config",
     "predeploy": "yarn changelog",
     "deploy": "ts-node scripts/deploy",
-    "deploy:cf": "ts-node scripts/deploy-cf",
+    "deploy:cf": "lerna run --scope @serlo/cloudflare-workers deploy",
     "deploy-finalize": "run-s deploy-finalize:git sentry-release",
     "deploy-finalize:git": "git tag --force $npm_package_version && git push && git push origin $npm_package_version",
     "sentry-release": "run-s sentry-release:create sentry-release:set-commits sentry-release:deploy",
@@ -31,7 +30,7 @@
     "start": "webpack-dev-server --config webpack.main.dev.config",
     "test": "jest",
     "server": "nodemon -w src/ory-editor --exec \"node src/editor/index.server.js\"",
-    "_prettier": "prettier \"{{__tests__,scripts,src}/**/*,*}.{js,jsx,ts,tsx,css,scss,json,md,markdown}\""
+    "_prettier": "prettier \"{{packages/*/,}{.circleci,__tests__,scripts,src}/**/*,*}.{js,jsx,ts,tsx,json,md,yaml,yml,css,scss}\""
   },
   "files": [
     "dist"
@@ -48,7 +47,6 @@
     "body-parser": "^1.0.0",
     "bootstrap-datepicker": "^1.0.0",
     "bootstrap-sass": "^3.0.0",
-    "cloudflare": "^2.0.0",
     "d3": "^3.0.0",
     "dnode": "^1.0.0",
     "font-awesome": "^4.0.0",
@@ -98,6 +96,7 @@
     "@types/base-64": "^0.1.0",
     "@types/glob": "^7.0.0",
     "@types/inquirer": "^0.0.43",
+    "@types/jest": "^24.0.0",
     "@types/jquery": "^3.0.0",
     "@types/lodash": "^4.0.0",
     "@types/ramda": "^0.26.0",
@@ -107,16 +106,15 @@
     "@types/styled-components": "^4.0.0",
     "@types/utf8": "^2.0.0",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^23.0.0",
     "babel-loader": "^8.0.0",
-    "babel-register": "^6.0.0",
     "cross-env": "^5.0.0",
     "css-loader": "^1.0.0",
     "file-loader": "^2.0.0",
     "glob": "^7.0.0",
     "html-loader": "^0.5.0",
     "ignore-loader": "^0.1.0",
-    "jest": "^23.0.0",
+    "jest": "^24.0.0",
+    "lerna": "^3.0.0",
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "^4.0.0",
     "nodemon": "^1.0.0",
@@ -137,5 +135,8 @@
     "webpack-node-externals": "^1.0.0",
     "webpack-require-http": "^0.4.0"
   },
-  "private": true
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
 }
