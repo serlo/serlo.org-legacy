@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.7.2](https://github.com/serlo/athene2-assets/compare/3.7.1..3.7.2) - February 18, 2019
+
+### Fixed
+
+- Fixed footer styles
+
 ## [3.7.1](https://github.com/serlo/athene2-assets/compare/3.7.0..3.7.1) - February 12, 2019
 
 ### Fixed
