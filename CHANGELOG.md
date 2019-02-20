@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/serlo/athene2-assets/compare/3.7.2..HEAD)
+## [3.7.3](https://github.com/serlo/athene2-assets/compare/3.7.2..3.7.3) - February 20, 2019
 
 ### Internal
 
