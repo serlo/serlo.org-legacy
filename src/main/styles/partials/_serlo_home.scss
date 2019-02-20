@@ -342,13 +342,16 @@ $homeBreakpoint-xxl: 1580px;
   .serlo-en-home & {
     margin-bottom: 70px;
   }
+  object {
+    width: 100%;
+  }
   @media screen and (min-width: $screen-md) {
-    img {
+    object {
       width: 75%;
     }
   }
   @media screen and (min-width: $screen-lg) {
-    img {
+    object {
       width: 50%;
     }
   }

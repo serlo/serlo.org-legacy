@@ -123,6 +123,9 @@ const releases: Parameters<typeof generateChangelog>['0'] = [
     tagName: '3.7.2',
     date: '2019-02-18',
     fixed: ['Fixed footer styles']
+  },
+  {
+    internal: ['Automatically deploy assets']
   }
 ]
 

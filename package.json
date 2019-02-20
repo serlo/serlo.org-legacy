@@ -28,9 +28,11 @@
     "lint": "yarn _prettier --check",
     "changelog": "ts-node scripts/changelog",
     "license": "ts-node scripts/license-headers",
-    "start": "webpack-dev-server --config webpack.main.dev.config",
+    "start": "npm-run-all --parallel start:*",
+    "start:packages": "lerna run --parallel start",
+    "start:main": "webpack-dev-server --config webpack.main.dev.config",
+    "start:editor": "nodemon -w src/ory-editor --exec \"node src/editor/index.server.js\"",
     "test": "jest",
-    "server": "nodemon -w src/ory-editor --exec \"node src/editor/index.server.js\"",
     "_prettier": "prettier \"{{packages/*/,}{.circleci,__tests__,scripts,src}/**/*,*}.{js,jsx,ts,tsx,json,md,yaml,yml,css,scss}\""
   },
   "files": [
