@@ -1,4 +1,5 @@
 import { zoneId, cloudflare } from '@serlo/cloudflare'
+import { uploadFolder } from '@serlo/gcloud'
 import { spawnSync } from 'child_process'
 import * as fs from 'fs'
 import * as inquirer from 'inquirer'
@@ -9,8 +10,6 @@ import * as semver from 'semver'
 import { Signale } from 'signale'
 import * as util from 'util'
 
-import { project } from './gcloud'
-
 const root = path.join(__dirname, '..')
 const distPath = path.join(__dirname, '..', 'dist')
 
@@ -19,7 +18,8 @@ enum Environment {
   green = 'b'
 }
 
-const gCloudStorageOptions = {
+const gcloudProject = `--project=serlo-assets`
+const gcloudStorageOptions = {
   bucket: 'packages.serlo.org'
 }
 
@@ -196,16 +196,11 @@ async function build({
 }
 
 async function uploadBundle(environment: Environment): Promise<void> {
-  const prefix = `athene2-assets@${environment}`
-  const bucket = `gs://${gCloudStorageOptions.bucket}`
-  const dest = `${bucket}/${prefix}/`
-  const tmp = `${bucket}/${prefix}-tmp/`
-
-  spawnSync(`gsutil`, ['-m', 'cp', '-r', path.join(distPath, '*'), tmp], {
-    stdio: 'inherit'
+  uploadFolder({
+    bucket: gcloudStorageOptions.bucket,
+    source: distPath,
+    target: `athene2-assets@${environment}`
   })
-  spawnSync(`gsutil`, ['-m', 'rm', '-r', dest], { stdio: 'inherit' })
-  spawnSync(`gsutil`, ['-m', 'mv', `${tmp}*`, dest], { stdio: 'inherit' })
 }
 
 async function flushCache(environment: Environment): Promise<void> {
@@ -262,7 +257,7 @@ function deployGcf(environment: Environment): void {
       '--runtime=nodejs8',
       `--source=${gcfDir}`,
       '--trigger-http',
-      project
+      gcloudProject
     ],
     { stdio: 'inherit' }
   )

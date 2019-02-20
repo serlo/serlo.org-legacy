@@ -45,7 +45,7 @@ module.exports = {
         loader: 'html-loader'
       },
       {
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp3|ogg)(\?.*)?$/,
         loader: require.resolve('file-loader'),
         options: {
           name: '[name].[hash:8].[ext]'

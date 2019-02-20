@@ -21,14 +21,17 @@
  */
 /* global Howl */
 import 'howler'
+import correctMp3 from '../../../sounds/correct.mp3'
+import correctOgg from '../../../sounds/correct.ogg'
+import wrongMp3 from '../../../sounds/wrong.mp3'
+import wrongOgg from '../../../sounds/wrong.ogg'
 
-var soundPath = '/assets/sounds/'
-var sounds = {
+const sounds = {
   correct: new Howl({
-    src: [soundPath + 'correct.ogg', soundPath + 'correct.mp3']
+    src: [correctOgg, correctMp3]
   }),
   wrong: new Howl({
-    src: [soundPath + 'wrong.ogg', soundPath + 'wrong.mp3']
+    src: [wrongOgg, wrongMp3]
   })
 }
 

@@ -1,13 +1,13 @@
 {
-  "name": "@serlo/cloudflare-workers",
+  "name": "@serlo/assets",
   "version": "0.0.0",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "webpack",
+    "start": "serve --listen 8082 src",
     "deploy": "ts-node scripts/deploy"
   },
   "devDependencies": {
-    "@serlo/cloudflare": "^0.0.0"
+    "@serlo/gcloud": "^0.0.0",
+    "serve": "^10.0.0"
   },
   "private": true
 }
