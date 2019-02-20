@@ -131,5 +131,25 @@ describe('Cloudflare Workers', () => {
         url: 'https://assets.serlo.org/meta/de/serlo.jpg'
       })
     })
+
+    it(`doesn't rewrite requests to athene2-assets directory`, async () => {
+      await handleRequest({
+        url: 'https://assets.serlo.org/athene2-assets/serlo.jpg'
+      })
+
+      expect(fetch).toHaveBeenCalledWithRequest({
+        url: 'https://assets.serlo.org/athene2-assets/serlo.jpg'
+      })
+    })
+
+    it(`doesn't rewrite requests to athene2-assets subdirectories`, async () => {
+      await handleRequest({
+        url: 'https://assets.serlo.org/athene2-assets/de/serlo.jpg'
+      })
+
+      expect(fetch).toHaveBeenCalledWithRequest({
+        url: 'https://assets.serlo.org/athene2-assets/de/serlo.jpg'
+      })
+    })
   })
 })
