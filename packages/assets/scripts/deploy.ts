@@ -12,10 +12,10 @@ run()
 async function run() {
   try {
     signale.info('Deploying static assets')
-    uploadFolder({
+    await uploadFolder({
       bucket,
       source,
-      target: 'athene2'
+      target: 'athene2-assets'
     })
     signale.success(`Successfully deployed static assets`)
   } catch (e) {

@@ -196,7 +196,7 @@ async function build({
 }
 
 async function uploadBundle(environment: Environment): Promise<void> {
-  uploadFolder({
+  await uploadFolder({
     bucket: gcloudStorageOptions.bucket,
     source: distPath,
     target: `athene2-assets@${environment}`
