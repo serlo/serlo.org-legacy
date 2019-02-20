@@ -16,6 +16,7 @@
     "build:gcf": "webpack --config webpack.gcf.config",
     "predeploy": "yarn changelog",
     "deploy": "ts-node scripts/deploy",
+    "deploy:assets": "lerna run --scope @serlo/assets deploy",
     "deploy:cf": "lerna run --scope @serlo/cloudflare-workers deploy",
     "deploy-finalize": "run-s deploy-finalize:git sentry-release",
     "deploy-finalize:git": "git tag --force $npm_package_version && git push && git push origin $npm_package_version",

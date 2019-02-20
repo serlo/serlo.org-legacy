@@ -1,15 +1,6 @@
 import { spawnSync } from 'child_process'
 import * as path from 'path'
 
-export function auth() {
-  spawnSync('gcloud', ['init'])
-  spawnSync('gcloud', [
-    'auth',
-    'activate-service-account',
-    `--key-file=${path.join(__dirname, 'gcloud.secret.json')}`
-  ])
-}
-
 export function uploadFolder({
   bucket,
   source,

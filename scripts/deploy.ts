@@ -1,5 +1,5 @@
 import { zoneId, cloudflare } from '@serlo/cloudflare'
-import { auth, uploadFolder } from '@serlo/gcloud'
+import { uploadFolder } from '@serlo/gcloud'
 import { spawnSync } from 'child_process'
 import * as fs from 'fs'
 import * as inquirer from 'inquirer'
@@ -40,7 +40,6 @@ run()
 async function run() {
   try {
     signale.info('Deploying athene2-assets')
-    auth()
 
     const packageJSON = await fetchPackageJSON()
     const { version, environment, steps } = await prompt(packageJSON)
