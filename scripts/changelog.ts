@@ -128,6 +128,9 @@ const releases: Parameters<typeof generateChangelog>['0'] = [
     tagName: '3.7.3',
     date: '2019-02-20',
     internal: ['Automatically deploy assets']
+  },
+  {
+    internal: ['Build docker image serlo/legacy-editor-renderer']
   }
 ]
 
