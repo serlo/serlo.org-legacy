@@ -146,18 +146,4 @@ var table = function() {
   ]
 }
 
-// Client-side export
-if (typeof define === 'function' && define.amd) {
-  define('showdown_table', ['showdown'], function(Showdown) {
-    Showdown.extensions = Showdown.extensions || {}
-    Showdown.extensions.table = table
-  })
-} else if (
-  typeof window !== 'undefined' &&
-  window.Showdown &&
-  window.Showdown.extensions
-) {
-  window.Showdown.extensions.table = table
-}
-
 export default table

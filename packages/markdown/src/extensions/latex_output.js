@@ -62,18 +62,4 @@ function encodeSerloSpecificChars(text) {
   )
 }
 
-// Client-side export
-if (typeof define === 'function' && define.amd) {
-  define('showdown_latex_output', ['showdown'], function(Showdown) {
-    Showdown.extensions = Showdown.extensions || {}
-    Showdown.extensions.latexoutput = latexoutput
-  })
-} else if (
-  typeof window !== 'undefined' &&
-  window.Showdown &&
-  window.Showdown.extensions
-) {
-  window.Showdown.extensions.latexoutput = latexoutput
-}
-
 export default latexoutput

@@ -20,42 +20,34 @@
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
 /* global define */
-/**
- * Serlo Flavored Markdown
- * Spoilers:
- * Transforms ///.../// blocks into spoilers
- **/
-var spoilerprepare = function() {
-  var filter
-  var findSpoilers = new RegExp(/^\/\/\/ (.*)\n([\s\S]*?)(\n|\r)+\/\/\//gm)
-
-  filter = function(text) {
-    // convert all "///"s into "=,sp."s
-    return text.replace(findSpoilers, function(original, title, content) {
-      return '<p>=,sp. ' + title + '</p>\n' + content + '<p>=,sp.</p>'
-    })
-  }
-
+/* Prepares Github Style Code */
+var codeoutput = function() {
   return [
     {
       type: 'lang',
-      filter: filter
+      filter: (function() {
+        var charsToEncode = ['~D', '%', '|', '/']
+        var replacements = {}
+        var regexp
+        var i
+        var l
+
+        for (i = 0, l = charsToEncode.length; i < l; i++) {
+          replacements['' + i] = charsToEncode[i]
+        }
+
+        regexp = new RegExp('§SC([0-9])', 'gm')
+
+        function replace(whole, match) {
+          return replacements[parseInt(match)] || match
+        }
+
+        return function(text) {
+          return text.replace(regexp, replace)
+        }
+      })()
     }
   ]
 }
 
-// Client-side export
-if (typeof define === 'function' && define.amd) {
-  define('showdown_spoiler_prepare', ['showdown'], function(Showdown) {
-    Showdown.extensions = Showdown.extensions || {}
-    Showdown.extensions.spoilerprepare = spoilerprepare
-  })
-} else if (
-  typeof window !== 'undefined' &&
-  window.Showdown &&
-  window.Showdown.extensions
-) {
-  window.Showdown.extensions.spoilerprepare = spoilerprepare
-}
-
-export default spoilerprepare
+export default codeoutput

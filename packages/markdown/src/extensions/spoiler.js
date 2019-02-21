@@ -48,17 +48,5 @@ var spoiler = function() {
     }
   ]
 }
-// Client-side export
-if (typeof define === 'function' && define.amd) {
-  define('showdown_spoiler', ['showdown'], function(Showdown) {
-    Showdown.extensions = Showdown.extensions || {}
-    Showdown.extensions.spoiler = spoiler
-  })
-} else if (
-  typeof window !== 'undefined' &&
-  window.Showdown &&
-  window.Showdown.extensions
-) {
-  window.Showdown.extensions.spoiler = spoiler
-}
+
 export default spoiler

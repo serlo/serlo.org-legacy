@@ -21,47 +21,46 @@
  */
 /* global define */
 /* Prepares Github Style Code */
-var codeoutput = function() {
+var codeprepare = function() {
   return [
     {
       type: 'lang',
       filter: (function() {
-        var charsToEncode = ['~D', '%', '|', '/']
         var replacements = {}
-        var regexp
+        var replacementRegexp = ''
+        var codeRegexp = /(?:^|\n)```(.*)\n([\s\S]*?)\n```/gm
+        var charsToDecode = ['~D', '%', '\\|', '/']
         var i
         var l
 
-        for (i = 0, l = charsToEncode.length; i < l; i++) {
-          replacements['' + i] = charsToEncode[i]
+        for (i = 0, l = charsToDecode.length; i < l; i++) {
+          // replacementRegexp += '\\' + charsToDecode[i];
+          // charsToDecode[i] = '\\' + charsToDecode[i];
+          replacements[charsToDecode[i].replace(/\\/g, '')] = '§SC' + i
         }
 
-        regexp = new RegExp('§SC([0-9])', 'gm')
+        // (~D|\$|/|%)
+        // (~D|%|\||\/)/gm
+        replacementRegexp = new RegExp(
+          '(' + charsToDecode.join('|') + ')',
+          'gm'
+        )
 
-        function replace(whole, match) {
-          return replacements[parseInt(match)] || match
+        function replace(whole, language, code) {
+          // escape all chars in code
+          code = code.replace(replacementRegexp, function(match) {
+            return replacements[match] || match
+          })
+
+          return '\n```' + language + '\n' + code + '\n```'
         }
 
         return function(text) {
-          return text.replace(regexp, replace)
+          return text.replace(codeRegexp, replace)
         }
       })()
     }
   ]
 }
 
-// Client-side export
-if (typeof define === 'function' && define.amd) {
-  define('showdown_code_output', ['showdown'], function(Showdown) {
-    Showdown.extensions = Showdown.extensions || {}
-    Showdown.extensions.codeoutput = codeoutput
-  })
-} else if (
-  typeof window !== 'undefined' &&
-  window.Showdown &&
-  window.Showdown.extensions
-) {
-  window.Showdown.extensions.codeoutput = codeoutput
-}
-
-export default codeoutput
+export default codeprepare

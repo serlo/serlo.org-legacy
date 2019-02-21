@@ -20,8 +20,8 @@
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
 /* global CodeMirror, MathJax */
+import { converter } from '@serlo/markdown'
 import $ from 'jquery'
-import Showdown from 'showdown'
 import _ from 'underscore'
 
 import eventScope from '../libs/eventscope'
@@ -41,17 +41,6 @@ import './editor/plugins/injection/injection_geogebra_plugin'
 import './editor/plugins/injection/injection_geogebratube_plugin'
 import './editor/plugins/injection/injection_plugin'
 import './editor/plugins/wiris/wiris_plugin'
-import atUsername from './editor/showdown/extensions/at_username'
-import htmlStrip from './editor/showdown/extensions/html_strip'
-import injections from './editor/showdown/extensions/injections'
-import latexOutput from './editor/showdown/extensions/latex_output'
-import latex from './editor/showdown/extensions/latex'
-import codeOutput from './editor/showdown/extensions/serlo_code_output'
-import codePrepare from './editor/showdown/extensions/serlo_code_prepare'
-import table from './editor/showdown/extensions/table'
-import spoilerPrepare from './editor/showdown/extensions/spoiler_prepare'
-import spoiler from './editor/showdown/extensions/spoiler'
-import strikeThrough from './editor/showdown/extensions/strike_through'
 import Preview from './editor/serlo_editor_previewer'
 import LayoutBuilderConfiguration from './editor/serlo_layout_builder_configuration'
 import Parser from './editor/serlo_parser'
@@ -471,26 +460,7 @@ $(function() {
     var textEditor
     var layoutBuilderConfiguration = new LayoutBuilderConfiguration()
     var parser = new Parser()
-    var converter = new Showdown.Converter({
-      extensions: [
-        codePrepare,
-        injections,
-        table,
-        htmlStrip,
-        latex,
-        atUsername,
-        strikeThrough,
-        spoiler,
-        spoilerPrepare,
-        latexOutput,
-        codeOutput
-      ]
-    })
     var pluginManager = new PluginManager()
-
-    // converter.config.math = true;
-    // converter.config.stripHTML = true;
-    // converter.config.tables = true;
 
     parser.setConverter(converter, 'makeHtml')
 
@@ -565,9 +535,6 @@ $(function() {
         }),
         pluginManager: pluginManager
       })
-
-    // editor.addHelper(new TextEditorHelper.Undo(textEditor), '3');
-    // editor.addHelper(new TextEditorHelper.Redo(textEditor), '3');
 
     editor.addHelper(new TextEditorHelper.Bold(textEditor), '1')
     editor.addHelper(new TextEditorHelper.Italic(textEditor), '1')

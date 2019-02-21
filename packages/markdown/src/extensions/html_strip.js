@@ -149,18 +149,4 @@ function stripUnwantedHTML(html) {
   })
 }
 
-// Client-side export
-if (typeof define === 'function' && define.amd) {
-  define('showdown_htmlstrip', ['showdown'], function(Showdown) {
-    Showdown.extensions = Showdown.extensions || {}
-    Showdown.extensions.htmlstrip = htmlstrip
-  })
-} else if (
-  typeof window !== 'undefined' &&
-  window.Showdown &&
-  window.Showdown.extensions
-) {
-  window.Showdown.extensions.htmlstrip = htmlstrip
-}
-
 export default htmlstrip

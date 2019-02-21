@@ -48,18 +48,4 @@ var atusername = function() {
   ]
 }
 
-// Client-side export
-if (typeof define === 'function' && define.amd) {
-  define('showdown_atusername', ['showdown'], function(Showdown) {
-    Showdown.extensions = Showdown.extensions || {}
-    Showdown.extensions.atusername = atusername
-  })
-} else if (
-  typeof window !== 'undefined' &&
-  window.Showdown &&
-  window.Showdown.extensions
-) {
-  window.Showdown.extensions.atusername = atusername
-}
-
 export default atusername

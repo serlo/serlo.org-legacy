@@ -67,18 +67,5 @@ var injections = function() {
     }
   ]
 }
-// Client-side export
-if (typeof define === 'function' && define.amd) {
-  define('showdown_injections', ['showdown'], function(Showdown) {
-    Showdown.extensions = Showdown.extensions || {}
-    Showdown.extensions.injections = injections
-  })
-} else if (
-  typeof window !== 'undefined' &&
-  window.Showdown &&
-  window.Showdown.extensions
-) {
-  window.Showdown.extensions.injections = injections
-}
 
 export default injections

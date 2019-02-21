@@ -128,18 +128,4 @@ function escapeSerloSpecificCharacters(text) {
   )
 }
 
-// Client-side export
-if (typeof define === 'function' && define.amd) {
-  define('showdown_latex', ['showdown'], function(Showdown) {
-    Showdown.extensions = Showdown.extensions || {}
-    Showdown.extensions.latex = latex
-  })
-} else if (
-  typeof window !== 'undefined' &&
-  window.Showdown &&
-  window.Showdown.extensions
-) {
-  window.Showdown.extensions.latex = latex
-}
-
 export default latex

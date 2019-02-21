@@ -34,18 +34,4 @@ var strikethrough = function() {
   ]
 }
 
-// Client-side export
-if (typeof define === 'function' && define.amd) {
-  define('showdown_strikethrough', ['showdown'], function(Showdown) {
-    Showdown.extensions = Showdown.extensions || {}
-    Showdown.extensions.strikethrough = strikethrough
-  })
-} else if (
-  typeof window !== 'undefined' &&
-  window.Showdown &&
-  window.Showdown.extensions
-) {
-  window.Showdown.extensions.strikethrough = strikethrough
-}
-
 export default strikethrough

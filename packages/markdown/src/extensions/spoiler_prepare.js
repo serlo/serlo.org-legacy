@@ -19,20 +19,29 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { converter } from '@serlo/markdown'
+/* global define */
+/**
+ * Serlo Flavored Markdown
+ * Spoilers:
+ * Transforms ///.../// blocks into spoilers
+ **/
+var spoilerprepare = function() {
+  var filter
+  var findSpoilers = new RegExp(/^\/\/\/ (.*)\n([\s\S]*?)(\n|\r)+\/\/\//gm)
 
-const renderMarkdown = input => {
-  let html = converter.makeHtml(input)
-  html = html.replace(/"/gm, '"')
-  return html
-    .replace(
-      /<span class="mathInline">%%(.*?)%%<\/span>/gm,
-      '<katexinline>$1</katexinline>'
-    )
-    .replace(
-      /<span class="math">\$\$(.*?)\$\$<\/span>/gm,
-      '<katexblock>$1</katexblock>'
-    )
-    .replace(/\r?\n/gm, '')
+  filter = function(text) {
+    // convert all "///"s into "=,sp."s
+    return text.replace(findSpoilers, function(original, title, content) {
+      return '<p>=,sp. ' + title + '</p>\n' + content + '<p>=,sp.</p>'
+    })
+  }
+
+  return [
+    {
+      type: 'lang',
+      filter: filter
+    }
+  ]
 }
-export default renderMarkdown
+
+export default spoilerprepare
