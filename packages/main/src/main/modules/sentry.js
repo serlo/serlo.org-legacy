@@ -21,7 +21,7 @@
  */
 import * as Sentry from '@sentry/browser'
 
-import { version } from '../../../package'
+import { version } from '../../../package.json'
 
 Sentry.init({
   dsn:
