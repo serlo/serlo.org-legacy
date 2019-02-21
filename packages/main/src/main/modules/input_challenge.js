@@ -22,7 +22,7 @@
 /* global MathJax */
 import $ from 'jquery'
 import S from 'string'
-import A from 'algebra.js'
+import A from '../../../../../node_modules/algebra.js/algebra'
 
 import play from './sounds'
 

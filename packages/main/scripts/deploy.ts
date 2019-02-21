@@ -1,3 +1,24 @@
+/**
+ * This file is part of Athene2 Assets.
+ *
+ * Copyright (c) 2017-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
+ */
 import { zoneId, cloudflare } from '@serlo/cloudflare'
 import { uploadFolder } from '@serlo/gcloud'
 import { spawnSync } from 'child_process'
@@ -42,39 +63,19 @@ async function run() {
     signale.info('Deploying athene2-assets')
 
     const packageJSON = await fetchPackageJSON()
-    const { version, environment, steps } = await prompt(packageJSON)
+    const { version, environment } = await prompt(packageJSON)
 
-    signale.pending(`Incrementing version…`)
-    await incrementVersion({ version, packageJSON })
+    signale.pending(`Bundling…`)
+    await build({ environment, packageJSON })
 
-    if (R.contains('build', steps)) {
-      signale.pending(`Bundling…`)
-      await build({ environment, packageJSON })
-    }
+    signale.pending(`Uploading bundle…`)
+    await uploadBundle(environment)
 
-    if (R.contains('upload', steps)) {
-      signale.pending(`Uploading bundle…`)
-      await uploadBundle(environment)
-    }
+    signale.pending(`Flushing Cloudflare cache…`)
+    await flushCache(environment)
 
-    // TODO: verify successful upload
-
-    if (R.contains('flush', steps)) {
-      signale.pending(`Flushing Cloudflare cache…`)
-      await flushCache(environment)
-    }
-
-    // TODO: verify https://packages.serlo.org/athene2-assets@major (to warm up cache and verify deployment)
-
-    if (R.contains('sentry-release', steps)) {
-      signale.pending('Creating sentry release')
-      createSentryRelease(version)
-    }
-
-    if (R.contains('deploy-gcf', steps)) {
-      signale.pending(`Deploying Google Cloud Function…`)
-      deployGcf(environment)
-    }
+    signale.pending(`Deploying Google Cloud Function…`)
+    deployGcf(environment)
 
     signale.success(
       `Successfully deployed athene2-assets@${version} (${environment})`
@@ -94,7 +95,6 @@ function prompt(packageJSON: unknown) {
   return inquirer.prompt<{
     version: string
     environment: Environment
-    steps: string[]
   }>([
     {
       name: 'version',
@@ -118,52 +118,7 @@ function prompt(packageJSON: unknown) {
         }, Environment)
       )
     },
-    {
-      name: 'steps',
-      message: 'Steps',
-      type: 'checkbox',
-      choices: [
-        {
-          name: 'Bundle',
-          value: 'build',
-          checked: true
-        },
-        {
-          name: 'Upload bundle',
-          value: 'upload',
-          checked: true
-        },
-        {
-          name: 'Flush cache',
-          value: 'flush',
-          checked: true
-        },
-        {
-          name: 'Create Sentry release',
-          value: 'sentry-release',
-          checked: true
-        },
-        {
-          name: 'Deploy Google Cloud Function',
-          value: 'deploy-gcf',
-          checked: true
-        }
-      ]
-    }
   ])
-}
-
-function incrementVersion({
-  version,
-  packageJSON
-}: {
-  version: string
-  packageJSON: unknown
-}): Promise<void> {
-  return Promise.resolve(packageJSON)
-    .then(R.assoc('version', version))
-    .then(value => JSON.stringify(value, null, 2))
-    .then(data => writeFile(packageJsonPath, data + os.EOL, fsOptions))
 }
 
 async function build({
@@ -219,29 +174,6 @@ async function flushCache(environment: Environment): Promise<void> {
       })
     }, urls)
   )
-}
-
-function createSentryRelease(version: string): void {
-  const release = `athene2-assets@${version}`
-
-  const env = {
-    SENTRY_AUTH_TOKEN: require('../sentry.secret.json'),
-    SENTRY_ORG: 'serlo'
-  }
-
-  spawnSync(
-    'sentry-cli',
-    ['releases', 'new', '--project', 'athene2-assets', release],
-    {
-      env,
-      stdio: 'inherit'
-    }
-  )
-
-  spawnSync('sentry-cli', ['releases', 'set-commits', '--auto', release], {
-    env,
-    stdio: 'inherit'
-  })
 }
 
 function deployGcf(environment: Environment): void {

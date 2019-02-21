@@ -2,7 +2,7 @@
 
 @import 'base/variables';
 @import 'base/bootstrap-var-override';
-@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import '../../../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import 'base/bootstrap-css-override';
 
 // Use this import once https://github.com/jasny/bootstrap/pull/274 got merged
@@ -55,20 +55,20 @@
 @import 'thirdparty/carousel';
 @import 'thirdparty/magnific_popup';
 
-@import '~font-awesome/scss/variables';
+@import '../../../../../node_modules/font-awesome/scss/variables';
 @import 'base/font-awesome-var-override';
-@import '~font-awesome/scss/mixins';
-@import '~font-awesome/scss/path';
-@import '~font-awesome/scss/core';
-@import '~font-awesome/scss/larger';
-@import '~font-awesome/scss/fixed-width';
-@import '~font-awesome/scss/list';
-@import '~font-awesome/scss/bordered-pulled';
-@import '~font-awesome/scss/animated';
-@import '~font-awesome/scss/rotated-flipped';
-@import '~font-awesome/scss/stacked';
-@import '~font-awesome/scss/icons';
-@import '~font-awesome/scss/screen-reader';
+@import '../../../../../node_modules/font-awesome/scss/mixins';
+@import '../../../../../node_modules/font-awesome/scss/path';
+@import '../../../../../node_modules/font-awesome/scss/core';
+@import '../../../../../node_modules/font-awesome/scss/larger';
+@import '../../../../../node_modules/font-awesome/scss/fixed-width';
+@import '../../../../../node_modules/font-awesome/scss/list';
+@import '../../../../../node_modules/font-awesome/scss/bordered-pulled';
+@import '../../../../../node_modules/font-awesome/scss/animated';
+@import '../../../../../node_modules/font-awesome/scss/rotated-flipped';
+@import '../../../../../node_modules/font-awesome/scss/stacked';
+@import '../../../../../node_modules/font-awesome/scss/icons';
+@import '../../../../../node_modules/font-awesome/scss/screen-reader';
 // Polyfill removed class fa-1-5x
 .fa-1-5x {
   font-size: 1.5em;

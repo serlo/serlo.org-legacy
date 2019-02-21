@@ -19,24 +19,18 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import * as base64 from 'base-64'
-import * as $ from 'jquery'
-import * as utf8 from 'utf8'
+import $ from 'jquery'
 
-export const parseState = (raw: string): unknown => {
-  const stringifiedState = utf8.decode(base64.decode(raw))
+export const initContent = () => {
+  const $elements = $('.editable[data-edit-type="ory"] > div[data-raw-content]')
 
-  if (typeof stringifiedState === 'string') {
-    return JSON.parse(stringifiedState)
+  if ($elements.length === 0) {
+    return
   }
 
-  return stringifiedState
-}
-
-export const stringifyState = (state: unknown): string => {
-  return base64.encode(utf8.encode(JSON.stringify(state)))
-}
-
-export const getStateFromElement = (element: HTMLElement) => {
-  return parseState($(element).data('rawContent'))
+  return import('./init-element').then(({ initElement }) => {
+    $elements.each((_i, element) => {
+      initElement(element)
+    })
+  })
 }

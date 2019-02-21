@@ -19,6 +19,16 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-export declare namespace converter {
-  function makeHtml(source: string): string
-}
+import * as Sentry from '@sentry/browser'
+
+import { version } from '../../../../../package.json'
+
+Sentry.init({
+  dsn:
+    process.env.NODE_ENV === 'production'
+      ? 'https://0c66c811e7f4408c8f20798379d7a814@sentry.io/1330033'
+      : null,
+  release: `athene2-assets@${version}`
+})
+
+export { Sentry }

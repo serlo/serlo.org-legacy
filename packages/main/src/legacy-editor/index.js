@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
 /* global CodeMirror, MathJax */
-import { converter } from '@serlo/markdown'
+import { converter } from '../../../markdown/src'
 import $ from 'jquery'
 import _ from 'underscore'
 

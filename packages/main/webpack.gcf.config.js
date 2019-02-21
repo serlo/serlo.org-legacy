@@ -15,7 +15,18 @@ module.exports = {
       {
         test: /\.(tsx?|js)$/,
         exclude: /node_modules/,
-        loader: require.resolve('babel-loader')
+        loader: require.resolve('babel-loader'),
+        options: {
+          rootMode: 'upward'
+        }
+      },
+      {
+        test: /\.mjs$/,
+        resolve: {
+          mainFields: ['module', 'main']
+        },
+        include: /node_modules/,
+        type: 'javascript/auto'
       }
     ]
   },
@@ -23,5 +34,5 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js']
   },
   target: 'node',
-  externals: [createNodeExternals()]
+  externals: [createNodeExternals(), require('webpack-require-http')]
 }

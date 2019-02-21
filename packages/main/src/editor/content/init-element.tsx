@@ -19,18 +19,22 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import * as $ from 'jquery'
+import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
+import { HtmlRenderer } from '@serlo/html-renderer'
+import * as React from 'react'
+import { hydrate } from 'react-dom'
 
-export const initContent = () => {
-  const $elements = $('.editable[data-edit-type="ory"] > div[data-raw-content]')
+import { getStateFromElement } from '../helpers'
 
-  if ($elements.length === 0) {
-    return
-  }
+export const initElement = (element: HTMLElement) => {
+  const content = getStateFromElement(element)
 
-  return import('./init-element').then(({ initElement }) => {
-    $elements.each((_i, element) => {
-      initElement(element)
-    })
-  })
+  hydrate(
+    <div className="r">
+      <div className="c24">
+        <HtmlRenderer state={content} plugins={createRendererPlugins('all')} />
+      </div>
+    </div>,
+    element
+  )
 }

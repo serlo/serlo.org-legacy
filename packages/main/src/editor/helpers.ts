@@ -19,16 +19,24 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import * as Sentry from '@sentry/browser'
+import * as base64 from 'base-64'
+import $ from 'jquery'
+import * as utf8 from 'utf8'
 
-import { version } from '../../../package.json'
+export const parseState = (raw: string): unknown => {
+  const stringifiedState = utf8.decode(base64.decode(raw))
 
-Sentry.init({
-  dsn:
-    process.env.NODE_ENV === 'production'
-      ? 'https://0c66c811e7f4408c8f20798379d7a814@sentry.io/1330033'
-      : null,
-  release: `athene2-assets@${version}`
-})
+  if (typeof stringifiedState === 'string') {
+    return JSON.parse(stringifiedState)
+  }
 
-export { Sentry }
+  return stringifiedState
+}
+
+export const stringifyState = (state: unknown): string => {
+  return base64.encode(utf8.encode(JSON.stringify(state)))
+}
+
+export const getStateFromElement = (element: HTMLElement) => {
+  return parseState($(element).data('rawContent'))
+}

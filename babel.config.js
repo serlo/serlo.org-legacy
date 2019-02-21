@@ -5,8 +5,7 @@ module.exports = api => {
   const presets = [
     '@babel/preset-env',
     '@babel/preset-typescript',
-    '@babel/preset-react',
-    '@babel/preset-flow'
+    '@babel/preset-react'
   ]
 
   const plugins = [
@@ -18,7 +17,15 @@ module.exports = api => {
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-syntax-import-meta',
     ['@babel/plugin-proposal-class-properties', { loose: false }],
-    '@babel/plugin-proposal-json-strings'
+    '@babel/plugin-proposal-json-strings',
+    [
+      'babel-plugin-module-resolver',
+      {
+        alias: {
+          '@serlo/markdown': '@serlo/markdown/src'
+        }
+      }
+    ]
   ]
 
   return { plugins, presets }

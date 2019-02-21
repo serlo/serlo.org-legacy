@@ -7,7 +7,9 @@
     "deploy": "ts-node scripts/deploy"
   },
   "devDependencies": {
-    "@serlo/cloudflare": "^0.0.0"
+    "@serlo/cloudflare": "^0.0.0",
+    "webpack": "^4.0.0",
+    "webpack-cli": "^3.0.0"
   },
   "private": true
 }

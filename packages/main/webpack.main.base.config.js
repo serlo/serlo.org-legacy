@@ -16,7 +16,10 @@ module.exports = {
       {
         test: /\.(tsx?|js)$/,
         exclude: /node_modules/,
-        loader: require.resolve('babel-loader')
+        loader: require.resolve('babel-loader'),
+        options: {
+          rootMode: 'upward'
+        }
       },
       {
         test: /\.mjs$/,
