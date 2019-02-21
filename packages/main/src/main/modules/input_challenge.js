@@ -20,9 +20,9 @@
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
 /* global MathJax */
+import A from 'algebra.js'
 import $ from 'jquery'
 import S from 'string'
-import A from '../../../../../node_modules/algebra.js/algebra'
 
 import play from './sounds'
 
