@@ -117,7 +117,7 @@ function prompt(packageJSON: unknown) {
           return { value, name }
         }, Environment)
       )
-    },
+    }
   ])
 }
 
