@@ -1,22 +1,13 @@
 {
-  "include": ["src"],
   "compilerOptions": {
-    "allowSyntheticDefaultImports": false,
-    "alwaysStrict": true,
+    "allowSyntheticDefaultImports": true,
     "declaration": true,
-    "forceConsistentCasingInFileNames": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
     "jsx": "react",
     "module": "commonjs",
     "moduleResolution": "node",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
-    "strictNullChecks": true,
-    "target": "es6",
-    "baseUrl": "../packages"
+    "strict": true,
+    "target": "esnext"
   }
 }

@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`math home 1`] = `
+"<div class=\\"r\\">$<div class=\\"c9\\"><p>Im Mathematik-Bereich von Serlo findest du <strong>930 Artikel, 20 Kurse, 105 Videos und 5000 Aufgaben mit MusterlÃ¶sungen</strong> zu Schulmathematik und Hochschulmathematik - <strong>komplett kostenlos</strong>. </p>
+<p>Wie bei der Wikipedia kannst du bei Serlo selbst Inhalte bearbeiten und neue Inhalte hinzufÃ¼gen. Mehr dazu erfÃ¤hrst du auf der <a href=\\"/19880\\">Autoren-Startseite</a>.</p></div>,$<div class=\\"c15\\"><p><a href=\\"/74224\\"><img src=\\"https://assets.serlo.org/59b0fdf818dc3_e7c2e903ea8cad7ee38a9978d7f2658624655873.png\\" alt=\\"Lernen mit Serlo\\" /></a></p></div></div><div class=\\"r\\">$<div class=\\"c24\\"><hr/></div></div><div class=\\"r\\">$<div class=\\"c24\\"><h2 id=\\"themawhlen\\">Thema wÃ¤hlen</h2></div></div><div class=\\"r\\">$<div class=\\"c12\\"><p><a href=\\"/1385\\"><img src=\\"https://assets.serlo.org/legacy/55533eeeb56b8_8b7ea5f93ff53cab80557b4d4a9ab4c250e30789.png\\" alt=\\"Zahlen und GrÃ¶ÃŸen\\" /></a></p>
+<ul>
+<li><p><a href=\\"/1377\\">Prozent- und Zinsrechnung</a></p></li>
+<li><p><a href=\\"/1389\\">Bruchrechnen und Dezimalzahlen</a></p></li>
+<li><p><a href=\\"/1386\\">Grundrechenarten</a></p></li>
+<li><p><a href=\\"/1346\\">ProportionalitÃ¤t und Dreisatz</a></p></li>
+<li><p><a href=\\"/1363\\">GrÃ¶ÃŸen und Einheiten</a></p></li>
+<li><p><a href=\\"/23876\\">Quersumme, Durchschnitt und Betrag</a></p></li>
+<li><p><a href=\\"/1385\\">… 3 weitere</a>  </p></li>
+</ul></div>,$<div class=\\"c12\\"><p><a href=\\"/1390\\"><img src=\\"https://assets.serlo.org/legacy/555340dc68632_ec9467afc3a4c29be2f58be090c829b24cee78de.png\\" alt=\\"Terme und Gleichungen\\" /></a></p>
+<ul>
+<li><a href=\\"/1331\\">Terme und Variablen</a></li>
+<li><a href=\\"/1371\\">Gleichungen</a></li>
+<li><a href=\\"/1328\\">Potenzen, Wurzeln und Logarithmen</a></li>
+<li><a href=\\"/1445\\">Ungleichungen</a></li>
+<li><a href=\\"/1335\\">Gleichungssysteme</a></li>
+</ul></div></div><div class=\\"r\\">$<div class=\\"c12\\"><p><a href=\\"/1288\\"><img src=\\"https://assets.serlo.org/legacy/567dcc09158b5_ee1e7704b7c6d297fb42fa50700c01be7944a0a3.png\\" alt=\\"Geometrie\\" /></a></p>
+<ul>
+<li><p><a href=\\"/1394\\">Dreiecke, andere n-Ecke und Kreise</a></p></li>
+<li><p><a href=\\"/1380\\">Konstruktion von geometrischen Objekten</a></p></li>
+<li><p><a href=\\"/1381\\">Satzgruppe des Pythagoras</a></p></li>
+<li><p><a href=\\"/1383\\">Sinus, Cosinus und Tangens</a></p></li>
+<li><p><a href=\\"/1413\\">Analytische Geometrie</a></p></li>
+<li><p><a href=\\"/1454\\">Grundbegriffe</a></p></li>
+<li><p><a href=\\"/1288\\">… 4 weitere</a>  </p></li>
+</ul></div>,$<div class=\\"c12\\"><p><a href=\\"/1289\\"><img src=\\"https://assets.serlo.org/legacy/567dcc2c4e733_06b8dfb93b45b964a5f5a136129c9e4ecc04f46f.png\\" alt=\\"Funktionen\\" /></a></p>
+<ul>
+<li><p><a href=\\"/1302\\">Funktionsbegriff</a></p></li>
+<li><p><a href=\\"/1373\\">Kurvendiskussion</a></p></li>
+<li><p><a href=\\"/1304\\">Ableitung von Funktionen</a></p></li>
+<li><p><a href=\\"/1306\\">Integral und FlÃ¤chenberechnung</a></p></li>
+<li><p><a href=\\"/1303\\">Wichtige Funktionstypen</a></p></li>
+<li><p><a href=\\"/17132\\">Grenzwerte, Stetigkeit und Differenzierbarkeit</a></p></li>
+<li><p><a href=\\"/1289\\">… 3 weitere</a></p></li>
+</ul></div></div><div class=\\"r\\">$<div class=\\"c12\\"><p><a href=\\"/1290\\"><img src=\\"https://assets.serlo.org/legacy/567dcc553378c_92ed745f822645f5578d95f9df16fc9e5c9df581.png\\" alt=\\"Stochastik\\" /></a></p>
+<ul>
+<li><p><a href=\\"/1344\\">Kombinatorik</a></p></li>
+<li><p><a href=\\"/22842\\">Bedingte Wahrscheinlichkeit</a></p></li>
+<li><p><a href=\\"/1439\\">ZufallsgrÃ¶ÃŸen</a></p></li>
+<li><p><a href=\\"/1313\\">Grundbegriffe und Methoden</a></p></li>
+<li><p><a href=\\"/22779\\">Relative HÃ¤ufigkeit</a></p></li>
+<li><p><a href=\\"/22792\\">Hypothesentests</a></p></li>
+<li><p><a href=\\"/1290\\">… 2 weitere</a></p></li>
+</ul></div>,$<div class=\\"c12\\"><p><a href=\\"/1397\\"><img src=\\"https://assets.serlo.org/legacy/567dcc7a769ae_7781a6a9fbadbc482c709192c7d247fa5c93fdd0.png\\" alt=\\"Sonstiges\\" /></a></p>
+<ul>
+<li><p><a href=\\"/1440\\">Mengenlehre und Logik</a></p></li>
+<li><p><a href=\\"/24713\\">Zahlensysteme</a></p></li>
+<li><p><a href=\\"/1356\\">Knobelaufgaben</a></p></li>
+<li><p><a href=\\"/24714\\">WeiterfÃ¼hrendes</a></p></li>
+<li><p><a href=\\"/24716\\">Zum Nachschlagen</a></p></li>
+<li><p><a href=\\"/1457\\">Interessantes</a></p></li>
+<li><p><a href=\\"/1397\\">… 5 weitere</a></p></li>
+</ul></div></div><div class=\\"r\\">$<div class=\\"c12\\"><h3 id=\\"hochschulegrundlagenhttpsdewikibooksorgwikimathe_fc3bcr_nichtfreaks_grundlagen_der_mathematik\\"><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik\\">Hochschule: Grundlagen</a></h3>
+<ul>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#Was_ist_Mathematik.3F\\">Was ist Mathematik?</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#Einf.C3.BChrung_in_die_Logik\\">EinfÃ¼hrung in die Logik</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#Beweise_und_Beweismethoden\\">Beweise und Beweismethoden</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#Vollst.C3.A4ndige_Induktion\\">VollstÃ¤ndige Induktion</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#Mengenlehre\\">Mengenlehre</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#Relationen\\">Relationen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#Abbildungen\\">Abbildungen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#M.C3.A4chtigkeit_von_Mengen\\">MÃ¤chtigkeit von Mengen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#Gleichungsumformungen\\">Gleichungsumformungen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#Summe.2C_Produkt_und_Fakult.C3.A4t\\">Summe, Produkt und FakultÃ¤t</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Grundlagen_der_Mathematik#Binomialkoeffizient\\">Binomialkoeffizient</a></li>
+</ul></div>,$<div class=\\"c12\\"><h3 id=\\"hochschuleanalysis1httpsdewikibooksorgwikimathe_fc3bcr_nichtfreaks_analysis_1\\"><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1\\">Hochschule: Analysis 1</a></h3>
+<ul>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Was_ist_Analysis.3F\\">Was ist Analysis?</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Was_sind_reelle_Zahlen.3F\\">Was sind reelle Zahlen?</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#K.C3.B6rperaxiome\\">KÃ¶rperaxiom</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Anordnungsaxiome\\">Anordnungsaxiome</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Vollst.C3.A4ndigkeit_reeller_Zahlen\\">VollstÃ¤ndigkeit reeller Zahlen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Supremum_und_Infimum\\">Supremum und Infimum</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Wurzel_reeller_Zahlen\\">Wurzel reeller Zahlen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Folgen\\">Folgen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Konvergenz_und_Divergenz\\">Konvergenzen und Divergenzen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Teilfolgen.2C_H.C3.A4ufungspunkte_und_Cauchy-Folgen\\">Teilfolgen, HÃ¤ufungspunkte und Cauchy-Folgen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Reihen\\">Reihen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Konvergenzkriterien_f.C3.BCr_Reihen\\">Konvergenzkriterien fÃ¼r Reihen</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Stetigkeit\\">Stetigkeit</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Ableitung\\">Ableitung</a></li>
+<li><a href=\\"https://de.wikibooks.org/wiki/Mathe_f%C3%BCr_Nicht-Freaks:_Analysis_1#Integrale\\">Integrale</a></li>
+</ul></div></div><div class=\\"r\\">$<div class=\\"c24\\"><h2 id=\\"schulmathematiknachlehrplan\\">Schulmathematik nach Lehrplan</h2>
+<ul>
+<li><a href=\\"/16259\\">Ich gehe auf die Mittelschule.</a></li>
+<li><a href=\\"/16157\\">Ich gehe auf die Realschule.</a></li>
+<li><a href=\\"/16033\\">Ich gehe auf die FOS/BOS - nicht technisch.</a></li>
+<li><a href=\\"/16376\\">Ich gehe auf die FOS/BOS - Technik.</a></li>
+<li><a href=\\"/16042\\">Ich gehe aufs Gymnasium.</a> </li>
+</ul></div></div><div class=\\"r\\">$<div class=\\"c24\\"><h2 id=\\"prfungsvorbereitung\\">PrÃ¼fungsvorbereitung</h2>
+<p>PrÃ¼fungsaufgaben mit ausfÃ¼hrlichen MusterlÃ¶sungen haben wir bereits zu folgenden BundeslÃ¤dern und Schulformen:</p>
+<p><strong>Bayern</strong></p>
+<ul>
+<li><a href=\\"/75678\\">Mittelschule (Quali)</a></li>
+<li><a href=\\"/75049\\">Realschulabschluss ab 2015 Zweig 1</a></li>
+<li><a href=\\"/76750\\">Realschulabschluss ab 2015 Zweig 2 & 3</a></li>
+<li><a href=\\"/79733\\">Jahrgangsstufentest 8. Klasse - BMT 8</a></li>
+<li><a href=\\"/81317\\">Jahrgangsstufentest 10. Klasse - BMT 10</a></li>
+<li><a href=\\"/20852\\">Abitur (Gymnasium)</a></li>
+</ul>
+<p>Wenn dein Bundesland oder deine Schulform noch nicht dabei ist und du uns helfen mÃ¶chtest, das zu ergÃ¤nzen, schreib uns einfach an <a href=\\"mailto:de@serlo.org\\">de@serlo.org</a>. </p></div></div><div class=\\"r\\">$<div class=\\"c24\\"><h2 id=\\"partner\\">Partner</h2></div></div><div class=\\"r\\">$<div class=\\"c6\\"><p><img src=\\"https://assets.serlo.org/legacy/57fcd11f8b958_0d3d714f369bcaf675b72775c77b67fdb795dd2e.png\\" alt=\\"UniversitÃ¤t Bayreuth Mathematik und ihre Didaktik\\" /></p></div>,$<div class=\\"c6\\"><p><img src=\\"https://assets.serlo.org/legacy/57fcd06ce6b0f_a071728dc871fe259b4f5cc4afba3dc71650b490.png\\" alt=\\"LMU FakultÃ¤t fÃ¼r Physik Logo\\" /></p></div>,$<div class=\\"c6\\"></div>,$<div class=\\"c6\\"></div></div><div class=\\"r\\">$<div class=\\"c24\\"><h2 id=\\"beispielezurschulmathematik\\">Beispiele zur Schulmathematik</h2></div></div><div class=\\"r\\">$<div class=\\"c12\\"><h3 id=\\"artikel\\">Artikel</h3>
+<ul>
+<li><a href=\\"/27801\\">Addition und Subtraktion von DezimalbrÃ¼chen</a></li>
+<li><a href=\\"/2193\\">Prozentrechnung mittels Formeln</a></li>
+<li><a href=\\"/1737\\">Gleichsetzungsverfahren</a></li>
+<li><a href=\\"/1605\\">Faktorisieren</a></li>
+<li><a href=\\"/50515\\">Termumformungen mit Zahlen</a></li>
+<li><a href=\\"/1553\\">Berechnungen am Kreis</a></li>
+<li><a href=\\"/1879\\">Mittelsenkrechte</a></li>
+<li><a href=\\"/1573\\">Vektor</a></li>
+<li><a href=\\"/1781\\">Scheitelpunkt einer Parabel</a></li>
+<li><a href=\\"/54038\\">Verschieben und Strecken von Trigonometrischen Funktionen</a></li>
+<li><a href=\\"/1755\\">Laplace-Experiment</a></li>
+<li><a href=\\"/1875\\">Vierfeldertafel</a></li>
+</ul></div>,$<div class=\\"c12\\"><h3 id=\\"kurse\\">Kurse</h3>
+<ul>
+<li><a href=\\"/52020\\">Berechnungsmethoden - Nullstellen von Polynomfunktionen</a></li>
+<li><a href=\\"/37455\\">EinfÃ¼hrung in den verminderten und vermehrten Grundwert</a></li>
+<li><a href=\\"/43180\\">EinfÃ¼hrung zum Vektorbegriff</a></li>
+<li><a href=\\"/71996\\">EinfÃ¼hrung in lineare Gleichungssysteme - Teil 1</a></li>
+<li><a href=\\"/61682\\">Ganze Zahlen</a></li>
+</ul></div></div><div class=\\"r\\">$<div class=\\"c12\\"><h3 id=\\"aufgabensammlungen\\">Aufgaben-Sammlungen</h3>
+<ul>
+<li><a href=\\"/30560\\">Aufgaben zu Kreisen und Kreisteilen</a></li>
+<li><a href=\\"/25627\\">Aufgaben zum Laplace-Experiment</a></li>
+<li><a href=\\"/58876\\">Aufgaben zur Exponentialfunktion</a></li>
+<li><a href=\\"/54054\\">Aufgaben zum Verschieben und Strecken trigonometrischer Funktionen</a></li>
+<li><a href=\\"/26398\\">Aufgaben zur Bestimmung von Scheitelpunkten</a></li>
+</ul></div>,$<div class=\\"c12\\"><h3 id=\\"videos\\">Videos</h3>
+<ul>
+<li><a href=\\"/40744\\">Winkel konstruieren</a></li>
+<li><a href=\\"/32321\\">Schriftliche Addition</a></li>
+<li><a href=\\"/65033\\">Direkte ProportionalitÃ¤t</a> (Sebastian Schmidt)</li>
+<li><a href=\\"/81837\\">Winkelarten</a> (Sebastian Schmidt)</li>
+<li><a href=\\"/40742\\">Mittelsenkrechte</a> </li>
+<li><a href=\\"/40746\\">Lot errichten</a></li>
+</ul></div></div><div class=\\"r\\">$<div class=\\"c24\\"><h3 id=\\"beispielbungsaufgaben\\">Beispiel-Ãœbungsaufgaben</h3>
+<div class=\\"injection\\"><a href=\\"/54210\\"></a></div>
+<div class=\\"injection\\"><a href=\\"/13917\\"></a></div>
+<div class=\\"injection\\"><a href=\\"/4107\\"></a></div></div></div>"
+`;
