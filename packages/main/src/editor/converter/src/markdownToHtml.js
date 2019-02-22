@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { converter } from '../../../../../markdown/src'
+import { converter } from '@serlo/markdown'
 
 const renderMarkdown = input => {
   let html = converter.makeHtml(input)
