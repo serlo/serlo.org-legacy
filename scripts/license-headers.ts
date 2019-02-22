@@ -1,11 +1,11 @@
 import { updateCopyrightHeader } from '@splish-me/copyright-headers'
-import * as glob from 'glob'
+import glob from 'glob'
 import * as path from 'path'
 import * as util from 'util'
 
 const g = util.promisify(glob)
 
-const root = path.join(__dirname, '..', 'src')
+const root = path.join(__dirname, '..')
 
 const year = new Date().getFullYear()
 const lines = [
@@ -30,9 +30,15 @@ const lines = [
   '@link      https://github.com/serlo-org/athene2-assets for the canonical source repository'
 ]
 
-g('**/*@(.js|.json|.ts)', {
+g('**/*@(.js|.ts|.tsx)', {
   cwd: root,
-  ignore: 'thirdparty/**'
+  ignore: [
+    '**/*.config.js',
+    '**/dist*/**',
+    '**/node_modules/**',
+    'packages/main/src/thirdparty/**',
+    'scripts/**'
+  ]
 }).then(files => {
   return files.map(file => {
     const filePath = path.join(root, file)

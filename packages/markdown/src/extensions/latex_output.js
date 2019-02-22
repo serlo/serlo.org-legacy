@@ -19,27 +19,47 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { uploadFolder } from '@serlo/gcloud'
-import * as path from 'path'
-import { Signale } from 'signale'
-
-const bucket = 'assets.serlo.org'
-const source = path.join(__dirname, '..', 'src')
-
-const signale = new Signale({ interactive: true })
-
-run()
-
-async function run() {
-  try {
-    signale.info('Deploying static assets')
-    await uploadFolder({
-      bucket,
-      source,
-      target: 'athene2-assets'
-    })
-    signale.success(`Successfully deployed static assets`)
-  } catch (e) {
-    signale.fatal(e)
-  }
+/* global define */
+var serloSpecificCharsToEncode
+var latexoutput = function() {
+  return [
+    {
+      type: 'output',
+      filter: function(text) {
+        return encodeSerloSpecificChars(text)
+      }
+    }
+  ]
 }
+
+serloSpecificCharsToEncode = (function() {
+  var regexp
+  var chars = ['*', '`', '_', '{', '}', '[', ']', '&lt;', '\\']
+  var replacements = {}
+  var l = chars.length
+  var i = 0
+
+  for (; i < l; i++) {
+    replacements['' + i] = chars[i]
+  }
+
+  regexp = new RegExp('§LT([0-9])', 'gm')
+
+  function replace(whole, match) {
+    return replacements[parseInt(match)] || match
+  }
+
+  return {
+    regexp: regexp,
+    replace: replace
+  }
+})()
+
+function encodeSerloSpecificChars(text) {
+  return text.replace(
+    serloSpecificCharsToEncode.regexp,
+    serloSpecificCharsToEncode.replace
+  )
+}
+
+export default latexoutput

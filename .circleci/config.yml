@@ -19,6 +19,7 @@ jobs:
     <<: *js
     steps:
       - checkout
+      - setup_remote_docker
       - restore_cache:
           <<: *yarn_restore_cache
       - run:

@@ -19,27 +19,22 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { uploadFolder } from '@serlo/gcloud'
-import * as path from 'path'
-import { Signale } from 'signale'
+import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
+import { HtmlRenderer } from '@serlo/html-renderer'
+import * as React from 'react'
+import { hydrate } from 'react-dom'
 
-const bucket = 'assets.serlo.org'
-const source = path.join(__dirname, '..', 'src')
+import { getStateFromElement } from '../helpers'
 
-const signale = new Signale({ interactive: true })
+export const initElement = (element: HTMLElement) => {
+  const content = getStateFromElement(element)
 
-run()
-
-async function run() {
-  try {
-    signale.info('Deploying static assets')
-    await uploadFolder({
-      bucket,
-      source,
-      target: 'athene2-assets'
-    })
-    signale.success(`Successfully deployed static assets`)
-  } catch (e) {
-    signale.fatal(e)
-  }
+  hydrate(
+    <div className="r">
+      <div className="c24">
+        <HtmlRenderer state={content} plugins={createRendererPlugins('all')} />
+      </div>
+    </div>,
+    element
+  )
 }

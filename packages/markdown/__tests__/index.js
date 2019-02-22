@@ -19,27 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { uploadFolder } from '@serlo/gcloud'
-import * as path from 'path'
-import { Signale } from 'signale'
+import { converter } from '../src'
 
-const bucket = 'assets.serlo.org'
-const source = path.join(__dirname, '..', 'src')
-
-const signale = new Signale({ interactive: true })
-
-run()
-
-async function run() {
-  try {
-    signale.info('Deploying static assets')
-    await uploadFolder({
-      bucket,
-      source,
-      target: 'athene2-assets'
-    })
-    signale.success(`Successfully deployed static assets`)
-  } catch (e) {
-    signale.fatal(e)
-  }
-}
+test("Converter doesn't throw", () => {
+  const html = converter.makeHtml('# Heading')
+  expect(html).toEqual('<h1 id="heading">Heading</h1>')
+})

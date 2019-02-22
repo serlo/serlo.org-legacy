@@ -19,27 +19,18 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { uploadFolder } from '@serlo/gcloud'
-import * as path from 'path'
-import { Signale } from 'signale'
+import $ from 'jquery'
 
-const bucket = 'assets.serlo.org'
-const source = path.join(__dirname, '..', 'src')
+export const initContent = () => {
+  const $elements = $('.editable[data-edit-type="ory"] > div[data-raw-content]')
 
-const signale = new Signale({ interactive: true })
-
-run()
-
-async function run() {
-  try {
-    signale.info('Deploying static assets')
-    await uploadFolder({
-      bucket,
-      source,
-      target: 'athene2-assets'
-    })
-    signale.success(`Successfully deployed static assets`)
-  } catch (e) {
-    signale.fatal(e)
+  if ($elements.length === 0) {
+    return
   }
+
+  return import('./init-element').then(({ initElement }) => {
+    $elements.each((_i, element) => {
+      initElement(element)
+    })
+  })
 }

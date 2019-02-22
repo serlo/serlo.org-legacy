@@ -19,27 +19,29 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { uploadFolder } from '@serlo/gcloud'
-import * as path from 'path'
-import { Signale } from 'signale'
+/* global define */
+/**
+ * Serlo Flavored Markdown
+ * Spoilers:
+ * Transforms ///.../// blocks into spoilers
+ **/
+var spoilerprepare = function() {
+  var filter
+  var findSpoilers = new RegExp(/^\/\/\/ (.*)\n([\s\S]*?)(\n|\r)+\/\/\//gm)
 
-const bucket = 'assets.serlo.org'
-const source = path.join(__dirname, '..', 'src')
-
-const signale = new Signale({ interactive: true })
-
-run()
-
-async function run() {
-  try {
-    signale.info('Deploying static assets')
-    await uploadFolder({
-      bucket,
-      source,
-      target: 'athene2-assets'
+  filter = function(text) {
+    // convert all "///"s into "=,sp."s
+    return text.replace(findSpoilers, function(original, title, content) {
+      return '<p>=,sp. ' + title + '</p>\n' + content + '<p>=,sp.</p>'
     })
-    signale.success(`Successfully deployed static assets`)
-  } catch (e) {
-    signale.fatal(e)
   }
+
+  return [
+    {
+      type: 'lang',
+      filter: filter
+    }
+  ]
 }
+
+export default spoilerprepare

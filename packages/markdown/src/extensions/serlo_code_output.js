@@ -19,27 +19,35 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { uploadFolder } from '@serlo/gcloud'
-import * as path from 'path'
-import { Signale } from 'signale'
+/* global define */
+/* Prepares Github Style Code */
+var codeoutput = function() {
+  return [
+    {
+      type: 'lang',
+      filter: (function() {
+        var charsToEncode = ['~D', '%', '|', '/']
+        var replacements = {}
+        var regexp
+        var i
+        var l
 
-const bucket = 'assets.serlo.org'
-const source = path.join(__dirname, '..', 'src')
+        for (i = 0, l = charsToEncode.length; i < l; i++) {
+          replacements['' + i] = charsToEncode[i]
+        }
 
-const signale = new Signale({ interactive: true })
+        regexp = new RegExp('§SC([0-9])', 'gm')
 
-run()
+        function replace(whole, match) {
+          return replacements[parseInt(match)] || match
+        }
 
-async function run() {
-  try {
-    signale.info('Deploying static assets')
-    await uploadFolder({
-      bucket,
-      source,
-      target: 'athene2-assets'
-    })
-    signale.success(`Successfully deployed static assets`)
-  } catch (e) {
-    signale.fatal(e)
-  }
+        return function(text) {
+          return text.replace(regexp, replace)
+        }
+      })()
+    }
+  ]
 }
+
+export default codeoutput

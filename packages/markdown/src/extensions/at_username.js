@@ -19,27 +19,33 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { uploadFolder } from '@serlo/gcloud'
-import * as path from 'path'
-import { Signale } from 'signale'
+/* global define */
+var atusername = function() {
+  return [
+    // @username syntax
+    {
+      type: 'lang',
+      regex: '\\B(\\\\)?@([\\S]+)\\b',
+      replace: function(match, leadingSlash, username) {
+        // Check if we matched the leading \ and return nothing changed if so
+        if (leadingSlash === '\\') {
+          return match
+        } else {
+          return (
+            '<a class="user-mention" href="/user/profile/' +
+            username +
+            '">@' +
+            username +
+            '</a>'
+          )
+        }
+      }
+    },
 
-const bucket = 'assets.serlo.org'
-const source = path.join(__dirname, '..', 'src')
-
-const signale = new Signale({ interactive: true })
-
-run()
-
-async function run() {
-  try {
-    signale.info('Deploying static assets')
-    await uploadFolder({
-      bucket,
-      source,
-      target: 'athene2-assets'
-    })
-    signale.success(`Successfully deployed static assets`)
-  } catch (e) {
-    signale.fatal(e)
-  }
+    // Escaped @'s so we don't get into trouble
+    //
+    { type: 'lang', regex: '\\\\@', replace: '@' }
+  ]
 }
+
+export default atusername

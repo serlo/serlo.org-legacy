@@ -19,27 +19,25 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { uploadFolder } from '@serlo/gcloud'
-import * as path from 'path'
-import { Signale } from 'signale'
+import bodyParser from 'body-parser'
+import createApp from 'express'
 
-const bucket = 'assets.serlo.org'
-const source = path.join(__dirname, '..', 'src')
+import { render } from './render'
 
-const signale = new Signale({ interactive: true })
+const app = createApp()
 
-run()
+app.use(bodyParser.json())
 
-async function run() {
-  try {
-    signale.info('Deploying static assets')
-    await uploadFolder({
-      bucket,
-      source,
-      target: 'athene2-assets'
+app.post('/', (req: { body: { state: string } }, res) => {
+  render(req.body.state)
+    .then(html => {
+      res.status(200).send({ html })
     })
-    signale.success(`Successfully deployed static assets`)
-  } catch (e) {
-    signale.fatal(e)
-  }
-}
+    .catch(() => {
+      res.sendStatus(500)
+    })
+})
+
+app.listen(3000, () => {
+  console.log('Listening...')
+})

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/serlo/athene2-assets/compare/3.7.3..HEAD)
+
+### Internal
+
+- Build docker image serlo/legacy-editor-renderer
+
 ## [3.7.3](https://github.com/serlo/athene2-assets/compare/3.7.2..3.7.3) - February 20, 2019
 
 ### Internal
