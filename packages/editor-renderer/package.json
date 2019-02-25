@@ -5,10 +5,10 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "yarn build:babel && yarn build:docker",
-    "build:babel": "babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
+    "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
     "build:docker": "docker build -f Dockerfile -t serlo/editor-renderer:$npm_package_version ../..",
     "prebuild:gcf": "rimraf dist-gcf",
-    "build:gcf": "webpack",
+    "build:gcf": "cross-env NODE_ENV=production webpack",
     "start": "nodemon --watch src --exec \"ts-node src/index.ts\""
   },
   "dependencies": {

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "babel src --out-dir dist --root-mode upward --source-maps"
+    "build": "cross-env NODE_ENV=production babel src --out-dir dist --root-mode upward --source-maps"
   },
   "dependencies": {
     "@serlo/editor": "^0.5.0",
