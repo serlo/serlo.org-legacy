@@ -21,8 +21,8 @@
  */
 import { Plugin } from '@serlo/editor-plugins-registry'
 
+import { convert } from '../src'
 import { expect, expectSlate } from './common'
-import { convert } from '..'
 
 const cases = [
   {

@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
 // @ts-ignore
-import * as createCloudflare from 'cloudflare'
+import createCloudflare from 'cloudflare'
 
 export const zoneId = '1a4afa776acb2e40c3c8a135248328ae'
 export const secret = require('./cloudflare.secret.json')
