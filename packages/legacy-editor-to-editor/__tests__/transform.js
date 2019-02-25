@@ -88,7 +88,6 @@ describe('Transformes Serlo Layout to new Layout', () => {
     })
   })
 
-
   test('Two-column layout with odd column size', () => {
     createTestCase({
       input: [

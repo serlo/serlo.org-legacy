@@ -25,7 +25,6 @@ import { HtmlRenderer } from '@serlo/html-renderer'
 import * as React from 'react'
 import { hydrate } from 'react-dom'
 
-
 export const initElement = (element: HTMLElement) => {
   const content = getStateFromElement(element)
 
