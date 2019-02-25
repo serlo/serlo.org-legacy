@@ -9,6 +9,7 @@ module.exports = R.merge(baseConfig, {
   mode: 'production',
   devtool: 'source-map',
   plugins: [
+    ...baseConfig.plugins,
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     })
