@@ -19,22 +19,18 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { getStateFromElement } from '@serlo/editor-helpers'
-import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
-import { HtmlRenderer } from '@serlo/html-renderer'
-import * as React from 'react'
-import { hydrate } from 'react-dom'
+import { Request, Response } from 'express'
 
+import { render as r } from './render'
 
-export const initElement = (element: HTMLElement) => {
-  const content = getStateFromElement(element)
+export const render = (req: Request, res: Response) => {
+  const input = req.body.state
 
-  hydrate(
-    <div className="r">
-      <div className="c24">
-        <HtmlRenderer state={content} plugins={createRendererPlugins('all')} />
-      </div>
-    </div>,
-    element
-  )
+  r(input)
+    .then(html => {
+      res.status(200).send({ html })
+    })
+    .catch(() => {
+      res.sendStatus(500)
+    })
 }

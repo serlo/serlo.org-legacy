@@ -79,3 +79,6 @@ export const expectSlate = html => ({
     )
   }
 })
+
+// Just so that Jest doesn't complain about an empty test suite
+test('', () => {})

@@ -1,0 +1,22 @@
+{
+  "name": "@serlo/editor-helpers",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "npm-run-all build:*",
+    "build:babel": "babel src --extensions \".ts\" --out-dir dist --root-mode upward --source-maps",
+    "build:tsc": "tsc --build src"
+  },
+  "dependencies": {
+    "base-64": "^0.1.0",
+    "jquery": "^3.0.0",
+    "utf8": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/base-64": "^0.1.0",
+    "@types/utf8": "^2.0.0"
+  },
+  "private": true
+}

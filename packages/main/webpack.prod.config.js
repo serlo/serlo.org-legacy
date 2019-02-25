@@ -2,7 +2,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const R = require('ramda')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-const baseConfig = require('./webpack.main.base.config')
+const baseConfig = require('./webpack.base.config')
 
 module.exports = R.merge(baseConfig, {
   mode: 'production',
@@ -15,4 +15,5 @@ module.exports = R.merge(baseConfig, {
       new OptimizeCSSAssetsPlugin()
     ]
   }
+  // FIXME: Define Plugin Node.process.env
 })

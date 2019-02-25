@@ -1,0 +1,14 @@
+{
+  "name": "@serlo/legacy-editor-to-editor",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src --out-dir dist --root-mode upward --source-maps"
+  },
+  "dependencies": {
+    "@serlo/editor": "^0.5.0",
+    "@serlo/markdown": "^0.0.0",
+    "uuid": "^3.0.0"
+  },
+  "private": true
+}

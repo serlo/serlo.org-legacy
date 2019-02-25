@@ -22,7 +22,7 @@
 import { Plugin } from '@serlo/editor-plugins-registry'
 
 import { expect, expectSlate } from './common'
-import convert from '..'
+import { convert } from '..'
 
 const cases = [
   {

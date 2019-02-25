@@ -19,22 +19,4 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import { getStateFromElement } from '@serlo/editor-helpers'
-import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
-import { HtmlRenderer } from '@serlo/html-renderer'
-import * as React from 'react'
-import { hydrate } from 'react-dom'
-
-
-export const initElement = (element: HTMLElement) => {
-  const content = getStateFromElement(element)
-
-  hydrate(
-    <div className="r">
-      <div className="c24">
-        <HtmlRenderer state={content} plugins={createRendererPlugins('all')} />
-      </div>
-    </div>,
-    element
-  )
-}
+export declare function convert(content: unknown, id?: string): unknown

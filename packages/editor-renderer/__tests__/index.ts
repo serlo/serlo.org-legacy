@@ -19,15 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import transform from './src/transform'
-import split from './src/split'
+import { render } from '../src/render'
 
-const convert = (content, id) => {
-  const cells = split(transform(content))
-  return {
-    id: id,
-    ...cells
-  }
-}
-
-export default convert
+test('empty string', async () => {
+  const html = await render('')
+  expect(html).toEqual('')
+})

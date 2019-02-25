@@ -1,6 +1,6 @@
 const R = require('ramda')
 
-const baseConfig = require('./webpack.main.base.config')
+const baseConfig = require('./webpack.base.config')
 const port = 8081
 
 module.exports = R.mergeDeepRight(baseConfig, {

@@ -19,50 +19,36 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
+import { stringifyState } from '@serlo/editor-helpers'
 import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
 import { HtmlRenderer } from '@serlo/html-renderer'
-import React from 'react'
+import { convert } from '@serlo/legacy-editor-to-editor'
+import * as React from 'react'
 import { renderToString } from 'react-dom/server'
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
 
-import converter from './converter'
-import { stringifyState } from './helpers'
-
-const wrapOutput = ({ state, children }) => {
-  return `<div class="ory-content" data-raw-content='${stringifyState(
-    state
-  )}'>${children || ''}</div>`
-}
-
-export function render(input, callback) {
-  let data
-
-  // callback(output, Exception, ErrorMessage);
-  if (typeof input === 'undefined') {
-    callback('', 'InvalidArgumentException', 'No input given')
-    return
+export async function render(input: string): Promise<string> {
+  if (input === undefined) {
+    throw new Error('No input given')
   }
 
   if (input === '') {
-    callback('')
-  } else {
-    // parse input to object
-    try {
-      // FIXME:
-      input = input.trim().replace(/&quot;/g, '"')
-      data = JSON.parse(input)
-    } catch (e) {
-      callback(
-        '',
-        'InvalidArgumentException',
-        'No valid json string given: ' + input
-      )
-      return
-    }
+    return ''
+  }
 
-    const state = data['cells'] ? data : converter(data)
+  let data: { cells?: unknown }
+  try {
+    data = JSON.parse(input.trim().replace(/&quot;/g, '"'))
+  } catch (e) {
+    throw new Error('No valid json string given')
+  }
 
-    try {
-      const children = renderToString(
+  const sheet = new ServerStyleSheet()
+  const state = data.cells === undefined ? convert(data) : data
+
+  try {
+    const children = renderToString(
+      <StyleSheetManager sheet={sheet.instance}>
         <div className="r">
           <div className="c24">
             <HtmlRenderer
@@ -71,11 +57,17 @@ export function render(input, callback) {
             />
           </div>
         </div>
-      )
+      </StyleSheetManager>
+    )
 
-      callback(wrapOutput({ state, children }))
-    } catch (e) {
-      callback(wrapOutput({ state }))
-    }
+    return wrapOutput(children)
+  } catch (e) {
+    return wrapOutput()
+  }
+
+  function wrapOutput(children = ''): string {
+    return `${sheet.getStyleTags()}<div class="ory-content" data-raw-content='${stringifyState(
+      state
+    )}'>${children}</div>`
   }
 }

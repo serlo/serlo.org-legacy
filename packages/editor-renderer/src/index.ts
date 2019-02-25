@@ -19,34 +19,25 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import normalizeMarkdown from './normalizeMarkdown'
-import createPlugins from './createPlugin'
+import bodyParser from 'body-parser'
+import createApp from 'express'
 
-const splitMarkdown = markdown => createPlugins(normalizeMarkdown(markdown))
+import { render } from './render'
 
-const splitCell = cell => {
-  if (typeof cell.raw !== 'undefined') {
-    return {
-      size: cell.size,
-      rows: splitMarkdown(cell.raw)
-    }
-  } else {
-    const { rows = [] } = cell
-    return {
-      ...cell,
-      rows: rows.map(splitRow)
-    }
-  }
-}
+const app = createApp()
 
-const splitRow = row => ({
-  ...row,
-  cells: row.cells.map(splitCell)
+app.use(bodyParser.json())
+
+app.post('/', (req: { body: { state: string } }, res) => {
+  render(req.body.state)
+    .then(html => {
+      res.status(200).send({ html })
+    })
+    .catch(() => {
+      res.sendStatus(500)
+    })
 })
 
-const split = input => ({
-  ...input,
-  cells: input.cells.map(splitCell)
+app.listen(3000, () => {
+  console.log('Listening...')
 })
-
-export default split
