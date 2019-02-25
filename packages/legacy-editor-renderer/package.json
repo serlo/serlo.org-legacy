@@ -4,8 +4,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "yarn build:babel && yarn build:docker",
-    "build:babel": "babel src --extensions \".ts\" --out-dir dist --root-mode upward --source-maps",
-    "build:docker": "docker build -f Dockerfile -t legacy-editor-renderer:$npm_package_version ../..",
+    "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts\" --out-dir dist --root-mode upward --source-maps",
+    "build:docker": "docker build -f Dockerfile -t serlo/legacy-editor-renderer:$npm_package_version ../..",
     "start": "nodemon --watch src --exec \"ts-node src/index.ts\""
   },
   "dependencies": {

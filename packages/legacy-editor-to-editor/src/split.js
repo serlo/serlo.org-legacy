@@ -19,20 +19,34 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-import express from 'express'
-import bodyParser from 'body-parser'
+import createPlugins from './createPlugin'
+import normalizeMarkdown from './normalizeMarkdown'
 
-import { render } from './index.gcf'
+const splitMarkdown = markdown => createPlugins(normalizeMarkdown(markdown))
 
-const app = express()
+const splitCell = cell => {
+  if (typeof cell.raw !== 'undefined') {
+    return {
+      size: cell.size,
+      rows: splitMarkdown(cell.raw)
+    }
+  } else {
+    const { rows = [] } = cell
+    return {
+      ...cell,
+      rows: rows.map(splitRow)
+    }
+  }
+}
 
-app.use(bodyParser.json())
-
-app.post('/', (...args) => {
-  console.log('incoming request')
-  render(...args)
+const splitRow = row => ({
+  ...row,
+  cells: row.cells.map(splitCell)
 })
 
-app.listen(3000, () => {
-  console.log('Listening...')
+const split = input => ({
+  ...input,
+  cells: input.cells.map(splitCell)
 })
+
+export default split

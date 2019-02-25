@@ -26,7 +26,9 @@ import * as ReactDOM from 'react-dom'
 
 import 'ory-editor-core/lib/index.css'
 
+import { getStateFromElement } from '@serlo/editor-helpers'
 import { createEditorPlugins, defaultPlugin } from '@serlo/editor-plugins'
+import { convert } from '@serlo/legacy-editor-to-editor'
 import {
   createDocumentIdentifier,
   Document,
@@ -43,8 +45,6 @@ import {
 import t from '../../modules/translator'
 import Modals from '../../modules/modals'
 import SystemNotification from '../../modules/system_notification'
-import convert from '../converter'
-import { getStateFromElement } from '../helpers'
 
 let $saveModalContent = $('<div></div>')
 const $formDataOnPage = $('#ory-edit-form')

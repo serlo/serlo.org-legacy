@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "webpack",
+    "build": "cross-env NODE_ENV=production webpack",
     "deploy": "ts-node scripts/deploy"
   },
   "devDependencies": {

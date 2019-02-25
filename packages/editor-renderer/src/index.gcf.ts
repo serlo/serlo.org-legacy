@@ -19,10 +19,18 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/athene2-assets for the canonical source repository
  */
-// @ts-ignore
-import createCloudflare from 'cloudflare'
+import { Request, Response } from 'express'
 
-export const zoneId = '1a4afa776acb2e40c3c8a135248328ae'
-export const secret = require('./cloudflare.secret.json')
+import { render as r } from './render'
 
-export const cloudflare = createCloudflare(secret)
+export const render = (req: Request, res: Response) => {
+  const input = req.body.state
+
+  r(input)
+    .then(html => {
+      res.status(200).send({ html })
+    })
+    .catch(() => {
+      res.sendStatus(500)
+    })
+}

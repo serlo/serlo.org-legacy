@@ -18,14 +18,21 @@ module.exports = api => {
     '@babel/plugin-syntax-import-meta',
     ['@babel/plugin-proposal-class-properties', { loose: false }],
     '@babel/plugin-proposal-json-strings',
-    [
-      'babel-plugin-module-resolver',
-      {
-        alias: {
-          '@serlo/markdown': '@serlo/markdown/src'
-        }
-      }
-    ]
+    ...(api.env(['development', 'test'])
+      ? [
+          [
+            'babel-plugin-module-resolver',
+            {
+              alias: {
+                '@serlo/editor-helpers': '@serlo/editor-helpers/src',
+                '@serlo/legacy-editor-to-editor':
+                  '@serlo/legacy-editor-to-editor/src',
+                '@serlo/markdown': '@serlo/markdown/src'
+              }
+            }
+          ]
+        ]
+      : [])
   ]
 
   return { plugins, presets }

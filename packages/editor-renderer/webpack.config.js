@@ -1,9 +1,10 @@
 const path = require('path')
+const webpack = require('webpack')
 const createNodeExternals = require('webpack-node-externals')
 
 module.exports = {
   mode: 'production',
-  entry: path.join(__dirname, 'src', 'editor', 'index.gcf'),
+  entry: path.join(__dirname, 'src', 'index.gcf'),
   output: {
     path: path.resolve(__dirname, 'dist-gcf'),
     filename: 'index.js',
@@ -33,6 +34,11 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    })
+  ],
   target: 'node',
   externals: [createNodeExternals(), require('webpack-require-http')]
 }

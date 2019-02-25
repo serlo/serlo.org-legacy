@@ -1,5 +1,5 @@
 FROM node:10 as base
-
+ENV NODE_ENV production
 WORKDIR /usr/src/app
 COPY packages/legacy-editor-renderer/package.json packages/legacy-editor-renderer/
 COPY packages/markdown/package.json packages/markdown/
@@ -8,11 +8,10 @@ COPY yarn.lock .
 
 FROM base as dependencies
 RUN yarn --frozen-lockfile --prod
-ENTRYPOINT find .
 
 FROM dependencies as release
-COPY packages/legacy-editor-renderer ./packages/legacy-editor-renderer
-COPY packages/markdown ./packages/markdown
+COPY packages/legacy-editor-renderer packages/legacy-editor-renderer
+COPY packages/markdown packages/markdown
 WORKDIR packages/legacy-editor-renderer
 ENTRYPOINT node .
 EXPOSE 3000

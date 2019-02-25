@@ -21,7 +21,6 @@
  */
 import { blockquoteRendererPlugin as blockquote } from '@serlo/editor-plugin-blockquote-renderer'
 import { geogebraRendererPlugin as geogebra } from '@serlo/editor-plugin-geogebra-renderer'
-import { createImageRendererPlugin } from '@serlo/editor-plugin-image-renderer'
 import { injectionRendererPlugin as injection } from '@serlo/editor-plugin-injection-renderer'
 import { spoilerRendererPlugin as spoiler } from '@serlo/editor-plugin-spoiler-renderer'
 import { tableRendererPlugin as table } from '@serlo/editor-plugin-table-renderer'
@@ -29,8 +28,6 @@ import { Plugin } from '@serlo/editor-plugins-registry'
 import { v4 } from 'uuid'
 
 import markdownToSlate from './markdownToSlate'
-
-const image = createImageRendererPlugin()
 
 const createPlugins = ({ normalized, elements }) => {
   const split = normalized
