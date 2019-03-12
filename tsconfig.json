@@ -17,5 +17,6 @@
       "@serlo/legacy-editor-to-editor": ["legacy-editor-to-editor/src"],
       "@serlo/markdown": ["markdown/src"]
     }
-  }
+  },
+  "exclude": ["packages/server/src/vendor"]
 }

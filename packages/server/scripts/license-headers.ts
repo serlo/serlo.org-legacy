@@ -1,5 +1,5 @@
 import { updateCopyrightHeader } from '@splish-me/copyright-headers'
-import * as glob from 'glob'
+import glob from 'glob'
 import * as path from 'path'
 import * as util from 'util'
 
