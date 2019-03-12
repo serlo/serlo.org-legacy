@@ -25,29 +25,17 @@
     "prestart": "yarn c install && yarn c-dev install",
     "start": "docker-compose up --build -d",
     "stop": "docker-compose down",
-    "format": "npm-run-all format:*",
-    "lint": "npm-run-all lint:*",
-    "license": "ts-node scripts/license-headers",
+    "format": "yarn _php-cs-fixer",
     "e2e": "cypress open",
     "unit": "docker-compose exec php src/vendor/bin/phpunit",
-    "format:php-cs-fixer": "yarn _php-cs-fixer",
-    "format:prettier": "yarn _prettier --write",
-    "lint:prettier": "yarn _prettier --list-different",
     "_php-cs-fixer": "docker-compose exec php dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php",
     "_prettier": "prettier \"{{.circleci,cypress,scripts}/**/*,*}.{js,jsx,ts,tsx,css,scss,sass,less,json,md,markdown,yaml,yml}\""
   },
   "dependencies": {},
   "devDependencies": {
-    "@splish-me/copyright-headers": "^0.0.1",
-    "@types/glob": "^7.0.0",
-    "@types/node": "^10.0.0",
     "cypress": "^3.0.0",
     "cypress-testing-library": "^2.0.0",
-    "glob": "^7.0.0",
-    "npm-run-all": "^4.0.0",
-    "prettier": "^1.0.0",
-    "ts-node": "^7.0.0",
-    "typescript": "^3.0.0"
+    "npm-run-all": "^4.0.0"
   },
   "private": true
 }

@@ -9,9 +9,9 @@ const root = path.join(__dirname, '..')
 
 const year = new Date().getFullYear()
 const lines = [
-  'This file is part of Athene2 Assets.',
+  'This file is part of Serlo.org.',
   '',
-  `Copyright (c) 2017-${year} Serlo Education e.V.`,
+  `Copyright (c) 2013-${year} Serlo Education e.V.`,
   '',
   'Licensed under the Apache License, Version 2.0 (the "License")',
   'you may not use this file except in compliance with the License',
@@ -27,16 +27,17 @@ const lines = [
   '',
   `@copyright Copyright (c) 2013-${year} Serlo Education e.V.`,
   '@license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0',
-  '@link      https://github.com/serlo-org/athene2-assets for the canonical source repository'
+  '@link      https://github.com/serlo-org/serlo.org for the canonical source repository'
 ]
 
-g('**/*@(.js|.ts|.tsx)', {
+g('**/*@(.js|.ts|.tsx|.php|.twig|.phtml)', {
   cwd: root,
   ignore: [
     '**/*.config.js',
     '**/dist*/**',
     '**/node_modules/**',
     'packages/main/src/thirdparty/**',
+    'packages/server/src/vendor/**',
     'scripts/**'
   ]
 }).then(files => {
