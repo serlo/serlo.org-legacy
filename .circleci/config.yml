@@ -101,7 +101,7 @@ jobs:
       - save_cache:
           <<: *composer_save_cache
       - run:
-          command: packages/server/src/vendor/bin/phpunit
+          command: (cd packages/server && src/vendor/bin/phpunit)
 
 workflows:
   version: 2
