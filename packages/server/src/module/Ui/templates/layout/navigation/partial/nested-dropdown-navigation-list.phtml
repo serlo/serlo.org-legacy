@@ -1,0 +1,84 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+foreach ($this->pages as $page) {
+    $liClasses = [];
+    // visibility of the sub-page
+    if (!$page->isVisible() || !$this->navigation()->accept($page)) {
+        continue;
+    }
+
+    // check if menu item has 'needsIdentity' set and user is logged in
+    if (!$this->navigation()->checkIdentity($page)) {
+        continue;
+    }
+
+
+    if ($page->getLabel() == 'divider') {
+        $html[] = '<li class="divider"></li>';
+        continue;
+    }
+
+    $dropdown = !empty($page->pages);
+
+    if ($dropdown) {
+        $liClasses[] = 'dropdown-submenu';
+    }
+
+    if ($page->isActive()) {
+        $liClasses[] = 'active';
+    }
+
+    $html[] = '<li' . (count($liClasses) ? (' class="' . implode(' ', $liClasses) . '">') : '>');
+
+    if ($dropdown) {
+        $html[] = '<a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="' . $this->alias(
+                $page->getHref()
+            ) . '">';
+    } else {
+        $html[] = '<a href="' . $this->alias($page->getHref()) . '">';
+    }
+
+    if ($page->get('icon')) {
+        if (stristr($page->get('icon'), 'fa-')) {
+            $html[] = '<span class="' . $page->get('icon') . '"></span>';
+        } else {
+            $html[] = '<span class="fa fa-' . $page->get('icon') . '"></span>';
+        }
+    }
+
+    $html[] = $page->getLabel();
+    $html[] = "</a>";
+
+    if ($dropdown) {
+        $html[] = '<ul class="dropdown-menu">';
+        $html[] = $this->partial(
+            'layout/navigation/partial/nested-dropdown-navigation-list',
+            array('pages' => $page->pages)
+        );
+        $html[] = '</ul>';
+    }
+
+    $html[] = "</li>";
+}
+
+echo join(' ', $html);

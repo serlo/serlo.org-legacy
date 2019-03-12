@@ -1,0 +1,59 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+?>
+<?php echo $this->pageHeader('Trashed learning resources')->setSubtitle($this->subject->getName())->render(); ?>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th><?php echo $this->translate('Title'); ?></th>
+			<th><?php echo $this->translate('Type'); ?></th>
+			<th><?php echo $this->translate('Action'); ?></th>
+		</tr>
+	</thead>
+	<tbody>
+        <?php foreach($this->entities as $entity): ?>
+            <tr>
+                <td><a href="<?php echo $this->url($entity->getRouteName(), $entity->getRouteParams()); ?>"><?php echo $entity->getTitle(); ?></a></td>
+                <td><?php echo $entity->getType(); ?></td>
+                <td>
+                    <div class="btn-group">
+                    <?php if ($this->isGranted('entity.restore', $this->subject)): ?>
+					<a class="btn btn-success btn-xs"
+						href="<?php echo $this->url('uuid/restore', array('id' => $entity->getId())); ?>"><span
+						class="fa fa-recycle"></span></a>
+                    <?php endif; ?>
+                    <?php if ($this->isGranted('entity.purge', $this->subject)): ?>
+                        <?php $trashbutton = '<button class="dialog btn btn-danger btn-xs"
+                            data-content="'.$this->translate('Do you really want to purge this item? It and all references to it will be lost forever!').'"
+                            data-type="danger">
+                                <span class="fa fa-fire"></span>
+                            </button>';
+                            echo $this->twigPartial('common/csrfform', array('form' => $this->uuidForm()->getPurgeForm($entity->getId()), 'sendbutton' => $trashbutton));
+                        ?>
+                    <?php endif; ?>
+				</div>
+            </td>
+		</tr>
+        <?php endforeach; ?>
+	</tbody>
+</table>

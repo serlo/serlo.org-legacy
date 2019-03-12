@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Geogebra Plugin</title>
+    </head>
+    <body data-param-app="true">
+        <script type="text/javascript" language="javascript" src="https://www.geogebra.org/web/4.4/web/web.nocache.js"></script>
+        <article class="geogebraweb" data-param-id="serlo-geogebra" data-param-width="500" data-param-height="500" data-param-showMenuBar="true" data-param-showToolbar="true" data-param-useBrowserForJS="true" data-param-enableLabelDrags="true" data-param-enableShiftDragZoom="true"></article>
+        <script type="text/javascript">
+            var initCallback = function () {};
+
+            window.onGeogebraLoaded = function (callback) {
+                initCallback = callback;
+            }
+
+            var ggbOnInit = function (param) {
+                alert(param);
+                initCallback(param);
+            }
+        </script>
+    </body>
+</html>

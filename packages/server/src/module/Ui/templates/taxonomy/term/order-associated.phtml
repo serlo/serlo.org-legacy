@@ -1,0 +1,45 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+?>
+<?php echo $this->pageHeader('Order content')->setSubtitle($this->term->getName())->setBacklink($this->normalize()->toUrl($this->term))->append($this->contexter()->renderButton('right')); ?>
+<div class="sortable" data-depth="1" data-active="false" data-action="<?php echo $this->url('taxonomy/term/sort-associated', array('term' => $this->term->getId(), 'association' => $this->association)); ?>">
+    <ol class="sortable-list">
+        <?php foreach($this->associations as $associated):?>
+            <?php if ($associated->isTrashed() || !$associated->hasCurrentRevision()) continue;?>
+            <li class="sortable-item" data-id="<?php echo $associated->getId(); ?>">
+                <span class="sortable-handle"></span>
+                <div class="sortable-item-inner">
+                    <?php echo $this->normalize()->toTitle($associated); ?> <sup><small><?php echo $this->normalize()->toType($associated); ?></small></sup>
+                    <p>
+                        <?php echo $this->normalize()->toPreview($associated); ?>
+                    </p>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ol>
+    <div class="sortable-actions">
+        <button class="btn btn-default sortable-activate-action"><?php print $this->translate('Sort'); ?></button>
+        <button class="btn btn-success sortable-save-action is-hidden"><?php print $this->translate('Save new order'); ?></button>
+        <button class="btn btn-default sortable-abort-action is-hidden"><?php print $this->translate('Cancel'); ?></button>
+    </div>
+</div>

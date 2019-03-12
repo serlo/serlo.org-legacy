@@ -1,10 +1,10 @@
 {
-  "name": "@serlo/athene2-assets-workspace",
+  "name": "@serlo/serlo.org-workspace",
   "version": "0.0.0",
   "bugs": {
-    "url": "https://github.com/serlo-org/athene2-assets/issues"
+    "url": "https://github.com/serlo-org/serlo.org/issues"
   },
-  "repository": "serlo-org/athene2-assets",
+  "repository": "serlo-org/serlo.org",
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {

@@ -1,0 +1,203 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2018 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2018 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+echo $this->doctype();
+?>
+<html class="fuelux" lang="<?php echo $this->currentLanguage(); ?>">
+<head>
+    <?php echo $this->partial('layout/partials/head'); ?>
+    <?php echo $this->partial('layout/partials/styles'); ?>
+</head>
+<body class="serlo-home serlo-en-home" itemscope itemtype="http://schema.org/WebPage">
+<div class="wrap">
+    <header id="header">
+        <?php echo $this->partial('layout/partials/top-bar'); ?>
+        <div class="container-fluid">
+            <nav id="header-nav">
+                <div id="mobile-nav-toggle">
+
+                    <button>
+                        <span class="sr-only"><?php echo $this->translate('Toggle navigation'); ?></span>
+                        <i class="fa fa-fw fa-bars"></i>
+                    </button>
+
+                        <?php echo $this->brand()->getLogo(); ?>
+                        <?php echo $this->brand()->getBrand(); ?>
+
+                    <span class="subject-title hidden-xs">
+                        <?php echo $this->navigation('default_navigation')
+                            ->menu()
+                            ->setPartial('layout/navigation/partial/active-subject')
+                            ->setOnlyActiveBranch(true)
+                            ->setMinDepth(0)
+                            ->setMaxDepth(0)
+                            ->render();
+                        ?>
+                    </span>
+                </div>
+                <div id="mobile-nav-right">
+                    <ul class="authentification nav navbar-nav">
+                        <li class="dropdown">
+
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
+                                <span class="fa fa-user"></span>
+                            </a>
+
+                            <?php
+                            echo $this->navigation('top_auth_navigation')
+                                ->menu()
+                                ->setUlClass('dropdown-menu dropdown-menu-right')
+                                ->setPartial('layout/navigation/horizontal')
+                                ->render();
+                            ?>
+                        </li>
+                    </ul>
+                    <ul class="notifications nav navbar-nav">
+                        <?php echo $this->notifications()->render(); ?>
+                    </ul>
+                </div>
+            </nav>
+
+            <div id="mobile-nav"></div>
+
+            <?php if (empty($this->placeholder('hideSubjectNav')->getValue())): ?>
+                <nav id="subject-nav">
+                    <div id="subject-nav-wrapper">
+                        <div class="subject-nav-center">
+                            <div class="pull-right controls">
+                                <?php echo $this->placeholder('controls'); ?>
+                            </div>
+                            <ol id="breadcrumbs">
+                            </ol>
+                        </div>
+                        <?php echo $this->partial('layout/partials/search'); ?>
+                    </div>
+                </nav>
+            <?php endif; ?>
+        </div>
+    </header>
+
+    <div id="page">
+        <section class="clearfix">
+            <div id="content-layout" class="clearfix">
+
+                <?php echo $this->partial('layout/partials/notifications'); ?>
+
+                <div class="flasher"></div>
+                <div class="home-header">
+                    <?php echo $this->brand()->getLogo(); ?>
+                    <?php echo $this->brand()->getBrand(); ?>
+                    <div class="header-text"><?php echo $this->translate('The Open Learning Platform'); ?></div>
+                </div>
+
+                <div class="home-serlo-row">
+                    <div class="home-row">
+                        <p>
+                            <?php echo $this->translate(
+                                'We are a grassroots non-profit organization supporting personalized learning and working
+                                towards equal educational opportunities. This learning platform offers thousands of
+                                instructional articles, learning videos and practice exercises for millions of students
+                                worldwide - completely free of charge. Now it’s time to join us in your language.'
+                                ); ?>
+                        </p>
+                        <p>
+                            <a class="home-emph-link" style="margin: 8px;" href="<?php echo $this->translate('/serlo'); ?>">
+                                <?php echo $this->translate('Learn more')?> <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="home-row home-principle-row home-column col-md-12 col-lg-6 col-lg-offset-3">
+                    <object data="<?php echo $this->assets()->getAsset($this->translate('en/home/about-serlo.svg')); ?>"></object>
+                </div>
+                <div class="home-calls-wrapper clearfix">
+                    <div class="home-row home-column">
+                        <div class="home-calls-header col-xs-12 col-lg-10 col-lg-offset-2">
+                            <h2><?php echo $this->translate('Serlo is the Wikipedia for Learning'); ?></h2>
+                        </div>
+                        <div class="col-sm-6 col-sm-offset-3 col-md-10 col-md-offset-1 col-lg-offset-2 col-lg-6 home-calls-column calls-column-1">
+                            <p><?php echo $this->translate(
+                                    'Just like Wikipedia, this platform is created by an engaged community of authors. Serlo Education 
+                                is run and owned by decentralized teams of volunteers and professionals all over the world.'
+                                ); ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="home-launch-img-row home-row"></div>
+
+                <div class="home-calls-wrapper clearfix">
+                    <div class="home-row home-column">
+                        <div class="home-calls-header col-xs-12 col-lg-10 col-lg-offset-2">
+                            <h2><?php echo $this->translate('Become a Part of Our Movement for Open Education'); ?><h2>
+                        </div>
+                        <div class="extra-icon col-xs-12 col-lg-2">
+                            <img src="<?php echo $this->assets()->getAsset('home/participate.svg'); ?>" alt="together">
+                        </div>
+                        <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-1 col-lg-offset-0 col-lg-3 home-calls-column calls-column-1">
+                            <p><?php echo $this->translate('We are looking for teachers and enthusiastic educators who are passionate about their subject.
+                             Become an author on serlo.org! You can create new learning material and help us improve existing content.'); ?></p>
+                            <div class="hidden-md hidden-lg">
+                                <a href="/community" class="home-emph-link">
+                                    <?php echo $this->translate('Visit the landing page for authors'); ?> <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-2 col-lg-offset-1 col-lg-3 home-calls-column">
+                            <p>
+                                <?php echo $this->translate('We offer a diverse range of jobs and volunteering opportunities in the fields of software development,
+                                 design, translation, communications, project management and more.'); ?>
+                            </p>
+                            <div class="hidden-md hidden-lg">
+                                <a href="/get-involved" class="home-emph-link">
+                                    <?php echo $this->translate('Get involved!'); ?> <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="home-row home-column visible-md visible-lg">
+                        <div class="col-md-4 col-md-offset-1 col-lg-3 col-lg-offset-2 home-calls-column">
+                            <a href="/community" class="home-emph-link">
+                                <?php echo $this->translate('Visit the landing page for authors'); ?> <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-md-offset-2 col-lg-offset-1 col-lg-3 home-calls-column">
+                            <a href="/get-involved" class="home-emph-link">
+                                <?php echo $this->translate('Get involved!'); ?> <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="footer-push"></div>
+</div>
+
+<?php echo $this->partial('layout/partials/footer'); ?>
+<?php echo $this->partial('layout/partials/default-modal'); ?>
+<?php echo $this->placeholder('modals'); ?>
+<?php echo $this->tracking(); ?>
+<?php echo $this->partial('layout/partials/noscript'); ?>
+</body>
+</html>

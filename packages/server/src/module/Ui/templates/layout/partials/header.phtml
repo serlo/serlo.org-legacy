@@ -1,0 +1,113 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+?>
+<header id="header">
+    <?php if (!$this->layout()->hideTopbar): ?>
+        <?php echo $this->partial('layout/partials/top-bar'); ?>
+    <?php endif; ?>
+    <?php if (!$this->layout()->fullWidth): ?>
+        <div class="container">
+    <?php endif; ?>
+    <?php if (!$this->layout()->hideTopbar): ?>
+        <nav id="header-nav">
+            <div id="mobile-nav-toggle">
+                <button>
+                    <span class="sr-only"><?php echo $this->translate('Toggle navigation'); ?></span>
+                    <i class="fa fa-fw fa-bars"></i>
+                </button>
+                <a class="main-headline-link" href="/">
+                    <?php echo $this->brand()->getLogo(); ?>
+                    <?php echo $this->brand()->getBrand(); ?>
+                </a>
+                <span class="subject-title hidden-xs"><?php echo $this->navigation('default_navigation')
+                        ->menu()
+                        ->setPartial('layout/navigation/partial/active-subject')
+                        ->setOnlyActiveBranch(true)
+                        ->setMinDepth(0)
+                        ->setMaxDepth(0)
+                        ->render();
+                    ?></span>
+            </div>
+
+            <div id="mobile-nav-right">
+                <ul class="authentification nav navbar-nav">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
+                            <span class="fa fa-user"></span>
+                        </a>
+                        <?php
+                        echo $this->navigation('top_auth_navigation')
+                            ->menu()
+                            ->setUlClass('dropdown-menu dropdown-menu-right')
+                            ->setPartial('layout/navigation/horizontal')
+                            ->render();
+                        ?>
+                    </li>
+                </ul>
+                <ul class="notifications nav navbar-nav">
+                    <?php echo $this->notifications()->render(); ?>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="mobile-nav"></div>
+    <?php endif; ?>
+    <?php if (empty($this->placeholder('hideSubjectNav')->getValue()) && !$this->layout()->hideBreadcrumbs): ?>
+        <nav id="subject-nav">
+            <div id="subject-nav-wrapper">
+                <div class="subject-nav-center">
+                    <div class="pull-right controls">
+                        <?php if (!$this->layout()->usingAPI): ?>
+                            <?php echo $this->placeholder('controls'); ?>
+                        <?php endif; ?>
+                    </div>
+                    <ol id="breadcrumbs">
+                        <?php echo $this->navigation('default_navigation')
+                            ->breadcrumbs()
+                            ->setRenderInvisible(true)
+                            ->setPartial('layout/navigation/partial/breadcrumbs')
+                            ->render();
+                        ?>
+                    </ol>
+                </div>
+                <?php echo $this->partial('layout/partials/search'); ?>
+            </div>
+            <div id="ory-editor-toolbar" style="display: none;">
+                <div class="subject-nav-center">
+                    <div class="pull-right controls">
+                        <div class="btn-group">
+                            <button id="ory-editor-save" class="btn btn-success"><span class="fa fa-save"></span> Save</button>
+                            <button id="ory-editor-abort" class="btn btn-danger"><span class="fa fa-times"></span> Cancel</button>
+                        </div>
+                    </div>
+                    <div id="ory-editor-toolbar-functions">
+                        <!--More functions of the Editor...-->
+                    </div>
+                </div>
+            </div>
+        </nav>
+    <?php endif; ?>
+    <?php if (!$this->layout()->fullWidth): ?>
+        </div>
+    <?php endif; ?>
+</header>

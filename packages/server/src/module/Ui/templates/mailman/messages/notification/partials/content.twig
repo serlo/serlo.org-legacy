@@ -1,0 +1,21 @@
+{% if notifications | length %}
+    {% if notifications | length > 1 %}
+        {% trans %}
+            Here's a heads up of what has happened with content you edited or created:
+        {% endtrans %}
+    {% else %}
+        {% trans %}
+            This happened with a content you edited or created:
+        {% endtrans %}
+    {% endif %}
+    {% if not plain %}#
+        <br>
+        <ul>
+    {% endif %}
+    {% for notification in notifications %}
+        {% include 'notification/notification' with {'notification': notification, 'plain': plain} %}
+    {% endfor %}
+    {% if not plain %}
+        </ul>
+    {% endif %}
+{% endif %}

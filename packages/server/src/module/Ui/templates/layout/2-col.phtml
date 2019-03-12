@@ -1,0 +1,78 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+echo $this->doctype();
+
+$classes = array('wrap');
+
+if ($this->layout()->fullWidth) {
+    array_push($classes, 'full-width');
+}
+
+if (!$this->layout()->hideLeftSidebar) {
+    array_push($classes, 'has-navigation');
+}
+
+$class = join(' ', $classes);
+
+$pageClasses = array('clearfix');
+
+if (!$this->layout()->fullWidth) {
+    array_push($pageClasses, 'container');
+}
+
+$pageClass = join(' ', $pageClasses);
+?>
+<!--[if lt IE 9 ]>
+<html class="old-ie fuelux" lang="<?php echo $this->currentLanguage(); ?>"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="fuelux" lang="<?php echo $this->currentLanguage(); ?>"> <!--<![endif]-->
+<head>
+    <?php echo $this->partial('layout/partials/head'); ?>
+    <?php echo $this->partial('layout/partials/styles'); ?>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="<?php echo $class ?>">
+    <?php echo $this->partial('layout/partials/header'); ?>
+
+    <div id="page" class="<?php echo $pageClass ?>">
+        <?php echo $this->partial('layout/partials/left-sidebar'); ?>
+        <section class="main clearfix">
+            <div id="content-layout" class="content clearfix">
+                <?php echo $this->partial('layout/partials/notifications'); ?>
+                <?php echo $this->partial('layout/partials/main'); ?>
+            </div>
+            <div id="ory-editor-control-popup" style="display:none;"></div>
+            <?php echo $this->partial('layout/partials/banner'); ?>
+            <?php echo $this->partial('layout/partials/discussions'); ?>
+            <?php echo $this->partial('layout/partials/horizon'); ?>
+        </section>
+    </div>
+    <div id="footer-push"></div>
+</div>
+<?php echo $this->partial('layout/partials/footer'); ?>
+<?php echo $this->partial('layout/partials/default-modal'); ?>
+<?php echo $this->placeholder('modals'); ?>
+<?php echo $this->tracking(); ?>
+<?php echo $this->partial('layout/partials/noscript'); ?>
+</body>
+</html>

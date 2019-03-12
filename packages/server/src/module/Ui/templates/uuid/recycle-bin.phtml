@@ -1,0 +1,69 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+?>
+<?php echo $this->pageHeader('Uuid recycle bin')->setSubtitle($this->translate('Page') . ' ' . $this->elements->getCurrentPageNumber())->render(); ?>
+<table class="table">
+    <thead>
+        <tr>
+            <th><?php echo $this->translate('ID'); ?></th>
+            <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('Type'); ?></th>
+            <th><?php echo $this->translate('Timestamp'); ?></th>
+            <th><?php echo $this->translate('Actions'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($this->elements as $element): ?>
+        <?php /* @var $entity \Uuid\Entity\UuidInterface */ ?>
+        <?php $entity = $element["entity"]; ?>
+        <?php $date = $element["date"]; ?>
+            <tr>
+                <td><?php echo $entity->getId(); ?></td>
+                <td><?php echo $this->normalize()->toAnchor($entity); ?></td>
+                <td><?php echo $this->translate($this->normalize()->toType($entity)); ?></td>
+                <td><?php echo $this->timeago()->render($date); ?></td>
+                <td>
+                    <div class="btn-group">
+                        <?php if ($this->isGranted($this->uuid()->getPermission($entity, 'restore'), $entity)): ?>
+                            <a class="btn btn-success btn-xs" href="<?php echo $this->url('uuid/restore', array('id' => $entity->getId())); ?>">
+                                <span class="fa fa-recycle"></span>
+                            </a>
+                        <?php endif; ?>
+                        <?php if ($this->isGranted($this->uuid()->getPermission($entity, 'purge'), $entity)): ?>
+                        <?php $trashbutton = '<button class="dialog btn btn-danger btn-xs"
+                                    data-content="'.sprintf($this->translate(
+                                        'Do you really want to purge the item <strong>%s</strong>? It and all references to it will be lost forever!'
+                                    ), htmlentities($this->normalize()->toTitle($entity))).'"
+                                    data-type="danger">
+                                <span class="fa fa-fire"></span>
+                            </button>';
+                            echo $this->twigPartial('common/csrfform', array('form' => $this->uuidForm()->getPurgeForm($entity->getId()), 'sendbutton' => $trashbutton));
+                        ?>
+                        <?php endif; ?>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<?php echo $this->paginationControl($this->elements, 'Sliding', 'common/paginator', ['route'=> 'uuid/recycle-bin']); ?>

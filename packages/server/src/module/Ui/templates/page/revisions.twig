@@ -1,0 +1,80 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{{ pageHeader('Revisions' | trans).setBacklink(url('page/view', {'page': page.getId()})).render() }}
+<div class="list-group">
+    {% for revision in revisions if not(revision.isTrashed()) %}
+        <div class="list-group-item">
+            <a href="{{ url('page/revision/view', {'revision': revision.getId()}) }}">
+                <table class="table">
+                    <tr>
+                        <td>{% trans %} Title:  {% endtrans %}</td>
+                        <td>{{ revision.getTitle() }}</td>
+                    </tr>
+                    <tr>
+                        <td>{% trans %} Author:  {% endtrans %}</td>
+                        <td>{{ revision.getAuthor().getUsername() }}</td>
+                    </tr>
+                    <tr>
+                        <td>{% trans %} Time:  {% endtrans %}</td>
+                        <td>{{ timeago().render(revision.getDate()) }}</td>
+                    </tr>
+                </table>
+            </a>
+            <hr>
+            <div class="btn-group">
+                <!-- edit button -->
+                {% if isGranted('page.revision.create', page) %}
+                    <a href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId()}) }}" class="btn btn-xs btn-default">
+                        <span class="fa fa-pencil"></span> {% trans %} Use for editing {% endtrans %}
+                    </a>
+                {% endif %}
+                {% if isGranted('event.log.get', revision) %}
+                    <a class="btn btn-xs btn-default" href="{{ url('event/history/object', {'id': revision.getId()}) }}">
+                        <span class="fa fa-heartbeat"></span> {% trans %} Log {% endtrans %}
+                    </a>
+                {% endif %}
+                {% if revision.getRepository().getCurrentRevision() is not same as(revision) %}
+                    {% if isGranted('page.revision.trash', revision) %}
+                        {% set trashbutton %}
+                        <button class="btn btn-xs btn-default">
+                            <span class="fa fa-trash"></span> {% trans %} Trash {% endtrans %}
+                        </button>
+                        {% endset %}
+                        {% include 'common/csrfform' with {'form': uuidForm().getTrashForm(revision.getId()), 'sendbutton': trashbutton} %}
+                    {% endif %}
+                    {% if isGranted('page.revision.checkout', revision) %}
+                        <a href="{{ url('page/revision/checkout', {'page': page.getId(), 'revision': revision.getId()}) }}" class="btn btn-xs btn-default">
+                            <span class="fa fa-check"></span> {% trans %} Set as base {% endtrans %}
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<hr>
+{% if isGranted('page.create', page) %}
+    <a href="{{ url('page/update', {'page': page.getId()}) }}" class="btn btn-xs btn-default">
+        <span class="fa fa-pencil"></span>
+        {% trans %} Edit page {% endtrans %}
+    </a>
+{% endif %}

@@ -1,0 +1,112 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{% set subtitle %}
+<small>
+    {{ timeago().render(revision.getTimestamp()) }} {{ 'by' | trans }} {{ normalize().toAnchor(revision.getAuthor()) }}
+</small>
+{% endset %}
+{{ pageHeader(normalize().toTitle(revision)).setSubtitle(subtitle).append(contexter().renderButton('right')).setBacklink(url('entity/repository/history', {'entity': entity.getId()})).render() }}
+
+{% include 'entity/repository/partials/alerts' %}
+<article class="panel-group">
+    <div class="clearfix">
+    </div>
+{% if compareRevision and revision is not sameas(compareRevision) %}
+        {% for field in revision.getFields() %}
+            {% set fieldIsOry = isOryEditorFormat(field.getValue()) %}
+            {% set compareFieldIsOry = isOryEditorFormat(compareRevision.get(field.getName())) %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <ul class="nav nav-pills pull-right">
+                        <li><a href="#source{{ field.getName() }}" data-toggle="tab">{% trans %} Source {% endtrans %}</a></li>
+                        <li><a href="#old{{ field.getName() }}" data-toggle="tab">{% trans %} Old version {% endtrans %}</a></li>
+                        <li class="active"><a href="#preview{{ field.getName() }}" data-toggle="tab">{% trans %} Preview {% endtrans %}</a></li>
+                    </ul>
+                    <h4>{{ field.getName()  | trans }}</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade" id="source{{ field.getName() }}">
+                            {% set oldField = compareRevision.get(field.getName()) %}
+                            {% if oldField %}
+                                {{ diff().markdown(oldField, field.getValue()) }}
+                            {% else %}
+                                {% if fieldIsOry %}
+                                    <div class="editable" data-edit-type="ory">
+                                        {{ oryRenderer().toHtml(field.getValue()) }}
+                                    </div>
+                                {% else %}
+                                    {{ markdown().toHtml(field.getValue()) }}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane fade" id="old{{ field.getName() }}">
+                            {% if compareFieldIsOry %}
+                                <div class="editable" data-edit-type="ory">
+                                    {{ oryRenderer().toHtml(compareRevision.get(field.getName())) }}
+                                </div>
+                            {% else %}
+                                {{ markdown().toHtml(compareRevision.get(field.getName())) }}
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane fade in active" id="preview{{ field.getName() }}">
+                            {% if fieldIsOry %}
+                                <div class="editable" data-edit-type="ory">
+                                    {{ oryRenderer().toHtml(field.getValue()) }}
+                                </div>
+                            {% else %}
+                                {{ markdown().toHtml(field.getValue()) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        {% include 'entity/repository/revision' %}
+    {% endif %}
+    {% if revision is not sameas(currentRevision) %}
+        <footer class="panel panel-default">
+            <div class="panel-body">
+                <div class="btn-group pull-right">
+                    {% if not revision.isTrashed() and isGranted('entity.revision.checkout', revision) %}
+                        <button class="btn btn-default btn-md" data-toggle="modal" data-target="#revisionAcceptModal">
+                            <span class="fa fa-check"></span>
+                        </button>
+                    {% endif %}
+                    {% if not revision.isTrashed() and isGranted('entity.revision.trash', revision) %}
+                        <button class="btn btn-danger btn-md" data-toggle="modal" data-target="#revisionRejectModal">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                    {% elseif revision.isTrashed() and isGranted('entity.revision.restore', revision) %}
+                        <a class="btn btn-default btn-md" href="{{ url('uuid/restore', {'id': revision.getId()}) }}">
+                            <span class="fa fa-recycle"></span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </footer>
+    {% endif %}
+</article>
+{% set accept = include('entity/repository/modal-accept') %}
+{% set reject = include('entity/repository/modal-reject') %}
+{% set waste = placeholder('modals').append(accept).append(reject) %}

@@ -1,0 +1,3 @@
+extension=apcu.so
+extension=apc.so
+short_open_tag=Off

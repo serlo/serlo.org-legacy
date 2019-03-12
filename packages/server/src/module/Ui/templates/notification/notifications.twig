@@ -1,0 +1,47 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+<li class="dropdown">
+    <a data-toggle="dropdown" class="dropdown-toggle" href="#" data-trigger="ping"
+       data-href="{{ url('notification/read') }}">
+        <span class="fa fa-bell"></span>
+        {% set seen = notifications().getSeen(notifications) %}
+        {% if seen.count() %}
+            <span class="label label-info">{{ seen.count() }}</span>
+        {% endif %}
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dLabel">
+        {% for notification in notifications %}
+            {% if notification.getEvents().current() and isGranted('event.log.get', notification.getEvents().current()) %}
+                <li role="presentation" class="{{ notification.getSeen() ? '' : 'bg-info' }}">
+                    {% include 'notification/notification' with {'notification': notification} %}
+                </li>
+            {% endif %}
+        {% else %}
+            <li role="presentation" class="disabled">
+                <div class="dropdown-menu-item">
+                    {{ 'You have no notifications.' | trans }}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</li>

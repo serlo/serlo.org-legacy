@@ -1,0 +1,138 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+<article itemscope itemtype="http://schema.org/Comment">
+    <header class="discussion-head">
+        {% if discussion.getArchived() %}
+            <a class="btn btn-default btn-xs pull-right archived-toggle collapsed" data-toggle="collapse" href="#collapse-{{ discussion.getId() }}">
+                <span></span>
+            </a>
+        {% endif %}
+        <strong itemprop="name">
+            {{ discussion.getTitle() }}
+        </strong>
+        {% if discussion.getArchived() %}
+            <small class="text-muted">
+                {% trans %} archived {% endtrans %}
+            </small>
+        {% endif %}
+        <div class="mic-info">
+            {% trans %} On {% endtrans %} {{ normalize().toAnchor(discussion.getObject()) }}
+            <!-- <small>({{ normalize().toType(discussion.getObject()) }})</small> -->
+            {% trans %} by {% endtrans %} <span itemprop="creator" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ normalize().toAnchor(discussion.getAuthor()) }}</span></span>
+            <span class="fa fa-clock-o"></span> <span itemprop="dateCreated">{{ timeago().render(discussion.getTimestamp()) }}</span>
+        </div>
+    </header>
+    {% if discussion.getArchived() %}
+        <div class="collapse" id="collapse-{{ discussion.getId() }}">
+    {% endif %}
+        <section class="discussion-text" itemprop="text">
+            {{ discussion.getContent() | nl2br }}
+        </section>
+        <section class="clearfix">
+            {% if not discussion.isTrashed() %}
+                <div class="discussion-action btn-group pull-right">
+                    {% if isGranted('discussion.vote', discussion) %}
+                        {% if discussion.hasUserVoted(discussion().getUser()) %}
+                            {% set vote = 'down' %}
+                            {% set button = 'success' %}
+                        {% else %}
+                            {% set vote = 'up' %}
+                            {% set button = 'default' %}
+                        {% endif %}
+                        <a href="{{ url('discussion/discussion/vote', {'comment': discussion.getId(), 'vote': vote}) }}"
+                           class="btn btn-xs btn-{{ button }}">
+                            <span class="fa fa-chevron-{{ vote }}"></span>
+                            <strong>{{ discussion.countUpVotes() }}</strong> </a>
+                    {% else %}
+                        <button class="btn btn-default btn-xs" disabled>
+                            <span class="fa fa-chevron-up"></span>
+                            <strong>{{ discussion.countUpVotes() }}</strong>
+                        </button>
+                    {% endif %}
+                    {% if isGranted('discussion.archive', discussion) %}
+                        <a href="{{ url('discussion/discussion/archive', {'comment': discussion.getId()}) }}"
+                           class="btn btn-xs btn-default">
+                            <span class="fa fa-{{ discussion.getArchived() ? 'refresh' : 'check' }}"></span> </a>
+                    {% endif %}
+                    {% if isGranted('flag.create', discussion) %}
+                        <a class="btn btn-xs btn-default" href="{{ url('flag/add', {'id': discussion.getId()}) }}">
+                            <span class="fa fa-flag"></span> </a>
+                    {% endif %}
+                    {% if isGranted('discussion.trash', discussion) %}
+                        {% set trashbutton %}
+                        <button class="btn btn-xs btn-default dialog"
+                           data-content="{% trans %} Do you really want to delete this discussion? {% endtrans %}">
+                            <span class="fa fa-trash"></span> </button>
+                        {% endset %}
+                        {% include 'common/csrfform' with {'form': uuidForm().getTrashForm(discussion.getId()), 'sendbutton': trashbutton} %}
+                    {% endif %}
+                </div>
+            {% endif %}
+        </section>
+        <section>
+            <ul class="list-group discussions">
+                {% for comment in discussion.getChildren() if not comment.isTrashed() %}
+                    <li class="list-group-item">
+                        <article itemtype="http://schema.org/Comment" itemscope>
+                            <header class="discussion-head">
+                                <div class="mic-info">
+                                    {% trans %} by {% endtrans %} <span itemprop="creator" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ normalize().toAnchor(comment.getAuthor()) }}</span></span>
+                                    <span class="fa fa-clock-o"></span> <span itemprop="dateCreated">{{ timeago().render(comment.getTimestamp()) }}</span>
+                                </div>
+                            </header>
+                            <section class="discussion-text" itemprop="text">
+                                {{ comment.getContent() | nl2br }}
+                            </section>
+                            <footer class="clearfix">
+                                <div class="discussion-action btn-group pull-right">
+                                    {% if isGranted('flag.create', comment) %}
+                                        <a class="btn btn-xs btn-default"
+                                           href="{{ url('flag/add', {'id': comment.getId()}) }}">
+                                            <span class="fa fa-flag"></span> </a>
+                                    {% endif %}
+                                    {% if isGranted('discussion.comment.trash', comment) %}
+                                        {% set trashButton %}
+                                        <button class="btn btn-xs btn-default dialog"
+                                           data-content="{% trans %} Do you really want to delete this comment? {% endtrans %}">
+                                            <span class="fa fa-trash"></span> </button>
+                                        {% endset %}
+                                        {% include 'common/csrfform' with {'form': uuidForm().getTrashForm(comment.getId()), 'sendbutton': trashbutton} %}
+                                    {% endif %}
+                                </div>
+                            </footer>
+                        </article>
+                    </li>
+                {% endfor %}
+                {% if not discussion.getArchived() and isGranted('discussion.comment.create', discussion) %}
+                    <li class="list-group-item">
+                        <p>
+                            <strong>{% trans %} Answer discussion: {% endtrans %}</strong>
+                        </p>
+                        {{ form().render(discussion().getForm('comment', discussion)) }}
+                    </li>
+                {% endif %}
+            </ul>
+        </section>
+    {% if discussion.getArchived() %}
+        </div>
+    {% endif %}
+</article>

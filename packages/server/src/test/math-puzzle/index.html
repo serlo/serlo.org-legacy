@@ -1,0 +1,53 @@
+<html>
+<head>
+  <script src="../../assets/source/bower_components/requirejs/require.js"></script>
+  <link rel="stylesheet" href="style.css"></head>
+  <script type="text/javascript">
+    requirejs.config({
+        baseUrl : '../../assets/source/',
+        paths: {
+            'math_puzzle': 'scripts/modules/serlo_math_puzzle',
+            'math_puzzle_touchop': 'scripts/modules/serlo_math_puzzle_touchop',
+            'math_puzzle_algebra': 'scripts/modules/serlo_math_puzzle_algebra',
+            'jquery': 'bower_components/jquery/jquery',
+            'd3': 'bower_components/d3/d3',
+        }
+    })
+    require(["math_puzzle"], function (math_puzzle) {
+      var puzzles = document.querySelectorAll(".math-puzzle");
+      for (var i = 0; i<puzzles.length; ++i) {
+          math_puzzle.makePuzzle(puzzles[i], puzzles[i].getAttribute("data-source"));
+      }
+    })
+  </script>
+</head>
+<body style="width:80%;margin-left:10%" id="page">
+    <div class="main" style="position:relative">
+        <h1>Solve these problems</h1>
+        <div class="math-puzzle" data-source="2 = 1 +">
+            <div class="exercise">Build a formula that evaluates to two.</div>
+        </div>
+        <div class="math-puzzle" data-source="4 = 1 2 ^">
+            <div class="exercise">Use your power to create four.</div>
+        </div>
+        <div class="math-puzzle" data-source="12 = 1 2 3 + *">
+            <div class="exercise">There are many ways to build 12. How many of them can you find?</div>
+        </div>
+        <div class="math-puzzle" data-source="$x+1 = 1 2 3 + $x $y">
+            <div class="exercise">Which number is one bigger than x?</div>
+        </div>
+        <div class="math-puzzle" data-source="2/$x = 1 2 3 $x * / ^">
+            <div class="exercise">What is the derivative of ln(x<sup>2</sup>)?</div>
+        </div>
+        <div class="math-puzzle" data-source="$a*$b*Math.pow($x, $b-1) = 1 $a $b $x - * ^">
+            <div class="exercise">What is the derivative of ax<sup>b</sup>?</div>
+        </div>
+        <div class="math-puzzle" data-source="$x+2 = 1 2 4 $x + - *">
+            <div class="exercise">Divide (x<sup>2</sup>-4) by (x-2).</div>
+        </div>
+        <div class="math-puzzle" data-source="Math.PI*4 = 1 2 3 4 pi * / ^">
+            <div class="exercise">A cone has height 3 and its base has radius 2. What is its volume?</div>
+        </div>
+    </div>
+</body>
+</html>

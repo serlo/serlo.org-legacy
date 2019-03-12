@@ -1,0 +1,104 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+
+$html = array();
+$useBreadCrumbs = true;
+$depth = $this->depth ? : 1;
+$maxDepth = $this->navigation()->menu()->getMaxDepth();
+$siblingIsActive = false;
+
+foreach ($this->pages as $page) {
+    $siblingIsActive = $siblingIsActive || $page->isActive();
+}
+
+foreach ($this->pages as $page) {
+    $liClasses = [];
+    $recActive = $page->isActive(true);
+
+    // check whether given link is a community link
+    if (!is_null($page->get('community'))) {
+        if (is_bool($page->get('community')) ? $page->get('community') : ($page->get('community') === 'true')) {
+            $liClasses[] = 'is-community';
+        }
+    }
+
+    // visibility of the sub-page
+    if (!$page->isVisible() || !($depth <= $maxDepth || $recActive || $siblingIsActive)
+        || !$this->navigation()->accept(
+            $page
+        )
+    ) {
+        continue;
+    }
+
+    // check if menu item has 'needsIdentity' set and user is logged in
+    if (!$this->navigation()->checkIdentity($page)) {
+        continue;
+    }
+
+    if ($page->getLabel() == 'divider') {
+        $html[] = '<li class="divider"></li>';
+        continue;
+    }
+
+    if ($recActive) {
+        $liClasses[] = 'active';
+    }
+
+    $elements = '';
+    if ($page->get('elements') !== null) {
+        $elements = ' data-element-count="' . $page->get('elements') . '"';
+    }
+
+    $breadcrumb = ($recActive && $useBreadCrumbs) ? 'itemscope itemtype="http://data-vocabulary.org/Breadcrumb"' : false;
+    $child      = $breadcrumb ? 'itemprop="child"' : '';
+    $rich       = $breadcrumb ? ' ' . $child . ' ' . $breadcrumb . ' ' : '';
+    $needsFetching = ($depth >= $maxDepth - 1 && !empty($page->pages)) ? ' data-needs-fetching="true" ' : '';
+    $sidenav = (is_bool($page->get('hideSidenav')) ? $page->get('hideSidenav') : ($page->get('hideSidenav') === 'true')) ? ' data-sidenav="false" ' : '';
+    $translate = is_bool($page->get('translate')) ? $page->get('translate') : $page->get('translate') === 'true';
+    $label = $translate ? $this->translate($page->getLabel()) : $page->getLabel();
+
+    $html[] = '<li' . $needsFetching . $sidenav . $rich . $elements . (count($liClasses) ? (' class="' . implode(' ', $liClasses) . '"') : '') . ' data-identifier="' . $page->get('identifier') . '">';
+
+    $html[] = '<a href="' . $this->alias($page->getHref()) . '"' . ($breadcrumb ? ' itemprop="url"' : '') . '>';
+
+    if ($breadcrumb) {
+        $html[] = '<span itemprop="title">' . $label . '</span>';
+    } else {
+        $html[] = '<span>' . $label . '</span>';
+    }
+    $html[] = "</a>";
+
+    if (!empty($page->pages)) {
+        $html[] = '<ul>';
+        $html[] = $this->partial(
+            'layout/navigation/partial/nested-navigation-list-asynchable',
+            array('pages' => $page->pages, 'depth' => $depth + 1)
+        );;
+        $html[] = '</ul>';
+    }
+
+    $html[] = "</li>";
+}
+
+echo join(' ', $html);

@@ -1,0 +1,131 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{{ pageHeader(user.getUsername()).setSubtitle('Profile'|trans).append('<div class="pull-right">' ~ subscribe(user).button() ~ '</div>') }}
+{% do normalize().headMeta(user) %}
+<div class="row">
+    <div class="col-xs-12">
+        {% if isOryEditorFormat(user.getDescription()) %}
+            {{ oryRenderer().toHtml(user.getDescription()) | raw }}
+        {% else %}
+            {{ markdown().toHtml(user.getDescription()) | raw }}
+        {% endif %}
+    </div>
+</div>
+<h1 class="heading-content">{{ 'Statistics' | trans }}</h1>
+<div class="row">
+    <div class="col-sm-4">
+        {% set count = eventLog().countEventsFoundByActorAndNames(user, ['discussion/create', 'discussion/comment/create']) %}
+        <div class="nest-statistics" data-amount="{{ count }}">
+        </div>
+
+        <div class="statistics">
+            <div class="count">
+                {{ count }}
+            </div>
+            {{ 'Comments' | trans }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        {% set count = eventLog().countEventsFoundByActorAndNames(user, ['entity/revision/add']) %}
+        <div class="nest-statistics" data-amount="{{ count }}">
+        </div>
+        <div class="statistics">
+            <div class="count">
+                {{ count }}
+            </div>
+            {{ 'Edits' | trans }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        {% set count = eventLog().countEventsFoundByActorAndNames(user, ['entity/revision/reject', 'entity/revision/checkout']) %}
+        <div class="nest-statistics" data-amount="{{ count }}">
+        </div>
+        <div class="statistics">
+            <div class="count">
+                {{ count }}
+            </div>
+            {{ 'Reviews' | trans }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        {%  set count = eventLog().countEventsFoundByActorAndNames(user, ['taxonomy/term/associate', 'taxonomy/term/dissociate']) %}
+        <div class="nest-statistics" data-amount="{{ count }}">
+        </div>
+        <div class="statistics">
+            <div class="count">
+                {{ count }}
+            </div>
+            {{ 'Taxonomy associations' | trans }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        {% set count = eventLog().countEventsFoundByActorAndNames(user, ['taxonomy/term/create', 'taxonomy/term/update', 'taxonomy/term/parent/change']) %}
+        <div class="nest-statistics" data-amount="{{ count }}">
+        </div>
+        <div class="statistics">
+            <div class="count">
+                {{ count }}
+            </div>
+            {{ 'Taxonomy changes' | trans }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        {% set count = eventLog().countEventsFoundByActorAndNames(user, ['uuid/trash']) %}
+        <div class="nest-statistics" data-amount="{{ count }}">
+        </div>
+        <div class="statistics">
+            <div class="count">
+                {{ count }}
+            </div>
+            {{ 'Total deletions' | trans }}
+        </div>
+    </div>
+</div>
+{{ discussion(user).render() }}
+<h1 class="heading-content">{{ 'Recent activities' | trans }}</h1>
+<div class="row">
+    <div class="col-xs-12">
+        {{ eventLog().renderUserLog(user.getId(), 50) }}
+    </div>
+    <div class="col-xs-12">
+        &#x22EE; <br>
+        <a href="{{ url('event/history/user/id', {'id': user.getId()}) }}">
+            Show all activities
+        </a>
+    </div>
+</div>
+{% if user.getLastLogin() %}
+    <h1 class="heading-content">{{ 'Last seen' | trans }}</h1>
+    <div class="row">
+        <div class="col-xs-12">
+            {{ timeago().format(user.getLastLogin()) }}
+        </div>
+    </div>
+{% endif %}
+<h1 class="heading-content">{{ 'Roles' | trans }}</h1>
+<div class="row">
+    <div class="col-xs-12">
+        {% for role in user.getRoles() %}
+            <span class="badge badge-default">{{ role.getName() }}</span>
+        {% endfor %}
+    </div>
+</div>

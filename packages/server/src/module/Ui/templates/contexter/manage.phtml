@@ -1,0 +1,79 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+?>
+<?php echo $this->pageHeader('Manage context links')->render(); ?>
+<table class="table">
+    <thead>
+    <tr>
+        <th><?php echo $this->translate('Link'); ?></th>
+        <th><?php echo $this->translate('Matching'); ?></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php /* @var $element \Contexter\Entity\ContextInterface */ ?>
+    <?php foreach ($this->elements as $element): ?>
+        <tr>
+            <td>
+                <a href="<?php echo $this->normalize()->toUrl($element->getObject()); ?>"><?php echo $element->getTitle(); ?></a>
+            </td>
+            <td>
+                <?php foreach ($element->getRoutes() as $route): ?>
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <div class="btn btn-xs btn-default" role="button" data-toggle="dropdown" data-target="#">
+                                <?php echo $route->getName(); ?> <span class="caret"></span>
+                            </div>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <?php foreach ($route->getParameters() as $parameter): ?>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1"
+                                           href="#">
+                                            <b><?php echo $parameter->getKey(); ?>:</b>
+                                            <?php echo $parameter->getValue(); ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <?php if ($this->isGranted('contexter.route.remove', $element)): ?>
+                            <a class="btn btn-default btn-xs"
+                               href="<?php echo $this->url('contexter/route/remove', array('id' => $route->getId())); ?>">
+                                <span class="fa fa-trash"></span>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </td>
+            <td>
+                <?php if ($this->isGranted('contexter.context.remove', $element)): ?>
+                    <a class="btn btn-danger btn-xs"
+                       href="<?php echo $this->url('contexter/remove', array('id' => $element->getId())); ?>">
+                        <span class="fa fa-trash-o"></span>
+                    </a>
+                <?php endif; ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

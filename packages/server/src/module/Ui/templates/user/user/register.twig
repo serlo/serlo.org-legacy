@@ -1,0 +1,129 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{% do placeholder('hideSubjectNav').set(true) %}
+
+{{ pageHeader('Sign up' | trans) }}
+
+{% set usernameErrors = formElementErrors(form.get('username')) %}
+{% set emailErrors = formElementErrors(form.get('email')) %}
+{% set passwordErrors = formElementErrors(form.get('password')) %}
+{% set passwordConfirmErrors = formElementErrors(form.get('passwordConfirm')) %}
+{% set firstNameErrors = formElementErrors(form.get('firstName')) %}
+{% set lastNameErrors = formElementErrors(form.get('lastName')) %}
+{% set interestsErrors = formElementErrors(form.get('interests')) %}
+{% set newsletterOptInErrors = formElementErrors(form.get('newsletterOptIn')) %}
+
+{% do form.prepare() %}
+{{ form().openTag(form) }}
+{{ formHidden(form.get('csrf')) }}
+<fieldset>
+    <div class="row">
+        <div class="col-md-6 form-group{{ usernameErrors ? ' has-error' }}">
+            {{ formLabel(form.get('username')) }}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                {{ formElement(form.get('username')) }}
+            </div>
+            {{ usernameErrors }}
+        </div>
+        <div class="col-md-6 form-group{{ emailErrors ? ' has-error' }}">
+            {{ formLabel(form.get('email')) }}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                {{ formElement(form.get('email')) }}
+            </div>
+            {{ emailErrors }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-group{{ passwordErrors ? ' has-error' }}">
+            {{ formLabel(form.get('password')) }}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                {{ formElement(form.get('password')) }}
+            </div>
+            {{ passwordErrors }}
+        </div>
+        <div class="col-md-6 form-group{{ passwordConfirmErrors ? ' has-error' }}">
+            {{ formLabel(form.get('passwordConfirm')) }}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                {{ formElement(form.get('passwordConfirm')) }}
+            </div>
+            {{ passwordConfirmErrors }}
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>{{ 'Stay in touch!' | trans }}</legend>
+    <div class="form-group">
+        <p>
+            {% trans %}<strong>Sign up to our newsletter to receive quarterly updates about our work.</strong> Serlo Education e.V. will use the information you provided to send you the newsletter and (optionally) personalise these mailings. We will also supply insights on aspects of Serlo that may be particularly interesting to you, based on the information you provided. To enable us to keep serlo.org free of charge and free of advertising we send out a fundraiser campaign through our newsletter list annually around Christmas. Please confirm below if you would like to give us permission to contact you in this way.{% endtrans %}
+        </p>
+    </div>
+    <div class="form-group{{ newsletterOptInErrors ? ' has-error' }}">
+        <div class="input-group">
+            {{ formElement(form.get('newsletterOptIn')) }}
+        </div>
+        {{ newsletterOptInErrors }}
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-group{{ firstNameErrors ? ' has-error' }}">
+            {{ formLabel(form.get('firstName')) }}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                {{ formElement(form.get('firstName')) }}
+            </div>
+            {{ firstNameErrors }}
+        </div>
+        <div class="col-md-6 form-group{{ lastNameErrors ? ' has-error' }}">
+            {{ formLabel(form.get('lastName')) }}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                {{ formElement(form.get('lastName')) }}
+            </div>
+            {{ lastNameErrors }}
+        </div>
+    </div>
+    <div class="form-group{{ interestsErrors ? ' has-error' }}">
+        {{ formLabel(form.get('interests')) }}
+        {{ formElement(form.get('interests')) }}
+        {{ interestsErrors }}
+    </div>
+    <div class="form-group">
+        <p>
+            {% trans %}You can revoke your consent to contact you via email at any time by clicking the unsubscribe link in any mailing or send us an email at <a href="mailto:de@serlo.org">de@serlo.org</a>. Your privacy is very important to us. For the processing of our mailing activities we work with MailChimp as a service provider. MailChimp underlies a strict data processing agreement with us that ensures the protection of your data in accordance with the European General Data Protection Regulations. By subscribing to our newsletter you agree with our <a href="/22964" target="_blank">Privacy Policy</a> and acknowledge that your data will be processed by MailChimp in accordance with their <a href="https://mailchimp.com/legal/privacy/" target="_blank">Privacy Policy</a> and <a href="https://mailchimp.com/legal/terms/" target="_blank">Terms</a>.{% endtrans %}
+        </p>
+    </div>
+</fieldset>
+<fieldset>
+    <hr />
+    <div class="form-group">
+        <p>
+            {% trans %}By clicking <em>Sign up</em>, you agree to our <a href="/22964" target="_blank">Privacy Policy</a> and <a href="/21654" target="_blank">Terms</a>. You may receive email notifications from us and can opt out at any time.{% endtrans %}
+        </p>
+    </div>
+    <div class="form-group">
+        {{ formElement(form.get('g-recaptcha-response')) }}
+    </div>
+</fieldset>
+{{ form().closeTag(form) }}

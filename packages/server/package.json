@@ -1,0 +1,52 @@
+{
+  "name": "@serlo-org/athene2",
+  "version": "0.0.4",
+  "homepage": "https://github.com/serlo-org/athene2",
+  "bugs": {
+    "url": "https://github.com/serlo-org/athene2/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "Serlo Education e.V.",
+  "repository": "github:serlo-org/athene2",
+  "scripts": {
+    "build": "npm-run-all docker:build docker:tag docker:push",
+    "docker:build": "npm-run-all docker:build:*",
+    "docker:build:httpd": "docker build -f docker/httpd/Dockerfile -t serlo/athene2-httpd:$npm_package_version .",
+    "docker:build:php": "docker build -f docker/php/Dockerfile -t serlo/athene2-php:$npm_package_version .",
+    "docker:tag": "npm-run-all docker:tag:*",
+    "docker:tag:httpd": "docker tag serlo/athene2-httpd:$npm_package_version eu.gcr.io/serlo-production/serlo/athene2-httpd:$npm_package_version",
+    "docker:tag:php": "docker tag serlo/athene2-php:$npm_package_version eu.gcr.io/serlo-production/serlo/athene2-php:$npm_package_version",
+    "docker:push": "npm-run-all docker:push:*",
+    "docker:push:httpd": "docker push eu.gcr.io/serlo-production/serlo/athene2-httpd:$npm_package_version",
+    "docker:push:php": "docker push eu.gcr.io/serlo-production/serlo/athene2-php:$npm_package_version",
+    "c": "docker-compose run --rm composer composer",
+    "c-dev": "docker-compose run --rm composer-dev-tools composer",
+    "prestart": "yarn c install && yarn c-dev install",
+    "start": "docker-compose up --build -d",
+    "stop": "docker-compose down",
+    "format": "npm-run-all format:*",
+    "lint": "npm-run-all lint:*",
+    "license": "ts-node scripts/license-headers",
+    "e2e": "cypress open",
+    "unit": "docker-compose exec php src/vendor/bin/phpunit",
+    "format:php-cs-fixer": "yarn _php-cs-fixer",
+    "format:prettier": "yarn _prettier --write",
+    "lint:prettier": "yarn _prettier --list-different",
+    "_php-cs-fixer": "docker-compose exec php dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php",
+    "_prettier": "prettier \"{{.circleci,cypress,scripts}/**/*,*}.{js,jsx,ts,tsx,css,scss,sass,less,json,md,markdown,yaml,yml}\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@splish-me/copyright-headers": "^0.0.1",
+    "@types/glob": "^7.0.0",
+    "@types/node": "^10.0.0",
+    "cypress": "^3.0.0",
+    "cypress-testing-library": "^2.0.0",
+    "glob": "^7.0.0",
+    "npm-run-all": "^4.0.0",
+    "prettier": "^1.0.0",
+    "ts-node": "^7.0.0",
+    "typescript": "^3.0.0"
+  },
+  "private": true
+}

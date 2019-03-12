@@ -1,0 +1,237 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+echo $this->doctype();
+?>
+<html class="fuelux" lang="<?php echo $this->currentLanguage(); ?>">
+<head>
+    <?php $this->headTitle('Spenden'); ?>
+    <?php echo $this->partial('layout/partials/head'); ?>
+    <?php echo $this->partial('layout/partials/styles'); ?>
+    <style>
+        #header-nav {
+            height: auto;
+        }
+        .page-header {
+            margin-bottom: 10px;
+        }
+        @media only screen and (min-width : 1000px) {
+            .main {
+                margin-right: 35rem;
+            }
+
+            .side-context {
+                right: -33rem;
+                width: 31rem;
+            }
+            .mission {
+                margin-left:207px;
+            }
+        }
+
+        @media only screen and (max-width: 1000px) {
+            #content-layout {
+                padding: 0 60px 20px 20px;
+            }
+
+            .side-context {
+                display: block !important;
+                right: 0;
+            }
+
+            .side-element-inner {
+                width: 26rem !important;
+                right: 26rem !important;
+            }
+        }
+
+        .mission {
+            max-width:500px;
+            font-size:18px;
+        }
+
+        .side-context {
+            background-color: #fff;
+        }
+
+        .sidebar-content-group {
+            padding: 8px 10px;
+        }
+        .sidebar-content-group ul {
+            padding-left: 30px;
+        }
+
+        .partner {
+            text-align: center;
+        }
+
+        .partner img {
+            width: 80%;
+        }
+    </style>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="wrap">
+    <header id="header">
+        <div class="container">
+            <nav id="header-nav">
+                <div id="mobile-nav-toggle">
+                    <a class="main-headline-link" href="/">
+                        <?php echo $this->brand()->getLogo(); ?>
+                    </a>
+                    <?php echo $this->brand()->getBrand(); ?>
+                    <span class="subject-title">Deine Spende für freie Bildung</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div id="page" class="container has-sidebar clearfix">
+        <section class="main clearfix">
+            <div id="content-layout" class="content clearfix">
+                <article itemscope="" itemtype="http://schema.org/Article">
+                    <header>
+                        <div class="page-header"></div>
+                    </header>
+                    <div itemprop="articleBody">
+                        <article>
+                            <section>
+                                <div class="r">
+                                    <div class="c24">
+                                        <p>
+                                            <img src="https://assets.serlo.org/59f762922f93d_c1bea0db3a614ccd33887e6f615b4b60a84e642e.jpg" alt="test" title="">
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="r">
+                                    <div class="c24">
+                                        <script type="text/javascript">
+                                            (function() {
+                                                var u="https://spenden.twingle.de/embed/serlo-education-e-v/serlo-org/tw5bcec90da9d45/widget";
+                                                var id = '_' + Math.random().toString(36).substr(2, 9);
+                                                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                                                document.write('<div id="twingle-public-embed-' + id + '"></div>');
+                                                g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'/'+id; s.parentNode.insertBefore(g,s);
+                                            })();
+                                        </script>
+                                        <noscript>Bitte Javascript aktivieren</noscript>
+                                    </div>
+                                </div>
+                                <div class="r">
+                                    <div class="c24">
+                                        <h2>Ohne Angabe von Daten spenden</h2>
+                                        <h3 id="spendenkonto">Spendenkonto</h3>
+                                        <p>
+                                            Serlo Education e.V. <br>
+                                            IBAN: DE98 4306 0967 8204 5906 00 <br>
+                                            BIC: GENODEM1GLS (GLS Bank)
+                                        </p>
+                                        <h3 id="paypal">Paypal</h3>
+                                        <p>
+                                            Geld via Paypal spenden an: <a href="https://www.paypal.me/serlo">https://www.paypal.me/serlo</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </article>
+                    </div>
+                </article>
+            </div>
+            <aside class="side-element side-context">
+                <div id="sidebar-toggle" class="layout-toggle">
+                    <i class="fa fa-bars"></i>
+                    <i class="fa fa-times"></i>
+                </div>
+                <div class="side-element-inner">
+                    <div class="sidebar-content-group">
+                        <p><b>Deine Ansprechpartnerin</b></p>
+                        <p><img style="width:100%" src="https://assets.serlo.org/59f762452ae65_a60cc9803cb8b4c6b2fc6f18546909afb4378b11.jpg" alt="Ronnit Wilmersdörffer" title=""></p>
+                        <p>Ronnit Wilmersdörffer <br>
+                            <i>(Mitgliederbetreuung und Finanzvorstand)</i>
+                            <br><br>
+                            <b>Kontaktdaten</b>
+                        </p>
+                        <p>ronnit@serlo.org<br>
+                            0176 74 78 9443<br></p>
+                        <br>
+                        <p><b>Wohin geht Deine Spende</b></p>
+                        <p>
+                            Spendengelder fließen unter anderem in
+                        <ul>
+                            <li>Serverkosten</li>
+                            <li>Betreuung ehrenamtlicher AutorInnen</li>
+                            <li>Weiterentwicklung der Plattform</li>
+                        </ul>
+                        </p>
+                        <br>
+                        <p>Eine genaue Aufstellung unserer Finanzen findest du unter www.serlo.org/transparenz</p>
+                        <br>
+                        <p><img style="width:100%" src="https://assets.serlo.org/legacy/546b4f8aab7a2_8ec64f4823d62c6b857c781ab2dd403d6ce597e4.jpg" alt="Initiative Transparente Zivilgesellschaft"></p>
+                        <br>
+                        <p><b>Steuerliche Begünstigungen</b></p>
+                        <p>Serlo Education ist ein anerkannter gemeinnütziger Verein. Deine Spende ist daher steuerlich voll abzugsfähig.</p>
+                        <br>
+                        <p><b>Ohne Angabe von Daten spenden</b></p>
+                        <p>Du kannst auch via <a href="#spendenkonto">Überweisung</a> oder <a href="#paypal">Paypal</a> spenden.</p>
+                        <br>
+                        <p><b>Unsere Partner</b></p>
+                        <p class="partner">
+                            <img src="https://assets.serlo.org/5a316a509e299_77f68315ec777b49b17b93bd328533e2eac59e68.png" alt="Ludwig-Maximilians-Universität München" title="Ludwig-Maximilians-Universität München">
+                            <img src="https://assets.serlo.org/5a316a7a6343f_c3311343b1b0c4efa89c9d1cc317303392d5b605.png" alt="Technische Universität München" title="Technische Universität München">
+                            <img src="https://assets.serlo.org/5a1a0a276a6b9_6d34310eb0df059427d6607cd88d9433b1dd4fcc.png" alt="Wikimedia" title="Wikimedia">
+                            <img src="https://assets.serlo.org/legacy/56abd09826385_37623ba809c7d6e596297e61c0175072ac8a5a6a.png" alt="EU Kommission" title="EU Kommission">
+                        </p>
+                    </div>
+                </div>
+            </aside>
+        </section>
+    </div>
+    <div id="horizon"></div>
+    <div id="footer-push"></div>
+</div>
+<footer id="footer" class="home-row">
+    <div class="footer-wrapper col-lg-8 col-lg-push-1">
+        <div class="logo-wrapper">
+            <a href="/">
+                <?php echo $this->brand()->getLogo(); ?>
+                <?php echo $this->brand()->getBrand(); ?>
+                <?php echo $this->brand()->getSlogan(); ?>
+            </a>
+        </div>
+        <nav>
+            <ul class="nav nav-list">
+                <li>
+                    <a href="/datenschutz">Datenschutz</a>
+                </li>
+                <li>
+                    <a href="/impressum">Impressum</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</footer>
+<?php echo $this->partial('layout/partials/scripts'); ?>
+<?php echo $this->partial('layout/partials/default-modal'); ?>
+<?php echo $this->placeholder('modals'); ?>
+<?php echo $this->tracking(); ?>
+<?php echo $this->partial('layout/partials/noscript'); ?>
+</body>
+</html>

@@ -1,0 +1,86 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{% set pages = entity.getValidChildren('link', 'course-page') %}
+{% set length = pages.count() %}
+{% set activeIndex = pages.indexOf(activePage) %}
+
+{% set previous = entity.getPreviousValidSibling('link', activePage) %}
+{% set next = entity.getNextValidSibling('link', activePage) %}
+<aside class="side-element side-context side-context-course">
+    <div id="sidebar-toggle" class="layout-toggle">
+        <i class="fa fa-bars"></i>
+        <i class="fa fa-times"></i>
+    </div>
+    <div class="side-element-inner">
+        <div class="sidebar-content-group">
+            <ul class="nav nav-aside nav-course">
+                <li class="nav-aside-header nav-course-item primary">
+                    <span class="h4 list-head">{{ entity.getCurrentRevision().get('title') }}</span>
+                </li>
+                {% if elementsBefore is defined and activeIndex > elementsBefore %}
+                    <li class="nav-course-item">
+                        <div class="nav-bar">
+                            <div class="dots">
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+
+                {% for page in pages %}
+                    {% if (elementsBefore is not defined or loop.index0 >= (activeIndex - elementsBefore) )
+                    and (elementsAfter is not defined or loop.index0 <= (activeIndex + elementsAfter) ) %}
+                        {% set revision = page.getCurrentRevision() %}
+                        {% set icon = revision.get('icon', 'book') %}
+                        <li class="nav-course-item {{ page==activePage ? 'active' : '' }} {{ loop.index0 == 0 ? 'primary' }}">
+                            {% if page!=activePage %}
+                            <a class="nav-course-link" href="{{ normalize().toUrl(page) }}">
+                                {% endif %}
+                                <div class="nav-bar">
+                                    <div class="pipe"></div>
+                                    <span class="fa {{ icon == 'play' or icon == 'question' ? 'fa-'~icon :'' }}"></span>
+                                    <span class="list-item">{{ revision.get('title') }}</span>
+                                </div>
+                                {% if page!=activePage %}
+                            </a>
+                            {% endif %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if elementsAfter is defined and activeIndex < length - elementsAfter %}
+                    <li class="nav-course-item">
+                        <div class="nav-bar">
+                            <div class="dots">
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</aside>

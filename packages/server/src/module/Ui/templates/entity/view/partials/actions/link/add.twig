@@ -1,0 +1,61 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{% set options = entity().getOptions(entity) %}
+{% if options.hasComponent('link') %}
+    {% set componentOptions = options.getComponent('link') %}
+    {% for type in componentOptions.getAllowedChildren() %}
+        {% set allowsManyChildren = componentOptions.allowsManyChildren(type) %}
+        {% set count = entity.getChildren('link', type).count() %}
+        {% if (allowsManyChildren or (not(allowsManyChildren) and count < 1)) and isGranted('entity.link.create', entity) %}
+            <li>
+                <a rel="nofollow" href="{{ url('entity/create', {'type': type}, {'query': {'link': {'type': 'link', 'child': entity.getId()}}}) }}">
+                    <span class="fa fa-plus"></span>
+                    {% trans %}
+                        Add {{ type }}
+                    {% endtrans %}
+                </a>
+            </li>
+        {% else %}
+            {% set child = entity.getChildren('link', type).first() %}
+            {% if not(allowsManyChildren) and count == 1 and child.isTrashed() and isGranted('entity.revision.restore', child) %}
+            <li>
+                <a rel="nofollow" href="{{ url('uuid/restore', {'id' : child.getId()}) }}">
+                    <span class="fa fa-recycle"></span>
+                    {% trans %}
+                    Restore {{ type }}
+                    {% endtrans %}
+                </a>
+            </li>
+            {% elseif not(allowsManyChildren) and count == 1 and not child.isTrashed() and not child.hasCurrentRevision()
+                    and isGranted('entity.revision.create', child) %}
+                <li>
+                    <a rel="nofollow" href="{{  url('entity/repository/add-revision-old', {'entity': child.getId()}) }}">
+                        <span class="fa fa-plus"></span>
+                        {% trans %}
+                        Add {{ type }}
+                        {% endtrans %}
+                    </a>
+                </li>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}

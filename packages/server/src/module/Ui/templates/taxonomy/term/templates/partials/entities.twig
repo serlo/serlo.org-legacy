@@ -1,0 +1,67 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{% set entities = term.getAssociated('entities') %}
+{% set entities = entity().getVisible(entities) %}
+{% set types = entity().asTypeCollection(entities) %}
+{% if entities.count() %}
+    {% for i in 0..3 %}
+        {% set type = cycle(['course', 'article', 'video', 'applet'], i) %}
+        {% if types.get(type) %}
+            <div class="row top-buffer-10">
+                <div class="col-xs-2 text-center">
+                    <span class="fa h2 fa-2x fa-{{ cycle(['graduation-cap', 'newspaper-o', 'play-circle', 'cubes'], i) }}"></span>
+                </div>
+                <div class="col-xs-10">
+                    <div class="h2">{{ cycle(['Courses' | trans, 'Articles' | trans, 'Videos' | trans, 'Applets' | trans], i) }}</div>
+                    {% for link in types.get(type) %}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {% include 'taxonomy/term/entity/default' with {'entity': link} only %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div>
+        {% if types.get('text-exercise') or types.get('text-exercise-group') or types.get('math-puzzle') %}
+            <!-- Rest -->
+            <div class="h2 heading-content" style="margin-bottom:30px">{% trans %} Exercises {% endtrans %}</div>
+            <div class="row top-buffer-10">
+                <div class="col-xs-12">
+                    {% for entity in entities if entity.getType().getName() in ['text-exercise', 'text-exercise-group', 'math-puzzle'] %}
+                        <div class="row">
+                            <div class="col-sm-1 hidden-xs">
+                                <strong>{{ loop.index }}.</strong>
+                            </div>
+                            <div class="col-sm-11 col-xs-12">
+                                {% include 'taxonomy/term/entity/default' with {'entity': entity} only %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        <!-- Rest end -->
+    </div>
+{% endif %}

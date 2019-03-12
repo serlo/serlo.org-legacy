@@ -1,0 +1,89 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+
+$html = array();
+$useBreadCrumbs = isset($this->useBreadCrumbs) ? $this->useBreadCrumbs : true;
+
+foreach ($this->pages as $page) {
+    $liClasses = [];
+    // visibility of the sub-page
+    if (!$page->isVisible() || !$this->navigation()->accept($page)) {
+        continue;
+    }
+
+    // check if menu item has 'needsIdentity' set and user is logged in
+    if (!$this->navigation()->checkIdentity($page)) {
+        continue;
+    }
+
+    if ($page->getLabel() == 'divider') {
+        $html[] = '<li class="divider"></li>';
+        continue;
+    }
+
+
+    if ($page->isActive()) {
+        $liClasses[] = 'active';
+    }
+
+    $elements = '';
+    if ($page->get('elements') !== null) {
+        $elements = ' data-element-count="' . $page->get('elements') . '"';
+    }
+
+    $breadcrumb = ($page->isActive(true) && $useBreadCrumbs) ? 'itemscope itemtype="http://data-vocabulary.org/Breadcrumb"' : false;
+    $child      = $breadcrumb ? 'itemprop="child"' : '';
+    $rich       = $breadcrumb ? ' ' . $child . ' ' . $breadcrumb . ' ' : '';
+
+    $html[] = '<li' . $rich . $elements . (count($liClasses) ? (' class="' . implode(' ', $liClasses) . '">') : '>');
+
+    $html[] = '<a href="' . $this->alias($page->getHref()) . '"' . ($breadcrumb ? ' itemprop="url"' : '') . '>';
+
+    if ($page->get('icon')) {
+        if (stristr($page->get('icon'), 'fa-')) {
+            $html[] = '<span class="' . $page->get('icon') . '"></span>';
+        } else {
+            $html[] = '<span class="fa fa-' . $page->get('icon') . '"></span>';
+        }
+    }
+
+    if ($breadcrumb) {
+        $html[] = '<span itemprop="title">' . $page->getLabel() . '</span>';
+    } else {
+        $html[] = '<span>' . $page->getLabel() . '</span>';
+    }
+    $html[] = "</a>";
+
+    if (!empty($page->pages)) {
+        $html[] = '<ul>';
+        $html[] = $this->partial(
+            'layout/navigation/partial/nested-navigation-list',
+            array('pages' => $page->pages, 'useBreadCrumbs' => $useBreadCrumbs)
+        );;
+        $html[] = '</ul>';
+    }
+
+    $html[] = "</li>";
+}
+
+echo join(' ', $html);

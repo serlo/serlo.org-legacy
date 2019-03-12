@@ -1,0 +1,70 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+<ol>
+    {% for page in pages %}
+    <li class="row-fluid">
+        <ul class="list-group">
+            <li class="list-group-item">
+                {% do positionForm.bind(page) %}
+                {% do positionForm.setAttribute('action', url('navigation/page/update', {page: page.getId()})) %}
+                {% do positionForm.prepare() %}
+                {{ form().render(positionForm, 'inline') }}
+            </li>
+            {% for parameter in page.getParameters() %}
+                <li class="list-group-item">
+                    {% include 'navigation/parameter/view' with {'parameter': parameter, 'page': page} %}
+                </li>
+            {% endfor %}
+            <li class="list-group-item">
+                <div class="btn-group">
+                    <a class="btn btn-xs btn-default" href="{{ url('navigation/parameter/create', {'page': page.getId()}) }}">
+                        <span class="fa fa-plus"></span>
+                        {{ 'Add parameter' | trans }}
+                    </a>
+                    {% set createbutton %}
+                    <button class="btn btn-xs btn-default">
+                        <span class="fa fa-plus"></span> {{ 'Add page' | trans }}
+                    </button>
+                    {% endset %}
+                    {% do form.setAttribute('action', url('navigation/page/create', {'container': page.getContainer().getId(), 'parent': page.getId()})) %}
+                    {% include 'common/csrfform' with {'form': form, 'sendbutton': createbutton} %}
+                    <a class="btn btn-xs btn-default"
+                       href="{{ url('navigation/page/update', {'page': page.getId()}) }}">
+                        <span class="fa fa-cog"></span>
+                        {{ 'Settings' | trans }}
+                    </a>
+                    {% set trashbutton %}
+                    <button class="btn btn-xs btn-danger">
+                        <span class="fa fa-trash"></span>
+                        {{ 'Remove page' | trans }}
+                    </button>
+                    {% endset %}
+                    {% do form.setAttribute('action', url('navigation/page/remove', {'page': page.getId()})) %}
+                    {% include 'common/csrfform' with {'form': form, 'sendbutton': trashbutton} %}
+                </div>
+        </ul>
+        {% if page.hasChildren() %}
+            {% include 'navigation/page/partial/tree' with {'pages': page.getChildren()} %}
+        {% endif %}
+    </li>
+    {% endfor %}
+</ol>

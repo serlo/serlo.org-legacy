@@ -1,0 +1,60 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+?>
+<nav id="serlo-menu" class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="top-bar-collapse">
+            <nav class="navbar-inner">
+                <?php
+                // top left navigation
+                echo $this->navigation('top_left_navigation')
+                    ->menu()
+                    ->setUlClass('nav navbar-nav')
+                    ->setPartial('layout/navigation/horizontal')
+                    ->render();
+                // top right navigation
+                ?>
+                <?php
+                echo $this->navigation('top_auth_navigation')
+                    ->menu()
+                    ->setUlClass('nav navbar-nav navbar-right authentication')
+                    ->setPartial('layout/navigation/horizontal')
+                    ->render();
+                ?>
+                <ul class="nav navbar-nav pull-right notifications hidden-xs">
+                    <?php echo $this->notifications()->render(); ?>
+                </ul>
+                <?php
+                echo $this->navigation('top_right_navigation')
+                    ->menu()
+                    ->setUlClass('nav navbar-nav navbar-right')
+                    ->setPartial('layout/navigation/horizontal')
+                    ->render();
+                ?>
+                <?php //echo $this->instance()->renderSelect(); ?>
+            </nav>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>

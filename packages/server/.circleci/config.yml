@@ -1,0 +1,87 @@
+php: &php
+  docker:
+    - image: circleci/php:7.0.33
+js: &js
+  docker:
+    - image: circleci/node:10-browsers
+
+composer_restore_cache: &composer_restore_cache
+  keys:
+    - composer-v1-{{ checksum "composer.lock" }}
+    - composer-v1-
+composer_save_cache: &composer_save_cache
+  key: composer-v1-{{ checksum "composer.lock" }}
+  paths:
+    - ./src/vendor
+composer_install: &composer_install
+  command: composer install --no-interaction --dev --prefer-dist
+
+# FIXME:
+composer_dev_restore_cache: &composer_dev_restore_cache
+  keys:
+    - composer-v1-{{ checksum "dev-tools/composer.lock" }}
+    - composer-v1-
+composer_dev_save_cache: &composer_dev_save_cache
+  key: composer-v1-{{ checksum "dev-tools/composer.lock" }}
+  paths:
+    - ./dev-tools/vendor
+composer_dev_install: &composer_dev_install
+  command: (cd dev-tools && composer install --no-interaction --dev --prefer-dist)
+
+yarn_restore_cache: &yarn_restore_cache
+  keys:
+    - yarn-v1-{{ checksum "yarn.lock" }}
+    - yarn-v1-
+yarn_save_cache: &yarn_save_cache
+  key: yarn-v1-{{ checksum "yarn.lock" }}
+  paths:
+    - ~/.cache/yarn
+yarn_install: &yarn_install
+  command: yarn --frozen-lockfile
+
+version: 2.1
+jobs:
+  test:
+    <<: *php
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *composer_restore_cache
+      - run:
+          <<: *composer_install
+      - save_cache:
+          <<: *composer_save_cache
+      - run:
+          command: ./src/vendor/bin/phpunit
+  lint:
+    <<: *php
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *composer_dev_restore_cache
+      - run:
+          <<: *composer_dev_install
+      - save_cache:
+          <<: *composer_dev_save_cache
+      - run:
+          command: ./dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php --dry-run
+  prettier:
+    <<: *js
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *yarn_restore_cache
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          <<: *yarn_save_cache
+      - run:
+          command: yarn lint
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - test
+      - lint
+      - prettier

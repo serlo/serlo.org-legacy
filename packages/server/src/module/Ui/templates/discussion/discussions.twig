@@ -1,0 +1,57 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{% set discussions = discussion().getDiscussions(object) %}
+<div class="panel panel-default discussions">
+    <div class="panel-heading">
+        <span class="fa fa-comments"></span>
+        <h3 class="panel-title">{% trans %} Discussions {% endtrans %}</h3>
+        <span class="label label-info">{{ discussions.count() }}</span>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group discussions">
+            {% if isGranted('discussion.create') %}
+                {% set form = discussion().getForm('discussion', object, forum) %}
+                <li class="list-group-item">
+                    <div class="discussion-head">
+                        <strong>
+                            {% trans %} Start a new discussion {% endtrans %}
+                        </strong>
+                    </div>
+                    <div class="discussion-text">
+                        {{ form().render(form, null) }}
+                    </div>
+                </li>
+            {% endif %}
+            {% for discussion in discussions %}
+                <li class="list-group-item">
+                    {% include 'discussion/discussion/show' with {'discussion': discussion} only %}
+                </li>
+            {% else %}
+                <li class="list-group-item">
+                    <div class="discussion-text">
+                        <span class="text-muted">{% trans %} There are no discussions on this topic yet. {% endtrans %}</span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

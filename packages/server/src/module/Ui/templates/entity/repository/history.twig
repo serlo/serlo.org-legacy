@@ -1,0 +1,62 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{{ pageHeader(normalize().toTitle(entity)).setSubtitle('History'|trans).setBacklink(normalize().toUrl(entity)).append(contexter().renderButton('right')).render() }}
+{% if(entity.countUnrevised() > 1) %}
+    <div class="alert alert-info">
+        {% trans %} There are multiple recent revisions for this object. Please be aware that they may be of very
+        different nature. Consider reviewing all of them before accepting or merging. {% endtrans %}
+    </div>
+{% endif %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>{% trans %} # {% endtrans %}</th>
+        <th>{% trans %} Current {% endtrans %}
+        <th>{% trans %} Changes {% endtrans %}</th>
+        <th>{% trans %} Author {% endtrans %}</th>
+        <th>{% trans %} Timestamp {% endtrans %}</th>
+        <th></th>
+    </tr>
+    </thead>
+    {% for revision in revisions %}
+        {% set isCurrent = (revision == currentRevision) %}
+        {% set isOry = entity().isOryEditorFormat(revision) %}
+        <tr class="{{ isCurrent ? 'active ' : '' }}{{ revision.isTrashed() ? 'warning' : '' }}">
+            <td>
+                {{ revision.getId() }}
+                (<a href="{{ url('entity/repository/compare', {'entity': entity.getId(), 'revision': revision.getId()}) }}">
+                    {% trans %} show {% endtrans %}
+                </a>)
+            </td>
+            <td>{{ isCurrent ? '<span class="fa fa-check"></span>' : '' }}</td>
+            <th>{{ revision.get('changes') }}</th>
+            <td>{{ normalize().toAnchor(revision.getAuthor()) }}</td>
+            <td>{{ timeago().render(revision.getTimestamp()) }}</td>
+            <td>
+                <a href="{{ url( isOry ? 'entity/repository/add-revision' : 'entity/repository/add-revision-old', {'entity': entity.getId(), 'revision': revision.getId()}) }}"
+                   data-toggle="tooltip" title="{% trans %} Create a new revision starting from this specific revision {% endtrans %}">
+                    <span class="fa fa-pencil"></span>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

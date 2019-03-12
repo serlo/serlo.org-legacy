@@ -1,0 +1,321 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+echo $this->doctype();
+?>
+<html class="fuelux" lang="<?php echo $this->currentLanguage(); ?>">
+<head>
+    <?php echo $this->partial('layout/partials/head'); ?>
+    <?php echo $this->partial('layout/partials/styles'); ?>
+</head>
+<body class="serlo-home serlo-de-home" itemscope itemtype="http://schema.org/WebPage">
+<div class="wrap">
+    <header id="header">
+        <?php echo $this->partial('layout/partials/top-bar'); ?>
+
+        <div class="container-fluid">
+            <nav id="header-nav">
+                <div id="mobile-nav-toggle">
+                    <button>
+                        <span class="sr-only"><?php echo $this->translate('Toggle navigation'); ?></span>
+                        <i class="fa fa-fw fa-bars"></i>
+                    </button>
+                    <a href="https://de.serlo.org"><?php echo $this->brand()->getLogo(); ?>
+                    <?php echo $this->brand()->getBrand(); ?></a>
+                    <span class="subject-title hidden-xs"><?php echo $this->navigation('default_navigation')
+            ->menu()
+            ->setPartial('layout/navigation/partial/active-subject')
+            ->setOnlyActiveBranch(true)
+            ->setMinDepth(0)
+            ->setMaxDepth(0)
+            ->render();
+                        ?></span>
+                </div>
+
+                <div id="mobile-nav-right">
+                    <ul class="authentification nav navbar-nav">
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
+                                <span class="fa fa-user"></span>
+                            </a>
+                            <?php
+                            echo $this->navigation('top_auth_navigation')
+                                ->menu()
+                                ->setUlClass('dropdown-menu dropdown-menu-right')
+                                ->setPartial('layout/navigation/horizontal')
+                                ->render();
+                            ?>
+                        </li>
+                    </ul>
+                    <ul class="notifications nav navbar-nav">
+                        <?php echo $this->notifications()->render(); ?>
+                    </ul>
+                </div>
+            </nav>
+
+            <div id="mobile-nav"></div>
+
+            <?php if (empty($this->placeholder('hideSubjectNav')->getValue())): ?>
+                <nav id="subject-nav">
+                    <div id="subject-nav-wrapper">
+                        <div class="subject-nav-center">
+                            <div class="pull-right controls">
+                                <?php echo $this->placeholder('controls'); ?>
+                            </div>
+                            <ol id="breadcrumbs">
+                            </ol>
+                        </div>
+                        <?php echo $this->partial('layout/partials/search'); ?>
+                    </div>
+                </nav>
+            <?php endif; ?>
+        </div>
+    </header>
+
+    <div id="page">
+        <section class="clearfix">
+            <div id="content-layout" class="clearfix">
+                <?php echo $this->partial('layout/partials/notifications'); ?>
+                <div class="flasher"></div>
+                <h1 class="home-header">
+                    <a href="/"><?php echo $this->brand()->getLogo(); ?>
+                    <?php echo $this->brand()->getBrand(); ?>
+                    <span class="header-text">Die freie Lernplattform</span></a>
+                </h1>
+
+                <div class="col-md-12 col-lg-10 col-lg-offset-1">
+                    <div class="home-row home-subject-row">
+                        <div class="home-column col-lg-3 col-sm-6 container">
+                            <a class="home-emph-link" href="/mathe">
+                                <div class="row">
+                                    <div class="col-xs-12 home-subject-symbol">
+                                        <?php echo $this->partial('layout/de/home-math-symbol');?>
+                                    </div>
+                                </div>
+                                <div class="row home-subject-column">
+                                    <div class="col-xs-12">
+                                        <h2 class="home-subject">
+                                            Mathematik <br> lernen
+                                            <i class="fa fa-arrow-circle-right home-subject"></i>
+                                        </h2>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="home-column col-lg-3 col-sm-6 container">
+                            <a class="home-emph-link" href="/abc">
+                                <div class="row">
+                                    <div class="col-xs-12 home-subject-symbol">
+                                        <?php echo $this->partial('layout/de/home-abc-symbol');?>
+                                    </div>
+                                </div>
+                                <div class="row home-subject-column">
+                                    <div class="col-xs-12">
+                                        <h2 class="home-subject">
+                                            Alphabetisierung <br> für NeusprachlerInnen
+                                            <i class="fa fa-arrow-circle-right home-subject"></i>
+                                        </h2>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="home-column col-sm-6 col-lg-3 container">
+                            <a class="home-emph-link" href="/nachhaltigkeit">
+                                <div class="row home-subject-column">
+                                    <div class="col-xs-12 home-subject-symbol">
+                                        <?php echo $this->partial('layout/de/home-sustain-symbol');?>
+                                    </div>
+                                </div>
+                                <div class="row home-subject-column">
+                                    <h2 class="home-subject">
+                                        Nachhaltigkeit <br> lernen
+                                        <i class="fa fa-arrow-circle-right home-subject"></i>
+                                    </h2>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="home-column col-lg-3 col-sm-6 container">
+                            <a class="home-emph-link" href="/biologie">
+                                <div class="row">
+                                    <div class="col-xs-12 home-subject-symbol">
+                                        <?php echo $this->partial('layout/de/home-bio-symbol');?>
+                                    </div>
+                                </div>
+                                <div class="row home-subject-column">
+                                    <div class="col-xs-12">
+                                        <h2 class="home-subject">
+                                            Biologie <br> lernen
+                                            <i class="fa fa-arrow-circle-right home-subject"></i>
+                                        </h2>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="home-extra-links home-row ">
+                    <div class="home-column">
+                        <h3><a class="home-emph-link" href="https://de.serlo.org/eltern">Einstieg für <b>Eltern</b> <i class="fa fa-arrow-circle-right"></i></a></h3>
+                        <h3><a class="home-emph-link" href="https://de.serlo.org/lehrkraefte">Einstieg für <b>LehrerInnen</b> <i class="fa fa_custom fa-arrow-circle-right"></i></a></h3>
+                    </div>
+
+                </div>
+
+                <div class="home-about-wrapper row">
+                    <div class="home-column home-partner-row col-lg-9">
+
+                        <a href="/21456" class="home-emph-link">Partner und Förderer</a>
+
+                        <div class="partners">
+                          <a href="/21456">
+                              <img src="<?php echo $this->assets()->getAsset('de/home/logo-tum.svg'); ?>" alt="Technische Universität München"/>
+                          </a>
+                          <a href="/21456">
+                              <img src="<?php echo $this->assets()->getAsset('de/home/logo-eu.svg'); ?>" alt="Europäische Kommission"/>
+                          </a>
+                          <a href="/21456">
+                              <img src="<?php echo $this->assets()->getAsset('de/home/logo-lmu.svg'); ?>" alt="Ludwig-Maximilians-Universität München"/>
+                          </a>
+                          <a href="/21456">
+                              <img src="<?php echo $this->assets()->getAsset('de/home/logo-sauer.svg'); ?>" alt="Hans Sauer Stiftung"/>
+                          </a>
+                          <a href="/21456">
+                              <img src="<?php echo $this->assets()->getAsset('de/home/logo-wikimedia.svg'); ?>" alt="Wikimedia Deutschland"/>
+                          </a>
+                        </div>
+                    </div>
+                    <div class="home-row home-about-row col-lg-3">
+                        Die <b>freie Lernplattform serlo.org</b> bietet:
+                        <ul>
+                            <li>einfache Erklärungen</li>
+                            <li>Kurse</li>
+                            <li>Lernvideos</li>
+                            <li>tausende Übungsaufgaben mit Musterlösungen</li>
+                        </ul>
+                        <p>Wir ermöglichen SchülerInnen und Studierenden selbständig und im eigenen Tempo zu lernen – unabhängig von den finanziellen Möglichkeiten ihrer Eltern, denn serlo.org ist und bleibt <b>komplett kostenlos</b>.</p>
+                        <p>Unsere Vision ist es, <b>hochwertige Bildung weltweit frei verfügbar</b> zu machen.</p>
+
+                        <a class="home-emph-link" href="/18922">Mehr erfahren <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="home-calls-wrapper clearfix">
+                    <div class="home-row home-column">
+                        <div class="home-calls-header col-xs-12 col-lg-10 col-lg-offset-2">
+                          <h2>Serlo.org ist die Wikipedia fürs Lernen<h2>
+                        </div>
+                        <div class="extra-icon col-xs-12 col-lg-2">
+                            <img src="<?php echo $this->assets()->getAsset('home/participate.svg'); ?>" alt="together">
+                        </div>
+                        <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-1 col-lg-offset-0 col-lg-3 home-calls-column calls-column-1">
+                            <p>Wir suchen LehrerInnen mit Begeisterung für ihr Fach.
+                                Werden Sie AutorIn auf serlo.org, erstellen Sie <b>neue Inhalte</b> und helfen Sie uns,
+                                die <b>Qualität</b> der Lernplattform zu sichern.</p>
+                            <div class="hidden-md hidden-lg">
+                                <a href="/community" class="home-emph-link">
+                                    Zur Startseite für AutorInnen <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-2 col-lg-offset-1 col-lg-3 home-calls-column">
+                            <p>Wir suchen neue hauptamtliche und ehrenamtliche Teammitglieder
+                                für die Bereiche <b>Softwareentwicklung</b>, <b>Redaktion</b> und <b>NGO-Management</b>.
+                            </p>
+                            <div class="hidden-md hidden-lg">
+                                <a href="/jobs" class="home-emph-link">
+                                    Jobs und Engagement <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <div class="home-row home-column visible-md visible-lg">
+                    <div class="col-md-4 col-md-offset-1 col-lg-4 col-lg-offset-2 home-calls-column">
+                        <a href="/community" class="home-emph-link">
+                            Zur Startseite für AutorInnen <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-md-offset-2 col-lg-offset-0 col-lg-4 home-calls-column">
+                        <h3><a href="/jobs" class="home-emph-link">
+                            Jobs und Engagement <i class="fa fa-arrow-circle-right"></i>
+                        </a></h3>
+                    </div>
+                </div>
+                </div>
+
+                <div class="home-row home-principle-row home-column col-md-12 col-lg-6 col-lg-offset-3">
+                    <object data="<?php echo $this->assets()->getAsset('de/home/about-serlo.svg'); ?>"></object>
+                </div>
+                <div class="home-launch-img-row home-row"></div>
+                <div class="home-calls-wrapper">
+                    <div class="home-row home-column">
+                        <div class="home-calls-header col-xs-12 col-lg-10 col-lg-offset-2">
+                          <h2>Werden Sie Teil unserer Bewegung für freie Bildung</h2>
+                        </div>
+                        <div class="extra-icon col-xs-12 col-lg-2">
+                            <?php echo $this->partial('layout/de/home_donate');?>
+                        </div>
+                        <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-1 col-lg-offset-0 col-lg-3 home-calls-column calls-column-1">
+                            <p>Bildung gehört uns allen! Werden Sie Mitglied in unserer Organisation
+                                Serlo Education e.V. und so zu MitherausgeberIn der freien Lernplattform.</p>
+                            <div class="hidden-md hidden-lg">
+                                <h3><a class="home-emph-link" href="/beitreten">
+                                    Mitglied werden <i class="fa fa-arrow-circle-right"></i>
+                                </a></h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-2 col-lg-offset-1 col-lg-3 home-calls-column">
+                            <p>Softwareentwicklung und Lerninhalte erstellen kostet Geld. Wir freuen uns sehr,
+                                wenn Sie Serlo mit einer Spende unterstützen.</p>
+                            <div class="hidden-md hidden-lg">
+                                <h3><a class="home-emph-link" href="/spenden">
+                                    Spenden <i class="fa fa-arrow-circle-right"></i>
+                                </a></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="home-row home-column visible-md visible-lg">
+                        <div class="col-md-4 col-md-offset-1 ol-lg-3 col-lg-offset-2 home-calls-column">
+                            <a class="home-emph-link" href="/beitreten">
+                                Mitglied werden <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-md-offset-2 col-lg-offset-0 col-lg-3 home-calls-column">
+                            <a class="home-emph-link" href="/spenden">
+                                Spenden <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="footer-push"></div>
+</div>
+
+<?php echo $this->partial('layout/partials/footer'); ?>
+<?php echo $this->partial('layout/partials/default-modal'); ?>
+<?php echo $this->placeholder('modals'); ?>
+<?php echo $this->tracking(); ?>
+<?php echo $this->partial('layout/partials/noscript'); ?>
+</body>
+</html>

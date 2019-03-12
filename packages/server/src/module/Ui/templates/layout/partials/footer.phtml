@@ -1,0 +1,112 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+?>
+<?php if (!$this->layout()->hideFooter): ?>
+    <footer id="footer" class="home-row">
+        <div id="mission-statement" class="col-lg-3 pull-right-lg">
+            <div id="mission-statement-claim">
+                <h2 id="mission-statement-head"><?php echo $this->translate('Serlo.org is the Wikipedia for learning.'); ?></h2>
+                <p><?php echo $this->translate('We are a community of visionaries working tirelessly to make great education freely available to everyone.'); ?></p>
+                <a href="/serlo"><?php echo $this->translate('Learn more'); ?> <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+            <div id="mission-statement-actions" class="row">
+                <div class="mission-statement-action col-xs-6">
+                    <a href="/mitmachen">
+                        <img src="<?php echo $this->assets()->getAsset('footer/participate.svg'); ?>"/>
+                        <p><?php echo $this->translate('Join the cause'); ?></p>
+                    </a>
+                </div>
+                <div class="mission-statement-action col-xs-6">
+                    <a href="/spenden">
+                        <?php echo $this->partial('layout/de/home_donate');?>
+                        <p><?php echo $this->translate('Donate'); ?></p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-wrapper col-lg-8 col-lg-push-1">
+            <div class="logo-wrapper">
+                <a href="/">
+                    <?php echo $this->brand()->getLogo(); ?>
+                    <?php echo $this->brand()->getBrand(); ?>
+                    <?php echo $this->brand()->getSlogan(); ?>
+                </a>
+            </div>
+            <nav>
+                <div class="row">
+                    <div class="col-lg-2 col-sm-3">
+                        <div class="footer-title"><?php echo $this->translate('General'); ?></div>
+                        <?php echo $this->navigation('footer_left_navigation')
+                            ->menu()
+                            ->setPartial('layout/navigation/vertical')
+                            ->render();
+                        ?>
+                    </div>
+                    <div class="col-lg-2 col-sm-3">
+                        <div class="footer-title"><?php echo $this->translate('Subjects'); ?></div>
+                        <?php echo $this->navigation('subject_navigation')
+                            ->menu()
+                            ->setPartial('layout/navigation/vertical')
+                            ->render();
+                        ?>
+                    </div>
+                    <div class="col-lg-2 col-sm-3">
+                        <div class="footer-title"><?php echo $this->translate('Stay in touch'); ?></div>
+                        <?php echo $this->navigation('social_navigation')
+                            ->menu()
+                            ->setPartial('layout/navigation/vertical')
+                            ->render();
+                        ?>
+                    </div>
+                    <div class="col-lg-4 col-sm-3">
+                        <div class="footer-title"><?php echo $this->translate('Legal terms'); ?></div>
+                        <?php echo $this->navigation('footer_right_navigation')
+                            ->menu()
+                            ->setPartial('layout/navigation/vertical')
+                            ->render();
+                        ?>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </footer>
+<?php endif; ?>
+
+<div id="controls"></div>
+
+<div id="loading" style="display:none;">
+    <div class="modal fade in is-block" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content" style="text-align:center;">
+                <h4 class="modal-title">
+                    <?php echo $this->translate('Loading'); ?>
+                </h4>
+                <img src="https://assets.serlo.org/5b9247a7dedec_362184da537da5821203cbd48f7b632e0f4c6a05/loading.gif">
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade in"></div>
+</div>
+
+<?php echo $this->partial('layout/partials/scripts'); ?>

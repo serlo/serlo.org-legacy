@@ -1,0 +1,46 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+?>
+<?php $blog = $this->post->getBlog(); ?>
+<?php $blogUrl = $this->normalize()->toUrl($blog); ?>
+<?php $this->normalize()->headTitle($this->post); ?>
+<article>
+    <header class="page-header">
+        <ul class="nav nav-pills pull-left">
+            <li>
+                <a href="<?php echo $blogUrl;?>"><span class="fa fa-chevron-left"></span></a>
+            </li>
+        </ul>
+        <h1>
+            <?php echo $this->post->getTitle(); ?>
+            <small>
+                <?php echo $this->translate(sprintf(
+                    'by %s <small>%s</small>',
+                    $this->post->getAuthor()->getUsername(),
+                    $this->timeago()->render($this->post->getTimestamp())
+                )); ?>
+            </small>
+        </h1>
+    </header>
+    <?php echo $this->markdown()->toHtml($this->post->getContent()); ?>
+</article>

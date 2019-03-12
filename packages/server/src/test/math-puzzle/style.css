@@ -1,0 +1,112 @@
+.math-puzzle {
+    margin: 5px;
+    overflow: hidden;
+    background-color: white;
+    outline: rgba(0,0,0,0.8) solid 1px;
+}
+.exercise {
+    margin: 10px 130px -210px 10px;
+    height: 200px;
+    overflow : hidden;
+}
+.status {
+    height : 80px;
+    width : 130px;
+    float: right;
+    margin: 5px 5px -85px 0;
+    background-image: url('puzzle-status.png');
+    background-size: 130px 320px;
+    background-position: right 0px;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+}
+.open .status {
+    background-position: right -80px;
+}
+.open.solved .status {
+    background-position: right -160px;
+}
+.solved .status {
+    background-position: right -240px;
+}
+
+text {
+    font-size: 48px;
+}
+.atom {
+    text-anchor: middle;
+}
+[data-goal] .background, .palette .background {
+    fill: deepskyblue;
+    stroke-width: 1;
+}
+.background {
+    fill : lightgray;
+    stroke: rgba(0,0,0,0.2);
+}
+
+.operand > .background {
+    fill: #ffffe0;
+    stroke: black;
+}
+
+.grabbed [data-goal].operand > .background,
+.grabbed [data-goal] .operand > .background {
+    fill: yellowgreen;
+    stroke-width: 2;
+    stroke : darkgreen;
+}
+
+[data-ismovable=true] {
+    cursor: pointer;
+}
+
+.shadow {
+    fill: black;
+    opacity: 0.4;
+}
+
+#plotpath {
+    fill: none;
+    stroke: blue;
+    stroke-width: 3px;
+}
+
+path.axes {
+    fill: none;
+    stroke: black;
+    stroke-width: 0.5px;
+}
+
+circle.graph {
+    fill: navy;
+    stroke: #000000;
+    opacity: 0.9;
+    stroke-width: 1px;
+}
+
+rect.canvas {
+    fill: none;
+    stroke: #000000;
+    stroke-width: 1px;
+}
+
+text.axes {
+    font-size: 10pt;
+    text-anchor: middle;
+}
+
+#turtle {
+    fill: red;
+    stroke: #000000;
+    stroke-width: 1px;
+}
+
+.move {
+    fill:white;
+    stroke:black;
+    stroke-width:2;
+    opacity: 0.5;
+    pointer-events:none;
+}

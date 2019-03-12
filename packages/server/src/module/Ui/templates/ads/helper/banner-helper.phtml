@@ -1,0 +1,49 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+?>
+<div id="banner">
+    <?php if (count($this->ads) > 0): ?>
+        <?php $banner = $this->ads[0]; ?>
+        <div>
+            <div class="banner-wrapper">
+                <div class="row">
+                    <div class="col-sm-8 col-xs-12" style="padding-right: 0">
+                        <img id="banner-img" alt="<?php echo strip_tags($banner->getTitle()); ?>"
+                             src="<?php echo $banner->getImage()->getLocation(); ?>"
+                             class="img-responsive"/>
+                    </div>
+                    <div class="col-sm-4 col-xs-12" style="padding-left: 0">
+                        <p class="banner-text">
+                            <?php echo $banner->getContent(); ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">
+                <div class="caption">
+                    <?php echo $banner->getTitle(); ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>

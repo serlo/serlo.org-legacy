@@ -1,0 +1,64 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+?>
+<?php echo $this->pageHeader('Manage licenses')->render(); ?>
+<table class="table">
+	<thead>
+		<tr>
+			<th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('Default'); ?></th>
+			<th><?php echo $this->translate('Url'); ?></th>
+			<th><?php echo $this->translate('Actions'); ?></th>
+		</tr>
+	</thead>
+	<tbody>
+        <?php /* @var $license \License\Entity\LicenseInterface */ ?>
+        <?php foreach($this->licenses as $license): ?>
+            <tr>
+                <td><?php echo $license->getTitle(); ?></td>
+                <td><?php echo $license->isDefault() ? '<span class="fa fa-check"></span>' : ''; ?></td>
+                <td><a href="<?php echo $license->getUrl(); ?>"><?php echo $license->getUrl(); ?></a></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-xs btn-default" href="<?php echo $this->url('license/detail', array('id' => $license->getId())); ?>"><span class="fa fa-search"></span></a>
+                        <?php if ($this->isGranted('license.update', $license)): ?>
+                            <a class="btn btn-xs btn-default" href="<?php echo $this->url('license/update', array('id' => $license->getId())); ?>"><span class="fa fa-pencil"></span></a>
+                        <?php endif; ?>
+                        <?php if ($this->isGranted('license.purge', $license)): ?>
+                            <?php $this->form->setAttribute('action', $this->url('license/remove', ['id' => $license->getId()]));?>
+                            <?php $trashbutton = '<button class="btn btn-xs btn-danger dialog" data-content="'
+                                .$this->translate('Caution, deleting a license has serious consequences. You are going to delete a great amount of content, you need to know exactly what you are doing! THIS ACTION CAN NOT BE UNDONE')
+                                .'" data-title="'
+                                . $this->translate('DANGER: You are going to delete all contents associated with this license!')
+                                .'" data-type="danger"><span class="fa fa-trash"></span></button>'?>
+                            <?php echo $this->twigPartial('common/csrfform', ['form' => $this->form, 'sendbutton'=> $trashbutton]); ?>
+                        <?php endif; ?>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+	</tbody>
+</table>
+<div class="clearfix">
+    <a class="pull-right btn btn-sm btn-success" href="<?php echo $this->url('license/add'); ?>"><span class="fa fa-file"></span></a>
+</div>

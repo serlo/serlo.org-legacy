@@ -1,0 +1,83 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{% set title = 'course-page' | trans %}
+{% set revision = entity.getCurrentRevision() %}
+{% set content = renderer.toHtml(revision.get('content')) %}
+
+{% set previous = parent.getPreviousValidSibling('link', entity) %}
+{% set next = parent.getNextValidSibling('link', entity) %}
+
+<article>
+{% if previous is not null %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="icon-link">
+                <a href="{{ normalize().toUrl(previous) }}">
+                    <span class="h4">
+                        <i class="fa fa-arrow-circle-left fa-2x"></i>
+                        &ensp;<span>{{ previous.getCurrentRevision().get('title') }}</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h1 class="heading-content editable" data-id="{{ entity.getId() }}" data-edit-field="title" data-edit-type="text">
+            {{ revision.get('title') }}
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 editable" data-id="{{ entity.getId() }}" data-edit-field="content" data-edit-type="ory">
+        {{ content }}
+    </div>
+</div>
+
+{% if next is not null %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="pull-right">
+                <div class="icon-link icon-link-lower">
+                    <a href="{{ normalize().toUrl(next) }}">
+                        <span class="h4">
+                            <span>{{ next.getCurrentRevision().get('title') }}</span>&ensp;
+                            <i class="fa fa-arrow-circle-right fa-2x"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% include 'entity/view/partials/license' %}
+</article>
+
+{% set discussions %}
+<section id="discussion-{{ entity.getId() }}" class="discussions clearfix">
+    {{ discussion(entity).render() }}
+</section>
+{% endset %}
+{% do placeholder('discussions').set(discussions) %}

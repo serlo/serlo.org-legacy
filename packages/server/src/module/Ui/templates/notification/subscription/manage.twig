@@ -1,0 +1,49 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{{ pageHeader('Manage subscriptions' | trans).setBacklink(url('user/me')) }}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td>{{ 'Object' | trans }}</td>
+        <td>{{ 'Emails' | trans }}</td>
+        <td>{{ 'Subscription' | trans }}</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for subscription in subscriptions %}
+        <tr>
+            <td>{{ normalize().toAnchor(subscription.getSubscribedObject()) }}</td>
+            {% if subscription.getNotifyMailman() %}
+                <td>
+                    <a rel="nofollow" href="{{ url('subscription/update', {'object': subscription.getSubscribedObject().getId(), 'email': 0}) }}"
+                       class="btn btn-sm btn-block btn-warning">{{ 'Deactivate' | trans }}</a></td>
+            {% else %}
+                <td>
+                    <a rel="nofollow" href="{{ url('subscription/update', {'object': subscription.getSubscribedObject().getId(), 'email': 1}) }}"
+                       class="btn btn-sm btn-block btn-info">{{ 'Activate' | trans }}</a></td>
+            {% endif %}
+            <td><a rel="nofollow" href="{{ url('subscription/unsubscribe', {'object': subscription.getSubscribedObject().getId()}) }}"
+                   class="btn btn-sm btn-block btn-danger">{{ 'Unsubscribe' | trans }}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,68 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{% do placeholder('hideSubjectNav').set(true) %}
+{% do headlink({'rel': 'canonical', 'href': url('authentication/login', {}, {'force_canonical': true})}) %}
+
+<div class="flasher">
+    {% if redir %}
+        <div class="alert alert-info">{{ 'You must be logged in to access this page.' | trans }}</div>
+    {% endif %}
+    {% for message in errorMessages %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+</div>
+
+{{ pageHeader('Log in' | trans) }}
+
+{% do form.prepare() %}
+{{ form().openTag(form) }}
+{{ formHidden(form.get('csrf')) }}
+<div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        {{ formElement(form.get('email')) }}
+    </div>
+</div>
+<div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+        {{ formElement(form.get('password')) }}
+    </div>
+</div>
+<div class="form-group">
+    {{ formElement(form.get('submit')) }}
+    {{ formElement(form.get('remember')) }}
+</div>
+<div class="form-group">
+    <ul class="list-unstyled">
+        <li>
+            {{ 'Are you new here? %sSign up%s!' | trans | format('<a href="' ~ url('user/register') ~ '">', '</a>') }}
+        </li>
+        <li>
+            {{ 'Did you forget your %spassword%s?' | trans | format('<a href="' ~ url('authentication/password/restore') ~ '">', '</a>') }}
+        </li>
+        <li>
+            {{ 'Haven\'t activated your account yet? %sResend activation mail%s!' | trans | format('<a href="' ~ url('authentication/activate') ~ '">', '</a>') }}
+        </li>
+    </ul>
+</div>
+{{ form().closeTag(form) }}

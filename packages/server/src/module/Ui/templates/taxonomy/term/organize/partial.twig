@@ -1,0 +1,78 @@
+{##
+ # This file is part of Athene2.
+ #
+ # Copyright (c) 2013-2019 Serlo Education e.V.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License")
+ # you may not use this file except in compliance with the License
+ # You may obtain a copy of the License at
+ #
+ #    http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+ # @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ # @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ #}
+{% if isChild == false and isGranted('taxonomy.term.create', term) %}
+    <div class="pull-right btn-group">
+        <div class="btn-group group-dropdown">
+            <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="fa fa-plus"></span> <span class="caret"></span> </a>
+            <ul class="dropdown-menu">
+                {% for taxonomy in taxonomy().getAllowedChildren(term) %}
+                    <li>
+                        <a href="{{ url('taxonomy/term/create', {'taxonomy' : taxonomy.getId(), 'parent' : term.getId()}) }}">
+                            {{ taxonomy.getName() }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div>
+        <input type="checkbox" data-toggle="visibility" data-target=".trashed"> Hide trashed taxonomy
+    </div>
+    <h3>{{ term.getName() }} <small>{{ term.getTaxonomy().getName() | trans }}</small></h3>
+<hr>
+<div class="sortable" data-active="false" data-action="{{ url( 'taxonomy/term/order', {'term' : term.getId()}) }}">
+    {{ formRow(orderForm.get('csrf').setAttribute('id', 'sort-csrf')) }}
+    {% endif %}
+
+    <ol class="sortable-list" data-id="{{ term.getID() }}">
+        {% for child in term.getChildren() %}
+            <li class="sortable-item {{ child.isTrashed() ? 'trashed'}}" data-id="{{ child.getId() }}">
+                <span class="sortable-handle"></span>
+                <div class="sortable-item-inner">
+                    {{ child.getName() }} <small>{{ child.getTaxonomy().getName() | trans }}</small>
+                    {% include 'taxonomy/term/organize/actions' with {'term' : child} only %}
+                </div>
+                {% include 'taxonomy/term/organize/partial' with {'isChild' : true, 'term' : child} only %}
+            </li>
+        {% endfor %}
+    </ol>
+
+    {% if isChild == false and isGranted('taxonomy.term.sort', term) %}
+    <div class="panel panel-default clearfix">
+        <div class="panel-heading">
+            <h5 class="panel-title">{% trans %} Tools {% endtrans %}</h5>
+        </div>
+        <div class="sortable-actions pull-right panel-body">
+            <button class="btn btn-default sortable-activate-action">
+                {% trans %} Sort {% endtrans %}
+            </button>
+            <button class="btn btn-success sortable-save-action is-hidden">
+                {% trans %} Save new order {% endtrans %}
+            </button>
+            <button class="btn btn-default sortable-abort-action is-hidden">
+                {% trans %} Cancel {% endtrans %}
+            </button>
+        </div>
+    </div>
+</div>
+{% endif %}
