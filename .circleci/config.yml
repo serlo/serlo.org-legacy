@@ -54,30 +54,6 @@ jobs:
           <<: *yarn_save_cache
       - run:
           command: yarn build
-  js-test:
-    <<: *js
-    steps:
-      - checkout
-      - restore_cache:
-          <<: *yarn_restore_cache
-      - run:
-          <<: *yarn_install
-      - save_cache:
-          <<: *yarn_save_cache
-      - run:
-          command: yarn test
-  php-test:
-    <<: *php
-    steps:
-      - checkout
-      - restore_cache:
-          <<: *composer_restore_cache
-      - run:
-          <<: *composer_install
-      - save_cache:
-          <<: *composer_save_cache
-      - run:
-          command: .packages/server/src/vendor/bin/phpunit
   js-lint:
     <<: *js
     steps:
@@ -90,6 +66,18 @@ jobs:
           <<: *yarn_save_cache
       - run:
           command: yarn lint
+  js-test:
+    <<: *js
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *yarn_restore_cache
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          <<: *yarn_save_cache
+      - run:
+          command: yarn test
   php-lint:
     <<: *php
     steps:
@@ -101,14 +89,26 @@ jobs:
       - save_cache:
           <<: *composer_dev_save_cache
       - run:
-          command: .packages/server/dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php --dry-run
+          command: (cd packages/server && dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php --dry-run)
+  php-test:
+    <<: *php
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *composer_restore_cache
+      - run:
+          <<: *composer_install
+      - save_cache:
+          <<: *composer_save_cache
+      - run:
+          command: packages/server/src/vendor/bin/phpunit
 
 workflows:
   version: 2
   workflow:
     jobs:
       - build
-      - js-test
-      - php-test
       - js-lint
+      - js-test
       - php-lint
+      - php-test
