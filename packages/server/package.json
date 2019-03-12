@@ -1,13 +1,8 @@
 {
   "name": "@serlo-org/athene2",
   "version": "0.0.4",
-  "homepage": "https://github.com/serlo-org/athene2",
-  "bugs": {
-    "url": "https://github.com/serlo-org/athene2/issues"
-  },
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
-  "repository": "github:serlo-org/athene2",
   "scripts": {
     "build": "yarn docker:build",
     "deploy": "npm-run-all docker:tag docker:push",
