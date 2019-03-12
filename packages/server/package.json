@@ -9,7 +9,8 @@
   "author": "Serlo Education e.V.",
   "repository": "github:serlo-org/athene2",
   "scripts": {
-    "build": "npm-run-all docker:build docker:tag docker:push",
+    "build": "yarn docker:build",
+    "deploy": "npm-run-all docker:tag docker:push",
     "docker:build": "npm-run-all docker:build:*",
     "docker:build:httpd": "docker build -f docker/httpd/Dockerfile -t serlo/athene2-httpd:$npm_package_version .",
     "docker:build:php": "docker build -f docker/php/Dockerfile -t serlo/athene2-php:$npm_package_version .",
