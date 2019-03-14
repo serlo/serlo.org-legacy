@@ -32,6 +32,7 @@ RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY --from=dependencies /app/src/vendor src/vendor
 COPY bin bin
 COPY src/config src/config
+RUN rm definitions.local.php
 COPY src/lang src/lang
 COPY src/module src/module
 COPY src/public src/public
