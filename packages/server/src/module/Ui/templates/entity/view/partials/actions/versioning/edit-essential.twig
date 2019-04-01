@@ -25,7 +25,7 @@
     <li>
     {% if entity.isUnrevised() %}
         <a rel="nofollow" href="{{ url('entity/repository/history', {'entity': entity.getId()}) }}">
-    {% elseif convert or entity().isOryEditorFormat(entity.getCurrentRevision()) %}
+    {% elseif convert or not entity().isLegacyFormat(entity.getCurrentRevision()) %}
         <a class="{{ revisionGranted ? 'ory-edit-button' : ''}}"
            data-id="{{ entity.getId() }}"
            data-type="{{ entity.getType() }}"

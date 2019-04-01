@@ -147,7 +147,7 @@ class PageRevision extends Uuid implements PageRevisionInterface
         }
     }
 
-    public function isOryEditorFormat()
+    public function isLegacyFormat()
     {
         $parsed = json_decode($this->getContent(), true);
         return $parsed !== null && isset($parsed['cells']);

@@ -172,7 +172,7 @@ class AdsController extends AbstractActionController
             $repository = $adPage->getPageRepository();
             $revision = $repository->getCurrentRevision();
             $this->redirect()->toRoute(
-                $revision->isOryEditorFormat() ? 'page/revision/create': 'page/revision/create-old',
+                $revision->isLegacyFormat() ? 'page/revision/create-old' : 'page/revision/create',
                 [
                     'page'     => $repository->getId(),
                     'revision' => $revision,

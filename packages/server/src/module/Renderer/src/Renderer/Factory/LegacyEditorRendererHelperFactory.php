@@ -20,33 +20,26 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown;
+namespace Renderer\Factory;
 
-class Module
+use Renderer\Renderer;
+use Renderer\View\Helper\RendererHelper;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+class LegacyEditorRendererHelperFactory implements FactoryInterface
 {
-    public function getConfig()
+    /**
+     * Create service
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return mixed
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return include __DIR__ . '/config/module.config.php';
-    }
-
-    public function getAutoloaderConfig()
-    {
-        $autoloader = [];
-
-        $autoloader['Zend\Loader\StandardAutoloader'] = [
-            'namespaces' => [
-                __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-            ],
-        ];
-
-        if (file_exists(__DIR__ . '/autoload_classmap.php')) {
-            return [
-                'Zend\Loader\ClassMapAutoloader' => [
-                    __DIR__ . '/autoload_classmap.php',
-                ],
-            ];
-        }
-
-        return $autoloader;
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        /** @var Renderer $renderer */
+        $renderer       = $serviceLocator->get('Renderer\LegacyEditorRenderer');
+        return new RendererHelper($renderer);
     }
 }

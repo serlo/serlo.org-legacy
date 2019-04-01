@@ -39,7 +39,7 @@
     </thead>
     {% for revision in revisions %}
         {% set isCurrent = (revision == currentRevision) %}
-        {% set isOry = entity().isOryEditorFormat(revision) %}
+        {% set isOry = not entity().isLegacyFormat(revision) %}
         <tr class="{{ isCurrent ? 'active ' : '' }}{{ revision.isTrashed() ? 'warning' : '' }}">
             <td>
                 {{ revision.getId() }}

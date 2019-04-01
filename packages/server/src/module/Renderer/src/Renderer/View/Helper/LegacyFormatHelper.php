@@ -20,26 +20,20 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\Factory;
+namespace Renderer\View\Helper;
 
-use Markdown\View\Helper\MarkdownHelper;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Helper\AbstractHelper;
 
-class MarkdownHelperFactory implements FactoryInterface
+class LegacyFormatHelper extends AbstractHelper
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke($string)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        $renderer       = $serviceLocator->get('Markdown\Service\HtmlRenderService');
-        $plugin         = new MarkdownHelper($renderer);
+        return $this->isLegacyFormat($string);
+    }
 
-        return $plugin;
+    public function isLegacyFormat($string)
+    {
+        $parsed = json_decode($string, true);
+        return $parsed === null || !isset($parsed['cells']);
     }
 }

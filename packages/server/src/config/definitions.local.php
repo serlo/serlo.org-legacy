@@ -44,4 +44,3 @@ $recaptcha = [
 ];
 
 $smtp_options = [];
-

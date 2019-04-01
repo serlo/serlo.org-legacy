@@ -27,6 +27,11 @@ return [
         'active' => true,
     ],
 
+    // (Renderer Module)
+    'renderer' => [
+        'cache_enabled' => false
+    ],
+
     // (Ui Module)
     'view_manager' => [
         'strategies' => [

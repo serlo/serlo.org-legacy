@@ -20,13 +20,32 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\Service;
+namespace Renderer;
 
-interface RenderServiceInterface
+trait RendererAwareTrait
 {
+
     /**
-     * @param string $content
-     * @return string
+     * @var Renderer
      */
-    public function render($content);
+    protected $renderService;
+
+    /**
+     * @return Renderer $renderService
+     */
+    public function getRenderService()
+    {
+        return $this->renderService;
+    }
+
+    /**
+     * @param Renderer $renderService
+     * @return self
+     */
+    public function setRenderService(Renderer $renderService)
+    {
+        $this->renderService = $renderService;
+
+        return $this;
+    }
 }

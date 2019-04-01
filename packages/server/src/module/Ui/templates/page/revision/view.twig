@@ -21,7 +21,7 @@
  #}
 {% if revision %}
     {% set convert = convert is defined and convert %}
-    {% set renderer = convert or revision.isOryEditorFormat() ? oryRenderer() : markdown() %}
+    {% set renderer = convert or revision.isLegacyFormat() ? legacyEditorRenderer() : editorRenderer() %}
     <article itemscope itemtype="http://schema.org/Article">
         <header>
             {% include 'page/partials/head' %}

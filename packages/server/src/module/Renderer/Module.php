@@ -20,20 +20,33 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\View\Helper;
+namespace Renderer;
 
-use Zend\View\Helper\AbstractHelper;
-
-class OryFormatHelper extends AbstractHelper
+class Module
 {
-    public function __invoke($string)
+    public function getConfig()
     {
-        return $this->isOryEditorFormat($string);
+        return include __DIR__ . '/config/module.config.php';
     }
 
-    public function isOryEditorFormat($string)
+    public function getAutoloaderConfig()
     {
-        $parsed = json_decode($string, true);
-        return $parsed !== null && isset($parsed['cells']);
+        $autoloader = [];
+
+        $autoloader['Zend\Loader\StandardAutoloader'] = [
+            'namespaces' => [
+                __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+            ],
+        ];
+
+        if (file_exists(__DIR__ . '/autoload_classmap.php')) {
+            return [
+                'Zend\Loader\ClassMapAutoloader' => [
+                    __DIR__ . '/autoload_classmap.php',
+                ],
+            ];
+        }
+
+        return $autoloader;
     }
 }

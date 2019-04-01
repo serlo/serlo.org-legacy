@@ -20,8 +20,31 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\Exception;
+namespace Renderer\Factory;
 
-class RuntimeException extends \RuntimeException
+use Renderer\Renderer;
+use Zend\Cache\Storage\StorageInterface;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+class EditorRendererFactory implements FactoryInterface
 {
+    /**
+     * Create service
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return mixed
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        /** @var StorageInterface $storage */
+        $storage = $serviceLocator->get('Renderer\Storage\RendererStorage');
+        $config  = $serviceLocator->get('config');
+        $url     = $config['assets']['editor_renderer'];
+        $cacheEnabled = $config['renderer']['cache_enabled'];
+
+        $service = new Renderer($url, $storage, $cacheEnabled, 'editor-renderer');
+
+        return $service;
+    }
 }

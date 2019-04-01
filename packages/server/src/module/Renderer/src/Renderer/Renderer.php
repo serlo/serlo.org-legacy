@@ -21,41 +21,56 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Markdown\Service;
+namespace Renderer;
 
-use Markdown\Exception;
+use Exception;
+use Renderer\Exception\RuntimeException;
 use Zend\Cache\Storage\StorageInterface;
 
-class OryRenderService implements RenderServiceInterface
+class Renderer
 {
     /**
      * @var string
      */
-    protected $url;
+    private $url;
 
     /**
      * @var StorageInterface
      */
-    protected $storage;
+    private $storage;
+
+    /**
+     * @var bool
+     */
+    private $cacheEnabled;
+
+    /**
+     * @var string
+     */
+    private $cachePrefix;
 
     /**
      * @param string $url
      * @param StorageInterface $storage
+     * @param bool $cacheEnabled
      */
-    public function __construct($url, StorageInterface $storage)
+    public function __construct($url, StorageInterface $storage, $cacheEnabled, $cachePrefix)
     {
         $this->url = $url;
         $this->storage = $storage;
+        $this->cacheEnabled = $cacheEnabled;
+        $this->cachePrefix = $cachePrefix;
     }
 
     /**
-     * @see \Markdown\Service\RenderServiceInterface::render()
+     * @param string $input
+     * @return string
      */
     public function render($input)
     {
-        $key = 'editor-renderer-' . hash('sha512', $input);
+        $key = $this->cachePrefix . '/' . hash('sha512', $input);
 
-        if ($this->storage->hasItem($key)) {
+        if ($this->cacheEnabled && $this->storage->hasItem($key)) {
             return $this->storage->getItem($key);
         }
 
@@ -80,10 +95,12 @@ class OryRenderService implements RenderServiceInterface
         try {
             $rendered = json_decode($result, true)['html'];
         } catch (Exception $e) {
-            throw new Exception\RuntimeException(sprintf('Broken pipe'));
+            throw new RuntimeException(sprintf('Broken pipe'));
         }
 
-        $this->storage->setItem($key, $rendered);
+        if ($this->cacheEnabled) {
+            $this->storage->setItem($key, $rendered);
+        }
 
         return $rendered;
     }

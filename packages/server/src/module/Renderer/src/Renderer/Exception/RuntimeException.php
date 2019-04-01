@@ -20,28 +20,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\Factory;
+namespace Renderer\Exception;
 
-use Markdown\Service\OryRenderService;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-class OryRenderServiceFactory implements FactoryInterface
+class RuntimeException extends \RuntimeException
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        $storage = $serviceLocator->get('Markdown\Storage\MarkdownStorage');
-        $config  = $serviceLocator->get('config');
-        $url     = $config['assets']['editor_renderer'];
-
-        $service = new OryRenderService($url, $storage);
-
-        return $service;
-    }
 }
