@@ -42,7 +42,7 @@ services:
       - '4567:80'
     volumes:
       # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
-      - ./src/public:/usr/local/apache2/htdocs/src/public:delegated
+      - ./src/public:/usr/local/apache2/htdocs/src/public
     environment:
       - PHP_HOST=php
 
