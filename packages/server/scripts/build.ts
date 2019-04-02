@@ -35,8 +35,18 @@ run()
 
 async function run() {
   const { version } = await fetchPackageJSON()
-  buildDockerImage('athene2-httpd', version)
-  buildDockerImage('athene2-php', version)
+  buildDockerImage({
+    name: 'athene2-httpd',
+    version,
+    Dockerfile: path.join(root, 'docker', 'httpd', 'Dockerfile'),
+    context: '.'
+  })
+  buildDockerImage({
+    name: 'athene2-php',
+    version,
+    Dockerfile: path.join(root, 'docker', 'php', 'Dockerfile'),
+    context: '.'
+  })
 }
 
 function fetchPackageJSON(): Promise<{ version: string }> {

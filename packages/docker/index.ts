@@ -22,17 +22,25 @@
 import { spawnSync } from 'child_process'
 import * as semver from 'semver'
 
-export function buildDockerImage(name: string, version: string) {
+export function buildDockerImage({
+  name,
+  version,
+  Dockerfile,
+  context
+}: {
+  name: string
+  version: string
+  Dockerfile: string
+  context: string
+}) {
   if (!semver.valid(version)) {
     return
   }
 
   const tag = `${name}:${semver.major(version)}`
-  spawnSync(
-    'docker',
-    ['build', '-f', 'docker/httpd/Dockerfile', '-t', tag, '.'],
-    { stdio: 'inherit' }
-  )
+  spawnSync('docker', ['build', '-f', Dockerfile, '-t', tag, context], {
+    stdio: 'inherit'
+  })
 
   if (
     !process.env.CI ||
