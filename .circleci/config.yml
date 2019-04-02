@@ -54,7 +54,9 @@ jobs:
             curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
             sudo apt update -y && sudo apt install google-cloud-sdk -y
       - run:
-          command: echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+          command: |
+            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+            gcloud auth configure-docker --quiet
       - setup_remote_docker
       - restore_cache:
           <<: *yarn_restore_cache
