@@ -1,3 +1,7 @@
+gcloud: &gcloud
+  docker:
+    - image: google/cloud-sdk
+
 js: &js
   docker:
     - image: circleci/node:10
@@ -42,10 +46,12 @@ composer_dev_install: &composer_dev_install
 version: 2.1
 jobs:
   build:
-    <<: *js
+    <<: *gcloud
     steps:
       - checkout
       - setup_remote_docker
+      - run:
+          command: echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
       - restore_cache:
           <<: *yarn_restore_cache
       - run:
@@ -107,7 +113,8 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - build
+      - build:
+          context: serlo-containers
       - js-lint
       - js-test
       - php-lint
