@@ -4,17 +4,7 @@
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
-    "build": "yarn docker:build",
-    "deploy": "npm-run-all docker:tag docker:push",
-    "docker:build": "npm-run-all docker:build:*",
-    "docker:build:httpd": "docker build -f docker/httpd/Dockerfile -t serlo/athene2-httpd:$npm_package_version .",
-    "docker:build:php": "docker build -f docker/php/Dockerfile -t serlo/athene2-php:$npm_package_version .",
-    "docker:tag": "npm-run-all docker:tag:*",
-    "docker:tag:httpd": "docker tag serlo/athene2-httpd:$npm_package_version eu.gcr.io/serlo-production/serlo/athene2-httpd:$npm_package_version",
-    "docker:tag:php": "docker tag serlo/athene2-php:$npm_package_version eu.gcr.io/serlo-production/serlo/athene2-php:$npm_package_version",
-    "docker:push": "npm-run-all docker:push:*",
-    "docker:push:httpd": "docker push eu.gcr.io/serlo-production/serlo/athene2-httpd:$npm_package_version",
-    "docker:push:php": "docker push eu.gcr.io/serlo-production/serlo/athene2-php:$npm_package_version",
+    "build": "ts-node scripts/build",
     "c": "docker-compose run --rm composer composer",
     "c-dev": "docker-compose run --rm composer-dev-tools composer",
     "prestart": "yarn c install && yarn c-dev install",
@@ -28,6 +18,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@serlo/docker": "^0.0.0",
     "cypress": "^3.0.0",
     "cypress-testing-library": "^2.0.0",
     "npm-run-all": "^4.0.0"
