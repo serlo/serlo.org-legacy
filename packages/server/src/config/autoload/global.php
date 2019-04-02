@@ -97,4 +97,7 @@ return [
 
     // SMTP settings (Mailman Module)
     'smtp_options' => $smtp_options,
+
+    // (Ui Module),
+    'tracking' => $tracking
 ];

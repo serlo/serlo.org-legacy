@@ -44,6 +44,4 @@ $recaptcha = [
 ];
 
 $smtp_options = [];
-
-// $sentry_dsn
-// $newsletter_key
+$tracking = [];
