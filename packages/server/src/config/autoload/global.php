@@ -99,5 +99,5 @@ return [
     'smtp_options' => $smtp_options,
 
     // (Ui Module),
-    'tracking' => $tracking
+    'tracking' => $tracking,
 ];
