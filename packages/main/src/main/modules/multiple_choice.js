@@ -19,9 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-/* global MathJax */
 import $ from 'jquery'
 
+import { reprocess, typeset, queue } from '../../modules/mathjax'
 import play from './sounds'
 
 var MultipleChoice
@@ -45,10 +45,10 @@ MultipleChoice = function() {
 
   function handleResize($self) {
     if (!$self.hasClass('extended')) {
-      MathJax.Hub.Queue(['Typeset', MathJax.Hub, $self.get(0)])
-      MathJax.Hub.Queue(function() {
+      typeset($self.get(0))
+      queue(function() {
         if (checkDimensions($self)) {
-          MathJax.Hub.Queue(['Reprocess', MathJax.Hub, $self.get(0)])
+          reprocess($self.get(0))
         }
       })
     }

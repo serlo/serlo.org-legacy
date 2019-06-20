@@ -1,9 +1,12 @@
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const path = require('path')
 const R = require('ramda')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const webpack = require('webpack')
 
 const baseConfig = require('./webpack.base.config')
+
+const baseDir = path.join(__dirname, '..', '..')
 
 module.exports = R.merge(baseConfig, {
   mode: 'production',
@@ -14,12 +17,19 @@ module.exports = R.merge(baseConfig, {
       'process.env.NODE_ENV': JSON.stringify('production')
     })
   ],
+  output: {
+    ...baseConfig.output,
+    devtoolModuleFilenameTemplate(info) {
+      const relativePath = path.relative(baseDir, info.absoluteResourcePath)
+      return `webpack:///${relativePath}`
+    }
+  },
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
         sourceMap: true
       }),
-      new OptimizeCSSAssetsPlugin()
+      new OptimizeCssAssetsPlugin()
     ]
   }
 })

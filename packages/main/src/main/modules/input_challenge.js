@@ -19,11 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-/* global MathJax */
 import A from 'algebra.js'
 import $ from 'jquery'
 import S from 'string'
 
+import { typeset } from '../../modules/mathjax'
 import play from './sounds'
 
 var InputChallenge = function($container) {
@@ -90,8 +90,7 @@ InputChallenge.prototype.init = function() {
 
     self.$feedback.fadeOut(500, function() {
       self.$feedback.html(feedback).fadeIn(500)
-      MathJax.Hub.Queue(['Typeset', MathJax.Hub, self.$feedback.get(0)])
-
+      typeset(self.$feedback.get(0))
       if (isCorrect) {
         self.$feedback.addClass('positive')
         changeClass(self.$button, 'btn-primary', 'btn-success')

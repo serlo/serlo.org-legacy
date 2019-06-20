@@ -52,8 +52,14 @@ var injections = function() {
     return text.replace(findInjections, function(original, title, url) {
       const href = correctUrl(url)
 
-      if (/assets\.serlo\.org\/legacy\//.test(href)) {
+      if (/assets\.serlo\.org\/legacy\/.*\.xml/.test(href)) {
         return `<div class="legacy-injection">Legacy GeoGebra applets aren't supported anymore. Please upload the applet to GeoGebra instead.</div>`
+      }
+      if (/assets\.serlo\.org\/legacy\//.test(href)) {
+        return `<div>
+            <div class="injection"><a href="${href}" class="injection-link">${title}</a></div>
+            <div class="legacy-injection">Please don't use injections for images. Change <code>>[...](...)</code> to <code>![...](...)</code></div>
+          </div>`
       }
 
       return `<div class="injection"><a href="${href}" class="injection-link">${title}</a></div>`

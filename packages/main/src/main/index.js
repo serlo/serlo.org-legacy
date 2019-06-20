@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-/* globals gaOptout, MathJax */
+/* globals gaOptout */
 import autosize from 'autosize'
 import $ from 'jquery'
 import 'jquery-sticky'
@@ -32,6 +32,7 @@ import { initContent, initEntityEditor } from '../editor'
 import '../libs/polyfills'
 import Common from '../modules/common'
 import Content from '../modules/content'
+import { reprocess, typeset } from '../modules/mathjax'
 import '../modules/modals'
 import '../modules/spoiler'
 import SystemNotification from '../modules/system_notification'
@@ -116,7 +117,7 @@ const initFooter = () => {
     $footerPush.css('height', $footer.height())
     $wrap.css('margin-bottom', -$footer.height())
     $sideContextCourse.css('max-height', $contentLayout.outerHeight())
-    MathJax.Hub.Queue(['Reprocess', MathJax.Hub])
+    reprocess()
     $('.nest-statistics').renderNest()
   })
 }
@@ -255,7 +256,7 @@ const init = $context => {
         closeOnContentClick: true,
         fixedContentPos: false,
         items: {
-          src: $that.attr('src')
+          src: $that.attr('src') || $that.data('cfsrc') // CloudFlare Mirage lazy loading
         },
         image: {
           verticalFit: true
@@ -265,7 +266,7 @@ const init = $context => {
         }
       })
     })
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub])
+    typeset()
   })
 
   // Tooltips opt in
