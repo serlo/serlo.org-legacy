@@ -22,7 +22,7 @@
 import { zoneId, secret } from '@serlo/cloudflare'
 import * as fs from 'fs'
 // @ts-ignore
-import * as runAll from 'npm-run-all'
+import runAll from 'npm-run-all'
 import * as path from 'path'
 import * as request from 'request'
 import { Signale } from 'signale'

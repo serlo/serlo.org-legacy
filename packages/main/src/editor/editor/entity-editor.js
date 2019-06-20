@@ -221,9 +221,7 @@ export class EntityEditor {
       const name = el.getAttribute('name')
       const type = this.getType(el)
       const existingElement = $(
-        `.editable[data-id="${
-          this.id
-        }"][data-edit-field="${name}"][data-edit-type="${type}"]`
+        `.editable[data-id="${this.id}"][data-edit-field="${name}"][data-edit-type="${type}"]`
       )
       const newElement = this.createFormElement(el, name, type)
 
@@ -240,9 +238,7 @@ export class EntityEditor {
 
   createFormElement = (el, name, type) => {
     const $wrapper = $(
-      `<div class="editable" data-id="${
-        this.id
-      }" data-edit-type="${type}" data-edit-field="${name}"></div>`
+      `<div class="editable" data-id="${this.id}" data-edit-type="${type}" data-edit-field="${name}"></div>`
     )
     if (type === 'ory') {
       let data = $(el).val()
@@ -272,9 +268,7 @@ export class EntityEditor {
           id: this.id + name,
           initialState: data,
           element: $(
-            `.editable[data-id="${
-              this.id
-            }"][data-edit-type="${type}"][data-edit-field="${name}"] .ory-content`
+            `.editable[data-id="${this.id}"][data-edit-type="${type}"][data-edit-field="${name}"] .ory-content`
           )[0]
         })
       })
