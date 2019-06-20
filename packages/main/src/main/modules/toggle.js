@@ -73,7 +73,8 @@ ToggleAction = function() {
           $base = $target
         }
         $target.one('show.bs.collapse', function() {
-          MathJax.Hub.Queue(['Reprocess', MathJax.Hub, $target.get()])
+          if (MathJax)
+            MathJax.Hub.Queue(['Reprocess', MathJax.Hub, $target.get()])
         })
       }
     }

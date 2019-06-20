@@ -107,7 +107,7 @@ Editor = function(settings) {
   Content.add(function(context) {
     var $context = $(context)
 
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub, context])
+    if (MathJax) MathJax.Hub.Queue(['Typeset', MathJax.Hub, context])
 
     if ($context.parents('.spoiler').length) {
       $context.parents('.spoiler').Spoiler()

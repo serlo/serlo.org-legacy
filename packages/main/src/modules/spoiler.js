@@ -39,7 +39,7 @@ Spoiler = function() {
       })
     $('> .spoiler-teaser', this).one('click', function() {
       var $content = $(this).next('.spoiler-content')
-      MathJax.Hub.Queue(['Reprocess', MathJax.Hub, $content.get()])
+      if (MathJax) MathJax.Hub.Queue(['Reprocess', MathJax.Hub, $content.get()])
     })
   })
 }

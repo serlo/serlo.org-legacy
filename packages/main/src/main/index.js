@@ -116,7 +116,7 @@ const initFooter = () => {
     $footerPush.css('height', $footer.height())
     $wrap.css('margin-bottom', -$footer.height())
     $sideContextCourse.css('max-height', $contentLayout.outerHeight())
-    MathJax.Hub.Queue(['Reprocess', MathJax.Hub])
+    if (MathJax) MathJax.Hub.Queue(['Reprocess', MathJax.Hub])
     $('.nest-statistics').renderNest()
   })
 }
@@ -265,7 +265,7 @@ const init = $context => {
         }
       })
     })
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub])
+    if (MathJax) MathJax.Hub.Queue(['Typeset', MathJax.Hub])
   })
 
   // Tooltips opt in

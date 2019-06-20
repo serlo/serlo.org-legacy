@@ -45,6 +45,7 @@ SingleChoice = function() {
 
   function handleResize($self) {
     if (!$self.hasClass('extended')) {
+      if (!MathJax) return
       MathJax.Hub.Queue(['Typeset', MathJax.Hub, $self.get(0)])
       MathJax.Hub.Queue(function() {
         if (checkDimensions($self)) {
