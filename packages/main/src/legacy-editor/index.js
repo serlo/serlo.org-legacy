@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-/* global CodeMirror, MathJax */
+/* global CodeMirror */
 import { converter } from '@serlo/markdown'
 import $ from 'jquery'
 import _ from 'underscore'
@@ -27,6 +27,7 @@ import _ from 'underscore'
 import eventScope from '../libs/eventscope'
 import Common from '../modules/common'
 import Content from '../modules/content'
+import { typeset } from '../modules/mathjax'
 import '../modules/spoiler'
 import SystemNotification from '../modules/system_notification'
 import t from '../modules/translator'
@@ -106,9 +107,7 @@ Editor = function(settings) {
 
   Content.add(function(context) {
     var $context = $(context)
-
-    if (MathJax) MathJax.Hub.Queue(['Typeset', MathJax.Hub, context])
-
+    typeset(context)
     if ($context.parents('.spoiler').length) {
       $context.parents('.spoiler').Spoiler()
     } else if ($context.hasClass('spoiler')) {

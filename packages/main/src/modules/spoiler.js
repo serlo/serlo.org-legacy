@@ -19,8 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-/* global MathJax */
 import $ from 'jquery'
+
+import { reprocess } from './mathjax'
 
 var Spoiler
 
@@ -39,7 +40,7 @@ Spoiler = function() {
       })
     $('> .spoiler-teaser', this).one('click', function() {
       var $content = $(this).next('.spoiler-content')
-      if (MathJax) MathJax.Hub.Queue(['Reprocess', MathJax.Hub, $content.get()])
+      reprocess($content.get())
     })
   })
 }

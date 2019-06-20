@@ -19,8 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-/* global MathJax */
 import $ from 'jquery'
+
+import { reprocess } from '../../modules/mathjax'
 
 var ToggleAction
 
@@ -73,8 +74,7 @@ ToggleAction = function() {
           $base = $target
         }
         $target.one('show.bs.collapse', function() {
-          if (MathJax)
-            MathJax.Hub.Queue(['Reprocess', MathJax.Hub, $target.get()])
+          reprocess($target.get())
         })
       }
     }
