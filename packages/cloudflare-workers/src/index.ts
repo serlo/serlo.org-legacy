@@ -20,10 +20,11 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
+  const e = event as FetchEvent
+  e.respondWith(handleRequest(e.request))
 })
 
-export async function handleRequest(request) {
+export async function handleRequest(request: Request) {
   const response =
     (await handleRedirects(request)) ||
     (await handleSemanticAssetsFilenames(request)) ||
@@ -32,7 +33,7 @@ export async function handleRequest(request) {
   return response
 }
 
-async function handleRedirects(request) {
+async function handleRedirects(request: Request) {
   const { url } = request
 
   if (/^https?:\/\/start.serlo.org/.test(url)) {
@@ -42,7 +43,7 @@ async function handleRedirects(request) {
   }
 }
 
-async function handleSemanticAssetsFilenames(request) {
+async function handleSemanticAssetsFilenames(request: Request) {
   const { url } = request
 
   if (/^https:\/\/assets.serlo.org\/meta\//.test(url)) {

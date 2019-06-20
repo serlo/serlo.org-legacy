@@ -28,13 +28,16 @@ import util from 'util'
 
 const root = path.join(__dirname, '..')
 const readFile = util.promisify(fs.readFile)
-let worker
+
+let worker: { dispatch(req: Request): Promise<Response> }
 beforeAll(async () => {
   spawnSync('yarn', ['build'], { cwd: root })
   const script = await readFile(path.join(root, 'dist', 'index.js'), {
     encoding: 'utf-8'
   })
-  worker = new Cloudworker(script)
+  worker = (new Cloudworker(script) as unknown) as {
+    dispatch(req: Request): Promise<Response>
+  }
 })
 
 describe('Redirects', () => {
@@ -130,12 +133,12 @@ describe('Semantic file names for assets', () => {
   })
 })
 
-function isTemporaryRedirectTo(res, url) {
+function isTemporaryRedirectTo(res: Response, url: string) {
   expect(res.status).toEqual(302)
   expect(res.headers.get('Location')).toEqual(url)
 }
 
-function isSuccessfulFetchOf(res, url) {
+function isSuccessfulFetchOf(res: Response, url: string) {
   expect(res.status).toEqual(200)
   expect(res.url).toEqual(url)
 }

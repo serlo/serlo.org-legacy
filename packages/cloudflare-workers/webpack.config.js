@@ -9,6 +9,18 @@ module.exports = {
     filename: 'index.js',
     publicPath: '/'
   },
+  module: {
+    rules: [
+      {
+        test: /\.(tsx?|js)$/,
+        exclude: /node_modules/,
+        loader: require.resolve('babel-loader'),
+        options: {
+          rootMode: 'upward'
+        }
+      }
+    ]
+  },
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   },

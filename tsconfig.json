@@ -16,7 +16,8 @@
       "@serlo/editor-helpers": ["editor-helpers/src"],
       "@serlo/legacy-editor-to-editor": ["legacy-editor-to-editor/src"],
       "@serlo/markdown": ["markdown/src"]
-    }
+    },
+    "lib": ["esnext.full", "webworker"]
   },
   "exclude": ["packages/server/src/vendor"]
 }
