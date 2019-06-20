@@ -265,21 +265,33 @@ $homeBreakpoint-xxl: 1580px;
 .home-partner-row {
   text-align: center;
   min-height: 640px;
-  padding-top: 518px;
 
   @media (min-width: $homeBreakpoint-xl) {
     min-height: 740px;
-    padding-top: 610px;
   }
 
   @media (min-width: $homeBreakpoint-xxl) {
     min-height: 640px;
-    padding-top: 518px;
   }
 
   .partners {
     display: inline-block;
-    width: 820px;
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+
+    .partner-logos {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+
+      img {
+        max-height: 50px;
+        margin: 20px 20px 0;
+      }
+    }
   }
 
   @media screen and (min-width: $homeBreakpoint-md-min) {
@@ -297,40 +309,6 @@ $homeBreakpoint-xxl: 1580px;
   .serlo-de-home & {
     @media (max-width: $homeBreakpoint-lg-min) {
       display: none;
-    }
-    h2 {
-      display: inline-block;
-      width: 1/2 * 100%;
-      border-bottom: 1px solid #fff;
-      letter-spacing: 0.3px;
-      color: #fff;
-      padding-bottom: 4px;
-    }
-    a {
-      margin-top: 10px;
-    }
-    img {
-      max-width: 100px;
-      margin: 10px 0 15px 30px;
-      @media (max-width: $homeBreakpoint-lg-min) {
-        max-width: 130px;
-      }
-    }
-    li {
-      padding: 29px 0;
-    }
-    blockquote {
-      border: none;
-      font-size: inherit;
-      margin: 0;
-      footer {
-        padding: 5px 0;
-        font-weight: bold;
-        display: inline-block;
-        &:before {
-          content: '';
-        }
-      }
     }
   }
 }
