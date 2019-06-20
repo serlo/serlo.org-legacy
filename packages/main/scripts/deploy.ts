@@ -100,7 +100,7 @@ function prompt(packageJSON: unknown) {
       name: 'version',
       message: 'Version',
       default: version,
-      validate: input => {
+      validate: (input: string) => {
         if (semver.valid(input)) {
           return true
         }
