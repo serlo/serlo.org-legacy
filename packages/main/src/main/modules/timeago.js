@@ -33,20 +33,20 @@ TimeAgo = function() {
   return $(this).each(function() {
     var self = this
     var $self = $(self)
-    var text = $self.text()
     var datetime = $self.attr('title') || null
 
     if (!datetime) {
       return
     }
 
-    datetime = moment(datetime)
+    datetime = moment.utc(datetime).local()
 
     if (!datetime.isValid()) {
       return
     }
 
-    $self.attr('title', text)
+    // format as 1. Januar 1970 00:00:00
+    $self.attr('title', datetime.format('LL, LTS'))
 
     updateTime($self, datetime)
 
