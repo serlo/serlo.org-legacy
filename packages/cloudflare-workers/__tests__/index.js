@@ -20,157 +20,122 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 /* eslint-env jest */
-import { handleRequest } from '../src'
+import Cloudworker from '@dollarshaveclub/cloudworker'
+import { spawnSync } from 'child_process'
+import fs from 'fs'
+import path from 'path'
+import util from 'util'
 
-expect.extend({
-  toHaveBeenCalledWithRequest(fetch, req) {
-    try {
-      expect(fetch).toHaveBeenCalledTimes(1)
-
-      const [arg1, arg2] = fetch.mock.calls[0]
-
-      if (typeof arg1 === 'string') {
-        expect({ ...arg2, url: arg1 }).toEqual(req)
-      } else {
-        expect(arg1).toEqual(req)
-      }
-
-      return {
-        pass: true
-      }
-    } catch (err) {
-      return {
-        pass: false,
-        message: () => err.message
-      }
-    }
-  }
+const root = path.join(__dirname, '..')
+const readFile = util.promisify(fs.readFile)
+let worker
+beforeAll(async () => {
+  spawnSync('yarn', ['build'], { cwd: root })
+  const script = await readFile(path.join(root, 'dist', 'index.js'), {
+    encoding: 'utf-8'
+  })
+  worker = new Cloudworker(script)
 })
 
-describe('Cloudflare Workers', () => {
-  let fetch
-  let Response
-
-  beforeEach(() => {
-    fetch = jest.fn((...args) => {
-      return true
-    })
-    Response = {
-      redirect: jest.fn()
-    }
-    window.fetch = fetch
-    window.Response = Response
+describe('Redirects', () => {
+  test('start.serlo.org (https)', async () => {
+    const req = new Cloudworker.Request('https://start.serlo.org')
+    const res = await worker.dispatch(req)
+    isTemporaryRedirectTo(
+      res,
+      'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
+    )
   })
 
-  describe('Redirects', () => {
-    it('start.serlo.org (https)', async () => {
-      await handleRequest({
-        url: 'https://start.serlo.org'
-      })
-
-      expect(Response.redirect).toHaveBeenCalledWith(
-        'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
-      )
-    })
-
-    it('start.serlo.org (http)', async () => {
-      await handleRequest({
-        url: 'http://start.serlo.org'
-      })
-
-      expect(Response.redirect).toHaveBeenCalledWith(
-        'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
-      )
-    })
-  })
-
-  describe('semantic file names for assets', () => {
-    it('does rewrite semantic file names', async () => {
-      await handleRequest({
-        url:
-          'https://assets.serlo.org/58eb97b7e5376_7d4211710d8bab642798e39e07788e6f2912e86a/door-handle.gif'
-      })
-
-      expect(fetch).toHaveBeenCalledWithRequest({
-        url:
-          'https://assets.serlo.org/58eb97b7e5376_7d4211710d8bab642798e39e07788e6f2912e86a.gif'
-      })
-    })
-
-    it('does rewrite semantic file names (legacy)', async () => {
-      await handleRequest({
-        url:
-          'https://assets.serlo.org/legacy/58eb97b7e5376_7d4211710d8bab642798e39e07788e6f2912e86a/door-handle.gif'
-      })
-
-      expect(fetch).toHaveBeenCalledWithRequest({
-        url:
-          'https://assets.serlo.org/legacy/58eb97b7e5376_7d4211710d8bab642798e39e07788e6f2912e86a.gif'
-      })
-    })
-
-    it(`doesn't rewrite non-semantic file names`, async () => {
-      await handleRequest({
-        url:
-          'https://assets.serlo.org/58eb97b7e5376_7d4211710d8bab642798e39e07788e6f2912e86a.gif'
-      })
-
-      expect(fetch).toHaveBeenCalledWithRequest({
-        url:
-          'https://assets.serlo.org/58eb97b7e5376_7d4211710d8bab642798e39e07788e6f2912e86a.gif'
-      })
-    })
-
-    it(`doesn't rewrite non-semantic file names (legacy)`, async () => {
-      await handleRequest({
-        url:
-          'https://assets.serlo.org/legacy/58eb97b7e5376_7d4211710d8bab642798e39e07788e6f2912e86a.gif'
-      })
-
-      expect(fetch).toHaveBeenCalledWithRequest({
-        url:
-          'https://assets.serlo.org/legacy/58eb97b7e5376_7d4211710d8bab642798e39e07788e6f2912e86a.gif'
-      })
-    })
-
-    it(`doesn't rewrite requests to meta directory`, async () => {
-      await handleRequest({
-        url: 'https://assets.serlo.org/meta/serlo.jpg'
-      })
-
-      expect(fetch).toHaveBeenCalledWithRequest({
-        url: 'https://assets.serlo.org/meta/serlo.jpg'
-      })
-    })
-
-    it(`doesn't rewrite requests to meta subdirectories`, async () => {
-      await handleRequest({
-        url: 'https://assets.serlo.org/meta/de/serlo.jpg'
-      })
-
-      expect(fetch).toHaveBeenCalledWithRequest({
-        url: 'https://assets.serlo.org/meta/de/serlo.jpg'
-      })
-    })
-
-    it(`doesn't rewrite requests to athene2-assets directory`, async () => {
-      await handleRequest({
-        url: 'https://assets.serlo.org/athene2-assets/serlo.jpg'
-      })
-
-      expect(fetch).toHaveBeenCalledWithRequest({
-        url: 'https://assets.serlo.org/athene2-assets/serlo.jpg'
-      })
-    })
-
-    it(`doesn't rewrite requests to athene2-assets subdirectories`, async () => {
-      await handleRequest({
-        url: 'https://assets.serlo.org/athene2-assets/de/serlo.jpg'
-      })
-
-      expect(fetch).toHaveBeenCalledWithRequest({
-        url: 'https://assets.serlo.org/athene2-assets/de/serlo.jpg'
-      })
-    })
+  test('start.serlo.org (http)', async () => {
+    const req = new Cloudworker.Request('http://start.serlo.org')
+    const res = await worker.dispatch(req)
+    isTemporaryRedirectTo(
+      res,
+      'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
+    )
   })
 })
+
+describe('Semantic file names for assets', () => {
+  test('Semantic file name', async () => {
+    const req = new Cloudworker.Request(
+      'https://assets.serlo.org/5d08f913b355d_4809808eeb8b826be8dcabf2f69f7780e3f67adb/app-store.png'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+      res,
+      'https://assets.serlo.org/5d08f913b355d_4809808eeb8b826be8dcabf2f69f7780e3f67adb.png'
+    )
+  })
+
+  test('Semantic file name (legacy)', async () => {
+    const req = new Cloudworker.Request(
+      'https://assets.serlo.org/legacy/57fcd11f8b958_0d3d714f369bcaf675b72775c77b67fdb795dd2e/uni-bayreuth.png'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+      res,
+      'https://assets.serlo.org/legacy/57fcd11f8b958_0d3d714f369bcaf675b72775c77b67fdb795dd2e.png'
+    )
+  })
+
+  test('Non-semantic file name', async () => {
+    const req = new Cloudworker.Request(
+      'https://assets.serlo.org/5d08f913b355d_4809808eeb8b826be8dcabf2f69f7780e3f67adb.png'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+      res,
+      'https://assets.serlo.org/5d08f913b355d_4809808eeb8b826be8dcabf2f69f7780e3f67adb.png'
+    )
+  })
+
+  test('Non-semantic file name (legacy)', async () => {
+    const req = new Cloudworker.Request(
+      'https://assets.serlo.org/legacy/57fcd11f8b958_0d3d714f369bcaf675b72775c77b67fdb795dd2e.png'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+      res,
+      'https://assets.serlo.org/legacy/57fcd11f8b958_0d3d714f369bcaf675b72775c77b67fdb795dd2e.png'
+    )
+  })
+
+  test('Meta directory', async () => {
+    const req = new Cloudworker.Request(
+      'https://assets.serlo.org/meta/serlo.jpg'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(res, 'https://assets.serlo.org/meta/serlo.jpg')
+  })
+
+  test('Meta subdirectory', async () => {
+    const req = new Cloudworker.Request(
+      'https://assets.serlo.org/meta/de/mathematik.jpg'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(res, 'https://assets.serlo.org/meta/de/mathematik.jpg')
+  })
+
+  test('Athene2-assets subdirectory', async () => {
+    const req = new Cloudworker.Request(
+      'https://assets.serlo.org/athene2-assets/de/home/about-serlo.svg'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+      res,
+      'https://assets.serlo.org/athene2-assets/de/home/about-serlo.svg'
+    )
+  })
+})
+
+function isTemporaryRedirectTo(res, url) {
+  expect(res.status).toEqual(302)
+  expect(res.headers.get('Location')).toEqual(url)
+}
+
+function isSuccessfulFetchOf(res, url) {
+  expect(res.status).toEqual(200)
+  expect(res.url).toEqual(url)
+}
