@@ -255,7 +255,7 @@ const init = $context => {
         closeOnContentClick: true,
         fixedContentPos: false,
         items: {
-          src: $that.attr('src')
+          src: $that.attr('src') || $that.data('cfsrc') // CloudFlare Mirage lazy loading
         },
         image: {
           verticalFit: true
