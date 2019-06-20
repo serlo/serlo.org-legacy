@@ -19,8 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { cloudflare, zoneId } from '@serlo/cloudflare'
 import { uploadFolder } from '@serlo/gcloud'
+import { execFile } from 'child_process'
 import * as path from 'path'
+import * as R from 'ramda'
 import { Signale } from 'signale'
 
 const bucket = 'assets.serlo.org'
@@ -38,8 +41,36 @@ async function run() {
       source,
       target: 'athene2-assets'
     })
+
+    signale.pending(`Flushing Cloudflare cache…`)
+    await flushCache()
+
     signale.success(`Successfully deployed static assets`)
   } catch (e) {
     signale.fatal(e)
   }
+}
+
+async function flushCache(): Promise<void> {
+  const prefix = `athene2-assets/`
+
+  const files = await new Promise<string[]>(resolve => {
+    execFile('find', ['src'], function(_err: unknown, stdout: string) {
+      const files = stdout.split('\n')
+      resolve(files.map(file => file.replace('src/', '')))
+    })
+  })
+
+  const urls = R.splitEvery(
+    30,
+    R.map(file => `https://assets.serlo.org/${prefix}${file}`, files)
+  )
+
+  await Promise.all(
+    R.map(files => {
+      return cloudflare.zones.purgeCache(zoneId, {
+        files
+      })
+    }, urls)
+  )
 }
