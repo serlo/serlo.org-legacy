@@ -27,11 +27,23 @@ addEventListener('fetch', event => {
 
 export async function handleRequest(request: Request) {
   const response =
+    (await blockSerloEducation(request)) ||
     (await handleRedirects(request)) ||
     (await handleSemanticAssetsFilenames(request)) ||
     (await fetch(request))
 
   return response
+}
+
+async function blockSerloEducation(request: Request) {
+  const { url } = request
+
+  if (!/^https:\/\/(\w+\.)?serlo\.education/.test(url)) return null
+
+  return new Response('You may not access this page directly', {
+    status: 403,
+    statusText: 'Forbidden'
+  })
 }
 
 async function handleRedirects(request: Request) {

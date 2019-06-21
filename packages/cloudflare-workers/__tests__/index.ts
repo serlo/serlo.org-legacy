@@ -165,6 +165,20 @@ describe('Enforce HTTPS', () => {
   })
 })
 
+describe('Deny direct access to serlo.education', () => {
+  test('serlo.education', async () => {
+    const req = new Cloudworker.Request('https://serlo.education/robots.txt')
+    const res = await worker.dispatch(req)
+    expect(res.status).toEqual(403)
+  })
+
+  test('de.serlo.education', async () => {
+    const req = new Cloudworker.Request('https://de.serlo.education/mathe')
+    const res = await worker.dispatch(req)
+    expect(res.status).toEqual(403)
+  })
+})
+
 function isTemporaryRedirectTo(res: Response, url: string) {
   expect(res.status).toEqual(302)
   expect(res.headers.get('Location')).toEqual(url)
