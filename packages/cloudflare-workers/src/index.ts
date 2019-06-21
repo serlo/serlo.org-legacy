@@ -21,7 +21,8 @@
  */
 addEventListener('fetch', event => {
   const e = event as FetchEvent
-  e.respondWith(handleRequest(e.request))
+  const req = enforceHttps(e.request)
+  e.respondWith(handleRequest(req))
 })
 
 export async function handleRequest(request: Request) {
@@ -36,21 +37,41 @@ export async function handleRequest(request: Request) {
 async function handleRedirects(request: Request) {
   const { url } = request
 
-  if (/^https?:\/\/start.serlo.org/.test(url)) {
+  if (/^https:\/\/start\.serlo\.org/.test(url)) {
     return Response.redirect(
       'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
     )
+  }
+
+  if (/^https:\/\/de\.serlo\.org\/labschool/.test(url)) {
+    return Response.redirect('https://labschool.serlo.org')
+  }
+
+  if (/^https:\/\/de\.serlo\.org\/hochschule/.test(url)) {
+    return Response.redirect('https://de.serlo.org/mathe/universitaet/44323')
+  }
+
+  if (/^https:\/\/de\.serlo\.org\/beitreten/.test(url)) {
+    return Response.redirect(
+      'https://docs.google.com/forms/d/e/1FAIpQLSdEoyCcDVP_G_-G_u642S768e_sxz6wO6rJ3tad4Hb9z7Slwg/viewform'
+    )
+  }
+
+  if (/^https:\/\/(www\.)?serlo\.org/.test(url)) {
+    const newUrl = new URL(url)
+    newUrl.hostname = 'de.serlo.org'
+    return Response.redirect(newUrl.href)
   }
 }
 
 async function handleSemanticAssetsFilenames(request: Request) {
   const { url } = request
 
-  if (/^https:\/\/assets.serlo.org\/meta\//.test(url)) {
+  if (/^https:\/\/assets\.serlo\.org\/meta\//.test(url)) {
     return null
   }
 
-  const re = /^https:\/\/assets.serlo.org\/(legacy\/|)((?!legacy)\w+)\/([\w\-+]+)\.(\w+)$/
+  const re = /^https:\/\/assets\.serlo\.org\/(legacy\/|)((?!legacy)\w+)\/([\w\-+]+)\.(\w+)$/
   const match = url.match(re)
 
   if (!match) {
@@ -62,7 +83,14 @@ async function handleSemanticAssetsFilenames(request: Request) {
   const extension = match[4]
 
   return fetch(
-    `https://assets.serlo.org/${prefix}${hash}.${extension}`,
+    `https://assets\.serlo\.org/${prefix}${hash}.${extension}`,
     request
   )
+}
+
+function enforceHttps(request: Request): Request {
+  if (!/^http:\/\//.test(request.url)) return request
+  const url = new URL(request.url)
+  url.protocol = 'https'
+  return new Request((url as unknown) as RequestInfo, request)
 }

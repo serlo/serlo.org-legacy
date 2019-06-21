@@ -15,7 +15,6 @@
     "lint": "npm-run-all lint:*",
     "lint:prettier": "yarn _prettier --check",
     "lint:tsc": "tsc --noEmit",
-    "changelog": "ts-node scripts/changelog",
     "license": "ts-node scripts/license-headers",
     "test": "jest",
     "increment-version": "lerna version --message \"chore: release %v\"",

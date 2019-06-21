@@ -4,8 +4,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack",
-    "deploy": "ts-node scripts/deploy",
-    "test": "jest"
+    "deploy": "ts-node scripts/deploy"
   },
   "devDependencies": {
     "@dollarshaveclub/cloudworker": "^0.0.11",

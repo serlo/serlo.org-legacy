@@ -41,7 +41,7 @@ beforeAll(async () => {
 })
 
 describe('Redirects', () => {
-  test('start.serlo.org (https)', async () => {
+  test('start.serlo.org', async () => {
     const req = new Cloudworker.Request('https://start.serlo.org')
     const res = await worker.dispatch(req)
     isTemporaryRedirectTo(
@@ -50,13 +50,37 @@ describe('Redirects', () => {
     )
   })
 
-  test('start.serlo.org (http)', async () => {
-    const req = new Cloudworker.Request('http://start.serlo.org')
+  test('de.serlo.org/labschool', async () => {
+    const req = new Cloudworker.Request('https://de.serlo.org/labschool')
+    const res = await worker.dispatch(req)
+    isTemporaryRedirectTo(res, 'https://labschool.serlo.org')
+  })
+
+  test('de.serlo.org/hochschule', async () => {
+    const req = new Cloudworker.Request('https://de.serlo.org/hochschule')
+    const res = await worker.dispatch(req)
+    isTemporaryRedirectTo(res, 'https://de.serlo.org/mathe/universitaet/44323')
+  })
+
+  test('de.serlo.org/beitreten', async () => {
+    const req = new Cloudworker.Request('https://de.serlo.org/beitreten')
     const res = await worker.dispatch(req)
     isTemporaryRedirectTo(
       res,
-      'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
+      'https://docs.google.com/forms/d/e/1FAIpQLSdEoyCcDVP_G_-G_u642S768e_sxz6wO6rJ3tad4Hb9z7Slwg/viewform'
     )
+  })
+
+  test('serlo.org', async () => {
+    const req = new Cloudworker.Request('https://serlo.org/mathe')
+    const res = await worker.dispatch(req)
+    isTemporaryRedirectTo(res, 'https://de.serlo.org/mathe')
+  })
+
+  test('www.serlo.org', async () => {
+    const req = new Cloudworker.Request('https://www.serlo.org/mathe')
+    const res = await worker.dispatch(req)
+    isTemporaryRedirectTo(res, 'https://de.serlo.org/mathe')
   })
 })
 
@@ -130,6 +154,14 @@ describe('Semantic file names for assets', () => {
       res,
       'https://assets.serlo.org/athene2-assets/de/home/about-serlo.svg'
     )
+  })
+})
+
+describe('Enforce HTTPS', () => {
+  test('serlo.org', async () => {
+    const req = new Cloudworker.Request('http://de.serlo.org/mathe')
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(res, 'https://de.serlo.org/mathe')
   })
 })
 
