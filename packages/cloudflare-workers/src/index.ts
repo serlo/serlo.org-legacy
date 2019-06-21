@@ -27,26 +27,16 @@ addEventListener('fetch', event => {
 
 export async function handleRequest(request: Request) {
   const response =
+    (await redirects(request)) ||
+    (await serloOrgProxy(request)) ||
     (await blockSerloEducation(request)) ||
-    (await handleRedirects(request)) ||
-    (await handleSemanticAssetsFilenames(request)) ||
+    (await semanticFileNames(request)) ||
     (await fetch(request))
 
   return response
 }
 
-async function blockSerloEducation(request: Request) {
-  const { url } = request
-
-  if (!/^https:\/\/(\w+\.)?serlo\.education/.test(url)) return null
-
-  return new Response('You may not access this page directly', {
-    status: 403,
-    statusText: 'Forbidden'
-  })
-}
-
-async function handleRedirects(request: Request) {
+async function redirects(request: Request) {
   const { url } = request
 
   if (/^https:\/\/start\.serlo\.org/.test(url)) {
@@ -76,7 +66,29 @@ async function handleRedirects(request: Request) {
   }
 }
 
-async function handleSemanticAssetsFilenames(request: Request) {
+async function serloOrgProxy(request: Request) {
+  const match = request.url.match(/^https:\/\/(de|en|es|hi)\.serlo\.org/)
+  if (!match) return null
+  const subdomain = match[1]
+  const url = new URL(request.url)
+  url.hostname = `${subdomain}.serlo.education`
+  let response = await fetch(request)
+  response = new Response(response.body, response)
+  response.headers.set('x-backend', 'serlo.education')
+  return response
+}
+
+async function blockSerloEducation(request: Request) {
+  const { url } = request
+
+  if (!/^https:\/\/(\w+\.)?serlo\.education/.test(url)) return null
+  return new Response('You may not access this page directly', {
+    status: 403,
+    statusText: 'Forbidden'
+  })
+}
+
+async function semanticFileNames(request: Request) {
   const { url } = request
 
   if (/^https:\/\/assets\.serlo\.org\/meta\//.test(url)) {
