@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-addEventListener('fetch', event => {
+addEventListener('fetch', (event: Event) => {
   const e = event as FetchEvent
   const req = enforceHttps(e.request)
   e.respondWith(handleRequest(req))
