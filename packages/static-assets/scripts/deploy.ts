@@ -19,31 +19,37 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { cloudflare, zoneId } from '@serlo/cloudflare'
 import { uploadFolder } from '@serlo/gcloud'
-import { execFile } from 'child_process'
 import * as path from 'path'
-import * as R from 'ramda'
 import { Signale } from 'signale'
+import * as util from 'util'
+import * as fs from 'fs'
 
-const bucket = 'assets.serlo.org'
-const source = path.join(__dirname, '..', 'src')
+const root = path.join(__dirname, '..')
+const sourcePath = path.join(__dirname, '..', 'src')
+
+const gcloudStorageOptions = {
+  bucket: 'packages.serlo.org'
+}
+
+const packageJsonPath = path.join(root, 'package.json')
+
+const fsOptions = { encoding: 'utf-8' }
+
+const readFile = util.promisify(fs.readFile)
 
 const signale = new Signale({ interactive: true })
 
-run()
+run().then(() => {})
 
 async function run() {
   try {
     signale.info('Deploying static assets')
-    await uploadFolder({
-      bucket,
-      source,
-      target: 'athene2-assets'
-    })
 
-    signale.pending(`Flushing Cloudflare cache…`)
-    await flushCache()
+    const { version } = await fetchPackageJSON()
+
+    signale.pending(`Uploading static assets…`)
+    upload(version)
 
     signale.success(`Successfully deployed static assets`)
   } catch (e) {
@@ -51,26 +57,14 @@ async function run() {
   }
 }
 
-async function flushCache(): Promise<void> {
-  const prefix = `athene2-assets/`
+function fetchPackageJSON(): Promise<{ version: string }> {
+  return readFile(packageJsonPath, fsOptions).then(JSON.parse)
+}
 
-  const files = await new Promise<string[]>(resolve => {
-    execFile('find', ['src'], function(_err: unknown, stdout: string) {
-      const files = stdout.split('\n')
-      resolve(files.map(file => file.replace('src/', '')))
-    })
+function upload(version: string) {
+  uploadFolder({
+    bucket: gcloudStorageOptions.bucket,
+    source: sourcePath,
+    target: `static-assets@${version}`
   })
-
-  const urls = R.splitEvery(
-    30,
-    R.map(file => `https://assets.serlo.org/${prefix}${file}`, files)
-  )
-
-  await Promise.all(
-    R.map(files => {
-      return cloudflare.zones.purgeCache(zoneId, {
-        files
-      })
-    }, urls)
-  )
 }
