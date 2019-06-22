@@ -32,9 +32,22 @@ const readFile = util.promisify(fs.readFile)
 let worker: { dispatch(req: Request): Promise<Response> }
 beforeAll(async () => {
   spawnSync('yarn', ['build'], { cwd: root })
-  const script = await readFile(path.join(root, 'dist', 'index.js'), {
-    encoding: 'utf-8'
-  })
+  const script = `
+    const PACKAGES_KV = {
+      get(key) {
+        if (key === 'athene2-assets@4')
+          return Promise.resolve('athene2-assets@4.1.3')
+        if (key === 'athene2-assets@4.1')
+          return Promise.resolve('athene2-assets@4.1.3')
+        if (key === 'athene2-assets@4.1.3')
+          return Promise.resolve('athene2-assets@4.1.3')
+        return Promise.resolve(null)
+      }
+    }
+    ${await readFile(path.join(root, 'dist', 'index.js'), {
+      encoding: 'utf-8'
+    })}
+  `
   worker = (new Cloudworker(script) as unknown) as {
     dispatch(req: Request): Promise<Response>
   }
@@ -176,6 +189,63 @@ describe('Deny direct access to serlo.education', () => {
     const req = new Cloudworker.Request('https://de.serlo.education/mathe')
     const res = await worker.dispatch(req)
     expect(res.status).toEqual(403)
+  })
+})
+
+describe('Packages', () => {
+  test('athene2-assets@4', async () => {
+    const req = new Cloudworker.Request(
+      'https://packages.serlo.org/athene2-assets@4/main.js'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+      res,
+      'https://packages.serlo.org/athene2-assets@4.1.3/main.js'
+    )
+  })
+
+  test('athene2-assets@4.1', async () => {
+    const req = new Cloudworker.Request(
+        'https://packages.serlo.org/athene2-assets@4.1/main.js'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+        res,
+        'https://packages.serlo.org/athene2-assets@4.1.3/main.js'
+    )
+  })
+
+  test('athene2-assets@4.1.3', async () => {
+    const req = new Cloudworker.Request(
+        'https://packages.serlo.org/athene2-assets@4.1.3/main.js'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+        res,
+        'https://packages.serlo.org/athene2-assets@4.1.3/main.js'
+    )
+  })
+
+  test('athene2-assets@a', async () => {
+    const req = new Cloudworker.Request(
+        'https://packages.serlo.org/athene2-assets@a/main.js'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+        res,
+        'https://packages.serlo.org/athene2-assets@a/main.js'
+    )
+  })
+
+  test('athene2-assets@b', async () => {
+    const req = new Cloudworker.Request(
+        'https://packages.serlo.org/athene2-assets@b/main.js'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+        res,
+        'https://packages.serlo.org/athene2-assets@b/main.js'
+    )
   })
 })
 

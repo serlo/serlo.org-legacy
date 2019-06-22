@@ -31,6 +31,7 @@ export async function handleRequest(request: Request) {
     (await serloOrgProxy(request)) ||
     (await blockSerloEducation(request)) ||
     (await semanticFileNames(request)) ||
+    (await packages(request)) ||
     (await fetch(request))
 
   return response
@@ -168,9 +169,7 @@ async function semanticFileNames(request: Request) {
   const re = /^https:\/\/assets\.serlo\.org\/(legacy\/|)((?!legacy)\w+)\/([\w\-+]+)\.(\w+)$/
   const match = url.match(re)
 
-  if (!match) {
-    return null
-  }
+  if (!match) return null
 
   const prefix = match[1]
   const hash = match[2]
@@ -180,4 +179,19 @@ async function semanticFileNames(request: Request) {
     `https://assets\.serlo\.org/${prefix}${hash}.${extension}`,
     request
   )
+}
+
+async function packages(request: Request) {
+  const match = request.url.match(/https:\/\/packages\.serlo\.org\/([^\/]+)\//)
+
+  if (!match) return null
+
+  const pkg = match[1]
+  if (pkg === 'athene2-assets@a' || pkg === 'athene2-assets@b') return null
+
+  const resolvedPackage = await PACKAGES_KV.get(pkg)
+  if (!resolvedPackage) return
+
+  const url = request.url.replace(pkg, resolvedPackage)
+  return fetch(new Request(url, request))
 }

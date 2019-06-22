@@ -1,7 +1,7 @@
 FROM node:10 as base
 ENV NODE_ENV production
 WORKDIR /usr/src/app
-COPY packages/legacy-editor-to-editor/package.json packages/legacy-editor-to-editor/
+COPY packages/private/legacy-editor-to-editor/package.json packages/private/legacy-editor-to-editor/
 COPY packages/markdown/package.json packages/markdown/
 COPY packages/editor-helpers/package.json packages/editor-helpers/
 COPY packages/editor-renderer/package.json packages/editor-renderer/
@@ -12,7 +12,7 @@ FROM base as dependencies
 RUN yarn --frozen-lockfile --prod
 
 FROM dependencies as release
-COPY packages/legacy-editor-to-editor packages/legacy-editor-to-editor
+COPY packages/private/legacy-editor-to-editor packages/private/legacy-editor-to-editor
 COPY packages/markdown packages/markdown
 COPY packages/editor-helpers packages/editor-helpers
 COPY packages/editor-renderer packages/editor-renderer

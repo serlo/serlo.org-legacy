@@ -101,7 +101,7 @@ async function createKvEntry(version: string) {
               'X-Auth-Email': secret.email,
               'X-Auth-Key': secret.key
             },
-            body: version
+            body: `athene2-assets@${version}`
           },
           error => {
             if (error) {
@@ -142,6 +142,6 @@ function createSentryRelease(version: string) {
 }
 
 function getEnvironments(version: string) {
-  const [major, _, minor] = version.split('.')
+  const [major, minor] = version.split('.')
   return [major, `${major}.${minor}`, version]
 }
