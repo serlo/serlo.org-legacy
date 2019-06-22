@@ -29,11 +29,10 @@ $version = $json['version'];
 require __DIR__ . '/../definitions.local.php';
 
 return [
-    // Athene2-Assets
     'assets' => array_merge(
         [
-            'bundle_host' => 'https://packages.serlo.org/athene2-assets@b/',
-            'assets_host' => 'https://assets.serlo.org/athene2-assets/',
+            'assets_host' => 'https://packages.serlo.org/static-assets@1/',
+            'bundle_host' => 'https://packages.serlo.org/athene2-assets@4/',
         ],
         $assets
     ),

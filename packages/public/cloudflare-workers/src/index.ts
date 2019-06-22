@@ -193,5 +193,8 @@ async function packages(request: Request) {
   if (!resolvedPackage) return
 
   const url = request.url.replace(pkg, resolvedPackage)
-  return fetch(new Request(url, request))
+  let response = await fetch(new Request(url, request))
+  response = new Response(response.body, response)
+  response.headers.set('x-package', resolvedPackage)
+  return response
 }
