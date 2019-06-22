@@ -20,8 +20,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Notification\Controller;
 
+use DateTime;
 use Notification\NotificationWorker;
 use Zend\Mvc\Controller\AbstractConsoleController;
 
@@ -52,8 +54,22 @@ class WorkerController extends AbstractConsoleController
 
     public function runAction()
     {
-        $this->getNotificationWorker()->run();
-        $this->getNotificationWorker()->getObjectManager()->flush();
-        return 'success';
+        $output = "";
+        $output .= $this->now() . "Started\n";
+
+        try {
+            $this->getNotificationWorker()->run();
+            $this->getNotificationWorker()->getObjectManager()->flush();
+            $output .= $this->now() . "Successfully finished\n";
+        } catch (\Exception $e) {
+            $output .= $this->now() . "Failed with message: " . $e->getMessage() . "\n";
+        }
+
+        return $output;
+    }
+
+    private function now()
+    {
+        return date(DateTime::ISO8601) . ': ';
     }
 }

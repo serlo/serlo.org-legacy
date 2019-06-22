@@ -31,10 +31,16 @@ echo $this->doctype();
         #header-nav {
             height: auto;
         }
+
+        .fixed-min-height {
+            min-height: 1740px !important;
+        }
+
         .page-header {
             margin-bottom: 10px;
         }
-        @media only screen and (min-width : 1000px) {
+
+        @media only screen and (min-width: 1000px) {
             .main {
                 margin-right: 35rem;
             }
@@ -43,8 +49,9 @@ echo $this->doctype();
                 right: -33rem;
                 width: 31rem;
             }
+
             .mission {
-                margin-left:207px;
+                margin-left: 207px;
             }
         }
 
@@ -65,8 +72,8 @@ echo $this->doctype();
         }
 
         .mission {
-            max-width:500px;
-            font-size:18px;
+            max-width: 500px;
+            font-size: 18px;
         }
 
         .side-context {
@@ -76,6 +83,7 @@ echo $this->doctype();
         .sidebar-content-group {
             padding: 8px 10px;
         }
+
         .sidebar-content-group ul {
             padding-left: 30px;
         }
@@ -104,9 +112,9 @@ echo $this->doctype();
             </nav>
         </div>
     </header>
-    <div id="page" class="container has-sidebar clearfix">
+    <div id="page" class="container has-sidebar clearfix fixed-min-height">
         <section class="main clearfix">
-            <div id="content-layout" class="content clearfix">
+            <div id="content-layout" class="content clearfix fixed-min-height">
                 <article itemscope="" itemtype="http://schema.org/Article">
                     <header>
                         <div class="page-header"></div>
@@ -117,19 +125,26 @@ echo $this->doctype();
                                 <div class="r">
                                     <div class="c24">
                                         <p>
-                                            <img src="https://assets.serlo.org/59f762922f93d_c1bea0db3a614ccd33887e6f615b4b60a84e642e.jpg" alt="test" title="">
+                                            <img
+                                                src="https://assets.serlo.org/59f762922f93d_c1bea0db3a614ccd33887e6f615b4b60a84e642e.jpg"
+                                                alt="test" title="">
                                         </p>
                                     </div>
                                 </div>
                                 <div class="r">
                                     <div class="c24">
                                         <script type="text/javascript">
-                                            (function() {
-                                                var u="https://spenden.twingle.de/embed/serlo-education-e-v/serlo-org/tw5bcec90da9d45/widget";
+                                            (function () {
+                                                var u = "https://spenden.twingle.de/embed/serlo-education-e-v/serlo-org/tw5bcec90da9d45/widget";
                                                 var id = '_' + Math.random().toString(36).substr(2, 9);
-                                                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                                                var d = document, g = d.createElement('script'),
+                                                    s = d.getElementsByTagName('script')[0];
                                                 document.write('<div id="twingle-public-embed-' + id + '"></div>');
-                                                g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'/'+id; s.parentNode.insertBefore(g,s);
+                                                g.type = 'text/javascript';
+                                                g.async = true;
+                                                g.defer = true;
+                                                g.src = u + '/' + id;
+                                                s.parentNode.insertBefore(g, s);
                                             })();
                                         </script>
                                         <noscript>Bitte Javascript aktivieren</noscript>
@@ -161,9 +176,11 @@ echo $this->doctype();
                     <i class="fa fa-times"></i>
                 </div>
                 <div class="side-element-inner">
-                    <div class="sidebar-content-group">
+                    <div class="sidebar-content-group fixed-min-height">
                         <p><b>Deine Ansprechpartnerin</b></p>
-                        <p><img style="width:100%" src="https://assets.serlo.org/59f762452ae65_a60cc9803cb8b4c6b2fc6f18546909afb4378b11.jpg" alt="Ronnit Wilmersdörffer" title=""></p>
+                        <p><img style="width:100%"
+                                src="https://assets.serlo.org/59f762452ae65_a60cc9803cb8b4c6b2fc6f18546909afb4378b11.jpg"
+                                alt="Ronnit Wilmersdörffer" title=""></p>
                         <p>Ronnit Wilmersdörffer <br>
                             <i>(Mitgliederbetreuung und Finanzvorstand)</i>
                             <br><br>
@@ -184,20 +201,35 @@ echo $this->doctype();
                         <br>
                         <p>Eine genaue Aufstellung unserer Finanzen findest du unter www.serlo.org/transparenz</p>
                         <br>
-                        <p><img style="width:100%" src="https://assets.serlo.org/legacy/546b4f8aab7a2_8ec64f4823d62c6b857c781ab2dd403d6ce597e4.jpg" alt="Initiative Transparente Zivilgesellschaft"></p>
+                        <p><img style="width:100%"
+                                src="https://assets.serlo.org/legacy/546b4f8aab7a2_8ec64f4823d62c6b857c781ab2dd403d6ce597e4.jpg"
+                                alt="Initiative Transparente Zivilgesellschaft"></p>
                         <br>
                         <p><b>Steuerliche Begünstigungen</b></p>
-                        <p>Serlo Education ist ein anerkannter gemeinnütziger Verein. Deine Spende ist daher steuerlich voll abzugsfähig.</p>
+                        <p>Serlo Education ist ein anerkannter gemeinnütziger Verein. Deine Spende ist daher steuerlich
+                            voll abzugsfähig.</p>
                         <br>
                         <p><b>Ohne Angabe von Daten spenden</b></p>
-                        <p>Du kannst auch via <a href="#spendenkonto">Überweisung</a> oder <a href="#paypal">Paypal</a> spenden.</p>
+                        <p>Du kannst auch via <a href="#spendenkonto">Überweisung</a> oder <a href="#paypal">Paypal</a>
+                            spenden.</p>
                         <br>
                         <p><b>Unsere Partner</b></p>
                         <p class="partner">
-                            <img src="https://assets.serlo.org/5a316a509e299_77f68315ec777b49b17b93bd328533e2eac59e68.png" alt="Ludwig-Maximilians-Universität München" title="Ludwig-Maximilians-Universität München">
-                            <img src="https://assets.serlo.org/5a316a7a6343f_c3311343b1b0c4efa89c9d1cc317303392d5b605.png" alt="Technische Universität München" title="Technische Universität München">
-                            <img src="https://assets.serlo.org/5a1a0a276a6b9_6d34310eb0df059427d6607cd88d9433b1dd4fcc.png" alt="Wikimedia" title="Wikimedia">
-                            <img src="https://assets.serlo.org/legacy/56abd09826385_37623ba809c7d6e596297e61c0175072ac8a5a6a.png" alt="EU Kommission" title="EU Kommission">
+                            <img src="<?php echo $this->assets()->getAsset('de/donation/logo-beisheim.png'); ?>"
+                                 alt="Beisheim Stiftung" title="Beisheim Stiftung"/>
+                            <img src="<?php echo $this->assets()->getAsset('de/donation/logo-lmu.png'); ?>"
+                                 alt="Ludwig-Maximilians-Universität München"
+                                 title="Ludwig-Maximilians-Universität München"/>
+                            <img src="<?php echo $this->assets()->getAsset('de/donation/logo-tum.png'); ?>"
+                                 alt="Technische Universität München" title="Technische Universität München"/>
+                            <img src="<?php echo $this->assets()->getAsset('de/donation/logo-wikimedia.png'); ?>"
+                                 alt="Wikimedia Deutschland" title="Wikimedia Deutschland"/>
+                            <img src="<?php echo $this->assets()->getAsset('de/donation/logo-eu.png'); ?>"
+                                 alt="Europäische Kommission" title="Europäische Kommission" style="max-height: 60px;"/>
+                            <img src="<?php echo $this->assets()->getAsset('de/donation/logo-ashoka.png'); ?>"
+                                 alt="Ashoka Deutschland" title="Ashoka Deutschland"/>
+                            <img src="<?php echo $this->assets()->getAsset('de/donation/logo-hpi.png'); ?>"
+                                 alt="Hasso-Plattner-Institut" title="Hasso-Plattner-Institut"/>
                         </p>
                     </div>
                 </div>

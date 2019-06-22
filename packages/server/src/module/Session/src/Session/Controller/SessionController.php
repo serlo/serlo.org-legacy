@@ -23,6 +23,7 @@
 
 namespace Session\Controller;
 
+use DateTime;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\SaveHandler\SaveHandlerInterface;
@@ -42,7 +43,7 @@ class SessionController extends AbstractActionController
     public function __construct(SaveHandlerInterface $saveHandler, SessionConfig $config)
     {
         $this->saveHandler = $saveHandler;
-        $this->config      = $config;
+        $this->config = $config;
     }
 
     public function gcAction()
@@ -50,5 +51,22 @@ class SessionController extends AbstractActionController
         $lifetime = $this->config->getRememberMeSeconds();
         $this->saveHandler->gc($lifetime);
         return 'success';
+        $output = "";
+        $output .= $this->now() . "Started\n";
+
+        try {
+            $lifetime = $this->config->getRememberMeSeconds();
+            $this->saveHandler->gc($lifetime);
+            $output .= $this->now() . "Successfully finished\n";
+        } catch (\Exception $e) {
+            $output .= $this->now() . "Failed with message: " . $e->getMessage() . "\n";
+        }
+
+        return $output;
+    }
+
+    private function now()
+    {
+        return date(DateTime::ISO8601) . ': ';
     }
 }

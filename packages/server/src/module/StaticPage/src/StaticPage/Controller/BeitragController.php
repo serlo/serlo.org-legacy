@@ -1,5 +1,6 @@
+<?php
 /**
- * This file is part of Serlo.org.
+ * This file is part of Athene2.
  *
  * Copyright (c) 2013-2019 Serlo Education e.V.
  *
@@ -17,6 +18,20 @@
  *
  * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
- * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
  */
-import 'cypress-testing-library'
+namespace StaticPage\Controller;
+
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
+
+class BeitragController extends AbstractActionController
+{
+    public function indexAction()
+    {
+        $view = new ViewModel();
+        $view->setTemplate('static/emptyTemplate');
+        $this->layout('static/beitrag');
+        return $view;
+    }
+}

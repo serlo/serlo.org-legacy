@@ -1,0 +1,71 @@
+<?php
+/**
+ * This file is part of Athene2.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/athene2 for the canonical source repository
+ */
+echo $this->doctype();
+?>
+<html class="fuelux" lang="<?php echo $this->currentLanguage(); ?>">
+<head>
+    <?php $this->headTitle('Spenden'); ?>
+    <?php echo $this->partial('layout/partials/head'); ?>
+    <?php echo $this->partial('layout/partials/styles'); ?>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="wrap">
+    <script>
+        (function() {
+            var u="https://spenden.twingle.de/embed/serlo-education-e-v/serlo-education-e-v/tw5cdc26358ab59/widget";
+            var id = '_' + Math.random().toString(36).substr(2, 9);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            document.write('<div id="twingle-public-embed-' + id + '"></div>');
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'/'+id; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <div id="footer-push"></div>
+</div>
+<footer id="footer" class="home-row">
+    <div class="footer-wrapper col-lg-8 col-lg-push-1">
+        <div class="logo-wrapper">
+            <a href="/">
+                <?php echo $this->brand()->getLogo(); ?>
+                <?php echo $this->brand()->getBrand(); ?>
+                <?php echo $this->brand()->getSlogan(); ?>
+            </a>
+        </div>
+        <nav>
+            <ul class="nav nav-list">
+                <li>
+                    <a href="/datenschutz">Datenschutz</a>
+                </li>
+                <li>
+                    <a href="/impressum">Impressum</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</footer>
+<?php echo $this->partial('layout/partials/scripts'); ?>
+<?php echo $this->partial('layout/partials/default-modal'); ?>
+<?php echo $this->placeholder('modals'); ?>
+<?php echo $this->tracking(); ?>
+<?php echo $this->partial('layout/partials/noscript'); ?>
+</body>
+</html>

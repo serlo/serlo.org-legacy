@@ -20,18 +20,25 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace StaticPage;
+
+use StaticPage\Controller\BeitragController;
+use StaticPage\Controller\DatenschutzController;
+use StaticPage\Controller\SpendenController;
 
 return [
     'di' => [
         'allowed_controllers' => [
-            __NAMESPACE__ . '\Controller\DatenschutzController',
-            __NAMESPACE__ . '\Controller\SpendenController',
+            BeitragController::class,
+            DatenschutzController::class,
+            SpendenController::class,
         ],
         'definition' => [
             'class' => [
-                __NAMESPACE__ . '\Controller\DatenschutzController' => [],
-                __NAMESPACE__ . '\Controller\SpendenController' => [],
+                BeitragController::class => [],
+                DatenschutzController::class => [],
+                SpendenController::class => [],
             ],
         ],
     ],
@@ -53,7 +60,7 @@ return [
                         'options' => [
                             'route' => '/datenschutz',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\DatenschutzController',
+                                'controller' => DatenschutzController::class,
                                 'action' => 'index',
                             ],
                         ],
@@ -70,9 +77,9 @@ return [
                                 'may_terminate' => true,
                                 'child_routes' => [
                                     'view' => [
-                                        'type'    => 'segment',
+                                        'type' => 'segment',
                                         'options' => [
-                                            'route'    => '/:revision',
+                                            'route' => '/:revision',
                                             'defaults' => [
                                                 'action' => 'archiveView',
                                             ],
@@ -81,8 +88,8 @@ return [
                                 ],
                             ],
                             'json' => [
-                                'type'         => 'literal',
-                                'options'      => [
+                                'type' => 'literal',
+                                'options' => [
                                     'route' => '/json',
                                     'defaults' => [
                                         'action' => 'json',
@@ -96,7 +103,18 @@ return [
                         'options' => [
                             'route' => '/spenden',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\SpendenController',
+                                'controller' => SpendenController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                        'may_terminate' => true,
+                    ],
+                    'beitrag' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/beitrag',
+                            'defaults' => [
+                                'controller' => BeitragController::class,
                                 'action' => 'index',
                             ],
                         ],

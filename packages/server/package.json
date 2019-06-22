@@ -1,6 +1,6 @@
 {
   "name": "@serlo-org/athene2",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
@@ -11,17 +11,24 @@
     "start": "docker-compose up --build -d",
     "stop": "docker-compose down",
     "format": "yarn _php-cs-fixer",
-    "e2e": "cypress open",
+    "e2e": "jest",
     "unit": "docker-compose exec php src/vendor/bin/phpunit",
     "_php-cs-fixer": "docker-compose exec php dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php",
-    "_prettier": "prettier \"{{.circleci,cypress,scripts}/**/*,*}.{js,jsx,ts,tsx,css,scss,sass,less,json,md,markdown,yaml,yml}\""
+    "_prettier": "prettier \"{{.circleci,__tests__,scripts}/**/*,*}.{js,jsx,ts,tsx,css,scss,sass,less,json,md,markdown,yaml,yml}\""
   },
   "dependencies": {},
   "devDependencies": {
     "@serlo/docker": "^0.0.0",
-    "cypress": "^3.0.0",
-    "cypress-testing-library": "^2.0.0",
-    "npm-run-all": "^4.0.0"
+    "@types/expect-puppeteer": "^3.0.0",
+    "@types/jest-environment-puppeteer": "^4.0.0",
+    "@types/puppeteer": "^1.0.0",
+    "axios": "^0.19.0",
+    "jest-puppeteer": "^4.0.0",
+    "npm-run-all": "^4.0.0",
+    "pptr-testing-library": "^0.4.0",
+    "puppeteer": "^1.0.0",
+    "ramda": "^0.26.0",
+    "ts-jest": "^24.0.0"
   },
   "private": true
 }

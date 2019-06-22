@@ -27,7 +27,7 @@
 
 {% include 'mailman/messages/notification/partials/discussions' with { 'notifications': discussionNotifications, 'plain': true } %}
 {% include 'mailman/messages/notification/partials/content' with { 'notifications': contentNotifications, 'plain': true } %}
-{% set href = url('subscriptions/manage') %}
+{% set href = url('subscriptions/manage', {}, {"force_canonical": true}) %}
 {% trans %}
     You can change the settings for which content you want to receive notifications here: {{ href }}
 {% endtrans %}

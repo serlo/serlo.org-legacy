@@ -30,6 +30,7 @@ FROM base as release
 WORKDIR /usr/local/apache2/htdocs
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY --from=dependencies /app/src/vendor src/vendor
+COPY package.json package.json
 COPY bin bin
 COPY src/config src/config
 RUN rm -f definitions.local.php
