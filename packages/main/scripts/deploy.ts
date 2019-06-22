@@ -19,24 +19,15 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { zoneId, cloudflare } from '@serlo/cloudflare'
 import { uploadFolder } from '@serlo/gcloud'
 import { spawnSync } from 'child_process'
 import * as fs from 'fs'
-import * as inquirer from 'inquirer'
 import * as path from 'path'
-import * as R from 'ramda'
-import * as semver from 'semver'
 import { Signale } from 'signale'
 import * as util from 'util'
 
 const root = path.join(__dirname, '..')
 const distPath = path.join(__dirname, '..', 'dist')
-
-enum Environment {
-  blue = 'a',
-  green = 'b'
-}
 
 const gcloudStorageOptions = {
   bucket: 'packages.serlo.org'
@@ -50,113 +41,74 @@ const readFile = util.promisify(fs.readFile)
 
 const signale = new Signale({ interactive: true })
 
-run()
+run().then(() => {})
 
 async function run() {
   try {
     signale.info('Deploying athene2-assets')
 
-    const packageJSON = await fetchPackageJSON()
-    const { version, environment } = await prompt(packageJSON)
+    const { version } = await fetchPackageJSON()
 
     signale.pending(`Bundling…`)
-    build({ environment, packageJSON })
+    build()
 
     signale.pending(`Uploading bundle…`)
-    await uploadBundle(environment)
+    uploadBundle(version)
 
-    signale.pending(`Flushing Cloudflare cache…`)
-    await flushCache(environment)
+    signale.pending(`Creating Sentry release…`)
+    createSentryRelease(version)
 
-    signale.success(
-      `Successfully deployed athene2-assets@${version} (${environment})`
-    )
+    signale.success(`Successfully deployed athene2-assets@${version}`)
   } catch (e) {
     signale.fatal(e.message)
   }
 }
 
-function fetchPackageJSON(): unknown {
+function fetchPackageJSON(): Promise<{ version: string }> {
   return readFile(packageJsonPath, fsOptions).then(JSON.parse)
 }
 
-function prompt(packageJSON: unknown) {
-  const { version } = packageJSON as { version: string }
-
-  return inquirer.prompt<{
-    version: string
-    environment: Environment
-  }>([
-    {
-      name: 'version',
-      message: 'Version',
-      default: version,
-      validate: (input: string) => {
-        if (semver.valid(input)) {
-          return true
-        }
-
-        return `${input} is not a valid version number (MAJOR.MINOR.PATCH)`
-      }
-    },
-    {
-      name: 'environment',
-      message: 'Environment',
-      type: 'list',
-      choices: R.values(
-        R.mapObjIndexed((value, name) => {
-          return { value, name }
-        }, Environment)
-      )
-    }
-  ])
-}
-
-function build({
-  environment
-}: {
-  environment: Environment
-  packageJSON: unknown
-}) {
-  spawnSync(
-    'yarn',
-    [
-      'build:assets',
-      `--output-public-path=https://packages.serlo.org/athene2-assets@${environment}/`
-    ],
-    { stdio: 'inherit' }
-  )
-}
-
-async function uploadBundle(environment: Environment): Promise<void> {
-  await uploadFolder({
-    bucket: gcloudStorageOptions.bucket,
-    source: distPath,
-    target: `athene2-assets@${environment}`
+function build() {
+  spawnSync('yarn')
+  spawnSync('yarn', ['build'], {
+    stdio: 'inherit',
+    cwd: path.join(__dirname, '..', '..')
   })
 }
 
-async function flushCache(environment: Environment): Promise<void> {
-  const prefix = `athene2-assets@${environment}/`
-  const webpackConfig: {
-    entry: { [key: string]: unknown }
-  } = require('../webpack.base.config')
-  const entries = R.keys(webpackConfig.entry) as string[]
-  const exts = ['js', 'js.map', 'css']
-  const files = R.map<R.KeyValuePair<string, string>, string>(
-    ([entry, ext]) => `${prefix}${entry}.${ext}`,
-    R.xprod<string, string>(entries, exts)
-  )
-  const urls = R.splitEvery(
-    30,
-    R.map(file => `https://packages.serlo.org/${file}`, files)
-  )
+function uploadBundle(version: string) {
+  uploadFolder({
+    bucket: gcloudStorageOptions.bucket,
+    source: distPath,
+    target: `athene2-assets@${version}`
+  })
+}
 
-  await Promise.all(
-    R.map(files => {
-      return cloudflare.zones.purgeCache(zoneId, {
-        files
-      })
-    }, urls)
-  )
+function createSentryRelease(version: string) {
+  const release = `athene2-assets@${version}`
+  const environments = getEnvironments()
+
+  spawnSync('sentry-cli', [
+    'releases',
+    'new',
+    '--project',
+    'athene2-assets',
+    release
+  ])
+  spawnSync('sentry-cli', ['releases', 'set-commits', '--auto', release])
+  environments.forEach(env => {
+    spawnSync('sentry-cli', [
+      'releases',
+      'deploys',
+      release,
+      'new',
+      '--env',
+      env
+    ])
+  })
+
+  function getEnvironments() {
+    const [major, _, minor] = version.split('.')
+    return [major, `${major}.${minor}`, version]
+  }
 }
