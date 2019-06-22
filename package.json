@@ -2,9 +2,9 @@
   "name": "@serlo/serlo.org-workspace",
   "version": "0.0.0",
   "bugs": {
-    "url": "https://github.com/serlo-org/serlo.org/issues"
+    "url": "https://github.com/serlo/serlo.org/issues"
   },
-  "repository": "serlo-org/serlo.org",
+  "repository": "serlo/serlo.org",
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
@@ -18,7 +18,7 @@
     "license": "ts-node scripts/license-headers",
     "test": "jest",
     "increment-version": "lerna version --message \"chore: release %v\"",
-    "_prettier": "prettier \"{{packages/*/,}{.circleci,__mock__,__tests__,scripts,src}/**/*,*}.{js,jsx,ts,tsx,json,md,yaml,yml,css,scss}\""
+    "_prettier": "prettier \"{{packages/{private,public}/*/,}{.circleci,__mock__,__tests__,scripts,src}/**/*,*}.{js,jsx,ts,tsx,json,md,yaml,yml,css,scss}\""
   },
   "dependencies": {},
   "devDependencies": {
@@ -55,6 +55,7 @@
   },
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/private/*",
+    "packages/public/*"
   ]
 }

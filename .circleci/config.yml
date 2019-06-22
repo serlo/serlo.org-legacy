@@ -19,25 +19,25 @@ yarn_install: &yarn_install
 
 composer_restore_cache: &composer_restore_cache
   keys:
-    - composer-v1-{{ checksum "packages/server/composer.lock" }}
+    - composer-v1-{{ checksum "packages/public/server/composer.lock" }}
     - composer-v1-
 composer_save_cache: &composer_save_cache
-  key: composer-v1-{{ checksum "packages/server/composer.lock" }}
+  key: composer-v1-{{ checksum "packages/public/server/composer.lock" }}
   paths:
-    - .packages/server/src/vendor
+    - ./packages/public/server/src/vendor
 composer_install: &composer_install
-  command: (cd packages/server && composer install --no-interaction --dev --prefer-dist)
+  command: (cd packages/public/server && composer install --no-interaction --dev --prefer-dist)
 
 composer_dev_restore_cache: &composer_dev_restore_cache
   keys:
-    - composer-v1-{{ checksum "packages/server/dev-tools/composer.lock" }}
+    - composer-v1-{{ checksum "packages/public/server/dev-tools/composer.lock" }}
     - composer-v1-
 composer_dev_save_cache: &composer_dev_save_cache
-  key: composer-v1-{{ checksum "packages/server/dev-tools/composer.lock" }}
+  key: composer-v1-{{ checksum "packages/public/server/dev-tools/composer.lock" }}
   paths:
-    - .packages/server/dev-tools/vendor
+    - ./packages/public/server/dev-tools/vendor
 composer_dev_install: &composer_dev_install
-  command: (cd packages/server/dev-tools && composer install --no-interaction --dev --prefer-dist)
+  command: (cd packages/public/server/dev-tools && composer install --no-interaction --dev --prefer-dist)
 
 version: 2.1
 jobs:
@@ -101,7 +101,7 @@ jobs:
       - save_cache:
           <<: *composer_dev_save_cache
       - run:
-          command: (cd packages/server && dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php --dry-run)
+          command: (cd packages/public/server && dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php --dry-run)
   php-test:
     <<: *php
     steps:
@@ -113,7 +113,7 @@ jobs:
       - save_cache:
           <<: *composer_save_cache
       - run:
-          command: (cd packages/server && src/vendor/bin/phpunit)
+          command: (cd packages/public/server && src/vendor/bin/phpunit)
 
 workflows:
   version: 2

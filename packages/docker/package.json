@@ -1,8 +1,0 @@
-{
-  "name": "@serlo/docker",
-  "version": "0.0.0",
-  "private": true,
-  "dependencies": {
-    "semver": "^6.0.0"
-  }
-}
