@@ -36,10 +36,10 @@ run()
 async function run() {
   const { version } = await fetchPackageJSON()
   buildDockerImage({
-    name: 'editor-renderer',
+    name: 'legacy-editor-renderer',
     version,
     Dockerfile: path.join(root, 'Dockerfile'),
-    context: '../..'
+    context: '../../..'
   })
 }
 

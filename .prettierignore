@@ -1,5 +1,4 @@
-lerna.json
-packages/server/src/vendor/**/*
-packages/server/src/test/math-puzzle/d3.js
-packages/server/src/test/math-puzzle/jquery.js
-packages/server/src/test/math-puzzle/require.js
+packages/public/server/src/vendor/**/*
+packages/public/server/src/test/math-puzzle/d3.js
+packages/public/server/src/test/math-puzzle/jquery.js
+packages/public/server/src/test/math-puzzle/require.js

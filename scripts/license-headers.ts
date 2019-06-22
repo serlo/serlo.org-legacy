@@ -36,8 +36,8 @@ g('**/*@(.js|.ts|.tsx|.php|.twig|.phtml)', {
     '**/*.config.js',
     '**/dist*/**',
     '**/node_modules/**',
-    'packages/main/src/thirdparty/**',
-    'packages/server/src/vendor/**',
+    'packages/public/client/src/thirdparty/**',
+    'packages/public/server/src/vendor/**',
     'scripts/**'
   ]
 }).then(files => {

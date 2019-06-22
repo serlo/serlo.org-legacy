@@ -12243,11 +12243,12 @@
           tickTransform
         var range = d3_scaleRange(scale1),
           path = g.selectAll('.domain').data([0]),
-          pathUpdate = (path
-            .enter()
-            .append('path')
-            .attr('class', 'domain'),
-          d3.transition(path))
+          pathUpdate =
+            (path
+              .enter()
+              .append('path')
+              .attr('class', 'domain'),
+            d3.transition(path))
         tickEnter.append('line')
         tickEnter.append('text')
         var lineEnter = tickEnter.select('line'),

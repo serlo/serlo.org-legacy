@@ -6,7 +6,7 @@ const webpack = require('webpack')
 
 const baseConfig = require('./webpack.base.config')
 
-const baseDir = path.join(__dirname, '..', '..')
+const baseDir = path.join(__dirname, '..', '..', '..')
 
 module.exports = R.merge(baseConfig, {
   mode: 'production',

@@ -19,5 +19,5 @@
     },
     "lib": ["webworker", "dom"]
   },
-  "exclude": ["packages/server/src/vendor"]
+  "exclude": ["packages/public/server/src/vendor"]
 }
