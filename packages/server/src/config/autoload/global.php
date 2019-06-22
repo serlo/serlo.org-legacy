@@ -28,7 +28,13 @@ require __DIR__ . '/../definitions.local.php';
 
 return [
     // Athene2-Assets
-    'assets' => $assets,
+    'assets' => array_merge(
+        $assets,
+        [
+            'bundle_host' => 'https://packages.serlo.org/athene2-assets@b/',
+            'assets_host' => 'https://assets.serlo.org/athene2-assets/',
+        ]
+    ),
 
     // Branding, one entry per instance (Ui Module)
     'brand' => [

@@ -24,8 +24,6 @@
 $env = 'development';
 
 $assets = [
-    'bundle_host' => 'https://packages.serlo.org/athene2-assets@a/',
-    'assets_host' => 'https://assets.serlo.org/athene2-assets/',
     'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000/',
     'editor_renderer' => 'http://editor-renderer:3000/',
 ];
