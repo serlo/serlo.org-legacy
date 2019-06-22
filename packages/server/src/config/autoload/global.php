@@ -21,8 +21,10 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
+$packageJson = $json = json_decode(file_get_contents(__DIR__ . '/../../../package.json'), true);
+
 // Version number used for Sentry Release (Log Module)
-$version = '8';
+$version = $json['version'];
 
 require __DIR__ . '/../definitions.local.php';
 
