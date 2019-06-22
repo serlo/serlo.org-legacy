@@ -19,10 +19,12 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { accountId, secret } from '@serlo/cloudflare'
 import { uploadFolder } from '@serlo/gcloud'
 import { spawnSync } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
+import * as request from 'request'
 import { Signale } from 'signale'
 import * as util from 'util'
 
@@ -55,6 +57,9 @@ async function run() {
     signale.pending(`Uploading bundle…`)
     uploadBundle(version)
 
+    signale.pending(`Creating KV entry…`)
+    await createKvEntry(version)
+
     signale.pending(`Creating Sentry release…`)
     createSentryRelease(version)
 
@@ -84,9 +89,37 @@ function uploadBundle(version: string) {
   })
 }
 
+async function createKvEntry(version: string) {
+  const environments = getEnvironments(version)
+  await Promise.all(
+    environments.map(env => {
+      return new Promise((resolve, reject) => {
+        request.put(
+          `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/athene2-assets@${env}`,
+          {
+            headers: {
+              'X-Auth-Email': secret.email,
+              'X-Auth-Key': secret.key
+            },
+            body: version
+          },
+          error => {
+            if (error) {
+              reject(error)
+              return
+            }
+
+            resolve()
+          }
+        )
+      })
+    })
+  )
+}
+
 function createSentryRelease(version: string) {
   const release = `athene2-assets@${version}`
-  const environments = getEnvironments()
+  const environments = getEnvironments(version)
 
   spawnSync('sentry-cli', [
     'releases',
@@ -106,9 +139,9 @@ function createSentryRelease(version: string) {
       env
     ])
   })
+}
 
-  function getEnvironments() {
-    const [major, _, minor] = version.split('.')
-    return [major, `${major}.${minor}`, version]
-  }
+function getEnvironments(version: string) {
+  const [major, _, minor] = version.split('.')
+  return [major, `${major}.${minor}`, version]
 }
