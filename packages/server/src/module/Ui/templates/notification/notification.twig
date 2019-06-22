@@ -31,8 +31,4 @@
         No template found for notification "{{ type }}"
         {% endtrans %}
     </div>
-    {% set name = entity.getType().getName() %}
-    <div class="dropdown-menu-item">
-        {% trans %}No view found for {{ name }}{% endtrans %}
-    </div>
 {% endif %}

@@ -1,3 +1,5 @@
 extension=apcu.so
 extension=apc.so
+apc.enabled=On
+apc.enable_cli=On
 short_open_tag=Off
