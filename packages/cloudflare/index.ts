@@ -22,6 +22,7 @@
 // @ts-ignore
 import createCloudflare from 'cloudflare'
 
+export const accountId = '3bfabc4463c2c3c340f7301d22ed18c0'
 export const zoneId = '1a4afa776acb2e40c3c8a135248328ae'
 export const secret = require('./cloudflare.secret.json')
 

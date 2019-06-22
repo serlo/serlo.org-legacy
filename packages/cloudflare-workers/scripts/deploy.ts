@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { zoneId, secret } from '@serlo/cloudflare'
+import { accountId, secret } from '@serlo/cloudflare'
 import * as fs from 'fs'
 // @ts-ignore
 import runAll from 'npm-run-all'
@@ -55,7 +55,7 @@ async function run() {
   }
 }
 
-function build(): Promise<void> {
+async function build(): Promise<void> {
   return runAll(['build'], {
     parallel: true,
     stdout: process.stdout,
@@ -68,10 +68,9 @@ async function uploadWorkers(): Promise<void> {
     path.join(__dirname, '..', 'dist', 'index.js'),
     fsOptions
   )
-
   await new Promise((resolve, reject) => {
     request.put(
-      `https://api.cloudflare.com/client/v4/zones/${zoneId}/workers/script`,
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/workers/scripts/serlo`,
       {
         headers: {
           'X-Auth-Email': secret.email,
