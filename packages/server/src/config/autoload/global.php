@@ -31,11 +31,11 @@ require __DIR__ . '/../definitions.local.php';
 return [
     // Athene2-Assets
     'assets' => array_merge(
-        $assets,
         [
             'bundle_host' => 'https://packages.serlo.org/athene2-assets@b/',
             'assets_host' => 'https://assets.serlo.org/athene2-assets/',
-        ]
+        ],
+        $assets
     ),
 
     // Branding, one entry per instance (Ui Module)
