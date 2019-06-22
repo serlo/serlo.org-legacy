@@ -19,12 +19,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { accountId, secret } from '@serlo/cloudflare'
+import { uploadWorker } from '@serlo/cloudflare'
+import { spawnSync } from 'child_process'
 import * as fs from 'fs'
-// @ts-ignore
-import runAll from 'npm-run-all'
 import * as path from 'path'
-import * as request from 'request'
 import { Signale } from 'signale'
 import * as util from 'util'
 
@@ -55,11 +53,9 @@ async function run() {
   }
 }
 
-async function build(): Promise<void> {
-  return runAll(['build'], {
-    parallel: true,
-    stdout: process.stdout,
-    stderr: process.stderr
+function build() {
+  spawnSync('yarn', ['build'], {
+    stdio: 'inherit'
   })
 }
 
@@ -68,25 +64,8 @@ async function uploadWorkers(): Promise<void> {
     path.join(__dirname, '..', 'dist', 'index.js'),
     fsOptions
   )
-  await new Promise((resolve, reject) => {
-    request.put(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/workers/scripts/serlo`,
-      {
-        headers: {
-          'X-Auth-Email': secret.email,
-          'X-Auth-Key': secret.key,
-          'Content-Type': 'application/javascript'
-        },
-        body: content
-      },
-      error => {
-        if (error) {
-          reject(error)
-          return
-        }
-
-        resolve()
-      }
-    )
+  await uploadWorker({
+    name: 'serlo',
+    body: content
   })
 }

@@ -24,6 +24,7 @@ import * as path from 'path'
 import { Signale } from 'signale'
 import * as util from 'util'
 import * as fs from 'fs'
+import { publishPackage } from '@serlo/cloudflare'
 
 const root = path.join(__dirname, '..')
 const sourcePath = path.join(__dirname, '..', 'src')
@@ -51,6 +52,9 @@ async function run() {
     signale.pending(`Uploading static assets…`)
     upload(version)
 
+    signale.pending(`Publishing package…`)
+    await publish(version)
+
     signale.success(`Successfully deployed static assets`)
   } catch (e) {
     signale.fatal(e)
@@ -66,5 +70,12 @@ function upload(version: string) {
     bucket: gcloudStorageOptions.bucket,
     source: sourcePath,
     target: `static-assets@${version}`
+  })
+}
+
+async function publish(version: string) {
+  await publishPackage({
+    name: 'static-assets',
+    version
   })
 }

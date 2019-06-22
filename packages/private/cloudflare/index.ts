@@ -21,9 +21,79 @@
  */
 // @ts-ignore
 import createCloudflare from 'cloudflare'
+import * as request from 'request'
 
 export const accountId = '3bfabc4463c2c3c340f7301d22ed18c0'
 export const zoneId = '1a4afa776acb2e40c3c8a135248328ae'
 export const secret = require('./cloudflare.secret.json')
 
 export const cloudflare = createCloudflare(secret)
+
+export async function uploadWorker({
+  name,
+  body
+}: {
+  name: string
+  body: string
+}) {
+  await new Promise((resolve, reject) => {
+    request.put(
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/workers/scripts/${name}`,
+      {
+        headers: {
+          'X-Auth-Email': secret.email,
+          'X-Auth-Key': secret.key,
+          'Content-Type': 'application/javascript'
+        },
+        body
+      },
+      error => {
+        if (error) {
+          reject(error)
+          return
+        }
+
+        resolve()
+      }
+    )
+  })
+}
+
+export async function publishPackage({
+  name,
+  version
+}: {
+  name: string
+  version: string
+}) {
+  const environments = getEnvironments()
+  await Promise.all(
+    environments.map(env => {
+      return new Promise((resolve, reject) => {
+        request.put(
+          `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${name}@${env}`,
+          {
+            headers: {
+              'X-Auth-Email': secret.email,
+              'X-Auth-Key': secret.key
+            },
+            body: `${name}@${version}`
+          },
+          error => {
+            if (error) {
+              reject(error)
+              return
+            }
+
+            resolve()
+          }
+        )
+      })
+    })
+  )
+
+  function getEnvironments() {
+    const [major, minor] = version.split('.')
+    return [major, `${major}.${minor}`, version]
+  }
+}

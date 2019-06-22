@@ -31,7 +31,10 @@ const readFile = util.promisify(fs.readFile)
 
 let worker: { dispatch(req: Request): Promise<Response> }
 beforeAll(async () => {
-  spawnSync('yarn', ['build'], { cwd: root })
+  spawnSync('yarn', ['build'], {
+    cwd: root,
+    stdio: 'inherit'
+  })
   const script = `
     const PACKAGES_KV = {
       get(key) {
@@ -41,6 +44,12 @@ beforeAll(async () => {
           return Promise.resolve('athene2-assets@4.1.3')
         if (key === 'athene2-assets@4.1.3')
           return Promise.resolve('athene2-assets@4.1.3')
+        if (key === 'static-assets@1')
+          return Promise.resolve('static-assets@1.0.0')
+        if (key === 'static-assets@1.0')
+          return Promise.resolve('static-assets@1.0.0')
+        if (key === 'static-assets@1.0.0')
+          return Promise.resolve('static-assets@1.0.0')
         return Promise.resolve(null)
       }
     }
@@ -206,45 +215,78 @@ describe('Packages', () => {
 
   test('athene2-assets@4.1', async () => {
     const req = new Cloudworker.Request(
-        'https://packages.serlo.org/athene2-assets@4.1/main.js'
+      'https://packages.serlo.org/athene2-assets@4.1/main.js'
     )
     const res = await worker.dispatch(req)
     isSuccessfulFetchOf(
-        res,
-        'https://packages.serlo.org/athene2-assets@4.1.3/main.js'
+      res,
+      'https://packages.serlo.org/athene2-assets@4.1.3/main.js'
     )
   })
 
   test('athene2-assets@4.1.3', async () => {
     const req = new Cloudworker.Request(
-        'https://packages.serlo.org/athene2-assets@4.1.3/main.js'
+      'https://packages.serlo.org/athene2-assets@4.1.3/main.js'
     )
     const res = await worker.dispatch(req)
     isSuccessfulFetchOf(
-        res,
-        'https://packages.serlo.org/athene2-assets@4.1.3/main.js'
+      res,
+      'https://packages.serlo.org/athene2-assets@4.1.3/main.js'
+    )
+  })
+
+  test('static-assets@1', async () => {
+    const req = new Cloudworker.Request(
+      'https://packages.serlo.org/static-assets@1/de/home/about-serlo.svg'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+      res,
+      'https://packages.serlo.org/static-assets@1.0.0/de/home/about-serlo.svg'
+    )
+  })
+
+  test('static-assets@1.0', async () => {
+    const req = new Cloudworker.Request(
+      'https://packages.serlo.org/static-assets@1.0/de/home/about-serlo.svg'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+      res,
+      'https://packages.serlo.org/static-assets@1.0.0/de/home/about-serlo.svg'
+    )
+  })
+
+  test('static-assets@1.0.0', async () => {
+    const req = new Cloudworker.Request(
+      'https://packages.serlo.org/static-assets@1.0.0/de/home/about-serlo.svg'
+    )
+    const res = await worker.dispatch(req)
+    isSuccessfulFetchOf(
+      res,
+      'https://packages.serlo.org/static-assets@1.0.0/de/home/about-serlo.svg'
     )
   })
 
   test('athene2-assets@a', async () => {
     const req = new Cloudworker.Request(
-        'https://packages.serlo.org/athene2-assets@a/main.js'
+      'https://packages.serlo.org/athene2-assets@a/main.js'
     )
     const res = await worker.dispatch(req)
     isSuccessfulFetchOf(
-        res,
-        'https://packages.serlo.org/athene2-assets@a/main.js'
+      res,
+      'https://packages.serlo.org/athene2-assets@a/main.js'
     )
   })
 
   test('athene2-assets@b', async () => {
     const req = new Cloudworker.Request(
-        'https://packages.serlo.org/athene2-assets@b/main.js'
+      'https://packages.serlo.org/athene2-assets@b/main.js'
     )
     const res = await worker.dispatch(req)
     isSuccessfulFetchOf(
-        res,
-        'https://packages.serlo.org/athene2-assets@b/main.js'
+      res,
+      'https://packages.serlo.org/athene2-assets@b/main.js'
     )
   })
 })
