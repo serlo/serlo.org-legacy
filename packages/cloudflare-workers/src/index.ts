@@ -21,12 +21,12 @@
  */
 addEventListener('fetch', (event: Event) => {
   const e = event as FetchEvent
-  const req = enforceHttps(e.request)
-  e.respondWith(handleRequest(req))
+  e.respondWith(handleRequest(e.request))
 })
 
 export async function handleRequest(request: Request) {
   const response =
+    (await enforceHttps(request)) ||
     (await redirects(request)) ||
     (await serloOrgProxy(request)) ||
     (await blockSerloEducation(request)) ||
@@ -34,6 +34,13 @@ export async function handleRequest(request: Request) {
     (await fetch(request))
 
   return response
+}
+
+async function enforceHttps(request: Request) {
+  if (!/^http:\/\//.test(request.url)) return null
+  const url = new URL(request.url)
+  url.protocol = 'https'
+  return Response.redirect(url.href)
 }
 
 async function redirects(request: Request) {
@@ -67,15 +74,78 @@ async function redirects(request: Request) {
 }
 
 async function serloOrgProxy(request: Request) {
+  /**
+   * Experiment config
+   */
+  /** Change cookie name when changing probability so that a new cookie is created */
+  const cookieName = 'proxy-0'
+  /** Probablity (0 <= p <= 1) that the legacy backend is chosen */
+  const legacyProbability = 1
+
+  enum Backend {
+    legacy = 'serlo.education',
+    kubernetes = 'serlo.dev'
+  }
+
+  // Routes to manually choose preferred backend
+  if (request.url === 'https://de.serlo.org/experiments/enable-kubernetes') {
+    const res = new Response('Set backend to kubernetes', {
+      status: 200
+    })
+    res.headers.append(
+      'Set-Cookie',
+      `${cookieName}=${Backend.kubernetes}; path=/`
+    )
+    return res
+  }
+  if (request.url === 'https://de.serlo.org/experiments/disable-kubernetes') {
+    const res = new Response('Set backend to legacy', {
+      status: 200
+    })
+    res.headers.append('Set-Cookie', `${cookieName}=${Backend.legacy}; path=/`)
+    return res
+  }
+
   const match = request.url.match(/^https:\/\/(de|en|es|hi)\.serlo\.org/)
   if (!match) return null
+
+  const { backend, createCookie } = chooseBackend()
+
   const subdomain = match[1]
   const url = new URL(request.url)
-  url.hostname = `${subdomain}.serlo.education`
-  let response = await fetch(request)
+  url.hostname = `${subdomain}.${backend}`
+  const req = new Request((url as unknown) as RequestInfo, request)
+  let response = await fetch(req)
   response = new Response(response.body, response)
-  response.headers.set('x-backend', 'serlo.education')
+  response.headers.set('x-backend', backend)
+  if (createCookie) {
+    response.headers.append('Set-Cookie', `${cookieName}=${backend}; path=/`)
+  }
   return response
+
+  function chooseBackend(): { backend: Backend; createCookie: boolean } {
+    const cookie = request.headers.get('Cookie')
+
+    if (cookie && cookie.includes(`${cookieName}=${Backend.legacy}`)) {
+      return {
+        backend: Backend.legacy,
+        createCookie: false
+      }
+    }
+
+    if (cookie && cookie.includes(`${cookieName}=${Backend.kubernetes}`)) {
+      return {
+        backend: Backend.kubernetes,
+        createCookie: false
+      }
+    }
+
+    return {
+      backend:
+        Math.random() < legacyProbability ? Backend.legacy : Backend.kubernetes,
+      createCookie: true
+    }
+  }
 }
 
 async function blockSerloEducation(request: Request) {
@@ -110,11 +180,4 @@ async function semanticFileNames(request: Request) {
     `https://assets\.serlo\.org/${prefix}${hash}.${extension}`,
     request
   )
-}
-
-function enforceHttps(request: Request): Request {
-  if (!/^http:\/\//.test(request.url)) return request
-  const url = new URL(request.url)
-  url.protocol = 'https'
-  return new Request((url as unknown) as RequestInfo, request)
 }

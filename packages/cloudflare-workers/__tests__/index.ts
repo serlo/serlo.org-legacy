@@ -161,7 +161,7 @@ describe('Enforce HTTPS', () => {
   test('serlo.org', async () => {
     const req = new Cloudworker.Request('http://de.serlo.org/mathe')
     const res = await worker.dispatch(req)
-    isSuccessfulFetchOf(res, 'https://de.serlo.org/mathe')
+    isTemporaryRedirectTo(res, 'https://de.serlo.org/mathe')
   })
 })
 

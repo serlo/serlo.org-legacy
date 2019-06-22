@@ -17,7 +17,7 @@
       "@serlo/legacy-editor-to-editor": ["legacy-editor-to-editor/src"],
       "@serlo/markdown": ["markdown/src"]
     },
-    "lib": ["webworker","dom"]
+    "lib": ["webworker", "dom"]
   },
   "exclude": ["packages/server/src/vendor"]
 }
