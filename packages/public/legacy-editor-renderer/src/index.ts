@@ -33,9 +33,15 @@ app.post('/', (req: { body: { state: string } }, res) => {
     .then(html => {
       res.status(200).send({ html })
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err)
       res.sendStatus(500)
     })
+})
+
+
+app.get('/', (_req, res) => {
+  res.sendStatus(200)
 })
 
 app.listen(3000, () => {
