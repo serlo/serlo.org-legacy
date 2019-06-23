@@ -39,6 +39,20 @@ composer_dev_save_cache: &composer_dev_save_cache
 composer_dev_install: &composer_dev_install
   command: (cd packages/public/server/dev-tools && composer install --no-interaction --dev --prefer-dist)
 
+gcloud: &gcloud
+  command: |
+    sudo apt update -y
+    sudo apt install -y lsb-release
+    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+    echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list &&
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    sudo apt update -y && sudo apt install google-cloud-sdk -y
+    echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+
+cloudflare_secret: &cloudflare_secret
+  command: |
+    echo "{ \"email\": \"$CLOUDFLARE_EMAIL\", \"key\": \"$CLOUDFLARE_KEY\" }" >> packages/private/cloudflare/cloudflare.secret.json
+
 version: 2.1
 jobs:
   build:
@@ -113,8 +127,7 @@ jobs:
       - save_cache:
           <<: *yarn_save_cache
       - run:
-          command: |
-            echo "{ \"email\": \"$SENTRY_EMAIL\", \"key\": \"$SENTRY_KEY\" }" >> packages/private/cloudflare/secret.json
+          <<: *cloudflare_secret
       - run:
           command: yarn deploy --scope=@serlo/cloudflare-workers
   deploy-serlo-assets:
@@ -122,16 +135,9 @@ jobs:
     steps:
       - checkout
       - run:
-          command: |
-            sudo apt update -y
-            sudo apt install -y lsb-release
-            export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-            echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list &&
-            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-            sudo apt update -y && sudo apt install google-cloud-sdk -y
+          <<: *gcloud
       - run:
-          command: |
-            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+          <<: *cloudflare_secret
       - restore_cache:
           <<: *yarn_restore_cache
       - run:
@@ -145,17 +151,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: |
-            sudo apt update -y
-            sudo apt install -y lsb-release
-            export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-            echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list &&
-            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-            sudo apt update -y && sudo apt install google-cloud-sdk -y
-      - run:
-          command: |
-            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
-            gcloud auth configure-docker --quiet
+          <<: *gcloud
       - setup_remote_docker
       - restore_cache:
           <<: *yarn_restore_cache
