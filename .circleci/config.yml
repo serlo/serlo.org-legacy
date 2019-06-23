@@ -45,18 +45,6 @@ jobs:
     <<: *js
     steps:
       - checkout
-      - run:
-          command: |
-            sudo apt update -y
-            sudo apt install -y lsb-release
-            export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-            echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list &&
-            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-            sudo apt update -y && sudo apt install google-cloud-sdk -y
-      - run:
-          command: |
-            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
-            gcloud auth configure-docker --quiet
       - setup_remote_docker
       - restore_cache:
           <<: *yarn_restore_cache
@@ -114,14 +102,130 @@ jobs:
           <<: *composer_save_cache
       - run:
           command: (cd packages/public/server && src/vendor/bin/phpunit)
+  deploy-cloudflare:
+    <<: *js
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *yarn_restore_cache
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          <<: *yarn_save_cache
+      - run:
+          command: |
+            echo "{ \"email\": \"$SENTRY_EMAIL\", \"key\": \"$SENTRY_KEY\" }" >> packages/private/cloudflare/secret.json
+      - run:
+          command: yarn deploy --scope=@serlo/cloudflare-workers
+  deploy-serlo-assets:
+    <<: *js
+    steps:
+      - checkout
+      - run:
+          command: |
+            sudo apt update -y
+            sudo apt install -y lsb-release
+            export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+            echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list &&
+            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            sudo apt update -y && sudo apt install google-cloud-sdk -y
+      - run:
+          command: |
+            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+      - restore_cache:
+          <<: *yarn_restore_cache
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          <<: *yarn_save_cache
+      - run:
+          command: yarn deploy --scope=@serlo/{athene2-assets,static-assets}
+  deploy-serlo-containers:
+    <<: *js
+    steps:
+      - checkout
+      - run:
+          command: |
+            sudo apt update -y
+            sudo apt install -y lsb-release
+            export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+            echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list &&
+            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            sudo apt update -y && sudo apt install google-cloud-sdk -y
+      - run:
+          command: |
+            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+            gcloud auth configure-docker --quiet
+      - setup_remote_docker
+      - restore_cache:
+          <<: *yarn_restore_cache
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          <<: *yarn_save_cache
+      - run:
+          command: yarn deploy --scope=@serlo/{editor-renderer,legacy-editor-renderer,server}
+  sentry-release:
+    <<: *js
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *yarn_restore_cache
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          <<: *yarn_save_cache
+      - run:
+          command: yarn sentry-release
 
 workflows:
   version: 2
   workflow:
     jobs:
-      - build:
-          context: serlo-containers
+      - build
       - js-lint
       - js-test
       - php-lint
       - php-test
+      - deploy-cloudflare:
+          context: cloudflare
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
+            - js-lint
+            - js-test
+            - php-lint
+            - php-test
+      - deploy-serlo-assets:
+          context: serlo-assets
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
+            - js-lint
+            - js-test
+            - php-lint
+            - php-test
+      - deploy-serlo-containers:
+          context: serlo-containers
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
+            - js-lint
+            - js-test
+            - php-lint
+            - php-test
+      - sentry-release:
+          context: sentry
+          filters:
+            branches:
+              only: master
+          requires:
+            - deploy-cloudflare
+            - deploy-serlo-assets
+            - deploy-serlo-containers

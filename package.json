@@ -11,6 +11,8 @@
     "build": "npm-run-all build:private build:public",
     "build:private": "lerna run --stream --scope=@serlo/{editor-helpers,legacy-editor-to-editor,markdown} build",
     "build:public": "lerna run --stream --ignore=@serlo/{editor-helpers,legacy-editor-to-editor,markdown} build",
+    "deploy": "lerna run --stream deploy",
+    "sentry-release": "lerna run --stream sentry-release",
     "format": "npm-run-all --parallel format:*",
     "format:prettier": "yarn _prettier --write",
     "format:php": "yarn _php-cs-fixer",

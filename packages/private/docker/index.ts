@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { spawnSync } from 'child_process'
+import * as R from 'ramda'
 import * as semver from 'semver'
 
 export function buildDockerImage({
@@ -27,41 +28,56 @@ export function buildDockerImage({
   version,
   Dockerfile,
   context
-}: {
-  name: string
-  version: string
-  Dockerfile: string
-  context: string
-}) {
+}: DockerImageOptions) {
   if (!semver.valid(version)) {
     return
   }
 
-  const tag = `${name}:${semver.major(version)}`
-  spawnSync('docker', ['build', '-f', Dockerfile, '-t', tag, context], {
-    stdio: 'inherit'
-  })
+  spawnSync(
+    'docker',
+    [
+      'build',
+      '-f',
+      Dockerfile,
+      ...R.flatten<string>(
+        getTags(version).map(tag => ['-t', `${name}:${tag}`])
+      ),
+      context
+    ],
+    {
+      stdio: 'inherit'
+    }
+  )
+}
 
-  if (
-    !process.env.CI ||
-    !process.env.CIRCLE_BRANCH ||
-    process.env.CIRCLE_BRANCH !== 'master'
-  ) {
-    return
-  }
+export function publishDockerImage(options: DockerImageOptions) {
+  const { name, version } = options
+  buildDockerImage(options)
 
-  const remoteTags = [
-    `eu.gcr.io/serlo-containers/${name}:latest`,
-    `eu.gcr.io/serlo-containers/${name}:${semver.major(version)}`,
-    `eu.gcr.io/serlo-containers/${name}:${semver.major(version)}.${semver.minor(
-      version
-    )}`,
-    `eu.gcr.io/serlo-containers/${name}:${semver.major(version)}.${semver.minor(
-      version
-    )}.${semver.patch(version)}`
-  ]
+  const remoteTags = R.map(
+    tag => `eu.gcr.io/serlo-containers/${name}:${tag}`,
+    getTags(version)
+  )
   remoteTags.forEach(remoteTag => {
-    spawnSync('docker', ['tag', tag, remoteTag], { stdio: 'inherit' })
+    spawnSync('docker', ['tag', `${name}:latest`, remoteTag], {
+      stdio: 'inherit'
+    })
     spawnSync('docker', ['push', remoteTag], { stdio: 'inherit' })
   })
+}
+
+function getTags(version: string) {
+  return [
+    'latest',
+    semver.major(version),
+    `${semver.major(version)}.${semver.minor(version)}`,
+    `${semver.major(version)}.${semver.minor(version)}.${semver.patch(version)}`
+  ]
+}
+
+export interface DockerImageOptions {
+  name: string
+  version: string
+  Dockerfile: string
+  context: string
 }

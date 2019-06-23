@@ -8,6 +8,7 @@
     "build:private": "(cd ../../../; yarn build:private)",
     "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
     "build:docker": "ts-node scripts/build",
+    "deploy": "ts-node scripts/deploy",
     "prestart": "yarn build:private",
     "start": "nodemon --watch src --exec \"ts-node src/index.ts\""
   },
