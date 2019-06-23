@@ -19,8 +19,6 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { publishPackage } from '@serlo/cloudflare'
-import { uploadFolder } from '@serlo/gcloud'
 import { spawnSync } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -28,11 +26,6 @@ import { Signale } from 'signale'
 import * as util from 'util'
 
 const root = path.join(__dirname, '..')
-const distPath = path.join(__dirname, '..', 'dist')
-
-const gcloudStorageOptions = {
-  bucket: 'packages.serlo.org'
-}
 
 const packageJsonPath = path.join(root, 'package.json')
 
@@ -50,16 +43,8 @@ async function run() {
 
     const { version } = await fetchPackageJSON()
 
-    signale.pending(`Bundling…`)
-    build()
-
-    signale.pending(`Uploading bundle…`)
-    uploadBundle(version)
-
-    signale.pending(`Publishing package…`)
-    await publish(version)
-
-    signale.success(`Successfully deployed athene2-assets@${version}`)
+    signale.pending(`Creating Sentry release…`)
+    createSentryRelease(version)
   } catch (e) {
     signale.fatal(e.message)
   }
@@ -69,24 +54,37 @@ function fetchPackageJSON(): Promise<{ version: string }> {
   return readFile(packageJsonPath, fsOptions).then(JSON.parse)
 }
 
-function build() {
-  spawnSync('yarn', ['build'], {
-    stdio: 'inherit',
-    cwd: path.join(__dirname, '..', '..')
+function createSentryRelease(version: string) {
+  const release = `athene2@${version}`
+  const environments = getEnvironments(version)
+
+  spawnSync(
+    'sentry-cli',
+    ['releases', 'new', '--project', 'athene2', release],
+    {
+      stdio: 'inherit'
+    }
+  )
+  spawnSync('sentry-cli', ['releases', 'set-commits', '--auto', release], {
+    stdio: 'inherit'
   })
+  environments.forEach(
+    env => {
+      spawnSync(
+        'sentry-cli',
+        ['releases', 'deploys', release, 'new', '--env', env],
+        {
+          stdio: 'inherit'
+        }
+      )
+    },
+    {
+      stdio: 'inherit'
+    }
+  )
 }
 
-function uploadBundle(version: string) {
-  uploadFolder({
-    bucket: gcloudStorageOptions.bucket,
-    source: distPath,
-    target: `athene2-assets@${version}`
-  })
-}
-
-async function publish(version: string) {
-  await publishPackage({
-    name: 'athene2-assets',
-    version
-  })
+function getEnvironments(version: string) {
+  const [major, minor] = version.split('.')
+  return ['latest', major, `${major}.${minor}`, version]
 }

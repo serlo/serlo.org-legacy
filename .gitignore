@@ -64,3 +64,6 @@ dist-gcf
 
 # Secrets
 *.secret.*
+
+# Docker Compose file
+docker-compose.yml

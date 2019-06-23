@@ -19,74 +19,30 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { publishPackage } from '@serlo/cloudflare'
-import { uploadFolder } from '@serlo/gcloud'
-import { spawnSync } from 'child_process'
+import { publishDockerImage } from '@serlo/docker'
 import * as fs from 'fs'
 import * as path from 'path'
-import { Signale } from 'signale'
 import * as util from 'util'
 
 const root = path.join(__dirname, '..')
-const distPath = path.join(__dirname, '..', 'dist')
-
-const gcloudStorageOptions = {
-  bucket: 'packages.serlo.org'
-}
-
 const packageJsonPath = path.join(root, 'package.json')
 
 const fsOptions = { encoding: 'utf-8' }
 
 const readFile = util.promisify(fs.readFile)
 
-const signale = new Signale({ interactive: true })
-
-run().then(() => {})
+run()
 
 async function run() {
-  try {
-    signale.info('Deploying athene2-assets')
-
-    const { version } = await fetchPackageJSON()
-
-    signale.pending(`Bundling…`)
-    build()
-
-    signale.pending(`Uploading bundle…`)
-    uploadBundle(version)
-
-    signale.pending(`Publishing package…`)
-    await publish(version)
-
-    signale.success(`Successfully deployed athene2-assets@${version}`)
-  } catch (e) {
-    signale.fatal(e.message)
-  }
+  const { version } = await fetchPackageJSON()
+  publishDockerImage({
+    name: 'legacy-editor-renderer',
+    version,
+    Dockerfile: path.join(root, 'Dockerfile'),
+    context: '../../..'
+  })
 }
 
 function fetchPackageJSON(): Promise<{ version: string }> {
   return readFile(packageJsonPath, fsOptions).then(JSON.parse)
-}
-
-function build() {
-  spawnSync('yarn', ['build'], {
-    stdio: 'inherit',
-    cwd: path.join(__dirname, '..', '..')
-  })
-}
-
-function uploadBundle(version: string) {
-  uploadFolder({
-    bucket: gcloudStorageOptions.bucket,
-    source: distPath,
-    target: `athene2-assets@${version}`
-  })
-}
-
-async function publish(version: string) {
-  await publishPackage({
-    name: 'athene2-assets',
-    version
-  })
 }

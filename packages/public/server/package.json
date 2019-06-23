@@ -5,16 +5,15 @@
   "author": "Serlo Education e.V.",
   "scripts": {
     "build": "ts-node scripts/build",
+    "deploy": "ts-node scripts/deploy",
+    "sentry-release": "ts-node scripts/sentry-release",
     "c": "docker-compose run --rm composer composer",
     "c-dev": "docker-compose run --rm composer-dev-tools composer",
     "prestart": "yarn c install && yarn c-dev install",
     "start": "docker-compose up --build -d",
     "stop": "docker-compose down",
-    "format": "yarn _php-cs-fixer",
     "e2e": "jest",
-    "unit": "docker-compose exec php src/vendor/bin/phpunit",
-    "_php-cs-fixer": "docker-compose exec php dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php",
-    "_prettier": "prettier \"{{.circleci,__tests__,scripts}/**/*,*}.{js,jsx,ts,tsx,css,scss,sass,less,json,md,markdown,yaml,yml}\""
+    "unit": "docker-compose exec php src/vendor/bin/phpunit"
   },
   "dependencies": {},
   "devDependencies": {

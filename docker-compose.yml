@@ -1,0 +1,101 @@
+version: '3.4'
+
+services:
+  mysql:
+    image: mysql:5.7
+    # Uncomment if you want to expose the MySQL server to your host, e.g. for using a database management GUI application
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./packages/public/server/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+
+  legacy-editor-renderer:
+    build:
+      context: .
+      dockerfile: packages/public/legacy-editor-renderer/Dockerfile
+      target: base
+    entrypoint: npx lerna run --stream --scope @serlo/legacy-editor-renderer start
+    volumes:
+      # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
+      - ./babel.config.js:/usr/src/app/babel.config.js
+      - ./lerna.json:/usr/src/app/lerna.json
+      - ./package.json:/usr/src/app/package.json
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./node_modules:/usr/src/app/node_modules
+      - ./packages/private/markdown:/usr/src/app/packages/private/markdown
+      - ./packages/public/legacy-editor-renderer:/usr/src/app/packages/public/legacy-editor-renderer
+
+  editor-renderer:
+    build:
+      context: .
+      dockerfile: packages/public/editor-renderer/Dockerfile
+      target: base
+    entrypoint: npx lerna run --stream --scope @serlo/editor-renderer start
+    volumes:
+      # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
+      - ./babel.config.js:/usr/src/app/babel.config.js
+      - ./lerna.json:/usr/src/app/lerna.json
+      - ./package.json:/usr/src/app/package.json
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./node_modules:/usr/src/app/node_modules
+      - ./packages/private/editor-helpers:/usr/src/app/packages/private/editor-helpers
+      - ./packages/private/legacy-editor-to-editor:/usr/src/app/packages/private/legacy-editor-to-editor
+      - ./packages/private/markdown:/usr/src/app/packages/private/markdown
+      - ./packages/public/editor-renderer:/usr/src/app/packages/public/editor-renderer
+
+  server-composer:
+    image: composer:1.8
+    volumes:
+      # For macOS, add `:cached` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
+      - ./packages/public/server/composer.json:/app/composer.json
+      - ./packages/public/server/composer.lock:/app/composer.lock
+      - ./packages/public/server/src/vendor:/app/src/vendor
+
+  server-composer-dev-tools:
+    image: composer:1.8
+    volumes:
+      # For macOS, add `:cached` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
+      - ./packages/public/server/dev-tools/composer.json:/app/composer.json
+      - ./packages/public/server/dev-tools/composer.lock:/app/composer.lock
+      - ./packages/public/server/dev-tools/vendor:/app/vendor
+
+  server-httpd:
+    build:
+      context: packages/public/server
+      dockerfile: docker/httpd/Dockerfile
+      target: base
+    ports:
+      - '4567:80'
+    volumes:
+      # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
+      - ./packages/public/server/src/public:/usr/local/apache2/htdocs/src/public
+    environment:
+      - PHP_HOST=server-php
+
+  server-php:
+    build:
+      context: packages/public/server
+      dockerfile: docker/php/Dockerfile
+      target: base
+    volumes:
+      # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
+      - ./packages/public/server/dev-tools/vendor:/usr/local/apache2/htdocs/dev-tools/vendor
+      - ./packages/public/server/package.json:/usr/local/apache2/htdocs/package.json
+      - ./packages/public/server/php-cs-fixer.config.php:/usr/local/apache2/htdocs/php-cs-fixer.config.php
+      - ./packages/public/server/phpunit.xml:/usr/local/apache2/htdocs/phpunit.xml
+      - ./packages/public/server/src/config:/usr/local/apache2/htdocs/src/config
+      - ./packages/public/server/src/lang:/usr/local/apache2/htdocs/src/lang
+      - ./packages/public/server/src/module:/usr/local/apache2/htdocs/src/module
+      - ./packages/public/server/src/public:/usr/local/apache2/htdocs/src/public
+      - ./packages/public/server/src/test:/usr/local/apache2/htdocs/src/test
+      - ./packages/public/server/src/vendor:/usr/local/apache2/htdocs/src/vendor
+      - ./packages/public/server/src/init_autoloader.php:/usr/local/apache2/htdocs/src/init_autoloader.php
+  # Uncomment if you want PhpMyAdmin on localhost:8080
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   links:
+  #     - mysqld:db
+  #   ports:
+  #     - '8080:80'

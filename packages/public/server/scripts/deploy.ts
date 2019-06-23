@@ -1,4 +1,3 @@
-<?php
 /**
  * This file is part of Serlo.org.
  *
@@ -20,28 +19,36 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { publishDockerImage } from '@serlo/docker'
+import * as fs from 'fs'
+import * as path from 'path'
+import * as util from 'util'
 
-$env = 'development';
+const root = path.join(__dirname, '..')
+const packageJsonPath = path.join(root, 'package.json')
 
-$assets = [
-    'assets_host' => 'http://localhost:8082/',
-    'bundle_host' => 'http://localhost:8081/',
-    'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000/',
-    'editor_renderer' => 'http://editor-renderer:3000/',
-];
+const fsOptions = { encoding: 'utf-8' }
 
-$db = [
-    'host' => 'mysql',
-    'port' => '3306',
-    'username' => 'root',
-    'password' => 'secret',
-    'database' => 'serlo',
-];
+const readFile = util.promisify(fs.readFile)
 
-$recaptcha = [
-    'key' => '6LfwJFwUAAAAAKHhl-kjPbA6mCPjt_CrkCbn3okr',
-    'secret' => '6LfwJFwUAAAAAPVsTPLe00oAb9oUTewOUe31pXSv',
-];
+run()
 
-$smtp_options = [];
-$tracking = [];
+async function run() {
+  const { version } = await fetchPackageJSON()
+  publishDockerImage({
+    name: 'athene2-httpd',
+    version,
+    Dockerfile: path.join(root, 'docker', 'httpd', 'Dockerfile'),
+    context: '.'
+  })
+  publishDockerImage({
+    name: 'athene2-php',
+    version,
+    Dockerfile: path.join(root, 'docker', 'php', 'Dockerfile'),
+    context: '.'
+  })
+}
+
+function fetchPackageJSON(): Promise<{ version: string }> {
+  return readFile(packageJsonPath, fsOptions).then(JSON.parse)
+}

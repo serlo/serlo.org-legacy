@@ -2,9 +2,9 @@
   "name": "@serlo/static-assets",
   "version": "1.0.0",
   "scripts": {
-    "start": "serve --listen 8082 src",
     "predeploy": "find . -name '.DS_Store' -type f -delete",
-    "deploy": "ts-node scripts/deploy"
+    "deploy": "ts-node scripts/deploy",
+    "start": "serve --listen 8082 src"
   },
   "devDependencies": {
     "@serlo/gcloud": "^0.0.0",
