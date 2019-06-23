@@ -24,6 +24,8 @@ import createApp from 'express'
 
 import { render } from './render'
 
+const { version } = require('../package.json')
+
 const app = createApp()
 
 app.use(bodyParser.json())
@@ -44,5 +46,5 @@ app.get('/', (_req, res) => {
 })
 
 app.listen(3000, () => {
-  console.log('Listening...')
+  console.log(`editor-renderer@${version} listening...`)
 })
