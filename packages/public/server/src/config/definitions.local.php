@@ -24,6 +24,8 @@
 $env = 'development';
 
 $assets = [
+    'assets_host' => 'http://localhost:8082/',
+    'bundle_host' => 'http://localhost:8081/',
     'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000/',
     'editor_renderer' => 'http://editor-renderer:3000/',
 ];

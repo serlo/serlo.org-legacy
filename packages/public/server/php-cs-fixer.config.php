@@ -21,6 +21,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 $finder = PhpCsFixer\Finder::create()
+    ->notPath('src/data')
     ->notPath('src/vendor')
     ->in(__DIR__);
 

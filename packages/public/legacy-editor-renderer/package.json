@@ -3,9 +3,12 @@
   "version": "0.1.2",
   "main": "dist/index.js",
   "scripts": {
-    "build": "yarn build:babel && yarn build:docker",
-    "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts\" --out-dir dist --root-mode upward --source-maps",
+    "prebuild": "rimraf dist",
+    "build": "npm-run-all build:private build:babel build:docker",
+    "build:private": "(cd ../../../; yarn build:private)",
+    "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
     "build:docker": "ts-node scripts/build",
+    "prestart": "yarn build:private",
     "start": "nodemon --watch src --exec \"ts-node src/index.ts\""
   },
   "dependencies": {
@@ -15,6 +18,7 @@
     "express": "^4.0.0"
   },
   "devDependencies": {
+    "@serlo/docker": "^0.0.0",
     "@types/express": "^4.0.0",
     "nodemon": "^1.0.0"
   },

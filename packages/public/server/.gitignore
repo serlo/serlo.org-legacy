@@ -39,6 +39,3 @@ node_modules/
 
 # Yarn Integrity file
 .yarn-integrity
-
-# Docker Compose file
-docker-compose.yml

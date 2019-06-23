@@ -1,12 +1,12 @@
 FROM node:10 as base
 ENV NODE_ENV production
 WORKDIR /usr/src/app
+
+FROM base as dependencies
 COPY packages/public/legacy-editor-renderer/package.json packages/public/legacy-editor-renderer/
 COPY packages/private/markdown/package.json packages/private/markdown/
 COPY package.json .
 COPY yarn.lock .
-
-FROM base as dependencies
 RUN yarn --frozen-lockfile --prod
 
 FROM dependencies as release

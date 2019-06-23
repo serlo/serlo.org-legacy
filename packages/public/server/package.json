@@ -10,11 +10,8 @@
     "prestart": "yarn c install && yarn c-dev install",
     "start": "docker-compose up --build -d",
     "stop": "docker-compose down",
-    "format": "yarn _php-cs-fixer",
     "e2e": "jest",
-    "unit": "docker-compose exec php src/vendor/bin/phpunit",
-    "_php-cs-fixer": "docker-compose exec php dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php",
-    "_prettier": "prettier \"{{.circleci,__tests__,scripts}/**/*,*}.{js,jsx,ts,tsx,css,scss,sass,less,json,md,markdown,yaml,yml}\""
+    "unit": "docker-compose exec php src/vendor/bin/phpunit"
   },
   "dependencies": {},
   "devDependencies": {

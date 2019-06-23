@@ -77,7 +77,7 @@ jobs:
       - save_cache:
           <<: *yarn_save_cache
       - run:
-          command: yarn lint
+          command: yarn lint:js
   js-test:
     <<: *js
     steps:
@@ -89,7 +89,7 @@ jobs:
       - save_cache:
           <<: *yarn_save_cache
       - run:
-          command: yarn test
+          command: yarn test:js
   php-lint:
     <<: *php
     steps:

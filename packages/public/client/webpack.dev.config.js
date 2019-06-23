@@ -15,6 +15,7 @@ module.exports = R.mergeDeepRight(baseConfig, {
     headers: {
       'Access-Control-Allow-Origin': '*'
     },
-    port
+    port,
+    stats: 'errors-only'
   }
 })
