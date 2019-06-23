@@ -66,7 +66,7 @@ describe('Redirects', () => {
   test('start.serlo.org', async () => {
     const req = new Cloudworker.Request('https://start.serlo.org')
     const res = await worker.dispatch(req)
-    isTemporaryRedirectTo(
+    isPermanentRedirectTo(
       res,
       'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
     )
@@ -75,19 +75,19 @@ describe('Redirects', () => {
   test('de.serlo.org/labschool', async () => {
     const req = new Cloudworker.Request('https://de.serlo.org/labschool')
     const res = await worker.dispatch(req)
-    isTemporaryRedirectTo(res, 'https://labschool.serlo.org')
+    isPermanentRedirectTo(res, 'https://labschool.serlo.org')
   })
 
   test('de.serlo.org/hochschule', async () => {
     const req = new Cloudworker.Request('https://de.serlo.org/hochschule')
     const res = await worker.dispatch(req)
-    isTemporaryRedirectTo(res, 'https://de.serlo.org/mathe/universitaet/44323')
+    isPermanentRedirectTo(res, 'https://de.serlo.org/mathe/universitaet/44323')
   })
 
   test('de.serlo.org/beitreten', async () => {
     const req = new Cloudworker.Request('https://de.serlo.org/beitreten')
     const res = await worker.dispatch(req)
-    isTemporaryRedirectTo(
+    isPermanentRedirectTo(
       res,
       'https://docs.google.com/forms/d/e/1FAIpQLSdEoyCcDVP_G_-G_u642S768e_sxz6wO6rJ3tad4Hb9z7Slwg/viewform'
     )
@@ -191,13 +191,13 @@ describe('Deny direct access to serlo.education', () => {
   test('serlo.education', async () => {
     const req = new Cloudworker.Request('https://serlo.education/robots.txt')
     const res = await worker.dispatch(req)
-    expect(res.status).toEqual(403)
+    isPermanentRedirectTo(res, 'https://serlo.org/robots.txt')
   })
 
   test('de.serlo.education', async () => {
     const req = new Cloudworker.Request('https://de.serlo.education/mathe')
     const res = await worker.dispatch(req)
-    expect(res.status).toEqual(403)
+    isPermanentRedirectTo(res, 'https://de.serlo.org/mathe')
   })
 })
 
@@ -290,6 +290,11 @@ describe('Packages', () => {
     )
   })
 })
+
+function isPermanentRedirectTo(res: Response, url: string) {
+  expect(res.status).toEqual(301)
+  expect(res.headers.get('Location')).toEqual(url)
+}
 
 function isTemporaryRedirectTo(res: Response, url: string) {
   expect(res.status).toEqual(302)

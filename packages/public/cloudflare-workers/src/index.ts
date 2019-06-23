@@ -49,21 +49,26 @@ async function redirects(request: Request) {
 
   if (/^https:\/\/start\.serlo\.org/.test(url)) {
     return Response.redirect(
-      'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/'
+      'https://docs.google.com/document/d/1qsgkXWNwC-mcgroyfqrQPkZyYqn7m1aimw2gwtDTmpM/',
+      301
     )
   }
 
   if (/^https:\/\/de\.serlo\.org\/labschool/.test(url)) {
-    return Response.redirect('https://labschool.serlo.org')
+    return Response.redirect('https://labschool.serlo.org', 301)
   }
 
   if (/^https:\/\/de\.serlo\.org\/hochschule/.test(url)) {
-    return Response.redirect('https://de.serlo.org/mathe/universitaet/44323')
+    return Response.redirect(
+      'https://de.serlo.org/mathe/universitaet/44323',
+      301
+    )
   }
 
   if (/^https:\/\/de\.serlo\.org\/beitreten/.test(url)) {
     return Response.redirect(
-      'https://docs.google.com/forms/d/e/1FAIpQLSdEoyCcDVP_G_-G_u642S768e_sxz6wO6rJ3tad4Hb9z7Slwg/viewform'
+      'https://docs.google.com/forms/d/e/1FAIpQLSdEoyCcDVP_G_-G_u642S768e_sxz6wO6rJ3tad4Hb9z7Slwg/viewform',
+      301
     )
   }
 
@@ -150,13 +155,9 @@ async function serloOrgProxy(request: Request) {
 }
 
 async function blockSerloEducation(request: Request) {
-  const { url } = request
-
-  if (!/^https:\/\/(\w+\.)?serlo\.education/.test(url)) return null
-  return new Response('You may not access this page directly', {
-    status: 403,
-    statusText: 'Forbidden'
-  })
+  if (!/^https:\/\/(\w+\.)?serlo\.education/.test(request.url)) return null
+  const url = request.url.replace('serlo.education/', 'serlo.org/')
+  return Response.redirect(url, 301)
 }
 
 async function semanticFileNames(request: Request) {
