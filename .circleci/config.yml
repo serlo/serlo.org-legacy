@@ -40,6 +40,7 @@ composer_dev_install: &composer_dev_install
   command: (cd packages/public/server/dev-tools && composer install --no-interaction --dev --prefer-dist)
 
 gcloud: &gcloud
+  name: Setup Google Cloud SDK
   command: |
     sudo apt update -y
     sudo apt install -y lsb-release
@@ -50,6 +51,7 @@ gcloud: &gcloud
     echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
 
 cloudflare_secret: &cloudflare_secret
+  name: Creating Cloudflare secret
   command: |
     echo "{ \"email\": \"$CLOUDFLARE_EMAIL\", \"key\": \"$CLOUDFLARE_KEY\" }" >> packages/private/cloudflare/cloudflare.secret.json
 
@@ -174,7 +176,7 @@ jobs:
       - run:
           command: sudo npm install -g @sentry/cli --unsafe-perm
       - run:
-          command: sentry-cli info
+          command: sentry-cli --version
       - run:
           command: yarn sentry-release
 
