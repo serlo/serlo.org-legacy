@@ -71,8 +71,7 @@ function fetchPackageJSON(): Promise<{ version: string }> {
 
 function build() {
   spawnSync('yarn', ['build'], {
-    stdio: 'inherit',
-    cwd: path.join(__dirname, '..', '..')
+    stdio: 'inherit'
   })
 }
 
