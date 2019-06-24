@@ -53,6 +53,10 @@ $ sudo killall -HUP mDNSResponder
 
 ## Development
 
+### Install dependencies
+
+Run `yarn` to install the dependencies of all packages.
+
 ### Start
 
 Run `yarn start` to start everything needed to run serlo.org locally.
