@@ -172,6 +172,10 @@ jobs:
       - save_cache:
           <<: *yarn_save_cache
       - run:
+          command: |
+            sudo npm install -g @sentry/cli --unsafe-perm
+            sentry-cli --version
+      - run:
           command: yarn sentry-release
 
 workflows:
