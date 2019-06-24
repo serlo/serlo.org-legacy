@@ -162,7 +162,11 @@ jobs:
       - save_cache:
           <<: *yarn_save_cache
       - run:
-          command: yarn deploy --scope=@serlo/{athene2,editor-renderer,legacy-editor-renderer}
+          command: yarn deploy --scope=@serlo/athene2
+      - run:
+          command: yarn deploy --scope=@serlo/editor-renderer
+      - run:
+          command: yarn deploy --scope=@serlo/legacy-editor-renderer
   sentry-release:
     <<: *js
     steps:

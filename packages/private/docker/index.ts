@@ -59,6 +59,7 @@ export function publishDockerImage(options: DockerImageOptions) {
     getTags(version)
   )
   remoteTags.forEach(remoteTag => {
+    console.log('Pushing', remoteTag)
     spawnSync('docker', ['tag', `${name}:latest`, remoteTag], {
       stdio: 'inherit'
     })
