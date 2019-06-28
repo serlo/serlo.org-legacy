@@ -48,12 +48,15 @@ export function buildDockerImage({
       stdio: 'inherit'
     }
   )
-}
 
-export function publishDockerImage(options: DockerImageOptions) {
-  const { name, version } = options
-  buildDockerImage(options)
+  if (
+    !process.env.CI ||
+    !process.env.CIRCLE_BRANCH ||
+    process.env.CIRCLE_BRANCH !== 'master'
+  )
+    return
 
+  // FIXME: only push when version changed
   const remoteTags = R.map(
     tag => `eu.gcr.io/serlo-shared/${name}:${tag}`,
     getTags(version)

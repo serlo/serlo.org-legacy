@@ -1,17 +1,9 @@
-FROM node:10 as base
-ENV NODE_ENV production
-WORKDIR /usr/src/app
+FROM serlo-org-node as base
 
-FROM base as dependencies
-COPY packages/public/legacy-editor-renderer/package.json packages/public/legacy-editor-renderer/
-COPY packages/private/markdown/package.json packages/private/markdown/
-COPY package.json .
-COPY yarn.lock .
-RUN yarn --frozen-lockfile --prod
-
-FROM dependencies as release
-COPY packages/public/legacy-editor-renderer packages/public/legacy-editor-renderer
-COPY packages/private/markdown packages/private/markdown
-WORKDIR packages/public/legacy-editor-renderer
-ENTRYPOINT node .
+FROM base as release
+COPY --from=serlo-org-workspace /usr/src/app/packages/private/markdown packages/private/markdown
+COPY --from=serlo-org-workspace /usr/src/app/packages/public/kegacy-editor-renderer packages/public/editor-renderer
+COPY --from=serlo-org-workspace /usr/src/app/node_modules node_modules
+WORKDIR packages/public/editor-renderer
+ENTRYPOINT ["node", "."]
 EXPOSE 3000

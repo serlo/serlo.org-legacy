@@ -4,16 +4,8 @@
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
-    "build": "ts-node scripts/build",
-    "deploy": "ts-node scripts/deploy",
-    "sentry-release": "ts-node scripts/sentry-release",
-    "c": "docker-compose run --rm composer composer",
-    "c-dev": "docker-compose run --rm composer-dev-tools composer",
-    "prestart": "yarn c install && yarn c-dev install",
-    "start": "docker-compose up --build -d",
-    "stop": "docker-compose down",
-    "e2e": "jest",
-    "unit": "docker-compose exec php src/vendor/bin/phpunit"
+    "build:docker": "ts-node scripts/build",
+    "sentry-release": "ts-node scripts/sentry-release"
   },
   "dependencies": {},
   "devDependencies": {
