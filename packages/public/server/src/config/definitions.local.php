@@ -45,3 +45,5 @@ $recaptcha = [
 
 $smtp_options = [];
 $tracking = [];
+
+$cronjob_secret = 'secret';

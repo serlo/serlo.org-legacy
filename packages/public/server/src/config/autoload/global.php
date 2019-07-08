@@ -107,4 +107,7 @@ return [
 
     // (Ui Module),
     'tracking' => $tracking,
+
+    // Cronjobs
+    'cronjob_secret' => $cronjob_secret
 ];
