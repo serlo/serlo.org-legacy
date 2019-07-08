@@ -26,7 +26,6 @@ namespace Notification\Controller;
 use Notification\NotificationWorker;
 use Zend\Log\LoggerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\JsonModel;
 
 class WorkerController extends AbstractActionController
 {
@@ -67,11 +66,12 @@ class WorkerController extends AbstractActionController
                 try {
                     $this->notificationWorker->run();
                     $this->notificationWorker->getObjectManager()->flush();
-                    $this->logger->info('Notification worker successfully run.');
+                    $this->logger->info('Notification worker finished successfully.');
+                    $response->setStatusCode(200);
                 } catch (\Exception $e) {
                     $this->logger->err('Notification worker failed with message ' . $e->getMessage());
+                    $response->setStatusCode(500);
                 }
-                $response->setStatusCode(200);
             } else {
                 $response->setStatusCode(401);
             }

@@ -46,9 +46,6 @@ return [
                 'type' => 'literal',
                 'options' => [
                     'route' => '/notification',
-                    'defaults' => [
-                        'controller' => 'Notification\Controller\NotificationController',
-                    ],
                 ],
                 'may_terminate' => false,
                 'child_routes' => [
@@ -57,6 +54,7 @@ return [
                         'options' => [
                             'route' => '/read',
                             'defaults' => [
+                                'controller' => 'Notification\Controller\NotificationController',
                                 'action' => 'read',
                             ],
                         ],

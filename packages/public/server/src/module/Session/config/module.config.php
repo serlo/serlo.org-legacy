@@ -20,7 +20,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Session;
+
+use Session\Controller\SessionController;
 
 return [
     'service_manager' => [
@@ -28,20 +31,30 @@ return [
             'Zend\Session\SaveHandler\SaveHandlerInterface' => __NAMESPACE__ . '\Factory\SaveHandlerFactory',
         ],
     ],
-    'controllers'      => [
+    'controllers' => [
         'factories' => [
             'Session\Controller\SessionController' => __NAMESPACE__ . '\Factory\SessionControllerFactory',
         ],
     ],
-    'console'         => [
-        'router' => [
-            'routes' => [
-                'session' => [
-                    'options' => [
-                        'route'    => 'session gc',
-                        'defaults' => [
-                            'controller' => 'Session\Controller\SessionController',
-                            'action'     => 'gc',
+    'router' => [
+        'routes' => [
+            'session' => [
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/session',
+                    'defaults' => [
+                        'controller' => SessionController::class,
+                    ],
+                ],
+                'may_terminate' => false,
+                'child_routes' => [
+                    'gc' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/gc',
+                            'defaults' => [
+                                'action' => 'gc',
+                            ],
                         ],
                     ],
                 ],

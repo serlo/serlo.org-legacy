@@ -24,6 +24,7 @@
 namespace Session\Factory;
 
 use Session\Controller\SessionController;
+use Zend\Log\Logger;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Session\SessionManager;
@@ -43,6 +44,9 @@ class SessionControllerFactory implements FactoryInterface
         $sessionManager = $serviceLocator->get('Zend\Session\SessionManager');
         $config         = $sessionManager->getConfig();
         $saveHandler    = $serviceLocator->get('Zend\Session\SaveHandler\SaveHandlerInterface');
-        return new SessionController($saveHandler, $config);
+        /* @var $logger Logger */
+        $logger = $serviceLocator->get(Logger::class);
+        $secret = $serviceLocator->get('config')['cronjob_secret'];
+        return new SessionController($saveHandler, $config, $logger, $secret);
     }
 }
