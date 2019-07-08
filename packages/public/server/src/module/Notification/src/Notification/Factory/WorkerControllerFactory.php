@@ -20,16 +20,15 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+namespace Notification\Factory;
 
-namespace Session\Factory;
-
-use Session\Controller\SessionController;
+use Notification\Controller\WorkerController;
+use Notification\NotificationWorker;
 use Zend\Log\Logger;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Session\SessionManager;
 
-class SessionControllerFactory implements FactoryInterface
+class WorkerControllerFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -39,14 +38,14 @@ class SessionControllerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        /* @var $sessionManager SessionManager */
-        $sessionManager = $serviceLocator->get('Zend\Session\SessionManager');
-        $config         = $sessionManager->getConfig();
-        $saveHandler    = $serviceLocator->get('Zend\Session\SaveHandler\SaveHandlerInterface');
+        /* @var $serviceLocator ServiceLocatorInterface */
+        $serviceLocator    = $serviceLocator->getServiceLocator();
         /* @var $logger Logger */
         $logger = $serviceLocator->get(Logger::class);
+        /* @var $notificationWorker NotificationWorker */
+        $notificationWorker = $serviceLocator->get(NotificationWorker::class);
         $secret = $serviceLocator->get('config')['cronjob_secret'];
-        return new SessionController($saveHandler, $config, $logger, $secret);
+
+        return new WorkerController($logger, $notificationWorker, $secret);
     }
 }

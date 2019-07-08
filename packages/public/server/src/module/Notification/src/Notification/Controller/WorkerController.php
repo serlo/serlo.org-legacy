@@ -23,53 +23,61 @@
 
 namespace Notification\Controller;
 
-use DateTime;
 use Notification\NotificationWorker;
-use Zend\Mvc\Controller\AbstractConsoleController;
+use Zend\Log\LoggerInterface;
+use Zend\Mvc\Controller\AbstractActionController;
 
-class WorkerController extends AbstractConsoleController
+class WorkerController extends AbstractActionController
 {
-
     /**
      * @var NotificationWorker
      */
     protected $notificationWorker;
-
     /**
-     * @return NotificationWorker $notificationWorker
+     * @var LoggerInterface
      */
-    public function getNotificationWorker()
-    {
-        return $this->notificationWorker;
-    }
+    protected $logger;
+    /**
+     * @var string
+     */
+    protected $secret;
 
     /**
+     * @param LoggerInterface $logger
      * @param NotificationWorker $notificationWorker
-     * @return self
      */
-    public function setNotificationWorker(NotificationWorker $notificationWorker)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        NotificationWorker $notificationWorker,
+        string $secret
+    ) {
+        $this->logger = $logger;
         $this->notificationWorker = $notificationWorker;
+        $this->secret = $secret;
     }
 
     public function runAction()
     {
-        $output = "";
-        $output .= $this->now() . "Started\n";
-
-        try {
-            $this->getNotificationWorker()->run();
-            $this->getNotificationWorker()->getObjectManager()->flush();
-            $output .= $this->now() . "Successfully finished\n";
-        } catch (\Exception $e) {
-            $output .= $this->now() . "Failed with message: " . $e->getMessage() . "\n";
+        $response = $this->response;
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            if ($data['secret'] === $this->secret) {
+                $this->logger->info('Notification worker started.');
+                try {
+                    $this->notificationWorker->run();
+                    $this->notificationWorker->getObjectManager()->flush();
+                    $this->logger->info('Notification worker finished successfully.');
+                    $response->setStatusCode(200);
+                } catch (\Exception $e) {
+                    $this->logger->err('Notification worker failed with message ' . $e->getMessage());
+                    $response->setStatusCode(500);
+                }
+            } else {
+                $response->setStatusCode(401);
+            }
+        } else {
+            $response->setStatusCode(404);
         }
-
-        return $output;
-    }
-
-    private function now()
-    {
-        return date(DateTime::ISO8601) . ': ';
+        return $response;
     }
 }

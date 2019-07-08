@@ -23,7 +23,7 @@
 
 namespace Session\Controller;
 
-use DateTime;
+use Zend\Log\LoggerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\SaveHandler\SaveHandlerInterface;
@@ -34,39 +34,55 @@ class SessionController extends AbstractActionController
      * @var SessionConfig
      */
     protected $config;
-
     /**
      * @var SaveHandlerInterface
      */
     protected $saveHandler;
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+    /**
+     * @var string
+     */
+    protected $secret;
 
-    public function __construct(SaveHandlerInterface $saveHandler, SessionConfig $config)
-    {
+    public function __construct(
+        SaveHandlerInterface $saveHandler,
+        SessionConfig $config,
+        LoggerInterface $logger,
+        string $secret
+    ) {
         $this->saveHandler = $saveHandler;
         $this->config = $config;
+        $this->logger = $logger;
+        $this->secret = $secret;
     }
 
     public function gcAction()
     {
-        $lifetime = $this->config->getRememberMeSeconds();
-        $this->saveHandler->gc($lifetime);
-        return 'success';
-        $output = "";
-        $output .= $this->now() . "Started\n";
-
-        try {
-            $lifetime = $this->config->getRememberMeSeconds();
-            $this->saveHandler->gc($lifetime);
-            $output .= $this->now() . "Successfully finished\n";
-        } catch (\Exception $e) {
-            $output .= $this->now() . "Failed with message: " . $e->getMessage() . "\n";
+        $response = $this->response;
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            if ($data['secret'] === $this->secret) {
+                $this->logger->info('Session worker started.');
+                $lifetime = $this->config->getRememberMeSeconds();
+                $this->saveHandler->gc($lifetime);
+                try {
+                    $lifetime = $this->config->getRememberMeSeconds();
+                    $this->saveHandler->gc($lifetime);
+                    $this->logger->info('Session worker finished successfully.');
+                    $response->setStatusCode(200);
+                } catch (\Exception $e) {
+                    $this->logger->err('Session worker failed with message ' . $e->getMessage());
+                    $response->setStatusCode(500);
+                }
+            } else {
+                $response->setStatusCode(401);
+            }
+        } else {
+            $response->setStatusCode(404);
         }
-
-        return $output;
-    }
-
-    private function now()
-    {
-        return date(DateTime::ISO8601) . ': ';
+        return $response;
     }
 }

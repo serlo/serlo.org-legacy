@@ -215,23 +215,23 @@ workflows:
             - js-test
             - php-lint
             - php-test
-      - deploy-serlo-containers:
-          context: serlo-containers
-          filters:
-            branches:
-              only: master
-          requires:
-            - build
-            - js-lint
-            - js-test
-            - php-lint
-            - php-test
-      - sentry-release:
-          context: sentry
-          filters:
-            branches:
-              only: master
-          requires:
-            - deploy-cloudflare
-            - deploy-serlo-assets
-            - deploy-serlo-containers
+#      - deploy-serlo-containers:
+#          context: serlo-containers
+#          filters:
+#            branches:
+#              only: master
+#          requires:
+#            - build
+#            - js-lint
+#            - js-test
+#            - php-lint
+#            - php-test
+#      - sentry-release:
+#          context: sentry
+#          filters:
+#            branches:
+#              only: master
+#          requires:
+#            - deploy-cloudflare
+#            - deploy-serlo-assets
+#            - deploy-serlo-containers
