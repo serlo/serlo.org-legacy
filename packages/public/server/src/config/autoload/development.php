@@ -22,11 +22,6 @@
  */
 
 return [
-    // (Mailman Module)
-    'mailmock' => [
-        'active' => true,
-    ],
-
     // (Ui Module)
     'view_manager' => [
         'strategies' => [

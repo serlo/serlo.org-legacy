@@ -101,9 +101,13 @@ return [
         'password' => $db['password'],
         'database' => $db['database'],
     ],
-
     // SMTP settings (Mailman Module)
     'smtp_options' => $smtp_options,
+
+    // (Mailman Module)
+    'mailmock' => [
+        'active' => $mock_email,
+    ],
 
     // (Ui Module),
     'tracking' => $tracking,
