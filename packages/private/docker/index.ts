@@ -55,7 +55,7 @@ export function publishDockerImage(options: DockerImageOptions) {
   buildDockerImage(options)
 
   const remoteTags = R.map(
-    tag => `eu.gcr.io/serlo-containers/${name}:${tag}`,
+    tag => `eu.gcr.io/serlo-shared/${name}:${tag}`,
     getTags(version)
   )
   remoteTags.forEach(remoteTag => {
