@@ -80,11 +80,10 @@ class HtmlRenderService implements RenderServiceInterface
 
         try {
             $rendered = json_decode($result, true)['html'];
+            $this->storage->setItem($key, $rendered);
         } catch (Exception $e) {
             throw new Exception\RuntimeException(sprintf('Broken pipe'));
         }
-
-        $this->storage->setItem($key, $rendered);
 
         return $rendered;
     }

@@ -30,6 +30,7 @@ export async function handleRequest(request: Request) {
     (await redirects(request)) ||
     (await serloOrgProxy(request)) ||
     (await blockSerloEducation(request)) ||
+    (await blockSerloDev(request)) ||
     (await semanticFileNames(request)) ||
     (await packages(request)) ||
     (await fetch(request))
@@ -156,6 +157,12 @@ async function serloOrgProxy(request: Request) {
 async function blockSerloEducation(request: Request) {
   if (!/^https:\/\/(\w+\.)?serlo\.education/.test(request.url)) return null
   const url = request.url.replace('serlo.education/', 'serlo.org/')
+  return Response.redirect(url, 301)
+}
+
+async function blockSerloDev(request: Request) {
+  if (!/^https:\/\/(\w+\.)?serlo\.dev/.test(request.url)) return null
+  const url = request.url.replace('serlo.dev/', 'serlo.org/')
   return Response.redirect(url, 301)
 }
 
