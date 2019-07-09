@@ -17,7 +17,7 @@ RUN cat "$PHP_INI_DIR/php.ini-custom" >> "$PHP_INI_DIR/php.ini-development"
 RUN cat "$PHP_INI_DIR/php.ini-custom" >> "$PHP_INI_DIR/php.ini-production"
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
-RUN mkdir -p src/data src/logs
+RUN mkdir -p src/data/DoctrineORMModule/Proxy src/logs
 RUN chmod 777 -R src/data src/logs
 
 FROM composer:1.8 as dependencies
