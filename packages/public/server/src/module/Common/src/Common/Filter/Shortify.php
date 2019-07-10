@@ -79,7 +79,11 @@ class Shortify implements FilterInterface
                 $words .= implode('|', $lang);
             }
 
-            self::$regex = '@[\W_]+(' . $words . ')[\W_]+@isU';
+            // non word character (lookbehind)
+            // followed by one of the stopwords
+            // followed by a non word character (lookahead):
+            // ignoring Case, matching Unicode characters
+            self::$regex = '@(?<=[\W_])(' . $words . ')(?=[\W_])@iu';
         }
         return self::$regex;
     }

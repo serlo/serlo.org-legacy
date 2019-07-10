@@ -347,7 +347,11 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
 
     public function setPosition($position)
     {
-        $this->weight = $position;
+        if (!$position) {
+            $this->weight = 0;
+        } else {
+            $this->weight = $position;
+        }
     }
 
     protected function addEntities(EntityInterface $entity)

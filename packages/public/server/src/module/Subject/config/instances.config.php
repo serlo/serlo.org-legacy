@@ -328,21 +328,6 @@ return [
                         'applet',
                     ],
                 ],
-                'test area' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
-                        'article',
-                        'text-exercise',
-                        'video',
-                        'course',
-                        'text-exercise-group',
-                        'math-puzzle',
-                        'applet',
-                    ],
-                ],
             ],
             'hindi' => [
                 'community' => [
@@ -360,7 +345,9 @@ return [
                         'applet',
                     ],
                 ],
-                'test area' => [
+            ],
+            'tamil' => [
+                'community' => [
                     'allowed_taxonomies' => [
                         'topic',
                         'locale',
@@ -372,6 +359,34 @@ return [
                         'course',
                         'text-exercise-group',
                         'math-puzzle',
+                        'applet',
+                    ],
+                ],
+                'இலக்கணம்' => [ // grammar
+                    'allowed_taxonomies' => [
+                        'topic',
+                        'locale',
+                    ],
+                    'allowed_entities'   => [
+                        'article',
+                        'text-exercise',
+                        'video',
+                        'course',
+                        'text-exercise-group',
+                        'applet',
+                    ],
+                ],
+                'வரலாறு' => [ // history
+                    'allowed_taxonomies' => [
+                        'topic',
+                        'locale',
+                    ],
+                    'allowed_entities'   => [
+                        'article',
+                        'text-exercise',
+                        'video',
+                        'course',
+                        'text-exercise-group',
                         'applet',
                     ],
                 ],
