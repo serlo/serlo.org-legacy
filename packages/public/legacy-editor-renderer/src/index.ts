@@ -33,16 +33,17 @@ app.use(bodyParser.json())
 app.post('/', (req: { body: { state: string } }, res) => {
   render(req.body.state)
     .then(html => {
+      console.log('request successful')
       res.status(200).send({ html })
     })
     .catch(err => {
-      console.log(err)
+      console.log('request failed', err)
       res.sendStatus(500)
     })
 })
 
 app.get('/', (_req, res) => {
-  res.sendStatus(200)
+  res.status(200).send(`legacy-editor-renderer@${version}`)
 })
 
 app.listen(3000, () => {

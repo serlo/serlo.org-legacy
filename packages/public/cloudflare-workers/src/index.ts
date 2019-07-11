@@ -119,9 +119,9 @@ async function serloOrgProxy(request: Request) {
   const { backend, createCookie } = chooseBackend()
 
   const subdomain = match[1]
-  let response = await fetch(request, ({
-    resolveOverride: `${subdomain}.${backend}`
-  } as unknown) as RequestInit)
+  const url = new URL(request.url)
+  url.hostname = `${subdomain}.${backend}`
+  let response = await fetch((url as unknown) as RequestInfo, request)
   response = new Response(response.body, response)
   response.headers.set('x-backend', backend)
   if (createCookie) {
