@@ -101,6 +101,7 @@ class LicenseController extends AbstractActionController
         } else {
             $this->referer()->store();
         }
+        $this->layout('athene2-editor');
 
         return $view;
     }
