@@ -39,11 +39,13 @@ export async function render(state: string): Promise<string> {
 
   return rows
     .map(row => {
-      const innerHtml = row.map(column => {
-        return `<div class="c${column.col}">${converter.makeHtml(
-          column.content
-        )}</div>`
-      }).join('')
+      const innerHtml = row
+        .map(column => {
+          return `<div class="c${column.col}">${converter.makeHtml(
+            column.content
+          )}</div>`
+        })
+        .join('')
 
       return `<div class="r">${innerHtml}</div>`
     })
