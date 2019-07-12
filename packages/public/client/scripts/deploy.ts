@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { publishPackage } from '@serlo/cloudflare'
+import { publishPackage, shouldDeployPackage } from '@serlo/cloudflare'
 import { uploadFolder } from '@serlo/gcloud'
 import { spawnSync } from 'child_process'
 import * as fs from 'fs'
@@ -48,10 +48,19 @@ async function run() {
   try {
     signale.info('Deploying athene2-assets')
 
-    const { version } = await fetchPackageJSON()
-
     signale.pending(`Bundling…`)
     build()
+
+    const { version } = await fetchPackageJSON()
+
+    const shouldDeploy = await shouldDeployPackage({
+      name: 'athene2-assets',
+      version
+    })
+    if (!shouldDeploy) {
+      signale.success('Skipping deployment')
+      return
+    }
 
     signale.pending(`Uploading bundle…`)
     uploadBundle(version)

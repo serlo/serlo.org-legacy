@@ -5,7 +5,6 @@
   "author": "Serlo Education e.V.",
   "scripts": {
     "build:docker": "ts-node scripts/build",
-    "deploy": "cross-env DEPLOY=true yarn build:docker",
     "sentry-release": "ts-node scripts/sentry-release"
   },
   "dependencies": {},

@@ -53,7 +53,6 @@ export function buildDockerImage({
     process.env.CI &&
     process.env.CIRCLE_BRANCH &&
     process.env.CIRCLE_BRANCH === 'master'
-
   if (!isCi && process.env.DEPLOY !== 'true') {
     console.log('Skipping deployment')
     return
