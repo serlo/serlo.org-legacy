@@ -62,6 +62,8 @@ jobs:
     <<: *js
     steps:
       - checkout
+      - run:
+          <<: *gcloud
       - setup_remote_docker
       - restore_cache:
           <<: *yarn_restore_cache
