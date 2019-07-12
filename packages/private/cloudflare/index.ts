@@ -93,7 +93,7 @@ export async function shouldDeployPackage({
       }
     )
   })
-  return typeof res === 'string' && res === `${name}@${version}`
+  return typeof res !== 'string' || res !== `${name}@${version}`
 }
 
 export async function publishPackage({
