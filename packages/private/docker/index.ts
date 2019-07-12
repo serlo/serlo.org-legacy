@@ -49,18 +49,41 @@ export function buildDockerImage({
     }
   )
 
-  if (
-    !process.env.CI ||
-    !process.env.CIRCLE_BRANCH ||
-    process.env.CIRCLE_BRANCH !== 'master'
-  )
-    return
+  const isCi =
+    process.env.CI &&
+    process.env.CIRCLE_BRANCH &&
+    process.env.CIRCLE_BRANCH === 'master'
 
-  // FIXME: only push when version changed
-  const remoteTags = R.map(
-    tag => `eu.gcr.io/serlo-shared/${name}:${tag}`,
-    getTags(version)
+  if (!isCi && process.env.DEPLOY !== 'true') {
+    console.log('Skipping deployment')
+    return
+  }
+
+  const remoteName = `eu.gcr.io/serlo-shared/${name}`
+  const result = spawnSync(
+    'gcloud',
+    [
+      'container',
+      'images',
+      'list-tags',
+      remoteName,
+      '--filter',
+      `tags=${version}`,
+      '--format',
+      'json'
+    ],
+    { stdio: 'pipe' }
   )
+  const images = JSON.parse(String(result.stdout))
+
+  if (images.length > 0) {
+    console.log(
+      `Skipping deployment: ${remoteName}:${version} already present in registry`
+    )
+    return
+  }
+
+  const remoteTags = R.map(tag => `${remoteName}:${tag}`, getTags(version))
   remoteTags.forEach(remoteTag => {
     console.log('Pushing', remoteTag)
     spawnSync('docker', ['tag', `${name}:latest`, remoteTag], {

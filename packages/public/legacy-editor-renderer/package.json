@@ -6,6 +6,7 @@
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
     "build:docker": "ts-node scripts/build",
+    "deploy": "cross-env DEPLOY=true yarn build:docker",
     "start": "nodemon --watch src --exec \"ts-node src/index.ts\""
   },
   "dependencies": {

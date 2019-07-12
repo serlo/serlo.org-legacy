@@ -165,7 +165,7 @@ workflows:
   workflow:
     jobs:
       - build:
-          context: serlo-containers
+          context: serlo-shared
       - php-lint
       - php-test
       - deploy-cloudflare:
