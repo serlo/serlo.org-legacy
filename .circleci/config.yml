@@ -49,6 +49,7 @@ gcloud: &gcloud
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     sudo apt update -y && sudo apt install google-cloud-sdk -y
     echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+    gcloud auth configure-docker --quiet
 
 cloudflare_secret: &cloudflare_secret
   name: Creating Cloudflare secret
