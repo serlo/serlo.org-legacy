@@ -43,7 +43,7 @@ export async function render(state: string): Promise<string> {
         return `<div class="c${column.col}">${converter.makeHtml(
           column.content
         )}</div>`
-      })
+      }).join('')
 
       return `<div class="r">${innerHtml}</div>`
     })
