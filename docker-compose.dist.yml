@@ -96,6 +96,6 @@ services:
   #phpmyadmin:
   #  image: phpmyadmin/phpmyadmin
   #  links:
-  #    - mysqld:db
+  #    - mysql:db
   #  ports:
   #    - '8080:80'

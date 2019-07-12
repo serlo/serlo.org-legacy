@@ -113,7 +113,7 @@ async function serloOrgProxy(request: Request) {
     return res
   }
 
-  const match = request.url.match(/^https:\/\/(de|en|es|hi)\.serlo\.org/)
+  const match = request.url.match(/^https:\/\/(de|en|es|hi|ta)\.serlo\.org/)
   if (!match) return null
 
   const { backend, createCookie } = chooseBackend()
