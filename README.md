@@ -84,8 +84,8 @@ of the following packages:
 
 ### Other commands
 
-- `yarn build:private` builds our private packages
-- `yarn build:public` builds our public packages (only needed for deployment)
+- `yarn build` builds our packages (only needed for deployment)
+- `yarn build:docker` builds our docker images (only needed for deployment)
 - `yarn format:js` formats all non-PHP source code
 - `yarn format:php` formats all PHP source code (requires `yarn start` beforehand)
 - `yarn lint:js` lints all non-PHP source code

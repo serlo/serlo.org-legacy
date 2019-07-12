@@ -46,6 +46,6 @@ app.get('/', (_req, res) => {
   res.status(200).send(`legacy-editor-renderer@${version}`)
 })
 
-app.listen(3000, () => {
+app.listen(process.env.LEGACY_EDITOR_RENDERER_PORT || 3000, () => {
   console.log(`legacy-editor-renderer@${version} listening...`)
 })

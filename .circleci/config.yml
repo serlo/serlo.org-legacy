@@ -49,6 +49,7 @@ gcloud: &gcloud
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     sudo apt update -y && sudo apt install google-cloud-sdk -y
     echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+    gcloud auth configure-docker --quiet
 
 cloudflare_secret: &cloudflare_secret
   name: Creating Cloudflare secret
@@ -69,31 +70,7 @@ jobs:
       - save_cache:
           <<: *yarn_save_cache
       - run:
-          command: yarn build
-  js-lint:
-    <<: *js
-    steps:
-      - checkout
-      - restore_cache:
-          <<: *yarn_restore_cache
-      - run:
-          <<: *yarn_install
-      - save_cache:
-          <<: *yarn_save_cache
-      - run:
-          command: yarn lint:js
-  js-test:
-    <<: *js
-    steps:
-      - checkout
-      - restore_cache:
-          <<: *yarn_restore_cache
-      - run:
-          <<: *yarn_install
-      - save_cache:
-          <<: *yarn_save_cache
-      - run:
-          command: yarn test:js
+          command: yarn build:docker
   php-lint:
     <<: *php
     steps:
@@ -188,9 +165,8 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - build
-      - js-lint
-      - js-test
+      - build:
+          context: serlo-shared
       - php-lint
       - php-test
       - deploy-cloudflare:
@@ -200,8 +176,6 @@ workflows:
               only: master
           requires:
             - build
-            - js-lint
-            - js-test
             - php-lint
             - php-test
       - deploy-serlo-assets:
@@ -211,21 +185,8 @@ workflows:
               only: master
           requires:
             - build
-            - js-lint
-            - js-test
             - php-lint
             - php-test
-#      - deploy-serlo-containers:
-#          context: serlo-containers
-#          filters:
-#            branches:
-#              only: master
-#          requires:
-#            - build
-#            - js-lint
-#            - js-test
-#            - php-lint
-#            - php-test
 #      - sentry-release:
 #          context: sentry
 #          filters:
@@ -234,4 +195,3 @@ workflows:
 #          requires:
 #            - deploy-cloudflare
 #            - deploy-serlo-assets
-#            - deploy-serlo-containers

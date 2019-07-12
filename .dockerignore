@@ -1,1 +1,5 @@
+**/.DS_store
+**/*.secret.*
 **/node_modules/*
+packages/private/*/dist
+packages/public/*/dist

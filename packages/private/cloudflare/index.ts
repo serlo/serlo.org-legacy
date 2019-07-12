@@ -59,6 +59,43 @@ export async function uploadWorker({
   })
 }
 
+export async function shouldDeployPackage({
+  name,
+  version
+}: {
+  name: string
+  version: string
+}) {
+  const isCi =
+    process.env.CI &&
+    process.env.CIRCLE_BRANCH &&
+    process.env.CIRCLE_BRANCH === 'master'
+  if (!isCi && process.env.DEPLOY !== 'true') {
+    return false
+  }
+
+  const res = await new Promise((resolve, reject) => {
+    request.get(
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${name}@${version}`,
+      {
+        headers: {
+          'X-Auth-Email': secret.email,
+          'X-Auth-Key': secret.key
+        },
+        body: `${name}@${version}`
+      },
+      (error, res) => {
+        if (error) {
+          reject(error)
+          return
+        }
+        resolve(res.body)
+      }
+    )
+  })
+  return typeof res === 'string' && res === `${name}@${version}`
+}
+
 export async function publishPackage({
   name,
   version

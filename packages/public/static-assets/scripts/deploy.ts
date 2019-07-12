@@ -24,7 +24,7 @@ import * as path from 'path'
 import { Signale } from 'signale'
 import * as util from 'util'
 import * as fs from 'fs'
-import { publishPackage } from '@serlo/cloudflare'
+import { publishPackage, shouldDeployPackage } from '@serlo/cloudflare'
 
 const root = path.join(__dirname, '..')
 const sourcePath = path.join(__dirname, '..', 'src')
@@ -48,6 +48,15 @@ async function run() {
     signale.info('Deploying static assets')
 
     const { version } = await fetchPackageJSON()
+
+    const shouldDeploy = await shouldDeployPackage({
+      name: 'static-assets',
+      version
+    })
+    if (!shouldDeploy) {
+      signale.success('Skipping deployment')
+      return
+    }
 
     signale.pending(`Uploading static assets…`)
     upload(version)

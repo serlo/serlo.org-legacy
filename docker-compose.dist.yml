@@ -11,39 +11,30 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=secret
 
-  legacy-editor-renderer:
+  workspace:
     build:
       context: .
-      dockerfile: packages/public/legacy-editor-renderer/Dockerfile
+      dockerfile: docker/workspace/Dockerfile
       target: base
-    entrypoint: npx lerna run --stream --scope @serlo/legacy-editor-renderer start
+    entrypoint: npx lerna run --parallel start
+    ports:
+      - '8081:8081'
+      - '8082:8082'
     volumes:
       # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
+      - ./__mocks__:/usr/src/app/__mocks__
+      - ./packages:/usr/src/app/packages
+      - ./.prettierignore:/usr/src/app/prettierignore
       - ./babel.config.js:/usr/src/app/babel.config.js
+      - ./jest.config.js:/usr/src/app/jest.config.js
       - ./lerna.json:/usr/src/app/lerna.json
       - ./package.json:/usr/src/app/package.json
+      - ./prettier.config.js:/usr/src/app/prettier.config.js
       - ./tsconfig.json:/usr/src/app/tsconfig.json
-      - ./node_modules:/usr/src/app/node_modules
-      - ./packages/private/markdown:/usr/src/app/packages/private/markdown
-      - ./packages/public/legacy-editor-renderer:/usr/src/app/packages/public/legacy-editor-renderer
-
-  editor-renderer:
-    build:
-      context: .
-      dockerfile: packages/public/editor-renderer/Dockerfile
-      target: base
-    entrypoint: npx lerna run --stream --scope @serlo/editor-renderer start
-    volumes:
-      # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
-      - ./babel.config.js:/usr/src/app/babel.config.js
-      - ./lerna.json:/usr/src/app/lerna.json
-      - ./package.json:/usr/src/app/package.json
-      - ./tsconfig.json:/usr/src/app/tsconfig.json
-      - ./node_modules:/usr/src/app/node_modules
-      - ./packages/private/editor-helpers:/usr/src/app/packages/private/editor-helpers
-      - ./packages/private/legacy-editor-to-editor:/usr/src/app/packages/private/legacy-editor-to-editor
-      - ./packages/private/markdown:/usr/src/app/packages/private/markdown
-      - ./packages/public/editor-renderer:/usr/src/app/packages/public/editor-renderer
+      - ./yarn.lock:/usr/src/app/yarn.lock
+    environment:
+      - LEGACY_EDITOR_RENDERER_PORT=3000
+      - EDITOR_RENDERER_PORT=3001
 
   server-composer:
     image: composer:1.8

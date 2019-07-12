@@ -4,7 +4,8 @@
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "cross-env NODE_ENV=production babel src --out-dir dist --root-mode upward --source-maps"
+    "build": "cross-env NODE_ENV=production babel src --out-dir dist --root-mode upward --source-maps",
+    "start": "nodemon --watch src --exec \"yarn build\""
   },
   "dependencies": {
     "showdown": "^1.0.0"
