@@ -133,4 +133,9 @@ interface UserInterface extends UuidInterface, IdentityInterface
      * @return string
      */
     public function getDescription();
+
+    /**
+     * @return self
+     */
+    public function updateLoginData();
 }
