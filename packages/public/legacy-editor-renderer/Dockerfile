@@ -2,7 +2,7 @@ FROM serlo-org-node as base
 
 FROM base as release
 COPY --from=serlo-org-workspace /usr/src/app/packages/private/markdown packages/private/markdown
-COPY --from=serlo-org-workspace /usr/src/app/packages/public/kegacy-editor-renderer packages/public/editor-renderer
+COPY --from=serlo-org-workspace /usr/src/app/packages/public/legacy-editor-renderer packages/public/editor-renderer
 COPY --from=serlo-org-workspace /usr/src/app/node_modules node_modules
 WORKDIR packages/public/editor-renderer
 ENTRYPOINT ["node", "."]
