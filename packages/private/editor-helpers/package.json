@@ -8,7 +8,7 @@
     "build": "npm-run-all build:*",
     "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts\" --out-dir dist --root-mode upward --source-maps",
     "build:tsc": "tsc --build src",
-    "start": "nodemon --watch src --exec \"yarn build\""
+    "start": "nodemon --legacy-watch --watch src --exec \"yarn build\""
   },
   "dependencies": {
     "base-64": "^0.1.0",
