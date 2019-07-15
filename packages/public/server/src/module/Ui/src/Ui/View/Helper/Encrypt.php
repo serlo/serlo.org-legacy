@@ -28,25 +28,22 @@ use Zend\View\Helper\AbstractHelper;
 class Encrypt extends AbstractHelper
 {
     protected $key = 'iuLG8vrTq48aoK7G';
+    protected $method = 'aes-256-cbc';
 
     public function __invoke($string)
     {
         return base64_encode(
-            mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($this->key), $string, MCRYPT_MODE_CBC, md5(md5($this->key)))
+            openssl_encrypt($string, $this->method, md5($this->key), 0, $this->getIv())
         );
     }
 
     public function decrypt($encrypted)
     {
-        return rtrim(
-            mcrypt_decrypt(
-                MCRYPT_RIJNDAEL_256,
-                md5($this->key),
-                base64_decode($encrypted),
-                MCRYPT_MODE_CBC,
-                md5(md5($this->key))
-            ),
-            "\0"
-        );
+        return openssl_decrypt(base64_decode($encrypted), $this->method, md5($this->key), 0, $this->getIv());
+    }
+
+    private function getIv()
+    {
+        return substr(md5(md5($this->key)), 0, openssl_cipher_iv_length($this->method));
     }
 }
