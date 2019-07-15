@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Markdown\View\Helper;
 
 use Markdown\Exception\RuntimeException;
@@ -45,19 +46,11 @@ class MarkdownHelper extends AbstractHelper
 
     /**
      * @param string $content
-     * @param bool   $catch
      * @return string
      */
-    public function toHtml($content, $catch = true)
+    public function toHtml($content)
     {
-        if ($catch) {
-            try {
-                return $this->getRenderService()->render($content);
-            } catch (RuntimeException $e) {
-                return htmlspecialchars($content);
-            }
-        } else {
-            return $this->getRenderService()->render($content);
-        }
+        $json = json_decode($content, true);
+        return ($json === null) ? htmlspecialchars($content) : $this->getRenderService()->render($content);
     }
 }
