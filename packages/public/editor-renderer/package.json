@@ -1,6 +1,6 @@
 {
   "name": "@serlo/editor-renderer",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
