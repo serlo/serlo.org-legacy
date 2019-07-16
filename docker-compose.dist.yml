@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: docker/workspace/Dockerfile
       target: base
-    entrypoint: npx lerna run --parallel start
+    entrypoint: /usr/src/app/dev.sh
     ports:
       - '8081:8081'
       - '8082:8082'
