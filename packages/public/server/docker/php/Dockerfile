@@ -1,7 +1,7 @@
 FROM php:7.0.33-fpm as base
 RUN apt-get update -y
 RUN apt-get install -y gettext locales libicu-dev
-RUN docker-php-ext-install pdo_mysql mysqli gettext
+RUN docker-php-ext-install pdo_mysql mysqli gettext intl
 RUN pecl channel-update pecl.php.net
 RUN yes no | pecl install apcu_bc
 RUN sed -ie 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
