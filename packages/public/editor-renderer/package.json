@@ -5,7 +5,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
-    "build:docker": "ts-node scripts/build",
+    "deploy:image": "ts-node scripts/deploy",
     "start": "nodemon --legacy-watch --watch src --exec \"ts-node src/index.ts\""
   },
   "dependencies": {
@@ -22,6 +22,8 @@
   },
   "devDependencies": {
     "@serlo/docker": "^0.0.0",
+    "@serlo/node-image": "^0.0.0",
+    "@serlo/workspace-image": "^0.0.0",
     "@types/express": "^4.0.0",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^16.0.0",

@@ -22,15 +22,18 @@
 import { spawnSync } from 'child_process'
 import * as path from 'path'
 
-export function uploadFolder({
-  bucket,
+const bucket = 'packages.serlo.org'
+
+export function uploadPackage({
   source,
-  target
+  name,
+  version
 }: {
-  bucket: string
   source: string
-  target: string
+  name: string
+  version: string
 }) {
+  const target = `${name}@${version}`
   const b = `gs://${bucket}`
   const dest = `${b}/${trimSlashes(target)}/`
 

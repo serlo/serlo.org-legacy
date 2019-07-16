@@ -20,81 +20,59 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { publishPackage, shouldDeployPackage } from '@serlo/cloudflare'
-import { uploadFolder } from '@serlo/gcloud'
-import { spawnSync } from 'child_process'
+import { uploadPackage } from '@serlo/gcloud'
 import * as fs from 'fs'
 import * as path from 'path'
 import { Signale } from 'signale'
 import * as util from 'util'
 
-const root = path.join(__dirname, '..')
-const distPath = path.join(__dirname, '..', 'dist')
-
-const gcloudStorageOptions = {
-  bucket: 'packages.serlo.org'
-}
-
-const packageJsonPath = path.join(root, 'package.json')
-
-const fsOptions = { encoding: 'utf-8' }
-
 const readFile = util.promisify(fs.readFile)
 
+const root = path.join(__dirname, '..')
+const distPath = path.join(__dirname, '..', 'dist')
+const packageJsonPath = path.join(root, 'package.json')
+const fsOptions = { encoding: 'utf-8' }
 const signale = new Signale({ interactive: true })
 
 run().then(() => {})
 
 async function run() {
   try {
-    signale.info('Deploying athene2-assets')
-
-    signale.pending(`Bundling…`)
-    build()
+    const name = 'athene2-assets'
 
     const { version } = await fetchPackageJSON()
 
     const shouldDeploy = await shouldDeployPackage({
-      name: 'athene2-assets',
+      name,
       version
     })
     if (!shouldDeploy) {
-      signale.success('Skipping deployment')
+      signale.info(`Skipping deployment of ${name}@${version}`)
       return
     }
 
-    signale.pending(`Uploading bundle…`)
-    uploadBundle(version)
+    signale.info(`Deploying ${name}@${version}`)
 
-    signale.pending(`Publishing package…`)
-    await publish(version)
+    signale.pending('Uploading package…')
+    uploadPackage({
+      source: distPath,
+      name,
+      version
+    })
 
-    signale.success(`Successfully deployed athene2-assets@${version}`)
+    signale.pending('Publishing package…')
+    await publishPackage({
+      name,
+      version
+    })
+
+    signale.success(`Successfully deployed ${name}@${version}`)
   } catch (e) {
-    signale.fatal(e.message)
+    signale.fatal(e)
+    throw e
   }
 }
 
 function fetchPackageJSON(): Promise<{ version: string }> {
   return readFile(packageJsonPath, fsOptions).then(JSON.parse)
-}
-
-function build() {
-  spawnSync('yarn', ['build'], {
-    stdio: 'inherit'
-  })
-}
-
-function uploadBundle(version: string) {
-  uploadFolder({
-    bucket: gcloudStorageOptions.bucket,
-    source: distPath,
-    target: `athene2-assets@${version}`
-  })
-}
-
-async function publish(version: string) {
-  await publishPackage({
-    name: 'athene2-assets',
-    version
-  })
 }
