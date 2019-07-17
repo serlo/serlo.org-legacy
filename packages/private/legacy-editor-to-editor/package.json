@@ -4,8 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "cross-env NODE_ENV=production babel src --out-dir dist --root-mode upward --source-maps",
-    "start": "nodemon --legacy-watch --watch src --exec \"yarn build\""
+    "build": "cross-env NODE_ENV=production babel src --out-dir dist --root-mode upward --source-maps"
   },
   "dependencies": {
     "@serlo/editor": "^0.5.0",

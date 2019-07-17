@@ -46,6 +46,6 @@ app.get('/', (_req, res) => {
   res.status(200).send(`editor-renderer@${version}`)
 })
 
-app.listen(process.env.EDITOR_RENDERER_PORT || 3000, () => {
+app.listen(3000, () => {
   console.log(`editor-renderer@${version} listening...`)
 })

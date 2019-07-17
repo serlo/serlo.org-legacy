@@ -3,8 +3,7 @@
   "version": "1.1.0",
   "scripts": {
     "predeploy:package": "find . -name '.DS_Store' -type f -delete",
-    "deploy:package": "ts-node scripts/deploy",
-    "start": "serve --listen 8082 src"
+    "deploy:package": "ts-node scripts/deploy"
   },
   "devDependencies": {
     "@serlo/gcloud": "^0.0.0",

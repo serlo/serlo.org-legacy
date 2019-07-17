@@ -6,7 +6,7 @@
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
     "deploy:image": "ts-node scripts/deploy",
-    "start": "nodemon --legacy-watch --watch src --exec \"ts-node src/index.ts\""
+    "start": "nodemon --watch src --exec \"ts-node src/index.ts\""
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
