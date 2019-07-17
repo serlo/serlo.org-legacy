@@ -1,0 +1,12 @@
+{
+  "name": "@serlo/hydra",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy:image": "ts-node scripts/deploy"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@serlo/docker": "^0.0.0"
+  },
+  "private": true
+}

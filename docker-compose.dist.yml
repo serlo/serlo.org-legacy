@@ -30,7 +30,9 @@ services:
       - node
 
   hydra:
-    image: oryd/hydra:v1.0.0
+    build:
+      context: .
+      dockerfile: packages/public/hydra/Dockerfile
     ports:
       - '4444:4444'
       - '4445:4445'
@@ -44,7 +46,6 @@ services:
       - DSN=memory
       - SECRETS_SYSTEM=youReallyNeedToChangeThis
       - OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=youReallyNeedToChangeThis
-      - OIDC_SUBJECT_IDENTIFIERS_ENABLED=public,pairwise
 
   editor-renderer:
     build:

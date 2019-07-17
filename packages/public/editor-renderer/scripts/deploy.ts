@@ -31,7 +31,7 @@ const fsOptions = { encoding: 'utf-8' }
 
 const readFile = util.promisify(fs.readFile)
 
-run()
+run().then(() => {})
 
 async function run() {
   const { version } = await fetchPackageJSON()

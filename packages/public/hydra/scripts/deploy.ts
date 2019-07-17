@@ -36,10 +36,10 @@ run().then(() => {})
 async function run() {
   const { version } = await fetchPackageJSON()
   buildDockerImage({
-    name: 'legacy-editor-renderer',
+    name: 'hydra',
     version,
     Dockerfile: path.join(root, 'Dockerfile'),
-    context: '../../..'
+    context: '.'
   })
 }
 
