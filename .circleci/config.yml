@@ -58,13 +58,10 @@ cloudflare_secret: &cloudflare_secret
 
 version: 2.1
 jobs:
-  build:
+  js:
     <<: *js
     steps:
       - checkout
-      - run:
-          <<: *gcloud
-      - setup_remote_docker
       - restore_cache:
           <<: *yarn_restore_cache
       - run:
@@ -72,7 +69,9 @@ jobs:
       - save_cache:
           <<: *yarn_save_cache
       - run:
-          command: yarn build:docker
+          command: yarn lint:js
+      - run:
+          command: yarn test:js
   php-lint:
     <<: *php
     steps:
@@ -110,8 +109,23 @@ jobs:
       - run:
           <<: *cloudflare_secret
       - run:
-          command: yarn deploy --scope=@serlo/cloudflare-workers
-  deploy-serlo-assets:
+          command: yarn deploy:cloudflare
+  deploy-images:
+    <<: *js
+    steps:
+      - checkout
+      - run:
+          <<: *gcloud
+      - setup_remote_docker
+      - restore_cache:
+          <<: *yarn_restore_cache
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          <<: *yarn_save_cache
+      - run:
+          command: yarn deploy:images
+  deploy-packages:
     <<: *js
     steps:
       - checkout
@@ -126,7 +140,7 @@ jobs:
       - save_cache:
           <<: *yarn_save_cache
       - run:
-          command: yarn deploy --scope=@serlo/{athene2-assets,static-assets}
+          command: yarn deploy:packages
   deploy-serlo-containers:
     <<: *js
     steps:
@@ -167,8 +181,7 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - build:
-          context: serlo-shared
+      - js
       - php-lint
       - php-test
       - deploy-cloudflare:
@@ -177,23 +190,14 @@ workflows:
             branches:
               only: master
           requires:
-            - build
-            - php-lint
-            - php-test
-      - deploy-serlo-assets:
-          context: serlo-assets
-          filters:
-            branches:
-              only: master
+            - js
+      - deploy-images:
+          context: serlo-shared
           requires:
-            - build
+            - js
             - php-lint
             - php-test
-#      - sentry-release:
-#          context: sentry
-#          filters:
-#            branches:
-#              only: master
-#          requires:
-#            - deploy-cloudflare
-#            - deploy-serlo-assets
+      - deploy-packages:
+          context: serlo-assets
+          requires:
+            - js

@@ -4,7 +4,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack",
-    "deploy": "ts-node scripts/deploy"
+    "deploy:cloudflare": "ts-node scripts/deploy"
   },
   "devDependencies": {
     "@serlo/cloudflare": "^0.0.0",

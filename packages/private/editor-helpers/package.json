@@ -7,8 +7,7 @@
     "prebuild": "rimraf dist",
     "build": "npm-run-all build:*",
     "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts\" --out-dir dist --root-mode upward --source-maps",
-    "build:tsc": "tsc --build src",
-    "start": "nodemon --legacy-watch --watch src --exec \"yarn build\""
+    "build:tsc": "tsc --build src"
   },
   "dependencies": {
     "base-64": "^0.1.0",
@@ -17,6 +16,7 @@
   },
   "devDependencies": {
     "@types/base-64": "^0.1.0",
+    "@types/jquery": "^3.0.0",
     "@types/utf8": "^2.0.0"
   },
   "private": true

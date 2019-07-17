@@ -20,7 +20,6 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { uploadWorker } from '@serlo/cloudflare'
-import { spawnSync } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
 import { Signale } from 'signale'
@@ -31,32 +30,20 @@ const readFile = util.promisify(fs.readFile)
 const fsOptions = { encoding: 'utf-8' }
 
 const signale = new Signale({ interactive: true })
-const numberOfSteps = 2
 
-run()
+run().then(() => {})
 
 async function run() {
   try {
     signale.info('Deploying Cloudflare workers')
 
-    signale.pending(`[0/${numberOfSteps}]: Bundling…`)
-    await build()
-
-    signale.pending(`[1/${numberOfSteps}]: Uploading workers…`)
     await uploadWorkers()
 
-    signale.success(
-      `[2/${numberOfSteps}]: Successfully deployed Cloudflare workers`
-    )
+    signale.success('Successfully deployed Cloudflare workers')
   } catch (e) {
     signale.fatal(e)
+    throw e
   }
-}
-
-function build() {
-  spawnSync('yarn', ['build'], {
-    stdio: 'inherit'
-  })
 }
 
 async function uploadWorkers(): Promise<void> {

@@ -4,7 +4,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config --output-public-path=https://packages.serlo.org/athene2-assets@$npm_package_version/",
-    "deploy": "ts-node scripts/deploy",
+    "deploy:package": "ts-node scripts/deploy",
     "sentry-release": "ts-node scripts/sentry-release",
     "start": "webpack-dev-server --config webpack.dev.config"
   },

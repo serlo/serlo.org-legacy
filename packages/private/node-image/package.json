@@ -1,0 +1,12 @@
+{
+  "name": "@serlo/node-image",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "author": "Serlo Education e.V.",
+  "scripts": {
+    "deploy:image": "docker build ../../.. --file Dockerfile --tag serlo-org-node"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "private": true
+}

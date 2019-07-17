@@ -1,6 +1,4 @@
-FROM serlo-org-node as base
-
-FROM base as release
+FROM serlo-org-node
 COPY --from=serlo-org-workspace /usr/src/app/packages/private/legacy-editor-to-editor packages/private/legacy-editor-to-editor
 COPY --from=serlo-org-workspace /usr/src/app/packages/private/editor-helpers packages/private/editor-helpers
 COPY --from=serlo-org-workspace /usr/src/app/packages/private/markdown packages/private/markdown

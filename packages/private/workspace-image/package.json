@@ -1,0 +1,14 @@
+{
+  "name": "@serlo/workspace-image",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "author": "Serlo Education e.V.",
+  "scripts": {
+    "deploy:image": "docker build ../../.. --file Dockerfile --tag serlo-org-workspace"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@serlo/node-image": "^0.0.0"
+  },
+  "private": true
+}
