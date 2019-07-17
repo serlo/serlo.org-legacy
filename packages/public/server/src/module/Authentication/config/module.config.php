@@ -22,18 +22,24 @@
  */
 namespace Authentication;
 
+use Authentication\Controller\HydraController;
+use Authentication\Factory\HydraControllerFactory;
+use Authentication\Factory\HydraServiceFactory;
+use Authentication\Service\HydraService;
+
 return [
     'service_manager' => [
         'factories' => [
             'Zend\Authentication\AuthenticationService'   => __NAMESPACE__ . '\Factory\AuthenticationServiceFactory',
             __NAMESPACE__ . '\Storage\UserSessionStorage' => __NAMESPACE__ . '\Factory\UserSessionStorageFactory',
             __NAMESPACE__ . '\HashService'                => __NAMESPACE__ . '\Factory\HashServiceFactory',
-
+            HydraService::class                           => HydraServiceFactory::class,
         ],
     ],
     'controllers'     => [
         'factories' => [
             __NAMESPACE__ . '\Controller\AuthenticationController' => __NAMESPACE__ . '\Factory\AuthenticationControllerFactory',
+            HydraController::class                                 => HydraControllerFactory::class,
         ],
     ],
     'di'              => [
@@ -108,6 +114,37 @@ return [
                                     'route'    => '/restore[/:token]',
                                     'defaults' => [
                                         'action' => 'restorePassword',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'hydra' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/hydra',
+                            'defaults' => [
+                                'controller' => HydraController::class,
+                            ],
+                        ],
+                        'child_routes' => [
+                            'login' => [
+                                'type'    => 'literal',
+                                'may_terminate' => true,
+                                'options'       => [
+                                    'route'    => '/login',
+                                    'defaults' => [
+                                        'action' => 'login',
+                                    ],
+                                ],
+                            ],
+                            'consent' => [
+                                'type'    => 'literal',
+                                'may_terminate' => true,
+                                'options'       => [
+                                    'route'    => '/consent',
+                                    'defaults' => [
+                                        'action' => 'consent',
                                     ],
                                 ],
                             ],
