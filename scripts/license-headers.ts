@@ -37,6 +37,7 @@ g('**/*@(.js|.ts|.tsx|.php|.twig|.phtml)', {
     '**/dist*/**',
     '**/node_modules/**',
     'packages/public/client/src/thirdparty/**',
+    'packages/public/server/dev-tools/vendor/**',
     'packages/public/server/src/vendor/**',
     'scripts/**'
   ]
