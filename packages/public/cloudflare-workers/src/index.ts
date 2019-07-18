@@ -85,9 +85,9 @@ async function serloOrgProxy(request: Request) {
    * Experiment config
    */
   /** Change cookie name when changing probability so that a new cookie is created */
-  const cookieName = 'proxy-2'
+  const cookieName = 'proxy-3'
   /** Probablity (0 <= p <= 1) that the legacy backend is chosen */
-  const legacyProbability = 0.8
+  const legacyProbability = 0.7
 
   enum Backend {
     legacy = 'serlo.education',
