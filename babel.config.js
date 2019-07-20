@@ -27,7 +27,8 @@ module.exports = api => {
                 '@serlo/editor-helpers': '@serlo/editor-helpers/src',
                 '@serlo/legacy-editor-to-editor':
                   '@serlo/legacy-editor-to-editor/src',
-                '@serlo/markdown': '@serlo/markdown/src'
+                '@serlo/markdown': '@serlo/markdown/src',
+                '@serlo/edtr-io': '@serlo/edtr-io/src'
               }
             }
           ]
