@@ -6,7 +6,9 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config --output-public-path=https://packages.serlo.org/athene2-assets@$npm_package_version/",
     "deploy:package": "ts-node scripts/deploy",
     "sentry-release": "ts-node scripts/sentry-release",
-    "start": "webpack-dev-server --config webpack.dev.config"
+    "start": "webpack-dev-server --config webpack.dev.config",
+    "edtr-io": "npm-run-all --parallel start edtr-io:start",
+    "edtr-io:start": "serve ./src/edtr-io"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
@@ -67,6 +69,7 @@
     "request": "^2.0.0",
     "rimraf": "^2.0.0",
     "sass-loader": "^7.0.0",
+    "serve": "^11.1.0",
     "style-loader": "^0.23.0",
     "uglifyjs-webpack-plugin": "^2.0.0",
     "unexpected": "^11.0.0",

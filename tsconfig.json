@@ -15,7 +15,8 @@
     "paths": {
       "@serlo/editor-helpers": ["private/editor-helpers/src"],
       "@serlo/legacy-editor-to-editor": ["private/legacy-editor-to-editor/src"],
-      "@serlo/markdown": ["private/markdown/src"]
+      "@serlo/markdown": ["private/markdown/src"],
+      "@serlo/edtr-io": ["private/edtr-io/src"]
     },
     "lib": ["webworker", "dom"]
   },
