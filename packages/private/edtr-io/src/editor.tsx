@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Editor as Core} from '@edtr-io/core'
+import * as React from 'react'
+import { Editor as Core, EditorProps } from '@edtr-io/core'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
@@ -33,12 +33,20 @@ const plugins = {
   video: videoPlugin
 }
 
-export function Editor(props : React.PropsWithChildren<{initialState: { plugin: string, state: unknown }, editable: boolean}>) {
+export function Editor(
+  props: React.PropsWithChildren<{
+    initialState: EditorProps['initialState']
+    editable: EditorProps['editable']
+  }>
+) {
   return (
-    <Core plugins={plugins} defaultPlugin="text" initialState={props.initialState} editable={props.editable}>{props.children}</Core>
+    <Core
+      plugins={plugins}
+      defaultPlugin="text"
+      initialState={props.initialState}
+      editable={props.editable}
+    >
+      {props.children}
+    </Core>
   )
-}
-
-export function Controls() {
-
 }
