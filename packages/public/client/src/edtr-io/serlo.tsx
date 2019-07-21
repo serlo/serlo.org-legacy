@@ -1,7 +1,14 @@
-import { Editor, useEditable, useLogState, useEditorHistory } from '@serlo/edtr-io'
+import {
+  Editor,
+  useEditable,
+  useLogState,
+  useEditorHistory
+} from '@serlo/edtr-io'
 import * as React from 'react'
 
-export function SerloContainer(props: React.PropsWithChildren<{initialState: any}>) {
+export function SerloContainer(
+  props: React.PropsWithChildren<{ initialState: any }>
+) {
   const [editable, setEditable] = useEditable(true)
   const children = React.useCallback(
     document => {
