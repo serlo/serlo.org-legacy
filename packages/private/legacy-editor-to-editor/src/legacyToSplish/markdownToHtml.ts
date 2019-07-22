@@ -19,26 +19,20 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { expect, expectSlate } from './common'
-import markdownToSlate from '../src/markdownToSlate'
+import { converter } from '@serlo/markdown'
 
-const cases = [
-  {
-    description: 'Transform markdown header to slate plugin',
-    input: '# header',
-    output: expectSlate('<h1 id="header">header</h1>')
-  },
-  {
-    description: 'Transform bold paragraph to slate plugin',
-    input: '**bold text**',
-    output: expectSlate('<p><strong>bold text</strong></p>')
-  }
-]
-
-cases.forEach(testcase => {
-  describe('Transformes Serlo Layout to new Layout', () => {
-    it(testcase.description, () => {
-      expect(markdownToSlate(testcase.input), 'to equal', testcase.output)
-    })
-  })
-})
+const renderMarkdown = (input: string) => {
+  let html = converter.makeHtml(input)
+  html = html.replace(/"/gm, '"')
+  return html
+    .replace(
+      /<span class="mathInline">%%(.*?)%%<\/span>/gm,
+      '<katexinline>$1</katexinline>'
+    )
+    .replace(
+      /<span class="math">\$\$(.*?)\$\$<\/span>/gm,
+      '<katexblock>$1</katexblock>'
+    )
+    .replace(/\r?\n/gm, '')
+}
+export default renderMarkdown

@@ -1,2 +1,2 @@
-export { Editor } from './editor'
+export { Editor, Plugin } from './editor'
 export * from './hooks'

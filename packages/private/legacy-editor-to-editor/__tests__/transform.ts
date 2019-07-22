@@ -21,7 +21,8 @@
  */
 /* eslint-env jest */
 import { expect } from './common'
-import transform from '../src/transform'
+import transform from '../src/legacyToSplish/transform'
+import { Legacy } from '../src/splishToEdtr'
 
 describe('Transformes Serlo Layout to new Layout', () => {
   test('Simple Layout', () => {
@@ -119,7 +120,13 @@ describe('Transformes Serlo Layout to new Layout', () => {
     })
   })
 
-  function createTestCase({ input, output }) {
+  function createTestCase({
+    input,
+    output
+  }: {
+    input: Legacy
+    output: ReturnType<typeof transform>
+  }) {
     expect(transform(input), 'to equal', output)
   }
 })

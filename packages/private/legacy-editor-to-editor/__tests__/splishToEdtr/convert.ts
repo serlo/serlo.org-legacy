@@ -21,13 +21,24 @@
  */
 import { Plugin } from '@serlo/editor-plugins-registry'
 
-import { convert } from '../src'
-import { expect, expectSlate } from './common'
+import {
+  convert,
+  convertLegacyToSplish,
+  convertSplishToEdtrIO
+} from '@serlo/legacy-editor-to-editor'
+import { expect, expectSplishSlate } from '../common'
+import { htmlToSlate } from '../../src/splishToEdtr/convertSlate'
+import { Edtr, Legacy, Splish } from '../../src/splishToEdtr'
 
-const cases = [
+const cases: {
+  description: string
+  legacy: Legacy
+  ory: Splish
+  edtrIO: Edtr
+}[] = [
   {
     description: 'Convert chains methods together correctly',
-    input: [
+    legacy: [
       [
         {
           col: 24,
@@ -51,7 +62,7 @@ const cases = [
         }
       ]
     ],
-    output: {
+    ory: {
       cells: [
         {
           rows: [
@@ -62,7 +73,9 @@ const cases = [
                   rows: [
                     {
                       cells: [
-                        expectSlate('<h2 id="loremipsum">Lorem ipsum</h2>')
+                        expectSplishSlate(
+                          '<h2 id="loremipsum">Lorem ipsum</h2>'
+                        )
                       ]
                     }
                   ]
@@ -76,7 +89,9 @@ const cases = [
                   rows: [
                     {
                       cells: [
-                        expectSlate('<p>dolor <strong>sit</strong> amet.</p>')
+                        expectSplishSlate(
+                          '<p>dolor <strong>sit</strong> amet.</p>'
+                        )
                       ]
                     }
                   ]
@@ -85,7 +100,7 @@ const cases = [
                   size: 4,
                   rows: [
                     {
-                      cells: [expectSlate('<p>consecetur</p>')]
+                      cells: [expectSplishSlate('<p>consecetur</p>')]
                     }
                   ]
                 }
@@ -97,7 +112,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [expectSlate('<p>markdown with</p>')]
+                      cells: [expectSplishSlate('<p>markdown with</p>')]
                     },
                     {
                       cells: [
@@ -122,6 +137,57 @@ const cases = [
           ]
         }
       ]
+    },
+    edtrIO: {
+      plugin: 'rows',
+      state: [
+        {
+          plugin: 'text',
+          state: htmlToSlate('<h2 id="loremipsum">Lorem ipsum</h2>')
+        },
+        {
+          plugin: 'layout',
+          state: [
+            {
+              child: {
+                plugin: 'rows',
+                state: [
+                  {
+                    plugin: 'text',
+                    state: htmlToSlate(
+                      '<p>dolor <strong>sit</strong> amet.</p>'
+                    )
+                  }
+                ]
+              },
+              width: 8
+            },
+            {
+              child: {
+                plugin: 'rows',
+                state: [
+                  {
+                    plugin: 'text',
+                    state: htmlToSlate('<p>consecetur</p>')
+                  }
+                ]
+              },
+              width: 4
+            }
+          ]
+        },
+        {
+          plugin: 'text',
+          state: htmlToSlate('<p>consecetur</p>')
+        },
+        {
+          plugin: 'image',
+          state: {
+            description: 'image',
+            src: 'url'
+          }
+        }
+      ]
     }
   }
 ]
@@ -129,7 +195,13 @@ const cases = [
 cases.forEach(testcase => {
   describe('Transformes Serlo Layout to new Layout', () => {
     it(testcase.description, () => {
-      expect(convert(testcase.input), 'to equal', testcase.output)
+      expect(
+        convertLegacyToSplish(testcase.legacy, 'someID'),
+        'to equal',
+        testcase.ory
+      )
+      expect(convertSplishToEdtrIO(testcase.ory), 'to equal', testcase.edtrIO)
+      expect(convert(testcase.legacy), 'to equal', testcase.edtrIO)
     })
   })
 })

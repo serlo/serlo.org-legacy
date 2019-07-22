@@ -19,34 +19,30 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import createPlugins from './createPlugin'
-import normalizeMarkdown from './normalizeMarkdown'
+import { expect, expectSplishSlate } from './common'
+import markdownToSlate from '../src/legacyToSplish/markdownToSlate'
 
-const splitMarkdown = markdown => createPlugins(normalizeMarkdown(markdown))
-
-const splitCell = cell => {
-  if (typeof cell.raw !== 'undefined') {
-    return {
-      size: cell.size,
-      rows: splitMarkdown(cell.raw)
-    }
-  } else {
-    const { rows = [] } = cell
-    return {
-      ...cell,
-      rows: rows.map(splitRow)
-    }
+const cases: {
+  description: string
+  input: string
+  output: ReturnType<typeof markdownToSlate>
+}[] = [
+  {
+    description: 'Transform markdown header to slate plugin',
+    input: '# header',
+    output: expectSplishSlate('<h1 id="header">header</h1>')
+  },
+  {
+    description: 'Transform bold paragraph to slate plugin',
+    input: '**bold text**',
+    output: expectSplishSlate('<p><strong>bold text</strong></p>')
   }
-}
+]
 
-const splitRow = row => ({
-  ...row,
-  cells: row.cells.map(splitCell)
+cases.forEach(testcase => {
+  describe('Transformes Serlo Layout to new Layout', () => {
+    it(testcase.description, () => {
+      expect(markdownToSlate(testcase.input), 'to equal', testcase.output)
+    })
+  })
 })
-
-const split = input => ({
-  ...input,
-  cells: input.cells.map(splitCell)
-})
-
-export default split

@@ -28,8 +28,11 @@ import { Plugin } from '@serlo/editor-plugins-registry'
 import { v4 } from 'uuid'
 
 import markdownToSlate from './markdownToSlate'
+import { Element, LinkedImagesTMP, NormalizedObject } from './normalizeMarkdown'
+import { ValueJSON } from 'slate'
+import { ContentCell, Splish } from '../splishToEdtr/types'
 
-const createPlugins = ({ normalized, elements }) => {
+const createPlugins = ({ normalized, elements }: NormalizedObject) => {
   const split = normalized
     .split(/(§\d+§)/)
     .map(s => s.trim())
@@ -43,12 +46,12 @@ const createPlugins = ({ normalized, elements }) => {
     ]
   }
   return split.map(markdown => {
-    // console.log(markdown)
     const elementIDMatch = /§(\d+)§/.exec(markdown)
-    // console.log(elementID)
     if (elementIDMatch !== null) {
+      // explicitly cast the matched number for typescript
+      const i = parseInt(elementIDMatch[1])
       return {
-        cells: [createPluginCell(elements[elementIDMatch[1]])]
+        cells: [createPluginCell(elements[i])]
       }
     } else {
       return {
@@ -57,7 +60,7 @@ const createPlugins = ({ normalized, elements }) => {
     }
   })
 }
-const createPluginCell = elem => {
+const createPluginCell = (elem: Element): ContentCell<SplishPluginState> => {
   switch (elem.name) {
     case 'table':
       return {
@@ -155,22 +158,59 @@ const createPluginCell = elem => {
             description: elem.description,
             title: elem.title,
             src: elem.src,
-            href: elem.href ? elem.href : undefined
-          }
-        }
-      }
-    default:
-      return {
-        content: {
-          plugin: {
-            name: elem.name
-          },
-          state: {
-            ...elem
+            href: (elem as LinkedImagesTMP).href
+              ? (elem as LinkedImagesTMP).href
+              : undefined
           }
         }
       }
   }
 }
+
+interface SplishDocumentIdentifier {
+  type: '@splish-me/editor-core/editable'
+  state: Splish
+}
+
+export interface SplishSpoilerState {
+  title: string
+  content: SplishDocumentIdentifier
+}
+
+export interface SplishTableState {
+  src: string
+}
+
+export interface SplishBlockquoteState {
+  child: SplishDocumentIdentifier
+}
+
+export interface SplishInjectionState {
+  description: string
+  src: string
+}
+
+export interface SplishGeogebraState {}
+
+export interface SplishImageState {
+  description: string
+  src: string
+  title: string
+  href?: string
+}
+
+export interface SplishTextState {
+  importFromHtml?: string
+  editorState?: ValueJSON
+}
+
+export type SplishPluginState =
+  | SplishSpoilerState
+  | SplishTableState
+  | SplishBlockquoteState
+  | SplishInjectionState
+  | SplishGeogebraState
+  | SplishImageState
+  | SplishTextState
 
 export default createPlugins

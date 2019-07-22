@@ -20,9 +20,13 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { expect } from './common'
-import normalizeMarkdown from '../src/normalizeMarkdown'
+import normalizeMarkdown from '../src/legacyToSplish/normalizeMarkdown'
 
-const cases = [
+const cases: {
+  description: string
+  input: string
+  output: ReturnType<typeof normalizeMarkdown>
+}[] = [
   {
     description: 'Split spoilers',
     input: 'Lorem \n/// title\nmarkdowntext\n///\n ipsum',

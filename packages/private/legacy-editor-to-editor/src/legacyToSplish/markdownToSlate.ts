@@ -19,20 +19,18 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-const getCellsFromRow = row =>
-  row.map(cell => ({
-    size: Math.floor(cell.col / 2),
-    raw: cell.content
-  }))
+import renderMarkdown from './markdownToHtml'
 
-const transform = input => ({
-  cells: [
-    {
-      rows: input.map(row => ({
-        cells: getCellsFromRow(row)
-      }))
+import { Plugin } from '@serlo/editor-plugins-registry'
+import { ContentCell } from '../splishToEdtr/types'
+import { SplishTextState } from './createPlugin'
+
+const markdownToSlate = (markdown: string): ContentCell<SplishTextState> => ({
+  content: {
+    plugin: { name: Plugin.Text, version: '0.0.0' },
+    state: {
+      importFromHtml: renderMarkdown(markdown)
     }
-  ]
+  }
 })
-
-export default transform
+export default markdownToSlate
