@@ -20,12 +20,17 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { stringifyState } from '@serlo/editor-helpers'
-import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
-import { HtmlRenderer } from '@serlo/html-renderer'
-import { convert } from '@serlo/legacy-editor-to-editor'
+import {
+  convert,
+  Edtr,
+  Legacy,
+  Splish,
+  isEdtr
+} from '@serlo/legacy-editor-to-editor'
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
+import { Editor } from '@serlo/edtr-io'
 
 export async function render(input: string): Promise<string> {
   if (input === undefined) {
@@ -36,7 +41,7 @@ export async function render(input: string): Promise<string> {
     return ''
   }
 
-  let data: { cells?: unknown }
+  let data: Legacy | Splish | Edtr
   try {
     data = JSON.parse(input.trim().replace(/&quot;/g, '"'))
   } catch (e) {
@@ -44,17 +49,14 @@ export async function render(input: string): Promise<string> {
   }
 
   const sheet = new ServerStyleSheet()
-  const state = data.cells === undefined ? convert(data) : data
+  const state = isEdtr(data) ? data : convert(data)
 
   try {
     const children = renderToString(
       <StyleSheetManager sheet={sheet.instance}>
         <div className="r">
           <div className="c24">
-            <HtmlRenderer
-              state={state}
-              plugins={createRendererPlugins('all')}
-            />
+            <Editor initialState={state} editable={true} />
           </div>
         </div>
       </StyleSheetManager>
