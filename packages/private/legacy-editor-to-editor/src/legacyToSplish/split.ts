@@ -22,7 +22,6 @@
 import createPlugins from './createPlugin'
 import normalizeMarkdown from './normalizeMarkdown'
 import transform from './transform'
-import { Splish } from '@serlo/legacy-editor-to-editor'
 import { Cell } from '../splishToEdtr/types'
 
 const splitMarkdown = (markdown: string) =>
