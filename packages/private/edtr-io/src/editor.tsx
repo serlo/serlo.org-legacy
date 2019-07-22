@@ -12,7 +12,7 @@ export function Editor(
   return (
     <Core
       plugins={plugins}
-      defaultPlugin="video"
+      defaultPlugin="text"
       initialState={props.initialState}
       editable={props.editable}
     >

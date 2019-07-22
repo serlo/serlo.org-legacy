@@ -41,7 +41,7 @@ const blockquoteRegEx = new RegExp(
   /((((\A|\n*)(?!>\[.*?\]\(.*?\))>[\s\S]+?)(?=(\r?\n\r?\n\w)|$|(>\[.*?\]\(.*?\))))+)/m
 )
 
-const extractSpoilers = normalizedObj =>
+const extractSpoilers = (normalizedObj: NormalizedObject) =>
   extract(
     spoilerRegEx,
     match => ({
@@ -52,7 +52,7 @@ const extractSpoilers = normalizedObj =>
     normalizedObj
   )
 
-const extractTable = normalizedObj =>
+const extractTable = (normalizedObj: NormalizedObject) =>
   extract(
     tableRegEx,
     match => ({
@@ -62,7 +62,7 @@ const extractTable = normalizedObj =>
     normalizedObj
   )
 
-const extractInjections = normalizedObj =>
+const extractInjections = (normalizedObj: NormalizedObject) =>
   extract(
     injectionRegEx,
     match => ({
@@ -73,7 +73,7 @@ const extractInjections = normalizedObj =>
     normalizedObj
   )
 
-const extractGeogebra = normalizedObj =>
+const extractGeogebra = (normalizedObj: NormalizedObject) =>
   extract(
     geogebraInjectionRegEx,
     match => ({
@@ -84,7 +84,7 @@ const extractGeogebra = normalizedObj =>
     normalizedObj
   )
 
-const extractLinkedImages = normalizedObj =>
+const extractLinkedImages = (normalizedObj: NormalizedObject) =>
   extract(
     linkedImagesRegEx,
     match => ({
@@ -97,7 +97,7 @@ const extractLinkedImages = normalizedObj =>
     normalizedObj
   )
 
-const extractImages = normalizedObj =>
+const extractImages = (normalizedObj: NormalizedObject) =>
   extract(
     imagesRegEx,
     match => ({
@@ -109,7 +109,7 @@ const extractImages = normalizedObj =>
     normalizedObj
   )
 
-const extractBlockquote = normalizedObj =>
+const extractBlockquote = (normalizedObj: NormalizedObject) =>
   extract(
     blockquoteRegEx,
     match => ({
@@ -119,8 +119,8 @@ const extractBlockquote = normalizedObj =>
     normalizedObj
   )
 
-const normalizeMarkdown = markdown => {
-  let normalizedObj = {
+const normalizeMarkdown = (markdown: string) => {
+  let normalizedObj: NormalizedObject = {
     normalized: markdown,
     elements: []
   }
@@ -135,7 +135,11 @@ const normalizeMarkdown = markdown => {
   return normalizedObj
 }
 
-const extract = (regex, createElement, { normalized, elements }) => {
+const extract = (
+  regex: RegExp,
+  createElement: (match: RegExpExecArray) => Element,
+  { normalized, elements }: NormalizedObject
+) => {
   let match = regex.exec(normalized)
   while (match !== null) {
     normalized = normalized.replace(regex, '§' + elements.length + '§')
@@ -148,5 +152,53 @@ const extract = (regex, createElement, { normalized, elements }) => {
     elements: elements
   }
 }
+
+export interface NormalizedObject {
+  normalized: string
+  elements: Element[]
+}
+
+interface SpoilerTMP {
+  name: 'spoiler'
+  title: string
+  content: ReturnType<typeof normalizeMarkdown>
+}
+interface TableTMP {
+  name: 'table'
+  src: string
+}
+interface BlockquoteTMP {
+  name: 'blockquote'
+  content: ReturnType<typeof normalizeMarkdown>
+}
+
+interface InjectionsTMP {
+  name: 'injection'
+  description: string
+  src: string
+}
+interface GeogebraTMP {
+  name: 'geogebra'
+  description: string
+  src: string
+}
+interface ImagesTMP {
+  name: 'image'
+  description: string
+  src: string
+  title?: string
+}
+export interface LinkedImagesTMP extends ImagesTMP {
+  href: string
+}
+
+export type Element =
+  | SpoilerTMP
+  | TableTMP
+  | BlockquoteTMP
+  | InjectionsTMP
+  | GeogebraTMP
+  | LinkedImagesTMP
+  | ImagesTMP
 
 export default normalizeMarkdown

@@ -19,21 +19,25 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import * as R from 'ramda'
 import { Plugin } from '@serlo/editor-plugins-registry'
-import { textPlugin as slatePlugin } from '@serlo/editor-plugin-text'
+//@ts-ignore
 import unexpected from 'unexpected'
+import { ContentCell } from '../src/splishToEdtr/types'
+import { SplishTextState } from '../src/legacyToSplish/createPlugin'
 
 const expectInstance = unexpected.clone()
 
 /**
  * Remove all specified keys from an object, no matter how deep they are.
- * The removal is done in place, so run it on a copy if you don't want to modify the original object.
  * This function has no limit so circular objects will probably crash the browser
  *
- * @param obj The object from where you want to remove the keys
+ * @param input The object from where you want to remove the keys
  * @param keys An array of property names (strings) to remove
+ * @return the object with removed keys
  */
-const removeKeys = (obj, keys) => {
+const deepOmitKeys = (input: any, keys: (keyof typeof input)[]): void => {
+  let obj = R.clone(input)
   let index
   for (let prop in obj) {
     // important check that this is objects own property
@@ -51,17 +55,18 @@ const removeKeys = (obj, keys) => {
           if (index > -1) {
             delete obj[prop]
           } else {
-            removeKeys(obj[prop], keys)
+            obj[prop] = deepOmitKeys(obj[prop], keys)
           }
           break
       }
     }
   }
+  return obj
 }
 
-const ignoreIrrelevantKeys = obj => removeKeys(obj, ['id'])
+const ignoreIrrelevantKeys = (obj: any) => deepOmitKeys(obj, ['id'])
 
-export const expect = (input, method, output) => {
+export const expect = <In, Out>(input: In, method: string, output: Out) => {
   expectInstance(
     ignoreIrrelevantKeys(input),
     method,
@@ -69,14 +74,14 @@ export const expect = (input, method, output) => {
   )
 }
 
-export const expectSlate = html => ({
+export const expectSplishSlate = (
+  html: string
+): ContentCell<SplishTextState> => ({
   content: {
     plugin: { name: Plugin.Text, version: '0.0.0' },
-    state: slatePlugin.serialize(
-      slatePlugin.unserialize({
-        importFromHtml: html
-      })
-    )
+    state: {
+      importFromHtml: html
+    }
   }
 })
 

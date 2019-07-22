@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { expect } from './common'
-import renderMarkdown from '../src/markdownToHtml'
+import renderMarkdown from '../src/legacyToSplish/markdownToHtml'
 
 const cases = [
   {

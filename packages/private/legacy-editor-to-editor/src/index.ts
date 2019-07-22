@@ -19,13 +19,30 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import split from './split'
-import transform from './transform'
+import split from './legacyToSplish/split'
+import transform from './legacyToSplish/transform'
+import { Edtr, Legacy, Splish, isSplish, convertRow } from './splishToEdtr'
 
-export function convert(content, id) {
+export function convert(content: Legacy | Splish): Edtr {
+  const splish = isSplish(content)
+    ? content
+    : convertLegacyToSplish(content, '')
+  return convertSplishToEdtrIO(splish)
+}
+
+export function convertLegacyToSplish(content: Legacy, id: string): Splish {
   const cells = split(transform(content))
   return {
     ...cells,
     id
   }
 }
+
+export function convertSplishToEdtrIO(content: Splish): Edtr {
+  return {
+    plugin: 'rows',
+    state: convertRow(content)
+  }
+}
+
+export { Edtr, Legacy, Splish, isSplish, isEdtr } from './splishToEdtr'

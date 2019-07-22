@@ -19,20 +19,22 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { converter } from '@serlo/markdown'
+import { Legacy, LegacyRow } from '../splishToEdtr/types'
 
-const renderMarkdown = input => {
-  let html = converter.makeHtml(input)
-  html = html.replace(/"/gm, '"')
-  return html
-    .replace(
-      /<span class="mathInline">%%(.*?)%%<\/span>/gm,
-      '<katexinline>$1</katexinline>'
-    )
-    .replace(
-      /<span class="math">\$\$(.*?)\$\$<\/span>/gm,
-      '<katexblock>$1</katexblock>'
-    )
-    .replace(/\r?\n/gm, '')
-}
-export default renderMarkdown
+const getCellsFromRow = (row: LegacyRow) =>
+  row.map(cell => ({
+    size: Math.floor(cell.col / 2),
+    raw: cell.content
+  }))
+
+const transform = (input: Legacy) => ({
+  cells: [
+    {
+      rows: input.map(row => ({
+        cells: getCellsFromRow(row)
+      }))
+    }
+  ]
+})
+
+export default transform

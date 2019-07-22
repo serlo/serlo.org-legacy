@@ -20,12 +20,17 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 /* eslint-env jest */
-import { expect, expectSlate } from './common'
-import split from '../src/split'
+import { expect, expectSplishSlate } from './common'
+import split from '../src/legacyToSplish/split'
 
 import { Plugin } from '@serlo/editor-plugins-registry'
+import transform from '../src/legacyToSplish/transform'
 
-const cases = [
+const cases: {
+  description: string
+  input: ReturnType<typeof transform>
+  output: ReturnType<typeof split>
+}[] = [
   {
     description: 'Simple Layout no split',
     input: {
@@ -52,7 +57,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [expectSlate('Lorem ipsum')]
+                      cells: [expectSplishSlate('<p>Lorem ipsum</p>')]
                     }
                   ]
                 }
@@ -64,7 +69,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [expectSlate('dolor adipiscing amet')]
+                      cells: [expectSplishSlate('<p>dolor adipiscing amet</p>')]
                     }
                   ]
                 }
@@ -98,7 +103,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [expectSlate('Lorem')]
+                      cells: [expectSplishSlate('<p>Lorem</p>')]
                     },
                     {
                       cells: [
@@ -117,7 +122,7 @@ const cases = [
                       ]
                     },
                     {
-                      cells: [expectSlate('ipsum')]
+                      cells: [expectSplishSlate('<p>ipsum</p>')]
                     }
                   ]
                 }
@@ -151,7 +156,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [expectSlate('Lorem')]
+                      cells: [expectSplishSlate('<p>Lorem</p>')]
                     },
                     {
                       cells: [
@@ -170,7 +175,7 @@ const cases = [
                       ]
                     },
                     {
-                      cells: [expectSlate('ipsum')]
+                      cells: [expectSplishSlate('<p>ipsum</p>')]
                     }
                   ]
                 }
@@ -209,7 +214,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [expectSlate('Lorem')]
+                      cells: [expectSplishSlate('<p>Lorem</p>')]
                     },
                     {
                       cells: [
@@ -228,7 +233,11 @@ const cases = [
                                     {
                                       rows: [
                                         {
-                                          cells: [expectSlate('markdowntext')]
+                                          cells: [
+                                            expectSplishSlate(
+                                              '<p>markdowntext</p>'
+                                            )
+                                          ]
                                         }
                                       ]
                                     }
@@ -241,7 +250,7 @@ const cases = [
                       ]
                     },
                     {
-                      cells: [expectSlate('ipsum')]
+                      cells: [expectSplishSlate('<p>ipsum</p>')]
                     }
                   ]
                 }
@@ -297,8 +306,8 @@ const cases = [
                                       rows: [
                                         {
                                           cells: [
-                                            expectSlate(
-                                              'markdowntext with image'
+                                            expectSplishSlate(
+                                              '<p>markdowntext with image</p>'
                                             )
                                           ]
                                         },
@@ -360,7 +369,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [expectSlate('Lorem')]
+                      cells: [expectSplishSlate('<p>Lorem</p>')]
                     },
                     {
                       cells: [
@@ -379,7 +388,7 @@ const cases = [
                       ]
                     },
                     {
-                      cells: [expectSlate('ipsum')]
+                      cells: [expectSplishSlate('<p>ipsum</p>')]
                     }
                   ]
                 }
@@ -418,7 +427,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [expectSlate('Lorem')]
+                      cells: [expectSplishSlate('<p>Lorem</p>')]
                     },
                     {
                       cells: [
@@ -438,7 +447,7 @@ const cases = [
                       ]
                     },
                     {
-                      cells: [expectSlate('ipsum')]
+                      cells: [expectSplishSlate('<p>ipsum</p>')]
                     }
                   ]
                 }
@@ -477,7 +486,7 @@ const cases = [
                   size: 3,
                   rows: [
                     {
-                      cells: [expectSlate('Lorem ipsum')]
+                      cells: [expectSplishSlate('<p>Lorem ipsum</p>')]
                     }
                   ]
                 },
@@ -485,7 +494,7 @@ const cases = [
                   size: 3,
                   rows: [
                     {
-                      cells: [expectSlate('dolor adipiscing amet')]
+                      cells: [expectSplishSlate('<p>dolor adipiscing amet</p>')]
                     }
                   ]
                 },
@@ -493,7 +502,7 @@ const cases = [
                   size: 3,
                   rows: [
                     {
-                      cells: [expectSlate('')]
+                      cells: [expectSplishSlate('')]
                     }
                   ]
                 },
@@ -501,7 +510,7 @@ const cases = [
                   size: 3,
                   rows: [
                     {
-                      cells: [expectSlate('')]
+                      cells: [expectSplishSlate('')]
                     }
                   ]
                 }
@@ -541,7 +550,7 @@ const cases = [
                   size: 12,
                   rows: [
                     {
-                      cells: [expectSlate('Lorem')]
+                      cells: [expectSplishSlate('<p>Lorem</p>')]
                     },
                     {
                       cells: [
@@ -560,7 +569,7 @@ const cases = [
                                       rows: [
                                         {
                                           cells: [
-                                            expectSlate(
+                                            expectSplishSlate(
                                               '<p>ipsum dolor</p><p>sit amet</p>'
                                             )
                                           ]
@@ -576,7 +585,7 @@ const cases = [
                       ]
                     },
                     {
-                      cells: [expectSlate('consectetur')]
+                      cells: [expectSplishSlate('<p>consectetur</p>')]
                     }
                   ]
                 }

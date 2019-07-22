@@ -945,6 +945,11 @@
   resolved "https://registry.yarnpkg.com/@edtr-io/plugin-image/-/plugin-image-0.8.0-alpha.1.tgz#24b24daf9784e5f0bf2131405f1b5fbb2b3756ec"
   integrity sha512-6taxf2/5y38viShMsDYCGijR+7K8l1nBdgDyKh/A5C0DdDRWfRAD3ORrkyPznbAxPLOrvWboDj71AkXFUjJPDw==
 
+"@edtr-io/plugin-important-statement@^0.8.0-0":
+  version "0.8.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-important-statement/-/plugin-important-statement-0.8.0-alpha.1.tgz#fbf65602ccbf2a0cd210e20f645a3e9ce870a21a"
+  integrity sha512-E8KnZcGiOmFxImbVhVqQB7e63FRw7B0IzFgkSUDCK+IjFsaihW5UdUhfF9eNMt9cV7B4NdvYexhUQ5zawiE5rA==
+
 "@edtr-io/plugin-input-exercise@^0.8.0-0":
   version "0.8.0-alpha.1"
   resolved "https://registry.yarnpkg.com/@edtr-io/plugin-input-exercise/-/plugin-input-exercise-0.8.0-alpha.1.tgz#84fe704ccf1327955e184c7120921bf5a260b27f"
@@ -965,6 +970,11 @@
   resolved "https://registry.yarnpkg.com/@edtr-io/plugin-sc-mc-exercise/-/plugin-sc-mc-exercise-0.8.0-alpha.1.tgz#ac6e9342c31e819c609b11f10133fdb06a38e64c"
   integrity sha512-+KIkNFcIvWkIFhQis8Om9oTEIEI2CWDbwKMjnc7JfnpBX961lAD3tqQXi0Dp8uRm4s/6tXzZqWmGxHRgsgbBZQ==
 
+"@edtr-io/plugin-serlo-injection@^0.8.0-0":
+  version "0.8.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-serlo-injection/-/plugin-serlo-injection-0.8.0-alpha.1.tgz#a8849b74a554a2f41e8838627d86e66819dfbd5e"
+  integrity sha512-99tZZeYKEl2ZEHZAg1C0wXx9HNfdX4nVY4h06W++kW8fUWaeexZmlKLQr1NTLYhIX+B18umHVCkQ6n3fWPNyAg==
+
 "@edtr-io/plugin-solution@^0.8.0-0":
   version "0.8.0-alpha.1"
   resolved "https://registry.yarnpkg.com/@edtr-io/plugin-solution/-/plugin-solution-0.8.0-alpha.1.tgz#6880f5f3d8d60cfdcd27671927dfb6907782d979"
@@ -974,6 +984,14 @@
   version "0.8.0-alpha.1"
   resolved "https://registry.yarnpkg.com/@edtr-io/plugin-spoiler/-/plugin-spoiler-0.8.0-alpha.1.tgz#d57cb7a1917f2852e02dccbbf118a76f6e969f1f"
   integrity sha512-RsSYUmQ1aqz/t/HWyHqfM62Jd10hilyQKRC+KAOkr+l7BiYSnCMXpVhuCh9OFr2Lz/7BUVHgPrGpCL8gHK6RYw==
+
+"@edtr-io/plugin-table@^0.8.0-0":
+  version "0.8.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-table/-/plugin-table-0.8.0-alpha.1.tgz#234ba65ee9a8b69644a88c2686d402919c8263bc"
+  integrity sha512-jV0AVhjpGdcne7+BfLlzTys6Ack9sL4Af9vigGTmguUL2cyZI/RE0LyB9GOz2wDq9oTmqg+XCgDPzeFmLKryhg==
+  dependencies:
+    react-markdown "^4.0.0"
+    react-textarea-autosize "^7.0.0"
 
 "@edtr-io/plugin-text@^0.8.0-0":
   version "0.8.0-alpha.0"
@@ -2993,6 +3011,22 @@
   resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
   integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 
+"@types/slate-html-serializer@^0.6.0":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@types/slate-html-serializer/-/slate-html-serializer-0.6.3.tgz#f18da3c68ccc5b25b12eb4f709b2120b2d2d954e"
+  integrity sha512-edpVOozSya2XkGtJ0qKeP986hOutGS1jff+G1ysv6tPYl+ix0JNDtwjiBJ8iofl07SBghNB0kUr82CI8i+Za2g==
+  dependencies:
+    "@types/react" "*"
+    "@types/slate" "*"
+
+"@types/slate@*":
+  version "0.44.12"
+  resolved "https://registry.yarnpkg.com/@types/slate/-/slate-0.44.12.tgz#3c5df1ea15bde0438687027f50898b2f591fd51a"
+  integrity sha512-EBo29O8/Uyb8DmD+RtzgDIFxv63sR1m6S6PygXEFX+A2vHIKiY66x/GZeQ4Omvna4SfyVW1XgoTXmL+cy0jcpA==
+  dependencies:
+    "@types/react" "*"
+    immutable "^3.8.2"
+
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
@@ -3021,6 +3055,13 @@
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/@types/utf8/-/utf8-2.1.6.tgz#430cabb71a42d0a3613cce5621324fe4f5a25753"
   integrity sha512-pRs2gYF5yoKYrgSaira0DJqVg2tFuF+Qjp838xS7K+mJyY2jJzjsrl6y17GbIa4uMRogMbxs+ghNCvKg6XyNrA==
+
+"@types/uuid@^3.0.0":
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-3.4.5.tgz#d4dc10785b497a1474eae0ba7f0cb09c0ddfd6eb"
+  integrity sha512-MNL15wC3EKyw1VLF+RoVO4hJJdk9t/Hlv3rt1OL65Qvuadm4BYo6g9ZJQqoq7X8NBFSsQXgAujWciovh2lpVjA==
+  dependencies:
+    "@types/node" "*"
 
 "@types/vfile-message@*":
   version "1.0.1"
@@ -7324,7 +7365,7 @@ imagesloaded@^4.0.0:
   dependencies:
     ev-emitter "^1.0.0"
 
-immutable@^3.0.0:
+immutable@^3.0.0, immutable@^3.8.2:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
   integrity sha1-wkOZUUVbs5kT2vKBN28VMOEErfM=
@@ -10321,6 +10362,11 @@ parse5@4.0.0, parse5@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-4.0.0.tgz#6d78656e3da8d78b4ec0b906f7c08ef1dfe3f608"
   integrity sha512-VrZ7eOd3T1Fk4XWNXMgiGBK/z0MG48BWG2uQNU4I72fkQuKUTZpl+u9k+CxEG0twMVzSmXEEz12z5Fnw1jIQFA==
+
+parse5@^5.0.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.1.0.tgz#c59341c9723f414c452975564c7c00a68d58acd2"
+  integrity sha512-fxNG2sQjHvlVAYmzBZS9YlDp6PTSSDwa98vkD4QgVDDCAo84z5X1t5XyJQ62ImdLXx5NdIIfihey6xpum9/gRQ==
 
 parseurl@~1.3.2, parseurl@~1.3.3:
   version "1.3.3"
