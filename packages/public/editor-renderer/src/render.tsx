@@ -22,28 +22,27 @@
 import { render as coreRender } from '@edtr-io/renderer-ssr'
 import { DocumentState, plugins } from '@serlo/edtr-io'
 import { stringifyState } from '@serlo/editor-helpers'
-import { convert } from '@serlo/legacy-editor-to-editor'
+import {
+  convert,
+  Edtr,
+  Legacy,
+  Splish,
+  isEdtr
+} from '@serlo/legacy-editor-to-editor'
 import * as React from 'react'
 
 export async function render(input: string): Promise<string> {
-  if (input === undefined) {
-    throw new Error('No input given')
-  }
+  if (input === undefined) throw new Error('No input given')
+  if (input === '') return ''
 
-  if (input === '') {
-    return ''
-  }
-
-  let data: DocumentState
+  let data: Legacy | Splish | Edtr
   try {
     data = JSON.parse(input.trim().replace(/&quot;/g, '"'))
   } catch (e) {
     throw new Error('No valid json string given')
   }
 
-  // TODO:
-  const state =
-    data.plugin === undefined ? (convert(data) as DocumentState) : data
+  const state = isEdtr(data) ? data : convert(data)
 
   try {
     return wrapOutput(coreRender({ plugins, state }))
