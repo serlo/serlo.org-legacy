@@ -28,7 +28,7 @@ $assets = [
     'bundle_host' => 'http://localhost:8081/',
     'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000/',
     'editor_renderer' => 'http://editor-renderer:3000/',
-    'hydra' => 'http://hydra:4445',
+//    'hydra' => 'http://hydra:4445',
 ];
 
 $db = [
@@ -48,4 +48,5 @@ $smtp_options = [];
 $tracking = [];
 
 $cronjob_secret = 'secret';
+$upload_secret = 'secret';
 $mock_email = true;

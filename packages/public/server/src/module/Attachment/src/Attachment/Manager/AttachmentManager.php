@@ -29,7 +29,6 @@ use Attachment\Options\ModuleOptions;
 use Authorization\Service\AuthorizationAssertionTrait;
 use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
-use Common\Traits\ConfigAwareTrait;
 use Common\Traits\ObjectManagerAwareTrait;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -37,10 +36,7 @@ use Instance\Manager\InstanceManagerAwareTrait;
 use Instance\Manager\InstanceManagerInterface;
 use Type\TypeManagerAwareTrait;
 use Type\TypeManagerInterface;
-use Uuid\Manager\UuidManagerAwareTrait;
-use Zend\Filter\File\RenameUpload;
 use ZfcRbac\Service\AuthorizationService;
-use ZfcRbac\Service\AuthorizationServiceAwareTrait;
 use Google\Cloud\ServiceBuilder;
 
 class AttachmentManager implements AttachmentManagerInterface
@@ -64,6 +60,7 @@ class AttachmentManager implements AttachmentManagerInterface
         ClassResolverInterface $classResolver,
         InstanceManagerInterface $instanceManager,
         ModuleOptions $moduleOptions,
+        string $uploadSecret,
         TypeManagerInterface $typeManager,
         ObjectManager $objectManager
     ) {
@@ -76,6 +73,7 @@ class AttachmentManager implements AttachmentManagerInterface
 
         $gcloud = new ServiceBuilder([
             'projectId' => $this->moduleOptions->getProjectId(),
+            'keyFile' => json_decode($uploadSecret, true),
         ]);
 
         $this->bucket = $gcloud->storage()->bucket($this->moduleOptions->getBucket());

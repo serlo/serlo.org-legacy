@@ -1,7 +1,13 @@
 {
   "name": "@serlo/edtr-io",
   "version": "0.0.0",
-  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "npm-run-all build:*",
+    "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
+    "build:tsc": "tsc --build src"
+  },
   "dependencies": {
     "@edtr-io/core": "^0.7.0",
     "@edtr-io/plugin-anchor": "^0.7.0",
@@ -24,5 +30,5 @@
     "react-dom": "^16.8.0",
     "styled-components": "^4.0.0"
   },
-  "scripts": {}
+  "private": true
 }

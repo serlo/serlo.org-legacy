@@ -29,7 +29,6 @@ use Common\Factory\AuthorizationServiceFactoryTrait;
 use Common\Factory\EntityManagerFactoryTrait;
 use Instance\Factory\InstanceManagerFactoryTrait;
 use Type\Factory\TypeManagerFactoryTrait;
-use Uuid\Factory\UuidManagerFactoryTrait;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -48,13 +47,15 @@ class AttachmentManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $moduleOptions */
-        $moduleOptions   = $serviceLocator->get('Attachment\Options\ModuleOptions');
-        $authService     = $this->getAuthorizationService($serviceLocator);
-        $classResolver   = $this->getClassResolver($serviceLocator);
-        $entityManager   = $this->getEntityManager($serviceLocator);
+        $moduleOptions = $serviceLocator->get('Attachment\Options\ModuleOptions');
+        $authService = $this->getAuthorizationService($serviceLocator);
+        $classResolver = $this->getClassResolver($serviceLocator);
+        $entityManager = $this->getEntityManager($serviceLocator);
         $instanceManager = $this->getInstanceManager($serviceLocator);
-        $typeManager     = $this->getTypeManager($serviceLocator);
-        $instance        = new AttachmentManager($authService, $classResolver, $instanceManager, $moduleOptions, $typeManager, $entityManager);
+        $typeManager = $this->getTypeManager($serviceLocator);
+        $uploadSecret = $serviceLocator->get('config')['upload_secret'];
+
+        $instance = new AttachmentManager($authService, $classResolver, $instanceManager, $moduleOptions, $uploadSecret, $typeManager, $entityManager);
 
         return $instance;
     }
