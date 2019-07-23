@@ -4,6 +4,7 @@ import { convertOldSlate, htmlToSlate } from './convertSlate'
 import { Plugin } from '@serlo/editor-plugins-registry'
 import {
   SplishBlockquoteState,
+  SplishCodeState,
   SplishInjectionState,
   SplishSpoilerState,
   SplishTextState
@@ -60,6 +61,15 @@ export function convertPlugin(cell: ContentCell): OtherPlugin {
       return {
         plugin: 'geogebra',
         state
+      }
+    case 'code':
+      const code = state as SplishCodeState
+      return {
+        plugin: 'highlight',
+        state: {
+          language: code.language,
+          text: code.src
+        }
       }
     default:
       return {

@@ -531,8 +531,8 @@ const cases: {
               cells: [
                 {
                   size: 12,
-                  // raw: 'Ausgehend von der Normalparabelkann man jede beliebige Parabel konstruieren.Dazu benutzt man die  [Scheitelform](/2073): \n\n>%%f\\left(x\\right)=a(x-d)^2+e%%'
-                  raw: 'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur'
+                  raw:
+                    'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur -> not a quote'
                 }
               ]
             }
@@ -585,7 +585,69 @@ const cases: {
                       ]
                     },
                     {
-                      cells: [expectSplishSlate('<p>consectetur</p>')]
+                      cells: [
+                        expectSplishSlate(
+                          '<p>consectetur -&gt; not a quote</p>'
+                        )
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    description: 'Code',
+    input: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 12,
+                  raw:
+                    'Check this code:\n```javascript\nconsole.log("hello, world!);\n```\nI hope this helped'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    output: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 12,
+                  rows: [
+                    {
+                      cells: [expectSplishSlate('<p>Check this code:</p>')]
+                    },
+                    {
+                      cells: [
+                        {
+                          content: {
+                            plugin: {
+                              name: 'code'
+                            },
+                            state: {
+                              language: 'javascript',
+                              src: 'console.log("hello, world!);'
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      cells: [expectSplishSlate('<p>I hope this helped</p>')]
                     }
                   ]
                 }

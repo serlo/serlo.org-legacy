@@ -19,6 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
+const codeRegEx = new RegExp(/(\A|\n)```(\S*)\n([\s\S]*?)\r?\n?```/m)
 const spoilerRegEx = new RegExp(/^\/\/\/ (.*)\n([\s\S]*?)(\n|\r)+\/\/\//m)
 const injectionRegEx = new RegExp(/>\[(.*)\]\(((?!ggt\/).*)\)/)
 const geogebraInjectionRegEx = new RegExp(/>\[(.*)\]\(ggt\/(.*)\)/)
@@ -41,6 +43,16 @@ const blockquoteRegEx = new RegExp(
   /((((\A|\n+)(?!>\[.*?\]\(.*?\))>[\s\S]+?)(?=(\r?\n\r?\n\w)|$|(>\[.*?\]\(.*?\))))+)/m
 )
 
+const extractCode = (normalizedObj: NormalizedObject) =>
+  extract(
+    codeRegEx,
+    match => ({
+      name: 'code',
+      language: match[2].trim(),
+      src: match[3]
+    }),
+    normalizedObj
+  )
 const extractSpoilers = (normalizedObj: NormalizedObject) =>
   extract(
     spoilerRegEx,
@@ -124,6 +136,7 @@ const normalizeMarkdown = (markdown: string) => {
     normalized: markdown,
     elements: []
   }
+  normalizedObj = extractCode(normalizedObj)
   normalizedObj = extractSpoilers(normalizedObj)
   normalizedObj = extractTable(normalizedObj)
   normalizedObj = extractBlockquote(normalizedObj)
@@ -156,6 +169,12 @@ const extract = (
 export interface NormalizedObject {
   normalized: string
   elements: Element[]
+}
+
+interface CodeTMP {
+  name: 'code'
+  language: string
+  src: string
 }
 
 interface SpoilerTMP {
@@ -193,6 +212,7 @@ export interface LinkedImagesTMP extends ImagesTMP {
 }
 
 export type Element =
+  | CodeTMP
   | SpoilerTMP
   | TableTMP
   | BlockquoteTMP

@@ -164,6 +164,18 @@ const createPluginCell = (elem: Element): ContentCell<SplishPluginState> => {
           }
         }
       }
+    case 'code':
+      return {
+        content: {
+          plugin: {
+            name: 'code'
+          },
+          state: {
+            language: elem.language,
+            src: elem.src
+          }
+        }
+      }
   }
 }
 
@@ -172,6 +184,10 @@ interface SplishDocumentIdentifier {
   state: Splish
 }
 
+export interface SplishCodeState {
+  language: string
+  src: string
+}
 export interface SplishSpoilerState {
   title: string
   content: SplishDocumentIdentifier
@@ -190,7 +206,10 @@ export interface SplishInjectionState {
   src: string
 }
 
-export interface SplishGeogebraState {}
+export interface SplishGeogebraState {
+  description: string
+  src: string
+}
 
 export interface SplishImageState {
   description: string
@@ -205,6 +224,7 @@ export interface SplishTextState {
 }
 
 export type SplishPluginState =
+  | SplishCodeState
   | SplishSpoilerState
   | SplishTableState
   | SplishBlockquoteState
