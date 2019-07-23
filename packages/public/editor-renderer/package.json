@@ -6,11 +6,12 @@
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
     "deploy:image": "ts-node scripts/deploy",
-    "start": "nodemon --watch src --exec \"ts-node src/index.ts\""
+    "start": "nodemon --watch src --exec \"ts-node src/index.ts\"",
+    "test:js": "jest"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@serlo/editor": "^0.5.0",
+    "@edtr-io/renderer-ssr": "^0.8.0-0",
     "@serlo/editor-helpers": "^0.0.0",
     "@serlo/legacy-editor-to-editor": "^0.0.0",
     "babel-runtime": "^6.0.0",

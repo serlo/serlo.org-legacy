@@ -19,18 +19,19 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Request, Response } from 'express'
+import { DocumentState } from '@serlo/edtr-io'
 
-import { render as r } from './render'
+import { render } from '../src/render'
 
-export const render = (req: Request, res: Response) => {
-  const input = req.body.state
+test('empty string', async () => {
+  const html = await render('')
+  expect(html).toEqual('')
+})
 
-  r(input)
-    .then(html => {
-      res.status(200).send({ html })
-    })
-    .catch(() => {
-      res.sendStatus(500)
-    })
-}
+test('video plugin', async () => {
+  const state: DocumentState = {
+    plugin: 'video',
+    state: 'https://www.youtube.com/watch?v=SCJ7nzKwnYo'
+  }
+  await render(JSON.stringify(state))
+})

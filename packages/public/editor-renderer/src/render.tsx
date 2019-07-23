@@ -19,13 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { render as coreRender } from '@edtr-io/renderer-ssr'
+import { DocumentState, plugins } from '@serlo/edtr-io'
 import { stringifyState } from '@serlo/editor-helpers'
-import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
-import { HtmlRenderer } from '@serlo/html-renderer'
 import { convert } from '@serlo/legacy-editor-to-editor'
 import * as React from 'react'
-import { renderToString } from 'react-dom/server'
-import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
 
 export async function render(input: string): Promise<string> {
   if (input === undefined) {
@@ -36,38 +34,28 @@ export async function render(input: string): Promise<string> {
     return ''
   }
 
-  let data: { cells?: unknown }
+  let data: DocumentState
   try {
     data = JSON.parse(input.trim().replace(/&quot;/g, '"'))
   } catch (e) {
     throw new Error('No valid json string given')
   }
 
-  const sheet = new ServerStyleSheet()
-  const state = data.cells === undefined ? convert(data) : data
+  // TODO:
+  const state =
+    data.plugin === undefined ? (convert(data) as DocumentState) : data
 
   try {
-    const children = renderToString(
-      <StyleSheetManager sheet={sheet.instance}>
-        <div className="r">
-          <div className="c24">
-            <HtmlRenderer
-              state={state}
-              plugins={createRendererPlugins('all')}
-            />
-          </div>
-        </div>
-      </StyleSheetManager>
-    )
-
-    return wrapOutput(children)
+    return wrapOutput(coreRender({ plugins, state }))
   } catch (e) {
     return wrapOutput()
   }
 
-  function wrapOutput(children = ''): string {
-    return `${sheet.getStyleTags()}<div class="ory-content" data-raw-content='${stringifyState(
+  function wrapOutput(
+    { styles, html }: ReturnType<typeof coreRender> = { styles: '', html: '' }
+  ): string {
+    return `${styles}<div class="edtr-io" data-raw-content='${stringifyState(
       state
-    )}'>${children}</div>`
+    )}'>${html}</div>`
   }
 }
