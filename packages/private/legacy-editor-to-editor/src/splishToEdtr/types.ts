@@ -36,7 +36,7 @@ export function isContentCell(cell: Cell): cell is ContentCell {
   return typeof c.content !== 'undefined'
 }
 
-type SplishPlugin = { name: Plugin; version?: string }
+type SplishPlugin = { name: Plugin | 'code'; version?: string }
 
 export type Edtr = RowsPlugin | LayoutPlugin | OtherPlugin
 

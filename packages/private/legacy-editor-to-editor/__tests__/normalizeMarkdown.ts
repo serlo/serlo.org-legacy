@@ -222,6 +222,38 @@ const cases: {
       normalized: 'Lorem \\!\\[image](imageurl) ipsum',
       elements: []
     }
+  },
+  {
+    description: 'blockquotes',
+    input:
+      'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur -> not a quote',
+    output: {
+      normalized: 'Lorem §0§\n\nconsectetur -> not a quote',
+      elements: [
+        {
+          name: 'blockquote',
+          content: {
+            normalized: '\n ipsum\n dolor\n\nsit amet',
+            elements: []
+          }
+        }
+      ]
+    }
+  },
+  {
+    description: 'code',
+    input:
+      'Check this code:\n```javascript\nconsole.log("hello, world!);\n```\nI hope this helped',
+    output: {
+      normalized: 'Check this code:§0§\nI hope this helped',
+      elements: [
+        {
+          name: 'code',
+          language: 'javascript',
+          src: 'console.log("hello, world!);'
+        }
+      ]
+    }
   }
 ]
 
