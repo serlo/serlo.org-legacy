@@ -4,6 +4,7 @@ FROM serlo-org-node as dependencies
 COPY packages/private/cloudflare/package.json packages/private/cloudflare/package.json
 COPY packages/private/docker/package.json packages/private/docker/package.json
 COPY packages/private/editor-helpers/package.json packages/private/editor-helpers/package.json
+COPY packages/private/edtr-io/package.json packages/private/edtr-io/package.json
 COPY packages/private/gcloud/package.json packages/private/gcloud/package.json
 COPY packages/private/legacy-editor-to-editor/package.json packages/private/legacy-editor-to-editor/package.json
 COPY packages/private/markdown/package.json packages/private/markdown/package.json
