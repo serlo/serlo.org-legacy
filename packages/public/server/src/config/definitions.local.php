@@ -48,4 +48,5 @@ $smtp_options = [];
 $tracking = [];
 
 $cronjob_secret = 'secret';
+$upload_secret = 'secret';
 $mock_email = true;

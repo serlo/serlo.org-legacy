@@ -121,4 +121,7 @@ return [
 
     // Cronjobs
     'cronjob_secret' => $cronjob_secret,
+
+    // (Attachment Module)
+    'upload_secret' => $upload_secret,
 ];
