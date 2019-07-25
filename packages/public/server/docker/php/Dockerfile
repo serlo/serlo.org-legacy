@@ -9,6 +9,7 @@ RUN sed -ie 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/g' /etc/locale.gen
 RUN sed -ie 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen
 RUN sed -ie 's/# hi_IN UTF-8/hi_IN UTF-8/g' /etc/locale.gen
 RUN sed -ie 's/# ta_IN UTF-8/ta_IN UTF-8/g' /etc/locale.gen
+RUN sed -ie 's/# fr_FR UTF-8/fr_FR UTF-8/g' /etc/locale.gen
 RUN sed -ie 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g' /etc/locale.gen
 RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales
 WORKDIR /usr/local/apache2/htdocs
