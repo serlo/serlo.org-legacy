@@ -61,6 +61,13 @@ return [
                 'logo' => '<span class="serlo-logo">V</span>',
                 'head_title' => 'aprende con Serlo!',
             ],
+            'french' => [ 
+                'name' => '<div class="serlo-brand">Serlo</div>', 
+                'slogan' => 'La plateforme d\'apprentissage libre', 
+                'description' => 'Serlo est un service libre qui offre des ressources éducatives auxquelles chacun(e) peut contribuer.', 
+                'logo' => '<span class="serlo-logo">V</span>', 
+                'head_title' => 'apprendre avec Serlo!', 
+            ], 
             'hindi' => [
                 'name' => '<div class="serlo-brand">सेर्लो</div>',
                 'slogan' => 'ओपन लर्निंग प्लेटफॉर्म',
