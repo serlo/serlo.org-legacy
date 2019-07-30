@@ -19,10 +19,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { Cell } from '../splishToEdtr/types'
 import createPlugins from './createPlugin'
 import normalizeMarkdown from './normalizeMarkdown'
 import transform from './transform'
-import { Cell } from '../splishToEdtr/types'
 
 const splitMarkdown = (markdown: string) =>
   createPlugins(normalizeMarkdown(markdown))

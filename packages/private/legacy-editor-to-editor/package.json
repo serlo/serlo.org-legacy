@@ -6,11 +6,12 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "npm-run-all build:*",
-    "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts\" --out-dir dist --root-mode upward --source-maps",
+    "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
     "build:tsc": "tsc --build src"
   },
   "dependencies": {
     "@serlo/editor": "^0.5.0",
+    "@serlo/edtr-io": "^0.0.0",
     "@serlo/markdown": "^0.0.0",
     "parse5": "^5.0.0",
     "ramda": "^0.26.1",

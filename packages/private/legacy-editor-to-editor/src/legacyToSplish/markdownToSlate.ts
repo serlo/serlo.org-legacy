@@ -19,11 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import renderMarkdown from './markdownToHtml'
-
 import { Plugin } from '@serlo/editor-plugins-registry'
+
 import { ContentCell } from '../splishToEdtr/types'
 import { SplishTextState } from './createPlugin'
+import renderMarkdown from './markdownToHtml'
 
 const markdownToSlate = (markdown: string): ContentCell<SplishTextState> => ({
   content: {
