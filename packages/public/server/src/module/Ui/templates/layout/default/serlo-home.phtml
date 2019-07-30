@@ -40,8 +40,8 @@ echo $this->doctype();
                         <i class="fa fa-fw fa-bars"></i>
                     </button>
 
-                        <?php echo $this->brand()->getLogo(); ?>
-                        <?php echo $this->brand()->getBrand(); ?>
+                    <?php echo $this->brand()->getLogo(); ?>
+                    <?php echo $this->brand()->getBrand(); ?>
 
                     <span class="subject-title hidden-xs">
                         <?php echo $this->navigation('default_navigation')
@@ -117,29 +117,34 @@ echo $this->doctype();
                                 towards equal educational opportunities. This learning platform offers thousands of
                                 instructional articles, learning videos and practice exercises for millions of students
                                 worldwide - completely free of charge. Now it’s time to join us in your language.'
-                                ); ?>
+                            ); ?>
                         </p>
                         <p>
-                            <a class="home-emph-link" style="margin: 8px;" href="<?php echo $this->translate('/serlo'); ?>">
-                                <?php echo $this->translate('Learn more')?> <i class="fa fa-arrow-circle-right"></i>
+                            <a class="home-emph-link" style="margin: 8px;"
+                               href="<?php echo $this->translate('/serlo'); ?>">
+                                <?php echo $this->translate('Learn more') ?>
+                                <i class="fa fa-arrow-circle-right"></i>
                             </a>
                         </p>
                     </div>
                 </div>
 
                 <div class="home-row home-principle-row home-column col-md-12 col-lg-6 col-lg-offset-3">
-                    <object data="<?php echo $this->assets()->getAsset($this->translate('en/home/about-serlo.svg')); ?>"></object>
+                    <?php echo $this->partial('layout/default/about-serlo'); ?>
                 </div>
                 <div class="home-calls-wrapper clearfix">
                     <div class="home-row home-column">
                         <div class="home-calls-header col-xs-12 col-lg-10 col-lg-offset-2">
                             <h2><?php echo $this->translate('Serlo is the Wikipedia for Learning'); ?></h2>
                         </div>
-                        <div class="col-sm-6 col-sm-offset-3 col-md-10 col-md-offset-1 col-lg-offset-2 col-lg-6 home-calls-column calls-column-1">
-                            <p><?php echo $this->translate(
+                        <div
+                            class="col-sm-6 col-sm-offset-3 col-md-10 col-md-offset-1 col-lg-offset-2 col-lg-6 home-calls-column calls-column-1">
+                            <p>
+                                <?php echo $this->translate(
                                     'Just like Wikipedia, this platform is created by an engaged community of authors. Serlo Education 
                                 is run and owned by decentralized teams of volunteers and professionals all over the world.'
-                                ); ?></p>
+                                ); ?>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -154,23 +159,27 @@ echo $this->doctype();
                         <div class="extra-icon col-xs-12 col-lg-2">
                             <img src="<?php echo $this->assets()->getAsset('home/participate.svg'); ?>" alt="together">
                         </div>
-                        <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-1 col-lg-offset-0 col-lg-3 home-calls-column calls-column-1">
+                        <div
+                            class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-1 col-lg-offset-0 col-lg-3 home-calls-column calls-column-1">
                             <p><?php echo $this->translate('We are looking for teachers and enthusiastic educators who are passionate about their subject.
                              Become an author on serlo.org! You can create new learning material and help us improve existing content.'); ?></p>
                             <div class="hidden-md hidden-lg">
                                 <a href="/community" class="home-emph-link">
-                                    <?php echo $this->translate('Visit the landing page for authors'); ?> <i class="fa fa-arrow-circle-right"></i>
+                                    <?php echo $this->translate('Visit the landing page for authors'); ?>
+                                    <i class="fa fa-arrow-circle-right"></i>
                                 </a>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-2 col-lg-offset-1 col-lg-3 home-calls-column">
+                        <div
+                            class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-2 col-lg-offset-1 col-lg-3 home-calls-column">
                             <p>
                                 <?php echo $this->translate('We offer a diverse range of jobs and volunteering opportunities in the fields of software development,
                                  design, translation, communications, project management and more.'); ?>
                             </p>
                             <div class="hidden-md hidden-lg">
                                 <a href="/get-involved" class="home-emph-link">
-                                    <?php echo $this->translate('Get involved!'); ?> <i class="fa fa-arrow-circle-right"></i>
+                                    <?php echo $this->translate('Get involved!'); ?>
+                                    <i class="fa fa-arrow-circle-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -178,12 +187,14 @@ echo $this->doctype();
                     <div class="home-row home-column visible-md visible-lg">
                         <div class="col-md-4 col-md-offset-1 col-lg-3 col-lg-offset-2 home-calls-column">
                             <a href="/community" class="home-emph-link">
-                                <?php echo $this->translate('Visit the landing page for authors'); ?> <i class="fa fa-arrow-circle-right"></i>
+                                <?php echo $this->translate('Visit the landing page for authors'); ?>
+                                <i class="fa fa-arrow-circle-right"></i>
                             </a>
                         </div>
                         <div class="col-md-4 col-md-offset-2 col-lg-offset-1 col-lg-3 home-calls-column">
                             <a href="/get-involved" class="home-emph-link">
-                                <?php echo $this->translate('Get involved!'); ?> <i class="fa fa-arrow-circle-right"></i>
+                                <?php echo $this->translate('Get involved!'); ?>
+                                <i class="fa fa-arrow-circle-right"></i>
                             </a>
                         </div>
                     </div>

@@ -320,16 +320,16 @@ $homeBreakpoint-xxl: 1580px;
   .serlo-en-home & {
     margin-bottom: 70px;
   }
-  object {
+  svg {
     width: 100%;
   }
   @media screen and (min-width: $screen-md) {
-    object {
+    svg {
       width: 75%;
     }
   }
   @media screen and (min-width: $screen-lg) {
-    object {
+    svg {
       width: 50%;
     }
   }
