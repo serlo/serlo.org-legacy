@@ -38,3 +38,5 @@ export const plugins = {
   text: textPlugin,
   video: videoPlugin
 }
+
+export type Plugin = keyof typeof plugins
