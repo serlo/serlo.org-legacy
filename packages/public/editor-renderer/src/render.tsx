@@ -20,14 +20,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { render as coreRender } from '@edtr-io/renderer-ssr'
-import { DocumentState, plugins } from '@serlo/edtr-io'
+import { plugins } from '@serlo/edtr-io'
 import { stringifyState } from '@serlo/editor-helpers'
 import {
   convert,
+  isEdtr,
   Edtr,
   Legacy,
-  Splish,
-  isEdtr
+  Splish
 } from '@serlo/legacy-editor-to-editor'
 import * as React from 'react'
 

@@ -1,6 +1,6 @@
 {
   "name": "@serlo/serlo-org-editor-renderer",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -12,6 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@edtr-io/renderer-ssr": "^0.8.0-0",
+    "@serlo/edtr-io": "^0.0.0",
     "@serlo/editor-helpers": "^0.0.0",
     "@serlo/legacy-editor-to-editor": "^0.0.0",
     "babel-runtime": "^6.0.0",
