@@ -21,11 +21,13 @@ services:
     build:
       context: .
       dockerfile: packages/private/node-image/Dockerfile
+    image: serlo-org-node
 
   workspace:
     build:
       context: .
       dockerfile: packages/private/workspace-image/Dockerfile
+    image: serlo-org-workspace
     depends_on:
       - node
 
@@ -115,4 +117,4 @@ services:
       - '8082:80'
     volumes:
       # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
-      - ./packages/public/static-assets/src:/var/share/nginx/html:delegated
+      - ./packages/public/static-assets/src:/usr/share/nginx/html:delegated
