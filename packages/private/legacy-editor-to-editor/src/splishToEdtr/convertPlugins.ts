@@ -1,7 +1,5 @@
-import { ContentCell, Edtr, LayoutPlugin, OtherPlugin } from './types'
-import { convertSplishToEdtrIO } from '@serlo/legacy-editor-to-editor'
-import { convertOldSlate, htmlToSlate } from './convertSlate'
 import { Plugin } from '@serlo/editor-plugins-registry'
+
 import {
   SplishBlockquoteState,
   SplishCodeState,
@@ -9,6 +7,9 @@ import {
   SplishSpoilerState,
   SplishTextState
 } from '../legacyToSplish/createPlugin'
+import { convertOldSlate, htmlToSlate } from './convertSlate'
+import { ContentCell, Edtr, LayoutPlugin, OtherPlugin } from './types'
+import { convertSplishToEdtrIO } from '..'
 
 export function convertPlugin(cell: ContentCell): OtherPlugin {
   const { plugin, state } = cell.content
