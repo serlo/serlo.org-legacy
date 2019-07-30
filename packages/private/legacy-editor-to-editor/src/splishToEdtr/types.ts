@@ -25,6 +25,7 @@ type RowCell = {
 export type ContentCell<S = unknown> = {
   id?: string
   size?: number
+  inline?: null
   content: {
     plugin: SplishPlugin
     state: S

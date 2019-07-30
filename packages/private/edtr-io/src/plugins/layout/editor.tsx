@@ -17,7 +17,7 @@ const LayoutContainer = styled.div({
 
 const ChildContainer = styled.div<{ width: number }>(({ width }) => {
   return {
-    width: `${(width / 24) * 100}%`,
+    width: `${(width / 12) * 100}%`,
     '@media (max-width: 480px)': {
       width: '100%'
     }

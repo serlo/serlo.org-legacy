@@ -33,7 +33,7 @@ import { Edtr, Legacy, Splish } from '../../src/splishToEdtr'
 const cases: {
   description: string
   legacy: Legacy
-  ory: Splish
+  splish: Splish
   edtrIO: Edtr
 }[] = [
   {
@@ -62,7 +62,7 @@ const cases: {
         }
       ]
     ],
-    ory: {
+    splish: {
       cells: [
         {
           rows: [
@@ -178,7 +178,7 @@ const cases: {
         },
         {
           plugin: 'text',
-          state: htmlToSlate('<p>consecetur</p>')
+          state: htmlToSlate('<p>markdown with</p>')
         },
         {
           plugin: 'image',
@@ -198,9 +198,9 @@ cases.forEach(testcase => {
       expect(
         convertLegacyToSplish(testcase.legacy, 'someID'),
         'to equal',
-        testcase.ory
+        testcase.splish
       )
-      expect(convertSplishToEdtrIO(testcase.ory), 'to equal', testcase.edtrIO)
+      expect(convertSplishToEdtrIO(testcase.splish), 'to equal', testcase.edtrIO)
       expect(convert(testcase.legacy), 'to equal', testcase.edtrIO)
     })
   })

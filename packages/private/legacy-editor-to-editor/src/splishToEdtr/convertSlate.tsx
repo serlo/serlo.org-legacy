@@ -56,7 +56,38 @@ export function htmlToSlate(html: string) {
       listDeserializer,
       paragraphDeserializer,
       richTextDeserializer,
-      katexDeserializer
+      katexDeserializer,
+      {
+        deserialize(el) {
+          if (el.tagName && el.tagName.toLowerCase() === 'br') {
+            return {
+              object: 'text',
+              leaves: [
+                {
+                  object: 'leaf',
+                  text: '\n'
+                }
+              ]
+            }
+          }
+
+          if (el.nodeName === '#text') {
+            // @ts-ignore
+            if (el.value && el.value.match(/<!--.*?-->/)) return
+
+            return {
+              object: 'text',
+              leaves: [
+                {
+                  object: 'leaf',
+                  // @ts-ignore
+                  text: el.value
+                }
+              ]
+            }
+          }
+        }
+      }
     ],
     defaultBlock: { type: paragraphNode },
     parseHtml: (html: string) => {
@@ -64,7 +95,7 @@ export function htmlToSlate(html: string) {
     }
   })
 
-  return deserializer.deserialize(html).toJSON()
+  return deserializer.deserialize(html, { toJSON: true })
 }
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
