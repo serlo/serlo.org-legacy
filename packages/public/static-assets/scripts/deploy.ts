@@ -29,7 +29,7 @@ import { publishPackage, shouldDeployPackage } from '@serlo/cloudflare'
 const readFile = util.promisify(fs.readFile)
 
 const root = path.join(__dirname, '..')
-const distPath = path.join(__dirname, '..', 'dist')
+const srcPath = path.join(__dirname, '..', 'src')
 const packageJsonPath = path.join(root, 'package.json')
 const fsOptions = { encoding: 'utf-8' }
 const signale = new Signale({ interactive: true })
@@ -57,7 +57,7 @@ async function run() {
 
     signale.pending('Uploading package…')
     uploadPackage({
-      source: distPath,
+      source: srcPath,
       name,
       version
     })
