@@ -43,7 +43,6 @@ export async function render(input: string): Promise<string> {
   }
 
   const state = isEdtr(data) ? data : convert(data)
-
   try {
     return wrapOutput(coreRender({ plugins, state }))
   } catch (e) {
