@@ -20,33 +20,37 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown;
 
-class Module
+namespace Renderer\View\Helper;
+
+use Renderer\Exception\RuntimeException;
+use Renderer\RendererAwareTrait;
+use Renderer\Renderer;
+use Zend\View\Helper\AbstractHelper;
+
+class RendererHelper extends AbstractHelper
 {
-    public function getConfig()
+    use RendererAwareTrait;
+
+    protected $storage;
+
+    public function __construct(Renderer $renderService)
     {
-        return include __DIR__ . '/config/module.config.php';
+        $this->renderService = $renderService;
     }
 
-    public function getAutoloaderConfig()
+    public function __invoke()
     {
-        $autoloader = [];
+        return $this;
+    }
 
-        $autoloader['Zend\Loader\StandardAutoloader'] = [
-            'namespaces' => [
-                __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-            ],
-        ];
-
-        if (file_exists(__DIR__ . '/autoload_classmap.php')) {
-            return [
-                'Zend\Loader\ClassMapAutoloader' => [
-                    __DIR__ . '/autoload_classmap.php',
-                ],
-            ];
-        }
-
-        return $autoloader;
+    /**
+     * @param string $content
+     * @return string
+     */
+    public function toHtml($content)
+    {
+        $json = json_decode($content, true);
+        return ($json === null) ? htmlspecialchars($content) : $this->getRenderService()->render($content);
     }
 }

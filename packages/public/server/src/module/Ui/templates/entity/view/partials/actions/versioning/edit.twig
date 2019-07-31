@@ -28,7 +28,7 @@
             <span class="label label-community-light">{{ entity.countUnrevised() }}</span>
         </a>
     {% else %}
-        {% if convert or entity().isOryEditorFormat(entity.getCurrentRevision()) %}
+        {% if convert or not isLegacyFormat(entity.getCurrentRevision().get('content')) %}
             <a rel="nofollow"
                data-id="{{ entity.getId() }}"
                data-type="{{ entity.getType() }}"

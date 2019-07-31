@@ -28,4 +28,5 @@ use Versioning\Entity\RevisionInterface;
 
 interface PageRevisionInterface extends RevisionInterface, InstanceProviderInterface, UuidInterface
 {
+    public function getContent();
 }

@@ -20,26 +20,32 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\Factory;
+namespace Renderer;
 
-use Markdown\View\Helper\MarkdownHelper;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-class OryRenderHelperFactory implements FactoryInterface
+trait RendererAwareTrait
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        $renderer       = $serviceLocator->get('Markdown\Service\OryRenderService');
-        $plugin         = new MarkdownHelper($renderer);
 
-        return $plugin;
+    /**
+     * @var Renderer
+     */
+    protected $renderService;
+
+    /**
+     * @return Renderer $renderService
+     */
+    public function getRenderService()
+    {
+        return $this->renderService;
+    }
+
+    /**
+     * @param Renderer $renderService
+     * @return self
+     */
+    public function setRenderService(Renderer $renderService)
+    {
+        $this->renderService = $renderService;
+
+        return $this;
     }
 }

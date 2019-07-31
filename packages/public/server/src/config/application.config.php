@@ -72,7 +72,7 @@ return [
         'License',
         'Normalizer',
         'Type',
-        'Markdown',
+        'Renderer',
         'Authorization',
         'Taxonomy',
         'Notification',

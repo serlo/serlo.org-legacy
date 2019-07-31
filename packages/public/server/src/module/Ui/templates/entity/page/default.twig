@@ -20,7 +20,7 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 {% set convert = convert is defined and convert %}
-{% set renderer = convert or entity().isOryEditorFormat(entity.getCurrentRevision()) ? oryRenderer() : markdown() %}
+{% set renderer = not convert and (entity.isUnrevised() or isLegacyFormat(entity.getCurrentRevision().get('content'))) ? legacyEditorRenderer() : editorRenderer() %}
 {% set template = 'entity/page/' ~ entity.getType().getName() %}
 {% set template = include(template, ignore_missing = true) %}
 {% if template %}

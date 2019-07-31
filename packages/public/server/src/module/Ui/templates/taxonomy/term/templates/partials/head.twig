@@ -21,6 +21,6 @@
  #}
 {% if term.getDescription() %}
     <p>
-        {{ markdown().toHtml(term.getDescription()) }}
+        {{ legacyEditorRenderer().toHtml(term.getDescription()) }}
     </p>
 {% endif %}

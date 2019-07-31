@@ -21,7 +21,7 @@
  #}
 <div class="btn-group btn-group-community">
     {% if isGranted('page.revision.create', page) %}
-        {% if convert or revision.isOryEditorFormat() %}
+        {% if convert or isLegacyFormat(revision.getContent()) %}
         <a rel="nofollow" data-id="{{ page.getId() }}"
            class="btn btn-success ory-edit-button"
            href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId()}) }}">
@@ -72,7 +72,7 @@
                 </a>
             </li>
         {% endif %}
-        {% if isGranted('page.revision.create', page) and not convert and not revision.isOryEditorFormat() %}
+        {% if isGranted('page.revision.create', page) and not convert and isLegacyFormat(revision.getContent()) %}
             <li>
                 <a rel="nofollow" href="{{ url('page/view/convert', {'page': page.getId()}) }}" class="convert-button" data-content-id="{{ page.getId() }}">
                     <span class="fa fa-pencil"></span>

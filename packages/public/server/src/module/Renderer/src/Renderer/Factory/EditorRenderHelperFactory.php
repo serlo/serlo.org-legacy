@@ -20,20 +20,28 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\View\Helper;
+namespace Renderer\Factory;
 
-use Zend\View\Helper\AbstractHelper;
+use Renderer\Renderer;
+use Renderer\View\Helper\RendererHelper;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class OryFormatHelper extends AbstractHelper
+class EditorRenderHelperFactory implements FactoryInterface
 {
-    public function __invoke($string)
+    /**
+     * Create service
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return mixed
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return $this->isOryEditorFormat($string);
-    }
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        /** @var Renderer $renderer */
+        $renderer       = $serviceLocator->get('Renderer\Renderer');
+        $plugin         = new RendererHelper($renderer);
 
-    public function isOryEditorFormat($string)
-    {
-        $parsed = json_decode($string, true);
-        return $parsed !== null && isset($parsed['cells']);
+        return $plugin;
     }
 }

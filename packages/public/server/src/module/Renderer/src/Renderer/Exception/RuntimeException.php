@@ -20,37 +20,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+namespace Renderer\Exception;
 
-namespace Markdown\View\Helper;
-
-use Markdown\Exception\RuntimeException;
-use Markdown\Service\RenderServiceAwareTrait;
-use Markdown\Service\RenderServiceInterface;
-use Zend\View\Helper\AbstractHelper;
-
-class MarkdownHelper extends AbstractHelper
+class RuntimeException extends \RuntimeException
 {
-    use RenderServiceAwareTrait;
-
-    protected $storage;
-
-    public function __construct(RenderServiceInterface $renderService)
-    {
-        $this->renderService = $renderService;
-    }
-
-    public function __invoke()
-    {
-        return $this;
-    }
-
-    /**
-     * @param string $content
-     * @return string
-     */
-    public function toHtml($content)
-    {
-        $json = json_decode($content, true);
-        return ($json === null) ? htmlspecialchars($content) : $this->getRenderService()->render($content);
-    }
 }

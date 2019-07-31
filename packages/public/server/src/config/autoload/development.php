@@ -28,4 +28,9 @@ return [
             'Ui\Strategy\PhpRendererStrategy',
         ],
     ],
+
+    // (Renderer Module)
+    'renderer' => [
+        'cache_enabled' => false,
+    ],
 ];

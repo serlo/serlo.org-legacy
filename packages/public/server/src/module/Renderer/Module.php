@@ -20,28 +20,33 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\Factory;
+namespace Renderer;
 
-use Markdown\Service\OryRenderService;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-class OryRenderServiceFactory implements FactoryInterface
+class Module
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function getConfig()
     {
-        $storage = $serviceLocator->get('Markdown\Storage\MarkdownStorage');
-        $config  = $serviceLocator->get('config');
-        $url     = $config['assets']['editor_renderer'];
+        return include __DIR__ . '/config/module.config.php';
+    }
 
-        $service = new OryRenderService($url, $storage);
+    public function getAutoloaderConfig()
+    {
+        $autoloader = [];
 
-        return $service;
+        $autoloader['Zend\Loader\StandardAutoloader'] = [
+            'namespaces' => [
+                __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+            ],
+        ];
+
+        if (file_exists(__DIR__ . '/autoload_classmap.php')) {
+            return [
+                'Zend\Loader\ClassMapAutoloader' => [
+                    __DIR__ . '/autoload_classmap.php',
+                ],
+            ];
+        }
+
+        return $autoloader;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of Serlo.org.
  *
@@ -20,13 +21,33 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\Service;
 
-interface RenderServiceInterface
+namespace Renderer\View\Helper;
+
+trait FormatHelperAwareTrait
 {
+
     /**
-     * @param string $content
-     * @return string
+     * @var FormatHelper
      */
-    public function render($content);
+    protected $formatHelper;
+
+    /**
+     * @return FormatHelper
+     */
+    public function getFormatHelper()
+    {
+        return $this->formatHelper;
+    }
+
+    /**
+     * @param FormatHelper $formatHelper
+     * @return $this
+     */
+    public function setFormatHelper(FormatHelper $formatHelper)
+    {
+        $this->formatHelper = $formatHelper;
+
+        return $this;
+    }
 }

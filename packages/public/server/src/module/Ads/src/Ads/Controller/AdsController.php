@@ -27,6 +27,7 @@ use Ads\Form\AdPageForm;
 use Attachment\Exception\NoFileSent;
 use Common\Form\CsrfForm;
 use Instance\Manager\InstanceManagerAwareTrait;
+use Page\Entity\PageRevisionInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -38,6 +39,7 @@ class AdsController extends AbstractActionController
     use \Ads\Manager\AdsManagerAwareTrait;
     use \Attachment\Manager\AttachmentManagerAwareTrait;
     use \Page\Manager\PageManagerAwareTrait;
+    use \Renderer\View\Helper\FormatHelperAwareTrait;
 
     public function indexAction()
     {
@@ -170,9 +172,10 @@ class AdsController extends AbstractActionController
             $this->redirect()->toRoute('ads/about/setabout');
         } else {
             $repository = $adPage->getPageRepository();
+            /** @var PageRevisionInterface $revision */
             $revision = $repository->getCurrentRevision();
             $this->redirect()->toRoute(
-                $revision->isOryEditorFormat() ? 'page/revision/create': 'page/revision/create-old',
+                $this->getFormatHelper()->isLegacyFormat($revision->getContent()) ? 'page/revision/create-old' : 'page/revision/create',
                 [
                     'page'     => $repository->getId(),
                     'revision' => $revision,

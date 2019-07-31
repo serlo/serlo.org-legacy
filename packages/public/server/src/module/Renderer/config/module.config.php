@@ -20,31 +20,33 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown;
+namespace Renderer;
+
+use Renderer\Factory\EditorRendererFactory;
+use Renderer\Factory\EditorRenderHelperFactory;
+use Renderer\Factory\LegacyEditorRendererFactory;
+use Renderer\Factory\LegacyEditorRendererHelperFactory;
+use Renderer\Factory\RendererStorageFactory;
+use Renderer\View\Helper\FormatHelper;
 
 return [
+    'renderer' => [
+        'cache_enabled' => true,
+    ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Storage\MarkdownStorage'   => __NAMESPACE__ . '\Factory\MarkdownStorageFactory',
-            __NAMESPACE__ . '\Service\HtmlRenderService' => __NAMESPACE__ . '\Factory\HtmlRenderServiceFactory',
-            __NAMESPACE__ . '\Service\OryRenderService' => __NAMESPACE__ . '\Factory\OryRenderServiceFactory',
+            __NAMESPACE__ . '\Storage\RendererStorage'   => RendererStorageFactory::class,
+            __NAMESPACE__ . '\LegacyEditorRenderer' => LegacyEditorRendererFactory::class,
+            __NAMESPACE__ . '\EditorRenderer' => EditorRendererFactory::class,
         ],
     ],
     'view_helpers'    => [
         'factories' => [
-            'markdown' => __NAMESPACE__ . '\Factory\MarkdownHelperFactory',
-            'oryRenderer' => __NAMESPACE__ . '\Factory\OryRenderHelperFactory',
+            'legacyEditorRenderer' => LegacyEditorRendererHelperFactory::class,
+            'editorRenderer' => EditorRenderHelperFactory::class,
         ],
         'invokables' => [
-            'isOryEditorFormat' => __NAMESPACE__ . '\View\Helper\OryFormatHelper',
-        ],
-    ],
-    'di'              => [
-        'instance' => [
-            'preferences' => [
-                __NAMESPACE__ . '\Service\CacheServiceInterface'  => __NAMESPACE__ . '\Service\CacheService',
-                __NAMESPACE__ . '\Service\RenderServiceInterface' => __NAMESPACE__ . '\Service\HtmlRenderService',
-            ],
+            'isLegacyFormat' => FormatHelper::class,
         ],
     ],
 ];

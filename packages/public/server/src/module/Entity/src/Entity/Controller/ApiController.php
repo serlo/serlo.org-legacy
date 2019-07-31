@@ -28,8 +28,8 @@ use Doctrine\Common\Collections\Collection;
 use Entity\Entity\EntityInterface;
 use Entity\Filter\EntityAgeCollectionFilter;
 use Entity\Manager\EntityManagerInterface;
-use Markdown\Exception\RuntimeException;
-use Markdown\Service\RenderServiceInterface;
+use Renderer\Exception\RuntimeException;
+use Renderer\Renderer;
 use Normalizer\NormalizerInterface;
 use Uuid\Filter\NotTrashedCollectionFilter;
 use Versioning\Filter\HasCurrentRevisionCollectionFilter;
@@ -51,19 +51,19 @@ class ApiController extends AbstractController
      */
     protected $descriptionFilter;
     /**
-     * @var RenderServiceInterface
+     * @var Renderer
      */
     protected $renderService;
 
     /**
      * @param EntityManagerInterface $entityManager
      * @param NormalizerInterface    $normalizer
-     * @param RenderServiceInterface $renderService
+     * @param Renderer $renderService
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         NormalizerInterface $normalizer,
-        RenderServiceInterface $renderService
+        Renderer $renderService
     ) {
         $this->normalizer        = $normalizer;
         $this->entityManager     = $entityManager;

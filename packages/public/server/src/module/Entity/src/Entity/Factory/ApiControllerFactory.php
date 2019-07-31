@@ -41,7 +41,7 @@ class ApiControllerFactory implements FactoryInterface
         $serviceManager = $serviceLocator->getServiceLocator();
         $entityManager  = $serviceManager->get('Entity\Manager\EntityManager');
         $normalizer     = $serviceManager->get('Normalizer\Normalizer');
-        $renderService  = $serviceManager->get('Markdown\Service\HtmlRenderService');
+        $renderService  = $serviceManager->get('Renderer\Renderer');
         return new ApiController($entityManager, $normalizer, $renderService);
     }
 }

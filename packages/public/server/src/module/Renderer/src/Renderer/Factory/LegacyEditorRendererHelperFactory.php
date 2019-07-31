@@ -20,32 +20,28 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\Service;
+namespace Renderer\Factory;
 
-trait RenderServiceAwareTrait
+use Renderer\Renderer;
+use Renderer\View\Helper\RendererHelper;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+class LegacyEditorRendererHelperFactory implements FactoryInterface
 {
-
     /**
-     * @var RenderServiceInterface
+     * Create service
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return mixed
      */
-    protected $renderService;
-
-    /**
-     * @return RenderServiceInterface $renderService
-     */
-    public function getRenderService()
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return $this->renderService;
-    }
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        /** @var Renderer $renderer */
+        $renderer       = $serviceLocator->get('Renderer\LegacyEditorRenderer');
+        $plugin         = new RendererHelper($renderer);
 
-    /**
-     * @param RenderServiceInterface $renderService
-     * @return self
-     */
-    public function setRenderService(RenderServiceInterface $renderService)
-    {
-        $this->renderService = $renderService;
-
-        return $this;
+        return $plugin;
     }
 }

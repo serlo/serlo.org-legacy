@@ -20,13 +20,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\Factory;
+namespace Renderer\Factory;
 
-use Markdown\Service\HtmlRenderService;
+use Renderer\Renderer;
+use Zend\Cache\Storage\StorageInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class HtmlRenderServiceFactory implements FactoryInterface
+class LegacyEditorRendererFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -36,11 +37,12 @@ class HtmlRenderServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        /** @var StorageInterface $storage */
+        $storage = $serviceLocator->get('Renderer\Storage\RendererStorage');
         $config = $serviceLocator->get('config');
-        $storage = $serviceLocator->get('Markdown\Storage\MarkdownStorage');
         $url = $config['assets']['legacy_editor_renderer'];
-
-        $service = new HtmlRenderService($url, $storage);
+        $cacheEnabled = $config['renderer']['cache_enabled'];
+        $service = new Renderer($url, $storage, $cacheEnabled, 'legacy-editor-renderer');
 
         return $service;
     }

@@ -20,13 +20,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Markdown\Factory;
+namespace Renderer\Factory;
 
 use Zend\Cache\StorageFactory;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class MarkdownStorageFactory implements FactoryInterface
+class RendererStorageFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -41,7 +41,7 @@ class MarkdownStorageFactory implements FactoryInterface
                 'name' => 'apc',
                 'options' => [
                     'namespace' => __NAMESPACE__,
-                    'ttl' => 60 * 60 *24,
+                    'ttl' => 60 * 60 * 24,
                 ],
             ],
             'plugins' => [
@@ -51,9 +51,6 @@ class MarkdownStorageFactory implements FactoryInterface
                 'serializer',
             ],
         ];
-        if (array_key_exists('markdown_cache', $serviceLocator->get('Config'))) {
-            $config = $serviceLocator->get('Config')['markdown_cache'];
-        };
         $cache = StorageFactory::factory($config);
         return $cache;
     }
