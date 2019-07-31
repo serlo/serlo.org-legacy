@@ -23,7 +23,7 @@
 namespace Renderer;
 
 use Renderer\Factory\EditorRendererFactory;
-use Renderer\Factory\EditorRenderHelperFactory;
+use Renderer\Factory\EditorRendererHelperFactory;
 use Renderer\Factory\LegacyEditorRendererFactory;
 use Renderer\Factory\LegacyEditorRendererHelperFactory;
 use Renderer\Factory\RendererStorageFactory;
@@ -43,7 +43,7 @@ return [
     'view_helpers'    => [
         'factories' => [
             'legacyEditorRenderer' => LegacyEditorRendererHelperFactory::class,
-            'editorRenderer' => EditorRenderHelperFactory::class,
+            'editorRenderer' => EditorRendererHelperFactory::class,
         ],
         'invokables' => [
             'isLegacyFormat' => FormatHelper::class,

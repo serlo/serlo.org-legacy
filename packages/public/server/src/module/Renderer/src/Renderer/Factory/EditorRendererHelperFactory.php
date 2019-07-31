@@ -27,7 +27,7 @@ use Renderer\View\Helper\RendererHelper;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class EditorRenderHelperFactory implements FactoryInterface
+class EditorRendererHelperFactory implements FactoryInterface
 {
     /**
      * Create service
