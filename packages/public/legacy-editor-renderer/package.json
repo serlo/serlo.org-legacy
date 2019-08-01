@@ -1,6 +1,6 @@
 {
-  "name": "@serlo/legacy-editor-renderer",
-  "version": "0.1.8",
+  "name": "@serlo/serlo-org-legacy-editor-renderer",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",

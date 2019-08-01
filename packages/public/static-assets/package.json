@@ -1,6 +1,6 @@
 {
-  "name": "@serlo/static-assets",
-  "version": "2.0.0",
+  "name": "@serlo/serlo-org-static-assets",
+  "version": "1.0.0",
   "scripts": {
     "predeploy:package": "find . -name '.DS_Store' -type f -delete",
     "deploy:package": "ts-node scripts/deploy"

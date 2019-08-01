@@ -3,7 +3,7 @@
 <phpunit bootstrap="./src/test/AtheneTest/Bootstrap.php"
   colors="true">
   <testsuites>
-    <testsuite name="Athene2">
+    <testsuite name="serlo-org-server">
       <directory>./src/module/**/test</directory>
     </testsuite>
   </testsuites>

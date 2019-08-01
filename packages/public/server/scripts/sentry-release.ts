@@ -39,7 +39,7 @@ run().then(() => {})
 
 async function run() {
   try {
-    signale.info('Deploying athene2-assets')
+    signale.info('Deploying athene2')
 
     const { version } = await fetchPackageJSON()
 

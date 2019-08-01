@@ -36,7 +36,7 @@ run().then(() => {})
 async function run() {
   const { version } = await fetchPackageJSON()
   buildDockerImage({
-    name: 'hydra',
+    name: 'serlo-org-hydra',
     version,
     Dockerfile: path.join(root, 'Dockerfile'),
     context: '.'
