@@ -1,0 +1,271 @@
+/* Content -------------------- */
+@mixin contentColumnWidth($num, $grid, $gutter) {
+	  width: (100 / $grid) * $num * 1%;
+	  box-sizing: border-box;
+	  padding: 0 ($gutter/2);
+	  float: left;
+	  min-height: 1px;
+
+	  hyphens: auto;
+	  word-wrap: break-word;
+
+	  .content-editor & {
+	    min-height: 20px;
+	    cursor: pointer;
+
+	    outline: 1px solid rgba(135, 206, 250, 0);
+	    transition: 0.2s background 0s, 0.4s outline 0s;
+
+	    &:hover {
+	      outline: 1px solid rgba(135, 206, 250, 0.6);
+	      background: rgba(135, 206, 250, 0.1);
+	    }
+
+	    &.active {
+	      outline: 2px solid lightskyblue;
+	      background: rgba(135, 206, 250, 0.2);
+	    }
+	  }
+	}
+
+
+div.content {
+
+	.r {
+		.content-editor & {
+	      position: relative;
+	      transform: translateZ(0); // brower paint optimization hack
+
+	    .row-actions {
+	        position: absolute;
+	        top: 38px;
+	        right: 0;
+	      }
+	    }
+	  }
+
+	  img {
+	    max-width: 100%;
+	    height: auto;
+	    table & {
+	      width: 100%;
+	    }
+	  }
+
+	// Spoilers
+	.spoiler {
+	  margin-top: 12px;
+
+	  .spoiler-teaser {
+	    cursor: pointer;
+	    position: relative;
+	    padding-left: 40px;
+	    .fa {
+	      position: absolute;
+	      top: 13px;
+	      left: 15px;
+	    }
+	  }
+	}
+
+	.spoiler-content {
+	  display: none;
+	}
+
+
+
+    @include media-breakpoint-up(sm) {
+
+    $gutter: 30px;
+    $grid: 24;
+
+    .r {
+      margin-left: $gutter / -2;
+      margin-right: $gutter / -2;
+
+      &:before,
+      &:after {
+        content: ' '; /* 1 */
+        display: table; /* 2 */
+      }
+      &:after {
+        clear: both;
+      }
+    }  
+    @for $i from 1 through $grid {
+      .c#{$i} {
+        @include contentColumnWidth($i, $grid, $gutter);
+      }
+    }
+  }
+
+
+	// Typography
+	  h1,
+	  h2,
+	  h3,
+	  h4,
+	  h5,
+	  h6 {
+	    margin: 0;
+	    padding: 30px 0px 15px;
+      color: $blue;
+	  }
+
+    h1 {
+      font-size: 1.66rem;
+      color: $blue;
+    }
+    h2 {
+      font-size: 1.66rem;
+    }
+    h3 {
+      font-size: 1.5rem;
+    }
+    h4 {
+      font-size: 1.33rem;
+    }
+    h5 {
+      font-size: 1em;
+    }
+    h6 {
+      font-size: 1em;
+      color: #888;
+    }
+
+    a {
+      // border-bottom:1px solid transparent;
+      font-weight: bold;
+
+      &:hover{
+        background: rgba(0, 126, 193, 0.7);
+        // border-bottom:1px solid $blue;
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+
+} //content
+
+  // Taxonomy
+  nav.taxonomy{
+    ul{
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      li{
+        margin-bottom: 10px;
+      }
+    }
+    h2{
+      font-size: 1.5em;
+      margin-top: 0;
+    }
+  } 
+
+
+.comments {
+   header{
+    border-top:1px solid $lighterblue;
+    margin-top:4rem;
+    padding-top:2rem;
+  }
+
+  textarea{
+    background-color: $lightblue;
+    width: 100%;
+    margin-top: 0;
+    padding: 15px;
+    transition: background-color 0.4s ease;
+    outline: none;
+
+    color: rgba(255,255,255,0.5);
+    border: 0;
+    
+
+    &:focus-within {
+      background-color: $green;
+      color: #fff;
+    }
+  }
+
+  small {
+    float: right;
+  }
+
+}
+
+
+.suggested-content{
+  font-size: 1rem;
+  margin-top: 3rem;
+
+  h3{
+    margin-top: 0;
+  }
+
+  .article-thumbnail {
+    margin-bottom: 1rem;
+    i {
+      display: block;
+      background-color: #d8ebf5;
+      text-align: center;
+      line-height: 5.5rem;
+      height: 6rem;
+      color: $lighterblue;
+    }
+  }
+}
+
+.topiclist {
+  margin-top: 3rem;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-left: 0.2rem;
+
+    li{
+      margin-bottom: 0.3rem;
+
+      &.important {
+        font-weight: bold;
+        i {
+          color: $blue;
+        }
+      }
+    }
+  }
+
+  i {
+    color:  $lighterblue;
+    padding-right:0.3rem;
+  }
+
+}
+
+
+section.license{
+  margin-top: 3rem;
+  border-top: 1px solid $lighterblue;
+  margin-top: 3rem;
+  padding-top: 1rem;
+  color: $lighterblue;
+
+  a {
+    font-weight: bold;
+     color: $lighterblue;
+  }
+}
+
+
+
+.content article{
+  ::selection {
+    background: fade-out($green,0.3);
+  }
+  a::selection {
+    color: #fff;
+    background: fade-out($blue,0.3);
+  }
+}

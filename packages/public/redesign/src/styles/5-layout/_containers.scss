@@ -1,0 +1,30 @@
+
+
+.wide-container{
+		padding: 0 1vw;
+	}
+
+@include media-breakpoint-down(lg) {
+	body .container {
+	   	max-width: none;
+	}
+}
+
+@include media-breakpoint-up(lg) {
+	html{
+		font-size: 18px;
+	}
+}
+
+@include media-breakpoint-up(xl) {
+	html{
+		font-size: 20px;
+	}
+	.container{
+		max-width: 56rem !important;
+		position: relative;
+	}
+	.wide-container{
+		padding: 0 4rem;
+	}
+}

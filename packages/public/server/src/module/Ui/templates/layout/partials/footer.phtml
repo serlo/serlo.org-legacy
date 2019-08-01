@@ -22,75 +22,76 @@
  */
 ?>
 <?php if (!$this->layout()->hideFooter): ?>
-    <footer id="footer" class="home-row">
-        <div id="mission-statement" class="col-lg-3 pull-right-lg">
-            <div id="mission-statement-claim">
-                <h2 id="mission-statement-head"><?php echo $this->translate('Serlo.org is the Wikipedia for learning.'); ?></h2>
-                <p><?php echo $this->translate('We are a community of visionaries working tirelessly to make great education freely available to everyone.'); ?></p>
-                <a href="/serlo"><?php echo $this->translate('Learn more'); ?> <i class="fa fa-arrow-circle-right"></i>
-                </a>
-            </div>
-            <div id="mission-statement-actions" class="row">
-                <div class="mission-statement-action col-xs-6">
-                    <a href="/mitmachen">
-                        <img src="<?php echo $this->assets()->getAsset('footer/participate.svg'); ?>"/>
-                        <p><?php echo $this->translate('Join the cause'); ?></p>
-                    </a>
-                </div>
-                <div class="mission-statement-action col-xs-6">
-                    <a href="/spenden">
-                        <?php echo $this->partial('layout/de/home_donate');?>
-                        <p><?php echo $this->translate('Donate'); ?></p>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-wrapper col-lg-8 col-lg-push-1">
-            <div class="logo-wrapper">
-                <a href="/">
-                    <?php echo $this->brand()->getLogo(); ?>
-                    <?php echo $this->brand()->getBrand(); ?>
-                    <?php echo $this->brand()->getSlogan(); ?>
-                </a>
-            </div>
-            <nav>
-                <div class="row">
-                    <div class="col-lg-2 col-sm-3">
-                        <div class="footer-title"><?php echo $this->translate('General'); ?></div>
-                        <?php echo $this->navigation('footer_left_navigation')
-                            ->menu()
-                            ->setPartial('layout/navigation/vertical')
-                            ->render();
-                        ?>
-                    </div>
-                    <div class="col-lg-2 col-sm-3">
-                        <div class="footer-title"><?php echo $this->translate('Subjects'); ?></div>
-                        <?php echo $this->navigation('subject_navigation')
-                            ->menu()
-                            ->setPartial('layout/navigation/vertical')
-                            ->render();
-                        ?>
-                    </div>
-                    <div class="col-lg-2 col-sm-3">
-                        <div class="footer-title"><?php echo $this->translate('Stay in touch'); ?></div>
-                        <?php echo $this->navigation('social_navigation')
-                            ->menu()
-                            ->setPartial('layout/navigation/vertical')
-                            ->render();
-                        ?>
-                    </div>
-                    <div class="col-lg-4 col-sm-3">
-                        <div class="footer-title"><?php echo $this->translate('Legal terms'); ?></div>
-                        <?php echo $this->navigation('footer_right_navigation')
-                            ->menu()
-                            ->setPartial('layout/navigation/vertical')
-                            ->render();
-                        ?>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </footer>
+        <?php echo $this->renderComponent('footer'); ?>
+<!--    <footer id="footer" class="home-row">-->
+<!--        <div id="mission-statement" class="col-lg-3 pull-right-lg">-->
+<!--            <div id="mission-statement-claim">-->
+<!--                <h2 id="mission-statement-head">--><?php //echo $this->translate('Serlo.org is the Wikipedia for learning.'); ?><!--</h2>-->
+<!--                <p>--><?php //echo $this->translate('We are a community of visionaries working tirelessly to make great education freely available to everyone.'); ?><!--</p>-->
+<!--                <a href="/serlo">--><?php //echo $this->translate('Learn more'); ?><!-- <i class="fa fa-arrow-circle-right"></i>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--            <div id="mission-statement-actions" class="row">-->
+<!--                <div class="mission-statement-action col-xs-6">-->
+<!--                    <a href="/mitmachen">-->
+<!--                        <img src="--><?php //echo $this->assets()->getAsset('footer/participate.svg'); ?><!--"/>-->
+<!--                        <p>--><?php //echo $this->translate('Join the cause'); ?><!--</p>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="mission-statement-action col-xs-6">-->
+<!--                    <a href="/spenden">-->
+<!--                        --><?php //echo $this->partial('layout/de/home_donate');?>
+<!--                        <p>--><?php //echo $this->translate('Donate'); ?><!--</p>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="footer-wrapper col-lg-8 col-lg-push-1">-->
+<!--            <div class="logo-wrapper">-->
+<!--                <a href="/">-->
+<!--                    --><?php //echo $this->brand()->getLogo(); ?>
+<!--                    --><?php //echo $this->brand()->getBrand(); ?>
+<!--                    --><?php //echo $this->brand()->getSlogan(); ?>
+<!--                </a>-->
+<!--            </div>-->
+<!--            <nav>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-lg-2 col-sm-3">-->
+<!--                        <div class="footer-title">--><?php //echo $this->translate('General'); ?><!--</div>-->
+<!--                        --><?php //echo $this->navigation('footer_left_navigation')
+//                            ->menu()
+//                            ->setPartial('layout/navigation/vertical')
+//                            ->render();
+//                        ?>
+<!--                    </div>-->
+<!--                    <div class="col-lg-2 col-sm-3">-->
+<!--                        <div class="footer-title">--><?php //echo $this->translate('Subjects'); ?><!--</div>-->
+<!--                        --><?php //echo $this->navigation('subject_navigation')
+//                            ->menu()
+//                            ->setPartial('layout/navigation/vertical')
+//                            ->render();
+//                        ?>
+<!--                    </div>-->
+<!--                    <div class="col-lg-2 col-sm-3">-->
+<!--                        <div class="footer-title">--><?php //echo $this->translate('Stay in touch'); ?><!--</div>-->
+<!--                        --><?php //echo $this->navigation('social_navigation')
+//                            ->menu()
+//                            ->setPartial('layout/navigation/vertical')
+//                            ->render();
+//                        ?>
+<!--                    </div>-->
+<!--                    <div class="col-lg-4 col-sm-3">-->
+<!--                        <div class="footer-title">--><?php //echo $this->translate('Legal terms'); ?><!--</div>-->
+<!--                        --><?php //echo $this->navigation('footer_right_navigation')
+//                            ->menu()
+//                            ->setPartial('layout/navigation/vertical')
+//                            ->render();
+//                        ?>
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </nav>-->
+<!--        </div>-->
+<!--    </footer>-->
 <?php endif; ?>
 
 <div id="controls"></div>

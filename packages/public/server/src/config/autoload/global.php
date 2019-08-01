@@ -37,6 +37,9 @@ return [
         $assets
     ),
 
+    // TODO:
+    'redesign_url' => 'http://host.docker.internal:3000',
+
     // Branding, one entry per instance (Ui Module)
     'brand' => [
         'instances' => [

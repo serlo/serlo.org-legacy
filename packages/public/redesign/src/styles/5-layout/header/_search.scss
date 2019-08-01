@@ -1,0 +1,90 @@
+// search
+
+.navbar form {
+	background-color: $lightblue;
+	width: 100%;
+	display: block;
+	margin-top: 1rem;
+	transition: background-color .4s ease;
+
+	&:focus-within {
+		background-color: $green;
+	}
+
+	input.form-control {
+		color: #fff;
+		font-weight: bold;
+		width: calc(100% - 3rem);
+		display: inline-block;
+		background-color: transparent;
+		border: 0;
+		height: 2.5rem;
+		padding-left: $navbar-padding-left;
+		box-shadow: none;
+	}
+	
+	.form-control::placeholder {
+		color: rgba($white,.6);
+	}
+
+	button {
+		float: right;
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 0;
+		color: $white;
+		display: inline-block;
+		border-radius: 0;
+	}
+}
+
+
+
+@include media-breakpoint-up(md) {
+	.navbar form {
+		width: 7rem;
+		position: absolute;
+		top: 5.6rem;
+		right: 2rem;
+		background-color: transparent;
+		border-radius: 1.1rem;
+		height: 2.2rem;
+		margin-top: 0;
+
+		transition: all .4s ease;
+
+		&:focus-within {
+			 width: 12rem;
+			 .form-control::placeholder {
+			 	opacity: 0;
+			 }
+		}
+
+		input.form-control {
+			// width: 100%;
+			padding: 0 0 0 1rem;
+			margin-top: -.2rem;
+		}
+		.form-control::placeholder {
+			text-align: right;
+			margin-top: -.1rem;
+		}
+
+		button {
+			top:0;
+			padding: .1rem 0 0 .1rem;
+			width: 2.2rem;
+			height: 2.2rem;
+			border-radius: 1.1rem;
+		}
+	}
+}
+
+
+@include media-breakpoint-up(xl) {
+	nav.navbar form {	
+		right: 1.7rem;
+	    margin-top: -.3rem;
+	    margin-left: auto;
+	}
+}

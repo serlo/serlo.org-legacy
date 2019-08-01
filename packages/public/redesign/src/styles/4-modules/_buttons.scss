@@ -1,0 +1,37 @@
+.btn {
+	border-radius: 5rem;
+	border: 0;
+	height: 2.2em;
+	background: fade-out($lighterblue,0.65);
+	font-weight: bold;
+	color: $blue;
+	
+	&:hover {
+		background: $blue;
+		color: #fff;
+	}
+}
+
+
+.btn-light {
+	background: $lightblue;
+	font-weight: bold;
+	color: #fff;
+	&:hover {
+		background: #fff;
+		color: $blue;
+	}
+}
+
+
+
+// .btn-light {
+// 	font-weight: bold;
+// 	color: $blue;
+// 	border: 0;
+
+// 	&:hover {
+// 		background: fade-out(#fff,0.65);
+// 		color: #fff;
+// 	}
+// }
