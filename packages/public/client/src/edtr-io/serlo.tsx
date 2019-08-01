@@ -45,7 +45,7 @@ export function SerloContainerInner({
   return (
     <React.Fragment>
       <link
-        href="https://packages.serlo.org/athene2-assets@a/main.css"
+        href="https://packages.serlo.org/serlo-org-client@1/main.css"
         rel="stylesheet"
       />
       <div>
@@ -591,7 +591,7 @@ export function SerloContainerInner({
         </div>
         <script
           type="text/javascript"
-          src="https://packages.serlo.org/athene2-assets@a/main.js"
+          src="https://packages.serlo.org/serlo-org-client@1/main.js"
         />
       </div>
     </React.Fragment>

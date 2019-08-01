@@ -80,7 +80,7 @@ require('jasny-bootstrap/dist/js/jasny-bootstrap.js')
 const { version } = require('../../package.json')
 
 console.log('########################')
-console.log(`# athene2-assets@${version} #`)
+console.log(`# serlo-org-client@${version} #`)
 console.log('########################')
 
 const setLanguage = () => {

@@ -38,7 +38,7 @@ run().then(() => {})
 
 async function run() {
   try {
-    const name = 'athene2-assets'
+    const name = 'serlo-org-client'
 
     const { version } = await fetchPackageJSON()
 

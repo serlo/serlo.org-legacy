@@ -31,8 +31,8 @@ require __DIR__ . '/../definitions.local.php';
 return [
     'assets' => array_merge(
         [
-            'assets_host' => 'https://packages.serlo.org/static-assets@2/',
-            'bundle_host' => 'https://packages.serlo.org/athene2-assets@5/',
+            'assets_host' => 'https://packages.serlo.org/serlo-org-static-assets@1/',
+            'bundle_host' => 'https://packages.serlo.org/serlo-org-client@1/',
         ],
         $assets
     ),

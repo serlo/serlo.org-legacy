@@ -1,5 +1,5 @@
 {
-  "name": "@serlo/hydra",
+  "name": "@serlo/serlo-org-hydra",
   "version": "1.0.0",
   "scripts": {
     "deploy:image": "ts-node scripts/deploy"

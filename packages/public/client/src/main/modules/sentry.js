@@ -26,9 +26,9 @@ import { version } from '../../../package.json'
 Sentry.init({
   dsn:
     process.env.NODE_ENV === 'production'
-      ? 'https://0c66c811e7f4408c8f20798379d7a814@sentry.io/1330033'
+      ? 'https://019a6c4e5ac24e26a6b2391398c445bd@sentry.io/1518830'
       : null,
-  release: `athene2-assets@${version}`,
+  release: `serlo-org-client@${version}`,
   whitelistUrls: ['serlo.org', 'serlo-development.dev', 'serlo-staging.dev']
 })
 

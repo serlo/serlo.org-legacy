@@ -42,7 +42,7 @@ class SentryFactory implements FactoryInterface
         // Deactivate sentry if no DSN is given
             isset($sentryConfig['dsn']) ? $sentryConfig['dsn'] : null,
             [
-                'release' => 'athene2@' . $sentryConfig['version'],
+                'release' => 'serlo-org-server@' . $sentryConfig['version'],
                 'tags' => [
                     'php_version' => phpversion(),
                 ],

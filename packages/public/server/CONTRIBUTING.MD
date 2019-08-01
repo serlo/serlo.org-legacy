@@ -1,4 +1,4 @@
-# Contributing to Athene2
+# Contributing to serlo.org
 
 ## Style guides
 

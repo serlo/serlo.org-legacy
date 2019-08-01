@@ -36,7 +36,7 @@ run().then(() => {})
 async function run() {
   const { version } = await fetchPackageJSON()
   buildDockerImage({
-    name: 'legacy-editor-renderer',
+    name: 'serlo-org-legacy-editor-renderer',
     version,
     Dockerfile: path.join(root, 'Dockerfile'),
     context: '../../..'

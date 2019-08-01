@@ -36,13 +36,13 @@ run()
 async function run() {
   const { version } = await fetchPackageJSON()
   buildDockerImage({
-    name: 'athene2-httpd',
+    name: 'serlo-org-httpd',
     version,
     Dockerfile: path.join(root, 'docker', 'httpd', 'Dockerfile'),
     context: '.'
   })
   buildDockerImage({
-    name: 'athene2-php',
+    name: 'serlo-org-php',
     version,
     Dockerfile: path.join(root, 'docker', 'php', 'Dockerfile'),
     context: '.'

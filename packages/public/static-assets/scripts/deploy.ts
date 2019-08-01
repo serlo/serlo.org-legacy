@@ -38,7 +38,7 @@ run().then(() => {})
 
 async function run() {
   try {
-    const name = 'static-assets'
+    const name = 'serlo-org-static-assets'
 
     signale.info('Deploying static assets')
 
