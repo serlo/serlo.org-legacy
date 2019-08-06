@@ -32,6 +32,8 @@ namespace Entity\Controller;
 
 use Common\Form\CsrfForm;
 use Entity\Entity\EntityInterface;
+use Entity\Entity\RevisionField;
+use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
 use Versioning\Entity\RevisionInterface;
 use Versioning\Exception\RevisionNotFoundException;
@@ -53,6 +55,33 @@ class RepositoryController extends AbstractController
     protected $moduleOptions;
 
 
+    public function addLegacyRevisionAction()
+    {
+        $entity = $this->getEntity();
+
+        if (!$entity || $entity->isTrashed()) {
+            $this->getResponse()->setStatusCode(404);
+            return false;
+        }
+
+        $this->assertGranted('entity.revision.create', $entity);
+
+        /* @var $form \Zend\Form\Form */
+        $form = $this->getForm($entity, $this->params('revision'));
+        $view = new ViewModel(['entity' => $entity, 'form' => $form]);
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                return $this->handleAddRevisionPost($entity, $form);
+            }
+        }
+
+        $this->layout('legacy-editor');
+        $view->setTemplate('entity/repository/update-revision-legacy');
+        return $view;
+    }
+
     public function addRevisionAction()
     {
         $entity = $this->getEntity();
@@ -63,42 +92,42 @@ class RepositoryController extends AbstractController
         }
 
         $this->assertGranted('entity.revision.create', $entity);
-        $mayCheckout = $this->isGranted('entity.revision.checkout', $entity);
 
-        /* @var $form \Zend\Form\Form */
         $form = $this->getForm($entity, $this->params('revision'));
-        $view = new ViewModel(['entity' => $entity, 'form' => $form]);
+        $json = json_encode($this->getData($entity, $this->params('revision')));
+        $view = new ViewModel(['entity' => $entity, 'form' => $form, 'json' => $json]);
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $data = $form->getData();
-                $revision = $this->getRepositoryManager()->commitRevision($entity, $data);
-                /** @var Translator $translator */
-                $translator = $this->serviceLocator->get('MvcTranslator');
-                if ($mayCheckout) {
-                    $this->getRepositoryManager()->checkoutRevision($entity, $revision);
-                    $successMessage = $translator->translate('Your revision has been saved and is available');
-                    $route = 'entity/page';
-                } else {
-                    $successMessage = $translator->translate('Your revision has been saved, it will be available once it gets approved');
-                    $route = 'entity/repository/history';
-                }
-                $this->getEntityManager()->flush();
-                $this->flashMessenger()->addSuccessMessage($successMessage);
-
-                return $this->redirect()->toRoute($route, ['entity' => $entity->getId()]);
+                return $this->handleAddRevisionPost($entity, $form);
             }
         }
 
-        if ($this->params('old', false)) {
-            $this->layout('athene2-editor');
-            $view->setTemplate('entity/repository/update-revision');
-        } else {
-            $this->layout('layout/3-col');
-            $view->setTemplate('entity/repository/update-revision-ory');
-        }
+        $this->layout('layout/3-col');
+        $view->setTemplate('entity/repository/update-revision-editor');
         return $view;
+    }
+
+    protected function handleAddRevisionPost(EntityInterface $entity, Form $form)
+    {
+        $mayCheckout = $this->isGranted('entity.revision.checkout', $entity);
+        $data = $form->getData();
+        $revision = $this->getRepositoryManager()->commitRevision($entity, $data);
+        /** @var Translator $translator */
+        $translator = $this->serviceLocator->get('MvcTranslator');
+        if ($mayCheckout) {
+            $this->getRepositoryManager()->checkoutRevision($entity, $revision);
+            $successMessage = $translator->translate('Your revision has been saved and is available');
+            $route = 'entity/page';
+        } else {
+            $successMessage = $translator->translate('Your revision has been saved, it will be available once it gets approved');
+            $route = 'entity/repository/history';
+        }
+        $this->getEntityManager()->flush();
+        $this->flashMessenger()->addSuccessMessage($successMessage);
+
+        return $this->redirect()->toRoute($route, ['entity' => $entity->getId()]);
     }
 
     public function checkoutAction()
@@ -230,6 +259,52 @@ class RepositoryController extends AbstractController
         return $form;
     }
 
+    protected function getData(EntityInterface $entity, $id = null)
+    {
+        $type = $entity->getType()->getName();
+        $data = [
+            'plugin' => $type,
+            'state' => [
+                'license' => $entity->getLicense()->getId()
+            ],
+        ];
+
+        // add revision data
+        $revision = $this->getRevision($entity, $id);
+        if (is_object($revision)) {
+            /** @var RevisionField $field */
+            foreach ($revision->getFields() as $field) {
+                $deserializedJson = json_decode($field->getValue(), true);
+                $data['state'][$this->camelize($field->getName())] = $deserializedJson ? $deserializedJson : $field->getValue();
+            }
+        }
+
+        if ($this->moduleOptions->getType($type)->hasComponent('link')) {
+            // add children
+            /** @var LinkOptions $linkOptions */
+            $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
+            foreach($linkOptions->getAllowedChildren() as $allowedChild) {
+                $children = $entity->getChildren('link', $allowedChild);
+
+                if ($children->count()) {
+                    if ($linkOptions->allowsManyChildren($allowedChild)) {
+                        $data['state'][$allowedChild] = [];
+                        foreach($children as $child) {
+                            $data['state'][$child->getType()->getName()][] = $this->getData($child);
+                        }
+                    } else {
+                        $data['state'][$allowedChild] = $this->getData($children->first());
+                    }
+                }
+            }
+        }
+        return $data;
+    }
+
+    function camelize($input, $separator = '_')
+    {
+        return str_replace($separator, '', lcfirst(ucwords($input, $separator)));
+    }
     /**
      * @param EntityInterface $entity
      * @param string          $id

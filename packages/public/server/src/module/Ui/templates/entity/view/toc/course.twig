@@ -25,7 +25,7 @@
 {% set revision = entity.getCurrentRevision() %}
 {% set title = revision.get('title') %}
 {% set pages = entity.getValidChildren('link', 'course-page')%}
-{% set description = legacyEditorrenderer()..toHtml(revision.get('description'))  %}
+{% set description = renderer().toHtml(revision.get('description'))  %}
 
 {% include 'entity/page/partials/alerts' %}
 {% include 'entity/page/partials/placeholders' %}

@@ -45,7 +45,7 @@
             </h3>
         </header>
         <hr>
-        {{ legacyEditorRenderer().toHtml(post.getContent()) }}
+        {{ renderer().toHtml(post.getContent()) }}
     </article>
 {% endfor %}
 {{ paginationControl(paginator, 'Sliding', 'common/paginator', {'route': 'blog/view', 'params': {'id': blog.getId()}}) }}

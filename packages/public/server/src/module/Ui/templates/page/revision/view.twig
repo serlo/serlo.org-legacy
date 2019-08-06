@@ -21,13 +21,12 @@
  #}
 {% if revision %}
     {% set convert = convert is defined and convert %}
-    {% set renderer = convert or not isLegacyFormat(revision.getContent()) ? editorRenderer() : legacyEditorRenderer() %}
     <article itemscope itemtype="http://schema.org/Article">
         <header>
             {% include 'page/partials/head' %}
         </header>
         <section itemprop="articleBody" class="editable" data-id="{{ page.getId() }}" data-edit-field="content" data-edit-type="ory">
-            {{ renderer.toHtml(revision.getContent()) }}
+            {{ renderer().toHtml(revision.getContent()) }}
         </section>
     </article>
 {% endif %}

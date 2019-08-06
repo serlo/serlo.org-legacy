@@ -23,7 +23,6 @@
 namespace Ui;
 
 use Ui\Factory\AssetsHelperFactory;
-use Ui\Factory\JsonHelperFactory;
 
 return [
     'navigation'         => [
@@ -55,7 +54,7 @@ return [
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map'             => [
-            'athene2-editor' => __DIR__ . '/../templates/editor/layout.phtml',
+            'legacy-editor' => __DIR__ . '/../templates/legacy-editor/layout.phtml',
             'layout/de/home' => __DIR__ . '/../templates/layout/de/serlo-home.phtml',
             'layout/en/home' => __DIR__ . '/../templates/layout/en/serlo-home.phtml',
             'layout/1-col'   => __DIR__ . '/../templates/layout/1-col.phtml',
@@ -83,7 +82,6 @@ return [
             'brand'       => __NAMESPACE__ . '\Factory\BrandHelperFactory',
             'twigPartial' => __NAMESPACE__ . '\Factory\TwigPartialFactory',
             'tracking'    => __NAMESPACE__ . '\Factory\TrackingFactory',
-            'jsonHelper'        => JsonHelperFactory::class,
         ],
         'invokables' => [
             'encrypt'      => 'Ui\View\Helper\Encrypt',

@@ -23,7 +23,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">{{ field.getName()  | trans }}</div>
         <div class="panel-body">
-            {{ renderer()..toHtml(field.getValue()) }}
+            {{ renderer().toHtml(field.getValue()) }}
         </div>
     </div>
 {% endfor %}

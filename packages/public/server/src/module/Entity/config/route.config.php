@@ -172,8 +172,7 @@ return [
                                 'options' => [
                                     'route'       => '/add-revision-old/:entity[/:revision]',
                                     'defaults'    => [
-                                        'action' => 'addRevision',
-                                        'old' => true,
+                                        'action' => 'addLegacyRevision',
                                     ],
                                     'constraints' => [
                                         'entity' => '[0-9]+',
@@ -187,7 +186,6 @@ return [
                                     'route'       => '/add-revision/:entity[/:revision]',
                                     'defaults'    => [
                                         'action' => 'addRevision',
-                                        'old' => false,
                                     ],
                                     'constraints' => [
                                         'entity' => '[0-9]+',
