@@ -1,0 +1,1 @@
+export { articlePlugin } from './article'

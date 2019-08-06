@@ -51,29 +51,29 @@
                                 {{ diff().markdown(oldField, field.getValue()) }}
                             {% else %}
                                 {% if fieldIsLegacy %}
-                                    {{ legacyEditorRenderer().toHtml(field.getValue()) }}
+                                    {{ renderer()..toHtml(field.getValue()) }}
                                 {% else %}
                                     <div class="editable" data-edit-type="ory">
-                                        {{ editorRenderer().toHtml(field.getValue()) }}
+                                        {{ renderer()..toHtml(field.getValue()) }}
                                     </div>
                                 {% endif %}
                             {% endif %}
                         </div>
                         <div class="tab-pane fade" id="old{{ field.getName() }}">
                             {% if compareFieldIsLegacy %}
-                                {{ legacyEditorRenderer().toHtml(compareRevision.get(field.getName())) }}
+                                {{ renderer()..toHtml(compareRevision.get(field.getName())) }}
                             {% else %}
                                 <div class="editable" data-edit-type="ory">
-                                    {{ editorRenderer().toHtml(compareRevision.get(field.getName())) }}
+                                    {{ renderer()..toHtml(compareRevision.get(field.getName())) }}
                                 </div>
                             {% endif %}
                         </div>
                         <div class="tab-pane fade in active" id="preview{{ field.getName() }}">
                             {% if fieldIsLegacy %}
-                                {{ legacyEditorRenderer().toHtml(field.getValue()) }}
+                                {{ renderer()..toHtml(field.getValue()) }}
                             {% else %}
                                 <div class="editable" data-edit-type="ory">
-                                    {{ editorRenderer().toHtml(field.getValue()) }}
+                                    {{ renderer()..toHtml(field.getValue()) }}
                                 </div>
                             {% endif %}
                         </div>

@@ -38,8 +38,10 @@ import { videoPlugin } from '@edtr-io/plugin-video'
 import { errorPlugin } from './plugins/error'
 import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
+import { articlePlugin } from './plugins/entities'
 
 export const plugins = {
+  article: articlePlugin,
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
   error: errorPlugin,
@@ -59,5 +61,3 @@ export const plugins = {
   text: textPlugin,
   video: videoPlugin
 }
-
-export type Plugin = keyof typeof plugins

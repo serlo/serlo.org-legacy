@@ -22,10 +22,8 @@
  */
 namespace Renderer;
 
-use Renderer\Factory\EditorRendererFactory;
-use Renderer\Factory\EditorRendererHelperFactory;
-use Renderer\Factory\LegacyEditorRendererFactory;
-use Renderer\Factory\LegacyEditorRendererHelperFactory;
+use Renderer\Factory\RendererFactory;
+use Renderer\Factory\RendererHelperFactory;
 use Renderer\Factory\RendererStorageFactory;
 use Renderer\View\Helper\FormatHelper;
 
@@ -35,15 +33,13 @@ return [
     ],
     'service_manager' => [
         'factories' => [
+            Renderer::class => RendererFactory::class,
             __NAMESPACE__ . '\Storage\RendererStorage'   => RendererStorageFactory::class,
-            __NAMESPACE__ . '\LegacyEditorRenderer' => LegacyEditorRendererFactory::class,
-            __NAMESPACE__ . '\EditorRenderer' => EditorRendererFactory::class,
         ],
     ],
     'view_helpers'    => [
         'factories' => [
-            'legacyEditorRenderer' => LegacyEditorRendererHelperFactory::class,
-            'editorRenderer' => EditorRendererHelperFactory::class,
+            'renderer' => RendererHelperFactory::class
         ],
         'invokables' => [
             'isLegacyFormat' => FormatHelper::class,

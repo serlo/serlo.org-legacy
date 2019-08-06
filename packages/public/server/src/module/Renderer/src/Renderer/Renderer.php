@@ -25,14 +25,23 @@ namespace Renderer;
 
 use Exception;
 use Renderer\Exception\RuntimeException;
+use Renderer\View\Helper\FormatHelper;
+use Renderer\View\Helper\FormatHelperAwareTrait;
 use Zend\Cache\Storage\StorageInterface;
 
 class Renderer
 {
+    use FormatHelperAwareTrait;
+
     /**
      * @var string
      */
-    private $url;
+    private $editorRendererUrl;
+
+    /**
+     * @var string
+     */
+    private $legacyRendererUrl;
 
     /**
      * @var StorageInterface
@@ -43,23 +52,21 @@ class Renderer
      * @var bool
      */
     private $cacheEnabled;
-    /**
-     * @var string
-     */
-    private $cachePrefix;
 
     /**
-     * @param string $url
+     * @param string $editorRendererUrl
+     * @param string $legacyRendererUrl
+     * @param FormatHelper $formatHelper
      * @param StorageInterface $storage
      * @param bool $cacheEnabled
-     * @param string $cachePrefix
      */
-    public function __construct($url, StorageInterface $storage, $cacheEnabled, $cachePrefix)
+    public function __construct($editorRendererUrl, $legacyRendererUrl, FormatHelper $formatHelper, StorageInterface $storage, $cacheEnabled)
     {
-        $this->url = $url;
+        $this->editorRendererUrl = $editorRendererUrl;
+        $this->legacyRendererUrl = $legacyRendererUrl;
+        $this->formatHelper = $formatHelper;
         $this->storage = $storage;
         $this->cacheEnabled = $cacheEnabled;
-        $this->cachePrefix = $cachePrefix;
     }
 
     /**
@@ -68,7 +75,7 @@ class Renderer
      */
     public function render($input)
     {
-        $key = $this->cachePrefix . '/' . hash('sha512', $input);
+        $key = 'renderer/' . hash('sha512', $input);
 
         if ($this->cacheEnabled && $this->storage->hasItem($key)) {
             return $this->storage->getItem($key);
@@ -83,8 +90,10 @@ class Renderer
             'Content-Type: application/json',
         ];
 
+        $url = $this->getFormatHelper()->isLegacyFormat($input) ? $this->legacyRendererUrl : $this->editorRendererUrl;
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->url);
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeader);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));

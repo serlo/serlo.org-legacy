@@ -20,11 +20,10 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 {% for field in revision.getFields() %}
-    {% set renderer = isLegacyFormat(field.getValue()) ? legacyEditorRenderer() : editorRenderer() %}
     <div class="panel panel-default">
         <div class="panel-heading">{{ field.getName()  | trans }}</div>
         <div class="panel-body">
-            {{ renderer.toHtml(field.getValue()) }}
+            {{ renderer()..toHtml(field.getValue()) }}
         </div>
     </div>
 {% endfor %}

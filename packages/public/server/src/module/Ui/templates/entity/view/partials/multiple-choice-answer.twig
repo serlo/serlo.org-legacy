@@ -25,8 +25,8 @@
 {% set displayContent = 'This answer has been created but no content has been added yet or it is pending approval.' | trans %}
 {% set feedbackContent = '' %}
 {% if revision %}
-    {% set feedbackContent = renderer.toHtml(revision.get('feedback')) %}
-    {% set displayContent = renderer.toHtml(revision.get('content')) %}
+    {% set feedbackContent = renderer().toHtml(revision.get('feedback')) %}
+    {% set displayContent = renderer().toHtml(revision.get('content')) %}
 {% endif %}
 {% set feedback = feedbackContent ? feedbackContent : defaultFeedback %}
 

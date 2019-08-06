@@ -237,11 +237,8 @@ class Normalize extends AbstractHelper
 
     private function renderPreview($string)
     {
-        $isLegacyFormat = $this->getView()->plugin('isLegacyFormat');
         /** @var FormatHelper $renderer */
-        $renderer = $isLegacyFormat($string)
-            ? $this->getView()->plugin('legacyEditorRenderer')
-            : $this->getView()->plugin('editorRenderer');
+        $renderer = $this->getView()->plugin('renderer');
         $content =  $renderer->toHtml($string);
         $filter     = new PreviewFilter(152);
         $preview    = $filter->filter($content);

@@ -34,6 +34,6 @@ class FormatHelper extends AbstractHelper
     public function isLegacyFormat($string)
     {
         $parsed = json_decode($string, true);
-        return $parsed === null || !isset($parsed['cells']);
+        return $parsed === null || (!isset($parsed['cells']) && !isset($parsed['plugin']));
     }
 }

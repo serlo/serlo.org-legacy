@@ -28,7 +28,7 @@
              data-edit-field="content"
              data-edit-type="ory"
         >
-            {{ renderer.toHtml(entity.getCurrentRevision().get('content')) }}
+            {{ renderer().toHtml(entity.getCurrentRevision().get('content')) }}
         </div>
         <div class="col-xs-hidden col-sm-1" style="padding:0">
             <div class="pull-right">

@@ -23,11 +23,11 @@
 namespace Renderer\Factory;
 
 use Renderer\Renderer;
-use Zend\Cache\Storage\StorageInterface;
+use Renderer\View\Helper\RendererHelper;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class LegacyEditorRendererFactory implements FactoryInterface
+class RendererHelperFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -37,13 +37,11 @@ class LegacyEditorRendererFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var StorageInterface $storage */
-        $storage = $serviceLocator->get('Renderer\Storage\RendererStorage');
-        $config = $serviceLocator->get('config');
-        $url = $config['assets']['legacy_editor_renderer'];
-        $cacheEnabled = $config['renderer']['cache_enabled'];
-        $service = new Renderer($url, $storage, $cacheEnabled, 'legacy-editor-renderer');
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        /** @var Renderer $renderer */
+        $renderer       = $serviceLocator->get('Renderer\Renderer');
+        $plugin         = new RendererHelper($renderer);
 
-        return $service;
+        return $plugin;
     }
 }

@@ -21,26 +21,29 @@
  #}
 {% do normalize().headTitle(entity) %}
 {% do normalize().headMeta(entity) %}
-
-{% set title = entity.getCurrentRevision().get('title') %}
+{% set revision = entity.getCurrentRevision() %}
+{% set content = revision.get('content') %}
+{% set reasoning = revision.get('reasoning') %}
+{% set title = revision.get('title') %}
 {% include 'entity/page/partials/placeholders' %}
 <div itemscope itemtype="http://schema.org/Article">
+    {% set controls = include('entity/view/partials/actions/controls') %}
+    {% do placeholder('controls').set(controls) %}
+    {% do placeholder('isLeaf').set(true) %}
+    {% do placeholder('breadcrumbs').set('<li><span>' ~ title ~ '</span></li>') %}
+    {% if isLegacyFormat(content) %}
     <div class="page-header">
-        {% set controls = include('entity/view/partials/actions/controls') %}
-        {% do placeholder('controls').set(controls) %}
-        {% do placeholder('isLeaf').set(true) %}
-        {% do placeholder('breadcrumbs').set('<li><span>' ~ title ~ '</span></li>') %}
-        <div class="editable"
-             data-id="{{ entity.getId() }}"
-             data-edit-field="title"
-             data-edit-type="text">
-            <h1><span itemprop="name">{{ title }}</span></h1>
-        </div>
+        <h1><span itemprop="name">{{ title }}</span></h1>
     </div>
     <div itemprop="articleBody">
         {% include 'entity/page/partials/alerts' %}
         {% include 'entity/view/default' %}
     </div>
+    {% else %}
+        {% include 'entity/page/partials/alerts' %}
+        {% set json = jsonHelper().encode({ 'plugin': "article", 'state': { 'id': entity.getId(), 'title': title, 'content': jsonHelper().decode(content) }}) %}
+        {{ renderer().toHTML(json) }}
+    {% endif %}
 </div>
 {% set taxonomy = include('entity/page/aggregate/taxonomy', {'terms': entity.getTaxonomyTerms()}) %}
 {% set temp = registry().add('rnav', taxonomy) %}

@@ -23,6 +23,7 @@
 namespace Ui;
 
 use Ui\Factory\AssetsHelperFactory;
+use Ui\Factory\JsonHelperFactory;
 
 return [
     'navigation'         => [
@@ -82,6 +83,7 @@ return [
             'brand'       => __NAMESPACE__ . '\Factory\BrandHelperFactory',
             'twigPartial' => __NAMESPACE__ . '\Factory\TwigPartialFactory',
             'tracking'    => __NAMESPACE__ . '\Factory\TrackingFactory',
+            'jsonHelper'        => JsonHelperFactory::class,
         ],
         'invokables' => [
             'encrypt'      => 'Ui\View\Helper\Encrypt',

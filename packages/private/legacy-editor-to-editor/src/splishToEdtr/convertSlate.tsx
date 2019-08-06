@@ -221,6 +221,7 @@ const katexDeserializer: Rule = {
   deserialize(el, next) {
     switch (el.tagName.toLowerCase()) {
       case 'katexblock':
+        console.log(el.childNodes)
         return {
           object: 'block',
           type: katexBlockNode,
@@ -231,6 +232,7 @@ const katexDeserializer: Rule = {
           }
         }
       case 'katexinline':
+        console.log(el.childNodes)
         return {
           object: 'inline',
           type: katexInlineNode,
@@ -320,6 +322,7 @@ const katexSerializer: Rule = {
   serialize(obj, children) {
     const block = obj as Block
     const inline = obj as Inline
+
 
     if (block.object === 'block' && block.type === katexBlockNode) {
       const formula = obj.data.get('formula')

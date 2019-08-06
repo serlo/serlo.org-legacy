@@ -20,14 +20,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Renderer\Factory;
+namespace Ui\Factory;
 
-use Renderer\Renderer;
-use Renderer\View\Helper\RendererHelper;
+use Ui\View\Helper\Assets;
+use Ui\View\Helper\Json;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class EditorRendererHelperFactory implements FactoryInterface
+class JsonHelperFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -37,11 +37,6 @@ class EditorRendererHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        /** @var Renderer $renderer */
-        $renderer       = $serviceLocator->get('Renderer\Renderer');
-        $plugin         = new RendererHelper($renderer);
-
-        return $plugin;
+        return new Json();
     }
 }
