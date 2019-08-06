@@ -20,7 +20,6 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { Plugin } from '@serlo/editor-plugins-registry'
-import { Plugin as EdtrPlugins } from '@serlo/edtr-io'
 
 export type Legacy = LegacyRow[]
 
@@ -67,8 +66,9 @@ export type LayoutPlugin = {
   plugin: 'layout'
   state: { child: Edtr; width: number }[]
 }
+
 export type OtherPlugin = {
-  plugin: Exclude<EdtrPlugins, 'rows' | 'layout'>
+  plugin: 'blockquote' | 'error' | 'geogebra' | 'highlight' | 'image' | 'important' | 'injection' | 'spoiler' | 'table' | 'text'
   state: unknown
 }
 

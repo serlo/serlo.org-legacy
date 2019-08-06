@@ -174,11 +174,11 @@ const listDeserializer: Rule = {
         return {
           object: 'block',
           type: listItemNode,
-          nodes: {
+          nodes: [{
             object: 'block',
             type: listItemChildNode,
             nodes: next(el.childNodes)
-          }
+          }]
         }
     }
   }
@@ -225,20 +225,20 @@ const katexDeserializer: Rule = {
           object: 'block',
           type: katexBlockNode,
           data: {
-            formula: el.childNodes[0].nodeValue,
+            //@ts-ignore
+            formula: el.childNodes[0].value,
             inline: false
-          },
-          nodes: next(el.childNodes)
+          }
         }
       case 'katexinline':
         return {
           object: 'inline',
           type: katexInlineNode,
           data: {
-            formula: el.childNodes[0].nodeValue,
+            //@ts-ignore
+            formula: el.childNodes[0].value,
             inline: true
-          },
-          nodes: next(el.childNodes)
+          }
         }
       default:
         return
@@ -322,11 +322,13 @@ const katexSerializer: Rule = {
     const inline = obj as Inline
 
     if (block.object === 'block' && block.type === katexBlockNode) {
+      const formula = obj.data.get('formula')
       // @ts-ignore
-      return <katexblock>{children}</katexblock>
+      return <katexblock>{formula}</katexblock>
     } else if (inline.object === 'inline' && inline.type === katexInlineNode) {
+      const formula = obj.data.get('formula')
       // @ts-ignore
-      return <katexinline>{children}</katexinline>
+      return <katexinline>{formula}</katexinline>
     }
   }
 }

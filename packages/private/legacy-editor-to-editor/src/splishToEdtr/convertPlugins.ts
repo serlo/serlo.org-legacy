@@ -23,7 +23,7 @@ import { Plugin } from '@serlo/editor-plugins-registry'
 
 import {
   SplishBlockquoteState,
-  SplishCodeState,
+  SplishCodeState, SplishGeogebraState,
   SplishInjectionState,
   SplishSpoilerState,
   SplishTextState
@@ -80,9 +80,10 @@ export function convertPlugin(cell: ContentCell): OtherPlugin {
         state
       }
     case Plugin.Geogebra:
+      const geogebraState = state as SplishGeogebraState
       return {
         plugin: 'geogebra',
-        state
+        state: geogebraState.src
       }
     case 'code':
       const code = state as SplishCodeState
