@@ -5,8 +5,9 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
+    "build:dev": "(cd ../../..; npx lerna run --include-filtered-dependencies --scope=$npm_package_name build)",
     "deploy:image": "ts-node scripts/deploy",
-    "start": "nodemon --watch src --ext ts,tsx --exec \"yarn build && node dist/index.js\"",
+    "start": "nodemon --watch src --ext ts,tsx --exec \"yarn build:dev && node dist/index.js\"",
     "test:js": "jest"
   },
   "dependencies": {
