@@ -21,5 +21,6 @@
  */
 module.exports = {
   testEnvironment: 'node',
-  testRegex: '/__tests-ssr__/.*\\.[jt]sx?$'
+  testRegex: '/__tests-ssr__/.*\\.[jt]sx?$',
+  setupFiles: ['<rootDir>/node_modules/regenerator-runtime/runtime.js']
 }
