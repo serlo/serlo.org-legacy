@@ -44,18 +44,15 @@ export async function render(input: string): Promise<string> {
 
   const state = isEdtr(data) ? data : convert(data)
   try {
-    const a = coreRender({ plugins, state })
-    console.log(a)
-    return wrapOutput(a)
+    return wrapOutput(coreRender({ plugins, state }))
   } catch (e) {
-    console.error(e)
     return wrapOutput()
   }
 
   function wrapOutput(
     { styles, html }: ReturnType<typeof coreRender> = { styles: '', html: '' }
   ): string {
-    return `${styles}<div class="edtr-io" data-raw-content='${stringifyState(
+    return `${styles}<div class="edtr-io" data-edit-type="edtr-io" data-raw-content='${stringifyState(
       state
     )}'>${html}</div>`
   }

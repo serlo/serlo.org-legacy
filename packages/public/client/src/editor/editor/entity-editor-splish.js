@@ -130,7 +130,7 @@ class EditorComponent extends React.Component {
   }
 }
 
-export class EntityEditor {
+export class EntityEditorSplish {
   constructor(id, editPath, type) {
     this.id = id
     this.editPath = editPath

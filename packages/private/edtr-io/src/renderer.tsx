@@ -1,4 +1,3 @@
-<?php
 /**
  * This file is part of Serlo.org.
  *
@@ -20,33 +19,20 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { Renderer as Core, RendererProps } from '@edtr-io/renderer'
+import * as React from 'react'
 
-$env = 'development';
+import { plugins } from './plugins'
 
-$assets = [
-    'assets_host' => 'http://localhost:8082/',
-    'bundle_host' => 'http://localhost:8081/',
-    'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000/',
-    'editor_renderer' => 'http://192.168.177.0:3000/',
-//    'hydra' => 'http://hydra:4445',
-];
-
-$db = [
-    'host' => 'mysql',
-    'port' => '3306',
-    'username' => 'root',
-    'password' => 'secret',
-    'database' => 'serlo',
-];
-
-$recaptcha = [
-    'key' => '6LfwJFwUAAAAAKHhl-kjPbA6mCPjt_CrkCbn3okr',
-    'secret' => '6LfwJFwUAAAAAPVsTPLe00oAb9oUTewOUe31pXSv',
-];
-
-$smtp_options = [];
-$tracking = [];
-
-$cronjob_secret = 'secret';
-$upload_secret = 'secret';
-$mock_email = true;
+export function Renderer(
+  props: React.PropsWithChildren<{
+    state: RendererProps['state']
+  }>
+) {
+  return (
+    <Core
+      plugins={plugins}
+      state={props.state || { plugin: 'text'} }
+    />
+  )
+}

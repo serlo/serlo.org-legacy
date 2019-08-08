@@ -20,20 +20,16 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { getStateFromElement } from '@serlo/editor-helpers'
-import { createRendererPlugins } from '@serlo/editor-plugins-renderer'
-import { HtmlRenderer } from '@serlo/html-renderer'
 import * as React from 'react'
 import { hydrate } from 'react-dom'
+import { Renderer } from '@serlo/edtr-io'
+import { Edtr } from '@serlo/legacy-editor-to-editor'
 
 export const initElement = (element: HTMLElement) => {
-  const content = getStateFromElement(element)
+  const content = getStateFromElement(element) as unknown as Edtr
 
   hydrate(
-    <div className="r">
-      <div className="c24">
-        <HtmlRenderer state={content} plugins={createRendererPlugins('all')} />
-      </div>
-    </div>,
+    <Renderer state={content}/>,
     element
   )
 }

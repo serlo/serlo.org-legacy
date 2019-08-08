@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
+    "build": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
     "build:dev": "(cd ../../..; npx lerna run --include-filtered-dependencies --scope=$npm_package_name build)",
     "deploy:image": "ts-node scripts/deploy",
     "start": "nodemon --watch src --ext ts,tsx --exec \"yarn build:dev && node dist/index.js\"",

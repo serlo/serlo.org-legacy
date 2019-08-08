@@ -221,7 +221,6 @@ const katexDeserializer: Rule = {
   deserialize(el, next) {
     switch (el.tagName.toLowerCase()) {
       case 'katexblock':
-        console.log(el.childNodes)
         return {
           object: 'block',
           type: katexBlockNode,
@@ -232,7 +231,6 @@ const katexDeserializer: Rule = {
           }
         }
       case 'katexinline':
-        console.log(el.childNodes)
         return {
           object: 'inline',
           type: katexInlineNode,

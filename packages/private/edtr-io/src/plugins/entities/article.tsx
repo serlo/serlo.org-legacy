@@ -1,15 +1,7 @@
 import * as React from 'react'
 import { StatefulPlugin, StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import { Overlay, OverlayInput, Textarea, EditorInput,  } from '@edtr-io/editor-ui'
-import { convert, Legacy, Splish } from '@serlo/legacy-editor-to-editor'
-
-const legacy = StateType.scalar<Legacy|Splish>([[ {col: 24, content:''} ]])
-// @ts-ignore
-const legacyOrChild : ReturnType<typeof StateType.child> = StateType.migratable(legacy).migrate(StateType.child(),el => {
-  const ret = convert(el)
-  console.log(JSON.stringify(ret))
-  return ret
-})
+import { legacyOrChild, licenseState } from './common'
 
 
 export const articleState = StateType.object({
@@ -20,7 +12,7 @@ export const articleState = StateType.object({
   // changes: StateType.string(),
   // metaTitle: StateType.string(),
   // metaDescription: StateType.string(),
-  // license: StateType.number()
+  license: licenseState
 })
 
 export const articlePlugin: StatefulPlugin<typeof articleState> = {

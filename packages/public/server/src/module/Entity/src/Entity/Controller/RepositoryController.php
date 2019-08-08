@@ -95,6 +95,8 @@ class RepositoryController extends AbstractController
 
         $form = $this->getForm($entity, $this->params('revision'));
         $json = json_encode($this->getData($entity, $this->params('revision')));
+//        var_dump($json);
+//        exit();
         $view = new ViewModel(['entity' => $entity, 'form' => $form, 'json' => $json]);
 
         if ($this->getRequest()->isPost()) {
@@ -262,10 +264,17 @@ class RepositoryController extends AbstractController
     protected function getData(EntityInterface $entity, $id = null)
     {
         $type = $entity->getType()->getName();
+        $license = $entity->getLicense();
         $data = [
-            'plugin' => $type,
+            'plugin' => $this->camelize($type, '-'),
             'state' => [
-                'license' => $entity->getLicense()->getId()
+                'license' => [
+                    'id' => $license->getId(),
+                    'title' => $license->getTitle(),
+                    'agreement' => $license->getAgreement(),
+                    'url' => $license->getUrl(),
+                    'iconHref' => $license->getIconHref()
+                ],
             ],
         ];
 
@@ -287,13 +296,15 @@ class RepositoryController extends AbstractController
                 $children = $entity->getChildren('link', $allowedChild);
 
                 if ($children->count()) {
+                    $childName = $this->camelize($allowedChild, '-');
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
-                        $data['state'][$allowedChild] = [];
+                        $data['state'][$childName] = [];
                         foreach($children as $child) {
-                            $data['state'][$child->getType()->getName()][] = $this->getData($child);
+                            /* TODO: select correct revision id */
+                            $data['state'][$childName][] = $this->getData($child);
                         }
                     } else {
-                        $data['state'][$allowedChild] = $this->getData($children->first());
+                        $data['state'][$childName] = $this->getData($children->first());
                     }
                 }
             }

@@ -38,10 +38,12 @@ import { videoPlugin } from '@edtr-io/plugin-video'
 import { errorPlugin } from './plugins/error'
 import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
-import { articlePlugin } from './plugins/entities'
+import { articlePlugin, textExercisePlugin, textSolutionPlugin } from './plugins/entities'
 
 export const plugins = {
   article: articlePlugin,
+  textSolution: textSolutionPlugin,
+  textExercise: textExercisePlugin,
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
   error: errorPlugin,
