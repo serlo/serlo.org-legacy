@@ -119,6 +119,9 @@ return [
                     'setAuthorizationService' => [
                         'required' => true,
                     ],
+                    'setFormatHelper' => [
+                        'required' => true,
+                    ],
                 ],
                 __NAMESPACE__ . '\Controller\PageController' => [
                     'setEntityManager' => [

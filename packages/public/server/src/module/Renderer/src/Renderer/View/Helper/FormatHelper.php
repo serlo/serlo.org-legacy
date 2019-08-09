@@ -33,7 +33,9 @@ class FormatHelper extends AbstractHelper
 
     public function isLegacyFormat($string)
     {
-        $parsed = json_decode($string, true);
-        return $parsed === null || (!isset($parsed['cells']) && !isset($parsed['plugin']));
+        // legacy state is an array of arrays, whereas splish and edtr formats are objects.
+        // Try converting to json, keeping the distinction between arrays and objects
+        $parsed = json_decode($string, false);
+        return $parsed === null || is_array($parsed);
     }
 }

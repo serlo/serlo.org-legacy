@@ -35,6 +35,7 @@ use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionField;
 use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
+use Renderer\View\Helper\FormatHelperAwareTrait;
 use Versioning\Entity\RevisionInterface;
 use Versioning\Exception\RevisionNotFoundException;
 use Versioning\RepositoryManagerAwareTrait;
@@ -48,12 +49,12 @@ use Zend\View\Model\JsonModel;
 class RepositoryController extends AbstractController
 {
     use RepositoryManagerAwareTrait;
+    use FormatHelperAwareTrait;
 
     /**
      * @var ModuleOptions
      */
     protected $moduleOptions;
-
 
     public function addLegacyRevisionAction()
     {
@@ -94,6 +95,10 @@ class RepositoryController extends AbstractController
         $this->assertGranted('entity.revision.create', $entity);
 
         $form = $this->getForm($entity, $this->params('revision'));
+//        $json = json_encode([
+//            'plugin' => $this->camelize($entity->getType()->getName(), '-'),
+//            'state' => $this->getData($entity, $this->params('revision'))
+//        ]);
         $json = json_encode($this->getData($entity, $this->params('revision')));
 //        var_dump($json);
 //        exit();
@@ -263,20 +268,30 @@ class RepositoryController extends AbstractController
 
     protected function getData(EntityInterface $entity, $id = null)
     {
+        // types that are integrated into content
+        $integrated = [
+            'single-choice-right-answer',
+            'single-choice-wrong-answer',
+            'multiple-choice-wrong-answer',
+            'multiple-choice-right-answer',
+            'input-string-normalized-match-challenge',
+            'input-number-exact-match-challenge',
+            'input-expression-equal-match-challenge',
+        ];
+
         $type = $entity->getType()->getName();
         $license = $entity->getLicense();
+
         $data = [
-            'plugin' => $this->camelize($type, '-'),
-            'state' => [
-                'license' => [
-                    'id' => $license->getId(),
-                    'title' => $license->getTitle(),
-                    'agreement' => $license->getAgreement(),
-                    'url' => $license->getUrl(),
-                    'iconHref' => $license->getIconHref()
-                ],
+            'license' => [
+                'id' => $license->getId(),
+//                'title' => $license->getTitle(),
+//                'agreement' => $license->getAgreement(),
+//                'url' => $license->getUrl(),
+//                'iconHref' => $license->getIconHref()
             ],
         ];
+
 
         // add revision data
         $revision = $this->getRevision($entity, $id);
@@ -284,7 +299,7 @@ class RepositoryController extends AbstractController
             /** @var RevisionField $field */
             foreach ($revision->getFields() as $field) {
                 $deserializedJson = json_decode($field->getValue(), true);
-                $data['state'][$this->camelize($field->getName())] = $deserializedJson ? $deserializedJson : $field->getValue();
+                $data[$this->camelize($field->getName(), '_')] = $deserializedJson ? $deserializedJson : $field->getValue();
             }
         }
 
@@ -293,33 +308,41 @@ class RepositoryController extends AbstractController
             /** @var LinkOptions $linkOptions */
             $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
             foreach($linkOptions->getAllowedChildren() as $allowedChild) {
+                // skip childs integrated into content in newer editor
+                if (!$this->getFormatHelper()->isLegacyFormat($revision->get('content')) &&
+                    in_array($allowedChild, $integrated)) {
+                    continue;
+                }
                 $children = $entity->getChildren('link', $allowedChild);
 
                 if ($children->count()) {
                     $childName = $this->camelize($allowedChild, '-');
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
-                        $data['state'][$childName] = [];
+                        $data[$childName] = [];
                         foreach($children as $child) {
                             /* TODO: select correct revision id */
-                            $data['state'][$childName][] = $this->getData($child);
+                            $data[$childName][] = $this->getData($child);
                         }
                     } else {
-                        $data['state'][$childName] = $this->getData($children->first());
+                        $data[$childName] = $this->getData($children->first());
                     }
                 }
             }
         }
-        return $data;
+        return in_array($type, $integrated) ? $data : [
+            'plugin' => $this->camelize($type, '-'),
+            'state' => $data,
+        ];
     }
 
-    function camelize($input, $separator = '_')
+    function camelize($input, $separator)
     {
         return str_replace($separator, '', lcfirst(ucwords($input, $separator)));
     }
     /**
      * @param EntityInterface $entity
      * @param string          $id
-     * @return \Versioning\Entity\RevisionInterface|null
+     * @return RevisionInterface|null
      */
     protected function getRevision(EntityInterface $entity, $id = null)
     {

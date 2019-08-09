@@ -43,11 +43,11 @@ export async function render(input: string): Promise<string> {
   }
 
   const state = isEdtr(data) ? data : convert(data)
-  try {
+  // try {
     return wrapOutput(coreRender({ plugins, state }))
-  } catch (e) {
-    return wrapOutput()
-  }
+  // } catch (e) {
+  //   return wrapOutput()
+  // }
 
   function wrapOutput(
     { styles, html }: ReturnType<typeof coreRender> = { styles: '', html: '' }

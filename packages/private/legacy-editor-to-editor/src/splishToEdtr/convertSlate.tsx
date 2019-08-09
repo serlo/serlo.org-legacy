@@ -296,7 +296,7 @@ const listSerializer: Rule = {
 const paragraphSerializer: Rule = {
   serialize(obj, children) {
     const block = obj as Block
-    if (block.type === 'paragraph') {
+    if (block.type === 'paragraph' || block.type === '@splish-me/p') {
       return <p>{children}</p>
     }
   }

@@ -1,14 +1,12 @@
 import * as React from 'react'
 import { StatefulPlugin, StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
-import { legacyOrChild, licenseState } from './common'
+import { standardElements, legacyOrChild, licenseState } from './common'
 
 const textSolutionState = StateType.object({
-  id: StateType.number(),
+  ...standardElements,
   title: StateType.string(),
-  content: legacyOrChild,
-  // changes: StateType.string(),
-  license: licenseState
+  content: legacyOrChild
 })
 
 export const textSolutionPlugin: StatefulPlugin<typeof textSolutionState> = {
@@ -17,9 +15,5 @@ export const textSolutionPlugin: StatefulPlugin<typeof textSolutionState> = {
 }
 
 function TextSolutionRenderer(props: StatefulPluginEditorProps<typeof textSolutionState>) {
-  return (
-    <div>
-      <solutionPlugin.Component {...props}/>
-    </div>
-  )
+  return <solutionPlugin.Component {...props}/>
 }
