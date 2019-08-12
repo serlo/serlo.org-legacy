@@ -24,21 +24,10 @@ export const standardElements = {
 }
 
 const scMcLegacy = {
-  singleChoiceWrongAnswer: StateType.list(StateType.object({
-    content: legacy,
-    feedback: legacy
-  })),
-  singleChoiceRightAnswer: StateType.object({
-    content: legacy,
-    feedback: legacy
-  }),
-  multipleChoiceWrongAnswer: StateType.list(StateType.object({
-    content: legacy,
-    feedback: legacy
-  })),
-  multipleChoiceRightAnswer: StateType.list(StateType.object({
-    content: legacy,
-  }))
+  singleChoiceRightAnswer: StateType.scalar<{ content: Legacy, feedback: Legacy } | undefined>(undefined),
+  singleChoiceWrongAnswer: StateType.scalar<{ content: Legacy, feedback: Legacy }[] | undefined>(undefined),
+  multipleChoiceRightAnswer: StateType.scalar<{ content: Legacy }[] | undefined>(undefined),
+  multipleChoiceWrongAnswer: StateType.scalar<{ content: Legacy, feedback: Legacy }[] | undefined>(undefined)
 }
 
 // TODO: nested input
@@ -63,7 +52,6 @@ export function migrateInteractiveLegacy<Ds extends Record<string, StateType.Sta
     scMcExercise: StateType.child('scMcExercise'),
     // inputExercise: StateType.child('inputExercise')
   }),
-    //@ts-ignore
     ({
        singleChoiceWrongAnswer,
        singleChoiceRightAnswer,
@@ -72,31 +60,18 @@ export function migrateInteractiveLegacy<Ds extends Record<string, StateType.Sta
        // inputExpressionEqualMatchChallenge,
        // inputNumberExactMatchChallenge,
        // inputStringNormalizedMatchChallenge,
-      ...state
-    }) => {
+       ...state
+     }) => {
       const scMcExercise = convertScMc({ singleChoiceWrongAnswer, singleChoiceRightAnswer, multipleChoiceWrongAnswer, multipleChoiceRightAnswer })
       // const inputExercise = convertInputExercise({ inputExpressionEqualMatchChallenge, inputNumberExactMatchChallenge, inputStringNormalizedMatchChallenge })
       console.log('common', JSON.stringify(scMcExercise))
       return {
-        ...state,
+        ...state as StateType.StateDescriptorsSerializedType<Ds>,
         scMcExercise: scMcExercise || { plugin: 'scMcExercise' },
         // inputExercise
       }
   })
 }
-
-// function convertInputExercise({ inputExpressionEqualMatchChallenge, inputNumberExactMatchChallenge, inputStringNormalizedMatchChallenge } : StateType.StateDescriptorsSerializedType<typeof inputExerciseLegacy>)
-// : { plugin: 'inputExercise', state: StateType.StateDescriptorSerializedType<typeof inputExerciseState>} | undefined {
-//   if (inputExpressionEqualMatchChallenge || inputNumberExactMatchChallenge || inputStringNormalizedMatchChallenge) {
-//     return {
-//       plugin: 'inputExercise',
-//       state: {
-//         type: inputStringNormalizedMatchChallenge ? 'Text' : inputNumberExactMatchChallenge ? 'Zahl' : 'Ausdruck',
-//         correctAnswers: ...
-//       }
-//     }
-//   }
-// }
 
 export function convertScMc({
   singleChoiceWrongAnswer,
@@ -112,36 +87,36 @@ export function convertScMc({
         state: {
           isSingleChoice: isSingleChoice,
           answers: [
-            {
+            ...(singleChoiceRightAnswer ? [{
               id: convert(singleChoiceRightAnswer.content),
               isCorrect: true,
               feedback: convert(singleChoiceRightAnswer.feedback),
               hasFeedback: !!singleChoiceRightAnswer.feedback
-            },
-            ...singleChoiceWrongAnswer.map(answer => {
+            }] : []),
+            ...(singleChoiceWrongAnswer ? singleChoiceWrongAnswer.map(answer => {
               return {
                 id: convert(answer.content),
                 isCorrect: false,
                 feedback: convert(answer.feedback),
                 hasFeedback: !!answer.feedback
               }
-            }),
-            ...multipleChoiceRightAnswer.map(answer => {
+            }) : []),
+            ...(multipleChoiceRightAnswer ? multipleChoiceRightAnswer.map(answer => {
               return {
                 id: convert(answer.content),
                 isCorrect: true,
                 feedback: { plugin: 'rows', state: [{plugin: 'text'}] },
                 hasFeedback: false
               }
-            }),
-            ...multipleChoiceWrongAnswer.map(answer => {
+            }) : []),
+            ...(multipleChoiceWrongAnswer ? multipleChoiceWrongAnswer.map(answer => {
               return {
                 id: convert(answer.content),
                 isCorrect: false,
                 feedback: convert(answer.feedback),
                 hasFeedback: !!answer.feedback,
               }
-            })
+            }) : [])
           ]
         }
       }

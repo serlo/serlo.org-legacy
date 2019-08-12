@@ -100,8 +100,8 @@ class RepositoryController extends AbstractController
 //            'state' => $this->getData($entity, $this->params('revision'))
 //        ]);
         $json = json_encode($this->getData($entity, $this->params('revision')));
-//        var_dump($json);
-//        exit();
+        var_dump($json);
+        exit();
         $view = new ViewModel(['entity' => $entity, 'form' => $form, 'json' => $json]);
 
         if ($this->getRequest()->isPost()) {
