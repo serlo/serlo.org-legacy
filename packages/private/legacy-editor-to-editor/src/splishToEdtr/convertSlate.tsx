@@ -228,7 +228,8 @@ const katexDeserializer: Rule = {
             //@ts-ignore
             formula: el.childNodes[0].value,
             inline: false
-          }
+          },
+          nodes: next(el.childNodes)
         }
       case 'katexinline':
         return {
@@ -238,7 +239,8 @@ const katexDeserializer: Rule = {
             //@ts-ignore
             formula: el.childNodes[0].value,
             inline: true
-          }
+          },
+          nodes: next(el.childNodes)
         }
       default:
         return

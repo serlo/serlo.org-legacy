@@ -1,5 +1,5 @@
 import { StateType } from '@edtr-io/core'
-import { convert, Legacy, Splish } from '@serlo/legacy-editor-to-editor'
+import { convert, Edtr, isEdtr, Legacy, Splish } from '@serlo/legacy-editor-to-editor'
 import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 // import { inputExerciseState } from '@edtr-io/plugin-input-exercise'
 
@@ -41,18 +41,20 @@ const scMcLegacy = {
 //   inputNumberExactMatchChallenge: inputState,
 // }
 
-export function migrateInteractiveLegacy<Ds extends Record<string, StateType.StateDescriptor>>(types: Ds) {
+export function migrateInteractiveLegacy<Ds extends { [key: string]: StateType.StateDescriptor}>(types: Ds) {
   return StateType.migratable(StateType.object({
     ...types,
     ...scMcLegacy,
+    content: StateType.scalar<Legacy|Splish|Edtr|undefined>(undefined),
     // ...inputExerciseLegacy
   })).migrate(
     StateType.object({
       ...types,
-    scMcExercise: StateType.child('scMcExercise'),
+      content: StateType.child('rows')
     // inputExercise: StateType.child('inputExercise')
   }),
     ({
+       content,
        singleChoiceWrongAnswer,
        singleChoiceRightAnswer,
        multipleChoiceWrongAnswer,
@@ -63,12 +65,24 @@ export function migrateInteractiveLegacy<Ds extends Record<string, StateType.Sta
        ...state
      }) => {
       const scMcExercise = convertScMc({ singleChoiceWrongAnswer, singleChoiceRightAnswer, multipleChoiceWrongAnswer, multipleChoiceRightAnswer })
+
+      const converted = getConverted(content)
       // const inputExercise = convertInputExercise({ inputExpressionEqualMatchChallenge, inputNumberExactMatchChallenge, inputStringNormalizedMatchChallenge })
       console.log('common', JSON.stringify(scMcExercise))
       return {
         ...state as StateType.StateDescriptorsSerializedType<Ds>,
-        scMcExercise: scMcExercise || { plugin: 'scMcExercise' },
+        content: { plugin: 'rows', state: [
+            ...converted.state,
+            ...(scMcExercise ? [scMcExercise] : [])
+        ]}
         // inputExercise
+      }
+
+      type RowsPlugin ={ plugin: 'rows', state: unknown[] }
+      function getConverted(content: Legacy | Splish | Edtr | undefined): RowsPlugin {
+        if (!content) return { plugin: 'rows', state: []}
+        if (isEdtr(content)) return content as RowsPlugin
+        return convert(content) as RowsPlugin
       }
   })
 }

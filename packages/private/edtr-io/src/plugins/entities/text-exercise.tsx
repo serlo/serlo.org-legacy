@@ -2,9 +2,27 @@ import * as React from 'react'
 import { StatefulPlugin, StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import { legacyOrChild, migrateInteractiveLegacy, standardElements } from './common'
 
+/**
+ * {
+ *   id: 5459
+ *   content: [[ col: 12, content: 'markdown']]
+ *   textSolution: { plugin: 'textSolution', state: ....}
+ *   singleChoice: ...
+ * }
+ *
+ *
+ * {
+ *   __version__: 1
+ *   value: {
+ *   id: 5459,
+ *   content: { plugin: 'rows', state: [..., { plugin: 'scMCExercise, state: ....}]}
+ *   textSolution: { plugin: 'textSolution', state: ....}
+ *   }
+ * }
+ */
+
 export const textExerciseState = migrateInteractiveLegacy({
   ...standardElements,
-  content: legacyOrChild,
   textSolution: StateType.child('textSolution'),
   // reasoning: legacyOrChild,
   // changes: StateType.string(),
@@ -18,12 +36,11 @@ export const textExercisePlugin: StatefulPlugin<typeof textExerciseState> = {
 }
 
 function TextExerciseRenderer(props: StatefulPluginEditorProps<typeof textExerciseState>) {
-  const { content, textSolution, license, scMcExercise } = props.state
+  const { content, textSolution, license } = props.state
 
   return (
     <div>
       { content.render() }
-      { scMcExercise.render() }
       <div>
         { textSolution.render() }
       </div>
