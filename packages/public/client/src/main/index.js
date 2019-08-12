@@ -232,12 +232,12 @@ const init = $context => {
       })
     })
 
-    if ($('#ory-edit-form', $context).length > 0) {
+    const $editor = $('#editor', $context)
+    if ($editor.length > 0) {
+      console.log($('#editor', $context).data('state'))
       initEntityEditor(
-        $('#ory-edit-form', $context).data('id'),
-        $('#ory-edit-form form', $context).attr('action') ||
-          window.location.pathname,
-        $('#ory-edit-form', $context).data('type')
+        $editor.data('state'),
+        $editor.get(0)
       )
       $('.convert-button').hide()
     }

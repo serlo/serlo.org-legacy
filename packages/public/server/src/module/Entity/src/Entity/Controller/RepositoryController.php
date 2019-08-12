@@ -99,7 +99,7 @@ class RepositoryController extends AbstractController
 //            'plugin' => $this->camelize($entity->getType()->getName(), '-'),
 //            'state' => $this->getData($entity, $this->params('revision'))
 //        ]);
-        $json = json_encode($this->getData($entity, $this->params('revision')));
+        $json = htmlspecialchars(json_encode($this->getData($entity, $this->params('revision'))), ENT_QUOTES, 'UTF-8');
 //        var_dump($json);
 //        exit();
         $view = new ViewModel(['entity' => $entity, 'form' => $form, 'json' => $json]);

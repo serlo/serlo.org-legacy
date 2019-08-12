@@ -24,18 +24,19 @@ import * as React from 'react'
 
 import { plugins } from './plugins'
 
+
 export function Editor(
   props: React.PropsWithChildren<{
-    initialState: EditorProps['initialState']
-    editable: EditorProps['editable']
-  }>
+    initialState: string
+ }>
 ) {
   return (
     <Core
       plugins={plugins}
       defaultPlugin="text"
+      //@ts-ignore
       initialState={props.initialState}
-      editable={props.editable}
+      editable
     >
       {props.children}
     </Core>

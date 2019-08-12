@@ -1,2 +1,3 @@
 import * as React from 'react'
-export const EntityEditor = () => <div></div>
+export { Editor } from '@serlo/edtr-io'
+

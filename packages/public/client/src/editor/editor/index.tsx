@@ -19,9 +19,12 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-export const initEntityEditor = (...args: unknown[]) => {
+import * as React from 'react'
+import { render } from 'react-dom'
+
+export const initEntityEditor = (state: string, element: HTMLDivElement) => {
   // @ts-ignore
-  return import('./entity-editor').then(({ EntityEditor }) => {
-    new EntityEditor(...args)
+  return import('./entity-editor').then(({ Editor }) => {
+    render(<Editor initialState={state} />, element)
   })
 }

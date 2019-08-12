@@ -19,7 +19,7 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-<div id="edit-form" data-id="{{ entity.getId() }}" data-type="{{ entity.getType() }}" style="display:none;">
-    {{ form().render(form) }}
-</div>
-{{ renderer().toHTML(json) }}
+{#<div id="edit-form" data-id="{{ entity.getId() }}" data-type="{{ entity.getType() }}" style="display:none;">#}
+{#    {{ form().render(form) }}#}
+{#</div>#}
+<div id="editor" data-state="{{ json }}"></div>
