@@ -95,14 +95,10 @@ class RepositoryController extends AbstractController
         $this->assertGranted('entity.revision.create', $entity);
 
         $form = $this->getForm($entity, $this->params('revision'));
-//        $json = json_encode([
-//            'plugin' => $this->camelize($entity->getType()->getName(), '-'),
-//            'state' => $this->getData($entity, $this->params('revision'))
-//        ]);
-        $json = htmlspecialchars(json_encode($this->getData($entity, $this->params('revision'))), ENT_QUOTES, 'UTF-8');
+        $state = htmlspecialchars(json_encode($this->getData($entity, $this->params('revision'))), ENT_QUOTES, 'UTF-8');
 //        var_dump($json);
 //        exit();
-        $view = new ViewModel(['entity' => $entity, 'form' => $form, 'json' => $json]);
+        $view = new ViewModel(['state' => $state, 'type' => $entity->getType()->getName()]);
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
@@ -268,17 +264,6 @@ class RepositoryController extends AbstractController
 
     protected function getData(EntityInterface $entity, $id = null)
     {
-        // types that are integrated into content
-        $integrated = [
-            'single-choice-right-answer',
-            'single-choice-wrong-answer',
-            'multiple-choice-wrong-answer',
-            'multiple-choice-right-answer',
-            'input-string-normalized-match-challenge',
-            'input-number-exact-match-challenge',
-            'input-expression-equal-match-challenge',
-        ];
-
         $type = $entity->getType()->getName();
         $license = $entity->getLicense();
 
@@ -308,11 +293,6 @@ class RepositoryController extends AbstractController
             /** @var LinkOptions $linkOptions */
             $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
             foreach($linkOptions->getAllowedChildren() as $allowedChild) {
-                // skip childs integrated into content in newer editor
-                if (!$this->getFormatHelper()->isLegacyFormat($revision->get('content')) &&
-                    in_array($allowedChild, $integrated)) {
-                    continue;
-                }
                 $children = $entity->getChildren('link', $allowedChild);
 
                 if ($children->count()) {
@@ -329,10 +309,7 @@ class RepositoryController extends AbstractController
                 }
             }
         }
-        return in_array($type, $integrated) ? $data : [
-            'plugin' => $this->camelize($type, '-'),
-            'state' => $data,
-        ];
+        return $data;
     }
 
     function camelize($input, $separator)

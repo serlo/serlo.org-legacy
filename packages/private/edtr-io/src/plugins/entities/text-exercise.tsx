@@ -1,33 +1,11 @@
 import * as React from 'react'
 import { StatefulPlugin, StatefulPluginEditorProps, StateType } from '@edtr-io/core'
-import { legacyOrChild, migrateInteractiveLegacy, standardElements } from './common'
+import { standardElements } from './common'
 
-/**
- * {
- *   id: 5459
- *   content: [[ col: 12, content: 'markdown']]
- *   textSolution: { plugin: 'textSolution', state: ....}
- *   singleChoice: ...
- * }
- *
- *
- * {
- *   __version__: 1
- *   value: {
- *   id: 5459,
- *   content: { plugin: 'rows', state: [..., { plugin: 'scMCExercise, state: ....}]}
- *   textSolution: { plugin: 'textSolution', state: ....}
- *   }
- * }
- */
-
-export const textExerciseState = migrateInteractiveLegacy({
+export const textExerciseState = StateType.object({
   ...standardElements,
+  content: StateType.child('rows'),
   textSolution: StateType.child('textSolution'),
-  // reasoning: legacyOrChild,
-  // changes: StateType.string(),
-  // metaTitle: StateType.string(),
-  // metaDescription: StateType.string(),
 })
 
 export const textExercisePlugin: StatefulPlugin<typeof textExerciseState> = {

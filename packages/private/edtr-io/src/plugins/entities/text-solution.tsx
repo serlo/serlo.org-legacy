@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { StatefulPlugin, StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
-import { standardElements, legacyOrChild, licenseState } from './common'
+import { standardElements } from './common'
 
-const textSolutionState = StateType.object({
+export const textSolutionState = StateType.object({
   ...standardElements,
   title: StateType.string(),
-  content: legacyOrChild
+  content: StateType.child('rows')
 })
 
 export const textSolutionPlugin: StatefulPlugin<typeof textSolutionState> = {

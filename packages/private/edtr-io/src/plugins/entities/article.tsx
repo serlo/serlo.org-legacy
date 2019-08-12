@@ -1,15 +1,14 @@
 import * as React from 'react'
 import { StatefulPlugin, StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import { Overlay, OverlayInput, Textarea, EditorInput,  } from '@edtr-io/editor-ui'
-import { standardElements, legacyOrChild } from './common'
+import { standardElements } from './common'
 
 
 export const articleState = StateType.object({
   ...standardElements,
   title: StateType.string(),
-  content: legacyOrChild,
-  reasoning: legacyOrChild,
-  changes: StateType.string(),
+  content: StateType.child('rows'),
+  reasoning: StateType.child('rows'),
   metaTitle: StateType.string(),
   metaDescription: StateType.string(),
 })

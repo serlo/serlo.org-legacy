@@ -21,10 +21,11 @@
  */
 import * as React from 'react'
 import { render } from 'react-dom'
+import { EditorProps } from '@serlo/edtr-io'
 
-export const initEntityEditor = (state: string, element: HTMLDivElement) => {
+export const initEntityEditor = (props : EditorProps, element: HTMLDivElement) => {
   // @ts-ignore
   return import('./entity-editor').then(({ Editor }) => {
-    render(<Editor initialState={state} />, element)
+    render(<Editor {...props} />, element)
   })
 }

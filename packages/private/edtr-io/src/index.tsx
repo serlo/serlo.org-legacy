@@ -21,7 +21,7 @@
  */
 export { DocumentState } from '@edtr-io/core'
 
-export { Editor } from './editor'
+export { Editor, EditorProps } from './editor'
 export { Renderer } from './renderer'
 export * from './hooks'
 export { plugins } from './plugins'
