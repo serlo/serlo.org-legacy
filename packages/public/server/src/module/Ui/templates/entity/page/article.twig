@@ -38,10 +38,6 @@
         {% include 'entity/page/partials/alerts' %}
         {% include 'entity/view/default' %}
     </div>
-{#    {% else %}#}
-{#        {% set json = jsonHelper().encode({ 'plugin': "article", 'state': { 'id': entity.getId(), 'title': title, 'content': jsonHelper().decode(content) }}) %}#}
-{#        {{ renderer().toHTML(json) }}#}
-{#    {% endif %}#}
 </div>
 {% set taxonomy = include('entity/page/aggregate/taxonomy', {'terms': entity.getTaxonomyTerms()}) %}
 {% set temp = registry().add('rnav', taxonomy) %}

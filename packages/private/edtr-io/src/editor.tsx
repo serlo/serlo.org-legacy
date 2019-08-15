@@ -23,7 +23,6 @@ import { Editor as Core, StateType } from '@edtr-io/core'
 import * as React from 'react'
 
 import { plugins } from './plugins'
-import { StateDescriptorSerializedType } from '@edtr-io/core/dist/plugin-state'
 import { articleState } from './plugins/entities/article'
 import {
   convert,
@@ -63,9 +62,9 @@ export function Editor(props: React.PropsWithChildren<EditorProps>) {
 function convertState(props: EditorProps) {
   switch (props.type) {
     case 'article':
-      return convertArticle(props.initialState as ArticleState)
+      return { plugin: 'article', state: convertArticle(props.initialState as ArticleState) }
     case 'text-exercise':
-      return convertTextExercise(props.initialState as TextExerciseState)
+      return { plugin: 'textExercise', state: convertTextExercise(props.initialState as TextExerciseState) }
     default:
       throw new Error('NOOOO!')
   }
@@ -73,42 +72,40 @@ function convertState(props: EditorProps) {
 
 function convertTextSolution(
   state: TextSolutionState
-): Plugin<'textSolution', typeof textSolutionState> {
+): StateType.StateDescriptorSerializedType<typeof textSolutionState> {
   return {
-    plugin: 'textSolution',
-    state: {
-      ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content)))
-    }
+    ...state,
+    content: serializeContent(toEdtr(deserializeContent(state.content)))
   }
 }
 
 function convertTextExercise({
   content,
-  singleChoiceWrongAnswer,
-  singleChoiceRightAnswer,
-  multipleChoiceWrongAnswer,
-  multipleChoiceRightAnswer,
+  'text-solution': textSolution,
+  'single-choice-right-answer': singleChoiceRightAnswer,
+  'single-choice-wrong-answer': singleChoiceWrongAnswer,
+  'multiple-choice-right-answer': multipleChoiceRightAnswer,
+  'multiple-choice-wrong-answer': multipleChoiceWrongAnswer,
   // inputExpressionEqualMatchChallenge,
   // inputNumberExactMatchChallenge,
   // inputStringNormalizedMatchChallenge,
   ...state
-}: TextExerciseState): Plugin<'textExercise', typeof textExerciseState> {
-  const scMcExercise = convertScMc()
+}: TextExerciseState): StateType.StateDescriptorSerializedType<typeof textExerciseState> {
+  const deserialized = deserializeContent(content)
 
-  const converted = toEdtr(deserializeContent(content))
+  const scMcExercise =
+    deserialized && !isEdtr(deserialized) ? convertScMc() : undefined
+
+  const converted = toEdtr(deserialized)
   // const inputExercise = convertInputExercise({ inputExpressionEqualMatchChallenge, inputNumberExactMatchChallenge, inputStringNormalizedMatchChallenge })
 
   return {
-    plugin: 'textExercise',
-    state: {
-      ...state,
-      textSolution: convertTextSolution(state.textSolution),
-      content: serializeContent({
-        plugin: 'rows',
-        state: [...converted.state, ...(scMcExercise ? [scMcExercise] : [])]
-      })
-    }
+    ...state,
+    'text-solution': convertTextSolution(textSolution),
+    content: serializeContent({
+      plugin: 'rows',
+      state: [...converted.state, ...(scMcExercise ? [scMcExercise] : [])]
+    })
   }
 
   function convertScMc():
@@ -134,9 +131,13 @@ function convertTextExercise({
             ...(singleChoiceRightAnswer
               ? [
                   {
-                    id: convert(deserializeContent(singleChoiceRightAnswer.content)),
+                    id: convert(
+                      deserializeContent(singleChoiceRightAnswer.content)
+                    ),
                     isCorrect: true,
-                    feedback: convert(singleChoiceRightAnswer.feedback),
+                    feedback: convert(
+                      deserializeContent(singleChoiceRightAnswer.feedback)
+                    ),
                     hasFeedback: !!singleChoiceRightAnswer.feedback
                   }
                 ]
@@ -146,7 +147,7 @@ function convertTextExercise({
                   return {
                     id: convert(deserializeContent(answer.content)),
                     isCorrect: false,
-                    feedback: convert(answer.feedback),
+                    feedback: convert(deserializeContent(answer.feedback)),
                     hasFeedback: !!answer.feedback
                   }
                 })
@@ -166,7 +167,7 @@ function convertTextExercise({
                   return {
                     id: convert(deserializeContent(answer.content)),
                     isCorrect: false,
-                    feedback: convert(answer.feedback),
+                    feedback: convert(deserializeContent(answer.feedback)),
                     hasFeedback: !!answer.feedback
                   }
                 })
@@ -180,14 +181,11 @@ function convertTextExercise({
 
 function convertArticle(
   state: ArticleState
-): Plugin<'article', typeof articleState> {
+): StateType.StateDescriptorSerializedType<typeof articleState> {
   return {
-    plugin: 'article',
-    state: {
-      ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content))),
-      reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning)))
-    }
+    ...state,
+    content: serializeContent(toEdtr(deserializeContent(state.content))),
+    reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning)))
   }
 }
 
@@ -202,43 +200,53 @@ interface ArticleState extends StandardElements {
   title: string
   content: SerializedContent
   reasoning: SerializedContent
-  metaTitle: string
-  metaDescription: string
+  meta_title: string
+  meta_description: string
 }
 
 interface TextExerciseState extends StandardElements {
   content: SerializedContent
-  textSolution: TextSolutionState
-  singleChoiceRightAnswer?: { content: SerializedLegacyContent, feedback: Legacy },
-  singleChoiceWrongAnswer?: { content: SerializedLegacyContent, feedback: Legacy }[],
-  multipleChoiceRightAnswer?: { content: SerializedLegacyContent }[],
-  multipleChoiceWrongAnswer?: { content: SerializedLegacyContent, feedback: Legacy }[],
+  'text-solution': TextSolutionState
+  'single-choice-right-answer'?: {
+    content: SerializedLegacyContent
+    feedback: SerializedLegacyContent
+  }
+  'single-choice-wrong-answer'?: {
+    content: SerializedLegacyContent
+    feedback: SerializedLegacyContent
+  }[]
+  'multiple-choice-right-answer'?: { content: SerializedLegacyContent }[]
+  'multiple-choice-wrong-answer'?: {
+    content: SerializedLegacyContent
+    feedback: SerializedLegacyContent
+  }[]
 }
 
 interface TextSolutionState extends StandardElements {
-  title: string,
+  title: string
   content: SerializedContent
 }
 
-type Plugin<Type extends string, State extends StateType.StateDescriptor> = {
-  plugin: Type
-  state: StateDescriptorSerializedType<State>
-}
-
-function serializeContent(content: Legacy) : SerializedLegacyContent
-function serializeContent(content: Content) : SerializedContent
-function serializeContent(content: Content) : SerializedContent | SerializedLegacyContent {
+function serializeContent(content: Legacy): SerializedLegacyContent
+function serializeContent(content: Content): SerializedContent
+function serializeContent(
+  content: Content
+): SerializedContent | SerializedLegacyContent {
   console.log('serialize', content)
-  return content ? JSON.stringify(content) as any : undefined
+  return content ? (JSON.stringify(content) as any) : undefined
 }
 
-function deserializeContent(content: SerializedLegacyContent) : Legacy
-function deserializeContent(content: SerializedContent) : Content
-function deserializeContent(content: SerializedLegacyContent|SerializedContent) : Content {
-  console.log('deserialize', JSON.stringify(content), content ? 'ja' : 'nein')
+function deserializeContent(content: SerializedLegacyContent): Legacy
+function deserializeContent(content: SerializedContent): Content
+function deserializeContent(
+  content: SerializedLegacyContent | SerializedContent
+): Content {
+  console.log('deserialize', content)
   return content ? JSON.parse(content) : undefined
 }
 
 type Content = Legacy | Splish | Edtr | undefined
-type SerializedContent = (string|undefined) & { __type: 'serialized-content' }
-type SerializedLegacyContent = (string|undefined) & { __type: 'serialized-legacy-content' }
+type SerializedContent = (string | undefined) & { __type: 'serialized-content' }
+type SerializedLegacyContent = (string | undefined) & {
+  __type: 'serialized-legacy-content'
+}

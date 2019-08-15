@@ -277,17 +277,6 @@ return [
                                     ],
                                 ],
                             ],
-                            'convert' => [
-                                'type' => 'segment',
-                                'options' => [
-                                    'route' => '/convert',
-                                    'defaults' => [
-                                        'controller' => __NAMESPACE__ . '\Controller\PageController',
-                                        'action' => 'index',
-                                        'convert' => true,
-                                    ],
-                                ],
-                            ],
                         ],
                     ],
                     'taxonomy'   => [

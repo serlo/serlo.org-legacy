@@ -99,12 +99,18 @@ export const SaveButton = connect(function SaveButton(
                     mailman: emailSubscription ? 1 : 0
                   }
                 }
+              }, {
+                headers: {
+                  'X-Requested-with': 'XMLHttpRequest'
+                }
               })
               .then(val => {
                 console.log(val)
-                overlay.hide()
-                props.persist()
-                window.location = val.data.redirect
+                if (val.data.success) {
+                  overlay.hide()
+                  props.persist()
+                  window.location = val.data.redirect
+                }
               })
               .catch(err => {
                 console.error(err)
@@ -137,6 +143,25 @@ export function editorContent() : StateType.StateDescriptor<string,
     deserialize(serialized: string, helpers: Parameters<typeof child.deserialize>[1]) {
       console.log('stateType', serialized)
       return deserialize(JSON.parse(serialized), helpers)
+    }
+  })
+}
+
+export function serializedChild(plugin: string) : StateType.StateDescriptor<unknown,
+  StateType.StateDescriptorValueType<ReturnType<typeof StateType.child>>,
+  StateType.StateDescriptorReturnType<ReturnType<typeof StateType.child>>
+  >{
+  const child = StateType.child(plugin)
+  const { serialize, deserialize } = child
+  return Object.assign(child, {
+    serialize(...args: Parameters<typeof child.serialize>) {
+      return serialize(...args).state;
+    },
+    deserialize(serialized: string, helpers: Parameters<typeof child.deserialize>[1]) {
+      return deserialize( {
+        plugin,
+        state: serialized
+      }, helpers)
     }
   })
 }

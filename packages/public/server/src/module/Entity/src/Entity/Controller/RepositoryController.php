@@ -30,18 +30,17 @@
  */
 namespace Entity\Controller;
 
-use Common\Form\CsrfForm;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionField;
 use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
 use Renderer\View\Helper\FormatHelperAwareTrait;
+use function Sodium\crypto_sign_verify_detached;
 use Versioning\Entity\RevisionInterface;
 use Versioning\Exception\RevisionNotFoundException;
 use Versioning\RepositoryManagerAwareTrait;
 use Zend\Filter\StripTags;
 use Zend\Form\Form;
-use Zend\Mvc\Exception;
 use Zend\Mvc\I18n\Translator;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
@@ -86,7 +85,6 @@ class RepositoryController extends AbstractController
     public function addRevisionAction()
     {
         $entity = $this->getEntity();
-
         if (!$entity || $entity->isTrashed()) {
             $this->getResponse()->setStatusCode(404);
             return false;
@@ -101,24 +99,96 @@ class RepositoryController extends AbstractController
 
         if ($this->getRequest()->isPost()) {
 //            error_log(json_encode($this->getRequest()->getContent()));
-            $form = $this->getForm($entity);
 
             $data = json_decode($this->getRequest()->getContent(), true);
-            $data = array_merge($data, ['license' => ['agreement' => 1 ]]);
+            $validated = $this->checkData($data, [
+                "controls" => $data['controls'],
+                "csrf" => $data['csrf'],
+                "license" => [
+                    "agreement" => 1,
+                ],
+            ]);
 
-            $form->setData($data);
 //            error_log($form->isValid());
-            if ($form->isValid()) {
-                $redirectUrl = $this->handleAddRevisionPost($entity, $form);
+            if ($validated['valid']) {
+                $redirectUrl = '';
+                foreach($validated['elements'] as $el) {
+                    $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['form']);
+                }
                 return new JsonModel([ 'success' => true, 'redirect' => $redirectUrl]);
             } else {
-                return new JsonModel([ 'success' => false, 'errors' => $form->getMessages()]);
+                return new JsonModel([ 'success' => false, 'errors' => $validated['messages']]);
             }
         }
 
         $this->layout('layout/3-col');
         $view->setTemplate('entity/repository/update-revision-editor');
         return $view;
+    }
+
+    /**
+     * @param array $data
+     * @param array $merges
+     * @return array
+     */
+    protected function checkData($data, $merges) {
+        $validChildren = true;
+        $elements = [];
+        $messages = [];
+        $data = array_merge($data, $merges);
+
+        $entity = $this->getEntity($data['id']);
+        $type = $entity->getType()->getName();
+
+        if ($this->moduleOptions->getType($type)->hasComponent('link')) {
+            // check children
+            /** @var LinkOptions $linkOptions */
+            $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
+            foreach($linkOptions->getAllowedChildren() as $allowedChild) {
+
+                if (isset($data[$allowedChild])) {
+                    if ($linkOptions->allowsManyChildren($allowedChild)) {
+                        /* TODO: create entity for new children (e.g. course page)*/
+                        foreach($data[$allowedChild] as $child) {
+                            $validated = $this->checkData($child, $merges);
+                            if ($validated['valid']) {
+                                $elements = array_merge($elements, $validated['elements']);
+                            } else {
+                                $validChildren = false;
+                                $messages = array_merge($messages, $validated['messages']);
+                            }
+                        }
+                    } else {
+                        $validated = $this->checkData($data[$allowedChild], $merges);
+                        if ($validated['valid']) {
+                            $elements = array_merge($elements, $validated['elements']);
+                        } else {
+                            $validChildren = false;
+                            $messages = array_merge($messages, $validated['messages']);
+                        }
+                    }
+                }
+            }
+        }
+
+        // check if the data is valid for the entity
+        // and check if the data did change
+        $form = $this->getForm($entity);
+        // validation needs to be executed, for getData.
+        $form->isValid();
+        $dataPartPrevious = $form->getData();
+        $form->setData($data);
+        if ($form->isValid() && $validChildren) {
+            // get the relevant data of this form and compare it to the previous data (ignoring the $merges)
+            $dataPartNext = $form->getData();
+            if (array_merge($dataPartPrevious, $merges) != array_merge($dataPartNext, $merges)) {
+                $elements[] = ['entity' => $entity, 'form' => $form];
+            }
+            return [ 'valid' => true, 'elements' => $elements];
+        } else {
+            $messages = array_merge($messages, $form->getMessages());
+            return [ 'valid' => false, 'messages' => $messages];
+        }
     }
 
     protected function handleAddRevisionPost(EntityInterface $entity, Form $form)
@@ -281,12 +351,13 @@ class RepositoryController extends AbstractController
         $license = $entity->getLicense();
 
         $data = [
+            'id' => $entity->getId(),
             'license' => [
                 'id' => $license->getId(),
-//                'title' => $license->getTitle(),
-//                'agreement' => $license->getAgreement(),
-//                'url' => $license->getUrl(),
-//                'iconHref' => $license->getIconHref()
+                'title' => $license->getTitle(),
+                'agreement' => $license->getAgreement(),
+                'url' => $license->getUrl(),
+                'iconHref' => $license->getIconHref()
             ],
         ];
 
@@ -296,7 +367,7 @@ class RepositoryController extends AbstractController
         if (is_object($revision)) {
             /** @var RevisionField $field */
             foreach ($revision->getFields() as $field) {
-                $data[$this->camelize($field->getName(), '_')] = $field->getValue();
+                $data[$field->getName()] = $field->getValue();
             }
         }
 
@@ -308,15 +379,14 @@ class RepositoryController extends AbstractController
                 $children = $entity->getChildren('link', $allowedChild);
 
                 if ($children->count()) {
-                    $childName = $this->camelize($allowedChild, '-');
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
-                        $data[$childName] = [];
+                        $data[$allowedChild] = [];
                         foreach($children as $child) {
                             /* TODO: select correct revision id */
-                            $data[$childName][] = $this->getData($child);
+                            $data[$allowedChild][] = $this->getData($child);
                         }
                     } else {
-                        $data[$childName] = $this->getData($children->first());
+                        $data[$allowedChild] = $this->getData($children->first());
                     }
                 }
             }
@@ -324,10 +394,6 @@ class RepositoryController extends AbstractController
         return $data;
     }
 
-    function camelize($input, $separator)
-    {
-        return str_replace($separator, '', lcfirst(ucwords($input, $separator)));
-    }
     /**
      * @param EntityInterface $entity
      * @param string          $id

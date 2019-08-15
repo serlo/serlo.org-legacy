@@ -9,8 +9,8 @@ export const articleState = StateType.object({
   title: StateType.string(),
   content: editorContent(),
   reasoning: editorContent(),
-  metaTitle: StateType.string(),
-  metaDescription: StateType.string(),
+  meta_title: StateType.string(),
+  meta_description: StateType.string(),
 })
 
 export const articlePlugin: StatefulPlugin<typeof articleState> = {
@@ -19,7 +19,7 @@ export const articlePlugin: StatefulPlugin<typeof articleState> = {
 }
 
 function ArticleRenderer(props: StatefulPluginEditorProps<typeof articleState>) {
-  const { title, content, reasoning, changes, metaTitle, metaDescription, license } = props.state
+  const { title, content, reasoning, changes, meta_title, meta_description, license } = props.state
 
   const { scope } = React.useContext(ScopeContext)
 
@@ -28,10 +28,10 @@ function ArticleRenderer(props: StatefulPluginEditorProps<typeof articleState>) 
   }
 
   function handleMetaTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    metaTitle.set(e.target.value)
+    meta_title.set(e.target.value)
   }
   function handleMetaDescriptionChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    metaDescription.set(e.target.value)
+    meta_description.set(e.target.value)
   }
   function handleLicenseChange(e: React.ChangeEvent<HTMLInputElement>) {
     //TODO
@@ -47,7 +47,7 @@ function ArticleRenderer(props: StatefulPluginEditorProps<typeof articleState>) 
       <div itemProp="articleBody">
         { content.render() }
       </div>
-      { props.editable
+      { props.editable && props.focused
         ? (
           <React.Fragment>
             { reasoning.render() }
@@ -55,18 +55,18 @@ function ArticleRenderer(props: StatefulPluginEditorProps<typeof articleState>) 
               <OverlayInput
                 label="Suchmaschinen-Titel"
                 placeholder="Ein Titel für die Suchmaschine. Standardwert: der Titel"
-                value={metaTitle.value}
+                value={meta_title.value}
                 onChange={handleMetaTitleChange}
               />
               <Textarea
                 label="Suchmaschinen-Beschreibung"
                 placeholder="Gib hier eine Beschreibung für die Suchmaschine ein (ca. 160 Zeichen). Standardwert: Der Anfang des Artikels"
-                value={metaDescription.value}
+                value={meta_description.value}
                 onChange={handleMetaDescriptionChange}
               />
               <OverlayInput
                 label="Lizenz"
-                value={metaTitle.value}
+                value={license.id.value}
                 disabled={true}
                 onChange={handleLicenseChange}
               />

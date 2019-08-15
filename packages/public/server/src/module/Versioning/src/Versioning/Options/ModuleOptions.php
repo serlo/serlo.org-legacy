@@ -22,6 +22,7 @@
  */
 namespace Versioning\Options;
 
+use Doctrine\Common\Util\ClassUtils;
 use Versioning\Exception;
 use Zend\Stdlib\AbstractOptions;
 
@@ -50,7 +51,7 @@ class ModuleOptions extends AbstractOptions
 
     public function getPermission($repository, $action)
     {
-        $className = get_class($repository);
+        $className = ClassUtils::getRealClass(get_class($repository));
 
         if (!isset($this->permissions[$className])) {
             throw new Exception\RuntimeException(sprintf('Permission for repository "%s" not found', $className));

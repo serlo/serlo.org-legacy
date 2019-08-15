@@ -23,7 +23,7 @@
     {% if isGranted('page.revision.create', page) %}
         {% if convert or isLegacyFormat(revision.getContent()) %}
         <a rel="nofollow" data-id="{{ page.getId() }}"
-           class="btn btn-success ory-edit-button"
+           class="btn btn-success edit-button"
            href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId()}) }}">
         {% else %}
         <a class="btn btn-success" href="{{ url('page/revision/create-old', {'page': page.getId(), 'revision': revision.getId()}) }}">

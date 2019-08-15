@@ -182,58 +182,19 @@ const init = $context => {
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
     $('form:has(button.g-recaptcha)').ReCaptcha()
-    $('.ory-edit-button', $context).click(function(e) {
-      e.preventDefault()
-      initEntityEditor(
-        $(this).data('id'),
-        $(this).attr('href'),
-        $(this).data('type')
-      )
-      $('.convert-button').hide()
-    })
-
-    $('.convert-button', $context).click(function(e) {
-      e.preventDefault()
-      const id = $(this).data('content-id')
-      const href = $(this).attr('href')
-      const $loading = $('#loading')
-
-      $.ajax({
-        url: href,
-        type: 'GET',
-        async: true,
-        beforeSend: () => {
-          $loading.show()
-        }
-      }).done(function(data) {
-        function getEditedArticle($all) {
-          const $editable = $all.find(
-            `.editable[data-id="${id}"][data-edit-type="ory"]`
-          )
-          return $editable.closest('article').length
-            ? $editable.closest('article')
-            : $all.find('#content-layout article')
-        }
-
-        const $target = getEditedArticle($('body'))
-        const $dataArticle = getEditedArticle($(data))
-        $target.html($dataArticle.html())
-
-        const $editButton = $(`.ory-edit-button[data-id="${id}"]`, data)
-        initEntityEditor(
-          id,
-          $editButton.attr('href'),
-          $editButton.data('type')
-        ).then(() => {
-          Common.trigger('new context', $target)
-          $loading.hide()
-          $('.convert-button').hide()
-        })
-      })
-    })
+    // $('.ory-edit-button', $context).click(function(e) {
+    //   e.preventDefault()
+    //   initEntityEditor(
+    //     $(this).data('id'),
+    //     $(this).attr('href'),
+    //     $(this).data('type')
+    //   )
+    //   $('.convert-button').hide()
+    // })
 
     const $editor = $('#editor', $context)
     if ($editor.length > 0) {
+      console.log('initEntityEditor')
       initEntityEditor(
         {
           initialState: $editor.data('state'),
@@ -241,7 +202,6 @@ const init = $context => {
         },
         $editor.get(0)
       )
-      $('.convert-button').hide()
     }
     // Dirty Hack for Course Pages Mobile
     if ($('.side-context-course').length > 0) {
