@@ -30,7 +30,8 @@ import {
   Edtr,
   isEdtr,
   Legacy,
-  Splish
+  Splish,
+  RowsPlugin
 } from '@serlo/legacy-editor-to-editor'
 import { StandardElements } from './plugins/entities/common'
 import { textExerciseState } from './plugins/entities/text-exercise'
@@ -43,11 +44,15 @@ export interface EditorProps {
 }
 
 export function Editor(props: React.PropsWithChildren<EditorProps>) {
+  console.log('Editor', props)
+
+  const converted = convertState(props)
+  console.log('converted: ', converted)
   return (
     <Core
       plugins={plugins}
       defaultPlugin="text"
-      initialState={convertState(props)}
+      initialState={converted}
       editable
     >
       {props.children}
@@ -73,7 +78,7 @@ function convertTextSolution(
     plugin: 'textSolution',
     state: {
       ...state,
-      content: toEdtr(state.content)
+      content: serializeContent(toEdtr(deserializeContent(state.content)))
     }
   }
 }
@@ -91,7 +96,7 @@ function convertTextExercise({
 }: TextExerciseState): Plugin<'textExercise', typeof textExerciseState> {
   const scMcExercise = convertScMc()
 
-  const converted = toEdtr(content)
+  const converted = toEdtr(deserializeContent(content))
   // const inputExercise = convertInputExercise({ inputExpressionEqualMatchChallenge, inputNumberExactMatchChallenge, inputStringNormalizedMatchChallenge })
 
   return {
@@ -99,10 +104,10 @@ function convertTextExercise({
     state: {
       ...state,
       textSolution: convertTextSolution(state.textSolution),
-      content: {
+      content: serializeContent({
         plugin: 'rows',
         state: [...converted.state, ...(scMcExercise ? [scMcExercise] : [])]
-      }
+      })
     }
   }
 
@@ -129,7 +134,7 @@ function convertTextExercise({
             ...(singleChoiceRightAnswer
               ? [
                   {
-                    id: convert(singleChoiceRightAnswer.content),
+                    id: convert(deserializeContent(singleChoiceRightAnswer.content)),
                     isCorrect: true,
                     feedback: convert(singleChoiceRightAnswer.feedback),
                     hasFeedback: !!singleChoiceRightAnswer.feedback
@@ -139,7 +144,7 @@ function convertTextExercise({
             ...(singleChoiceWrongAnswer
               ? singleChoiceWrongAnswer.map(answer => {
                   return {
-                    id: convert(answer.content),
+                    id: convert(deserializeContent(answer.content)),
                     isCorrect: false,
                     feedback: convert(answer.feedback),
                     hasFeedback: !!answer.feedback
@@ -149,7 +154,7 @@ function convertTextExercise({
             ...(multipleChoiceRightAnswer
               ? multipleChoiceRightAnswer.map(answer => {
                   return {
-                    id: convert(answer.content),
+                    id: convert(deserializeContent(answer.content)),
                     isCorrect: true,
                     feedback: { plugin: 'rows', state: [{ plugin: 'text' }] },
                     hasFeedback: false
@@ -159,7 +164,7 @@ function convertTextExercise({
             ...(multipleChoiceWrongAnswer
               ? multipleChoiceWrongAnswer.map(answer => {
                   return {
-                    id: convert(answer.content),
+                    id: convert(deserializeContent(answer.content)),
                     isCorrect: false,
                     feedback: convert(answer.feedback),
                     hasFeedback: !!answer.feedback
@@ -180,13 +185,14 @@ function convertArticle(
     plugin: 'article',
     state: {
       ...state,
-      content: toEdtr(state.content),
-      reasoning: toEdtr(state.reasoning)
+      content: serializeContent(toEdtr(deserializeContent(state.content))),
+      reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning)))
     }
   }
 }
 
 function toEdtr(content: Content): RowsPlugin {
+  console.log('toEdtr')
   if (!content) return { plugin: 'rows', state: [] }
   if (isEdtr(content)) return content as RowsPlugin
   return convert(content) as RowsPlugin
@@ -194,30 +200,45 @@ function toEdtr(content: Content): RowsPlugin {
 
 interface ArticleState extends StandardElements {
   title: string
-  content: Content
-  reasoning: Content
+  content: SerializedContent
+  reasoning: SerializedContent
   metaTitle: string
   metaDescription: string
 }
 
 interface TextExerciseState extends StandardElements {
-  content: Content
+  content: SerializedContent
   textSolution: TextSolutionState
-  singleChoiceRightAnswer?: { content: Legacy, feedback: Legacy },
-  singleChoiceWrongAnswer?: { content: Legacy, feedback: Legacy }[],
-  multipleChoiceRightAnswer?: { content: Legacy }[],
-  multipleChoiceWrongAnswer?: { content: Legacy, feedback: Legacy }[],
+  singleChoiceRightAnswer?: { content: SerializedLegacyContent, feedback: Legacy },
+  singleChoiceWrongAnswer?: { content: SerializedLegacyContent, feedback: Legacy }[],
+  multipleChoiceRightAnswer?: { content: SerializedLegacyContent }[],
+  multipleChoiceWrongAnswer?: { content: SerializedLegacyContent, feedback: Legacy }[],
 }
 
 interface TextSolutionState extends StandardElements {
   title: string,
-  content: Content
+  content: SerializedContent
 }
 
 type Plugin<Type extends string, State extends StateType.StateDescriptor> = {
   plugin: Type
   state: StateDescriptorSerializedType<State>
 }
-type RowsPlugin = { plugin: 'rows'; state: unknown[] }
+
+function serializeContent(content: Legacy) : SerializedLegacyContent
+function serializeContent(content: Content) : SerializedContent
+function serializeContent(content: Content) : SerializedContent | SerializedLegacyContent {
+  console.log('serialize', content)
+  return content ? JSON.stringify(content) as any : undefined
+}
+
+function deserializeContent(content: SerializedLegacyContent) : Legacy
+function deserializeContent(content: SerializedContent) : Content
+function deserializeContent(content: SerializedLegacyContent|SerializedContent) : Content {
+  console.log('deserialize', JSON.stringify(content), content ? 'ja' : 'nein')
+  return content ? JSON.parse(content) : undefined
+}
 
 type Content = Legacy | Splish | Edtr | undefined
+type SerializedContent = (string|undefined) & { __type: 'serialized-content' }
+type SerializedLegacyContent = (string|undefined) & { __type: 'serialized-legacy-content' }

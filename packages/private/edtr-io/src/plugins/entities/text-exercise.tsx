@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { StatefulPlugin, StatefulPluginEditorProps, StateType } from '@edtr-io/core'
-import { standardElements } from './common'
+import { editorContent, standardElements } from './common'
 
 export const textExerciseState = StateType.object({
   ...standardElements,
-  content: StateType.child('rows'),
+  content: editorContent(),
   textSolution: StateType.child('textSolution'),
 })
 

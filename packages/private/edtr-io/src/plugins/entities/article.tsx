@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { StatefulPlugin, StatefulPluginEditorProps, StateType } from '@edtr-io/core'
+import { ScopeContext, useStore, actions, selectors, StatefulPlugin, StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import { Overlay, OverlayInput, Textarea, EditorInput,  } from '@edtr-io/editor-ui'
-import { standardElements } from './common'
+import { standardElements, SaveButton, editorContent } from './common'
 
 
 export const articleState = StateType.object({
   ...standardElements,
   title: StateType.string(),
-  content: StateType.child('rows'),
-  reasoning: StateType.child('rows'),
+  content: editorContent(),
+  reasoning: editorContent(),
   metaTitle: StateType.string(),
   metaDescription: StateType.string(),
 })
@@ -21,6 +21,7 @@ export const articlePlugin: StatefulPlugin<typeof articleState> = {
 function ArticleRenderer(props: StatefulPluginEditorProps<typeof articleState>) {
   const { title, content, reasoning, changes, metaTitle, metaDescription, license } = props.state
 
+  const { scope } = React.useContext(ScopeContext)
 
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     title.set(e.target.value)
@@ -35,6 +36,9 @@ function ArticleRenderer(props: StatefulPluginEditorProps<typeof articleState>) 
   function handleLicenseChange(e: React.ChangeEvent<HTMLInputElement>) {
     //TODO
   }
+
+  console.log('state', props.state.content())
+
   return (
     <article>
       <div className="page-header">
@@ -70,6 +74,7 @@ function ArticleRenderer(props: StatefulPluginEditorProps<typeof articleState>) 
           </React.Fragment>
         ) : null
       }
+      <SaveButton scope={scope}/>
     </article>
   )
 }

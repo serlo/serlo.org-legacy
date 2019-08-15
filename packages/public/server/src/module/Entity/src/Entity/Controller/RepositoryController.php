@@ -94,16 +94,25 @@ class RepositoryController extends AbstractController
 
         $this->assertGranted('entity.revision.create', $entity);
 
-        $form = $this->getForm($entity, $this->params('revision'));
         $state = htmlspecialchars(json_encode($this->getData($entity, $this->params('revision'))), ENT_QUOTES, 'UTF-8');
 //        var_dump($json);
 //        exit();
         $view = new ViewModel(['state' => $state, 'type' => $entity->getType()->getName()]);
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->getRequest()->getPost());
+//            error_log(json_encode($this->getRequest()->getContent()));
+            $form = $this->getForm($entity);
+
+            $data = json_decode($this->getRequest()->getContent(), true);
+            $data = array_merge($data, ['license' => ['agreement' => 1 ]]);
+
+            $form->setData($data);
+//            error_log($form->isValid());
             if ($form->isValid()) {
-                return $this->handleAddRevisionPost($entity, $form);
+                $redirectUrl = $this->handleAddRevisionPost($entity, $form);
+                return new JsonModel([ 'success' => true, 'redirect' => $redirectUrl]);
+            } else {
+                return new JsonModel([ 'success' => false, 'errors' => $form->getMessages()]);
             }
         }
 
@@ -129,6 +138,10 @@ class RepositoryController extends AbstractController
         }
         $this->getEntityManager()->flush();
         $this->flashMessenger()->addSuccessMessage($successMessage);
+
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            return $this->plugin('url')->fromRoute($route, ['entity' => $entity->getId()]);
+        }
 
         return $this->redirect()->toRoute($route, ['entity' => $entity->getId()]);
     }
@@ -283,8 +296,7 @@ class RepositoryController extends AbstractController
         if (is_object($revision)) {
             /** @var RevisionField $field */
             foreach ($revision->getFields() as $field) {
-                $deserializedJson = json_decode($field->getValue(), true);
-                $data[$this->camelize($field->getName(), '_')] = $deserializedJson ? $deserializedJson : $field->getValue();
+                $data[$this->camelize($field->getName(), '_')] = $field->getValue();
             }
         }
 
