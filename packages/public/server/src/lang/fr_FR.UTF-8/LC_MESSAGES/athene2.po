@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2019-07-30 02:05+0200\n"
-"PO-Revision-Date: 2019-07-30 12:35\n"
+"PO-Revision-Date: 2019-08-20 18:50\n"
 "Last-Translator: Serlo Education (Serlo)\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -1060,7 +1060,7 @@ msgstr "non-lucratif"
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:109
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:28
 msgid "The Open Learning Platform"
-msgstr "La plateforme d'apprentissage ouvert"
+msgstr "La plateforme d'apprentissage libre"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:116
 msgid "We are a grassroots non-profit organization supporting personalized learning and working\n"
@@ -1096,24 +1096,24 @@ msgstr "Tout comme Wikipédia, cette plateforme est créée par une communauté 
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:154
 msgid "Become a Part of Our Movement for Open Education"
-msgstr "Devenez partie de notre mouvement pour l'éducation ouverte"
+msgstr "Rejoignez notre mouvement pour l'éducation libre"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:161
 msgid "We are looking for teachers and enthusiastic educators who are passionate about their subject.\n"
 "                             Become an author on serlo.org! You can create new learning material and help us improve existing content."
-msgstr "Nous recherchons des enseignants et des éducateurs enthousiastes qui sont passionnés de leur sujet.\n"
-"                             Devenez un auteur sur serlo.org ! Vous pouvez créer de nouveaux matériels d'apprentissage et nous aider à améliorer le contenu existant."
+msgstr "Nous cherchons des enseignant(e)s et des éducateur(e)s enthousiastes et passionné(e)s de leur matière.\n"
+"                             Devenez un(e) auteur(e) sur serlo.org ! Vous pouvez créer du nouveau matériel d'apprentissage et nous aider à améliorer le contenu existant."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:165
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:187
 msgid "Visit the landing page for authors"
-msgstr "Visitez la page d'accueil des auteurs"
+msgstr "Visitez la page d'accueil des auteur(e)s"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:173
 msgid "We offer a diverse range of jobs and volunteering opportunities in the fields of software development,\n"
 "                                 design, translation, communications, project management and more."
-msgstr "Nous offrons une gamme variée d'emplois et de possibilités de bénévolat dans les domaines du développement de logiciel,\n"
-"  de conception, traduction, communications, gestion de projet et plus."
+msgstr "Nous offrons une variété d'emplois et de possibilités de bénévolat dans les domaines du développement de logiciel,\n"
+"  de la conception, la traduction, la communication, la gestion de projet et d'autres."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:178
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:193
@@ -1134,11 +1134,11 @@ msgstr "D'accord"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:28
 msgid "Serlo.org is the Wikipedia for learning."
-msgstr "Serlo.org est le Wikipedia pour l'apprentissage."
+msgstr "Serlo.org est le Wikipédia pour l'apprentissage."
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:29
 msgid "We are a community of visionaries working tirelessly to make great education freely available to everyone."
-msgstr "Nous sommes une communauté de visionnaires qui travaillent sans relâche pour offrir une éducation gratuite accessible à tous."
+msgstr "Nous sommes une communauté de visionnaires qui travaille sans relâche pour offrir une éducation gratuite et accessible à tous."
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:37
 msgid "Join the cause"
@@ -2200,8 +2200,8 @@ msgid "Dear %s,\n\n"
 "        Enjoy Serlo!"
 msgstr "Chère/cher %s,\n\n"
 " Nous sommes ravis que vous ayez décidé d'écrire un commentaire ou de faire une contribution sur serlo.org.\n\n"
-" Pour savoir comment modifier et créer du contenu, veuillez visiter la page d'accueil de la communauté: <a href=\"https://de.serlo.org/community\">community homepage</a>.\n\n"
-" Si vous avez des questions, des problèmes ou des commentaires pour nous, n'hésitez pas à nous contacter via <a href=\"mailto:de@serlo.org\">de@serlo.org</a>.\n\n"
+" Pour savoir comment modifier et créer du contenu, veuillez visiter la page d'accueil de la communauté: <a href=\"https://fr.serlo.org/community\">community homepage</a>.\n\n"
+" Si vous avez des questions, des problèmes ou des commentaires, n'hésitez pas à nous contacter via <a href=\"mailto:fr@serlo.org\">fr@serlo.org</a>.\n\n"
 "  Nous vous souhaitons beaucoup de plaisir avec Serlo!"
 
 #: ../module/Ui/templates/mailman/messages/welcome/plain.twig:24
@@ -2212,8 +2212,8 @@ msgid "Dear %s,\n\n"
 "        Enjoy Serlo!"
 msgstr "Chère/cher %s,\n\n"
 "Nous sommes ravis que vous ayez décidé d'écrire un commentaire ou de faire une contribution sur serlo.org.\n\n"
-" Pour savoir comment modifier et créer du contenu, veuillez visiter la page d'accueil de la communauté: https://de.serlo.org/community.\n\n"
-" Si vous avez des questions, des problèmes ou des commentaires pour nous, n'hésitez pas à nous contacter via community-de@serlo.org.\n\n"
+" Pour savoir comment modifier et créer du contenu, veuillez visiter la page d'accueil de la communauté: https://fr.serlo.org/community.\n\n"
+" Si vous avez des questions, des problèmes ou des commentaires pour nous, n'hésitez pas à nous contacter via community-fr@serlo.org.\n\n"
 " Nous vous souhaitons beaucoup de plaisir avec Serlo!"
 
 #: ../module/Ui/templates/mailman/messages/welcome/subject.twig:23
@@ -2672,7 +2672,7 @@ msgstr "<strong>Inscrivez-vous à notre newsletter pour recevoir les mises à jo
 
 #: ../module/Ui/templates/user/user/register.twig:114
 msgid "You can revoke your consent to contact you via email at any time by clicking the unsubscribe link in any mailing or send us an email at <a href=\"mailto:de@serlo.org\">de@serlo.org</a>. Your privacy is very important to us. For the processing of our mailing activities we work with MailChimp as a service provider. MailChimp underlies a strict data processing agreement with us that ensures the protection of your data in accordance with the European General Data Protection Regulations. By subscribing to our newsletter you agree with our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and acknowledge that your data will be processed by MailChimp in accordance with their <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">Terms</a>."
-msgstr "Vous pouvez révoquer votre consentement de vous contacter par email à tout moment en cliquant sur le lien de désabonnement présent dans toutes les emails que nous vous envoyons ou par en nous envoyant un email à <a href=\"mailto:de@serlo.org\">de@serlo.org</a>. Votre vie privée est très importante pour nous. Pour le traitement de notre activités d'emails, nous travaillons avec MailChimp comme un fournisseur de services. MailChimp sous-tend un contrat stricte concernant le traitement des donnés avec nous qui assure la protection de vos données en conformité avec le règlement européen sur la protection des données générales. En vous abonnant à notre newsletter, vous acceptez notre <a href=\"/22964\" target=\"_blank\"></a> politique de confidentialité et reconnaissez que vos données seront traitées par MailChimp conformément à leur <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">politique de confidentialité</a> et <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">termes</a>."
+msgstr "Vous pouvez révoquer votre consentement de vous contacter par email à tout moment en cliquant sur le lien de désabonnement présent dans toutes les emails que nous vous envoyons ou en nous envoyant un email à <a href=\"mailto:fr@serlo.org\">de@serlo.org</a>. Votre vie privée est très importante à nous. Pour le traitement de nos activités d'emails, nous travaillons avec MailChimp comme un fournisseur de services. MailChimp sous-tend un contrat stricte concernant le traitement des donnés avec nous qui assure la protection de vos données en conformité avec le règlement européen sur la protection des données générales. En vous abonnant à notre newsletter, vous acceptez notre <a href=\"/22964\" target=\"_blank\"></a> politique de confidentialité et reconnaissez que vos données seront traitées par MailChimp conformément à leur <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">politique de confidentialité</a> et <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">termes</a>."
 
 #: ../module/Ui/templates/user/user/register.twig:122
 msgid "By clicking <em>Sign up</em>, you agree to our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and <a href=\"/21654\" target=\"_blank\">Terms</a>. You may receive email notifications from us and can opt out at any time."

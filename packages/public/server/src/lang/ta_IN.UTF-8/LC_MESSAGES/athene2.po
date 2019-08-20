@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2019-07-30 02:05+0200\n"
-"PO-Revision-Date: 2019-07-30 12:36\n"
+"PO-Revision-Date: 2019-08-20 18:50\n"
 "Last-Translator: Serlo Education (Serlo)\n"
 "Language-Team: Tamil\n"
 "Language: ta\n"
@@ -1061,14 +1061,14 @@ msgstr "இலாப நோக்கற்றது"
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:109
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:28
 msgid "The Open Learning Platform"
-msgstr "அனைவருக்கும் திறந்த உரிமம் உள்ள ஓர் இணையத் தளம்"
+msgstr "அனைவருக்கும் திறந்த உரிமம் உள்ள ஓர் இணையத்தளம்"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:116
 msgid "We are a grassroots non-profit organization supporting personalized learning and working\n"
 "                                towards equal educational opportunities. This learning platform offers thousands of\n"
 "                                instructional articles, learning videos and practice exercises for millions of students\n"
 "                                worldwide - completely free of charge. Now it’s time to join us in your language."
-msgstr "நாங்கள் சுயமாக கற்றளை ஆதரிக்கும் மற்றும் சமமான கல்வி வாய்ப்புகளை நோக்கி செயல்படுவதற்காக இந்த கற்றல் தளத்தை உருவாக்கியுள்ளார். மில்லியன் கணக்கான மாணவர்களுக்கு ஆயிரக்கணக்கான அறிவுறுத்தல் கட்டுரைகள், கற்றல் வீடியோக்கள் மற்றும் பயிற்சிகளை முற்றிளும் இலவசம் வழங்குகின்றது. எங்களை உங்களுடைய மொழியில் சேருங்கள்."
+msgstr "நாம் சமமான கல்வி வாய்ப்புகளை நோக்கி இணைந்து பணிபுரியும் ஒரு குழு. இந்த இணையத்தளத்தில் எண்ணற்ற விவரக் கட்டுரைகள், பயிற்சிகள் மற்றும் ஒலிப் பேழைகள் அனைத்துப் பாடங்களுக்கும் வழங்கப்பட்டுவருகின்றன. இவை அனைத்தும் இலவசமாக உலகம் முழுவதும் உள்ள மாணவர்களுக்காக உருவாக்கப்பட்டுவருகின்றன. இனி வரும் காலங்களில், தமிழ்மொழியிலும் இவ்வாறான இலவசப் பாடத்திட்டங்களை உருவாக்க நீங்களும் எம்முடன் இணைந்து பணியாற்றலாம்."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:124
 msgid "/serlo"
@@ -1081,38 +1081,36 @@ msgstr "மேலும் அறிக"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:137
 msgid "Serlo is the Wikipedia for Learning"
-msgstr "Serlo கற்பதற்கு விக்கிபீடியா போன்றது"
+msgstr "Serlo ஓர் கற்றலுக்கான விக்கிபீடியா"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:142
 msgid "Just like Wikipedia, this platform is created by an engaged community of authors. Serlo Education \n"
 "                                is run and owned by decentralized teams of volunteers and professionals all over the world."
-msgstr "விக்கிபீடியாவைப் போலவே, இந்த தளமும் ஆசிரியர்களின் ஈடுபாடான சமூகத்தால் உருவாக்கப்பட்டது. செர்லோ ( Serlo) கல்வி என்பது உலகெங்கிலும் உள்ள தன்னார்வலர்கள் மற்றும் நிபுணர்களின் பரவலாக்கப்பட்ட குழுக்களால் நடத்தப்படுகிறது மற்றும் சொந்தமானது"
+msgstr "Serlo.org விக்கிபீடியாபோல திறந்த உரிமம் கொண்ட ஓர் இணையத்தளம்.  இது எம் எழுத்தாளர் குழுவால் உருவாக்கப்படுகின்றது."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:154
 msgid "Become a Part of Our Movement for Open Education"
-msgstr "நீங்களும் இதில் பண்ணியாற்றலாம்"
+msgstr "நீங்களும் இதில் பணியாற்றலாம்"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:161
 msgid "We are looking for teachers and enthusiastic educators who are passionate about their subject.\n"
 "                             Become an author on serlo.org! You can create new learning material and help us improve existing content."
-msgstr "ஆசிரியர்களும் ஆர்வமுள்ள எழுத்தாளர்களும்  புதுப்  பாடங்களையும் பயிற்சிகளையும் உருவாக்குவததற்கும் இந்தத் தளத்தின் சில உள்ளடக்கங்களை இன்னும் மேம்படுத்துவதற்கும்  Serloவில் இணைந்து கொள்ளலாம். \n"
-"."
+msgstr "ஆசிரியர்களும் ஆர்வமுள்ள எழுத்தாளர்களும் பாடங்களை உருவாக்க பல வழிகளில் உதவலாம். புதுப்  பயிற்சிகளை உருவாக்குவதற்கும் இந்தத் தளத்தின் சில உள்ளடக்கங்களை இன்னும் மேம்படுத்துவதற்கும்  நீங்கள் உதவலாம். அதற்கு கீழுள்ள இணையத்திற்குச் செல்லவும்."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:165
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:187
 msgid "Visit the landing page for authors"
-msgstr "ஆசிரியர்களுக்கான பக்கத்தை  பார்வையிடுங்கள்"
+msgstr "எழுத்தாளருக்கான பக்கத்தைப் பார்வையிடவும்"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:173
 msgid "We offer a diverse range of jobs and volunteering opportunities in the fields of software development,\n"
 "                                 design, translation, communications, project management and more."
-msgstr "Serlo பல வகையான வேலைவாய்ப்புகளையும் பொதுச்சேவையாகப் பணியாற்றும் வாய்ப்புக்களையும் வழங்குகின்றது. இந்த இணையத்தளம்:\n"
-"         மொழிபெயர்ப்பாளர்கள், வடிவமைப்பாளர்கள், தொலைதொடர்பாளர்கள் போன்ற துறை சார்ந்தவர்கள் நம் தேடி நிற்கின்றோம்."
+msgstr "நாங்கள் பல வகையான வேலைவாய்ப்புகளையும் பொதுச்சேவையாகப் பணியாற்றும் வாய்ப்புகளையும் வழங்குகின்றோம். இந்த இணையத்தளதிற்கு மொழிபெயர்ப்பாளர்கள், வடிவமைப்பாளர்கள், தொலைத்தொடர்பாளர்கள் போன்ற துறை சார்ந்தவர்களை நாங்கள் தேடி நிற்கின்றோம். இணைந்து கொள்ளுங்கள்."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:178
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:193
 msgid "Get involved!"
-msgstr "பங்கேற்கவும்!"
+msgstr "நீங்களும் ஈடுபடுங்கள்!"
 
 #: ../module/Ui/templates/layout/partials/default-modal.phtml:33
 #: ../module/Ui/templates/layout/partials/noscript.phtml:45
