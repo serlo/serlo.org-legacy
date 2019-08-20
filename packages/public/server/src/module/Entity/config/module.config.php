@@ -170,6 +170,7 @@ return [
             __NAMESPACE__ . '\Form\MultipleChoiceWrongAnswerForm' => __NAMESPACE__ . '\Factory\MultipleChoiceWrongAnswerFormFactory',
             __NAMESPACE__ . '\Form\MultipleChoiceRightAnswerForm' => __NAMESPACE__ . '\Factory\MultipleChoiceRightAnswerFormFactory',
             __NAMESPACE__ . '\Form\ArticleForm' => __NAMESPACE__ . '\Factory\ArticleFormFactory',
+            __NAMESPACE__ . '\Form\EventForm' => __NAMESPACE__ . '\Factory\EventFormFactory',
             __NAMESPACE__ . '\Form\GroupedTextExerciseForm' => __NAMESPACE__ . '\Factory\GroupedTextExerciseFormFactory',
             __NAMESPACE__ . '\Form\ModuleForm' => __NAMESPACE__ . '\Factory\ModuleFormFactory',
             __NAMESPACE__ . '\Form\ModulePageForm' => __NAMESPACE__ . '\Factory\ModulePageFormFactory',
