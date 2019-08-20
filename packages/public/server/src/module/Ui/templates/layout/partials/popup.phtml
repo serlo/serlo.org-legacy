@@ -25,38 +25,50 @@
         data-dojo-config="usePlainJson: true, isDebug: false"></script>
 <script type="text/javascript">
     var pages = [
-        '/serlo',
-        '/paedagogik-konzept',
-        '/qualitaet',
-        '/schule',
+        '/abc',
+        '/community-werte',
+        '/community',
+        '/community/ressourcen-paedagoginnen',
+        '/eltern',
+        '/feature-suggestions',
         '/grundprinzipien',
-        '/wirkung',
-        '/software',
-        '/transparenz',
-        '/nutzungszahlen',
-        '/plenum',
+        '/hilfe-startseite',
         '/jahresberichte',
-        '/team',
-        '/partner',
-        '/serlo-geschichte',
-        '/presse',
-        '/mitmachen',
         '/jobs',
         '/kontakt',
-        '/community',
-        '/hilfe-startseite',
-        '/community-werte',
-        '/feature-suggestions',
-        '/neue-faecher',
-        '/richtlinien-horizont',
-        '/eltern',
         '/lehrkraefte',
+        '/biologie-community-neu-hier',
+        '/mathe-community-willkommen',
+        '/permakultur-community-neu-hier',
+        '/informatik-community-neu-hier',
+        '/chemie-community-neu-hier',
+        '/physik-community-neu-hier',
         '/mathe/hochschule',
-        '/community/ressourcen-paedagoginnen'
-    ];
-    if (pages.indexOf(window.location.pathname) > -1) {
-        require(['mojo/signup-forms/Loader'], function (L) {
-            L.start({'baseUrl': 'mc.us7.list-manage.com', 'uuid': '23f4b04bf70ea485a766e532d', 'lid': 'a7bb2bbc4f'})
+        '/mitmachen',
+        '/neue-faecher',
+        '/nutzungszahlen',
+        '/paedagogik-konzept',
+        '/partner',
+        '/plenum',
+        '/presse',
+        '/qualitaet',
+        '/richtlinien-horizont',
+        '/schule',
+        '/serlo-geschichte',
+        '/serlo',
+        '/software',
+        '/team',
+        '/transparenz',
+        '/wirkung'
+    ]
+    var tenant = window.location.hostname.split('.')[0]
+    if (tenant === 'de' && pages.indexOf(window.location.pathname) > -1) {
+        require(['mojo/signup-forms/Loader'], function(L) {
+            L.start({
+                baseUrl: 'mc.us7.list-manage.com',
+                uuid: '23f4b04bf70ea485a766e532d',
+                lid: 'a7bb2bbc4f'
+            })
         })
     }
 </script>
