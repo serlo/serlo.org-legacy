@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2019-07-30 02:05+0200\n"
-"PO-Revision-Date: 2019-07-30 12:36\n"
+"PO-Revision-Date: 2019-08-20 18:50\n"
 "Last-Translator: Serlo Education (Serlo)\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -907,7 +907,7 @@ msgstr "Diese Seite existiert nicht!"
 
 #: ../module/Ui/templates/error/404.phtml:31
 msgid "It seems like we can't find the page you were looking for. Try checking the URL for errors, then hit the refresh button on your browser."
-msgstr "Es scheint, als könnten wir die Seite die du gesucht hast, nicht finden. Überprüfe die URL für Fehler und lade die Seite erneut."
+msgstr "Es scheint, als könnten wir die Seite, die du gesucht hast, nicht finden. Überprüfe die URL für Fehler und lade die Seite erneut."
 
 #: ../module/Ui/templates/error/404.phtml:50
 msgid "The requested controller was unable to dispatch the request."

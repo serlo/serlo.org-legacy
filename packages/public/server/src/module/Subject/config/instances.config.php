@@ -37,6 +37,7 @@ return [
                         'text-exercise-group',
                         'math-puzzle',
                         'applet',
+                        'event',
                     ],
                 ],
                 'englisch'                 => [
@@ -195,6 +196,7 @@ return [
                         'text-exercise-group',
                         'math-puzzle',
                         'applet',
+                        'event',
                     ],
                 ],
                 'testbereich' => [

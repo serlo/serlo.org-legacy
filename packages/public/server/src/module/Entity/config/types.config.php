@@ -593,6 +593,24 @@ return [
                     'license' => [],
                 ],
             ],
+            'event' => [
+                'description' => 'content',
+                'components' => [
+                    'repository' => [
+                        'form' => __NAMESPACE__ . '\Form\EventForm',
+                        'fields' => [
+                            'title',
+                            'content',
+                            'meta_title',
+                            'meta_description',
+                        ],
+                    ],
+                    'license' => [],
+                    'taxonomy' => [],
+                    'related_content' => [],
+                    'search' => [],
+                ],
+            ],
         ],
     ],
 ];
