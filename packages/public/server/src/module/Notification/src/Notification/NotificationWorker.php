@@ -36,7 +36,7 @@ class NotificationWorker
     /**
      * @TODO Undirtyfy
      */
-    public function run(int $limit)
+    public function run($limit)
     {
         // Solves "mysql server has gone away" error for large sets of data
         $timeout        = 60 * 20;
@@ -111,7 +111,7 @@ class NotificationWorker
     /**
      * @TODO Undirtyfy
      */
-    protected function getWorkload(int $limit)
+    protected function getWorkload($limit)
     {
         $offset = $this->findOffset();
         $query  = $this->getObjectManager()->createQuery(
@@ -120,7 +120,11 @@ class NotificationWorker
                 $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface'),
                 $offset
             )
-        )->setMaxResults($limit);
+        );
+
+        if (isset($limit)) {
+            $query->setMaxResults($limit);
+        }
 
         return $query->getResult();
     }
