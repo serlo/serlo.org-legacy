@@ -1,3 +1,24 @@
+/**
+ * This file is part of Serlo.org.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
+ */
 import * as React from 'react'
 import {
   actions,
@@ -56,7 +77,10 @@ export const SaveButton = connect(function SaveButton(
   const overlay = React.useContext(OverlayContext)
   const [agreement, setAgreement] = React.useState(false)
   const [emailSubscription, setEmailSubscription] = React.useState(false)
-  const [notificationSubscription, setNotificationSubscription] = React.useState(false)
+  const [
+    notificationSubscription,
+    setNotificationSubscription
+  ] = React.useState(false)
   return (
     <React.Fragment>
       <button
@@ -89,21 +113,25 @@ export const SaveButton = connect(function SaveButton(
             const serialized = props.serializeRootDocument()
             console.log(serialized)
             axios
-              .post(window.location.pathname, {
-                ...serialized,
-                //@ts-ignore TODO: maybe pass this via props because should be typed in client
-                csrf: window.csrf,
-                controls: {
-                  subscription: {
-                    subscribe: notificationSubscription ? 1 : 0,
-                    mailman: emailSubscription ? 1 : 0
+              .post(
+                window.location.pathname,
+                {
+                  ...serialized,
+                  //@ts-ignore TODO: maybe pass this via props because should be typed in client
+                  csrf: window.csrf,
+                  controls: {
+                    subscription: {
+                      subscribe: notificationSubscription ? 1 : 0,
+                      mailman: emailSubscription ? 1 : 0
+                    }
+                  }
+                },
+                {
+                  headers: {
+                    'X-Requested-with': 'XMLHttpRequest'
                   }
                 }
-              }, {
-                headers: {
-                  'X-Requested-with': 'XMLHttpRequest'
-                }
-              })
+              )
               .then(val => {
                 console.log(val)
                 if (val.data.success) {
@@ -130,44 +158,54 @@ export const SaveButton = connect(function SaveButton(
   )
 })
 
-export function editorContent() : StateType.StateDescriptor<string,
+export function editorContent(): StateType.StateDescriptor<
+  string,
   StateType.StateDescriptorValueType<ReturnType<typeof StateType.child>>,
   StateType.StateDescriptorReturnType<ReturnType<typeof StateType.child>>
->{
+> {
   const child = StateType.child('rows')
   const { serialize, deserialize } = child
   return Object.assign(child, {
     serialize(...args: Parameters<typeof child.serialize>) {
-      return JSON.stringify(serialize(...args));
+      return JSON.stringify(serialize(...args))
     },
-    deserialize(serialized: string, helpers: Parameters<typeof child.deserialize>[1]) {
+    deserialize(
+      serialized: string,
+      helpers: Parameters<typeof child.deserialize>[1]
+    ) {
       console.log('stateType', serialized)
       return deserialize(JSON.parse(serialized), helpers)
     }
   })
 }
 
-export function serializedChild(plugin: string) : StateType.StateDescriptor<unknown,
+export function serializedChild(
+  plugin: string
+): StateType.StateDescriptor<
+  unknown,
   StateType.StateDescriptorValueType<ReturnType<typeof StateType.child>>,
   StateType.StateDescriptorReturnType<ReturnType<typeof StateType.child>>
-  >{
+> {
   const child = StateType.child(plugin)
   const { serialize, deserialize } = child
   return Object.assign(child, {
     serialize(...args: Parameters<typeof child.serialize>) {
-      return serialize(...args).state;
+      return serialize(...args).state
     },
-    deserialize(serialized: string, helpers: Parameters<typeof child.deserialize>[1]) {
-      return deserialize( {
-        plugin,
-        state: serialized
-      }, helpers)
+    deserialize(
+      serialized: string,
+      helpers: Parameters<typeof child.deserialize>[1]
+    ) {
+      return deserialize(
+        {
+          plugin,
+          state: serialized
+        },
+        helpers
+      )
     }
   })
 }
-
-
-
 
 interface StateProps {
   hasPendingChanges: ReturnType<typeof selectors.hasPendingChanges>

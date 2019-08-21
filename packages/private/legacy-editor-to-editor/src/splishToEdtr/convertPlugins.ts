@@ -23,7 +23,8 @@ import { Plugin } from '@serlo/editor-plugins-registry'
 
 import {
   SplishBlockquoteState,
-  SplishCodeState, SplishGeogebraState,
+  SplishCodeState,
+  SplishGeogebraState,
   SplishInjectionState,
   SplishSpoilerState,
   SplishTextState

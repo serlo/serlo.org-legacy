@@ -26,10 +26,7 @@ import { Renderer } from '@serlo/edtr-io'
 import { Edtr } from '@serlo/legacy-editor-to-editor'
 
 export const initElement = (element: HTMLElement) => {
-  const content = getStateFromElement(element) as unknown as Edtr
+  const content = (getStateFromElement(element) as unknown) as Edtr
 
-  hydrate(
-    <Renderer state={content}/>,
-    element
-  )
+  hydrate(<Renderer state={content} />, element)
 }

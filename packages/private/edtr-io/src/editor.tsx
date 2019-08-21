@@ -62,9 +62,15 @@ export function Editor(props: React.PropsWithChildren<EditorProps>) {
 function convertState(props: EditorProps) {
   switch (props.type) {
     case 'article':
-      return { plugin: 'article', state: convertArticle(props.initialState as ArticleState) }
+      return {
+        plugin: 'article',
+        state: convertArticle(props.initialState as ArticleState)
+      }
     case 'text-exercise':
-      return { plugin: 'textExercise', state: convertTextExercise(props.initialState as TextExerciseState) }
+      return {
+        plugin: 'textExercise',
+        state: convertTextExercise(props.initialState as TextExerciseState)
+      }
     default:
       throw new Error('NOOOO!')
   }
@@ -90,7 +96,9 @@ function convertTextExercise({
   // inputNumberExactMatchChallenge,
   // inputStringNormalizedMatchChallenge,
   ...state
-}: TextExerciseState): StateType.StateDescriptorSerializedType<typeof textExerciseState> {
+}: TextExerciseState): StateType.StateDescriptorSerializedType<
+  typeof textExerciseState
+> {
   const deserialized = deserializeContent(content)
 
   const scMcExercise =

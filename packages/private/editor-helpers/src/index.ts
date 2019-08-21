@@ -24,7 +24,6 @@ import $ from 'jquery'
 import * as utf8 from 'utf8'
 
 export const parseState = (raw: string): unknown => {
-  console.log(raw)
   const stringifiedState = utf8.decode(base64.decode(raw))
 
   if (typeof stringifiedState === 'string') {

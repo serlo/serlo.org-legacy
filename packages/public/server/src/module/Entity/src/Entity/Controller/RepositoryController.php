@@ -112,7 +112,7 @@ class RepositoryController extends AbstractController
 //            error_log($form->isValid());
             if ($validated['valid']) {
                 $redirectUrl = '';
-                foreach($validated['elements'] as $el) {
+                foreach ($validated['elements'] as $el) {
                     $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['form']);
                 }
                 return new JsonModel([ 'success' => true, 'redirect' => $redirectUrl]);
@@ -131,7 +131,8 @@ class RepositoryController extends AbstractController
      * @param array $merges
      * @return array
      */
-    protected function checkData($data, $merges) {
+    protected function checkData($data, $merges)
+    {
         $validChildren = true;
         $elements = [];
         $messages = [];
@@ -144,12 +145,11 @@ class RepositoryController extends AbstractController
             // check children
             /** @var LinkOptions $linkOptions */
             $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
-            foreach($linkOptions->getAllowedChildren() as $allowedChild) {
-
+            foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
                 if (isset($data[$allowedChild])) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
                         /* TODO: create entity for new children (e.g. course page)*/
-                        foreach($data[$allowedChild] as $child) {
+                        foreach ($data[$allowedChild] as $child) {
                             $validated = $this->checkData($child, $merges);
                             if ($validated['valid']) {
                                 $elements = array_merge($elements, $validated['elements']);
@@ -357,7 +357,7 @@ class RepositoryController extends AbstractController
                 'title' => $license->getTitle(),
                 'agreement' => $license->getAgreement(),
                 'url' => $license->getUrl(),
-                'iconHref' => $license->getIconHref()
+                'iconHref' => $license->getIconHref(),
             ],
         ];
 
@@ -375,13 +375,13 @@ class RepositoryController extends AbstractController
             // add children
             /** @var LinkOptions $linkOptions */
             $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
-            foreach($linkOptions->getAllowedChildren() as $allowedChild) {
+            foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
                 $children = $entity->getChildren('link', $allowedChild);
 
                 if ($children->count()) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
                         $data[$allowedChild] = [];
-                        foreach($children as $child) {
+                        foreach ($children as $child) {
                             /* TODO: select correct revision id */
                             $data[$allowedChild][] = $this->getData($child);
                         }

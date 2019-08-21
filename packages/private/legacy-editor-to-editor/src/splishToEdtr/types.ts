@@ -68,7 +68,18 @@ export type LayoutPlugin = {
 }
 
 export type OtherPlugin = {
-  plugin: 'blockquote' | 'error' | 'geogebra' | 'highlight' | 'image' | 'important' | 'injection' | 'spoiler' | 'scMcExercise' | 'table' | 'text'
+  plugin:
+    | 'blockquote'
+    | 'error'
+    | 'geogebra'
+    | 'highlight'
+    | 'image'
+    | 'important'
+    | 'injection'
+    | 'spoiler'
+    | 'scMcExercise'
+    | 'table'
+    | 'text'
   state: unknown
 }
 

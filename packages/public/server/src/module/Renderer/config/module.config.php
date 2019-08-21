@@ -39,7 +39,7 @@ return [
     ],
     'view_helpers'    => [
         'factories' => [
-            'renderer' => RendererHelperFactory::class
+            'renderer' => RendererHelperFactory::class,
         ],
         'invokables' => [
             'isLegacyFormat' => FormatHelper::class,

@@ -38,10 +38,14 @@ import { videoPlugin } from '@edtr-io/plugin-video'
 import { errorPlugin } from './plugins/error'
 import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
-import { articlePlugin, textExercisePlugin, textSolutionPlugin } from './plugins/entities'
+import {
+  articlePlugin,
+  textExercisePlugin,
+  textSolutionPlugin
+} from './plugins/entities'
 import { StatefulPlugin } from '@edtr-io/core'
 
-export const plugins : Record<string, StatefulPlugin<any, any>> = {
+export const plugins: Record<string, StatefulPlugin<any, any>> = {
   article: articlePlugin,
   textSolution: textSolutionPlugin,
   textExercise: textExercisePlugin,

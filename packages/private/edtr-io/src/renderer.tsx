@@ -29,10 +29,5 @@ export function Renderer(
     state: RendererProps['state']
   }>
 ) {
-  return (
-    <Core
-      plugins={plugins}
-      state={props.state || { plugin: 'text'} }
-    />
-  )
+  return <Core plugins={plugins} state={props.state || { plugin: 'text' }} />
 }

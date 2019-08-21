@@ -45,4 +45,11 @@ export function convertSplishToEdtrIO(content: Splish): Edtr {
   }
 }
 
-export { RowsPlugin, Edtr, Legacy, Splish, isSplish, isEdtr } from './splishToEdtr'
+export {
+  RowsPlugin,
+  Edtr,
+  Legacy,
+  Splish,
+  isSplish,
+  isEdtr
+} from './splishToEdtr'

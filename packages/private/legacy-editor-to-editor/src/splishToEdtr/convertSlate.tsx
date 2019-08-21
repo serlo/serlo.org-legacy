@@ -174,11 +174,13 @@ const listDeserializer: Rule = {
         return {
           object: 'block',
           type: listItemNode,
-          nodes: [{
-            object: 'block',
-            type: listItemChildNode,
-            nodes: next(el.childNodes)
-          }]
+          nodes: [
+            {
+              object: 'block',
+              type: listItemChildNode,
+              nodes: next(el.childNodes)
+            }
+          ]
         }
     }
   }
@@ -322,7 +324,6 @@ const katexSerializer: Rule = {
   serialize(obj, children) {
     const block = obj as Block
     const inline = obj as Inline
-
 
     if (block.object === 'block' && block.type === katexBlockNode) {
       const formula = obj.data.get('formula')
