@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { StatefulPlugin } from '@edtr-io/core'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
@@ -43,9 +44,9 @@ import {
   pagePlugin,
   textExercisePlugin,
   textSolutionPlugin,
+  textExerciseGroupPlugin,
   userPlugin
 } from './plugins/entities'
-import { StatefulPlugin } from '@edtr-io/core'
 
 export const plugins: Record<string, StatefulPlugin<any, any>> = {
   article: articlePlugin,
@@ -70,5 +71,6 @@ export const plugins: Record<string, StatefulPlugin<any, any>> = {
   text: textPlugin,
   video: videoPlugin,
   page: pagePlugin,
-  user: userPlugin
+  user: userPlugin,
+  textExerciseGroup: textExerciseGroupPlugin
 }

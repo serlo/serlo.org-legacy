@@ -38,6 +38,7 @@ import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { textSolutionState } from './plugins/entities/text-solution'
 import { userState } from './plugins/entities/user'
 import { pageState } from './plugins/entities/page'
+import { textExerciseGroupState } from './plugins/entities/text-exercise-group'
 
 export interface EditorProps {
   initialState: unknown
@@ -48,13 +49,32 @@ export function Editor(props: EditorProps) {
   const converted = convertState(props)
   console.log('converted', converted)
 
+  if (!converted) {
+    const url = window.location.pathname.replace(
+      'add-revision',
+      'add-revision-old'
+    )
+    return (
+      <div className="alert alert-danger" role="alert">
+        Dieser Inhaltstyp wird vom neuen Editor noch nicht unterstützt. Bitte
+        erstelle eine Bearbeitung mit <a href={url}>dem alten Editor</a>.
+      </div>
+    )
+  }
+
   return (
-    <Core
-      plugins={plugins}
-      defaultPlugin="text"
-      initialState={converted}
-      editable
-    />
+    <React.Fragment>
+      <div className="alert alert-warning" role="alert">
+        Dies ist der neue Editor, der sich momentan noch in einer Testphase
+        befindet.
+      </div>
+      <Core
+        plugins={plugins}
+        defaultPlugin="text"
+        initialState={converted}
+        editable
+      />
+    </React.Fragment>
   )
 }
 
@@ -65,10 +85,18 @@ function convertState(props: EditorProps) {
         plugin: 'article',
         state: convertArticle(props.initialState as ArticleState)
       }
+    case 'grouped-text-exercise':
     case 'text-exercise':
       return {
         plugin: 'textExercise',
         state: convertTextExercise(props.initialState as TextExerciseState)
+      }
+    case 'text-exercise-group':
+      return {
+        plugin: 'textExerciseGroup',
+        state: convertTextExerciseGroup(
+          props.initialState as TextExerciseGroupState
+        )
       }
     case 'page': {
       return {
@@ -83,7 +111,7 @@ function convertState(props: EditorProps) {
       }
     default:
       console.log(props)
-      throw new Error('NOOOO!')
+      return null
   }
 }
 
@@ -198,6 +226,18 @@ function convertTextExercise({
   }
 }
 
+function convertTextExerciseGroup(
+  state: TextExerciseGroupState
+): StateType.StateDescriptorSerializedType<typeof textExerciseGroupState> {
+  return {
+    ...state,
+    content: serializeContent(toEdtr(deserializeContent(state.content))),
+    'grouped-text-exercise': state['grouped-text-exercise'].map(
+      convertTextExercise
+    )
+  }
+}
+
 function convertArticle(
   state: ArticleState
 ): StateType.StateDescriptorSerializedType<typeof articleState> {
@@ -257,6 +297,11 @@ interface TextExerciseState extends StandardElements {
     content: SerializedLegacyContent
     feedback: SerializedLegacyContent
   }[]
+}
+
+interface TextExerciseGroupState extends StandardElements {
+  content: SerializedContent
+  'grouped-text-exercise': TextExerciseState[]
 }
 
 interface TextSolutionState extends StandardElements {

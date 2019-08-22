@@ -73,7 +73,7 @@ class RepositoryController extends AbstractController
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                return $this->handleAddRevisionPost($entity, $form);
+                return $this->handleAddRevisionPost($entity, $form->getData());
             }
         }
 
@@ -105,7 +105,7 @@ class RepositoryController extends AbstractController
             if ($validated['valid']) {
                 $redirectUrl = '';
                 foreach ($validated['elements'] as $el) {
-                    $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['form']);
+                    $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['data']);
                 }
                 return new JsonModel([ 'success' => true, 'redirect' => $redirectUrl]);
             } else {
@@ -176,19 +176,18 @@ class RepositoryController extends AbstractController
             // get the relevant data of this form and compare it to the previous data (ignoring the $merges)
             $dataPartNext = $form->getData();
             if (array_merge($dataPartPrevious, $merges) != array_merge($dataPartNext, $merges)) {
-                $elements[] = ['entity' => $entity, 'form' => $form];
+                $elements[] = ['entity' => $entity, 'data' => $dataPartNext];
             }
-            return [ 'valid' => true, 'elements' => $elements];
+            return ['valid' => true, 'elements' => $elements];
         } else {
             $messages = array_merge($messages, $form->getMessages());
-            return [ 'valid' => false, 'messages' => $messages];
+            return ['valid' => false, 'messages' => $messages];
         }
     }
 
-    protected function handleAddRevisionPost(EntityInterface $entity, Form $form)
+    protected function handleAddRevisionPost(EntityInterface $entity, $data)
     {
         $mayCheckout = $this->isGranted('entity.revision.checkout', $entity);
-        $data = $form->getData();
         $revision = $this->getRepositoryManager()->commitRevision($entity, $data);
         /** @var Translator $translator */
         $translator = $this->serviceLocator->get('MvcTranslator');

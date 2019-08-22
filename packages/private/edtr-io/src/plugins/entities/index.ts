@@ -22,5 +22,6 @@
 export { articlePlugin } from './article'
 export { pagePlugin } from './page'
 export { textExercisePlugin } from './text-exercise'
+export { textExerciseGroupPlugin } from './text-exercise-group'
 export { textSolutionPlugin } from './text-solution'
 export { userPlugin } from './user'

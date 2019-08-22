@@ -32,33 +32,43 @@ import {
   serializedChild
 } from './common'
 
-export const textExerciseState = StateType.object({
+export const textExerciseGroupState = StateType.object({
   ...standardElements,
   content: editorContent(),
-  'text-solution': serializedChild('textSolution')
+  'grouped-text-exercise': StateType.list(serializedChild('textExercise'))
 })
 
-export const textExercisePlugin: StatefulPlugin<typeof textExerciseState> = {
-  Component: TextExerciseRenderer,
-  state: textExerciseState
+export const textExerciseGroupPlugin: StatefulPlugin<
+  typeof textExerciseGroupState
+> = {
+  Component: TextExerciseGroupEditor,
+  state: textExerciseGroupState
 }
 
-export function TextExerciseRenderer(
-  props: StatefulPluginEditorProps<typeof textExerciseState> & {
-    skipControls?: boolean
-  }
+function TextExerciseGroupEditor(
+  props: StatefulPluginEditorProps<typeof textExerciseGroupState>
 ) {
-  const { content, 'text-solution': textSolution, license } = props.state
+  const {
+    content,
+    'grouped-text-exercise': groupedTextExercises,
+    license
+  } = props.state
 
   return (
     <div>
       {content.render()}
-      <div>{textSolution.render()}</div>
+      {groupedTextExercises.items.map(exercise => {
+        return (
+          <React.Fragment key={exercise.id}>
+            {exercise.render({ skipControls: true })}
+          </React.Fragment>
+        )
+      })}
       <div>
         <img src={license.iconHref.value} />
         {license.title.value}
       </div>
-      {props.skipControls ? null : <Controls />}
+      <Controls />
     </div>
   )
 }
