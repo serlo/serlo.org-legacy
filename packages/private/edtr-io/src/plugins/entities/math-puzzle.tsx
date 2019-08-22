@@ -42,30 +42,10 @@ export const mathPuzzlePlugin: StatefulPlugin<typeof mathPuzzleState> = {
 function MathPuzzleEditor(
   props: StatefulPluginEditorProps<typeof mathPuzzleState>
 ) {
-  const {
-    source,
-    content,
-    reasoning,
-    changes,
-    meta_title,
-    meta_description,
-    license
-  } = props.state
+  const { source, content, changes, license } = props.state
 
   function handleSourceChange(e: React.ChangeEvent<HTMLInputElement>) {
     source.set(e.target.value)
-  }
-
-  function handleMetaTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    meta_title.set(e.target.value)
-  }
-  function handleMetaDescriptionChange(
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) {
-    meta_description.set(e.target.value)
-  }
-  function handleLicenseChange(e: React.ChangeEvent<HTMLInputElement>) {
-    //TODO
   }
 
   console.log('state', props.state.content())

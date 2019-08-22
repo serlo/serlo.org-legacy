@@ -61,14 +61,6 @@ function VideoEditor(props: StatefulPluginEditorProps<typeof videoState>) {
     title.set(e.target.value)
   }
 
-  function handleMetaTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    meta_title.set(e.target.value)
-  }
-  function handleMetaDescriptionChange(
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) {
-    meta_description.set(e.target.value)
-  }
   function handleLicenseChange(e: React.ChangeEvent<HTMLInputElement>) {
     //TODO
   }
