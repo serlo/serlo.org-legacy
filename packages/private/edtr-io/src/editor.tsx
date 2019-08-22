@@ -40,6 +40,7 @@ import { userState } from './plugins/entities/user'
 import { pageState } from './plugins/entities/page'
 import { textExerciseGroupState } from './plugins/entities/text-exercise-group'
 import { coursePageState } from './plugins/entities/course-page'
+import { courseState } from './plugins/entities/course'
 
 export interface EditorProps {
   initialState: unknown
@@ -103,6 +104,12 @@ function convertState(props: EditorProps) {
       return {
         plugin: 'coursePage',
         state: convertCoursePage(props.initialState as CoursePageState)
+      }
+    }
+    case 'course': {
+      return {
+        plugin: 'course',
+        state: convertCourse(props.initialState as CourseState)
       }
     }
     case 'page': {
@@ -278,12 +285,23 @@ function convertCoursePage(
 ): StateType.StateDescriptorSerializedType<typeof coursePageState> {
   return {
     ...state,
-    content: serializeContent(toEdtr(deserializeContent(state.content)))
+    content: serializeContent(toEdtr(deserializeContent(state.content))),
+    icon: state.icon || 'explanation'
+  }
+}
+
+function convertCourse(
+  state: CourseState
+): StateType.StateDescriptorSerializedType<typeof courseState> {
+  return {
+    ...state,
+    content: serializeContent(toEdtr(deserializeContent(state.content))),
+    reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning))),
+    'course-page': state['course-page'].map(convertCoursePage)
   }
 }
 
 function toEdtr(content: Content): RowsPlugin {
-  console.log('toEdtr')
   if (!content) return { plugin: 'rows', state: [] }
   if (isEdtr(content)) return content as RowsPlugin
   return convert(content) as RowsPlugin
@@ -325,8 +343,16 @@ interface TextSolutionState extends StandardElements {
   content: SerializedContent
 }
 
+interface CourseState extends StandardElements {
+  title: string
+  content: SerializedContent
+  reasoning: SerializedContent
+  meta_description: string
+  'course-page': CoursePageState[]
+}
+
 interface CoursePageState extends StandardElements {
-  icon: 'explanation' | 'play' | 'question'
+  icon?: 'explanation' | 'play' | 'question'
   title: string
   content: SerializedContent
 }

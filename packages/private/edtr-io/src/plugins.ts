@@ -41,6 +41,7 @@ import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
 import {
   articlePlugin,
+  coursePlugin,
   coursePagePlugin,
   pagePlugin,
   textExercisePlugin,
@@ -74,5 +75,6 @@ export const plugins: Record<string, StatefulPlugin<any, any>> = {
   page: pagePlugin,
   user: userPlugin,
   textExerciseGroup: textExerciseGroupPlugin,
+  course: coursePlugin,
   coursePage: coursePagePlugin
 }

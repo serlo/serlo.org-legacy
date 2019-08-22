@@ -144,6 +144,8 @@ const InnerControls = connect(function SaveButton(
                   overlay.hide()
                   props.persist()
                   window.location = val.data.redirect
+                } else {
+                  console.log(val.data.messages)
                 }
               })
               .catch(err => {

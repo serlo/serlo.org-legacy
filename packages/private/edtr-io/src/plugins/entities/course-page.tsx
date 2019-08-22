@@ -30,7 +30,7 @@ import { standardElements, Controls, editorContent } from './common'
 
 export const coursePageState = StateType.object({
   ...standardElements,
-  icon: StateType.string(''),
+  icon: StateType.string('explanation'),
   title: StateType.string(''),
   content: editorContent()
 })
@@ -41,7 +41,9 @@ export const coursePagePlugin: StatefulPlugin<typeof coursePageState> = {
 }
 
 function CoursePageEditor(
-  props: StatefulPluginEditorProps<typeof coursePageState>
+  props: StatefulPluginEditorProps<typeof coursePageState> & {
+    skipControls?: boolean
+  }
 ) {
   const { icon, content, title, changes, license } = props.state
 
@@ -78,7 +80,7 @@ function CoursePageEditor(
         </h1>
       </div>
       {content.render()}
-      <Controls />
+      {props.skipControls ? null : <Controls />}
     </article>
   )
 }
