@@ -41,7 +41,8 @@ import { layoutPlugin } from './plugins/layout'
 import {
   articlePlugin,
   textExercisePlugin,
-  textSolutionPlugin
+  textSolutionPlugin,
+  userPlugin
 } from './plugins/entities'
 import { StatefulPlugin } from '@edtr-io/core'
 
@@ -66,5 +67,6 @@ export const plugins: Record<string, StatefulPlugin<any, any>> = {
   spoiler: spoilerPlugin,
   table: tablePlugin,
   text: textPlugin,
-  video: videoPlugin
+  video: videoPlugin,
+  user: userPlugin
 }

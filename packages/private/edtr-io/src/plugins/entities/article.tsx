@@ -21,23 +21,12 @@
  */
 import * as React from 'react'
 import {
-  ScopeContext,
-  useStore,
-  actions,
-  selectors,
   StatefulPlugin,
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import {
-  Overlay,
-  OverlayInput,
-  Textarea,
-  EditorInput
-} from '@edtr-io/editor-ui'
+import { EditorInput } from '@edtr-io/editor-ui'
 import { standardElements, Controls, editorContent } from './common'
-import { styled } from '@edtr-io/ui'
-import { createPortal } from 'react-dom'
 
 export const articleState = StateType.object({
   ...standardElements,
@@ -65,8 +54,6 @@ function ArticleRenderer(
     meta_description,
     license
   } = props.state
-
-  const { scope } = React.useContext(ScopeContext)
 
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     title.set(e.target.value)
@@ -103,7 +90,7 @@ function ArticleRenderer(
         </h1>
       </div>
       <div itemProp="articleBody">{content.render()}</div>
-      <Controls scope={scope} />
+      <Controls />
       {/*{props.editable && props.focused ? (*/}
       {/*  <React.Fragment>*/}
       {/*    {reasoning.render()}*/}

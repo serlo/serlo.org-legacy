@@ -21,7 +21,6 @@
  */
 import * as React from 'react'
 import {
-  ScopeContext,
   StatefulPlugin,
   StatefulPluginEditorProps,
   StateType
@@ -49,7 +48,6 @@ function TextExerciseRenderer(
 ) {
   const { content, 'text-solution': textSolution, license } = props.state
 
-  const { scope } = React.useContext(ScopeContext)
   return (
     <div>
       {content.render()}
@@ -58,7 +56,7 @@ function TextExerciseRenderer(
         <img src={license.iconHref.value} />
         {license.title.value}
       </div>
-      <Controls scope={scope} />
+      <Controls />
     </div>
   )
 }

@@ -20,6 +20,5 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 {{ pageHeader('My settings' | trans) }}
-<div id="ory-edit-form" data-id="user/me" data-type="user" style="display:none;">
-    {{ form().render(form) }}
-</div>
+<div id="editor" data-state="{{ state }}" data-type="user"></div>
+

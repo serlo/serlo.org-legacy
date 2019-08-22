@@ -26,7 +26,8 @@ import {
   connect as connectStore,
   selectors,
   OverlayContext,
-  ScopedActionCreator
+  ScopedActionCreator,
+  ScopeContext
 } from '@edtr-io/core'
 import { Overlay, Checkbox, Button } from '@edtr-io/editor-ui'
 import axios from 'axios'
@@ -70,7 +71,12 @@ const connect = connectStore<
   }
 )
 
-export const Controls = connect(function SaveButton(
+export const Controls = function() {
+  const { scope } = React.useContext(ScopeContext)
+  return <InnerControls scope={scope} />
+}
+
+const InnerControls = connect(function SaveButton(
   props: StateProps & DispatchProps
 ) {
   const overlay = React.useContext(OverlayContext)

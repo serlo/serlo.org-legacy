@@ -160,36 +160,36 @@ class UserController extends AbstractUserController
             throw new UnauthorizedException;
         }
 
-        if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-            $form = new SettingsForm($this->getUserManager()->getObjectManager(), $data['email'] === $user->getEmail());
-            $form->setData($data);
-            if ($form->isValid()) {
-                $data = $form->getData();
-                $user->setEmail($data['email']);
-                $user->setDescription($data['description']);
+//        if ($this->getRequest()->isPost()) {
+//            $data = $this->params()->fromPost();
+//            $form = new SettingsForm($this->getUserManager()->getObjectManager(), $data['email'] === $user->getEmail());
+//            $form->setData($data);
+//            if ($form->isValid()) {
+//                $data = $form->getData();
+//                $user->setEmail($data['email']);
+//                $user->setDescription($data['description']);
+//
+//                $this->getUserManager()->persist($user);
+//                $this->getUserManager()->flush();
+//                $this->flashMessenger()->addSuccessMessage(
+//                    'Your profile has been saved'
+//                );
+//
+//                return $this->redirect()->toRoute('user/me');
+//            }
+//        } else {
+//            $form = new SettingsForm($this->getUserManager()->getObjectManager());
+//            $data = [
+//                'email' => $user->getEmail(),
+//                'description' => $user->getDescription(),
+//            ];
+//            $form->setData($data);
+//        }
 
-                $this->getUserManager()->persist($user);
-                $this->getUserManager()->flush();
-                $this->flashMessenger()->addSuccessMessage(
-                    'Your profile has been saved'
-                );
-
-                return $this->redirect()->toRoute('user/me');
-            }
-        } else {
-            $form = new SettingsForm($this->getUserManager()->getObjectManager());
-            $data = [
-                'email' => $user->getEmail(),
-                'description' => $user->getDescription(),
-            ];
-            $form->setData($data);
-        }
-
-        $view = new ViewModel(['user' => $user, 'form' => $form]);
-        $view->setTemplate('user/user/settings');
+        $state = htmlspecialchars(json_encode($user), ENT_QUOTES, 'UTF-8');
+        $view = new ViewModel(['state' => $state]);
         $this->layout('layout/3-col');
-
+        $view->setTemplate('user/user/settings');
         return $view;
     }
 }

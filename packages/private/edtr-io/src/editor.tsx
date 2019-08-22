@@ -36,6 +36,7 @@ import { StandardElements } from './plugins/entities/common'
 import { textExerciseState } from './plugins/entities/text-exercise'
 import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { textSolutionState } from './plugins/entities/text-solution'
+import { userState } from './plugins/entities/user'
 
 export interface EditorProps {
   initialState: unknown
@@ -67,7 +68,13 @@ function convertState(props: EditorProps) {
         plugin: 'textExercise',
         state: convertTextExercise(props.initialState as TextExerciseState)
       }
+    case 'user':
+      return {
+        plugin: 'user',
+        state: convertUser(props.initialState as UserState)
+      }
     default:
+      console.log(props)
       throw new Error('NOOOO!')
   }
 }
@@ -193,6 +200,15 @@ function convertArticle(
   }
 }
 
+function convertUser(
+  state: UserState
+): StateType.StateDescriptorSerializedType<typeof userState> {
+  return {
+    ...state,
+    description: serializeContent(toEdtr(deserializeContent(state.description)))
+  }
+}
+
 function toEdtr(content: Content): RowsPlugin {
   console.log('toEdtr')
   if (!content) return { plugin: 'rows', state: [] }
@@ -229,6 +245,10 @@ interface TextExerciseState extends StandardElements {
 interface TextSolutionState extends StandardElements {
   title: string
   content: SerializedContent
+}
+
+interface UserState {
+  description: SerializedContent
 }
 
 function serializeContent(content: Legacy): SerializedLegacyContent
