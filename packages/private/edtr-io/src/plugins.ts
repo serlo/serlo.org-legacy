@@ -49,7 +49,8 @@ import {
   textExercisePlugin,
   textSolutionPlugin,
   textExerciseGroupPlugin,
-  userPlugin
+  userPlugin,
+  videoEntityPlugin
 } from './plugins/entities'
 
 export const plugins: Record<string, StatefulPlugin<any, any>> = {
@@ -80,5 +81,6 @@ export const plugins: Record<string, StatefulPlugin<any, any>> = {
   textExerciseGroup: textExerciseGroupPlugin,
   course: coursePlugin,
   coursePage: coursePagePlugin,
-  mathPuzzle: mathPuzzlePlugin
+  mathPuzzle: mathPuzzlePlugin,
+  videoEntity: videoEntityPlugin
 }

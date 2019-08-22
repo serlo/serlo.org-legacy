@@ -43,6 +43,7 @@ import { coursePageState } from './plugins/entities/course-page'
 import { courseState } from './plugins/entities/course'
 import { appletState } from './plugins/entities/applet'
 import { mathPuzzleState } from './plugins/entities/math-puzzle'
+import { videoState } from './plugins/entities/video'
 
 export interface EditorProps {
   initialState: unknown
@@ -136,6 +137,11 @@ function convertState(props: EditorProps) {
       return {
         plugin: 'user',
         state: convertUser(props.initialState as UserState)
+      }
+    case 'video':
+      return {
+        plugin: 'videoEntity',
+        state: convertVideo(props.initialState as VideoState)
       }
     default:
       console.log(props)
@@ -334,6 +340,15 @@ function convertMathPuzzle(
   }
 }
 
+function convertVideo(
+  state: VideoState
+): StateType.StateDescriptorSerializedType<typeof videoState> {
+  return {
+    ...state,
+    description: serializeContent(toEdtr(deserializeContent(state.description)))
+  }
+}
+
 function toEdtr(content: Content): RowsPlugin {
   if (!content) return { plugin: 'rows', state: [] }
   if (isEdtr(content)) return content as RowsPlugin
@@ -397,6 +412,13 @@ interface AppletState extends StandardElements {
   meta_title: string
   reasoning: SerializedContent
   url: string
+}
+
+interface VideoState extends StandardElements {
+  title: string
+  content: string
+  description: SerializedContent
+  reasoning: SerializedContent
 }
 
 interface MathPuzzleState extends StandardElements {
