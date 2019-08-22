@@ -162,11 +162,18 @@ class UserController extends AbstractUserController
 
         if ($this->getRequest()->isPost()) {
             $data = json_decode($this->getRequest()->getContent(), true);
-            $form = new SettingsForm($this->getUserManager()->getObjectManager(), $data['email'] === $user->getEmail());
+            $data = array_merge($data, [
+                // TODO:,
+                "email" => $user->getEmail(),
+                "csrf" => $data['csrf'],
+            ]);
+            // TODO:
+            $form = new SettingsForm($this->getUserManager()->getObjectManager(), true/*, $data['email'] === $user->getEmail() */);
             $form->setData($data);
             if ($form->isValid()) {
                 $data = $form->getData();
-                $user->setEmail($data['email']);
+                // TODO:
+                // $user->setEmail($data['email']);
                 $user->setDescription($data['description']);
                 $this->getUserManager()->persist($user);
                 $this->getUserManager()->flush();
@@ -185,8 +192,8 @@ class UserController extends AbstractUserController
         ];
         $state = htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
         $view = new ViewModel(['state' => $state]);
-        $this->layout('layout/3-col');
         $view->setTemplate('user/user/settings');
+        $this->layout('layout/3-col');
         return $view;
     }
 }
