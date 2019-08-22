@@ -145,7 +145,7 @@ const InnerControls = connect(function SaveButton(
                   props.persist()
                   window.location = val.data.redirect
                 } else {
-                  console.log(val.data.messages)
+                  console.log(val.data.errors)
                 }
               })
               .catch(err => {
