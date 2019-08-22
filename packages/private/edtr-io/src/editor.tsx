@@ -42,6 +42,7 @@ import { textExerciseGroupState } from './plugins/entities/text-exercise-group'
 import { coursePageState } from './plugins/entities/course-page'
 import { courseState } from './plugins/entities/course'
 import { appletState } from './plugins/entities/applet'
+import { mathPuzzleState } from './plugins/entities/math-puzzle'
 
 export interface EditorProps {
   initialState: unknown
@@ -117,6 +118,12 @@ function convertState(props: EditorProps) {
       return {
         plugin: 'applet',
         state: convertApplet(props.initialState as AppletState)
+      }
+    }
+    case 'math-puzzle': {
+      return {
+        plugin: 'mathPuzzle',
+        state: convertMathPuzzle(props.initialState as MathPuzzleState)
       }
     }
     case 'page': {
@@ -318,6 +325,15 @@ function convertApplet(
   }
 }
 
+function convertMathPuzzle(
+  state: MathPuzzleState
+): StateType.StateDescriptorSerializedType<typeof mathPuzzleState> {
+  return {
+    ...state,
+    content: serializeContent(toEdtr(deserializeContent(state.content)))
+  }
+}
+
 function toEdtr(content: Content): RowsPlugin {
   if (!content) return { plugin: 'rows', state: [] }
   if (isEdtr(content)) return content as RowsPlugin
@@ -381,6 +397,11 @@ interface AppletState extends StandardElements {
   meta_title: string
   reasoning: SerializedContent
   url: string
+}
+
+interface MathPuzzleState extends StandardElements {
+  content: SerializedContent
+  source: string
 }
 
 interface UserState {

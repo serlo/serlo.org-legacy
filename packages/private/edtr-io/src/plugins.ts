@@ -44,6 +44,7 @@ import {
   articlePlugin,
   coursePlugin,
   coursePagePlugin,
+  mathPuzzlePlugin,
   pagePlugin,
   textExercisePlugin,
   textSolutionPlugin,
@@ -78,5 +79,6 @@ export const plugins: Record<string, StatefulPlugin<any, any>> = {
   user: userPlugin,
   textExerciseGroup: textExerciseGroupPlugin,
   course: coursePlugin,
-  coursePage: coursePagePlugin
+  coursePage: coursePagePlugin,
+  mathPuzzle: mathPuzzlePlugin
 }
