@@ -39,6 +39,7 @@ import { textSolutionState } from './plugins/entities/text-solution'
 import { userState } from './plugins/entities/user'
 import { pageState } from './plugins/entities/page'
 import { textExerciseGroupState } from './plugins/entities/text-exercise-group'
+import { coursePageState } from './plugins/entities/course-page'
 
 export interface EditorProps {
   initialState: unknown
@@ -98,6 +99,12 @@ function convertState(props: EditorProps) {
           props.initialState as TextExerciseGroupState
         )
       }
+    case 'course-page': {
+      return {
+        plugin: 'coursePage',
+        state: convertCoursePage(props.initialState as CoursePageState)
+      }
+    }
     case 'page': {
       return {
         plugin: 'page',
@@ -266,6 +273,15 @@ function convertPage(
   }
 }
 
+function convertCoursePage(
+  state: CoursePageState
+): StateType.StateDescriptorSerializedType<typeof coursePageState> {
+  return {
+    ...state,
+    content: serializeContent(toEdtr(deserializeContent(state.content)))
+  }
+}
+
 function toEdtr(content: Content): RowsPlugin {
   console.log('toEdtr')
   if (!content) return { plugin: 'rows', state: [] }
@@ -305,6 +321,12 @@ interface TextExerciseGroupState extends StandardElements {
 }
 
 interface TextSolutionState extends StandardElements {
+  title: string
+  content: SerializedContent
+}
+
+interface CoursePageState extends StandardElements {
+  icon: 'explanation' | 'play' | 'question'
   title: string
   content: SerializedContent
 }

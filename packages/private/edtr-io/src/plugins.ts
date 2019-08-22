@@ -41,6 +41,7 @@ import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
 import {
   articlePlugin,
+  coursePagePlugin,
   pagePlugin,
   textExercisePlugin,
   textSolutionPlugin,
@@ -72,5 +73,6 @@ export const plugins: Record<string, StatefulPlugin<any, any>> = {
   video: videoPlugin,
   page: pagePlugin,
   user: userPlugin,
-  textExerciseGroup: textExerciseGroupPlugin
+  textExerciseGroup: textExerciseGroupPlugin,
+  coursePage: coursePagePlugin
 }
