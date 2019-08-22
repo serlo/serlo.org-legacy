@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 export { articlePlugin } from './article'
+export { pagePlugin } from './page'
 export { textExercisePlugin } from './text-exercise'
 export { textSolutionPlugin } from './text-solution'
 export { userPlugin } from './user'

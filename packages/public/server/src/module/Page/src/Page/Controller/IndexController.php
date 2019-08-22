@@ -118,7 +118,7 @@ class IndexController extends AbstractAPIAwareActionController
         return $view;
     }
 
-    public function createRevisionAction()
+    public function createLegacyRevisionAction()
     {
         $user = $this->getUserManager()->getUserFromAuthenticator();
         $form = $this->revisionForm;
@@ -146,16 +146,43 @@ class IndexController extends AbstractAPIAwareActionController
             }
         }
 
-        if ($this->params('old')) {
-            $view = new ViewModel(['form' => $form]);
-            $view->setTemplate('page/revision/create');
-            $this->layout('editor/layout');
-        } else {
-            $view = new ViewModel(['form' => $form, 'page' => $page]);
-            $view->setTemplate('page/revision/create-ory');
-            $this->layout('layout/3-col');
-        }
+        $view = new ViewModel(['form' => $form]);
+        $view->setTemplate('page/revision/create-legacy');
+        $this->layout('legacy-editor');
+        return $view;
+    }
 
+    public function createRevisionAction()
+    {
+        $user = $this->getUserManager()->getUserFromAuthenticator();
+        $id   = $this->params('revision');
+        $page = $this->getPageRepository();
+        if (!$page) {
+            return $this->notFound();
+        }
+        $this->assertGranted('page.revision.create', $page);
+
+//        if ($this->getRequest()->isPost()) {
+//            $data = $this->params()->fromPost();
+//            $form->setData($data);
+//            if ($form->isValid()) {
+//                $array           = $form->getData();
+//                $array['author'] = $user;
+//                $this->getPageManager()->createRevision($page, $array, $user);
+//                $this->getPageManager()->flush();
+//                return $this->redirect()->toRoute('page/view', ['page' => $page->getId()]);
+//            }
+//        }
+
+        $revision = $this->getPageManager()->getRevision($id);
+        $data = [
+            'content' => $revision->getContent(),
+            'title' => $revision->getTitle(),
+        ];
+        $state = htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
+        $view = new ViewModel(['state' => $state]);
+        $view->setTemplate('page/revision/create');
+        $this->layout('layout/3-col');
         return $view;
     }
 

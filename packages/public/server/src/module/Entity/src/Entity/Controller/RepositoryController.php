@@ -122,7 +122,7 @@ class RepositoryController extends AbstractController
         }
 
         $this->layout('layout/3-col');
-        $view->setTemplate('entity/repository/update-revision-editor');
+        $view->setTemplate('entity/repository/update-revision');
         return $view;
     }
 

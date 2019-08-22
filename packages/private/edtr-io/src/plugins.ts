@@ -40,6 +40,7 @@ import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
 import {
   articlePlugin,
+  pagePlugin,
   textExercisePlugin,
   textSolutionPlugin,
   userPlugin
@@ -68,5 +69,6 @@ export const plugins: Record<string, StatefulPlugin<any, any>> = {
   table: tablePlugin,
   text: textPlugin,
   video: videoPlugin,
+  page: pagePlugin,
   user: userPlugin
 }
