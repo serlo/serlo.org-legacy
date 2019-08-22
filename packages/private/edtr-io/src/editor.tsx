@@ -41,6 +41,7 @@ import { pageState } from './plugins/entities/page'
 import { textExerciseGroupState } from './plugins/entities/text-exercise-group'
 import { coursePageState } from './plugins/entities/course-page'
 import { courseState } from './plugins/entities/course'
+import { appletState } from './plugins/entities/applet'
 
 export interface EditorProps {
   initialState: unknown
@@ -110,6 +111,12 @@ function convertState(props: EditorProps) {
       return {
         plugin: 'course',
         state: convertCourse(props.initialState as CourseState)
+      }
+    }
+    case 'applet': {
+      return {
+        plugin: 'applet',
+        state: convertApplet(props.initialState as AppletState)
       }
     }
     case 'page': {
@@ -301,6 +308,16 @@ function convertCourse(
   }
 }
 
+function convertApplet(
+  state: AppletState
+): StateType.StateDescriptorSerializedType<typeof appletState> {
+  return {
+    ...state,
+    content: serializeContent(toEdtr(deserializeContent(state.content))),
+    reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning)))
+  }
+}
+
 function toEdtr(content: Content): RowsPlugin {
   if (!content) return { plugin: 'rows', state: [] }
   if (isEdtr(content)) return content as RowsPlugin
@@ -355,6 +372,15 @@ interface CoursePageState extends StandardElements {
   icon?: 'explanation' | 'play' | 'question'
   title: string
   content: SerializedContent
+}
+
+interface AppletState extends StandardElements {
+  title: string
+  content: SerializedContent
+  meta_description: string
+  meta_title: string
+  reasoning: SerializedContent
+  url: string
 }
 
 interface UserState {

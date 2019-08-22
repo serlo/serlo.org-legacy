@@ -40,6 +40,7 @@ import { errorPlugin } from './plugins/error'
 import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
 import {
+  appletPlugin,
   articlePlugin,
   coursePlugin,
   coursePagePlugin,
@@ -51,6 +52,7 @@ import {
 } from './plugins/entities'
 
 export const plugins: Record<string, StatefulPlugin<any, any>> = {
+  applet: appletPlugin,
   article: articlePlugin,
   textSolution: textSolutionPlugin,
   textExercise: textExercisePlugin,
