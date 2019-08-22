@@ -83,5 +83,8 @@
   "workspaces": [
     "packages/private/*",
     "packages/public/*"
-  ]
+  ],
+  "resolutions": {
+    "@types/slate": "^0.43.0"
+  }
 }
