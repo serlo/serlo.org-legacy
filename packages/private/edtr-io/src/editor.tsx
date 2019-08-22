@@ -42,20 +42,16 @@ export interface EditorProps {
   type: string
 }
 
-export function Editor(props: React.PropsWithChildren<EditorProps>) {
-  console.log('Editor', props)
-
+export function Editor(props: EditorProps) {
   const converted = convertState(props)
-  console.log('converted: ', converted)
+
   return (
     <Core
       plugins={plugins}
       defaultPlugin="text"
       initialState={converted}
       editable
-    >
-      {props.children}
-    </Core>
+    />
   )
 }
 

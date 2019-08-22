@@ -35,7 +35,9 @@ import {
   Textarea,
   EditorInput
 } from '@edtr-io/editor-ui'
-import { standardElements, SaveButton, editorContent } from './common'
+import { standardElements, Controls, editorContent } from './common'
+import { styled } from '@edtr-io/ui'
+import { createPortal } from 'react-dom'
 
 export const articleState = StateType.object({
   ...standardElements,
@@ -83,6 +85,7 @@ function ArticleRenderer(
   }
 
   console.log('state', props.state.content())
+  console.log('foo')
 
   return (
     <article>
@@ -100,32 +103,32 @@ function ArticleRenderer(
         </h1>
       </div>
       <div itemProp="articleBody">{content.render()}</div>
-      {props.editable && props.focused ? (
-        <React.Fragment>
-          {reasoning.render()}
-          <Overlay>
-            <OverlayInput
-              label="Suchmaschinen-Titel"
-              placeholder="Ein Titel für die Suchmaschine. Standardwert: der Titel"
-              value={meta_title.value}
-              onChange={handleMetaTitleChange}
-            />
-            <Textarea
-              label="Suchmaschinen-Beschreibung"
-              placeholder="Gib hier eine Beschreibung für die Suchmaschine ein (ca. 160 Zeichen). Standardwert: Der Anfang des Artikels"
-              value={meta_description.value}
-              onChange={handleMetaDescriptionChange}
-            />
-            <OverlayInput
-              label="Lizenz"
-              value={license.id.value}
-              disabled={true}
-              onChange={handleLicenseChange}
-            />
-          </Overlay>
-        </React.Fragment>
-      ) : null}
-      <SaveButton scope={scope} />
+      <Controls scope={scope} />
+      {/*{props.editable && props.focused ? (*/}
+      {/*  <React.Fragment>*/}
+      {/*    {reasoning.render()}*/}
+      {/*    <Overlay>*/}
+      {/*      <OverlayInput*/}
+      {/*        label="Suchmaschinen-Titel"*/}
+      {/*        placeholder="Ein Titel für die Suchmaschine. Standardwert: der Titel"*/}
+      {/*        value={meta_title.value}*/}
+      {/*        onChange={handleMetaTitleChange}*/}
+      {/*      />*/}
+      {/*      <Textarea*/}
+      {/*        label="Suchmaschinen-Beschreibung"*/}
+      {/*        placeholder="Gib hier eine Beschreibung für die Suchmaschine ein (ca. 160 Zeichen). Standardwert: Der Anfang des Artikels"*/}
+      {/*        value={meta_description.value}*/}
+      {/*        onChange={handleMetaDescriptionChange}*/}
+      {/*      />*/}
+      {/*      <OverlayInput*/}
+      {/*        label="Lizenz"*/}
+      {/*        value={license.id.value}*/}
+      {/*        disabled={true}*/}
+      {/*        onChange={handleLicenseChange}*/}
+      {/*      />*/}
+      {/*    </Overlay>*/}
+      {/*  </React.Fragment>*/}
+      {/*) : null}*/}
     </article>
   )
 }

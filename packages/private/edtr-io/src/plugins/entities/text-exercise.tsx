@@ -29,7 +29,7 @@ import {
 import {
   editorContent,
   standardElements,
-  SaveButton,
+  Controls,
   serializedChild
 } from './common'
 
@@ -58,7 +58,7 @@ function TextExerciseRenderer(
         <img src={license.iconHref.value} />
         {license.title.value}
       </div>
-      <SaveButton scope={scope} />
+      <Controls scope={scope} />
     </div>
   )
 }

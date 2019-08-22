@@ -31,6 +31,7 @@ import {
 import { Overlay, Checkbox, Button } from '@edtr-io/editor-ui'
 import axios from 'axios'
 import { Parameters } from 'ts-toolbelt/out/types/src/Function/Parameters'
+import { createPortal } from 'react-dom'
 
 export const licenseState = StateType.object({
   id: StateType.number(),
@@ -69,11 +70,9 @@ const connect = connectStore<
   }
 )
 
-export const SaveButton = connect(function SaveButton(
+export const Controls = connect(function SaveButton(
   props: StateProps & DispatchProps
 ) {
-  console.log(window.location.pathname)
-
   const overlay = React.useContext(OverlayContext)
   const [agreement, setAgreement] = React.useState(false)
   const [emailSubscription, setEmailSubscription] = React.useState(false)
@@ -81,15 +80,16 @@ export const SaveButton = connect(function SaveButton(
     notificationSubscription,
     setNotificationSubscription
   ] = React.useState(false)
-  return (
-    <React.Fragment>
+  return createPortal(
+    <div className="btn-group btn-group-community">
       <button
+        className="btn btn-success"
         onClick={() => {
           overlay.show()
         }}
         disabled={!props.hasPendingChanges}
       >
-        Speichern
+        <span className="fa fa-save"></span>
       </button>
       <Overlay>
         <Checkbox
@@ -154,7 +154,8 @@ export const SaveButton = connect(function SaveButton(
           Speichern
         </Button>
       </Overlay>
-    </React.Fragment>
+    </div>,
+    document.getElementsByClassName('controls')[0]
   )
 })
 

@@ -19,5 +19,5 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 export { Editor } from '@serlo/edtr-io'
+import * as React from 'react'
