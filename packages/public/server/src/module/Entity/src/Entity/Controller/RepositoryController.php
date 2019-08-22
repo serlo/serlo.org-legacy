@@ -92,14 +92,7 @@ class RepositoryController extends AbstractController
 
         $this->assertGranted('entity.revision.create', $entity);
 
-        $state = htmlspecialchars(json_encode($this->getData($entity, $this->params('revision'))), ENT_QUOTES, 'UTF-8');
-//        var_dump($json);
-//        exit();
-        $view = new ViewModel(['state' => $state, 'type' => $entity->getType()->getName()]);
-
         if ($this->getRequest()->isPost()) {
-//            error_log(json_encode($this->getRequest()->getContent()));
-
             $data = json_decode($this->getRequest()->getContent(), true);
             $validated = $this->checkData($data, [
                 "controls" => $data['controls'],
@@ -109,7 +102,6 @@ class RepositoryController extends AbstractController
                 ],
             ]);
 
-//            error_log($form->isValid());
             if ($validated['valid']) {
                 $redirectUrl = '';
                 foreach ($validated['elements'] as $el) {
@@ -121,6 +113,8 @@ class RepositoryController extends AbstractController
             }
         }
 
+        $state = htmlspecialchars(json_encode($this->getData($entity, $this->params('revision'))), ENT_QUOTES, 'UTF-8');
+        $view = new ViewModel(['state' => $state, 'type' => $entity->getType()->getName()]);
         $this->layout('layout/3-col');
         $view->setTemplate('entity/repository/update-revision');
         return $view;

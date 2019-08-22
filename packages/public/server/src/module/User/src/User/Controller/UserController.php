@@ -26,6 +26,7 @@ use Instance\Manager\InstanceManagerAwareTrait;
 use User\Exception\UserNotFoundException;
 use User\Form\SettingsForm;
 use Zend\Form\Form;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use ZfcRbac\Exception\UnauthorizedException;
 
@@ -146,7 +147,6 @@ class UserController extends AbstractUserController
     /**
      * @param string $name
      * @param Form   $form
-     * @return self
      */
     public function setForm($name, Form $form)
     {
@@ -160,33 +160,30 @@ class UserController extends AbstractUserController
             throw new UnauthorizedException;
         }
 
-//        if ($this->getRequest()->isPost()) {
-//            $data = $this->params()->fromPost();
-//            $form = new SettingsForm($this->getUserManager()->getObjectManager(), $data['email'] === $user->getEmail());
-//            $form->setData($data);
-//            if ($form->isValid()) {
-//                $data = $form->getData();
-//                $user->setEmail($data['email']);
-//                $user->setDescription($data['description']);
-//
-//                $this->getUserManager()->persist($user);
-//                $this->getUserManager()->flush();
-//                $this->flashMessenger()->addSuccessMessage(
-//                    'Your profile has been saved'
-//                );
-//
-//                return $this->redirect()->toRoute('user/me');
-//            }
-//        } else {
-//            $form = new SettingsForm($this->getUserManager()->getObjectManager());
-//            $data = [
-//                'email' => $user->getEmail(),
-//                'description' => $user->getDescription(),
-//            ];
-//            $form->setData($data);
-//        }
+        if ($this->getRequest()->isPost()) {
+            $data = json_decode($this->getRequest()->getContent(), true);
+            $form = new SettingsForm($this->getUserManager()->getObjectManager(), $data['email'] === $user->getEmail());
+            $form->setData($data);
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $user->setEmail($data['email']);
+                $user->setDescription($data['description']);
+                $this->getUserManager()->persist($user);
+                $this->getUserManager()->flush();
+                $this->flashMessenger()->addSuccessMessage(
+                    'Your profile has been saved'
+                );
+                $redirectUrl = $this->plugin('url')->fromRoute('user/me');
+                return new JsonModel([ 'success' => true, 'redirect' => $redirectUrl ]);
+            } else {
+                return new JsonModel([ 'success' => false, 'errors' => $form->getMessages() ]);
+            }
+        }
 
-        $state = htmlspecialchars(json_encode($user), ENT_QUOTES, 'UTF-8');
+        $data = [
+            'description' => $user->getDescription(),
+        ];
+        $state = htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
         $view = new ViewModel(['state' => $state]);
         $this->layout('layout/3-col');
         $view->setTemplate('user/user/settings');
