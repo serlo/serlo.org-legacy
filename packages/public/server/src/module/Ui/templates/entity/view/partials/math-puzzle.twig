@@ -35,7 +35,7 @@
                      data-edit-field="content"
                      data-edit-type="ory"
                 >
-                    {{ renderer.toHtml(revision.get('content')) | raw }}
+                    {{ renderer().toHtml(revision.get('content')) | raw }}
                 </div>
             </div>
         </div>

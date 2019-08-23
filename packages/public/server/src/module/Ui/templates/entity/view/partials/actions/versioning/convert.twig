@@ -21,12 +21,12 @@
  #}
 {% set options = entity().getOptions(entity) %}
 {% if options.hasComponent('repository') %}
-    {% if not entity.isUnrevised() and isGranted('entity.revision.create', entity)
-        and not convert and not entity().isOryEditorFormat(entity.getCurrentRevision()) %}
+    {% if not entity.isUnrevised() and isGranted('entity.revision.create', entity) and isLegacyFormat(entity.getCurrentRevision().get('content')) %}
     <li>
-        <a rel="nofollow" href="{{ url('entity/page/convert', {'entity': entity.getId()}) }}" class="convert-button" data-content-id="{{ entity.getId() }}">
+        <a href="{{ url('entity/repository/add-revision', {'entity': entity.getId()}) }}">
             <span class="fa fa-pencil"></span>
             {% trans %} Convert {% endtrans %}
+            <span class="label label-info pull-right">Beta</span>
         </a>
     </li>
     {% endif %}

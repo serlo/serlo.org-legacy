@@ -30,7 +30,9 @@
     "oauth:client": "docker-compose run hydra clients create --skip-tls-verify --endpoint http://hydra:4445 --id test_client --secret CHANGEMENOWOMG --grant-types authorization_code --response-types code --scope openid --callbacks http://127.0.0.1:4446/callback",
     "oauth:user": "docker-compose run -p 4446:4446 hydra token user --skip-tls-verify --client-id test_client --client-secret CHANGEMENOWOMG --port 4446 --auth-url http://localhost:4444/oauth2/auth --token-url http://hydra:4444/oauth2/token --scope openid",
     "test:e2e": "jest --config ./jest.config-e2e.js",
-    "test:js": "jest",
+    "test:js": "npm-run-all test:js:*",
+    "test:js:client": "jest",
+    "test:js:ssr": "jest --config ./jest.config-ssr.js",
     "test:php": "docker-compose exec server-php src/vendor/bin/phpunit",
     "c": "docker-compose run --rm server-composer composer",
     "c-dev": "docker-compose run --rm server-composer-dev-tools composer",
@@ -81,5 +83,8 @@
   "workspaces": [
     "packages/private/*",
     "packages/public/*"
-  ]
+  ],
+  "resolutions": {
+    "@types/slate": "^0.43.0"
+  }
 }

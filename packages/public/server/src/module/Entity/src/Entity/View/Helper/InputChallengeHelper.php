@@ -70,7 +70,7 @@ class InputChallengeHelper extends AbstractHelper
                     'entity' => $child,
                     'type' => $child->getType()->getName(),
                     'solution' => $revision->get('solution'),
-                    'feedback' => $this->view->markdown()->toHtml($revision->get('feedback')),
+                    'feedback' => $this->view->legacyEditor()->toHtml($revision->get('feedback')),
                 ];
             }
         }

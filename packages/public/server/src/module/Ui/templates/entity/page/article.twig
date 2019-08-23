@@ -21,21 +21,18 @@
  #}
 {% do normalize().headTitle(entity) %}
 {% do normalize().headMeta(entity) %}
-
-{% set title = entity.getCurrentRevision().get('title') %}
+{% set revision = entity.getCurrentRevision() %}
+{% set content = revision.get('content') %}
+{% set reasoning = revision.get('reasoning') %}
+{% set title = revision.get('title') %}
 {% include 'entity/page/partials/placeholders' %}
 <div itemscope itemtype="http://schema.org/Article">
+    {% set controls = include('entity/view/partials/actions/controls') %}
+    {% do placeholder('controls').set(controls) %}
+    {% do placeholder('isLeaf').set(true) %}
+    {% do placeholder('breadcrumbs').set('<li><span>' ~ title ~ '</span></li>') %}
     <div class="page-header">
-        {% set controls = include('entity/view/partials/actions/controls') %}
-        {% do placeholder('controls').set(controls) %}
-        {% do placeholder('isLeaf').set(true) %}
-        {% do placeholder('breadcrumbs').set('<li><span>' ~ title ~ '</span></li>') %}
-        <div class="editable"
-             data-id="{{ entity.getId() }}"
-             data-edit-field="title"
-             data-edit-type="text">
-            <h1><span itemprop="name">{{ title }}</span></h1>
-        </div>
+        <h1><span itemprop="name">{{ title }}</span></h1>
     </div>
     <div itemprop="articleBody">
         {% include 'entity/page/partials/alerts' %}

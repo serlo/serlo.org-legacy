@@ -22,6 +22,8 @@
  */
 namespace Application;
 
+use Zend\ModuleManager\ModuleEvent;
+use Zend\ModuleManager\ModuleManager;
 use Zend\Mvc\MvcEvent;
 
 class Module
@@ -29,6 +31,12 @@ class Module
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function init(ModuleManager $moduleManager)
+    {
+        $events = $moduleManager->getEventManager();
+        $events->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'onMergeConfig']);
     }
 
     public function getAutoloaderConfig()
@@ -59,5 +67,22 @@ class Module
         $t->getEventManager()->attach(
             $t->getServiceManager()->get('ZfcRbac\View\Strategy\UnauthorizedStrategy')
         );
+    }
+
+    public function onMergeConfig(ModuleEvent $e)
+    {
+        $configListener = $e->getConfigListener();
+        $config = $configListener->getMergedConfig(false);
+
+        // Prioritise Zend\View\Strategy\JsonStrategy over other view strategies
+        if (!isset($config['view_manager']['strategies'])) {
+            return;
+        }
+        $jsonStrategyIndex = array_search('Zend\View\Strategy\JsonStrategy', $config['view_manager']['strategies']);
+        if ($jsonStrategyIndex !== false) {
+            unset($config['view_manager']['strategies'][$jsonStrategyIndex]);
+            array_unshift($config['view_manager']['strategies'], 'Zend\View\Strategy\JsonStrategy');
+            $configListener->setMergedConfig($config);
+        }
     }
 }

@@ -38,6 +38,7 @@ use User\Manager\UserManagerInterface;
 use Versioning\RepositoryManagerAwareTrait;
 use Versioning\RepositoryManagerInterface;
 use Zend\Form\FormInterface;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractAPIAwareActionController
@@ -118,7 +119,7 @@ class IndexController extends AbstractAPIAwareActionController
         return $view;
     }
 
-    public function createRevisionAction()
+    public function createLegacyRevisionAction()
     {
         $user = $this->getUserManager()->getUserFromAuthenticator();
         $form = $this->revisionForm;
@@ -146,16 +147,56 @@ class IndexController extends AbstractAPIAwareActionController
             }
         }
 
-        if ($this->params('old')) {
-            $view = new ViewModel(['form' => $form]);
-            $view->setTemplate('page/revision/create');
-            $this->layout('editor/layout');
-        } else {
-            $view = new ViewModel(['form' => $form, 'page' => $page]);
-            $view->setTemplate('page/revision/create-ory');
-            $this->layout('layout/3-col');
+        $view = new ViewModel(['form' => $form]);
+        $view->setTemplate('page/revision/create-legacy');
+        $this->layout('legacy-editor');
+        return $view;
+    }
+
+    public function createRevisionAction()
+    {
+        $user = $this->getUserManager()->getUserFromAuthenticator();
+        $id   = $this->params('revision');
+        $page = $this->getPageRepository();
+
+        if (!$page) {
+            return $this->notFound();
         }
 
+        $this->assertGranted('page.revision.create', $page);
+
+        if ($this->getRequest()->isPost()) {
+            $data = json_decode($this->getRequest()->getContent(), true);
+            $data = array_merge($data, [
+                "controls" => $data['controls'],
+                "csrf" => $data['csrf'],
+                "license" => [
+                    "agreement" => 1,
+                ],
+            ]);
+            $form = $this->revisionForm;
+            $form->setData($data);
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $data['author'] = $user;
+                $this->getPageManager()->createRevision($page, $data, $user);
+                $this->getPageManager()->flush();
+                $redirectUrl = $this->plugin('url')->fromRoute('page/view', ['page' => $page->getId()]);
+                return new JsonModel([ 'success' => true, 'redirect' => $redirectUrl ]);
+            } else {
+                return new JsonModel([ 'success' => false, 'errors' => $form->getMessages() ]);
+            }
+        }
+
+        $revision = $this->getPageManager()->getRevision($id);
+        $data = [
+            'content' => $revision->getContent(),
+            'title' => $revision->getTitle(),
+        ];
+        $state = htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
+        $view = new ViewModel(['state' => $state]);
+        $view->setTemplate('page/revision/create');
+        $this->layout('layout/3-col');
         return $view;
     }
 

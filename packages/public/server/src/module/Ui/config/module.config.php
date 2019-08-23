@@ -54,7 +54,7 @@ return [
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map'             => [
-            'athene2-editor' => __DIR__ . '/../templates/editor/layout.phtml',
+            'legacy-editor' => __DIR__ . '/../templates/legacy-editor/layout.phtml',
             'layout/de/home' => __DIR__ . '/../templates/layout/de/serlo-home.phtml',
             'layout/en/home' => __DIR__ . '/../templates/layout/en/serlo-home.phtml',
             'layout/1-col'   => __DIR__ . '/../templates/layout/1-col.phtml',

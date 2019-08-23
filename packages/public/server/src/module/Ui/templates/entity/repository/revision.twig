@@ -19,12 +19,11 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{% set renderer = entity().isOryEditorFormat(revision) ? oryRenderer() : markdown() %}
 {% for field in revision.getFields() %}
     <div class="panel panel-default">
         <div class="panel-heading">{{ field.getName()  | trans }}</div>
         <div class="panel-body">
-            {{ renderer.toHtml(field.getValue()) }}
+            {{ renderer().toHtml(field.getValue()) }}
         </div>
     </div>
 {% endfor %}

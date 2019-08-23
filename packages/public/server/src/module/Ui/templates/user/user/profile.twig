@@ -23,11 +23,7 @@
 {% do normalize().headMeta(user) %}
 <div class="row">
     <div class="col-xs-12">
-        {% if isOryEditorFormat(user.getDescription()) %}
-            {{ oryRenderer().toHtml(user.getDescription()) | raw }}
-        {% else %}
-            {{ markdown().toHtml(user.getDescription()) | raw }}
-        {% endif %}
+        {{ renderer().toHtml(user.getDescription()) | raw }}
     </div>
 </div>
 <h1 class="heading-content">{{ 'Statistics' | trans }}</h1>

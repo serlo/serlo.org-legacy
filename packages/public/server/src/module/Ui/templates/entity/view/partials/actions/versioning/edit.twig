@@ -28,15 +28,10 @@
             <span class="label label-community-light">{{ entity.countUnrevised() }}</span>
         </a>
     {% else %}
-        {% if convert or entity().isOryEditorFormat(entity.getCurrentRevision()) %}
-            <a rel="nofollow"
-               data-id="{{ entity.getId() }}"
-               data-type="{{ entity.getType() }}"
-               class="btn btn-success {{ revisionGranted and entity.hasCurrentRevision() ? 'ory-edit-button' : '' }}"
-               href="{{ url('entity/repository/add-revision', {'entity': entity.getId()}) }}">
-        {% else %}
-            <a rel="nofollow" data-id="{{ entity.getId() }}" class="btn btn-success" href="{{ url('entity/repository/add-revision-old', {'entity': entity.getId()}) }}">
-        {% endif %}
+        {% set route = isLegacyFormat(entity.getCurrentRevision().get('content')) ? 'entity/repository/add-revision-old' : 'entity/repository/add-revision' %}
+        <a class="btn btn-success"
+           href="{{ url(route, {'entity': entity.getId()}) }}"
+        >
             <span class="fa fa-pencil"></span>
         </a>
     {% endif %}

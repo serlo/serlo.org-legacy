@@ -20,7 +20,7 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 {% set title = 'video' | trans %}
-{% set description = renderer.toHtml(entity.getCurrentRevision().get('description')) %}
+{% set description = renderer().toHtml(entity.getCurrentRevision().get('description')) %}
 <article>
     <section>
         {% set url = entity.getCurrentRevision().get('content') %}

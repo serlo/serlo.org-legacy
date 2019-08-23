@@ -1,0 +1,78 @@
+<?php
+/**
+ * This file is part of Serlo.org.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
+ */
+echo $this->doctype();
+?>
+<!--[if lt IE 9 ]>
+<html class="old-ie fuelux" lang="<?php echo $this->currentLanguage(); ?>"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="fuelux" lang="<?php echo $this->currentLanguage(); ?>"> <!--<![endif]-->
+<head>
+    <?php print $this->partial('layout/partials/head');?>
+    <link href="<?php echo $this->assets()->getBundle('legacy-editor.css'); ?>" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,600|Droid+Serif" rel="stylesheet">
+</head>
+<body>
+<div class="panel panel-primary" id="editor-main-panel">
+    <header class="panel-heading">
+        <div>
+            <?php echo $this->contexter()->renderButton('right', 'btn-default'); ?>
+            <div id="editor-helpers" class="btn-toolbar" role="toolbar">
+                <div id="editor-actions" class="btn-group">
+                    <button class="helper btn btn-success btn-labeled" data-toggle="tooltip" data-placement="bottom"
+                            title="Save changes">
+                        <span class="btn-label"><span class="fa fa-check"></span></span>Save
+                    </button>
+                    <?php if ($this->ref): ?>
+                        <a class="helper btn btn-danger btn-labeled" data-toggle="tooltip" data-placement="bottom"
+                           title="Reject changes" href="<?php $this->ref;?>">
+                        <span class="btn-label"><span class="fa fa-trash"></span></span>Cancel
+                    </a>
+                    <?php endif;?>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <?php echo $this->partial('layout/partials/main'); ?>
+
+    <section id="editor-wrap">
+        <div id="main" class="editor-main">
+            <div class="editor-main-inner">
+
+            </div>
+        </div>
+        <div id="preview" class="editor-main content-editor">
+            <div id="content-layout"></div>
+            <div class="editor-main-inner content">
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<?php echo $this->partial('layout/partials/default-modal'); ?>
+<?php echo $this->partial('legacy-editor/partials/scripts'); ?>
+<?php echo $this->twigPartial('legacy-editor/partials/video-modal'); ?>
+
+</body>
+</html>

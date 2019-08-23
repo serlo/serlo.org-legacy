@@ -79,7 +79,7 @@ class LicenseController extends AbstractActionController
         } else {
             $this->referer()->store();
         }
-        $this->layout('athene2-editor');
+        $this->layout('legacy-editor');
 
         return $view;
     }
@@ -101,7 +101,7 @@ class LicenseController extends AbstractActionController
         } else {
             $this->referer()->store();
         }
-        $this->layout('athene2-editor');
+        $this->layout('legacy-editor');
 
         return $view;
     }

@@ -36,6 +36,11 @@ class Assets extends AbstractHelper
         $this->config = $config;
     }
 
+    public function __invoke()
+    {
+        return $this;
+    }
+
 
     public function getBundle(string $path)
     {

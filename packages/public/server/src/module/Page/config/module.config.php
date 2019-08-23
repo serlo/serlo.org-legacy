@@ -188,7 +188,7 @@ return [
                                 'options' => [
                                     'route'       => '/create-old/:page[/:revision]',
                                     'defaults'    => [
-                                        'action' => 'createRevision',
+                                        'action' => 'createLegacyRevision',
                                         'old'    => true,
                                     ],
                                     'constraints' => [

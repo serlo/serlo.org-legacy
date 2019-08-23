@@ -173,6 +173,9 @@ return [
                     'setAttachmentManager' => [
                         'required' => true,
                     ],
+                    'setFormatHelper' => [
+                        'required' => true,
+                    ],
                 ],
             ],
         ],

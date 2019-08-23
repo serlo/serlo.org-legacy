@@ -29,7 +29,7 @@
                 <h2><a href="{{ url('taxonomy/term/get', {'term': child.getId()}) }}">{{ child.getName() }}</a></h2>
                 <p>
                     {% if child.getDescription() %}
-                        {{ markdown().toHtml(child.getDescription()) }}
+                        {{ renderer().toHtml(child.getDescription()) }}
                     {% endif %}
                 </p>
             </div>

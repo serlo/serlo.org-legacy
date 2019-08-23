@@ -24,7 +24,7 @@
 <?php /* @var $license \License\Entity\LicenseInterface */ ?>
 <?php $license = $this->license; ?>
 <?php echo $this->pageHeader('License')->setSubtitle($license->getTitle())->render(); ?>
-<?php echo $this->markdown()->toHtml($license->getContent()); ?>
+<?php echo $this->renderer()->toHtml($license->getContent()); ?>
 <p>
     <a href="<?php echo $license->getUrl(); ?>"><img src="<?php echo $license->getIconHref(); ?>" alt="<?php echo $license->getUrl(); ?>" /></a>
 </p>

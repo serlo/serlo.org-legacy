@@ -98,7 +98,7 @@ class BlogController extends AbstractActionController
         ]);
 
         $view->setTemplate('blog/blog/post/create');
-        $this->layout('athene2-editor');
+        $this->layout('legacy-editor');
 
         return $view;
     }
@@ -133,7 +133,7 @@ class BlogController extends AbstractActionController
 
         $view = new ViewModel(['post' => $post, 'form' => $form]);
         $view->setTemplate('blog/blog/post/update');
-        $this->layout('athene2-editor');
+        $this->layout('legacy-editor');
 
         return $view;
     }

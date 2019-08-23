@@ -21,22 +21,26 @@
  #}
 <div class="btn-group btn-group-community">
     {% if isGranted('page.revision.create', page) %}
-        {% if convert or revision.isOryEditorFormat() %}
-        <a rel="nofollow" data-id="{{ page.getId() }}"
-           class="btn btn-success ory-edit-button"
-           href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId()}) }}">
-        {% else %}
-        <a class="btn btn-success" href="{{ url('page/revision/create-old', {'page': page.getId(), 'revision': revision.getId()}) }}">
-        {% endif %}
-             <span class="fa fa-pencil"></span>
-         </a>
+        {% set route = isLegacyFormat(revision.getContent()) ? 'page/revision/create-old' : 'page/revision/create' %}
+        <a href="{{ url(route, {'page': page.getId(), 'revision': revision.getId()}) }}" class="btn btn-success">
+            <span class="fa fa-pencil"></span>
+        </a>
     {% endif %}
     <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        <span class="caret"></span>
+        <span class="fa fa-cog"></span>
         <span class="sr-only">{{ 'Toggle Dropdown' | trans }}</span>
     </button>
     <ul class="dropdown-menu pull-right" role="menu">
         {{ subscribe(page).subMenuItem() }}
+        {% if isGranted('page.revision.create', page) and isLegacyFormat(revision.getContent()) %}
+        <li>
+            <a href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId() }) }}">
+                <span class="fa fa-pencil"></span>
+                {% trans %} Convert {% endtrans %}
+                <span class="label label-info pull-right">Beta</span>
+            </a>
+        </li>
+        {% endif %}
         <li>
             <a href="{{ url('page/revision/view-all', {'page': page.getId()}) }}">
                 <span class="fa fa-clock-o"></span> {% trans %} History {% endtrans %}
@@ -69,14 +73,6 @@
                 <a href="{{ url('page/update', {'page': page.getId()}) }}">
                     <span class="fa fa-cog"></span>
                     {% trans %} Settings {% endtrans %}
-                </a>
-            </li>
-        {% endif %}
-        {% if isGranted('page.revision.create', page) and not convert and not revision.isOryEditorFormat() %}
-            <li>
-                <a rel="nofollow" href="{{ url('page/view/convert', {'page': page.getId()}) }}" class="convert-button" data-content-id="{{ page.getId() }}">
-                    <span class="fa fa-pencil"></span>
-                    {% trans %} Convert {% endtrans %}
                 </a>
             </li>
         {% endif %}

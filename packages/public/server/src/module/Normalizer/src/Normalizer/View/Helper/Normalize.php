@@ -24,9 +24,7 @@ namespace Normalizer\View\Helper;
 
 use Common\Filter\PreviewFilter;
 use Instance\Manager\InstanceManagerAwareTrait;
-use Markdown\Service\OryRenderService;
-use Markdown\View\Helper\MarkdownHelper;
-use Markdown\View\Helper\OryFormatHelper;
+use Renderer\View\Helper\FormatHelper;
 use Normalizer\NormalizerAwareTrait;
 use Ui\View\Helper\Brand;
 use Zend\View\Helper\AbstractHelper;
@@ -239,11 +237,8 @@ class Normalize extends AbstractHelper
 
     private function renderPreview($string)
     {
-        $isOryEditorFormat = $this->getView()->plugin('isOryEditorFormat');
-        /** @var MarkdownHelper $renderer */
-        $renderer = $isOryEditorFormat($string)
-            ? $this->getView()->plugin('oryRenderer')
-            : $this->getView()->plugin('markdown');
+        /** @var FormatHelper $renderer */
+        $renderer = $this->getView()->plugin('renderer');
         $content =  $renderer->toHtml($string);
         $filter     = new PreviewFilter(152);
         $preview    = $filter->filter($content);

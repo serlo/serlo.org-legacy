@@ -29,7 +29,7 @@
 {% set rightContent = 'Right!' | trans %}
 {% set defaultFeedback = '<p>' ~ rightContent ~ '</p>' %}
 {% set feedbackContent = '' %}
-{% set feedbackContent = renderer.toHtml(singleChoice().fetchPositiveFeedback(entity)) %}
+{% set feedbackContent = renderer().toHtml(singleChoice().fetchPositiveFeedback(entity)) %}
 {% set positiveFeedback = feedbackContent ? feedbackContent : defaultFeedback %}
 {% set inputChallenge = inputChallenge().fetchInput(entity) %}
 <article class="text-exercise  {{ multipleChoices|length>4 or singleChoices|length>4 ? 'extended' }}" itemscope itemtype="http://schema.org/Article">
@@ -39,7 +39,7 @@
              data-edit-field="content"
              data-edit-type="ory"
         >
-            {{ renderer.toHtml(revision.get('content')) | raw }}
+            {{ renderer().toHtml(revision.get('content')) | raw }}
         </div>
         <div class="hidden-xs col-sm-1" style="padding:0">
             <div class="pull-right">

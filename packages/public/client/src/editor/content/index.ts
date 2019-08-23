@@ -22,7 +22,7 @@
 import $ from 'jquery'
 
 export const initContent = () => {
-  const $elements = $('.editable[data-edit-type="ory"] > div[data-raw-content]')
+  const $elements = $('.edtr-io[data-edit-type="edtr-io"][data-raw-content]')
 
   if ($elements.length === 0) {
     return

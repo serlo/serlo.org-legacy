@@ -32,7 +32,7 @@ return [
     'assets' => array_merge(
         [
             'assets_host' => 'https://packages.serlo.org/serlo-org-static-assets@1/',
-            'bundle_host' => 'https://packages.serlo.org/serlo-org-client@1/',
+            'bundle_host' => 'https://packages.serlo.org/serlo-org-client@2/',
         ],
         $assets
     ),

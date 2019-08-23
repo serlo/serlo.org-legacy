@@ -23,14 +23,11 @@
 {% if entity.getHead() %}
     {% set head = entity.getHead() %}
     {% set title = head.get('title') %}
-    {% set convert = false %}
-{% else %}
-    {% set convert = true %}
 {% endif %}
 {% do headTitle(entity.getId()) %}
 <div class="page-header">
     <div class="pull-right btn-group hidden-xs">
-        {% include 'entity/view/partials/actions/controls' with {'entity' : entity, 'convert' : convert} %}
+        {% include 'entity/view/partials/actions/controls' with {'entity' : entity } %}
     </div>
     <h1>
         {% if title %}
@@ -41,7 +38,7 @@
             {{ entity.getId() }} <small>{{ 'Dead node' | trans }}</small>
         {% endif %}
     </h1>
-    {% include('entity/view/partials/actions/big') with {'entity' : entity, 'convert' : convert} %}
+    {% include('entity/view/partials/actions/big') with {'entity' : entity } %}
 </div>
 {% include 'entity/page/partials/alerts' %}
 <div class="panel panel-danger">

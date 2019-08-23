@@ -88,10 +88,4 @@ class EntityHelper extends AbstractHelper
             $entity->getType()->getName()
         );
     }
-
-    public function isOryEditorFormat(RevisionInterface $revision)
-    {
-        $parsed = json_decode($revision->get('content'), true);
-        return $parsed !== null && isset($parsed['cells']);
-    }
 }

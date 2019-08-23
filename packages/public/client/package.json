@@ -1,6 +1,6 @@
 {
   "name": "@serlo/serlo-org-client",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config --output-public-path=https://packages.serlo.org/serlo-org-client@$npm_package_version/",
@@ -13,13 +13,13 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@sentry/browser": "^5.0.0",
-    "@serlo/editor": "^0.5.0",
     "@serlo/editor-helpers": "^0.0.0",
     "@serlo/edtr-io": "^0.0.0",
     "@serlo/legacy-editor-to-editor": "^0.0.0",
     "@serlo/markdown": "^0.0.0",
     "algebra.js": "^0.2.0",
     "autosize": "^4.0.0",
+    "axios": "^0.19.0",
     "blueimp-file-upload": "^9.0.0",
     "blueimp-load-image": "^2.0.0",
     "body-parser": "^1.0.0",
@@ -72,7 +72,7 @@
     "sass-loader": "^7.0.0",
     "serve": "^11.1.0",
     "style-loader": "^0.23.0",
-    "uglifyjs-webpack-plugin": "^2.0.0",
+    "terser-webpack-plugin": "^1.0.0",
     "unexpected": "^11.0.0",
     "webpack": "^4.0.0",
     "webpack-cli": "^3.0.0",
