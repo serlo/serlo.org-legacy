@@ -5,7 +5,7 @@ module.exports = {
   entry: {
     main: path.join(__dirname, 'src', 'main'),
     'legacy-editor': path.join(__dirname, 'src', 'legacy-editor'),
-    'edtr-io': path.join(__dirname, 'src', 'edtr-io')
+    editor: path.join(__dirname, 'src', 'editor')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

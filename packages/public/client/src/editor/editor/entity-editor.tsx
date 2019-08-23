@@ -20,4 +20,3 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 export { Editor } from '@serlo/edtr-io'
-import * as React from 'react'
