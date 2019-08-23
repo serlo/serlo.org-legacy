@@ -34,9 +34,10 @@
         {{ subscribe(page).subMenuItem() }}
         {% if isGranted('page.revision.create', page) and isLegacyFormat(revision.getContent()) %}
         <li>
-            <a href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId() }) }}" class="convert-button">
+            <a href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId() }) }}">
                 <span class="fa fa-pencil"></span>
                 {% trans %} Convert {% endtrans %}
+                <span class="label label-info pull-right">Beta</span>
             </a>
         </li>
         {% endif %}
