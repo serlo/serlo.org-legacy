@@ -29,10 +29,13 @@ import {
   ScopedActionCreator,
   ScopeContext
 } from '@edtr-io/core'
-import { Overlay, Checkbox, Button } from '@edtr-io/editor-ui'
-import axios from 'axios'
-import { Parameters } from 'ts-toolbelt/out/types/src/Function/Parameters'
+import BSAlert from 'react-bootstrap/lib/Alert'
+import BSModal from 'react-bootstrap/lib/Modal'
+import BSButton from 'react-bootstrap/lib/Button'
+import BSCheckbox from 'react-bootstrap/lib/Checkbox'
 import { createPortal } from 'react-dom'
+
+import { SaveContext } from '../../editor'
 
 export const licenseState = StateType.object({
   id: StateType.number(),
@@ -55,7 +58,7 @@ export type StandardElements = StateType.StateDescriptorsSerializedType<
 const connect = connectStore<
   StateProps,
   { persist: ScopedActionCreator<typeof actions.persist> },
-  { scope: string }
+  OwnProps & { scope: string }
 >(
   state => {
     return {
@@ -71,100 +74,183 @@ const connect = connectStore<
   }
 )
 
-export const Controls = function() {
+export const Controls = function(props: OwnProps) {
   const { scope } = React.useContext(ScopeContext)
-  return <InnerControls scope={scope} />
+  return <InnerControls scope={scope} {...props} />
 }
 
 const InnerControls = connect(function SaveButton(
-  props: StateProps & DispatchProps
+  props: StateProps & DispatchProps & OwnProps
 ) {
   const overlay = React.useContext(OverlayContext)
+  const [pending, setPending] = React.useState(false)
+  const [hasError, setHasError] = React.useState(false)
+  const save = React.useContext(SaveContext)
   const [agreement, setAgreement] = React.useState(false)
-  const [emailSubscription, setEmailSubscription] = React.useState(false)
+  const [emailSubscription, setEmailSubscription] = React.useState(true)
   const [
     notificationSubscription,
     setNotificationSubscription
-  ] = React.useState(false)
-  return createPortal(
-    <div className="btn-group btn-group-community">
-      <button
-        className="btn btn-success"
-        onClick={() => {
-          overlay.show()
+  ] = React.useState(true)
+
+  React.useEffect(() => {
+    if (overlay.visible) {
+      // Reset license agreement
+      setPending(false)
+      setHasError(false)
+      setAgreement(false)
+    }
+  }, [overlay.visible])
+
+  React.useEffect(() => {
+    window.onbeforeunload = props.hasPendingChanges ? () => '' : null
+  }, [props.hasPendingChanges])
+
+  return (
+    <React.Fragment>
+      {createPortal(
+        <div className="btn-group btn-group-community">
+          <button
+            className="btn btn-success"
+            onClick={() => {
+              overlay.show()
+            }}
+            disabled={!props.hasPendingChanges}
+          >
+            <span className="fa fa-save"></span>
+          </button>
+        </div>,
+        document.getElementsByClassName('controls')[0]
+      )}
+      <BSModal
+        show={overlay.visible}
+        onHide={() => {
+          overlay.hide()
         }}
-        disabled={!props.hasPendingChanges}
       >
-        <span className="fa fa-save"></span>
-      </button>
-      <Overlay>
-        <Checkbox
-          label="Lizenzbedingung akzeptieren"
-          checked={agreement}
-          onChange={setAgreement}
-        />
-        <Checkbox
-          label="Benachrichtigungen auf Serlo erhalten"
-          checked={notificationSubscription}
-          onChange={setNotificationSubscription}
-        />
-        <Checkbox
-          label="Benachrichtigungen per Email erhalten"
-          checked={emailSubscription}
-          onChange={setEmailSubscription}
-        />
-        <Button
-          onClick={() => {
-            if (!agreement) return
-            const serialized = props.serializeRootDocument()
-            console.log(serialized)
-            axios
-              .post(
-                window.location.pathname,
-                {
-                  ...serialized,
-                  //@ts-ignore TODO: maybe pass this via props because should be typed in client
-                  csrf: window.csrf,
-                  controls: {
-                    subscription: {
-                      subscribe: notificationSubscription ? 1 : 0,
-                      mailman: emailSubscription ? 1 : 0
-                    }
-                  }
-                },
-                {
-                  headers: {
-                    'X-Requested-with': 'XMLHttpRequest'
-                  }
-                }
-              )
-              .then(val => {
-                console.log(val)
-                if (val.data.success) {
-                  overlay.hide()
-                  props.persist()
-                  window.location = val.data.redirect
-                } else {
-                  console.log(val.data.errors)
-                }
-              })
-              .catch(err => {
-                console.error(err)
-              })
-          }}
-          disabled={!agreement}
-          title={
-            !agreement
-              ? 'Du musst zuerst die Lizenzbedingungen akzeptieren.'
-              : undefined
-          }
-        >
-          Speichern
-        </Button>
-      </Overlay>
-    </div>,
-    document.getElementsByClassName('controls')[0]
+        <BSModal.Body>
+          {renderAlert()}
+          {renderLicense()}
+          {renderSubscription()}
+        </BSModal.Body>
+        <BSModal.Footer>
+          <BSButton
+            onClick={() => {
+              overlay.hide()
+            }}
+          >
+            Abbrechen
+          </BSButton>
+          <BSButton
+            onClick={() => {
+              handleSave()
+            }}
+            bsStyle="success"
+            disabled={!maySave() || pending}
+            title={
+              maySave()
+                ? undefined
+                : 'Du musst zuerst die Lizenzbedingungen akzeptieren'
+            }
+          >
+            {pending ? 'Speichert ...' : 'Speichern'}
+          </BSButton>
+        </BSModal.Footer>
+      </BSModal>
+    </React.Fragment>
   )
+
+  function maySave() {
+    if (!props.license) return true
+    return agreement
+  }
+
+  function handleSave() {
+    if (!maySave()) return
+    const serialized = props.serializeRootDocument()
+    setPending(true)
+    save({
+      ...serialized,
+      //@ts-ignore TODO: maybe pass this via props because should be typed in client
+      csrf: window.csrf,
+      controls: {
+        ...(props.subscriptions
+          ? {
+              subscription: {
+                subscribe: notificationSubscription ? 1 : 0,
+                mailman: emailSubscription ? 1 : 0
+              }
+            }
+          : {})
+      }
+    })
+      .then(() => {
+        setPending(false)
+        setHasError(false)
+      })
+      .catch(() => {
+        setPending(false)
+        setHasError(true)
+      })
+  }
+
+  function renderAlert() {
+    if (!hasError) return null
+    return (
+      <BSAlert
+        bsStyle="danger"
+        onDismiss={() => {
+          setHasError(false)
+        }}
+      >
+        Speichern ist leider fehlgeschlagen. Bitte schnappe dir einen
+        Entwickler.
+      </BSAlert>
+    )
+  }
+
+  function renderLicense() {
+    if (!props.license) return null
+    return (
+      <BSCheckbox
+        checked={agreement}
+        onChange={e => {
+          const { checked } = e.target as HTMLInputElement
+          setAgreement(checked)
+        }}
+      >
+        <span
+          dangerouslySetInnerHTML={{ __html: props.license.agreement.value }}
+        />
+      </BSCheckbox>
+    )
+  }
+
+  function renderSubscription() {
+    if (!props.subscriptions) return null
+    return (
+      <React.Fragment>
+        <BSCheckbox
+          checked={notificationSubscription}
+          onChange={e => {
+            const { checked } = e.target as HTMLInputElement
+            setNotificationSubscription(checked)
+          }}
+        >
+          Benachrichtigungen auf Serlo erhalten
+        </BSCheckbox>
+        <BSCheckbox
+          checked={emailSubscription}
+          onChange={e => {
+            const { checked } = e.target as HTMLInputElement
+            setEmailSubscription(checked)
+          }}
+        >
+          Benachrichtigungen per Email erhalten
+        </BSCheckbox>
+      </React.Fragment>
+    )
+  }
 })
 
 export function editorContent(): StateType.StateDescriptor<
@@ -223,4 +309,9 @@ interface StateProps {
 
 interface DispatchProps {
   persist: () => void
+}
+
+interface OwnProps {
+  license?: StateType.StateDescriptorReturnType<typeof licenseState>
+  subscriptions?: boolean
 }

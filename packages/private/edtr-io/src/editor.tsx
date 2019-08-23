@@ -47,9 +47,15 @@ import { videoState } from './plugins/entities/video'
 import { eventState } from './plugins/entities/event'
 
 export interface EditorProps {
+  children?: React.ReactNode
+  onSave: (data: unknown) => Promise<void>
   initialState: unknown
   type: string
 }
+
+export const SaveContext = React.createContext<EditorProps['onSave']>(() =>
+  Promise.reject()
+)
 
 export function Editor(props: EditorProps) {
   const converted = convertState(props)
@@ -69,7 +75,7 @@ export function Editor(props: EditorProps) {
   }
 
   return (
-    <React.Fragment>
+    <SaveContext.Provider value={props.onSave}>
       <div className="alert alert-warning" role="alert">
         Dies ist der neue Editor, der sich momentan noch in einer Testphase
         befindet.
@@ -79,8 +85,10 @@ export function Editor(props: EditorProps) {
         defaultPlugin="text"
         initialState={converted}
         editable
-      />
-    </React.Fragment>
+      >
+        {props.children}
+      </Core>
+    </SaveContext.Provider>
   )
 }
 

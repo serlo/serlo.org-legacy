@@ -90,7 +90,7 @@ function ArticleRenderer(
         </h1>
       </div>
       <div itemProp="articleBody">{content.render()}</div>
-      <Controls />
+      <Controls license={license} subscriptions />
       {/*{props.editable && props.focused ? (*/}
       {/*  <React.Fragment>*/}
       {/*    {reasoning.render()}*/}

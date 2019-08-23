@@ -2,6 +2,8 @@ import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
 import { Editor } from '../src/editor'
+import { Container, mockSave } from './helpers'
+import { OverlayContext } from '@edtr-io/core'
 
 const ccBy = {
   agreement:
@@ -12,7 +14,7 @@ const ccBy = {
   url: 'https://creativecommons.org/licenses/by-sa/4.0/'
 }
 
-storiesOf('Editor', module).add('Article', () => {
+storiesOf('Controls', module).add('w/ common elements thingies', () => {
   const initialState = {
     id: 1337,
     license: ccBy,
@@ -24,9 +26,18 @@ storiesOf('Editor', module).add('Article', () => {
     meta_description: ''
   }
   return (
-    <React.Fragment>
-      <div className="controls" />
-      <Editor type="article" initialState={initialState} />
-    </React.Fragment>
+    <Container>
+      <Editor type="article" initialState={initialState} onSave={mockSave}>
+        <ShowOverlay />
+      </Editor>
+    </Container>
   )
 })
+
+function ShowOverlay() {
+  const overlay = React.useContext(OverlayContext)
+  React.useEffect(() => {
+    overlay.show()
+  }, [])
+  return null
+}

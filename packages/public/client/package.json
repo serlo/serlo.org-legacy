@@ -19,6 +19,7 @@
     "@serlo/markdown": "^0.0.0",
     "algebra.js": "^0.2.0",
     "autosize": "^4.0.0",
+    "axios": "^0.19.0",
     "blueimp-file-upload": "^9.0.0",
     "blueimp-load-image": "^2.0.0",
     "body-parser": "^1.0.0",
