@@ -63,7 +63,11 @@ export type StandardElements = StateType.StateDescriptorsSerializedType<
 
 const connect = connectStore<
   StateProps,
-  { persist: ScopedActionCreator<typeof actions.persist> },
+  {
+    undo: ScopedActionCreator<typeof actions.undo>
+    redo: ScopedActionCreator<typeof actions.redo>
+    persist: ScopedActionCreator<typeof actions.persist>
+  },
   OwnProps & { scope: string }
 >(
   state => {
@@ -76,6 +80,8 @@ const connect = connectStore<
     }
   },
   {
+    undo: actions.undo,
+    redo: actions.redo,
     persist: actions.persist
   }
 )
@@ -200,6 +206,22 @@ const InnerControls = connect(function SaveButton(
     <React.Fragment>
       {createPortal(
         <div className="btn-group btn-group-community">
+          <button
+            className="btn btn-default"
+            onClick={() => {
+              props.undo()
+            }}
+          >
+            <span className="fa fa-undo"></span>
+          </button>
+          <button
+            className="btn btn-default"
+            onClick={() => {
+              props.redo()
+            }}
+          >
+            <span className="fa fa-repeat"></span>
+          </button>
           <button
             className="btn btn-success"
             onClick={() => {
@@ -421,6 +443,8 @@ interface StateProps {
 
 interface DispatchProps {
   persist: () => void
+  undo: () => void
+  redo: () => void
 }
 
 interface OwnProps {
