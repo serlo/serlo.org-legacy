@@ -183,15 +183,6 @@ const init = $context => {
     $('.nest-statistics', $context).renderNest()
     $('.math-puzzle', $context).MathPuzzle()
     $('form:has(button.g-recaptcha)').ReCaptcha()
-    // $('.ory-edit-button', $context).click(function(e) {
-    //   e.preventDefault()
-    //   initEntityEditor(
-    //     $(this).data('id'),
-    //     $(this).attr('href'),
-    //     $(this).data('type')
-    //   )
-    //   $('.convert-button').hide()
-    // })
 
     const $editor = $('#editor', $context)
     if ($editor.length > 0) {
