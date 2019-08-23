@@ -23,7 +23,7 @@ import { Editor as Core, StateType } from '@edtr-io/core'
 import * as React from 'react'
 
 import { plugins } from './plugins'
-import { articleState } from './plugins/entities/article'
+import { articleEntityState } from './plugins/entities/article'
 import {
   convert,
   Edtr,
@@ -96,55 +96,55 @@ function convertState(props: EditorProps) {
   switch (props.type) {
     case 'article':
       return {
-        plugin: 'article',
+        plugin: 'articleEntity',
         state: convertArticle(props.initialState as ArticleState)
       }
     case 'grouped-text-exercise':
     case 'text-exercise':
       return {
-        plugin: 'textExercise',
+        plugin: 'textExerciseEntity',
         state: convertTextExercise(props.initialState as TextExerciseState)
       }
     case 'text-exercise-group':
       return {
-        plugin: 'textExerciseGroup',
+        plugin: 'textExerciseGroupEntity',
         state: convertTextExerciseGroup(
           props.initialState as TextExerciseGroupState
         )
       }
     case 'course-page': {
       return {
-        plugin: 'coursePage',
+        plugin: 'coursePageEntity',
         state: convertCoursePage(props.initialState as CoursePageState)
       }
     }
     case 'course': {
       return {
-        plugin: 'course',
+        plugin: 'courseEntity',
         state: convertCourse(props.initialState as CourseState)
       }
     }
     case 'applet': {
       return {
-        plugin: 'applet',
+        plugin: 'appletEntity',
         state: convertApplet(props.initialState as AppletState)
       }
     }
     case 'math-puzzle': {
       return {
-        plugin: 'mathPuzzle',
+        plugin: 'mathPuzzleEntity',
         state: convertMathPuzzle(props.initialState as MathPuzzleState)
       }
     }
     case 'page': {
       return {
-        plugin: 'page',
+        plugin: 'pageEntity',
         state: convertPage(props.initialState as PageState)
       }
     }
     case 'user':
       return {
-        plugin: 'user',
+        plugin: 'userEntity',
         state: convertUser(props.initialState as UserState)
       }
     case 'video':
@@ -154,7 +154,7 @@ function convertState(props: EditorProps) {
       }
     case 'event':
       return {
-        plugin: 'event',
+        plugin: 'eventEntity',
         state: convertEvent(props.initialState as EventState)
       }
     default:
@@ -288,7 +288,7 @@ function convertTextExerciseGroup(
 
 function convertArticle(
   state: ArticleState
-): StateType.StateDescriptorSerializedType<typeof articleState> {
+): StateType.StateDescriptorSerializedType<typeof articleEntityState> {
   return {
     ...state,
     content: serializeContent(toEdtr(deserializeContent(state.content))),

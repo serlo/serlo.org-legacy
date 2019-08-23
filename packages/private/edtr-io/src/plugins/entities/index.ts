@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 export { appletPlugin } from './applet'
-export { articlePlugin } from './article'
+export { articleEntityPlugin } from './article'
 export { coursePlugin } from './course'
 export { coursePagePlugin } from './course-page'
 export { mathPuzzlePlugin } from './math-puzzle'

@@ -19,6 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { styled } from '@edtr-io/ui'
+import { Icon, faCog } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import {
   actions,
@@ -78,6 +80,90 @@ const connect = connectStore<
   }
 )
 
+const StyledSettings = styled.div({
+  position: 'absolute',
+  top: 0,
+  left: '-10px',
+  transformOrigin: 'center top',
+  transform: 'translateX(-100%)'
+})
+
+const Content = styled.div({
+  paddingBottom: '10px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  zIndex: 16,
+  position: 'relative',
+  transition: '250ms all ease-in-out'
+})
+
+const StyledIconContainer = styled.div({
+  height: '24px',
+  opacity: 0.8,
+  cursor: 'pointer',
+  color: 'rgb(51,51,51,0.95)',
+
+  '&:hover': {
+    color: 'rgb(70,155,255)'
+  }
+})
+
+export const HeaderInput = styled.input({
+  border: 'none',
+  width: '100%',
+  borderBottom: '2px solid transparent',
+  '&:focus': {
+    outline: 'none',
+    borderColor: '#007ec1'
+  }
+})
+
+const SettingsIcon = (props: { open: () => void }) => (
+  <span onClick={props.open}>
+    <StyledIconContainer title="Einstellungen">
+      <Icon icon={faCog} size="lg" />
+    </StyledIconContainer>
+  </span>
+)
+
+export const EntitySettings = function(props: React.PropsWithChildren<{}>) {
+  const [open, setOpen] = React.useState(false)
+  return (
+    <React.Fragment>
+      <StyledSettings>
+        <Content>
+          <SettingsIcon
+            open={() => {
+              setOpen(true)
+            }}
+          />
+        </Content>
+      </StyledSettings>
+      <BSModal
+        show={open}
+        onHide={() => {
+          setOpen(false)
+        }}
+      >
+        <BSModal.Header closeButton>
+          <BSModal.Title>Einstellungen</BSModal.Title>
+        </BSModal.Header>
+        <BSModal.Body>{props.children}</BSModal.Body>
+        <BSModal.Footer>
+          <BSButton
+            onClick={() => {
+              setOpen(false)
+            }}
+          >
+            Schließen
+          </BSButton>
+        </BSModal.Footer>
+      </BSModal>
+    </React.Fragment>
+  )
+}
+
 export const Controls = function(props: OwnProps) {
   const { scope } = React.useContext(ScopeContext)
   return <InnerControls scope={scope} {...props} />
@@ -132,6 +218,9 @@ const InnerControls = connect(function SaveButton(
           overlay.hide()
         }}
       >
+        <BSModal.Header closeButton>
+          <BSModal.Title>Speichern</BSModal.Title>
+        </BSModal.Header>
         <BSModal.Body>
           {renderAlert()}
           {renderChanges()}
@@ -227,7 +316,7 @@ const InnerControls = connect(function SaveButton(
             const { value } = e.target as HTMLTextAreaElement
             changes.set(value)
           }}
-        ></BSFormControl>
+        />
       </BSFormGroup>
     )
   }

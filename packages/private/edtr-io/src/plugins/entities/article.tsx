@@ -20,15 +20,24 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as React from 'react'
+import BSFormGroup from 'react-bootstrap/lib/FormGroup'
+import BSControlLabel from 'react-bootstrap/lib/ControlLabel'
+import BSFormControl from 'react-bootstrap/lib/FormControl'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
 import { EditorInput } from '@edtr-io/editor-ui'
-import { standardElements, Controls, editorContent } from './common'
+import {
+  standardElements,
+  Controls,
+  editorContent,
+  EntitySettings,
+  HeaderInput
+} from './common'
 
-export const articleState = StateType.object({
+export const articleEntityState = StateType.object({
   ...standardElements,
   title: StateType.string(),
   content: editorContent(),
@@ -37,18 +46,17 @@ export const articleState = StateType.object({
   meta_description: StateType.string()
 })
 
-export const articlePlugin: StatefulPlugin<typeof articleState> = {
-  Component: ArticleRenderer,
-  state: articleState
+export const articleEntityPlugin: StatefulPlugin<typeof articleEntityState> = {
+  Component: ArticleEntityEditor,
+  state: articleEntityState
 }
 
-function ArticleRenderer(
-  props: StatefulPluginEditorProps<typeof articleState>
+function ArticleEntityEditor(
+  props: StatefulPluginEditorProps<typeof articleEntityState>
 ) {
   const {
     title,
     content,
-    reasoning,
     changes,
     meta_title,
     meta_description,
@@ -60,47 +68,46 @@ function ArticleRenderer(
   }
 
   return (
-    <article>
+    <React.Fragment>
       <div className="page-header">
+        <EntitySettings>
+          <BSFormGroup>
+            <BSControlLabel>Suchmaschinen-Titel</BSControlLabel>
+            <BSFormControl
+              componentClass="textarea"
+              value={meta_title.value}
+              onChange={e => {
+                const { value } = e.target as HTMLTextAreaElement
+                meta_title.set(value)
+              }}
+            />
+          </BSFormGroup>
+          <BSFormGroup>
+            <BSControlLabel>Suchmaschinen-Beschreibung</BSControlLabel>
+            <BSFormControl
+              componentClass="textarea"
+              value={meta_description.value}
+              onChange={e => {
+                const { value } = e.target as HTMLTextAreaElement
+                meta_description.set(value)
+              }}
+            />
+          </BSFormGroup>
+        </EntitySettings>
         <h1>
           {props.editable ? (
-            <EditorInput
+            <HeaderInput
               placeholder="Titel"
               value={title.value}
               onChange={handleTitleChange}
             />
           ) : (
             <span itemProp="name">{title.value}</span>
-          )}{' '}
+          )}
         </h1>
       </div>
       <div itemProp="articleBody">{content.render()}</div>
       <Controls license={license} subscriptions changes={changes} />
-      {/*{props.editable && props.focused ? (*/}
-      {/*  <React.Fragment>*/}
-      {/*    {reasoning.render()}*/}
-      {/*    <Overlay>*/}
-      {/*      <OverlayInput*/}
-      {/*        label="Suchmaschinen-Titel"*/}
-      {/*        placeholder="Ein Titel für die Suchmaschine. Standardwert: der Titel"*/}
-      {/*        value={meta_title.value}*/}
-      {/*        onChange={handleMetaTitleChange}*/}
-      {/*      />*/}
-      {/*      <Textarea*/}
-      {/*        label="Suchmaschinen-Beschreibung"*/}
-      {/*        placeholder="Gib hier eine Beschreibung für die Suchmaschine ein (ca. 160 Zeichen). Standardwert: Der Anfang des Artikels"*/}
-      {/*        value={meta_description.value}*/}
-      {/*        onChange={handleMetaDescriptionChange}*/}
-      {/*      />*/}
-      {/*      <OverlayInput*/}
-      {/*        label="Lizenz"*/}
-      {/*        value={license.id.value}*/}
-      {/*        disabled={true}*/}
-      {/*        onChange={handleLicenseChange}*/}
-      {/*      />*/}
-      {/*    </Overlay>*/}
-      {/*  </React.Fragment>*/}
-      {/*) : null}*/}
-    </article>
+    </React.Fragment>
   )
 }

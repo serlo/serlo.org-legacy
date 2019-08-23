@@ -41,24 +41,20 @@ import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
 import {
   appletPlugin,
-  articlePlugin,
-  coursePlugin,
+  articleEntityPlugin,
   coursePagePlugin,
+  coursePlugin,
+  eventPlugin,
   mathPuzzlePlugin,
   pagePlugin,
+  textExerciseGroupPlugin,
   textExercisePlugin,
   textSolutionPlugin,
-  textExerciseGroupPlugin,
   userPlugin,
-  videoEntityPlugin,
-  eventPlugin
+  videoEntityPlugin
 } from './plugins/entities'
 
 export const plugins: Record<string, StatefulPlugin<any, any>> = {
-  applet: appletPlugin,
-  article: articlePlugin,
-  textSolution: textSolutionPlugin,
-  textExercise: textExercisePlugin,
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
   error: errorPlugin,
@@ -77,12 +73,17 @@ export const plugins: Record<string, StatefulPlugin<any, any>> = {
   table: tablePlugin,
   text: textPlugin,
   video: videoPlugin,
-  page: pagePlugin,
-  user: userPlugin,
-  textExerciseGroup: textExerciseGroupPlugin,
-  course: coursePlugin,
-  coursePage: coursePagePlugin,
-  mathPuzzle: mathPuzzlePlugin,
-  videoEntity: videoEntityPlugin,
-  event: eventPlugin
+
+  appletEntity: appletPlugin,
+  articleEntity: articleEntityPlugin,
+  coursePageEntity: coursePagePlugin,
+  courseEntity: coursePlugin,
+  eventEntity: eventPlugin,
+  mathPuzzleEntity: mathPuzzlePlugin,
+  pageEntity: pagePlugin,
+  textExerciseGroupEntity: textExerciseGroupPlugin,
+  textExerciseEntity: textExercisePlugin,
+  textSolutionEntity: textSolutionPlugin,
+  userEntity: userPlugin,
+  videoEntity: videoEntityPlugin
 }
