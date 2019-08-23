@@ -1,7 +1,7 @@
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const path = require('path')
 const R = require('ramda')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const webpack = require('webpack')
 
 const baseConfig = require('./webpack.base.config')
@@ -26,10 +26,10 @@ module.exports = R.merge(baseConfig, {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        sourceMap: true
-      }),
-      new OptimizeCssAssetsPlugin()
+      new OptimizeCssAssetsPlugin(),
+      new TerserPlugin({
+        parallel: true
+      })
     ]
   }
 })
