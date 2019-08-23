@@ -33,6 +33,10 @@ import BSAlert from 'react-bootstrap/lib/Alert'
 import BSModal from 'react-bootstrap/lib/Modal'
 import BSButton from 'react-bootstrap/lib/Button'
 import BSCheckbox from 'react-bootstrap/lib/Checkbox'
+import BSFormGroup from 'react-bootstrap/lib/FormGroup'
+import BSControlLabel from 'react-bootstrap/lib/ControlLabel'
+import BSFormControl from 'react-bootstrap/lib/FormControl'
+
 import { createPortal } from 'react-dom'
 
 import { SaveContext } from '../../editor'
@@ -130,6 +134,7 @@ const InnerControls = connect(function SaveButton(
       >
         <BSModal.Body>
           {renderAlert()}
+          {renderChanges()}
           {renderLicense()}
           {renderSubscription()}
         </BSModal.Body>
@@ -206,6 +211,24 @@ const InnerControls = connect(function SaveButton(
         Speichern ist leider fehlgeschlagen. Bitte schnappe dir einen
         Entwickler.
       </BSAlert>
+    )
+  }
+
+  function renderChanges() {
+    const { changes } = props
+    if (!changes) return null
+    return (
+      <BSFormGroup>
+        <BSControlLabel>Änderungen</BSControlLabel>
+        <BSFormControl
+          componentClass="textarea"
+          value={changes.value}
+          onChange={e => {
+            const { value } = e.target as HTMLTextAreaElement
+            changes.set(value)
+          }}
+        ></BSFormControl>
+      </BSFormGroup>
     )
   }
 
@@ -312,6 +335,11 @@ interface DispatchProps {
 }
 
 interface OwnProps {
-  license?: StateType.StateDescriptorReturnType<typeof licenseState>
+  changes?: StateType.StateDescriptorReturnType<
+    typeof standardElements['changes']
+  >
+  license?: StateType.StateDescriptorReturnType<
+    typeof standardElements['license']
+  >
   subscriptions?: boolean
 }

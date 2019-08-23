@@ -59,21 +59,6 @@ function ArticleRenderer(
     title.set(e.target.value)
   }
 
-  function handleMetaTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    meta_title.set(e.target.value)
-  }
-  function handleMetaDescriptionChange(
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) {
-    meta_description.set(e.target.value)
-  }
-  function handleLicenseChange(e: React.ChangeEvent<HTMLInputElement>) {
-    //TODO
-  }
-
-  console.log('state', props.state.content())
-  console.log('foo')
-
   return (
     <article>
       <div className="page-header">
@@ -90,7 +75,7 @@ function ArticleRenderer(
         </h1>
       </div>
       <div itemProp="articleBody">{content.render()}</div>
-      <Controls license={license} subscriptions />
+      <Controls license={license} subscriptions changes={changes} />
       {/*{props.editable && props.focused ? (*/}
       {/*  <React.Fragment>*/}
       {/*    {reasoning.render()}*/}
