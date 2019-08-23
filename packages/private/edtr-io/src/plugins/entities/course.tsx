@@ -38,7 +38,7 @@ export const courseState = StateType.object({
   content: editorContent(),
   reasoning: editorContent(),
   meta_description: StateType.string(),
-  'course-page': StateType.list(serializedChild('coursePage'))
+  'course-page': StateType.list(serializedChild('coursePageEntity'))
 })
 
 export const coursePlugin: StatefulPlugin<typeof courseState> = {

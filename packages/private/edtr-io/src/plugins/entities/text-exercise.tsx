@@ -35,7 +35,7 @@ import {
 export const textExerciseState = StateType.object({
   ...standardElements,
   content: editorContent(),
-  'text-solution': serializedChild('textSolution')
+  'text-solution': serializedChild('textSolutionEntity')
 })
 
 export const textExercisePlugin: StatefulPlugin<typeof textExerciseState> = {

@@ -35,7 +35,7 @@ import {
 export const textExerciseGroupState = StateType.object({
   ...standardElements,
   content: editorContent(),
-  'grouped-text-exercise': StateType.list(serializedChild('textExercise'))
+  'grouped-text-exercise': StateType.list(serializedChild('textExerciseEntity'))
 })
 
 export const textExerciseGroupPlugin: StatefulPlugin<
