@@ -72,6 +72,8 @@ const connect = connectStore<
 >(
   state => {
     return {
+      undoable: selectors.getUndoStack(state).length > 0,
+      redoable: selectors.getRedoStack(state).length > 0,
       hasPendingChanges: selectors.hasPendingChanges(state),
       serializeRootDocument: () => {
         const serialized = selectors.serializeRootDocument(state)
@@ -211,6 +213,7 @@ const InnerControls = connect(function SaveButton(
             onClick={() => {
               props.undo()
             }}
+            disabled={!props.undoable}
           >
             <span className="fa fa-undo"></span>
           </button>
@@ -219,6 +222,7 @@ const InnerControls = connect(function SaveButton(
             onClick={() => {
               props.redo()
             }}
+            disabled={!props.redoable}
           >
             <span className="fa fa-repeat"></span>
           </button>
@@ -438,6 +442,8 @@ export function serializedChild(
 
 interface StateProps {
   hasPendingChanges: ReturnType<typeof selectors.hasPendingChanges>
+  undoable: boolean,
+  redoable: boolean
   serializeRootDocument: () => unknown | null
 }
 
