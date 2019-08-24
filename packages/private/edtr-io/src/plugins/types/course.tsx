@@ -27,13 +27,13 @@ import {
 } from '@edtr-io/core'
 import {
   editorContent,
-  standardElements,
+  entity,
   Controls,
   serializedChild
 } from '../entities/common'
 
 export const courseTypeState = StateType.object({
-  ...standardElements,
+  ...entity,
   title: StateType.string(),
   content: editorContent(),
   reasoning: editorContent(),
@@ -46,7 +46,9 @@ export const courseTypePlugin: StatefulPlugin<typeof courseTypeState> = {
   state: courseTypeState
 }
 
-function CourseTypeEditor(props: StatefulPluginEditorProps<typeof courseTypeState>) {
+function CourseTypeEditor(
+  props: StatefulPluginEditorProps<typeof courseTypeState>
+) {
   const { content, 'course-page': coursePages, license } = props.state
 
   return (

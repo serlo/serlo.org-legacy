@@ -27,18 +27,20 @@ import {
 } from '@edtr-io/core'
 import {
   editorContent,
-  standardElements,
+  entity,
   Controls,
   serializedChild
 } from '../entities/common'
 
 export const textExerciseTypeState = StateType.object({
-  ...standardElements,
+  ...entity,
   content: editorContent(),
   'text-solution': serializedChild('textSolutionEntity')
 })
 
-export const textExerciseTypePlugin: StatefulPlugin<typeof textExerciseTypeState> = {
+export const textExerciseTypePlugin: StatefulPlugin<
+  typeof textExerciseTypeState
+> = {
   Component: TextExerciseTypeEditor,
   state: textExerciseTypeState
 }

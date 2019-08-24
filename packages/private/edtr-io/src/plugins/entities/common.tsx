@@ -51,15 +51,25 @@ export const licenseState = StateType.object({
   iconHref: StateType.string()
 })
 
-export const standardElements = {
-  id: StateType.number(),
-  license: licenseState,
+export const uuid = {
+  id: StateType.number()
+}
+
+export const license = {
+  license: licenseState
+}
+
+export const entity = {
+  ...uuid,
+  ...license,
   changes: StateType.string()
 }
 
-export type StandardElements = StateType.StateDescriptorsSerializedType<
-  typeof standardElements
->
+export type Uuid = StateType.StateDescriptorsSerializedType<typeof uuid>
+
+export type License = StateType.StateDescriptorsSerializedType<typeof license>
+
+export type Entity = StateType.StateDescriptorsSerializedType<typeof entity>
 
 const connect = connectStore<
   StateProps,
@@ -454,11 +464,7 @@ interface DispatchProps {
 }
 
 interface OwnProps {
-  changes?: StateType.StateDescriptorReturnType<
-    typeof standardElements['changes']
-  >
-  license?: StateType.StateDescriptorReturnType<
-    typeof standardElements['license']
-  >
+  changes?: StateType.StateDescriptorReturnType<typeof entity['changes']>
+  license?: StateType.StateDescriptorReturnType<typeof entity['license']>
   subscriptions?: boolean
 }

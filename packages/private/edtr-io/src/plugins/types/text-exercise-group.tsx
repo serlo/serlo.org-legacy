@@ -27,13 +27,13 @@ import {
 } from '@edtr-io/core'
 import {
   editorContent,
-  standardElements,
+  entity,
   Controls,
   serializedChild
 } from '../entities/common'
 
 export const textExerciseGroupTypeState = StateType.object({
-  ...standardElements,
+  ...entity,
   content: editorContent(),
   'grouped-text-exercise': StateType.list(serializedChild('textExerciseEntity'))
 })

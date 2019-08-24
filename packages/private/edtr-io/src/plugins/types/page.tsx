@@ -25,10 +25,17 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { EditorInput } from '@edtr-io/editor-ui'
-import { Controls, editorContent } from '../entities/common'
+import {
+  Controls,
+  editorContent,
+  HeaderInput,
+  license,
+  uuid
+} from '../entities/common'
 
 export const pageTypeState = StateType.object({
+  ...uuid,
+  ...license,
   title: StateType.string(),
   content: editorContent()
 })
@@ -38,12 +45,10 @@ export const pageTypePlugin: StatefulPlugin<typeof pageTypeState> = {
   state: pageTypeState
 }
 
-function PageTypeEditor(props: StatefulPluginEditorProps<typeof pageTypeState>) {
-  const { title, content } = props.state
-
-  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    title.set(e.target.value)
-  }
+function PageTypeEditor(
+  props: StatefulPluginEditorProps<typeof pageTypeState>
+) {
+  const { title, content, license } = props.state
 
   return (
     <article>
@@ -51,10 +56,12 @@ function PageTypeEditor(props: StatefulPluginEditorProps<typeof pageTypeState>) 
         <div className="page-header">
           <h1>
             {props.editable ? (
-              <EditorInput
+              <HeaderInput
                 placeholder="Titel"
                 value={title.value}
-                onChange={handleTitleChange}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  title.set(e.target.value)
+                }}
               />
             ) : (
               <span itemProp="name">{title.value}</span>
@@ -62,8 +69,8 @@ function PageTypeEditor(props: StatefulPluginEditorProps<typeof pageTypeState>) 
           </h1>
         </div>
       </header>
-      <section>{content.render()}</section>
-      <Controls />
+      <section itemProp="articleBody">{content.render()}</section>
+      <Controls license={license} />
     </article>
   )
 }

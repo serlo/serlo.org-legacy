@@ -26,10 +26,10 @@ import {
   StateType
 } from '@edtr-io/core'
 import { EditorInput } from '@edtr-io/editor-ui'
-import { standardElements, Controls, editorContent } from '../entities/common'
+import { entity, Controls, editorContent } from '../entities/common'
 
 export const coursePageTypeState = StateType.object({
-  ...standardElements,
+  ...entity,
   icon: StateType.string('explanation'),
   title: StateType.string(''),
   content: editorContent()

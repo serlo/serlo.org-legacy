@@ -27,7 +27,7 @@ import {
 } from '@edtr-io/core'
 import { EditorInput } from '@edtr-io/editor-ui'
 import {
-  standardElements,
+  entity,
   Controls,
   editorContent,
   serializedChild
@@ -35,7 +35,7 @@ import {
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 
 export const appletTypeState = StateType.object({
-  ...standardElements,
+  ...entity,
   title: StateType.string(),
   content: editorContent(),
   reasoning: editorContent(),

@@ -27,10 +27,10 @@ import {
 } from '@edtr-io/core'
 import { EditorInput } from '@edtr-io/editor-ui'
 
-import { editorContent, standardElements, Controls } from '../entities/common'
+import { editorContent, entity, Controls } from '../entities/common'
 
 export const eventTypeState = StateType.object({
-  ...standardElements,
+  ...entity,
   title: StateType.string(),
   content: editorContent(),
   meta_title: StateType.string(),
@@ -42,7 +42,9 @@ export const eventTypePlugin: StatefulPlugin<typeof eventTypeState> = {
   state: eventTypeState
 }
 
-function EventTypeEditor(props: StatefulPluginEditorProps<typeof eventTypeState>) {
+function EventTypeEditor(
+  props: StatefulPluginEditorProps<typeof eventTypeState>
+) {
   const { content, title, license } = props.state
 
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {

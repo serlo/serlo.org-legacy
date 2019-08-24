@@ -28,17 +28,16 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { EditorInput } from '@edtr-io/editor-ui'
 import {
-  standardElements,
   Controls,
   editorContent,
+  entity,
   EntitySettings,
   HeaderInput
 } from '../entities/common'
 
 export const articleTypeState = StateType.object({
-  ...standardElements,
+  ...entity,
   title: StateType.string(),
   content: editorContent(),
   reasoning: editorContent(),
@@ -57,15 +56,11 @@ function ArticleTypeEditor(
   const {
     title,
     content,
-    changes,
     meta_title,
     meta_description,
+    changes,
     license
   } = props.state
-
-  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    title.set(e.target.value)
-  }
 
   return (
     <React.Fragment>
@@ -99,7 +94,9 @@ function ArticleTypeEditor(
             <HeaderInput
               placeholder="Titel"
               value={title.value}
-              onChange={handleTitleChange}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                title.set(e.target.value)
+              }}
             />
           ) : (
             <span itemProp="name">{title.value}</span>

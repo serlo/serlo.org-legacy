@@ -27,7 +27,7 @@ import {
 } from '@edtr-io/core'
 import { EditorInput } from '@edtr-io/editor-ui'
 import {
-  standardElements,
+  entity,
   Controls,
   editorContent,
   serializedChild
@@ -35,7 +35,7 @@ import {
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 
 export const videoTypeState = StateType.object({
-  ...standardElements,
+  ...entity,
   content: serializedChild('video'),
   title: StateType.string(),
   description: editorContent(),
@@ -47,7 +47,9 @@ export const videoTypePlugin: StatefulPlugin<typeof videoTypeState> = {
   state: videoTypeState
 }
 
-function VideoTypeEditor(props: StatefulPluginEditorProps<typeof videoTypeState>) {
+function VideoTypeEditor(
+  props: StatefulPluginEditorProps<typeof videoTypeState>
+) {
   const {
     title,
     content,

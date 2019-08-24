@@ -1,9 +1,9 @@
+import { OverlayContext } from '@edtr-io/editor-ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
 import { Editor } from '../src/editor'
 import { Container, mockSave } from './helpers'
-import { OverlayContext } from '@edtr-io/core'
 
 const ccBy = {
   agreement:
@@ -14,30 +14,52 @@ const ccBy = {
   url: 'https://creativecommons.org/licenses/by-sa/4.0/'
 }
 
-storiesOf('Controls', module).add('w/ common elements thingies', () => {
-  const initialState = {
-    id: 1337,
-    license: ccBy,
-    changes: '',
-    title: 'Title',
-    content: '',
-    reasoning: '',
-    meta_title: '',
-    meta_description: ''
-  }
-  return (
-    <Container>
-      <Editor type="article" initialState={initialState} onSave={mockSave}>
-        <ShowOverlay />
-      </Editor>
-    </Container>
-  )
+addContentTypeStories('Article', 'article', {
+  id: 1337,
+  license: ccBy,
+  changes: '',
+  title: 'Title',
+  content: '',
+  reasoning: '',
+  meta_title: '',
+  meta_description: ''
 })
 
-function ShowOverlay() {
-  const overlay = React.useContext(OverlayContext)
-  React.useEffect(() => {
-    overlay.show()
-  }, [])
-  return null
+addContentTypeStories('Page', 'page', {
+  id: 1337,
+  license: ccBy,
+  title: 'Title',
+  content: ''
+})
+
+function addContentTypeStories(
+  name: string,
+  type: string,
+  initialState: unknown
+) {
+  storiesOf(`Content Types/${name}`, module)
+    .add('Editor', () => {
+      return (
+        <Container>
+          <Editor type={type} initialState={initialState} onSave={mockSave} />
+        </Container>
+      )
+    })
+    .add('Controls', () => {
+      return (
+        <Container>
+          <Editor type={type} initialState={initialState} onSave={mockSave}>
+            <ShowOverlay />
+          </Editor>
+        </Container>
+      )
+    })
+
+  function ShowOverlay() {
+    const overlay = React.useContext(OverlayContext)
+    React.useEffect(() => {
+      overlay.show()
+    }, [])
+    return null
+  }
 }

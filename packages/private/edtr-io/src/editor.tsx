@@ -32,7 +32,7 @@ import {
   RowsPlugin
 } from '@serlo/legacy-editor-to-editor'
 
-import { StandardElements } from './plugins/entities/common'
+import { Entity, License, Uuid } from './plugins/entities/common'
 import { appletTypeState } from './plugins/types/applet'
 import { articleTypeState } from './plugins/types/article'
 import { courseTypeState } from './plugins/types/course'
@@ -59,10 +59,10 @@ export const SaveContext = React.createContext<EditorProps['onSave']>(() => {
 })
 
 export function Editor(props: EditorProps) {
-  const converted = convertState(props)
-  console.log('converted', converted)
+  const initialState = deserialize(props)
+  console.log('deserialized state', initialState)
 
-  if (!converted) {
+  if (!initialState) {
     const url = window.location.pathname.replace(
       'add-revision',
       'add-revision-old'
@@ -94,7 +94,7 @@ export function Editor(props: EditorProps) {
       <Core
         plugins={plugins}
         defaultPlugin="text"
-        initialState={converted}
+        initialState={initialState}
         editable
       >
         {props.children}
@@ -103,150 +103,170 @@ export function Editor(props: EditorProps) {
   )
 }
 
-function convertState(props: EditorProps) {
+function deserialize(props: EditorProps) {
   switch (props.type) {
     case 'applet': {
       return {
         plugin: 'type-applet',
-        state: convertApplet(props.initialState as AppletState)
+        state: deserializeApplet(props.initialState as AppletState)
       }
     }
     case 'article':
       return {
         plugin: 'type-article',
-        state: convertArticle(props.initialState as ArticleState)
+        state: deserializeArticle(props.initialState as ArticleState)
       }
     case 'course': {
       return {
         plugin: 'type-course',
-        state: convertCourse(props.initialState as CourseState)
+        state: deserializeCourse(props.initialState as CourseState)
       }
     }
     case 'course-page': {
       return {
         plugin: 'type-course-page',
-        state: convertCoursePage(props.initialState as CoursePageState)
+        state: deserializeCoursePage(props.initialState as CoursePageState)
       }
     }
     case 'event':
       return {
         plugin: 'type-event',
-        state: convertEvent(props.initialState as EventState)
+        state: deserializeEvent(props.initialState as EventState)
       }
     case 'math-puzzle': {
       return {
         plugin: 'type-math-puzzle',
-        state: convertMathPuzzle(props.initialState as MathPuzzleState)
+        state: deserializeMathPuzzle(props.initialState as MathPuzzleState)
       }
     }
     case 'page': {
       return {
         plugin: 'type-page',
-        state: convertPage(props.initialState as PageState)
+        state: deserializePage(props.initialState as PageState)
       }
     }
     case 'grouped-text-exercise':
     case 'text-exercise':
       return {
         plugin: 'type-text-exercise',
-        state: convertTextExercise(props.initialState as TextExerciseState)
+        state: deserializeTextExercise(props.initialState as TextExerciseState)
       }
     case 'text-exercise-group':
       return {
         plugin: 'type-text-exercise-group',
-        state: convertTextExerciseGroup(
+        state: deserializeTextExerciseGroup(
           props.initialState as TextExerciseGroupState
         )
       }
     case 'text-solution':
       return {
         plugin: 'type-text-solution',
-        state: convertTextSolution(props.initialState as TextSolutionState)
+        state: deserializeTextSolution(props.initialState as TextSolutionState)
       }
     case 'user':
       return {
         plugin: 'type-user',
-        state: convertUser(props.initialState as UserState)
+        state: deserializeUser(props.initialState as UserState)
       }
     case 'video':
       return {
         plugin: 'type-video',
-        state: convertVideo(props.initialState as VideoState)
+        state: deserializeVideo(props.initialState as VideoState)
       }
     default:
       console.log(props)
       return null
   }
 
-  function convertApplet(
+  function deserializeApplet(
     state: AppletState
   ): StateType.StateDescriptorSerializedType<typeof appletTypeState> {
     return {
       ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content))),
-      reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning)))
+      content: serializeEditorState(
+        toEdtr(deserializeEditorState(state.content))
+      ),
+      reasoning: serializeEditorState(
+        toEdtr(deserializeEditorState(state.reasoning))
+      )
     }
   }
 
-  function convertArticle(
+  function deserializeArticle(
     state: ArticleState
   ): StateType.StateDescriptorSerializedType<typeof articleTypeState> {
     return {
       ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content))),
-      reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning)))
+      content: serializeEditorState(
+        toEdtr(deserializeEditorState(state.content))
+      ),
+      reasoning: serializeEditorState(
+        toEdtr(deserializeEditorState(state.reasoning))
+      )
     }
   }
 
-  function convertCourse(
+  function deserializeCourse(
     state: CourseState
   ): StateType.StateDescriptorSerializedType<typeof courseTypeState> {
     return {
       ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content))),
-      reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning))),
-      'course-page': state['course-page'].map(convertCoursePage)
+      content: serializeEditorState(
+        toEdtr(deserializeEditorState(state.content))
+      ),
+      reasoning: serializeEditorState(
+        toEdtr(deserializeEditorState(state.reasoning))
+      ),
+      'course-page': state['course-page'].map(deserializeCoursePage)
     }
   }
 
-  function convertCoursePage(
+  function deserializeCoursePage(
     state: CoursePageState
   ): StateType.StateDescriptorSerializedType<typeof coursePageTypeState> {
     return {
       ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content))),
+      content: serializeEditorState(
+        toEdtr(deserializeEditorState(state.content))
+      ),
       icon: state.icon || 'explanation'
     }
   }
 
-  function convertEvent(
+  function deserializeEvent(
     state: EventState
   ): StateType.StateDescriptorSerializedType<typeof eventTypeState> {
     return {
       ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content)))
+      content: serializeEditorState(
+        toEdtr(deserializeEditorState(state.content))
+      )
     }
   }
 
-  function convertMathPuzzle(
+  function deserializeMathPuzzle(
     state: MathPuzzleState
   ): StateType.StateDescriptorSerializedType<typeof mathPuzzleTypeState> {
     return {
       ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content)))
+      content: serializeEditorState(
+        toEdtr(deserializeEditorState(state.content))
+      )
     }
   }
 
-  function convertPage(
+  function deserializePage(
     state: PageState
   ): StateType.StateDescriptorSerializedType<typeof pageTypeState> {
     return {
       ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content)))
+      content: serializeEditorState(
+        toEdtr(deserializeEditorState(state.content))
+      )
     }
   }
 
-  function convertTextExercise({
+  function deserializeTextExercise({
     content,
     'text-solution': textSolution,
     'single-choice-right-answer': singleChoiceRightAnswer,
@@ -260,24 +280,26 @@ function convertState(props: EditorProps) {
   }: TextExerciseState): StateType.StateDescriptorSerializedType<
     typeof textExerciseTypeState
   > {
-    const deserialized = deserializeContent(content)
+    const deserialized = deserializeEditorState(content)
 
     const scMcExercise =
-      deserialized && !isEdtr(deserialized) ? convertScMc() : undefined
+      deserialized && !isEdtr(deserialized)
+        ? deserializeScMcExercise()
+        : undefined
 
     const converted = toEdtr(deserialized)
     // const inputExercise = convertInputExercise({ inputExpressionEqualMatchChallenge, inputNumberExactMatchChallenge, inputStringNormalizedMatchChallenge })
 
     return {
       ...state,
-      'text-solution': convertTextSolution(textSolution),
-      content: serializeContent({
+      'text-solution': deserializeTextSolution(textSolution),
+      content: serializeEditorState({
         plugin: 'rows',
         state: [...converted.state, ...(scMcExercise ? [scMcExercise] : [])]
       })
     }
 
-    function convertScMc():
+    function deserializeScMcExercise():
       | {
           plugin: 'scMcExercise'
           state: StateType.StateDescriptorSerializedType<
@@ -303,11 +325,11 @@ function convertState(props: EditorProps) {
                 ? [
                     {
                       id: convert(
-                        deserializeContent(singleChoiceRightAnswer.content)
+                        deserializeEditorState(singleChoiceRightAnswer.content)
                       ),
                       isCorrect: true,
                       feedback: convert(
-                        deserializeContent(singleChoiceRightAnswer.feedback)
+                        deserializeEditorState(singleChoiceRightAnswer.feedback)
                       ),
                       hasFeedback: !!singleChoiceRightAnswer.feedback
                     }
@@ -316,9 +338,11 @@ function convertState(props: EditorProps) {
               ...(singleChoiceWrongAnswer
                 ? singleChoiceWrongAnswer.map(answer => {
                     return {
-                      id: convert(deserializeContent(answer.content)),
+                      id: convert(deserializeEditorState(answer.content)),
                       isCorrect: false,
-                      feedback: convert(deserializeContent(answer.feedback)),
+                      feedback: convert(
+                        deserializeEditorState(answer.feedback)
+                      ),
                       hasFeedback: !!answer.feedback
                     }
                   })
@@ -326,7 +350,7 @@ function convertState(props: EditorProps) {
               ...(multipleChoiceRightAnswer
                 ? multipleChoiceRightAnswer.map(answer => {
                     return {
-                      id: convert(deserializeContent(answer.content)),
+                      id: convert(deserializeEditorState(answer.content)),
                       isCorrect: true,
                       feedback: { plugin: 'rows', state: [{ plugin: 'text' }] },
                       hasFeedback: false
@@ -336,9 +360,11 @@ function convertState(props: EditorProps) {
               ...(multipleChoiceWrongAnswer
                 ? multipleChoiceWrongAnswer.map(answer => {
                     return {
-                      id: convert(deserializeContent(answer.content)),
+                      id: convert(deserializeEditorState(answer.content)),
                       isCorrect: false,
-                      feedback: convert(deserializeContent(answer.feedback)),
+                      feedback: convert(
+                        deserializeEditorState(answer.feedback)
+                      ),
                       hasFeedback: !!answer.feedback
                     }
                   })
@@ -350,165 +376,173 @@ function convertState(props: EditorProps) {
     }
   }
 
-  function convertTextExerciseGroup(
+  function deserializeTextExerciseGroup(
     state: TextExerciseGroupState
   ): StateType.StateDescriptorSerializedType<
     typeof textExerciseGroupTypeState
   > {
     return {
       ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content))),
+      content: serializeEditorState(
+        toEdtr(deserializeEditorState(state.content))
+      ),
       'grouped-text-exercise': state['grouped-text-exercise'].map(
-        convertTextExercise
+        deserializeTextExercise
       )
     }
   }
 
-  function convertTextSolution(
+  function deserializeTextSolution(
     state: TextSolutionState
   ): StateType.StateDescriptorSerializedType<typeof textSolutionTypeState> {
     return {
       ...state,
-      content: serializeContent(toEdtr(deserializeContent(state.content)))
-    }
-  }
-
-  function convertUser(
-    state: UserState
-  ): StateType.StateDescriptorSerializedType<typeof userTypeState> {
-    return {
-      ...state,
-      description: serializeContent(
-        toEdtr(deserializeContent(state.description))
+      content: serializeEditorState(
+        toEdtr(deserializeEditorState(state.content))
       )
     }
   }
 
-  function convertVideo(
+  function deserializeUser(
+    state: UserState
+  ): StateType.StateDescriptorSerializedType<typeof userTypeState> {
+    return {
+      ...state,
+      description: serializeEditorState(
+        toEdtr(deserializeEditorState(state.description))
+      )
+    }
+  }
+
+  function deserializeVideo(
     state: VideoState
   ): StateType.StateDescriptorSerializedType<typeof videoTypeState> {
     return {
       ...state,
-      description: serializeContent(
-        toEdtr(deserializeContent(state.description))
+      description: serializeEditorState(
+        toEdtr(deserializeEditorState(state.description))
       )
     }
   }
 }
 
-function toEdtr(content: Content): RowsPlugin {
+function toEdtr(content: EditorState): RowsPlugin {
   if (!content) return { plugin: 'rows', state: [] }
   if (isEdtr(content)) return content as RowsPlugin
   return convert(content) as RowsPlugin
 }
 
-interface ArticleState extends StandardElements {
+interface ArticleState extends Entity {
   title: string
-  content: SerializedContent
-  reasoning: SerializedContent
+  content: SerializedEditorState
+  reasoning: SerializedEditorState
   meta_title: string
   meta_description: string
 }
 
-interface TextExerciseState extends StandardElements {
-  content: SerializedContent
+interface TextExerciseState extends Entity {
+  content: SerializedEditorState
   'text-solution': TextSolutionState
   'single-choice-right-answer'?: {
-    content: SerializedLegacyContent
-    feedback: SerializedLegacyContent
+    content: SerializedLegacyEditorState
+    feedback: SerializedLegacyEditorState
   }
   'single-choice-wrong-answer'?: {
-    content: SerializedLegacyContent
-    feedback: SerializedLegacyContent
+    content: SerializedLegacyEditorState
+    feedback: SerializedLegacyEditorState
   }[]
-  'multiple-choice-right-answer'?: { content: SerializedLegacyContent }[]
+  'multiple-choice-right-answer'?: { content: SerializedLegacyEditorState }[]
   'multiple-choice-wrong-answer'?: {
-    content: SerializedLegacyContent
-    feedback: SerializedLegacyContent
+    content: SerializedLegacyEditorState
+    feedback: SerializedLegacyEditorState
   }[]
 }
 
-interface TextExerciseGroupState extends StandardElements {
-  content: SerializedContent
+interface TextExerciseGroupState extends Entity {
+  content: SerializedEditorState
   'grouped-text-exercise': TextExerciseState[]
 }
 
-interface TextSolutionState extends StandardElements {
+interface TextSolutionState extends Entity {
   title: string
-  content: SerializedContent
+  content: SerializedEditorState
 }
 
-interface CourseState extends StandardElements {
+interface CourseState extends Entity {
   title: string
-  content: SerializedContent
-  reasoning: SerializedContent
+  content: SerializedEditorState
+  reasoning: SerializedEditorState
   meta_description: string
   'course-page': CoursePageState[]
 }
 
-interface CoursePageState extends StandardElements {
+interface CoursePageState extends Entity {
   icon?: 'explanation' | 'play' | 'question'
   title: string
-  content: SerializedContent
+  content: SerializedEditorState
 }
 
-interface AppletState extends StandardElements {
+interface AppletState extends Entity {
   title: string
-  content: SerializedContent
+  content: SerializedEditorState
   meta_description: string
   meta_title: string
-  reasoning: SerializedContent
+  reasoning: SerializedEditorState
   url: string
 }
 
-interface VideoState extends StandardElements {
+interface VideoState extends Entity {
   title: string
   content: string
-  description: SerializedContent
-  reasoning: SerializedContent
+  description: SerializedEditorState
+  reasoning: SerializedEditorState
 }
 
-interface MathPuzzleState extends StandardElements {
-  content: SerializedContent
+interface MathPuzzleState extends Entity {
+  content: SerializedEditorState
   source: string
 }
 
-interface EventState extends StandardElements {
+interface EventState extends Entity {
   title: string
-  content: SerializedContent
+  content: SerializedEditorState
   meta_description: string
   meta_title: string
 }
 
-interface UserState {
-  description: SerializedContent
+interface UserState extends Uuid {
+  description: SerializedEditorState
 }
 
-interface PageState {
+interface PageState extends Uuid, License {
   title: string
-  content: SerializedContent
+  content: SerializedEditorState
 }
 
-function serializeContent(content: Legacy): SerializedLegacyContent
-function serializeContent(content: Content): SerializedContent
-function serializeContent(
-  content: Content
-): SerializedContent | SerializedLegacyContent {
+function serializeEditorState(content: Legacy): SerializedLegacyEditorState
+function serializeEditorState(content: EditorState): SerializedEditorState
+function serializeEditorState(
+  content: EditorState
+): SerializedEditorState | SerializedLegacyEditorState {
   console.log('serialize', content)
   return content ? (JSON.stringify(content) as any) : undefined
 }
 
-function deserializeContent(content: SerializedLegacyContent): Legacy
-function deserializeContent(content: SerializedContent): Content
-function deserializeContent(
-  content: SerializedLegacyContent | SerializedContent
-): Content {
+function deserializeEditorState(content: SerializedLegacyEditorState): Legacy
+function deserializeEditorState(content: SerializedEditorState): EditorState
+function deserializeEditorState(
+  content: SerializedLegacyEditorState | SerializedEditorState
+): EditorState {
   console.log('deserialize', content)
   return content ? JSON.parse(content) : undefined
 }
 
-type Content = Legacy | Splish | Edtr | undefined
-type SerializedContent = (string | undefined) & { __type: 'serialized-content' }
-type SerializedLegacyContent = (string | undefined) & {
-  __type: 'serialized-legacy-content'
+type EditorState = Legacy | Splish | Edtr | undefined
+
+// Fake `__type` property is just here to let TypeScript distinguish between the types
+type SerializedEditorState = (string | undefined) & {
+  __type: 'serialized-editor-state'
+}
+type SerializedLegacyEditorState = (string | undefined) & {
+  __type: 'serialized-legacy-editor-state'
 }

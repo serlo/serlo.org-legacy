@@ -37,7 +37,9 @@ export const userTypePlugin: StatefulPlugin<typeof userTypeState> = {
   state: userTypeState
 }
 
-function UserTypeEditor(props: StatefulPluginEditorProps<typeof userTypeState>) {
+function UserTypeEditor(
+  props: StatefulPluginEditorProps<typeof userTypeState>
+) {
   const { description } = props.state
 
   return (
