@@ -442,7 +442,7 @@ export function serializedChild(
 
 interface StateProps {
   hasPendingChanges: ReturnType<typeof selectors.hasPendingChanges>
-  undoable: boolean,
+  undoable: boolean
   redoable: boolean
   serializeRootDocument: () => unknown | null
 }
