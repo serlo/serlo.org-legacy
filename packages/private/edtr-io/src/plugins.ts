@@ -36,23 +36,21 @@ import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { tablePlugin } from '@edtr-io/plugin-table'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
+import { appletTypePlugin } from './plugins/types/applet'
+import { articleTypePlugin } from './plugins/types/article'
+import { courseTypePlugin } from './plugins/types/course'
+import { coursePageTypePlugin } from './plugins/types/course-page'
+import { eventTypePlugin } from './plugins/types/event'
+import { mathPuzzleTypePlugin } from './plugins/types/math-puzzle'
+import { pageTypePlugin } from './plugins/types/page'
+import { textExerciseTypePlugin } from './plugins/types/text-exercise'
+import { textExerciseGroupTypePlugin } from './plugins/types/text-exercise-group'
+import { textSolutionTypePlugin } from './plugins/types/text-solution'
+import { userTypePlugin } from './plugins/types/user'
+import { videoTypePlugin } from './plugins/types/video'
 import { errorPlugin } from './plugins/error'
 import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
-import {
-  appletPlugin,
-  articleEntityPlugin,
-  coursePagePlugin,
-  coursePlugin,
-  eventPlugin,
-  mathPuzzlePlugin,
-  pagePlugin,
-  textExerciseGroupPlugin,
-  textExercisePlugin,
-  textSolutionPlugin,
-  userPlugin,
-  videoEntityPlugin
-} from './plugins/entities'
 
 export const plugins: Record<string, StatefulPlugin<any, any>> = {
   anchor: anchorPlugin,
@@ -74,16 +72,17 @@ export const plugins: Record<string, StatefulPlugin<any, any>> = {
   text: textPlugin,
   video: videoPlugin,
 
-  appletEntity: appletPlugin,
-  articleEntity: articleEntityPlugin,
-  coursePageEntity: coursePagePlugin,
-  courseEntity: coursePlugin,
-  eventEntity: eventPlugin,
-  mathPuzzleEntity: mathPuzzlePlugin,
-  pageEntity: pagePlugin,
-  textExerciseGroupEntity: textExerciseGroupPlugin,
-  textExerciseEntity: textExercisePlugin,
-  textSolutionEntity: textSolutionPlugin,
-  userEntity: userPlugin,
-  videoEntity: videoEntityPlugin
+  // Internal plugins for our content types
+  'type-applet': appletTypePlugin,
+  'type-article': articleTypePlugin,
+  'type-course': courseTypePlugin,
+  'type-course-page': coursePageTypePlugin,
+  'type-event': eventTypePlugin,
+  'type-math-puzzle': mathPuzzleTypePlugin,
+  'type-page': pageTypePlugin,
+  'type-text-exercise': textExerciseTypePlugin,
+  'type-text-exercise-group': textExerciseGroupTypePlugin,
+  'type-text-solution': textSolutionTypePlugin,
+  'type-user': userTypePlugin,
+  'type-video': videoTypePlugin
 }

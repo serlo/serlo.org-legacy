@@ -25,46 +25,49 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { EditorInput } from '@edtr-io/editor-ui'
+import {
+  editorContent,
+  standardElements,
+  Controls,
+  serializedChild
+} from '../entities/common'
 
-import { editorContent, standardElements, Controls } from './common'
-
-export const eventState = StateType.object({
+export const textExerciseGroupTypeState = StateType.object({
   ...standardElements,
-  title: StateType.string(),
   content: editorContent(),
-  meta_title: StateType.string(),
-  meta_description: StateType.string()
+  'grouped-text-exercise': StateType.list(serializedChild('textExerciseEntity'))
 })
 
-export const eventPlugin: StatefulPlugin<typeof eventState> = {
-  Component: EventEditor,
-  state: eventState
+export const textExerciseGroupTypePlugin: StatefulPlugin<
+  typeof textExerciseGroupTypeState
+> = {
+  Component: TextExerciseGroupTypeEditor,
+  state: textExerciseGroupTypeState
 }
 
-function EventEditor(props: StatefulPluginEditorProps<typeof eventState>) {
-  const { content, title, license } = props.state
-
-  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    title.set(e.target.value)
-  }
+function TextExerciseGroupTypeEditor(
+  props: StatefulPluginEditorProps<typeof textExerciseGroupTypeState>
+) {
+  const {
+    content,
+    'grouped-text-exercise': groupedTextExercises,
+    license
+  } = props.state
 
   return (
     <div>
-      <div className="page-header">
-        <h1>
-          {props.editable ? (
-            <EditorInput
-              placeholder="Titel"
-              value={title.value}
-              onChange={handleTitleChange}
-            />
-          ) : (
-            <span itemProp="name">{title.value}</span>
-          )}{' '}
-        </h1>
-      </div>
       {content.render()}
+      {groupedTextExercises.items.map(exercise => {
+        return (
+          <React.Fragment key={exercise.id}>
+            {exercise.render({ skipControls: true })}
+          </React.Fragment>
+        )
+      })}
+      <div>
+        <img src={license.iconHref.value} />
+        {license.title.value}
+      </div>
       <Controls />
     </div>
   )

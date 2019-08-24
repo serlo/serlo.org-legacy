@@ -21,29 +21,49 @@
  */
 import * as React from 'react'
 import {
-  ScopeContext,
   StatefulPlugin,
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { Controls, editorContent } from './common'
+import {
+  editorContent,
+  standardElements,
+  Controls,
+  serializedChild
+} from '../entities/common'
 
-export const userState = StateType.object({
-  description: editorContent()
+export const courseTypeState = StateType.object({
+  ...standardElements,
+  title: StateType.string(),
+  content: editorContent(),
+  reasoning: editorContent(),
+  meta_description: StateType.string(),
+  'course-page': StateType.list(serializedChild('coursePageEntity'))
 })
 
-export const userPlugin: StatefulPlugin<typeof userState> = {
-  Component: UserRenderer,
-  state: userState
+export const courseTypePlugin: StatefulPlugin<typeof courseTypeState> = {
+  Component: CourseTypeEditor,
+  state: courseTypeState
 }
 
-function UserRenderer(props: StatefulPluginEditorProps<typeof userState>) {
-  const { description } = props.state
+function CourseTypeEditor(props: StatefulPluginEditorProps<typeof courseTypeState>) {
+  const { content, 'course-page': coursePages, license } = props.state
 
   return (
-    <React.Fragment>
-      {description.render()}
+    <div>
+      {content.render()}
+      {coursePages.items.map(page => {
+        return (
+          <React.Fragment key={page.id}>
+            {page.render({ skipControls: true })}
+          </React.Fragment>
+        )
+      })}
+      <div>
+        <img src={license.iconHref.value} />
+        {license.title.value}
+      </div>
       <Controls />
-    </React.Fragment>
+    </div>
   )
 }

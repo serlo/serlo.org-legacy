@@ -31,32 +31,29 @@ import {
   Controls,
   editorContent,
   serializedChild
-} from './common'
+} from '../entities/common'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 
-export const appletState = StateType.object({
+export const videoTypeState = StateType.object({
   ...standardElements,
+  content: serializedChild('video'),
   title: StateType.string(),
-  content: editorContent(),
-  reasoning: editorContent(),
-  meta_title: StateType.string(),
-  meta_description: StateType.string(),
-  url: serializedChild('geogebra')
+  description: editorContent(),
+  reasoning: editorContent()
 })
 
-export const appletPlugin: StatefulPlugin<typeof appletState> = {
-  Component: AppletEditor,
-  state: appletState
+export const videoTypePlugin: StatefulPlugin<typeof videoTypeState> = {
+  Component: VideoTypeEditor,
+  state: videoTypeState
 }
 
-function AppletEditor(props: StatefulPluginEditorProps<typeof appletState>) {
+function VideoTypeEditor(props: StatefulPluginEditorProps<typeof videoTypeState>) {
   const {
     title,
     content,
+    description,
     reasoning,
     changes,
-    meta_title,
-    meta_description,
     license
   } = props.state
 
@@ -64,14 +61,6 @@ function AppletEditor(props: StatefulPluginEditorProps<typeof appletState>) {
     title.set(e.target.value)
   }
 
-  function handleMetaTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    meta_title.set(e.target.value)
-  }
-  function handleMetaDescriptionChange(
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) {
-    meta_description.set(e.target.value)
-  }
   function handleLicenseChange(e: React.ChangeEvent<HTMLInputElement>) {
     //TODO
   }
@@ -95,7 +84,7 @@ function AppletEditor(props: StatefulPluginEditorProps<typeof appletState>) {
         </h1>
       </div>
       <div itemProp="articleBody">{content.render()}</div>
-      {props.state.url.render()}
+      <div itemProp="articleBody">{description.render()}</div>
       <Controls />
       {/*{props.editable && props.focused ? (*/}
       {/*  <React.Fragment>*/}

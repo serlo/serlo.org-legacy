@@ -19,15 +19,31 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-export { appletPlugin } from './applet'
-export { articleEntityPlugin } from './article'
-export { coursePlugin } from './course'
-export { coursePagePlugin } from './course-page'
-export { mathPuzzlePlugin } from './math-puzzle'
-export { pagePlugin } from './page'
-export { textExercisePlugin } from './text-exercise'
-export { textExerciseGroupPlugin } from './text-exercise-group'
-export { textSolutionPlugin } from './text-solution'
-export { userPlugin } from './user'
-export { videoEntityPlugin } from './video'
-export { eventPlugin } from './event'
+import * as React from 'react'
+import {
+  ScopeContext,
+  StatefulPlugin,
+  StatefulPluginEditorProps,
+  StateType
+} from '@edtr-io/core'
+import { Controls, editorContent } from '../entities/common'
+
+export const userTypeState = StateType.object({
+  description: editorContent()
+})
+
+export const userTypePlugin: StatefulPlugin<typeof userTypeState> = {
+  Component: UserTypeEditor,
+  state: userTypeState
+}
+
+function UserTypeEditor(props: StatefulPluginEditorProps<typeof userTypeState>) {
+  const { description } = props.state
+
+  return (
+    <React.Fragment>
+      {description.render()}
+      <Controls />
+    </React.Fragment>
+  )
+}

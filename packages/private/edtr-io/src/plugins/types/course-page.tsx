@@ -26,22 +26,24 @@ import {
   StateType
 } from '@edtr-io/core'
 import { EditorInput } from '@edtr-io/editor-ui'
-import { standardElements, Controls, editorContent } from './common'
+import { standardElements, Controls, editorContent } from '../entities/common'
 
-export const coursePageState = StateType.object({
+export const coursePageTypeState = StateType.object({
   ...standardElements,
   icon: StateType.string('explanation'),
   title: StateType.string(''),
   content: editorContent()
 })
 
-export const coursePagePlugin: StatefulPlugin<typeof coursePageState> = {
-  Component: CoursePageEditor,
-  state: coursePageState
+export const coursePageTypePlugin: StatefulPlugin<
+  typeof coursePageTypeState
+> = {
+  Component: CoursePageTypeEditor,
+  state: coursePageTypeState
 }
 
-function CoursePageEditor(
-  props: StatefulPluginEditorProps<typeof coursePageState> & {
+function CoursePageTypeEditor(
+  props: StatefulPluginEditorProps<typeof coursePageTypeState> & {
     skipControls?: boolean
   }
 ) {

@@ -20,10 +20,9 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { Editor as Core, StateType } from '@edtr-io/core'
+import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import * as React from 'react'
 
-import { plugins } from './plugins'
-import { articleEntityState } from './plugins/entities/article'
 import {
   convert,
   Edtr,
@@ -32,19 +31,21 @@ import {
   Splish,
   RowsPlugin
 } from '@serlo/legacy-editor-to-editor'
+
 import { StandardElements } from './plugins/entities/common'
-import { textExerciseState } from './plugins/entities/text-exercise'
-import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
-import { textSolutionState } from './plugins/entities/text-solution'
-import { userState } from './plugins/entities/user'
-import { pageState } from './plugins/entities/page'
-import { textExerciseGroupState } from './plugins/entities/text-exercise-group'
-import { coursePageState } from './plugins/entities/course-page'
-import { courseState } from './plugins/entities/course'
-import { appletState } from './plugins/entities/applet'
-import { mathPuzzleState } from './plugins/entities/math-puzzle'
-import { videoState } from './plugins/entities/video'
-import { eventState } from './plugins/entities/event'
+import { appletTypeState } from './plugins/types/applet'
+import { articleTypeState } from './plugins/types/article'
+import { courseTypeState } from './plugins/types/course'
+import { coursePageTypeState } from './plugins/types/course-page'
+import { eventTypeState } from './plugins/types/event'
+import { mathPuzzleTypeState } from './plugins/types/math-puzzle'
+import { pageTypeState } from './plugins/types/page'
+import { textExerciseTypeState } from './plugins/types/text-exercise'
+import { textExerciseGroupTypeState } from './plugins/types/text-exercise-group'
+import { textSolutionTypeState } from './plugins/types/text-solution'
+import { userTypeState } from './plugins/types/user'
+import { videoTypeState } from './plugins/types/video'
+import { plugins } from './plugins'
 
 export interface EditorProps {
   children?: React.ReactNode
@@ -53,9 +54,9 @@ export interface EditorProps {
   type: string
 }
 
-export const SaveContext = React.createContext<EditorProps['onSave']>(() =>
-  Promise.reject()
-)
+export const SaveContext = React.createContext<EditorProps['onSave']>(() => {
+  return Promise.reject()
+})
 
 export function Editor(props: EditorProps) {
   const converted = convertState(props)
@@ -104,281 +105,294 @@ export function Editor(props: EditorProps) {
 
 function convertState(props: EditorProps) {
   switch (props.type) {
-    case 'article':
-      return {
-        plugin: 'articleEntity',
-        state: convertArticle(props.initialState as ArticleState)
-      }
-    case 'grouped-text-exercise':
-    case 'text-exercise':
-      return {
-        plugin: 'textExerciseEntity',
-        state: convertTextExercise(props.initialState as TextExerciseState)
-      }
-    case 'text-exercise-group':
-      return {
-        plugin: 'textExerciseGroupEntity',
-        state: convertTextExerciseGroup(
-          props.initialState as TextExerciseGroupState
-        )
-      }
-    case 'course-page': {
-      return {
-        plugin: 'coursePageEntity',
-        state: convertCoursePage(props.initialState as CoursePageState)
-      }
-    }
-    case 'course': {
-      return {
-        plugin: 'courseEntity',
-        state: convertCourse(props.initialState as CourseState)
-      }
-    }
     case 'applet': {
       return {
-        plugin: 'appletEntity',
+        plugin: 'type-applet',
         state: convertApplet(props.initialState as AppletState)
       }
     }
+    case 'article':
+      return {
+        plugin: 'type-article',
+        state: convertArticle(props.initialState as ArticleState)
+      }
+    case 'course': {
+      return {
+        plugin: 'type-course',
+        state: convertCourse(props.initialState as CourseState)
+      }
+    }
+    case 'course-page': {
+      return {
+        plugin: 'type-course-page',
+        state: convertCoursePage(props.initialState as CoursePageState)
+      }
+    }
+    case 'event':
+      return {
+        plugin: 'type-event',
+        state: convertEvent(props.initialState as EventState)
+      }
     case 'math-puzzle': {
       return {
-        plugin: 'mathPuzzleEntity',
+        plugin: 'type-math-puzzle',
         state: convertMathPuzzle(props.initialState as MathPuzzleState)
       }
     }
     case 'page': {
       return {
-        plugin: 'pageEntity',
+        plugin: 'type-page',
         state: convertPage(props.initialState as PageState)
       }
     }
+    case 'grouped-text-exercise':
+    case 'text-exercise':
+      return {
+        plugin: 'type-text-exercise',
+        state: convertTextExercise(props.initialState as TextExerciseState)
+      }
+    case 'text-exercise-group':
+      return {
+        plugin: 'type-text-exercise-group',
+        state: convertTextExerciseGroup(
+          props.initialState as TextExerciseGroupState
+        )
+      }
+    case 'text-solution':
+      return {
+        plugin: 'type-text-solution',
+        state: convertTextSolution(props.initialState as TextSolutionState)
+      }
     case 'user':
       return {
-        plugin: 'userEntity',
+        plugin: 'type-user',
         state: convertUser(props.initialState as UserState)
       }
     case 'video':
       return {
-        plugin: 'videoEntity',
+        plugin: 'type-video',
         state: convertVideo(props.initialState as VideoState)
-      }
-    case 'event':
-      return {
-        plugin: 'eventEntity',
-        state: convertEvent(props.initialState as EventState)
       }
     default:
       console.log(props)
       return null
   }
-}
 
-function convertTextSolution(
-  state: TextSolutionState
-): StateType.StateDescriptorSerializedType<typeof textSolutionState> {
-  return {
-    ...state,
-    content: serializeContent(toEdtr(deserializeContent(state.content)))
-  }
-}
-
-function convertTextExercise({
-  content,
-  'text-solution': textSolution,
-  'single-choice-right-answer': singleChoiceRightAnswer,
-  'single-choice-wrong-answer': singleChoiceWrongAnswer,
-  'multiple-choice-right-answer': multipleChoiceRightAnswer,
-  'multiple-choice-wrong-answer': multipleChoiceWrongAnswer,
-  // inputExpressionEqualMatchChallenge,
-  // inputNumberExactMatchChallenge,
-  // inputStringNormalizedMatchChallenge,
-  ...state
-}: TextExerciseState): StateType.StateDescriptorSerializedType<
-  typeof textExerciseState
-> {
-  const deserialized = deserializeContent(content)
-
-  const scMcExercise =
-    deserialized && !isEdtr(deserialized) ? convertScMc() : undefined
-
-  const converted = toEdtr(deserialized)
-  // const inputExercise = convertInputExercise({ inputExpressionEqualMatchChallenge, inputNumberExactMatchChallenge, inputStringNormalizedMatchChallenge })
-
-  return {
-    ...state,
-    'text-solution': convertTextSolution(textSolution),
-    content: serializeContent({
-      plugin: 'rows',
-      state: [...converted.state, ...(scMcExercise ? [scMcExercise] : [])]
-    })
+  function convertApplet(
+    state: AppletState
+  ): StateType.StateDescriptorSerializedType<typeof appletTypeState> {
+    return {
+      ...state,
+      content: serializeContent(toEdtr(deserializeContent(state.content))),
+      reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning)))
+    }
   }
 
-  function convertScMc():
-    | {
-        plugin: 'scMcExercise'
-        state: StateType.StateDescriptorSerializedType<typeof scMcExerciseState>
-      }
-    | undefined {
-    if (
-      singleChoiceWrongAnswer ||
-      singleChoiceRightAnswer ||
-      multipleChoiceWrongAnswer ||
-      multipleChoiceRightAnswer
-    ) {
-      const isSingleChoice = !(
-        multipleChoiceRightAnswer || multipleChoiceWrongAnswer
-      )
-      return {
-        plugin: 'scMcExercise',
-        state: {
-          isSingleChoice: isSingleChoice,
-          answers: [
-            ...(singleChoiceRightAnswer
-              ? [
-                  {
-                    id: convert(
-                      deserializeContent(singleChoiceRightAnswer.content)
-                    ),
-                    isCorrect: true,
-                    feedback: convert(
-                      deserializeContent(singleChoiceRightAnswer.feedback)
-                    ),
-                    hasFeedback: !!singleChoiceRightAnswer.feedback
-                  }
-                ]
-              : []),
-            ...(singleChoiceWrongAnswer
-              ? singleChoiceWrongAnswer.map(answer => {
-                  return {
-                    id: convert(deserializeContent(answer.content)),
-                    isCorrect: false,
-                    feedback: convert(deserializeContent(answer.feedback)),
-                    hasFeedback: !!answer.feedback
-                  }
-                })
-              : []),
-            ...(multipleChoiceRightAnswer
-              ? multipleChoiceRightAnswer.map(answer => {
-                  return {
-                    id: convert(deserializeContent(answer.content)),
-                    isCorrect: true,
-                    feedback: { plugin: 'rows', state: [{ plugin: 'text' }] },
-                    hasFeedback: false
-                  }
-                })
-              : []),
-            ...(multipleChoiceWrongAnswer
-              ? multipleChoiceWrongAnswer.map(answer => {
-                  return {
-                    id: convert(deserializeContent(answer.content)),
-                    isCorrect: false,
-                    feedback: convert(deserializeContent(answer.feedback)),
-                    hasFeedback: !!answer.feedback
-                  }
-                })
-              : [])
-          ]
+  function convertArticle(
+    state: ArticleState
+  ): StateType.StateDescriptorSerializedType<typeof articleTypeState> {
+    return {
+      ...state,
+      content: serializeContent(toEdtr(deserializeContent(state.content))),
+      reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning)))
+    }
+  }
+
+  function convertCourse(
+    state: CourseState
+  ): StateType.StateDescriptorSerializedType<typeof courseTypeState> {
+    return {
+      ...state,
+      content: serializeContent(toEdtr(deserializeContent(state.content))),
+      reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning))),
+      'course-page': state['course-page'].map(convertCoursePage)
+    }
+  }
+
+  function convertCoursePage(
+    state: CoursePageState
+  ): StateType.StateDescriptorSerializedType<typeof coursePageTypeState> {
+    return {
+      ...state,
+      content: serializeContent(toEdtr(deserializeContent(state.content))),
+      icon: state.icon || 'explanation'
+    }
+  }
+
+  function convertEvent(
+    state: EventState
+  ): StateType.StateDescriptorSerializedType<typeof eventTypeState> {
+    return {
+      ...state,
+      content: serializeContent(toEdtr(deserializeContent(state.content)))
+    }
+  }
+
+  function convertMathPuzzle(
+    state: MathPuzzleState
+  ): StateType.StateDescriptorSerializedType<typeof mathPuzzleTypeState> {
+    return {
+      ...state,
+      content: serializeContent(toEdtr(deserializeContent(state.content)))
+    }
+  }
+
+  function convertPage(
+    state: PageState
+  ): StateType.StateDescriptorSerializedType<typeof pageTypeState> {
+    return {
+      ...state,
+      content: serializeContent(toEdtr(deserializeContent(state.content)))
+    }
+  }
+
+  function convertTextExercise({
+    content,
+    'text-solution': textSolution,
+    'single-choice-right-answer': singleChoiceRightAnswer,
+    'single-choice-wrong-answer': singleChoiceWrongAnswer,
+    'multiple-choice-right-answer': multipleChoiceRightAnswer,
+    'multiple-choice-wrong-answer': multipleChoiceWrongAnswer,
+    // inputExpressionEqualMatchChallenge,
+    // inputNumberExactMatchChallenge,
+    // inputStringNormalizedMatchChallenge,
+    ...state
+  }: TextExerciseState): StateType.StateDescriptorSerializedType<
+    typeof textExerciseTypeState
+  > {
+    const deserialized = deserializeContent(content)
+
+    const scMcExercise =
+      deserialized && !isEdtr(deserialized) ? convertScMc() : undefined
+
+    const converted = toEdtr(deserialized)
+    // const inputExercise = convertInputExercise({ inputExpressionEqualMatchChallenge, inputNumberExactMatchChallenge, inputStringNormalizedMatchChallenge })
+
+    return {
+      ...state,
+      'text-solution': convertTextSolution(textSolution),
+      content: serializeContent({
+        plugin: 'rows',
+        state: [...converted.state, ...(scMcExercise ? [scMcExercise] : [])]
+      })
+    }
+
+    function convertScMc():
+      | {
+          plugin: 'scMcExercise'
+          state: StateType.StateDescriptorSerializedType<
+            typeof scMcExerciseState
+          >
+        }
+      | undefined {
+      if (
+        singleChoiceWrongAnswer ||
+        singleChoiceRightAnswer ||
+        multipleChoiceWrongAnswer ||
+        multipleChoiceRightAnswer
+      ) {
+        const isSingleChoice = !(
+          multipleChoiceRightAnswer || multipleChoiceWrongAnswer
+        )
+        return {
+          plugin: 'scMcExercise',
+          state: {
+            isSingleChoice: isSingleChoice,
+            answers: [
+              ...(singleChoiceRightAnswer
+                ? [
+                    {
+                      id: convert(
+                        deserializeContent(singleChoiceRightAnswer.content)
+                      ),
+                      isCorrect: true,
+                      feedback: convert(
+                        deserializeContent(singleChoiceRightAnswer.feedback)
+                      ),
+                      hasFeedback: !!singleChoiceRightAnswer.feedback
+                    }
+                  ]
+                : []),
+              ...(singleChoiceWrongAnswer
+                ? singleChoiceWrongAnswer.map(answer => {
+                    return {
+                      id: convert(deserializeContent(answer.content)),
+                      isCorrect: false,
+                      feedback: convert(deserializeContent(answer.feedback)),
+                      hasFeedback: !!answer.feedback
+                    }
+                  })
+                : []),
+              ...(multipleChoiceRightAnswer
+                ? multipleChoiceRightAnswer.map(answer => {
+                    return {
+                      id: convert(deserializeContent(answer.content)),
+                      isCorrect: true,
+                      feedback: { plugin: 'rows', state: [{ plugin: 'text' }] },
+                      hasFeedback: false
+                    }
+                  })
+                : []),
+              ...(multipleChoiceWrongAnswer
+                ? multipleChoiceWrongAnswer.map(answer => {
+                    return {
+                      id: convert(deserializeContent(answer.content)),
+                      isCorrect: false,
+                      feedback: convert(deserializeContent(answer.feedback)),
+                      hasFeedback: !!answer.feedback
+                    }
+                  })
+                : [])
+            ]
+          }
         }
       }
     }
   }
-}
 
-function convertTextExerciseGroup(
-  state: TextExerciseGroupState
-): StateType.StateDescriptorSerializedType<typeof textExerciseGroupState> {
-  return {
-    ...state,
-    content: serializeContent(toEdtr(deserializeContent(state.content))),
-    'grouped-text-exercise': state['grouped-text-exercise'].map(
-      convertTextExercise
-    )
+  function convertTextExerciseGroup(
+    state: TextExerciseGroupState
+  ): StateType.StateDescriptorSerializedType<
+    typeof textExerciseGroupTypeState
+  > {
+    return {
+      ...state,
+      content: serializeContent(toEdtr(deserializeContent(state.content))),
+      'grouped-text-exercise': state['grouped-text-exercise'].map(
+        convertTextExercise
+      )
+    }
   }
-}
 
-function convertArticle(
-  state: ArticleState
-): StateType.StateDescriptorSerializedType<typeof articleEntityState> {
-  return {
-    ...state,
-    content: serializeContent(toEdtr(deserializeContent(state.content))),
-    reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning)))
+  function convertTextSolution(
+    state: TextSolutionState
+  ): StateType.StateDescriptorSerializedType<typeof textSolutionTypeState> {
+    return {
+      ...state,
+      content: serializeContent(toEdtr(deserializeContent(state.content)))
+    }
   }
-}
 
-function convertUser(
-  state: UserState
-): StateType.StateDescriptorSerializedType<typeof userState> {
-  return {
-    ...state,
-    description: serializeContent(toEdtr(deserializeContent(state.description)))
+  function convertUser(
+    state: UserState
+  ): StateType.StateDescriptorSerializedType<typeof userTypeState> {
+    return {
+      ...state,
+      description: serializeContent(
+        toEdtr(deserializeContent(state.description))
+      )
+    }
   }
-}
 
-function convertPage(
-  state: PageState
-): StateType.StateDescriptorSerializedType<typeof pageState> {
-  return {
-    ...state,
-    content: serializeContent(toEdtr(deserializeContent(state.content)))
-  }
-}
-
-function convertCoursePage(
-  state: CoursePageState
-): StateType.StateDescriptorSerializedType<typeof coursePageState> {
-  return {
-    ...state,
-    content: serializeContent(toEdtr(deserializeContent(state.content))),
-    icon: state.icon || 'explanation'
-  }
-}
-
-function convertCourse(
-  state: CourseState
-): StateType.StateDescriptorSerializedType<typeof courseState> {
-  return {
-    ...state,
-    content: serializeContent(toEdtr(deserializeContent(state.content))),
-    reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning))),
-    'course-page': state['course-page'].map(convertCoursePage)
-  }
-}
-
-function convertApplet(
-  state: AppletState
-): StateType.StateDescriptorSerializedType<typeof appletState> {
-  return {
-    ...state,
-    content: serializeContent(toEdtr(deserializeContent(state.content))),
-    reasoning: serializeContent(toEdtr(deserializeContent(state.reasoning)))
-  }
-}
-
-function convertMathPuzzle(
-  state: MathPuzzleState
-): StateType.StateDescriptorSerializedType<typeof mathPuzzleState> {
-  return {
-    ...state,
-    content: serializeContent(toEdtr(deserializeContent(state.content)))
-  }
-}
-
-function convertVideo(
-  state: VideoState
-): StateType.StateDescriptorSerializedType<typeof videoState> {
-  return {
-    ...state,
-    description: serializeContent(toEdtr(deserializeContent(state.description)))
-  }
-}
-
-function convertEvent(
-  state: EventState
-): StateType.StateDescriptorSerializedType<typeof eventState> {
-  return {
-    ...state,
-    content: serializeContent(toEdtr(deserializeContent(state.content)))
+  function convertVideo(
+    state: VideoState
+  ): StateType.StateDescriptorSerializedType<typeof videoTypeState> {
+    return {
+      ...state,
+      description: serializeContent(
+        toEdtr(deserializeContent(state.description))
+      )
+    }
   }
 }
 

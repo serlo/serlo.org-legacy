@@ -25,40 +25,22 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import {
-  editorContent,
-  standardElements,
-  Controls,
-  serializedChild
-} from './common'
+import { solutionPlugin } from '@edtr-io/plugin-solution'
+import { editorContent, standardElements } from '../entities/common'
 
-export const textExerciseState = StateType.object({
+export const textSolutionTypeState = StateType.object({
   ...standardElements,
-  content: editorContent(),
-  'text-solution': serializedChild('textSolutionEntity')
+  title: StateType.string(),
+  content: editorContent()
 })
 
-export const textExercisePlugin: StatefulPlugin<typeof textExerciseState> = {
-  Component: TextExerciseRenderer,
-  state: textExerciseState
+export const textSolutionTypePlugin: StatefulPlugin<typeof textSolutionTypeState> = {
+  Component: TextSolutionTypeEditor,
+  state: textSolutionTypeState
 }
 
-export function TextExerciseRenderer(
-  props: StatefulPluginEditorProps<typeof textExerciseState> & {
-    skipControls?: boolean
-  }
+function TextSolutionTypeEditor(
+  props: StatefulPluginEditorProps<typeof textSolutionTypeState>
 ) {
-  const { content, 'text-solution': textSolution, license } = props.state
-
-  return (
-    <div>
-      {content.render()}
-      <div>{textSolution.render()}</div>
-      <div>
-        <img src={license.iconHref.value} />
-        {license.title.value}
-      </div>
-      {props.skipControls ? null : <Controls />}
-    </div>
-  )
+  return <solutionPlugin.Component {...props} />
 }

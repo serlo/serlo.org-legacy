@@ -26,21 +26,21 @@ import {
   StateType
 } from '@edtr-io/core'
 import { EditorInput } from '@edtr-io/editor-ui'
-import { standardElements, Controls, editorContent } from './common'
+import { standardElements, Controls, editorContent } from '../entities/common'
 
-export const mathPuzzleState = StateType.object({
+export const mathPuzzleTypeState = StateType.object({
   ...standardElements,
   source: StateType.string(),
   content: editorContent()
 })
 
-export const mathPuzzlePlugin: StatefulPlugin<typeof mathPuzzleState> = {
-  Component: MathPuzzleEditor,
-  state: mathPuzzleState
+export const mathPuzzleTypePlugin: StatefulPlugin<typeof mathPuzzleTypeState> = {
+  Component: MathPuzzleTypeEditor,
+  state: mathPuzzleTypeState
 }
 
-function MathPuzzleEditor(
-  props: StatefulPluginEditorProps<typeof mathPuzzleState>
+function MathPuzzleTypeEditor(
+  props: StatefulPluginEditorProps<typeof mathPuzzleTypeState>
 ) {
   const { source, content, changes, license } = props.state
 

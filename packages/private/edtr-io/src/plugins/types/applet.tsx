@@ -31,29 +31,34 @@ import {
   Controls,
   editorContent,
   serializedChild
-} from './common'
+} from '../entities/common'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 
-export const videoState = StateType.object({
+export const appletTypeState = StateType.object({
   ...standardElements,
-  content: serializedChild('video'),
   title: StateType.string(),
-  description: editorContent(),
-  reasoning: editorContent()
+  content: editorContent(),
+  reasoning: editorContent(),
+  meta_title: StateType.string(),
+  meta_description: StateType.string(),
+  url: serializedChild('geogebra')
 })
 
-export const videoEntityPlugin: StatefulPlugin<typeof videoState> = {
-  Component: VideoEditor,
-  state: videoState
+export const appletTypePlugin: StatefulPlugin<typeof appletTypeState> = {
+  Component: AppletTypeEditor,
+  state: appletTypeState
 }
 
-function VideoEditor(props: StatefulPluginEditorProps<typeof videoState>) {
+function AppletTypeEditor(
+  props: StatefulPluginEditorProps<typeof appletTypeState>
+) {
   const {
     title,
     content,
-    description,
     reasoning,
     changes,
+    meta_title,
+    meta_description,
     license
   } = props.state
 
@@ -61,6 +66,14 @@ function VideoEditor(props: StatefulPluginEditorProps<typeof videoState>) {
     title.set(e.target.value)
   }
 
+  function handleMetaTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    meta_title.set(e.target.value)
+  }
+  function handleMetaDescriptionChange(
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) {
+    meta_description.set(e.target.value)
+  }
   function handleLicenseChange(e: React.ChangeEvent<HTMLInputElement>) {
     //TODO
   }
@@ -84,7 +97,7 @@ function VideoEditor(props: StatefulPluginEditorProps<typeof videoState>) {
         </h1>
       </div>
       <div itemProp="articleBody">{content.render()}</div>
-      <div itemProp="articleBody">{description.render()}</div>
+      {props.state.url.render()}
       <Controls />
       {/*{props.editable && props.focused ? (*/}
       {/*  <React.Fragment>*/}

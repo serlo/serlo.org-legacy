@@ -25,45 +25,45 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import {
-  editorContent,
-  standardElements,
-  Controls,
-  serializedChild
-} from './common'
+import { EditorInput } from '@edtr-io/editor-ui'
+import { Controls, editorContent } from '../entities/common'
 
-export const courseState = StateType.object({
-  ...standardElements,
+export const pageTypeState = StateType.object({
   title: StateType.string(),
-  content: editorContent(),
-  reasoning: editorContent(),
-  meta_description: StateType.string(),
-  'course-page': StateType.list(serializedChild('coursePageEntity'))
+  content: editorContent()
 })
 
-export const coursePlugin: StatefulPlugin<typeof courseState> = {
-  Component: CourseEditor,
-  state: courseState
+export const pageTypePlugin: StatefulPlugin<typeof pageTypeState> = {
+  Component: PageTypeEditor,
+  state: pageTypeState
 }
 
-function CourseEditor(props: StatefulPluginEditorProps<typeof courseState>) {
-  const { content, 'course-page': coursePages, license } = props.state
+function PageTypeEditor(props: StatefulPluginEditorProps<typeof pageTypeState>) {
+  const { title, content } = props.state
+
+  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    title.set(e.target.value)
+  }
 
   return (
-    <div>
-      {content.render()}
-      {coursePages.items.map(page => {
-        return (
-          <React.Fragment key={page.id}>
-            {page.render({ skipControls: true })}
-          </React.Fragment>
-        )
-      })}
-      <div>
-        <img src={license.iconHref.value} />
-        {license.title.value}
-      </div>
+    <article>
+      <header>
+        <div className="page-header">
+          <h1>
+            {props.editable ? (
+              <EditorInput
+                placeholder="Titel"
+                value={title.value}
+                onChange={handleTitleChange}
+              />
+            ) : (
+              <span itemProp="name">{title.value}</span>
+            )}
+          </h1>
+        </div>
+      </header>
+      <section>{content.render()}</section>
       <Controls />
-    </div>
+    </article>
   )
 }

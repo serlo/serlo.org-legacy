@@ -25,45 +25,40 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { EditorInput } from '@edtr-io/editor-ui'
-import { Controls, editorContent } from './common'
+import {
+  editorContent,
+  standardElements,
+  Controls,
+  serializedChild
+} from '../entities/common'
 
-export const pageState = StateType.object({
-  title: StateType.string(),
-  content: editorContent()
+export const textExerciseTypeState = StateType.object({
+  ...standardElements,
+  content: editorContent(),
+  'text-solution': serializedChild('textSolutionEntity')
 })
 
-export const pagePlugin: StatefulPlugin<typeof pageState> = {
-  Component: PageEditor,
-  state: pageState
+export const textExerciseTypePlugin: StatefulPlugin<typeof textExerciseTypeState> = {
+  Component: TextExerciseTypeEditor,
+  state: textExerciseTypeState
 }
 
-function PageEditor(props: StatefulPluginEditorProps<typeof pageState>) {
-  const { title, content } = props.state
-
-  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    title.set(e.target.value)
+export function TextExerciseTypeEditor(
+  props: StatefulPluginEditorProps<typeof textExerciseTypeState> & {
+    skipControls?: boolean
   }
+) {
+  const { content, 'text-solution': textSolution, license } = props.state
 
   return (
-    <article>
-      <header>
-        <div className="page-header">
-          <h1>
-            {props.editable ? (
-              <EditorInput
-                placeholder="Titel"
-                value={title.value}
-                onChange={handleTitleChange}
-              />
-            ) : (
-              <span itemProp="name">{title.value}</span>
-            )}
-          </h1>
-        </div>
-      </header>
-      <section>{content.render()}</section>
-      <Controls />
-    </article>
+    <div>
+      {content.render()}
+      <div>{textSolution.render()}</div>
+      <div>
+        <img src={license.iconHref.value} />
+        {license.title.value}
+      </div>
+      {props.skipControls ? null : <Controls />}
+    </div>
   )
 }

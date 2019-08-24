@@ -35,9 +35,9 @@ import {
   editorContent,
   EntitySettings,
   HeaderInput
-} from './common'
+} from '../entities/common'
 
-export const articleEntityState = StateType.object({
+export const articleTypeState = StateType.object({
   ...standardElements,
   title: StateType.string(),
   content: editorContent(),
@@ -46,13 +46,13 @@ export const articleEntityState = StateType.object({
   meta_description: StateType.string()
 })
 
-export const articleEntityPlugin: StatefulPlugin<typeof articleEntityState> = {
-  Component: ArticleEntityEditor,
-  state: articleEntityState
+export const articleTypePlugin: StatefulPlugin<typeof articleTypeState> = {
+  Component: ArticleTypeEditor,
+  state: articleTypeState
 }
 
-function ArticleEntityEditor(
-  props: StatefulPluginEditorProps<typeof articleEntityState>
+function ArticleTypeEditor(
+  props: StatefulPluginEditorProps<typeof articleTypeState>
 ) {
   const {
     title,
