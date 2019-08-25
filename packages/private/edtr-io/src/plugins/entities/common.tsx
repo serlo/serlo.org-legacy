@@ -42,6 +42,8 @@ import BSFormControl from 'react-bootstrap/lib/FormControl'
 import { createPortal } from 'react-dom'
 
 import { SaveContext } from '../../editor'
+import { hasPendingChanges } from '@edtr-io/core/dist/store/history/reducer'
+import { button } from '@storybook/addon-knobs'
 
 export const licenseState = StateType.object({
   id: StateType.number(),
@@ -98,35 +100,6 @@ const connect = connectStore<
   }
 )
 
-const StyledSettings = styled.div({
-  position: 'absolute',
-  top: 0,
-  left: '-10px',
-  transformOrigin: 'center top',
-  transform: 'translateX(-100%)'
-})
-
-const Content = styled.div({
-  paddingBottom: '10px',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-end',
-  zIndex: 16,
-  position: 'relative',
-  transition: '250ms all ease-in-out'
-})
-
-const StyledIconContainer = styled.div({
-  height: '24px',
-  opacity: 0.8,
-  cursor: 'pointer',
-  color: 'rgb(51,51,51,0.95)',
-
-  '&:hover': {
-    color: 'rgb(70,155,255)'
-  }
-})
-
 export const HeaderInput = styled.input({
   border: 'none',
   width: '100%',
@@ -136,51 +109,6 @@ export const HeaderInput = styled.input({
     borderColor: '#007ec1'
   }
 })
-
-const SettingsIcon = (props: { open: () => void }) => (
-  <span onClick={props.open}>
-    <StyledIconContainer title="Einstellungen">
-      <Icon icon={faCog} size="lg" />
-    </StyledIconContainer>
-  </span>
-)
-
-export const EntitySettings = function(props: React.PropsWithChildren<{}>) {
-  const [open, setOpen] = React.useState(false)
-  return (
-    <React.Fragment>
-      <StyledSettings>
-        <Content>
-          <SettingsIcon
-            open={() => {
-              setOpen(true)
-            }}
-          />
-        </Content>
-      </StyledSettings>
-      <BSModal
-        show={open}
-        onHide={() => {
-          setOpen(false)
-        }}
-      >
-        <BSModal.Header closeButton>
-          <BSModal.Title>Einstellungen</BSModal.Title>
-        </BSModal.Header>
-        <BSModal.Body>{props.children}</BSModal.Body>
-        <BSModal.Footer>
-          <BSButton
-            onClick={() => {
-              setOpen(false)
-            }}
-          >
-            Schließen
-          </BSButton>
-        </BSModal.Footer>
-      </BSModal>
-    </React.Fragment>
-  )
-}
 
 export const Controls = function(props: OwnProps) {
   const { scope } = React.useContext(ScopeContext)
@@ -237,23 +165,7 @@ const InnerControls = connect(function SaveButton(
           >
             <span className="fa fa-repeat"></span>
           </button>
-          <button
-            className="btn btn-success"
-            onClick={() => {
-              if (props.changes || props.license || props.subscriptions) {
-                overlay.show()
-              } else {
-                handleSave()
-              }
-            }}
-            disabled={!props.hasPendingChanges || !maySave() || pending}
-          >
-            {pending ? (
-              <span className="fa fa-spinner fa-spin" />
-            ) : (
-              <span className="fa fa-save" />
-            )}
-          </button>
+          {renderSaveButton()}
         </div>,
         document.getElementsByClassName('controls')[0]
       )}
@@ -298,6 +210,31 @@ const InnerControls = connect(function SaveButton(
       </BSModal>
     </React.Fragment>
   )
+
+  function renderSaveButton() {
+    const useOverlay = props.changes || props.license || props.subscriptions
+    const buttonProps = useOverlay
+      ? {
+          onClick() {
+            overlay.show()
+          },
+          disabled: !props.hasPendingChanges,
+          children: <span className="fa fa-save" />
+        }
+      : {
+          onClick() {
+            handleSave()
+          },
+          disabled: !props.hasPendingChanges || !maySave() || pending,
+          children: pending ? (
+            <span className="fa fa-spinner fa-spin" />
+          ) : (
+            <span className="fa fa-save" />
+          )
+        }
+
+    return <button className="btn btn-success" {...buttonProps} />
+  }
 
   function maySave() {
     if (!props.license) return true

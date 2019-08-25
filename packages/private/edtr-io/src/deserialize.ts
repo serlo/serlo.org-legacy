@@ -376,8 +376,8 @@ export function deserialize({ initialState, type }: EditorProps) {
   }
 
   interface CoursePageSerializedState extends Entity {
-    icon?: 'explanation' | 'play' | 'question'
     title: string
+    icon?: 'explanation' | 'play' | 'question'
     content: SerializedEditorState
   }
 
