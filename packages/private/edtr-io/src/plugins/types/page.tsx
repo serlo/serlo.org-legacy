@@ -48,7 +48,7 @@ export const pageTypePlugin: StatefulPlugin<typeof pageTypeState> = {
 function PageTypeEditor(
   props: StatefulPluginEditorProps<typeof pageTypeState>
 ) {
-  const { title, content, license } = props.state
+  const { title, content } = props.state
 
   return (
     <article>
@@ -70,7 +70,7 @@ function PageTypeEditor(
         </div>
       </header>
       <section itemProp="articleBody">{content.render()}</section>
-      <Controls license={license} />
+      <Controls {...props.state} />
     </article>
   )
 }

@@ -25,8 +25,13 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { EditorInput } from '@edtr-io/editor-ui'
-import { entity, Controls, editorContent } from '../entities/common'
+import {
+  entity,
+  Controls,
+  editorContent,
+  HeaderInput
+} from '../entities/common'
+import { Settings } from './helpers/settings'
 
 export const coursePageTypeState = StateType.object({
   ...entity,
@@ -47,30 +52,45 @@ function CoursePageTypeEditor(
     skipControls?: boolean
   }
 ) {
-  const { icon, content, title, changes, license } = props.state
-
-  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    title.set(e.target.value)
-  }
+  const { title, icon, content } = props.state
 
   return (
     <article>
-      {icon()}
-      <div className="page-header">
-        <h1>
-          {props.editable ? (
-            <EditorInput
-              placeholder="Titel"
-              value={title.value}
-              onChange={handleTitleChange}
-            />
-          ) : (
-            <span itemProp="name">{title.value}</span>
-          )}{' '}
-        </h1>
-      </div>
+      <Settings>
+        <Settings.Select
+          label="Icon"
+          state={icon}
+          options={[
+            {
+              label: 'Erklärung',
+              value: 'explanation'
+            },
+            {
+              label: 'Video',
+              value: 'play'
+            },
+            {
+              label: 'Aufgabe',
+              value: 'question'
+            }
+          ]}
+        />
+      </Settings>
+      <h1>
+        {props.editable ? (
+          <HeaderInput
+            placeholder="Titel"
+            value={title.value}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              title.set(e.target.value)
+            }}
+          />
+        ) : (
+          <span itemProp="name">{title.value}</span>
+        )}
+      </h1>
       {content.render()}
-      {props.skipControls ? null : <Controls />}
+      {props.skipControls ? null : <Controls {...props.state} />}
     </article>
   )
 }

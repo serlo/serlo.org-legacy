@@ -24,50 +24,46 @@ import { videoTypeState } from './plugins/types/video'
 import { Entity, License, Uuid } from './plugins/entities/common'
 import { EditorProps } from './editor'
 
-export function deserialize(props: EditorProps) {
-  switch (props.type) {
+export function deserialize({ initialState, type }: EditorProps) {
+  switch (type) {
     case 'applet': {
       return {
         plugin: 'type-applet',
-        state: deserializeApplet(props.initialState as AppletSerializedState)
+        state: deserializeApplet(initialState as AppletSerializedState)
       }
     }
     case 'article':
       return {
         plugin: 'type-article',
-        state: deserializeArticle(props.initialState as ArticleSerializedState)
+        state: deserializeArticle(initialState as ArticleSerializedState)
       }
     case 'course': {
       return {
         plugin: 'type-course',
-        state: deserializeCourse(props.initialState as CourseSerializedState)
+        state: deserializeCourse(initialState as CourseSerializedState)
       }
     }
     case 'course-page': {
       return {
         plugin: 'type-course-page',
-        state: deserializeCoursePage(
-          props.initialState as CoursePageSerializedState
-        )
+        state: deserializeCoursePage(initialState as CoursePageSerializedState)
       }
     }
     case 'event':
       return {
         plugin: 'type-event',
-        state: deserializeEvent(props.initialState as EventSerializedState)
+        state: deserializeEvent(initialState as EventSerializedState)
       }
     case 'math-puzzle': {
       return {
         plugin: 'type-math-puzzle',
-        state: deserializeMathPuzzle(
-          props.initialState as MathPuzzleSerializedState
-        )
+        state: deserializeMathPuzzle(initialState as MathPuzzleSerializedState)
       }
     }
     case 'page': {
       return {
         plugin: 'type-page',
-        state: deserializePage(props.initialState as PageSerializedState)
+        state: deserializePage(initialState as PageSerializedState)
       }
     }
     case 'grouped-text-exercise':
@@ -75,35 +71,35 @@ export function deserialize(props: EditorProps) {
       return {
         plugin: 'type-text-exercise',
         state: deserializeTextExercise(
-          props.initialState as TextExerciseSerializedState
+          initialState as TextExerciseSerializedState
         )
       }
     case 'text-exercise-group':
       return {
         plugin: 'type-text-exercise-group',
         state: deserializeTextExerciseGroup(
-          props.initialState as TextExerciseGroupSerializedState
+          initialState as TextExerciseGroupSerializedState
         )
       }
     case 'text-solution':
       return {
         plugin: 'type-text-solution',
         state: deserializeTextSolution(
-          props.initialState as TextSolutionSerializedState
+          initialState as TextSolutionSerializedState
         )
       }
     case 'user':
       return {
         plugin: 'type-user',
-        state: deserializeUser(props.initialState as UserSerializedState)
+        state: deserializeUser(initialState as UserSerializedState)
       }
     case 'video':
       return {
         plugin: 'type-video',
-        state: deserializeVideo(props.initialState as VideoSerializedState)
+        state: deserializeVideo(initialState as VideoSerializedState)
       }
     default:
-      console.log(props)
+      console.log(type, initialState)
       return null
   }
 
@@ -380,8 +376,8 @@ export function deserialize(props: EditorProps) {
   }
 
   interface CoursePageSerializedState extends Entity {
-    icon?: 'explanation' | 'play' | 'question'
     title: string
+    icon?: 'explanation' | 'play' | 'question'
     content: SerializedEditorState
   }
 

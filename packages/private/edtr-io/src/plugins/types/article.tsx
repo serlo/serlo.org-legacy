@@ -20,9 +20,6 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as React from 'react'
-import BSFormGroup from 'react-bootstrap/lib/FormGroup'
-import BSControlLabel from 'react-bootstrap/lib/ControlLabel'
-import BSFormControl from 'react-bootstrap/lib/FormControl'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
@@ -32,9 +29,9 @@ import {
   Controls,
   editorContent,
   entity,
-  EntitySettings,
   HeaderInput
 } from '../entities/common'
+import { Settings } from './helpers/settings'
 
 export const articleTypeState = StateType.object({
   ...entity,
@@ -53,42 +50,18 @@ export const articleTypePlugin: StatefulPlugin<typeof articleTypeState> = {
 function ArticleTypeEditor(
   props: StatefulPluginEditorProps<typeof articleTypeState>
 ) {
-  const {
-    title,
-    content,
-    meta_title,
-    meta_description,
-    changes,
-    license
-  } = props.state
+  const { title, content, meta_title, meta_description } = props.state
 
   return (
     <React.Fragment>
       <div className="page-header">
-        <EntitySettings>
-          <BSFormGroup>
-            <BSControlLabel>Suchmaschinen-Titel</BSControlLabel>
-            <BSFormControl
-              componentClass="textarea"
-              value={meta_title.value}
-              onChange={e => {
-                const { value } = e.target as HTMLTextAreaElement
-                meta_title.set(value)
-              }}
-            />
-          </BSFormGroup>
-          <BSFormGroup>
-            <BSControlLabel>Suchmaschinen-Beschreibung</BSControlLabel>
-            <BSFormControl
-              componentClass="textarea"
-              value={meta_description.value}
-              onChange={e => {
-                const { value } = e.target as HTMLTextAreaElement
-                meta_description.set(value)
-              }}
-            />
-          </BSFormGroup>
-        </EntitySettings>
+        <Settings>
+          <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />
+          <Settings.Textarea
+            label="Suchmaschinen-Beschreibung"
+            state={meta_description}
+          />
+        </Settings>
         <h1>
           {props.editable ? (
             <HeaderInput
@@ -104,7 +77,7 @@ function ArticleTypeEditor(
         </h1>
       </div>
       <div itemProp="articleBody">{content.render()}</div>
-      <Controls license={license} subscriptions changes={changes} />
+      <Controls {...props.state} />
     </React.Fragment>
   )
 }
