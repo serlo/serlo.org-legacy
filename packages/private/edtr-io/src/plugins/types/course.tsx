@@ -29,8 +29,10 @@ import {
   editorContent,
   entity,
   Controls,
-  serializedChild
+  serializedChild,
+  HeaderInput
 } from '../entities/common'
+import { Settings } from './helpers/settings'
 
 export const courseTypeState = StateType.object({
   ...entity,
@@ -38,7 +40,7 @@ export const courseTypeState = StateType.object({
   content: editorContent(),
   reasoning: editorContent(),
   meta_description: StateType.string(),
-  'course-page': StateType.list(serializedChild('coursePageEntity'))
+  'course-page': StateType.list(serializedChild('type-course-page'))
 })
 
 export const courseTypePlugin: StatefulPlugin<typeof courseTypeState> = {
@@ -49,23 +51,44 @@ export const courseTypePlugin: StatefulPlugin<typeof courseTypeState> = {
 function CourseTypeEditor(
   props: StatefulPluginEditorProps<typeof courseTypeState>
 ) {
-  const { content, 'course-page': coursePages, license } = props.state
+  const {
+    title,
+    content,
+    meta_description,
+    'course-page': children
+  } = props.state
 
   return (
-    <div>
+    <article>
+      <Settings>
+        <Settings.Textarea
+          label="Suchmaschinen-Beschreibung"
+          state={meta_description}
+        />
+      </Settings>
+      <h1>
+        {props.editable ? (
+          <HeaderInput
+            placeholder="Titel"
+            value={title.value}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              title.set(e.target.value)
+            }}
+          />
+        ) : (
+          <span itemProp="name">{title.value}</span>
+        )}
+      </h1>
       {content.render()}
-      {coursePages.items.map(page => {
+      {children.items.map(child => {
         return (
-          <React.Fragment key={page.id}>
-            {page.render({ skipControls: true })}
+          <React.Fragment key={child.id}>
+            <hr />
+            {child.render({ skipControls: true })}
           </React.Fragment>
         )
       })}
-      <div>
-        <img src={license.iconHref.value} />
-        {license.title.value}
-      </div>
-      <Controls />
-    </div>
+      <Controls {...props.state} />
+    </article>
   )
 }

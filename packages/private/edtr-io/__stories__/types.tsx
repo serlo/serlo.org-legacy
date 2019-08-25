@@ -25,6 +25,33 @@ addContentTypeStories('Article', 'article', {
   meta_description: ''
 })
 
+addContentTypeStories('Course', 'course', {
+  id: 1337,
+  license: ccBy,
+  changes: '',
+  title: 'Title',
+  reasoning: '',
+  meta_description: '',
+  'course-page': [
+    {
+      id: 1338,
+      license: ccBy,
+      changes: '',
+      title: 'Page 1',
+      icon: 'explanation',
+      content: ''
+    },
+    {
+      id: 1339,
+      license: ccBy,
+      changes: '',
+      title: 'Page 2',
+      icon: 'explanation',
+      content: ''
+    }
+  ]
+})
+
 addContentTypeStories('Course Page', 'course-page', {
   id: 1337,
   license: ccBy,

@@ -10,7 +10,7 @@ import BSModal from 'react-bootstrap/lib/Modal'
 
 const StyledSettings = styled.div({
   position: 'absolute',
-  top: 0,
+  top: '10px',
   left: '-10px',
   transformOrigin: 'center top',
   transform: 'translateX(-100%)'
@@ -50,7 +50,7 @@ function SettingsIcon(props: { open: () => void }) {
 export function Settings(props: React.PropsWithChildren<{}>) {
   const [open, setOpen] = React.useState(false)
   return (
-    <React.Fragment>
+    <div style={{ position: 'relative' }}>
       <StyledSettings>
         <Content>
           <SettingsIcon
@@ -80,7 +80,7 @@ export function Settings(props: React.PropsWithChildren<{}>) {
           </BSButton>
         </BSModal.Footer>
       </BSModal>
-    </React.Fragment>
+    </div>
   )
 }
 
