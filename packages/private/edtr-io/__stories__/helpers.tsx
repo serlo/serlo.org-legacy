@@ -396,7 +396,7 @@ export function Container({ children }: React.PropsWithChildren<{}>) {
             </section>
           </div>
         </div>
-        <script type="text/javascript" src="http://localhost:8081//main.js" />
+        <script type="text/javascript" src="http://localhost:8081/main.js" />
       </div>
     </React.Fragment>
   )

@@ -25,8 +25,8 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { EditorInput } from '@edtr-io/editor-ui'
 import { entity, Controls, editorContent } from '../entities/common'
+import { Settings } from './helpers/settings'
 
 export const mathPuzzleTypeState = StateType.object({
   ...entity,
@@ -44,57 +44,17 @@ export const mathPuzzleTypePlugin: StatefulPlugin<
 function MathPuzzleTypeEditor(
   props: StatefulPluginEditorProps<typeof mathPuzzleTypeState>
 ) {
-  const { source, content, changes, license } = props.state
-
-  function handleSourceChange(e: React.ChangeEvent<HTMLInputElement>) {
-    source.set(e.target.value)
-  }
-
-  console.log('state', props.state.content())
-  console.log('foo')
+  const { source, content } = props.state
 
   return (
-    <article>
-      <div className="page-header">
-        <h1>
-          {props.editable ? (
-            <EditorInput
-              placeholder="Source"
-              value={source.value}
-              onChange={handleSourceChange}
-            />
-          ) : (
-            <span itemProp="name">{source.value}</span>
-          )}{' '}
-        </h1>
+    <React.Fragment>
+      <Settings>
+        <Settings.Textarea label="Quellcode" state={source} />
+      </Settings>
+      <div className="math-puzzle" data-source={source.value}>
+        {content.render()}
       </div>
-      <div itemProp="articleBody">{content.render()}</div>
-      <Controls />
-      {/*{props.editable && props.focused ? (*/}
-      {/*  <React.Fragment>*/}
-      {/*    {reasoning.render()}*/}
-      {/*    <Overlay>*/}
-      {/*      <OverlayInput*/}
-      {/*        label="Suchmaschinen-Titel"*/}
-      {/*        placeholder="Ein Titel für die Suchmaschine. Standardwert: der Titel"*/}
-      {/*        value={meta_title.value}*/}
-      {/*        onChange={handleMetaTitleChange}*/}
-      {/*      />*/}
-      {/*      <Textarea*/}
-      {/*        label="Suchmaschinen-Beschreibung"*/}
-      {/*        placeholder="Gib hier eine Beschreibung für die Suchmaschine ein (ca. 160 Zeichen). Standardwert: Der Anfang des Artikels"*/}
-      {/*        value={meta_description.value}*/}
-      {/*        onChange={handleMetaDescriptionChange}*/}
-      {/*      />*/}
-      {/*      <OverlayInput*/}
-      {/*        label="Lizenz"*/}
-      {/*        value={license.id.value}*/}
-      {/*        disabled={true}*/}
-      {/*        onChange={handleLicenseChange}*/}
-      {/*      />*/}
-      {/*    </Overlay>*/}
-      {/*  </React.Fragment>*/}
-      {/*) : null}*/}
-    </article>
+      <Controls {...props.state} />
+    </React.Fragment>
   )
 }
