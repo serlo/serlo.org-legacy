@@ -30,9 +30,9 @@ import {
   entity,
   Controls,
   editorContent,
-  serializedChild
+  serializedChild,
+  HeaderInput
 } from '../entities/common'
-import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 
 export const videoTypeState = StateType.object({
   ...entity,
@@ -50,69 +50,30 @@ export const videoTypePlugin: StatefulPlugin<typeof videoTypeState> = {
 function VideoTypeEditor(
   props: StatefulPluginEditorProps<typeof videoTypeState>
 ) {
-  const {
-    title,
-    content,
-    description,
-    reasoning,
-    changes,
-    license
-  } = props.state
-
-  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    title.set(e.target.value)
-  }
-
-  function handleLicenseChange(e: React.ChangeEvent<HTMLInputElement>) {
-    //TODO
-  }
-
-  console.log('state', props.state.content())
-  console.log('foo')
+  const { title, content, description } = props.state
 
   return (
-    <article>
+    <section>
       <div className="page-header">
         <h1>
           {props.editable ? (
-            <EditorInput
+            <HeaderInput
               placeholder="Titel"
               value={title.value}
-              onChange={handleTitleChange}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                title.set(e.target.value)
+              }}
             />
           ) : (
             <span itemProp="name">{title.value}</span>
-          )}{' '}
+          )}
         </h1>
       </div>
-      <div itemProp="articleBody">{content.render()}</div>
-      <div itemProp="articleBody">{description.render()}</div>
-      <Controls />
-      {/*{props.editable && props.focused ? (*/}
-      {/*  <React.Fragment>*/}
-      {/*    {reasoning.render()}*/}
-      {/*    <Overlay>*/}
-      {/*      <OverlayInput*/}
-      {/*        label="Suchmaschinen-Titel"*/}
-      {/*        placeholder="Ein Titel für die Suchmaschine. Standardwert: der Titel"*/}
-      {/*        value={meta_title.value}*/}
-      {/*        onChange={handleMetaTitleChange}*/}
-      {/*      />*/}
-      {/*      <Textarea*/}
-      {/*        label="Suchmaschinen-Beschreibung"*/}
-      {/*        placeholder="Gib hier eine Beschreibung für die Suchmaschine ein (ca. 160 Zeichen). Standardwert: Der Anfang des Artikels"*/}
-      {/*        value={meta_description.value}*/}
-      {/*        onChange={handleMetaDescriptionChange}*/}
-      {/*      />*/}
-      {/*      <OverlayInput*/}
-      {/*        label="Lizenz"*/}
-      {/*        value={license.id.value}*/}
-      {/*        disabled={true}*/}
-      {/*        onChange={handleLicenseChange}*/}
-      {/*      />*/}
-      {/*    </Overlay>*/}
-      {/*  </React.Fragment>*/}
-      {/*) : null}*/}
-    </article>
+      <article>
+        <section>{content.render()}</section>
+        <section>{description.render()}</section>
+      </article>
+      <Controls subscriptions {...props.state} />
+    </section>
   )
 }

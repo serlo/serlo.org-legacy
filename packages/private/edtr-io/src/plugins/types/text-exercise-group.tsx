@@ -35,7 +35,7 @@ import {
 export const textExerciseGroupTypeState = StateType.object({
   ...entity,
   content: editorContent(),
-  'grouped-text-exercise': StateType.list(serializedChild('textExerciseEntity'))
+  'grouped-text-exercise': StateType.list(serializedChild('type-text-exercise'))
 })
 
 export const textExerciseGroupTypePlugin: StatefulPlugin<
@@ -48,27 +48,24 @@ export const textExerciseGroupTypePlugin: StatefulPlugin<
 function TextExerciseGroupTypeEditor(
   props: StatefulPluginEditorProps<typeof textExerciseGroupTypeState>
 ) {
-  const {
-    content,
-    'grouped-text-exercise': groupedTextExercises,
-    license
-  } = props.state
+  const { content, 'grouped-text-exercise': children } = props.state
 
   return (
-    <div>
-      {content.render()}
-      {groupedTextExercises.items.map(exercise => {
+    <article className="exercisegroup">
+      <section className="row">{content.render()}</section>
+      {children.items.map((child, index) => {
         return (
-          <React.Fragment key={exercise.id}>
-            {exercise.render({ skipControls: true })}
-          </React.Fragment>
+          <section className="row" key={child.id}>
+            <div className="col-sm-1 hidden-xs">
+              <em>{String.fromCharCode(97 + index)})</em>
+            </div>
+            <div className="col-sm-11 col-xs-12">
+              {child.render({ skipControls: true })}
+            </div>
+          </section>
         )
       })}
-      <div>
-        <img src={license.iconHref.value} />
-        {license.title.value}
-      </div>
-      <Controls />
-    </div>
+      <Controls subscriptions {...props.state} />
+    </article>
   )
 }

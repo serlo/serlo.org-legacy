@@ -26,11 +26,12 @@ import {
   StateType
 } from '@edtr-io/core'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
-import { editorContent, entity } from '../entities/common'
+import { Controls, editorContent, entity } from '../entities/common'
 
 export const textSolutionTypeState = StateType.object({
   ...entity,
-  title: StateType.string(),
+  // FIXME: solutions don't have a title
+  title: StateType.string(''),
   content: editorContent()
 })
 
@@ -42,7 +43,14 @@ export const textSolutionTypePlugin: StatefulPlugin<
 }
 
 function TextSolutionTypeEditor(
-  props: StatefulPluginEditorProps<typeof textSolutionTypeState>
+  props: StatefulPluginEditorProps<typeof textSolutionTypeState> & {
+    skipControls?: boolean
+  }
 ) {
-  return <solutionPlugin.Component {...props} />
+  return (
+    <React.Fragment>
+      <solutionPlugin.Component {...props} />
+      {props.skipControls ? null : <Controls subscriptions {...props.state} />}
+    </React.Fragment>
+  )
 }

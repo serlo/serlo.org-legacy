@@ -396,6 +396,27 @@ export function serializedChild(
   })
 }
 
+export function optionalSerializedChild(plugin: string) {
+  const child = serializedChild(plugin)
+  const { serialize, deserialize } = child
+  return Object.assign(child, {
+    serialize(
+      deserialized: string,
+      helpers: Parameters<typeof child.serialize>[1]
+    ) {
+      if (!deserialized) return null
+      return serialize(deserialized, helpers)
+    },
+    deserialize(
+      serialized: string | null,
+      helpers: Parameters<typeof child.deserialize>[1]
+    ) {
+      if (!serialized) return null
+      return deserialize(serialized, helpers)
+    }
+  })
+}
+
 interface StateProps {
   hasPendingChanges: ReturnType<typeof selectors.hasPendingChanges>
   undoable: boolean
