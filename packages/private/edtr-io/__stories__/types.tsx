@@ -115,6 +115,7 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
     state: {
       id: 1337,
       license: ccBy,
+      changes: '',
       content: ''
     }
   },
@@ -123,6 +124,7 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
     state: {
       id: 1337,
       license: ccBy,
+      changes: '',
       content: '',
       'text-solution': {
         id: 1338,
@@ -136,20 +138,68 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
     state: {
       id: 1337,
       license: ccBy,
+      changes: '',
       content: '',
       'text-hint': {
         id: 1338,
         license: ccBy,
+        changes: '',
         content: ''
       },
       'text-solution': {
-        id: 1338,
+        id: 1339,
         license: ccBy,
+        changes: '',
         content: ''
       }
     }
   }
 ])
+
+addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
+  id: 1337,
+  license: ccBy,
+  changes: '',
+  content: '',
+  'grouped-text-exercise': [
+    {
+      id: 1338,
+      license: ccBy,
+      changes: '',
+      content: ''
+    },
+    {
+      id: 1339,
+      license: ccBy,
+      changes: '',
+      content: '',
+      'text-solution': {
+        id: 1340,
+        license: ccBy,
+        changes: '',
+        content: ''
+      }
+    },
+    {
+      id: 1341,
+      license: ccBy,
+      changes: '',
+      content: '',
+      'text-hint': {
+        id: 1342,
+        license: ccBy,
+        changes: '',
+        content: ''
+      },
+      'text-solution': {
+        id: 1343,
+        license: ccBy,
+        changes: '',
+        content: ''
+      }
+    }
+  ]
+})
 
 addContentTypeStories('User', 'user', {
   id: 1337,
