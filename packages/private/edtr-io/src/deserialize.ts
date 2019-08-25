@@ -427,8 +427,8 @@ export function deserialize({ initialState, type }: EditorProps) {
   interface EventSerializedState extends Entity {
     title: string
     content: SerializedEditorState
-    meta_description: string
     meta_title: string
+    meta_description: string
   }
 
   interface MathPuzzleSerializedState extends Entity {

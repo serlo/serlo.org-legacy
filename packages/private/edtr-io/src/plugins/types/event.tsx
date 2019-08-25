@@ -25,9 +25,14 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { EditorInput } from '@edtr-io/editor-ui'
 
-import { editorContent, entity, Controls } from '../entities/common'
+import {
+  editorContent,
+  entity,
+  Controls,
+  HeaderInput
+} from '../entities/common'
+import { Settings } from './helpers/settings'
 
 export const eventTypeState = StateType.object({
   ...entity,
@@ -45,29 +50,34 @@ export const eventTypePlugin: StatefulPlugin<typeof eventTypeState> = {
 function EventTypeEditor(
   props: StatefulPluginEditorProps<typeof eventTypeState>
 ) {
-  const { content, title, license } = props.state
-
-  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    title.set(e.target.value)
-  }
+  const { content, title, meta_title, meta_description } = props.state
 
   return (
-    <div>
+    <React.Fragment>
       <div className="page-header">
+        <Settings>
+          <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />
+          <Settings.Textarea
+            label="Suchmaschinen-Beschreibung"
+            state={meta_description}
+          />
+        </Settings>
         <h1>
           {props.editable ? (
-            <EditorInput
+            <HeaderInput
               placeholder="Titel"
               value={title.value}
-              onChange={handleTitleChange}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                title.set(e.target.value)
+              }}
             />
           ) : (
             <span itemProp="name">{title.value}</span>
-          )}{' '}
+          )}
         </h1>
       </div>
-      {content.render()}
-      <Controls subscriptions />
-    </div>
+      <article>{content.render()}</article>
+      <Controls subscriptions {...props.state} />
+    </React.Fragment>
   )
 }

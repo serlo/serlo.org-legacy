@@ -94,6 +94,16 @@ addContentTypeStories('Course Page', 'course-page', {
   content: ''
 })
 
+addContentTypeStories('Event', 'event', {
+  id: 1337,
+  license: ccBy,
+  changes: '',
+  title: 'Title',
+  content: '',
+  meta_title: '',
+  meta_description: ''
+})
+
 addContentTypeStories('Math Puzzle', 'math-puzzle', {
   id: 1337,
   license: ccBy,
