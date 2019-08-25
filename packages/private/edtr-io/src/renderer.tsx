@@ -22,7 +22,9 @@
 import { Renderer as Core, RendererProps } from '@edtr-io/renderer'
 import * as React from 'react'
 
-import { plugins } from './plugins'
+import { createPlugins } from './plugins'
+
+const plugins = createPlugins()
 
 export function Renderer(
   props: React.PropsWithChildren<{

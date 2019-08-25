@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { render as coreRender } from '@edtr-io/renderer-ssr'
-import { plugins } from '@serlo/edtr-io'
+import { createPlugins } from '@serlo/edtr-io'
 import { stringifyState } from '@serlo/editor-helpers'
 import {
   convert,
@@ -30,6 +30,8 @@ import {
   Splish
 } from '@serlo/legacy-editor-to-editor'
 import * as React from 'react'
+
+const plugins = createPlugins()
 
 export async function render(input: string): Promise<string> {
   if (input === undefined) throw new Error('No input given')

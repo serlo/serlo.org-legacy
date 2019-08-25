@@ -20,10 +20,26 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { Editor as Core } from '@edtr-io/core'
+import { PluginRegistry } from '@edtr-io/plugin-rows'
+
 import * as React from 'react'
 
 import { deserialize } from './deserialize'
-import { plugins } from './plugins'
+import { createPlugins } from './plugins'
+import { textPlugin } from '@edtr-io/plugin-text'
+import { anchorPlugin } from '@edtr-io/plugin-anchor'
+import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
+import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
+import { highlightPlugin } from '@edtr-io/plugin-highlight'
+import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
+import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
+import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
+import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
+import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
+import { tablePlugin } from '@edtr-io/plugin-table'
+import { videoPlugin } from '@edtr-io/plugin-video'
+
+import { imagePlugin } from './plugins/image'
 
 export interface EditorProps {
   children?: React.ReactNode
@@ -38,7 +54,7 @@ export const SaveContext = React.createContext<EditorProps['onSave']>(() => {
 
 export function Editor(props: EditorProps) {
   const initialState = deserialize(props)
-  console.log('deserialized state', initialState)
+  const plugins = createPlugins(getRegistry())
 
   if (!initialState) {
     const url = window.location.pathname.replace(
@@ -79,4 +95,74 @@ export function Editor(props: EditorProps) {
       </Core>
     </SaveContext.Provider>
   )
+
+  function getRegistry(): PluginRegistry {
+    const isExercise = [
+      'grouped-text-exercise',
+      'text-exercise',
+      'grouped-text-exercise'
+    ].includes(props.type)
+    return [
+      {
+        ...textPlugin,
+        name: 'text'
+      },
+      {
+        ...blockquotePlugin,
+        name: 'blockquote'
+      },
+      {
+        ...geogebraPlugin,
+        name: 'geogebra'
+      },
+      {
+        ...highlightPlugin,
+        name: 'highlight'
+      },
+      {
+        ...anchorPlugin,
+        name: 'anchor'
+      },
+      {
+        ...imagePlugin,
+        name: 'image'
+      },
+      {
+        ...importantStatementPlugin,
+        name: 'important'
+      },
+      {
+        ...serloInjectionPlugin,
+        name: 'injection'
+      },
+      ...(isExercise
+        ? [
+            {
+              ...inputExercisePlugin,
+              name: 'inputExercise'
+            }
+          ]
+        : []),
+      ...(isExercise
+        ? [
+            {
+              ...scMcExercisePlugin,
+              name: 'scMcExercise'
+            }
+          ]
+        : []),
+      {
+        ...spoilerPlugin,
+        name: 'spoiler'
+      },
+      {
+        ...tablePlugin,
+        name: 'table'
+      },
+      {
+        ...videoPlugin,
+        name: 'video'
+      }
+    ]
+  }
 }
