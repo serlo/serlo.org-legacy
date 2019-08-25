@@ -1,3 +1,24 @@
+/**
+ * This file is part of Serlo.org.
+ *
+ * Copyright (c) 2013-2019 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
+ */
 import { StateType } from '@edtr-io/core'
 import {
   convert,
@@ -352,11 +373,11 @@ export function deserialize({ initialState, type }: EditorProps) {
 
   interface AppletSerializedState extends Entity {
     title: string
-    content: SerializedEditorState
-    meta_description: string
-    meta_title: string
-    reasoning: SerializedEditorState
     url: string
+    content: SerializedEditorState
+    reasoning: SerializedEditorState
+    meta_title: string
+    meta_description: string
   }
 
   interface ArticleSerializedState extends Entity {
