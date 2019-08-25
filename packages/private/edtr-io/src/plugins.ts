@@ -19,8 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { StatefulPlugin } from '@edtr-io/core'
-import { textPlugin } from '@edtr-io/plugin-text'
+import { createTextPlugin } from '@edtr-io/plugin-text'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
@@ -28,7 +27,7 @@ import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
 import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
-import { rowsPlugin } from '@edtr-io/plugin-rows'
+import { createRowsPlugin, PluginRegistry } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
@@ -53,38 +52,40 @@ import { errorPlugin } from './plugins/error'
 import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
 
-export const plugins: Record<string, StatefulPlugin<any, any>> = {
-  anchor: anchorPlugin,
-  blockquote: blockquotePlugin,
-  error: errorPlugin,
-  geogebra: geogebraPlugin,
-  highlight: highlightPlugin,
-  hint: hintPlugin,
-  image: imagePlugin,
-  important: importantStatementPlugin,
-  injection: serloInjectionPlugin,
-  inputExercise: inputExercisePlugin,
-  layout: layoutPlugin,
-  rows: rowsPlugin,
-  scMcExercise: scMcExercisePlugin,
-  solution: solutionPlugin,
-  spoiler: spoilerPlugin,
-  table: tablePlugin,
-  text: textPlugin,
-  video: videoPlugin,
+export function createPlugins(registry?: PluginRegistry) {
+  return {
+    anchor: anchorPlugin,
+    blockquote: blockquotePlugin,
+    error: errorPlugin,
+    geogebra: geogebraPlugin,
+    highlight: highlightPlugin,
+    hint: hintPlugin,
+    image: imagePlugin,
+    important: importantStatementPlugin,
+    injection: serloInjectionPlugin,
+    inputExercise: inputExercisePlugin,
+    layout: layoutPlugin,
+    rows: createRowsPlugin(registry),
+    scMcExercise: scMcExercisePlugin,
+    solution: solutionPlugin,
+    spoiler: spoilerPlugin,
+    table: tablePlugin,
+    text: createTextPlugin(registry),
+    video: videoPlugin,
 
-  // Internal plugins for our content types
-  'type-applet': appletTypePlugin,
-  'type-article': articleTypePlugin,
-  'type-course': courseTypePlugin,
-  'type-course-page': coursePageTypePlugin,
-  'type-event': eventTypePlugin,
-  'type-math-puzzle': mathPuzzleTypePlugin,
-  'type-page': pageTypePlugin,
-  'type-text-exercise': textExerciseTypePlugin,
-  'type-text-exercise-group': textExerciseGroupTypePlugin,
-  'type-text-hint': textHintTypePlugin,
-  'type-text-solution': textSolutionTypePlugin,
-  'type-user': userTypePlugin,
-  'type-video': videoTypePlugin
+    // Internal plugins for our content types
+    'type-applet': appletTypePlugin,
+    'type-article': articleTypePlugin,
+    'type-course': courseTypePlugin,
+    'type-course-page': coursePageTypePlugin,
+    'type-event': eventTypePlugin,
+    'type-math-puzzle': mathPuzzleTypePlugin,
+    'type-page': pageTypePlugin,
+    'type-text-exercise': textExerciseTypePlugin,
+    'type-text-exercise-group': textExerciseGroupTypePlugin,
+    'type-text-hint': textHintTypePlugin,
+    'type-text-solution': textSolutionTypePlugin,
+    'type-user': userTypePlugin,
+    'type-video': videoTypePlugin
+  }
 }
