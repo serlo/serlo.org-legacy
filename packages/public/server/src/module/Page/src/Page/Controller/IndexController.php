@@ -189,7 +189,18 @@ class IndexController extends AbstractAPIAwareActionController
         }
 
         $revision = $this->getPageManager()->getRevision($id);
+        $license = $page->getLicense();
+
+
         $data = [
+            'id' => $page->getId(),
+            'license' => [
+                'id' => $license->getId(),
+                'title' => $license->getTitle(),
+                'agreement' => $license->getAgreement(),
+                'url' => $license->getUrl(),
+                'iconHref' => $license->getIconHref(),
+            ],
             'content' => $revision->getContent(),
             'title' => $revision->getTitle(),
         ];
