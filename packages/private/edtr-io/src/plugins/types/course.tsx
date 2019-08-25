@@ -88,7 +88,7 @@ function CourseTypeEditor(
           </React.Fragment>
         )
       })}
-      <Controls {...props.state} />
+      <Controls subscriptions {...props.state} />
     </article>
   )
 }

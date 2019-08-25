@@ -109,6 +109,48 @@ addContentTypeStories('Page', 'page', {
   content: ''
 })
 
+addContentTypeStories('Text Exercise', 'text-exercise', [
+  {
+    name: 'default',
+    state: {
+      id: 1337,
+      license: ccBy,
+      content: ''
+    }
+  },
+  {
+    name: 'w/ solution',
+    state: {
+      id: 1337,
+      license: ccBy,
+      content: '',
+      'text-solution': {
+        id: 1338,
+        license: ccBy,
+        content: ''
+      }
+    }
+  },
+  {
+    name: 'w/ solution and hint',
+    state: {
+      id: 1337,
+      license: ccBy,
+      content: '',
+      'text-hint': {
+        id: 1338,
+        license: ccBy,
+        content: ''
+      },
+      'text-solution': {
+        id: 1338,
+        license: ccBy,
+        content: ''
+      }
+    }
+  }
+])
+
 addContentTypeStories('User', 'user', {
   id: 1337,
   description: ''
@@ -117,25 +159,35 @@ addContentTypeStories('User', 'user', {
 function addContentTypeStories(
   name: string,
   type: string,
-  initialState: unknown
+  initialState: unknown | { name: string; state: unknown }[]
 ) {
-  storiesOf(`Content Types/${name}`, module)
-    .add('Editor', () => {
-      return (
-        <Container>
-          <Editor type={type} initialState={initialState} onSave={mockSave} />
-        </Container>
-      )
-    })
-    .add('Controls', () => {
-      return (
-        <Container>
-          <Editor type={type} initialState={initialState} onSave={mockSave}>
-            <ShowOverlay />
-          </Editor>
-        </Container>
-      )
-    })
+  const stories = storiesOf(`Content Types/${name}`, module)
+  const initialStates = (initialState as {
+    name: string
+    state: unknown
+  }[]).length
+    ? (initialState as { name: string; state: unknown }[])
+    : [{ name: '', state: initialState }]
+
+  initialStates.forEach(({ name, state }) => {
+    stories
+      .add(`${name} Editor`, () => {
+        return (
+          <Container>
+            <Editor type={type} initialState={state} onSave={mockSave} />
+          </Container>
+        )
+      })
+      .add(`${name} Controls`, () => {
+        return (
+          <Container>
+            <Editor type={type} initialState={state} onSave={mockSave}>
+              <ShowOverlay />
+            </Editor>
+          </Container>
+        )
+      })
+  })
 
   function ShowOverlay() {
     const overlay = React.useContext(OverlayContext)

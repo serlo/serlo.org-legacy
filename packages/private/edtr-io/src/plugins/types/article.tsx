@@ -77,7 +77,7 @@ function ArticleTypeEditor(
         </h1>
       </div>
       <div itemProp="articleBody">{content.render()}</div>
-      <Controls {...props.state} />
+      <Controls subscriptions {...props.state} />
     </React.Fragment>
   )
 }

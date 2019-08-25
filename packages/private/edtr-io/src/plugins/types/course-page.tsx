@@ -90,7 +90,7 @@ function CoursePageTypeEditor(
         )}
       </h1>
       {content.render()}
-      {props.skipControls ? null : <Controls {...props.state} />}
+      {props.skipControls ? null : <Controls subscriptions {...props.state} />}
     </article>
   )
 }

@@ -67,7 +67,7 @@ function EventTypeEditor(
         </h1>
       </div>
       {content.render()}
-      <Controls />
+      <Controls subscriptions />
     </div>
   )
 }

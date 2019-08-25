@@ -82,7 +82,7 @@ function AppletTypeEditor(
         {url.render()}
         {content.render()}
       </article>
-      <Controls {...props.state} />
+      <Controls subscriptions {...props.state} />
     </div>
   )
 }

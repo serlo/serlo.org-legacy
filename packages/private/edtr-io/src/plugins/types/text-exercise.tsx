@@ -29,13 +29,14 @@ import {
   editorContent,
   entity,
   Controls,
-  serializedChild
+  optionalSerializedChild
 } from '../entities/common'
 
 export const textExerciseTypeState = StateType.object({
   ...entity,
   content: editorContent(),
-  'text-solution': serializedChild('textSolutionEntity')
+  'text-hint': optionalSerializedChild('type-text-hint'),
+  'text-solution': optionalSerializedChild('type-text-solution')
 })
 
 export const textExerciseTypePlugin: StatefulPlugin<
@@ -50,17 +51,18 @@ export function TextExerciseTypeEditor(
     skipControls?: boolean
   }
 ) {
-  const { content, 'text-solution': textSolution, license } = props.state
+  const {
+    content,
+    'text-hint': textHint,
+    'text-solution': textSolution
+  } = props.state
 
   return (
-    <div>
+    <article className="text-exercise">
       {content.render()}
-      <div>{textSolution.render()}</div>
-      <div>
-        <img src={license.iconHref.value} />
-        {license.title.value}
-      </div>
-      {props.skipControls ? null : <Controls />}
-    </div>
+      {textHint.render({ skipControls: true })}
+      {textSolution.render({ skipControls: true })}
+      {props.skipControls ? null : <Controls subscriptions {...props.state} />}
+    </article>
   )
 }

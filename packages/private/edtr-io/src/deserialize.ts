@@ -214,6 +214,7 @@ export function deserialize({ initialState, type }: EditorProps) {
 
   function deserializeTextExercise({
     content,
+    'text-hint': textHint,
     'text-solution': textSolution,
     'single-choice-right-answer': singleChoiceRightAnswer,
     'single-choice-wrong-answer': singleChoiceWrongAnswer,
@@ -238,7 +239,10 @@ export function deserialize({ initialState, type }: EditorProps) {
 
     return {
       ...state,
-      'text-solution': deserializeTextSolution(textSolution),
+      'text-hint': textHint ? deserializeTextHint(textHint) : '',
+      'text-solution': textSolution
+        ? deserializeTextSolution(textSolution)
+        : '',
       content: serializeEditorState({
         plugin: 'rows',
         state: [...converted.state, ...(scMcExercise ? [scMcExercise] : [])]
@@ -338,11 +342,26 @@ export function deserialize({ initialState, type }: EditorProps) {
     }
   }
 
+  function deserializeTextHint(
+    state: TextHintSerializedState
+  ): StateType.StateDescriptorSerializedType<typeof textSolutionTypeState> {
+    return {
+      ...state,
+      // FIXME: hints don't have a title
+      title: '',
+      content: serializeEditorState(
+        toEdtr(deserializeEditorState(state.content))
+      )
+    }
+  }
+
   function deserializeTextSolution(
     state: TextSolutionSerializedState
   ): StateType.StateDescriptorSerializedType<typeof textSolutionTypeState> {
     return {
       ...state,
+      // FIXME: solutions don't have a title
+      title: '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
       )
@@ -426,7 +445,8 @@ export function deserialize({ initialState, type }: EditorProps) {
 
   interface TextExerciseSerializedState extends Entity {
     content: SerializedEditorState
-    'text-solution': TextSolutionSerializedState
+    'text-hint'?: TextHintSerializedState
+    'text-solution'?: TextSolutionSerializedState
     'single-choice-right-answer'?: {
       content: SerializedLegacyEditorState
       feedback: SerializedLegacyEditorState
@@ -442,8 +462,11 @@ export function deserialize({ initialState, type }: EditorProps) {
     }[]
   }
 
+  interface TextHintSerializedState extends Entity {
+    content: SerializedEditorState
+  }
+
   interface TextSolutionSerializedState extends Entity {
-    title: string
     content: SerializedEditorState
   }
 

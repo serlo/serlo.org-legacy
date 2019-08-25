@@ -25,36 +25,30 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { entity, Controls, editorContent } from '../entities/common'
-import { Settings } from './helpers/settings'
+import { hintPlugin } from '@edtr-io/plugin-hint'
+import { Controls, editorContent, entity } from '../entities/common'
 
-export const mathPuzzleTypeState = StateType.object({
+export const textHintTypeState = StateType.object({
   ...entity,
-  source: StateType.string(),
+  // FIXME: hints don't have a title
+  title: StateType.string(''),
   content: editorContent()
 })
 
-export const mathPuzzleTypePlugin: StatefulPlugin<
-  typeof mathPuzzleTypeState
-> = {
-  Component: MathPuzzleTypeEditor,
-  state: mathPuzzleTypeState
+export const textHintTypePlugin: StatefulPlugin<typeof textHintTypeState> = {
+  Component: TextHintTypeEditor,
+  state: textHintTypeState
 }
 
-function MathPuzzleTypeEditor(
-  props: StatefulPluginEditorProps<typeof mathPuzzleTypeState>
+function TextHintTypeEditor(
+  props: StatefulPluginEditorProps<typeof textHintTypeState> & {
+    skipControls?: boolean
+  }
 ) {
-  const { source, content } = props.state
-
   return (
     <React.Fragment>
-      <Settings>
-        <Settings.Textarea label="Quellcode" state={source} />
-      </Settings>
-      <div className="math-puzzle" data-source={source.value}>
-        {content.render()}
-      </div>
-      <Controls subscriptions {...props.state} />
+      <hintPlugin.Component {...props} />
+      {props.skipControls ? null : <Controls subscriptions {...props.state} />}
     </React.Fragment>
   )
 }
