@@ -386,6 +386,9 @@ export function deserialize({ initialState, type }: EditorProps) {
       ...state,
       description: serializeEditorState(
         toEdtr(deserializeEditorState(state.description))
+      ),
+      reasoning: serializeEditorState(
+        toEdtr(deserializeEditorState(state.reasoning))
       )
     }
   }
@@ -476,8 +479,8 @@ export function deserialize({ initialState, type }: EditorProps) {
 
   interface VideoSerializedState extends Entity {
     title: string
-    content: string
     description: SerializedEditorState
+    content: string
     reasoning: SerializedEditorState
   }
 }

@@ -206,6 +206,14 @@ addContentTypeStories('User', 'user', {
   description: ''
 })
 
+addContentTypeStories('Video', 'video', {
+  id: 1337,
+  license: ccBy,
+  title: 'Title',
+  description: '',
+  content: 'https://www.youtube.com/watch?v=cIzM2XBduuY'
+})
+
 function addContentTypeStories(
   name: string,
   type: string,
