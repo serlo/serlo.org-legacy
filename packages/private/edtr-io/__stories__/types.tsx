@@ -32,6 +32,11 @@ addContentTypeStories('Page', 'page', {
   content: ''
 })
 
+addContentTypeStories('User', 'user', {
+  id: 1337,
+  description: ''
+})
+
 function addContentTypeStories(
   name: string,
   type: string,

@@ -211,8 +211,9 @@ const InnerControls = connect(function SaveButton(
   }, [overlay.visible])
 
   React.useEffect(() => {
-    window.onbeforeunload = props.hasPendingChanges ? () => '' : null
-  }, [props.hasPendingChanges])
+    window.onbeforeunload =
+      props.hasPendingChanges && !pending ? () => '' : null
+  }, [props.hasPendingChanges, pending])
 
   return (
     <React.Fragment>
@@ -239,11 +240,19 @@ const InnerControls = connect(function SaveButton(
           <button
             className="btn btn-success"
             onClick={() => {
-              overlay.show()
+              if (props.changes || props.license || props.subscriptions) {
+                overlay.show()
+              } else {
+                handleSave()
+              }
             }}
-            disabled={!props.hasPendingChanges}
+            disabled={!props.hasPendingChanges || !maySave() || pending}
           >
-            <span className="fa fa-save"></span>
+            {pending ? (
+              <span className="fa fa-spinner fa-spin" />
+            ) : (
+              <span className="fa fa-save" />
+            )}
           </button>
         </div>,
         document.getElementsByClassName('controls')[0]
@@ -358,7 +367,8 @@ const InnerControls = connect(function SaveButton(
   }
 
   function renderLicense() {
-    if (!props.license) return null
+    const { license } = props
+    if (!license) return null
     return (
       <BSCheckbox
         checked={agreement}
@@ -367,15 +377,14 @@ const InnerControls = connect(function SaveButton(
           setAgreement(checked)
         }}
       >
-        <span
-          dangerouslySetInnerHTML={{ __html: props.license.agreement.value }}
-        />
+        <span dangerouslySetInnerHTML={{ __html: license.agreement.value }} />
       </BSCheckbox>
     )
   }
 
   function renderSubscription() {
-    if (!props.subscriptions) return null
+    const { subscriptions } = props
+    if (!subscriptions) return null
     return (
       <React.Fragment>
         <BSCheckbox
