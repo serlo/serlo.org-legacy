@@ -21,6 +21,7 @@
  */
 import { StateType } from '@edtr-io/core'
 import { createImagePlugin } from '@edtr-io/plugin-image'
+import axios from 'axios'
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024
 const ALLOWED_EXTENSIONS = ['gif', 'jpg', 'jpeg', 'png', 'svg']
@@ -103,15 +104,30 @@ export function uploadImageHandler(file: File): Promise<string> {
 }
 
 export function readFile(file: File): Promise<StateType.LoadedFile> {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader()
 
     reader.onload = function(e: ProgressEvent) {
       if (!e.target) return
-      const { result } = (e.target as unknown) as { result: string }
-      const dataUrl = result
-      // Simulate upload time
-      setTimeout(() => resolve({ file, dataUrl }), 1000)
+      const formData = new FormData()
+      formData.append('attachment[file]', file)
+      formData.append('type', 'file')
+      // @ts-ignore TODO: maybe pass this via props because should be typed in client
+      formData.append('csrf', window['csrf'])
+
+      axios
+        .post('/attachment/upload', formData)
+        .then(({ data }) => {
+          console.log(data)
+          if (!data['success']) reject()
+          resolve({
+            file,
+            dataUrl: data.files[0].location
+          })
+        })
+        .catch(() => {
+          reject()
+        })
     }
 
     reader.readAsDataURL(file)

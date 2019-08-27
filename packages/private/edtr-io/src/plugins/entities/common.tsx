@@ -247,7 +247,7 @@ const InnerControls = connect(function SaveButton(
     setPending(true)
     save({
       ...serialized,
-      //@ts-ignore TODO: maybe pass this via props because should be typed in client
+      // @ts-ignore TODO: maybe pass this via props because should be typed in client
       csrf: window.csrf,
       controls: {
         ...(props.subscriptions
