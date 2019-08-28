@@ -170,7 +170,7 @@ class DiscussionController extends AbstractController
         }
 
         $view->setTemplate('discussion/discussion/start');
-        //$this->layout('editor/layout');
+        //$this->layout('legacy-editor/layout');
 
         return $view;
     }
