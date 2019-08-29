@@ -8,10 +8,11 @@
     "build": "build-storybook -c .storybook -o dist -s ./static",
     "format": "prettier --write \"{{.storybook,__stories__,src/**/*,*},*}.{js,jsx,ts,tsx,css,scss,json,md,markdown}\"",
     "start-storybook": "start-storybook -p 9000 -c .storybook -s ./static",
-    "start": "next",
+    "start": "npm-run-all next:build next:start",
+    "start-dev": "next",
     "lint": "yarn tsc --noemit",
     "next:build": "next build",
-    "next:start": "next start",
+    "next:start": "cross-env ATHENE_NEXTJS_KEY='secret' next start",
     "next:analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {

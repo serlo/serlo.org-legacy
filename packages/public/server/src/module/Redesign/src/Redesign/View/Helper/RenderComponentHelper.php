@@ -34,9 +34,12 @@ class RenderComponentHelper extends AbstractHelper
         $this->url = $url;
     }
 
-    public function __invoke(string $component/* $props*/)
+    public function __invoke(string $component, array $props = [])
     {
         $ch = curl_init();
+        $data = array_merge([
+            'key' => 'secret',
+        ], $props);
 
         $httpHeader = array(
             'Accept: text/html',
@@ -45,7 +48,7 @@ class RenderComponentHelper extends AbstractHelper
         curl_setopt($ch, CURLOPT_URL, $this->url . '/__' . $component);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeader);
         curl_setopt($ch, CURLOPT_POST, true);
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $result = curl_exec($ch);

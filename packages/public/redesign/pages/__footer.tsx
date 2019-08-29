@@ -30,6 +30,7 @@ Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
       bodyParser.json()(req, res, resolve)
     })
     const json = req.body
+    console.log(json, process.env.ATHENE_NEXTJS_KEY)
 
     // requiring valid key
     if (
@@ -37,8 +38,9 @@ Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
       json.key === process.env.ATHENE_NEXTJS_KEY
     ) {
       return {
-        footerNavEntries: json.footerNavEntries,
-        serloSlogan: json.serloSlogan
+        footerNavEntries: json.footerNavEntries || footerNavEntries,
+        serloSlogan: json.serloSlogan,
+
       }
     }
 

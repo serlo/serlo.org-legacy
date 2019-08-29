@@ -1,4 +1,4 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Document, { Head, Html, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
 export default class MyDocument extends Document {
@@ -71,11 +71,11 @@ class MyMain extends Main {
     // supporting multiroot in production, append page to id of react root
     return (
       <div
-        id={
-          '__next' + process.env.NODE_ENV === 'production'
+        id={`__next${
+          process.env.NODE_ENV === 'production'
             ? this.context._documentProps.__NEXT_DATA__.page
             : ''
-        }
+        }`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     )
@@ -138,13 +138,13 @@ class MyNextScript extends NextScript {
             assetPrefix + `/_next/static/${buildId}/pages/_app.js`
           )}
           {files &&
-          files.length > 0 &&
-          files.map(file => {
-            if (!/\.js$/.exec(file)) {
-              return null
-            }
-            return createDedupScriptTag(`${assetPrefix}/_next/${file}`, file)
-          })}
+            files.length > 0 &&
+            files.map(file => {
+              if (!/\.js$/.exec(file)) {
+                return null
+              }
+              return createDedupScriptTag(`${assetPrefix}/_next/${file}`, file)
+            })}
         </>
       )
     }

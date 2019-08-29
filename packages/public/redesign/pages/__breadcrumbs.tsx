@@ -29,7 +29,15 @@ Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
       json.key === process.env.ATHENE_NEXTJS_KEY
     ) {
       return {
-        entries: json.entries
+        entries: json.entries || [
+          { url: '#', label: 'Mathematik' },
+          { url: '#', label: 'Terme und Gleichungen' },
+          { url: '#', label: 'Terme und Variablen' },
+          {
+            url: '#',
+            label: 'Zusammenfassen, Ausmultiplizieren, Faktorisieren'
+          }
+        ]
       }
     }
   }

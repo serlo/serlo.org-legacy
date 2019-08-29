@@ -22,14 +22,15 @@
  */
 ?>
 <?php if (!$this->layout()->hideFooter): ?>
-        <?php echo $this->renderComponent('footer'); ?>
-<!--    <footer id="footer" class="home-row">-->
+    <?php echo $this->renderComponent('footer', [ 'serloSlogan' => 'Foooo' ]); ?>
+    <?php echo $this->renderComponent('breadcrumbs'); ?>
+    <!--    <footer id="footer" class="home-row">-->
 <!--        <div id="mission-statement" class="col-lg-3 pull-right-lg">-->
 <!--            <div id="mission-statement-claim">-->
 <!--                <h2 id="mission-statement-head">--><?php //echo $this->translate('Serlo.org is the Wikipedia for learning.'); ?><!--</h2>-->
 <!--                <p>--><?php //echo $this->translate('We are a community of visionaries working tirelessly to make great education freely available to everyone.'); ?><!--</p>-->
 <!--                <a href="/serlo">--><?php //echo $this->translate('Learn more'); ?><!-- <i class="fa fa-arrow-circle-right"></i>-->
-<!--                </a>-->
+<!--                </a>--> ̰
 <!--            </div>-->
 <!--            <div id="mission-statement-actions" class="row">-->
 <!--                <div class="mission-statement-action col-xs-6">-->

@@ -1,6 +1,7 @@
 const withCSS = require('@zeit/next-css')
 const withImages = require('next-images')
 const webpack = require('webpack')
+const path = require('path')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 })
@@ -17,12 +18,8 @@ module.exports = withCSS(
             /(.*)node_modules(\\|\/)next(\\|\/)dist(\\|\/)client(\\|\/)index.js/,
             function(resource) {
               resource.resource = resource.resource.replace(
-                'node_modules\\next\\dist\\client\\index.js',
-                'patch\\next\\dist\\client\\index.js'
-              )
-              resource.resource = resource.resource.replace(
                 'node_modules/next/dist/client/index.js',
-                'patch/next/dist/client/index.js'
+                path.join('packages', 'public', 'redesign', 'patch', 'next', 'dist', 'client', 'index.js')
               )
             }
           )
