@@ -64,6 +64,6 @@ describe('CSRF', () => {
 
 async function getWindowCsrf(page: Page): Promise<string> {
   return await page.evaluate(() => {
-    return (window as Window & { csrf: string }).csrf
+    return ((window as unknown) as Window & { csrf: string }).csrf
   })
 }
