@@ -24,6 +24,7 @@ import transform from './legacyToSplish/transform'
 import { Edtr, Legacy, Splish, isSplish, convertRow } from './splishToEdtr'
 
 export function convert(content: Legacy | Splish): Edtr {
+  if (!content) return { plugin: 'rows', state: [] }
   const splish = isSplish(content)
     ? content
     : convertLegacyToSplish(content, '')

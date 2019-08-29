@@ -35,9 +35,6 @@ export function initEntityEditor(props: EditorProps, element: HTMLDivElement) {
     />,
     element
   )
-  // return import('./entity-editor').then(({ Editor }) => {
-  //   render(<Editor {...props} />, element)
-  // })
 }
 
 function DynamicComponent<P>({

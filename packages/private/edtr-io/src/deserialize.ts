@@ -46,6 +46,8 @@ import { Entity, License, Uuid } from './plugins/entities/common'
 import { EditorProps } from './editor'
 
 export function deserialize({ initialState, type }: EditorProps) {
+  console.log(type, initialState)
+
   switch (type) {
     case 'applet': {
       return {
@@ -120,7 +122,6 @@ export function deserialize({ initialState, type }: EditorProps) {
         state: deserializeVideo(initialState as VideoSerializedState)
       }
     default:
-      console.log(type, initialState)
       return null
   }
 
@@ -271,7 +272,7 @@ export function deserialize({ initialState, type }: EditorProps) {
           state: {
             isSingleChoice: isSingleChoice,
             answers: [
-              ...(singleChoiceRightAnswer
+              ...(isSingleChoice && singleChoiceRightAnswer
                 ? [
                     {
                       id: convert(
@@ -285,39 +286,54 @@ export function deserialize({ initialState, type }: EditorProps) {
                     }
                   ]
                 : []),
-              ...(singleChoiceWrongAnswer
-                ? singleChoiceWrongAnswer.map(answer => {
-                    return {
-                      id: convert(deserializeEditorState(answer.content)),
-                      isCorrect: false,
-                      feedback: convert(
-                        deserializeEditorState(answer.feedback)
-                      ),
-                      hasFeedback: !!answer.feedback
-                    }
-                  })
+              ...(isSingleChoice && singleChoiceWrongAnswer
+                ? singleChoiceWrongAnswer
+                    .filter(answer => {
+                      return answer.content
+                    })
+                    .map(answer => {
+                      return {
+                        id: convert(deserializeEditorState(answer.content)),
+                        isCorrect: false,
+                        feedback: convert(
+                          deserializeEditorState(answer.feedback)
+                        ),
+                        hasFeedback: !!answer.feedback
+                      }
+                    })
                 : []),
-              ...(multipleChoiceRightAnswer
-                ? multipleChoiceRightAnswer.map(answer => {
-                    return {
-                      id: convert(deserializeEditorState(answer.content)),
-                      isCorrect: true,
-                      feedback: { plugin: 'rows', state: [{ plugin: 'text' }] },
-                      hasFeedback: false
-                    }
-                  })
+              ...(!isSingleChoice && multipleChoiceRightAnswer
+                ? multipleChoiceRightAnswer
+                    .filter(answer => {
+                      return answer.content
+                    })
+                    .map(answer => {
+                      return {
+                        id: convert(deserializeEditorState(answer.content)),
+                        isCorrect: true,
+                        feedback: {
+                          plugin: 'rows',
+                          state: [{ plugin: 'text' }]
+                        },
+                        hasFeedback: false
+                      }
+                    })
                 : []),
-              ...(multipleChoiceWrongAnswer
-                ? multipleChoiceWrongAnswer.map(answer => {
-                    return {
-                      id: convert(deserializeEditorState(answer.content)),
-                      isCorrect: false,
-                      feedback: convert(
-                        deserializeEditorState(answer.feedback)
-                      ),
-                      hasFeedback: !!answer.feedback
-                    }
-                  })
+              ...(!isSingleChoice && multipleChoiceWrongAnswer
+                ? multipleChoiceWrongAnswer
+                    .filter(answer => {
+                      return answer.content
+                    })
+                    .map(answer => {
+                      return {
+                        id: convert(deserializeEditorState(answer.content)),
+                        isCorrect: false,
+                        feedback: convert(
+                          deserializeEditorState(answer.feedback)
+                        ),
+                        hasFeedback: !!answer.feedback
+                      }
+                    })
                 : [])
             ]
           }
@@ -496,7 +512,6 @@ function serializeEditorState(content: EditorState): SerializedEditorState
 function serializeEditorState(
   content: EditorState
 ): SerializedEditorState | SerializedLegacyEditorState {
-  console.log('serialize', content)
   return content ? (JSON.stringify(content) as any) : undefined
 }
 
@@ -505,7 +520,6 @@ function deserializeEditorState(content: SerializedEditorState): EditorState
 function deserializeEditorState(
   content: SerializedLegacyEditorState | SerializedEditorState
 ): EditorState {
-  console.log('deserialize', content)
   return content ? JSON.parse(content) : undefined
 }
 
