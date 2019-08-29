@@ -2,7 +2,7 @@ import { Provider, GlobalStyle } from '../src/provider.component'
 import { Normalize } from 'styled-normalize'
 import * as React from 'react'
 
-import { footerNavEntries, serloSlogan } from '../__stories__/dummycontent'
+import { footerNavEntries } from '../__stories__/dummycontent'
 
 import { Footer } from '../src/footer'
 
@@ -18,33 +18,38 @@ export default function Index(props: any) {
     <Provider>
       <Normalize />
       <GlobalStyle />
-
       <Footer navEntries={props.footerNavEntries} slogan={props.serloSlogan} />
     </Provider>
   )
 }
 Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
+  const props = {
+    footerNavEntries,
+    serloSlogan: 'Wunderschöner Slogan'
+  }
   if (req && res) {
     // parsing body
     await new Promise(resolve => {
       bodyParser.json()(req, res, resolve)
     })
     const json = req.body
-    console.log(json, process.env.ATHENE_NEXTJS_KEY)
-
     // requiring valid key
     if (
       process.env.ATHENE_NEXTJS_KEY &&
       json.key === process.env.ATHENE_NEXTJS_KEY
     ) {
-      return {
-        footerNavEntries: json.footerNavEntries || footerNavEntries,
-        serloSlogan: json.serloSlogan,
-
+      if (json.footerNavEntries) {
+        props.footerNavEntries = json.footerNavEntries
+      }
+      if (json.serloSlogan) {
+        props.serloSlogan = json.serloSlogan
       }
     }
+  }
+  return props
+}
 
-    /* example usage:
+/* example usage:
 
     $env:ATHENE_NEXTJS_KEY = "somesecretkey"
 
@@ -157,9 +162,4 @@ Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
         ],
         "serloSlogan": "Die freie Lernplattform"
       }'
-
-
 */
-  }
-  return { footerNavEntries, serloSlogan: serloSlogan + ' (dummy)' }
-}

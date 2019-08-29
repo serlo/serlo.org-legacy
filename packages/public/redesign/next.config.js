@@ -13,16 +13,23 @@ module.exports = withCSS(
       webpack: config => {
         // for multiroot support we need to overwrite one specific file
         // doing it with webpack
+        const regex = /node_modules(\\|\/)next(\\|\/)dist(\\|\/)client(\\|\/)index.js/
         config.plugins.push(
-          new webpack.NormalModuleReplacementPlugin(
-            /(.*)node_modules(\\|\/)next(\\|\/)dist(\\|\/)client(\\|\/)index.js/,
-            function(resource) {
-              resource.resource = resource.resource.replace(
-                'node_modules/next/dist/client/index.js',
-                path.join('packages', 'public', 'redesign', 'patch', 'next', 'dist', 'client', 'index.js')
+          new webpack.NormalModuleReplacementPlugin(regex, function(resource) {
+            resource.resource = resource.resource.replace(
+              regex,
+              path.join(
+                'packages',
+                'public',
+                'redesign',
+                'patch',
+                'next',
+                'dist',
+                'client',
+                'index.js'
               )
-            }
-          )
+            )
+          })
         )
         return config
       }

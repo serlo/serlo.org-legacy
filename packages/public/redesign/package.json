@@ -12,7 +12,7 @@
     "start-dev": "next",
     "lint": "yarn tsc --noemit",
     "next:build": "next build",
-    "next:start": "cross-env ATHENE_NEXTJS_KEY='secret' next start",
+    "next:start": "cross-env ATHENE_NEXTJS_KEY='secret' node server.js",
     "next:analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {

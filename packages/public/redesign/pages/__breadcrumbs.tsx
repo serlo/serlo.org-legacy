@@ -16,7 +16,17 @@ export default function Index(props: any) {
   )
 }
 Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
-  console.log('breadcrumbs get props')
+  const props = {
+    entries: [
+      { url: '#', label: 'Fach' },
+      { url: '#', label: 'Bereich' },
+      { url: '#', label: 'Thema' },
+      {
+        url: '#',
+        label: 'Kapitel'
+      }
+    ]
+  }
   if (req && res) {
     // parsing body
     await new Promise(resolve => {
@@ -28,28 +38,10 @@ Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
       process.env.ATHENE_NEXTJS_KEY &&
       json.key === process.env.ATHENE_NEXTJS_KEY
     ) {
-      return {
-        entries: json.entries || [
-          { url: '#', label: 'Mathematik' },
-          { url: '#', label: 'Terme und Gleichungen' },
-          { url: '#', label: 'Terme und Variablen' },
-          {
-            url: '#',
-            label: 'Zusammenfassen, Ausmultiplizieren, Faktorisieren'
-          }
-        ]
+      if (json.entries) {
+        props.entries = json.entries
       }
     }
   }
-  return {
-    entries: [
-      { url: '#', label: 'Mathematik' },
-      { url: '#', label: 'Terme und Gleichungen' },
-      { url: '#', label: 'Terme und Variablen' },
-      {
-        url: '#',
-        label: 'Zusammenfassen, Ausmultiplizieren, Faktorisieren'
-      }
-    ]
-  }
+  return props
 }
