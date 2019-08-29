@@ -73,7 +73,7 @@ function Overlay({
           const icon = header.icon
 
           if (header.children) {
-            children = header.children.map((_, index) => {
+            children = header.children.map((child, index) => {
               return (
                 <Entry
                   key={key + '_child' + index}
@@ -81,7 +81,7 @@ function Overlay({
                   isChild
                   href="test"
                   icon={icon ? icon : 'faBars'}
-                  title={header.title}
+                  title={child.title}
                 />
               )
             })

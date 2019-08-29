@@ -41,8 +41,8 @@ export function Breadcrumb({ className, title, entries }: BreadcrumbProps) {
           {entries.map((bcEntry, i, l) => {
             return (
               <>
-                <StyledAnchor href={bcEntry.url}>{bcEntry.label} </StyledAnchor>
-                {i + 2 < l.length && <>>&nbsp;</>}
+                <StyledAnchor href={bcEntry.url} key={i}>{bcEntry.label} </StyledAnchor>
+                {i + 1 < l.length && <>>&nbsp;</>}
               </>
             )
           })}

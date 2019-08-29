@@ -34,10 +34,10 @@ export function Nav(props: NavProps) {
               )
             })
             return (
-              <Col xs={12} md={6} lg key={index}>
+              <ColWithPadding xs={12} md={6} lg key={index}>
                 <CategoryHeader>{category.title}</CategoryHeader>
                 <NavList>{children}</NavList>
-              </Col>
+              </ColWithPadding>
             )
           })}
         </Row>
@@ -49,6 +49,10 @@ export function Nav(props: NavProps) {
 const FooterNavGrid = styled(Grid)`
   padding: 2rem 1.5rem 4rem !important;
   background-color: ${getColor('lightBackground')};
+`
+
+const ColWithPadding = styled(Col)`
+  padding-right: 1rem;
 `
 
 const CategoryHeader = styled.h3`

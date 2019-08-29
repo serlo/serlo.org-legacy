@@ -25,7 +25,7 @@ export const EditorTools: React.FunctionComponent<
         activeBackgroundColor={getColor('brandGreen')}
         position="4rem"
       />
-      <StyledButton
+       <StyledButton
         className={props.className}
         a11yTitle={props.title}
         plain
@@ -35,29 +35,30 @@ export const EditorTools: React.FunctionComponent<
         activeBackgroundColor={'#EA7960'}
         position="7rem"
       />
-      <StyledButton
+       <StyledButton
         className={props.className}
         a11yTitle={props.title}
         plain
         iconName="faUndo"
         label={'Rückgängig'}
-        backgroundColor={transparentizeColor('brandGreen', 0.5)}
+        backgroundColor={transparentizeColor("brandGreen",0.5)}
         activeBackgroundColor={getColor('brandGreen')}
         position="12rem"
       />
-      <StyledButton
+       <StyledButton
         className={props.className}
         a11yTitle={props.title}
         plain
         iconName="faRedo"
         label={'Wiederholen – Test langer Content'}
-        backgroundColor={transparentizeColor('brandGreen', 0.5)}
+        backgroundColor={transparentizeColor("brandGreen",0.5)}
         activeBackgroundColor={getColor('brandGreen')}
         position="15rem"
       />
     </React.Fragment>
   )
 }
+
 
 interface StyledButtonProps {
   position: string
@@ -66,7 +67,7 @@ interface StyledButtonProps {
 const StyledButton = styled(Button)<StyledButtonProps>`
   display: none;
 
-  @media screen and (min-width: ${getBreakpoint('md')}) {
+  @media screen and (min-width: ${getBreakpoint('md')}){
     display: block;
     position: fixed;
     top: ${props => (props.position ? props.position : '4rem')};
@@ -76,8 +77,8 @@ const StyledButton = styled(Button)<StyledButtonProps>`
     transform: translateX(100%);
     text-align: left;
 
-    transition: transform 0.2s ease-in-out;
-    padding: 0.7rem 0.7rem 0.7rem 1rem;
+    transition: transform .2s ease-in-out;
+    padding: 0.7rem 0.7rem 0.7rem 1rem ;
 
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -99,5 +100,6 @@ const StyledButton = styled(Button)<StyledButtonProps>`
         }
       }
     }
+
   }
 `

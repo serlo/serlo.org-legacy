@@ -56,7 +56,7 @@ export default class CommentForm extends React.Component<
                     this.setState({ newCommentValue: event.target.value })
                   }}
                   placeholder={this.props.placeholder}
-                  focused={this.state.focus ? 'focused' : undefined}
+                  focused={this.state.focus ? "focused" : undefined}
                 />
                 <SendButton
                   iconName={this.props.reply ? 'faReply' : 'faArrowRight'}

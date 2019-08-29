@@ -1,18 +1,32 @@
 export const serloSlogan = 'Die freie Lernplattform'
 
 export const topNavLinks = [
-  { title: 'Neu hier?', url: '#', icon: 'faQuestionCircle' },
+  { title: 'Über Serlo', url: '#', icon: 'faInfoCircle' },
+  { title: 'Mitmachen', url: '#', icon: 'faUserEdit' },
   { title: 'Anmelden', url: '#', icon: 'faUserCircle' },
+  { title: 'Registrieren', url: '#', icon: 'faUserPlus' },
+  // {
+  //   title: 'Anmelden',
+  //   url: '#',
+  //   icon: 'faUserCircle',
+  //   children: [
+  //     { title: 'Dein Account', url: '#' },
+  //     { title: 'Neu registrieren', url: '#' }
+  //   ]
+  // },
   { title: '', class: 'seperator' },
-  { title: 'Lernen', url: '#', icon: 'faArrowCircleRight' },
   {
-    title: 'Was ist Serlo?',
+    title: 'Fächer',
     url: '#',
-    icon: 'faNewspaper',
+    icon: 'faGraduationCap',
     children: [
-      { title: 'Action', url: '#' },
-      { title: 'Test', url: '#' },
-      { title: 'Längerer Eintrag', url: '#' }
+      { title: 'Mathematik', url: '#' },
+      { title: 'Biologie', url: '#' },
+      { title: 'Angewandte Nachhaltigkeit', url: '#' },
+      { title: 'Informatik', url: '#' },
+      { title: 'Chemie', url: '#' },
+      { title: 'Physik', url: '#' },
+      { title: 'Fächer im Aufbau', url: '#' }
     ]
   },
   { title: 'Spenden', url: '#', class: 'donate', icon: 'faHandHoldingHeart' }

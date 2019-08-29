@@ -24,7 +24,7 @@ export default function Logo(props: Props) {
         </Link>
       </Header>
       {!props.subline ? null : (
-        <h2>
+        <SublineH2>
           <SublineLink
             className="subline icon"
             href="#subject"
@@ -32,7 +32,7 @@ export default function Logo(props: Props) {
           >
             {props.subline}
           </SublineLink>
-        </h2>
+        </SublineH2>
       )}
     </React.Fragment>
   )
@@ -52,6 +52,18 @@ interface SublineLinkProps {
   dark?: boolean
 }
 
+const SublineH2 = styled.h2`
+  padding-left: 1.5rem;
+
+  @media screen and (min-width: 18rem) {
+    padding-left: 3.5rem;
+  }
+
+  @media screen and (max-width: 15rem) {
+    padding-left: 0.5rem;
+  }
+`
+
 const SublineLink = styled(Link)<SublineLinkProps>`
   color: ${props =>
     props.dark
@@ -59,7 +71,7 @@ const SublineLink = styled(Link)<SublineLinkProps>`
       : lightenColor('darkGray', 0.25)};
   font-weight: 500;
   font-size: 1.66rem;
-  padding-left: 0.5rem;
+  /* padding-left: 0.5rem; */
   /* display: block; */
   line-height: 1.4;
   letter-spacing: 0.04rem;
@@ -67,10 +79,6 @@ const SublineLink = styled(Link)<SublineLinkProps>`
 
   &:hover {
     color: ${props => (props.dark ? '#fff' : getColor('brand'))};
-  }
-
-  @media screen and (min-width: 35rem) {
-    padding-left: 3.5rem;
   }
 `
 

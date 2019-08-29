@@ -230,49 +230,13 @@ setDefaultBreakpoints(
 
 // export function getColor<K extends keyof (typeof theme)["global"]["colors"]>( colorName: K): ((typeof theme)["global"]["colors"][K]) {
 
-// html  {
-//   font-size: 16px;
-//   background-color: #fff;
-// }
-// @media (min-width: ${theme.flexboxgrid.breakpoints.md + 'rem'} ){
-//   html{
-//     font-size: 18px;
-//   }
-// }
-// @media (min-width: ${theme.flexboxgrid.breakpoints.lg + 'rem'}){
-//   html{
-//     font-size: 20px;
-//   }
 export const GlobalStyle = createGlobalStyle`
+
 html  {
-  font-size: 16px;
-}
-@media (min-width: ${theme.flexboxgrid.breakpoints.md + 'rem'} ){
-  html{
-    font-size: 18px;
-  }
-}
-@media (min-width: ${theme.flexboxgrid.breakpoints.lg + 'rem'}){
-  html{
-    font-size: 20px;
-  }
-  
-  .next  {
     font-size: 16px;
     background-color: #fff;
   }
-  @media (min-width: ${theme.flexboxgrid.breakpoints.md + 'rem'} ){
-    .next {
-      font-size: 18px;
-    }
-  }
-  @media (min-width: ${theme.flexboxgrid.breakpoints.lg + 'rem'}){
-    .next {
-      font-size: 20px;
-    }
- }
-
-  .next {
+  body {
     font-family: 'Karmilla';
     font-size: 1rem;
     font-weight: 400;
@@ -280,8 +244,17 @@ html  {
     letter-spacing:-0.01em;
     // -webkit-text-stroke: .6px;
   }
-  .next h1, .next h2, .next h3, .next h4, .next h5, .next h6, .next .h1, .next .h2, .next .h3, .next .h4, .next .h5, .next .h6 {
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight: 700;
+  }
+  @media (min-width: ${theme.flexboxgrid.breakpoints.md + 'rem'} ){
+    html{
+      font-size: 18px;
+    }
+  }
+  @media (min-width: ${theme.flexboxgrid.breakpoints.lg + 'rem'}){
+	html{
+		font-size: 20px;
   }
 
 	/*.container{
@@ -292,4 +265,5 @@ html  {
 	.wide-container{
 		padding: 0 4rem;
 	}*/
+}
 `

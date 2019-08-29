@@ -33,27 +33,27 @@ export function About(props: AboutProps) {
         </ColBrand>
 
         <Col xs={12} md={4}>
-          <RowSummary>
-            <Col xs={12}>
-              <SummaryHeading>
-                <Anchor href="#" color="#fff">
-                  Serlo.org
-                </Anchor>{' '}
-                ist die Wikipedia fürs Lernen.
-              </SummaryHeading>
-              <SummaryBox>
-                Wir sind eine engagierte Gemeinschaft, die daran arbeitet,
-                hochwertige Bildung weltweit frei verfügbar zu machen.
-              </SummaryBox>
-              <SummaryBox>
-                <Button
-                  label="Mehr erfahren"
-                  iconName="faChevronCircleRight"
-                  backgroundColor="transparent"
-                />
-              </SummaryBox>
-            </Col>
-          </RowSummary>
+          <Summary>
+            {/* <Col xs={12}> */}
+            <SummaryHeading>
+              <Anchor href="#" color="#fff">
+                Serlo.org
+              </Anchor>{' '}
+              ist die Wikipedia fürs Lernen.
+            </SummaryHeading>
+            <SummaryBox>
+              Wir sind eine engagierte Gemeinschaft, die daran arbeitet,
+              hochwertige Bildung weltweit frei verfügbar zu machen.
+            </SummaryBox>
+            <SummaryBox>
+              <Button
+                label="Mehr erfahren"
+                iconName="faChevronCircleRight"
+                backgroundColor="transparent"
+              />
+            </SummaryBox>
+            {/* </Col> */}
+          </Summary>
 
           <RowSupport>
             <Col xs>
@@ -109,7 +109,14 @@ const ColBrand = styled(Col)`
   position: relative;
 `
 
-const RowSummary = styled(Row)`
+const Summary = styled.div`
+  background-color: ${getColor('lightblue')};
+  color: #fff;
+  padding-top: 2.5rem;
+  padding: 2.5rem 0.8rem 0.1rem 1.5rem;
+`
+
+/*const RowSummary = styled(Row)`
   background-color: ${getColor('lightblue')};
   color: #fff;
   padding-top: 2.5rem;
@@ -117,7 +124,7 @@ const RowSummary = styled(Row)`
   @media (max-width: ${props => props.theme.md}) {
     padding-left: 0.5rem;
   }
-`
+`*/
 
 const SummaryHeading = styled.h2`
   font-size: 1rem;
