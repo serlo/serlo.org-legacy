@@ -20,14 +20,12 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { styled } from '@edtr-io/ui'
-import { Icon, faCog } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import {
   actions,
   StateType,
   connect as connectStore,
   selectors,
-  OverlayContext,
   ScopedActionCreator,
   ScopeContext
 } from '@edtr-io/core'
@@ -42,7 +40,6 @@ import BSFormControl from 'react-bootstrap/lib/FormControl'
 import { createPortal } from 'react-dom'
 
 import { SaveContext } from '../../editor'
-import { hasPendingChanges } from '@edtr-io/core/dist/store/history/reducer'
 import { button } from '@storybook/addon-knobs'
 
 export const licenseState = StateType.object({
@@ -118,7 +115,7 @@ export const Controls = function(props: OwnProps) {
 const InnerControls = connect(function SaveButton(
   props: StateProps & DispatchProps & OwnProps
 ) {
-  const overlay = React.useContext(OverlayContext)
+  const [visible, setVisibility] = React.useState(false)
   const [pending, setPending] = React.useState(false)
   const [hasError, setHasError] = React.useState(false)
   const save = React.useContext(SaveContext)
@@ -130,13 +127,13 @@ const InnerControls = connect(function SaveButton(
   ] = React.useState(true)
 
   React.useEffect(() => {
-    if (overlay.visible) {
+    if (visible) {
       // Reset license agreement
       setPending(false)
       setHasError(false)
       setAgreement(false)
     }
-  }, [overlay.visible])
+  }, [visible])
 
   React.useEffect(() => {
     window.onbeforeunload =
@@ -170,9 +167,9 @@ const InnerControls = connect(function SaveButton(
         document.getElementsByClassName('controls')[0]
       )}
       <BSModal
-        show={overlay.visible}
+        show={visible}
         onHide={() => {
-          overlay.hide()
+          setVisibility(false)
         }}
       >
         <BSModal.Header closeButton>
@@ -187,7 +184,7 @@ const InnerControls = connect(function SaveButton(
         <BSModal.Footer>
           <BSButton
             onClick={() => {
-              overlay.hide()
+              setVisibility(false)
             }}
           >
             Abbrechen
@@ -216,7 +213,7 @@ const InnerControls = connect(function SaveButton(
     const buttonProps = useOverlay
       ? {
           onClick() {
-            overlay.show()
+            setVisibility(true)
           },
           disabled: !props.hasPendingChanges,
           children: <span className="fa fa-save" />

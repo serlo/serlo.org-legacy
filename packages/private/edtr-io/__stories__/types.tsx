@@ -238,30 +238,12 @@ function addContentTypeStories(
     : [{ name: '', state: initialState }]
 
   initialStates.forEach(({ name, state }) => {
-    stories
-      .add(`${name} Editor`, () => {
-        return (
-          <Container>
-            <Editor type={type} initialState={state} onSave={mockSave} />
-          </Container>
-        )
-      })
-      .add(`${name} Controls`, () => {
-        return (
-          <Container>
-            <Editor type={type} initialState={state} onSave={mockSave}>
-              <ShowOverlay />
-            </Editor>
-          </Container>
-        )
-      })
+    stories.add(`${name} Editor`, () => {
+      return (
+        <Container>
+          <Editor type={type} initialState={state} onSave={mockSave} />
+        </Container>
+      )
+    })
   })
-
-  function ShowOverlay() {
-    const overlay = React.useContext(OverlayContext)
-    React.useEffect(() => {
-      overlay.show()
-    }, [])
-    return null
-  }
 }
