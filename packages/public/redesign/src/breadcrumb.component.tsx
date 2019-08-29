@@ -8,14 +8,24 @@ import { Anchor } from 'grommet'
 interface BreadcrumbProps {
   className?: string
   title?: string
+  entries?: BreadcrumbEntry[]
 }
 
-export function Breadcrumb({ className, title }: BreadcrumbProps) {
+interface BreadcrumbEntry {
+  label: string
+  url: string
+}
+
+export function Breadcrumb({ className, title, entries }: BreadcrumbProps) {
+  if (!entries || entries.length < 1) {
+    return <p>"bad breadcrum"</p>
+  }
+  const lastEntry = entries[entries.length - 1]
   return (
     <div style={{ minHeight: '2rem' }}>
       <Breakpoint sm down>
         <StyledButton
-          label={'Übersicht Prozentrechnung'}
+          label={/*'Übersicht Prozentrechnung'*/ lastEntry.label}
           className={className}
           a11yTitle={title}
           plain
@@ -28,12 +38,14 @@ export function Breadcrumb({ className, title }: BreadcrumbProps) {
       </Breakpoint>
       <Breakpoint md up>
         <BreadcrumbList>
-          <StyledAnchor href="#">Mathematik </StyledAnchor> >&nbsp;
-          <StyledAnchor href="#">Terme und Gleichungen</StyledAnchor> >&nbsp;
-          <StyledAnchor href="#">Terme und Variablen</StyledAnchor> >&nbsp;
-          <StyledAnchor href="#">
-            Zusammenfassen, Ausmultiplizieren, Faktorisieren
-          </StyledAnchor>
+          {entries.map((bcEntry, i, l) => {
+            return (
+              <>
+                <StyledAnchor href={bcEntry.url}>{bcEntry.label} </StyledAnchor>
+                {i + 2 < l.length && <>>&nbsp;</>}
+              </>
+            )
+          })}
         </BreadcrumbList>
       </Breakpoint>
     </div>

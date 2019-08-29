@@ -90,10 +90,10 @@
 // When enabled Popper.js, reset basic dropdown position
 // stylelint-disable no-duplicate-selectors
 .dropdown-menu {
-  &[x-placement^="top"],
-  &[x-placement^="right"],
-  &[x-placement^="bottom"],
-  &[x-placement^="left"] {
+  &[x-placement^='top'],
+  &[x-placement^='right'],
+  &[x-placement^='bottom'],
+  &[x-placement^='left'] {
     right: auto;
     bottom: auto;
   }

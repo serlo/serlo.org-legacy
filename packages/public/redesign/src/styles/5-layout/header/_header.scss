@@ -1,211 +1,212 @@
-
 $navbar-padding-left: 3.5rem;
 $navbar-height: 11.5rem;
 
 @import 'search';
 
-
 .navbar {
-	padding: 0;
-	height: $navbar-height;
-    align-items: left;
-	position: static;
+  padding: 0;
+  height: $navbar-height;
+  align-items: left;
+  position: static;
 
-	.container {
-		align-items: start;
-	}
+  .container {
+    align-items: start;
+  }
 }
 
 .bg-light {
-	background-color: $blue !important;
+  background-color: $blue !important;
 }
 
 .navbar-brand-wrap {
+  h1 {
+    padding-bottom: 0;
+    margin-bottom: 0.2rem;
+  }
 
-	h1 {
-		padding-bottom: 0;
-		margin-bottom: 0.2rem;
-	}
-	
-	img{
-		width: 9rem;
-		padding: 0.8rem 0 0 0.8rem;
-	}
+  img {
+    width: 9rem;
+    padding: 0.8rem 0 0 0.8rem;
+  }
 
-	.navbar-brand{
-		padding-bottom: 0;
-	}
+  .navbar-brand {
+    padding-bottom: 0;
+  }
 }
 
 .navbar-subline {
-	color: rgba(#fff,0.4);
-	font-weight: 300;
-	font-size: 1.66rem;
-	padding-left: $navbar-padding-left;
-	letter-spacing: 0.04rem;
+  color: rgba(#fff, 0.4);
+  font-weight: 300;
+  font-size: 1.66rem;
+  padding-left: $navbar-padding-left;
+  letter-spacing: 0.04rem;
 }
 
 .navbar-light .navbar-toggler {
-	position: absolute;
-	top: .5rem;
-	right: .4rem;
-	padding: .4rem;
-	transition: $transition-base;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.4rem;
+  padding: 0.4rem;
+  transition: $transition-base;
 
-	&:active { outline: none; }
-	&:focus { background: $green; outline:none;}
-	&.collapsed { background: transparent; outline:none;}
-	&.collapsed:focus { background: $lightblue; }
+  &:active {
+    outline: none;
+  }
+  &:focus {
+    background: $green;
+    outline: none;
+  }
+  &.collapsed {
+    background: transparent;
+    outline: none;
+  }
+  &.collapsed:focus {
+    background: $lightblue;
+  }
 }
 
 @include media-breakpoint-down(sm) {
-	.navbar-collapse {
-		background-color: $bluewhite;
-		padding: 3rem 1rem 5rem 1.8rem;
-		font-size: 1.66rem;
+  .navbar-collapse {
+    background-color: $bluewhite;
+    padding: 3rem 1rem 5rem 1.8rem;
+    font-size: 1.66rem;
 
-		position: absolute;
-		z-index: 9999;
-		top: $navbar-height;
-		height: calc(100vh - 11.5rem);
-		max-height: calc(100vh - 11.5rem);
-		width: 100%;
-		overflow: auto;
+    position: absolute;
+    z-index: 9999;
+    top: $navbar-height;
+    height: calc(100vh - 11.5rem);
+    max-height: calc(100vh - 11.5rem);
+    width: 100%;
+    overflow: auto;
 
-		opacity: 1;
-		transition: $transition-base;
+    opacity: 1;
+    transition: $transition-base;
 
-		svg {
-			color: $lighterblue;
-		}
+    svg {
+      color: $lighterblue;
+    }
 
-		.nav-item.seperator{
-			border-bottom:1px solid $lighterblue;
-			margin: 2rem 2rem 2rem 0;
-		}
+    .nav-item.seperator {
+      border-bottom: 1px solid $lighterblue;
+      margin: 2rem 2rem 2rem 0;
+    }
 
-		.dropdown-item {
-			font-size: 1.66rem;
-			color: #555;
-		}
+    .dropdown-item {
+      font-size: 1.66rem;
+      color: #555;
+    }
 
-		.dropdown-menu {
-		    background-color: transparent;
-		    border: 0;
-		    padding: 0;
-		    margin-top: -0.3rem;
-		    margin-left: 0.3rem;
-		    padding-bottom: 1rem;
-		}
-
-	}
+    .dropdown-menu {
+      background-color: transparent;
+      border: 0;
+      padding: 0;
+      margin-top: -0.3rem;
+      margin-left: 0.3rem;
+      padding-bottom: 1rem;
+    }
+  }
 }
 
-body.overlay-menu
-{
-	overflow: hidden;
+body.overlay-menu {
+  overflow: hidden;
 
-	.container{
-		overflow: hidden;
-	}
+  .container {
+    overflow: hidden;
+  }
 }
 
 .collapsing {
-	opacity: 0;
+  opacity: 0;
 }
-
-
-
 
 /* bigger screens */
 
-@include media-breakpoint-up(md) {	
-	
-	div.content {
-		margin-top: 2rem;
-	}
+@include media-breakpoint-up(md) {
+  div.content {
+    margin-top: 2rem;
+  }
 
-	.navbar-brand-wrap a:hover {
-		color: #fff;
-		text-decoration: none;
-	}
+  .navbar-brand-wrap a:hover {
+    color: #fff;
+    text-decoration: none;
+  }
 
-	.navbar-expand-md .navbar-collapse{
-		// display: none !important;
-	    position: absolute;
-	    right: .95rem;
-	}
+  .navbar-expand-md .navbar-collapse {
+    // display: none !important;
+    position: absolute;
+    right: 0.95rem;
+  }
 
-	.navbar {
-	    height: 9.5rem;
-	    border-bottom: .5rem solid $lighterblue;
+  .navbar {
+    height: 9.5rem;
+    border-bottom: 0.5rem solid $lighterblue;
 
-    	.navbar-nav {
-    		text-align: right;
-    	}
+    .navbar-nav {
+      text-align: right;
+    }
 
-    	&.navbar-light .navbar-nav .nav-link {
-    		color: $lighterblue;
-    		
-			&:hover, &:focus {
-				color: #fff;
-			}
-    	}
-	}
+    &.navbar-light .navbar-nav .nav-link {
+      color: $lighterblue;
 
-	.navbar-nav {
-		margin-right: 1rem;
+      &:hover,
+      &:focus {
+        color: #fff;
+      }
+    }
+  }
 
-		.nav-item.seperator{
-			display: none;
-		}
+  .navbar-nav {
+    margin-right: 1rem;
 
-		.dropdown-menu {
-			background-color: $lightblue;
-			border: 0;
-			left: auto;
-			right: 0;
-			text-align: right;
-			border-radius: 0.3rem;
-		}
+    .nav-item.seperator {
+      display: none;
+    }
 
-		.dropdown-item {
-			color: #fff;
-			padding: .3rem .8rem;
-			&:hover {
-				background: $lighterblue;
-			}
-		}
-		
-		svg {
-			display: none;
-		}
-		.nav-item.donate {
-			a.nav-link {
-				margin: 0.3rem 0 0 0.5rem;
-				background-color: $lightblue;
-				padding: 0.1rem 0.5rem;
-				border-radius: 1rem;
-				color: #fff;
+    .dropdown-menu {
+      background-color: $lightblue;
+      border: 0;
+      left: auto;
+      right: 0;
+      text-align: right;
+      border-radius: 0.3rem;
+    }
 
-				&:hover {
-					background-color: $green;
-				}
-			}
-			svg {
-				display: inline;
-			}
-		}
-	}
+    .dropdown-item {
+      color: #fff;
+      padding: 0.3rem 0.8rem;
+      &:hover {
+        background: $lighterblue;
+      }
+    }
+
+    svg {
+      display: none;
+    }
+    .nav-item.donate {
+      a.nav-link {
+        margin: 0.3rem 0 0 0.5rem;
+        background-color: $lightblue;
+        padding: 0.1rem 0.5rem;
+        border-radius: 1rem;
+        color: #fff;
+
+        &:hover {
+          background-color: $green;
+        }
+      }
+      svg {
+        display: inline;
+      }
+    }
+  }
 }
 
-
 @include media-breakpoint-up(xl) {
-	nav.navbar{		
-		.navbar-brand-wrap{
-    		margin-left: -3.5rem;
-		}
-	}
+  nav.navbar {
+    .navbar-brand-wrap {
+      margin-left: -3.5rem;
+    }
+  }
 }
 
 // 	body{

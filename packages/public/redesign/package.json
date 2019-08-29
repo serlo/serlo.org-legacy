@@ -43,6 +43,7 @@
     "@storybook/addon-options": "^5.0.11",
     "@storybook/react": "^5.0.11",
     "@storybook/theming": "^5.0.11",
+    "@types/body-parser": "^1.17.1",
     "@types/next": "^8.0.4",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
@@ -52,6 +53,7 @@
     "@types/styled-components": "^4.0.0",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
+    "body-parser": "^1.19.0",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "next": "8.1.1-canary.52",
@@ -63,5 +65,8 @@
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
-  "private": true
+  "private": true,
+  "browser": {
+    "body-parser": false
+  }
 }

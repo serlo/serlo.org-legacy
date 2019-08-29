@@ -109,15 +109,15 @@ const ColBrand = styled(Col)`
   position: relative;
 `
 
-const RowSummary = styled(Row)`
-  background-color: ${getColor('lightblue')};
-  color: #fff;
-  padding-top: 2.5rem;
-
-  @media (max-width: ${props => props.theme.md}) {
-    padding-left: 0.5rem;
-  }
-`
+// const RowSummary = styled(Row)`
+//   background-color: ${getColor('lightblue')};
+//   color: #fff;
+//   padding-top: 2.5rem;
+//
+//   @media (max-width: ${props => props.theme.md}) {
+//     padding-left: 0.5rem;
+//   }
+// `
 
 const SummaryHeading = styled.h2`
   font-size: 1rem;

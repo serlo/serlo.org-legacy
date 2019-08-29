@@ -27,7 +27,7 @@ use Redesign\Factory\RenderComponentHelperFactory;
 return [
     'view_helpers'    => [
         'factories' => [
-            'renderComponent' => RenderComponentHelperFactory::class
-        ]
-    ]
+            'renderComponent' => RenderComponentHelperFactory::class,
+        ],
+    ],
 ];
