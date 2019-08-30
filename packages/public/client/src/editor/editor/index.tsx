@@ -43,7 +43,7 @@ export function initEntityEditor(
         onError: (error, context) => {
           console.log('edtr-io error', error, context)
           Sentry.withScope(scope => {
-            scope.setExtra('edtr-io', true)
+            scope.setTag('edtr-io', 'true')
             scope.setExtras(context)
             Sentry.captureException(error)
           })
