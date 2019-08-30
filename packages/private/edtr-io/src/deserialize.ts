@@ -561,7 +561,8 @@ export type DeserializeError =
   | { error: 'failure' }
 
 function toEdtr(content: EditorState): RowsPlugin {
-  if (!content) return { plugin: 'rows', state: [] }
+  if (!content)
+    return { plugin: 'rows', state: [{ plugin: 'text', state: undefined }] }
   if (isEdtr(content)) return content as RowsPlugin
   return convert(content) as RowsPlugin
 }
