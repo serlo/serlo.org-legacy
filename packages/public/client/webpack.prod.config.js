@@ -28,7 +28,8 @@ module.exports = R.merge(baseConfig, {
     minimizer: [
       new OptimizeCssAssetsPlugin(),
       new TerserPlugin({
-        parallel: true
+        parallel: true,
+        sourceMap: true
       })
     ]
   }
