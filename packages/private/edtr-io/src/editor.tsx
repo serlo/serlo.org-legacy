@@ -19,12 +19,17 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Editor as Core } from '@edtr-io/core'
+import { Editor as Core, EditorProps as CoreProps } from '@edtr-io/core'
 import { PluginRegistry } from '@edtr-io/plugin-rows'
 
 import * as React from 'react'
 
-import { deserialize } from './deserialize'
+import {
+  deserialize,
+  DeserializeError,
+  DeserializeSuccess,
+  isError
+} from './deserialize'
 import { createPlugins } from './plugins'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
@@ -44,6 +49,7 @@ import { imagePlugin } from './plugins/image'
 export interface EditorProps {
   children?: React.ReactNode
   onSave: (data: unknown) => Promise<void>
+  onError?: (error: Error, context: Record<string, string>) => void
   initialState: unknown
   type: string
 }
@@ -53,20 +59,32 @@ export const SaveContext = React.createContext<EditorProps['onSave']>(() => {
 })
 
 export function Editor(props: EditorProps) {
-  const initialState = deserialize(props)
+  const result = deserialize(props)
   const plugins = createPlugins(getRegistry())
 
-  if (!initialState) {
+  if (isError(result)) {
     const url = window.location.pathname.replace(
       'add-revision',
       'add-revision-old'
     )
-    return (
-      <div className="alert alert-danger" role="alert">
-        Dieser Inhaltstyp wird vom neuen Editor noch nicht unterstützt. Bitte
-        erstelle eine Bearbeitung mit <a href={url}>dem alten Editor</a>.
-      </div>
-    )
+    switch (result.error) {
+      case 'type-unsupported':
+        return (
+          <div className="alert alert-danger" role="alert">
+            Dieser Inhaltstyp wird vom neuen Editor noch nicht unterstützt.
+            Bitte erstelle eine Bearbeitung mit{' '}
+            <a href={url}>dem alten Editor</a>.
+          </div>
+        )
+      case 'failure':
+        return (
+          <div className="alert alert-danger" role="alert">
+            Leider trat ein Fehler bei der Konvertierung auf. Die Entwickler
+            wurden informiert. Bitte benutze in der Zwischenzeit noch{' '}
+            <a href={url}>den alten Editor</a> für diesen Inhalt.
+          </div>
+        )
+    }
   }
 
   return (
@@ -86,9 +104,10 @@ export function Editor(props: EditorProps) {
         du auch eine Liste von bekannten Problemen und ggf. Workarounds.
       </div>
       <Core
+        onError={props.onError}
         plugins={plugins}
         defaultPlugin="text"
-        initialState={initialState}
+        initialState={result.initialState}
         editable
       >
         {props.children}

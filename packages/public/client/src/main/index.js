@@ -21,7 +21,6 @@
  */
 /* globals gaOptout */
 import autosize from 'autosize'
-import axios from 'axios'
 import $ from 'jquery'
 import 'jquery-sticky'
 import 'jquery-ui'
@@ -186,29 +185,10 @@ const init = $context => {
 
     const $editor = $('#editor', $context)
     if ($editor.length > 0) {
-      console.log('initEntityEditor')
       initEntityEditor(
         {
           initialState: $editor.data('state'),
-          type: $editor.data('type'),
-          onSave: data => {
-            return new Promise((_resolve, reject) => {
-              axios
-                .post(window.location.pathname, data, {
-                  headers: {
-                    'X-Requested-with': 'XMLHttpRequest'
-                  }
-                })
-                .then(value => {
-                  if (value.data.success) {
-                    window.location = value.data.redirect
-                  } else {
-                    console.log(value.data.errors)
-                    reject()
-                  }
-                })
-            })
-          }
+          type: $editor.data('type')
         },
         $editor.get(0)
       )

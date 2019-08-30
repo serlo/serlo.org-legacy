@@ -12,6 +12,7 @@ module.exports = R.mergeDeepRight(baseConfig, {
   devServer: {
     // workaround for https://github.com/webpack/webpack-dev-server/issues/1604
     disableHostCheck: true,
+    inline: false,
     headers: {
       'Access-Control-Allow-Origin': '*'
     },

@@ -22,16 +22,51 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { EditorProps } from '@serlo/edtr-io'
+import axios from 'axios'
 import * as React from 'react'
 import { render } from 'react-dom'
 
-export function initEntityEditor(props: EditorProps, element: HTMLDivElement) {
+import { Sentry } from '../../main/modules/sentry'
+
+export function initEntityEditor(
+  props: Omit<EditorProps, 'onError' | 'onSave'>,
+  element: HTMLDivElement
+) {
+  Sentry.setExtra('type', props.type)
   render(
     <DynamicComponent<React.PropsWithChildren<EditorProps>>
       load={() => {
         return import('./entity-editor').then(({ Editor }) => Editor)
       }}
-      props={props}
+      props={{
+        ...props,
+        onError: (error, context) => {
+          console.log('edtr-io error', error, context)
+          Sentry.withScope(scope => {
+            scope.setExtra('edtr-io', true)
+            scope.setExtras(context)
+            Sentry.captureException(error)
+          })
+        },
+        onSave: data => {
+          return new Promise((_resolve, reject) => {
+            axios
+              .post(window.location.pathname, data, {
+                headers: {
+                  'X-Requested-with': 'XMLHttpRequest'
+                }
+              })
+              .then(value => {
+                if (value.data.success) {
+                  window.location = value.data.redirect
+                } else {
+                  console.log(value.data.errors)
+                  reject()
+                }
+              })
+          })
+        }
+      }}
     />,
     element
   )

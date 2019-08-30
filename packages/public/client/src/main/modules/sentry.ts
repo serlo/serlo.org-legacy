@@ -21,13 +21,13 @@
  */
 import * as Sentry from '@sentry/browser'
 
-import { version } from '../../../package.json'
+const { version } = require('../../../package.json')
 
 Sentry.init({
   dsn:
     process.env.NODE_ENV === 'production'
       ? 'https://019a6c4e5ac24e26a6b2391398c445bd@sentry.io/1518830'
-      : null,
+      : undefined,
   release: `serlo-org-client@${version}`,
   whitelistUrls: ['serlo.org', 'serlo-development.dev', 'serlo-staging.dev']
 })
