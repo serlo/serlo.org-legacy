@@ -160,12 +160,17 @@ export function deserialize({
     stack.push({ id: state.id, type: 'applet' })
     return {
       ...state,
+      changes: '',
+      title: state.title || '',
+      url: state.url || '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
       ),
       reasoning: serializeEditorState(
         toEdtr(deserializeEditorState(state.reasoning))
-      )
+      ),
+      meta_title: state.meta_title || '',
+      meta_description: state.meta_description || ''
     }
   }
 
@@ -175,12 +180,16 @@ export function deserialize({
     stack.push({ id: state.id, type: 'article' })
     return {
       ...state,
+      changes: '',
+      title: state.title || '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
       ),
       reasoning: serializeEditorState(
         toEdtr(deserializeEditorState(state.reasoning))
-      )
+      ),
+      meta_title: state.meta_title || '',
+      meta_description: state.meta_description || ''
     }
   }
 
@@ -190,13 +199,16 @@ export function deserialize({
     stack.push({ id: state.id, type: 'course' })
     return {
       ...state,
+      changes: '',
+      title: state.title || '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
       ),
       reasoning: serializeEditorState(
         toEdtr(deserializeEditorState(state.reasoning))
       ),
-      'course-page': state['course-page'].map(deserializeCoursePage)
+      meta_description: state.meta_description || '',
+      'course-page': (state['course-page'] || []).map(deserializeCoursePage)
     }
   }
 
@@ -206,10 +218,12 @@ export function deserialize({
     stack.push({ id: state.id, type: 'course-page' })
     return {
       ...state,
+      changes: '',
+      title: state.title || '',
+      icon: state.icon || 'explanation',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
-      ),
-      icon: state.icon || 'explanation'
+      )
     }
   }
 
@@ -219,9 +233,13 @@ export function deserialize({
     stack.push({ id: state.id, type: 'event' })
     return {
       ...state,
+      changes: '',
+      title: state.title || '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
-      )
+      ),
+      meta_title: state.meta_title || '',
+      meta_description: state.meta_description || ''
     }
   }
 
@@ -231,9 +249,11 @@ export function deserialize({
     stack.push({ id: state.id, type: 'math-puzzle' })
     return {
       ...state,
+      changes: '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
-      )
+      ),
+      source: state.source || ''
     }
   }
 
@@ -243,6 +263,7 @@ export function deserialize({
     stack.push({ id: state.id, type: 'page' })
     return {
       ...state,
+      title: state.title || '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
       )
@@ -277,6 +298,7 @@ export function deserialize({
 
     return {
       ...state,
+      changes: '',
       'text-hint': textHint ? deserializeTextHint(textHint) : '',
       'text-solution': textSolution
         ? deserializeTextSolution(textSolution)
@@ -388,10 +410,11 @@ export function deserialize({
     stack.push({ id: state.id, type: 'text-exercise-group' })
     return {
       ...state,
+      changes: '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
       ),
-      'grouped-text-exercise': state['grouped-text-exercise'].map(
+      'grouped-text-exercise': (state['grouped-text-exercise'] || []).map(
         deserializeTextExercise
       )
     }
@@ -403,6 +426,7 @@ export function deserialize({
     stack.push({ id: state.id, type: 'text-hint' })
     return {
       ...state,
+      changes: '',
       // FIXME: hints don't have a title
       title: '',
       content: serializeEditorState(
@@ -417,6 +441,7 @@ export function deserialize({
     stack.push({ id: state.id, type: 'text-solution' })
     return {
       ...state,
+      changes: '',
       // FIXME: solutions don't have a title
       title: '',
       content: serializeEditorState(
@@ -443,9 +468,12 @@ export function deserialize({
     stack.push({ id: state.id, type: 'video' })
     return {
       ...state,
+      changes: '',
+      title: state.title || '',
       description: serializeEditorState(
         toEdtr(deserializeEditorState(state.description))
       ),
+      content: state.content || '',
       reasoning: serializeEditorState(
         toEdtr(deserializeEditorState(state.reasoning))
       )
@@ -453,56 +481,51 @@ export function deserialize({
   }
 
   interface AppletSerializedState extends Entity {
-    title: string
-    url: string
+    title?: string
+    url?: string
     content: SerializedEditorState
     reasoning: SerializedEditorState
-    meta_title: string
-    meta_description: string
+    meta_title?: string
+    meta_description?: string
   }
 
   interface ArticleSerializedState extends Entity {
-    title: string
+    title?: string
     content: SerializedEditorState
     reasoning: SerializedEditorState
-    meta_title: string
-    meta_description: string
+    meta_title?: string
+    meta_description?: string
   }
 
   interface CourseSerializedState extends Entity {
-    title: string
+    title?: string
     content: SerializedEditorState
     reasoning: SerializedEditorState
-    meta_description: string
-    'course-page': CoursePageSerializedState[]
+    meta_description?: string
+    'course-page'?: CoursePageSerializedState[]
   }
 
   interface CoursePageSerializedState extends Entity {
-    title: string
+    title?: string
     icon?: 'explanation' | 'play' | 'question'
     content: SerializedEditorState
   }
 
   interface EventSerializedState extends Entity {
-    title: string
+    title?: string
     content: SerializedEditorState
-    meta_title: string
-    meta_description: string
+    meta_title?: string
+    meta_description?: string
   }
 
   interface MathPuzzleSerializedState extends Entity {
     content: SerializedEditorState
-    source: string
+    source?: string
   }
 
   interface PageSerializedState extends Uuid, License {
-    title: string
+    title?: string
     content: SerializedEditorState
-  }
-
-  interface TextExerciseGroupSerializedState extends Entity {
-    content: SerializedEditorState
-    'grouped-text-exercise': TextExerciseSerializedState[]
   }
 
   interface TextExerciseSerializedState extends Entity {
@@ -524,6 +547,11 @@ export function deserialize({
     }[]
   }
 
+  interface TextExerciseGroupSerializedState extends Entity {
+    content: SerializedEditorState
+    'grouped-text-exercise'?: TextExerciseSerializedState[]
+  }
+
   interface TextHintSerializedState extends Entity {
     content: SerializedEditorState
   }
@@ -537,9 +565,9 @@ export function deserialize({
   }
 
   interface VideoSerializedState extends Entity {
-    title: string
+    title?: string
     description: SerializedEditorState
-    content: string
+    content?: string
     reasoning: SerializedEditorState
   }
 }

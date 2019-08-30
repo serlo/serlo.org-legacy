@@ -68,7 +68,7 @@ export type Uuid = StateType.StateDescriptorsSerializedType<typeof uuid>
 
 export type License = StateType.StateDescriptorsSerializedType<typeof license>
 
-export type Entity = StateType.StateDescriptorsSerializedType<typeof entity>
+export type Entity = Uuid & License & { changes?: string }
 
 const connect = connectStore<
   StateProps,
