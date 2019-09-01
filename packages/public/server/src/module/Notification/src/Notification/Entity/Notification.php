@@ -65,6 +65,11 @@ class Notification implements NotificationInterface
     protected $email;
 
     /**
+     * @ORM\Column(name="email_sent", type="boolean")
+     */
+    protected $emailSent;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $date;
@@ -153,6 +158,16 @@ class Notification implements NotificationInterface
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    public function getEmailSent()
+    {
+        return $this->emailSent;
+    }
+
+    public function setEmailSent($sent)
+    {
+        $this->emailSent = $sent;
     }
 
     public function getTimestamp()

@@ -54,6 +54,17 @@ interface NotificationInterface
     public function getEmail();
 
     /**
+     * @param bool $sent
+     * @return self
+     */
+    public function setEmailSent($sent);
+
+    /**
+     * @return bool
+     */
+    public function getEmailSent();
+
+    /**
      * @return string
      */
     public function getEventName();
