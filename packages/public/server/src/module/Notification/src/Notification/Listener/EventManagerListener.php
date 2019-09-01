@@ -52,7 +52,8 @@ class EventManagerListener extends AbstractListener
             if ($subscriber !== $eventLog->getActor()) {
                 $this->getNotificationManager()->createNotification(
                     $subscriber,
-                    $eventLog
+                    $eventLog,
+                    $subscription->getNotifyMailman()
                 );
                 $subscribed[] = $subscriber;
             }
@@ -69,7 +70,8 @@ class EventManagerListener extends AbstractListener
                     if (!in_array($subscriber, $subscribed) && $subscriber !== $eventLog->getActor()) {
                         $this->getNotificationManager()->createNotification(
                             $subscriber,
-                            $eventLog
+                            $eventLog,
+                            $subscription->getNotifyMailman()
                         );
                     }
                 }

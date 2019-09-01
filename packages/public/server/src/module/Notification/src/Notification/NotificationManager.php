@@ -52,7 +52,7 @@ class NotificationManager implements NotificationManagerInterface
         $this->persistentNotificationFilterChain = new PersistentNotificationFilterChain($objectManager);
     }
 
-    public function createNotification(UserInterface $user, EventLogInterface $log)
+    public function createNotification(UserInterface $user, EventLogInterface $log, bool $email)
     {
         /* @var $notificationLog \Notification\Entity\NotificationEventInterface */
         $notification    = $this->aggregateNotification($user, $log);
@@ -62,6 +62,7 @@ class NotificationManager implements NotificationManagerInterface
 
         $notification->setUser($user);
         $notification->setSeen(false);
+        $notification->setEmail($email);
         $notification->setTimestamp(new DateTime());
         $notification->addEvent($notificationLog);
         $notificationLog->setEventLog($log);
