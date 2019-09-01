@@ -25,6 +25,7 @@ namespace Notification;
 
 use Notification\Controller\WorkerController;
 use Notification\Factory\WorkerControllerFactory;
+use Notification\Listener\EventManagerListener;
 
 return [
     'view_helpers' => [
@@ -155,6 +156,11 @@ return [
         ],
         'definition' => [
             'class' => [
+                EventManagerListener::class => [
+                    'setNotificationManager' => [
+                        'required' => true,
+                    ],
+                ],
                 __NAMESPACE__ . '\Listener\AuthenticationControllerListener' => [],
                 __NAMESPACE__ . '\Listener\DiscussionManagerListener' => [],
                 __NAMESPACE__ . '\Listener\RepositoryManagerListener' => [

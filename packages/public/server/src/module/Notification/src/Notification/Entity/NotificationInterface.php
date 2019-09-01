@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Notification\Entity;
 
 use DateTime;
@@ -40,6 +41,28 @@ interface NotificationInterface
      * @return bool
      */
     public function getSeen();
+
+    /**
+     * @param bool $email
+     * @return self
+     */
+    public function setEmail($email);
+
+    /**
+     * @return bool
+     */
+    public function getEmail();
+
+    /**
+     * @param bool $sent
+     * @return self
+     */
+    public function setEmailSent($sent);
+
+    /**
+     * @return bool
+     */
+    public function getEmailSent();
 
     /**
      * @return string

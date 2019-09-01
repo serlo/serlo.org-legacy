@@ -63,9 +63,9 @@ class WorkerController extends AbstractActionController
             $data = $this->params()->fromPost();
             if ($data['secret'] === $this->secret) {
                 $this->logger->info('Notification worker started.');
-                $limit = isset($data['limit']) ? $data['limit'] : null;
+                $user = $data['user'];
                 try {
-                    $this->notificationWorker->run($limit);
+                    $this->notificationWorker->run($user);
                     $this->notificationWorker->getObjectManager()->flush();
                     $this->logger->info('Notification worker finished successfully.');
                     $response->setStatusCode(200);

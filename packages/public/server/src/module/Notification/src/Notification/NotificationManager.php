@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Notification;
 
 use ClassResolver\ClassResolverAwareTrait;
@@ -47,21 +48,22 @@ class NotificationManager implements NotificationManagerInterface
 
     public function __construct(ClassResolverInterface $classResolver, ObjectManager $objectManager)
     {
-        $this->classResolver                     = $classResolver;
-        $this->objectManager                     = $objectManager;
+        $this->classResolver = $classResolver;
+        $this->objectManager = $objectManager;
         $this->persistentNotificationFilterChain = new PersistentNotificationFilterChain($objectManager);
     }
 
-    public function createNotification(UserInterface $user, EventLogInterface $log)
+    public function createNotification(UserInterface $user, EventLogInterface $log, bool $email)
     {
         /* @var $notificationLog \Notification\Entity\NotificationEventInterface */
-        $notification    = $this->aggregateNotification($user, $log);
-        $class           = 'Notification\Entity\NotificationEventInterface';
-        $className       = $this->getClassResolver()->resolveClassName($class);
+        $notification = $this->aggregateNotification($user, $log);
+        $class = 'Notification\Entity\NotificationEventInterface';
+        $className = $this->getClassResolver()->resolveClassName($class);
         $notificationLog = new $className();
 
         $notification->setUser($user);
         $notification->setSeen(false);
+        $notification->setEmail($email);
         $notification->setTimestamp(new DateTime());
         $notification->addEvent($notificationLog);
         $notificationLog->setEventLog($log);
@@ -73,13 +75,28 @@ class NotificationManager implements NotificationManagerInterface
         return $notification;
     }
 
+    public function findMailmanNotificationsBySubscriber(UserInterface $user)
+    {
+        $className = $this->getClassResolver()->resolveClassName('Notification\Entity\NotificationInterface');
+        $criteria = [
+            'user' => $user->getId(),
+            'email' => true,
+            'emailSent' => false,
+            'seen' => false,
+        ];
+        $order = ['user' => 'desc', 'id' => 'asc'];
+        $notifications = $this->getObjectManager()->getRepository($className)->findBy($criteria, $order);
+        $collection = new ArrayCollection($notifications);
+        return $this->persistentNotificationFilterChain->filter($collection);
+    }
+
     public function findNotificationsBySubscriber(UserInterface $user, $limit = 20)
     {
-        $className     = $this->getClassResolver()->resolveClassName('Notification\Entity\NotificationInterface');
-        $criteria      = ['user' => $user->getId()];
-        $order         = ['id' => 'desc'];
+        $className = $this->getClassResolver()->resolveClassName('Notification\Entity\NotificationInterface');
+        $criteria = ['user' => $user->getId()];
+        $order = ['id' => 'desc'];
         $notifications = $this->getObjectManager()->getRepository($className)->findBy($criteria, $order, $limit);
-        $collection    = new ArrayCollection($notifications);
+        $collection = new ArrayCollection($notifications);
         return $this->persistentNotificationFilterChain->filter($collection);
     }
 
@@ -98,7 +115,7 @@ class NotificationManager implements NotificationManagerInterface
     }
 
     /**
-     * @param UserInterface     $user
+     * @param UserInterface $user
      * @param EventLogInterface $log
      * @return NotificationInterface
      */

@@ -32,11 +32,18 @@ interface NotificationManagerInterface extends Flushable
 {
 
     /**
-     * @param UserInterface     $user
+     * @param UserInterface $user
      * @param EventLogInterface $eventLog
+     * @param bool $email
      * @return NotificationInterface
      */
-    public function createNotification(UserInterface $user, EventLogInterface $eventLog);
+    public function createNotification(UserInterface $user, EventLogInterface $eventLog, bool $email);
+
+    /**
+     * @param UserInterface $user
+     * @return ArrayCollection
+     */
+    public function findMailmanNotificationsBySubscriber(UserInterface $user);
 
     /**
      * @param UserInterface $user

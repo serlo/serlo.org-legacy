@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Event;
 
 use Authorization\Service\AuthorizationAssertionTrait;
@@ -38,7 +39,7 @@ use Uuid\Entity\UuidInterface;
 use ZfcRbac\Exception\UnauthorizedException;
 use ZfcRbac\Service\AuthorizationService;
 
-class EventManager implements EventManagerInterface
+class EventManager implements EventManagerInterface, \Zend\EventManager\EventManagerAwareInterface
 {
     use ObjectManagerAwareTrait, ClassResolverAwareTrait;
     use AuthorizationAssertionTrait;
@@ -69,10 +70,10 @@ class EventManager implements EventManagerInterface
         ObjectManager $objectManager,
         InstanceManagerInterface $instanceManager
     ) {
-        $this->objectManager                 = $objectManager;
+        $this->objectManager = $objectManager;
         $this->persistentEventLogFilterChain = new PersistentEventLogFilterChain($objectManager);
-        $this->classResolver                 = $classResolver;
-        $this->instanceManager               = $instanceManager;
+        $this->classResolver = $classResolver;
+        $this->instanceManager = $instanceManager;
         $this->setAuthorizationService($authorizationService);
     }
 
@@ -81,9 +82,9 @@ class EventManager implements EventManagerInterface
         $events = [];
         foreach ($names as $name) {
             $event = $this->findTypeByName($name);
-            $className  = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
+            $className = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
             $repository = $this->getObjectManager()->getRepository($className);
-            $results    = $repository->findBy(['actor' => $user, 'event' => $event]);
+            $results = $repository->findBy(['actor' => $user, 'event' => $event]);
             $events = array_merge($results, $events);
         }
         return new ArrayCollection($events);
@@ -98,9 +99,9 @@ class EventManager implements EventManagerInterface
             ));
         }
 
-        $className  = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
+        $className = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
         $repository = $this->getObjectManager()->getRepository($className);
-        $results    = $repository->findBy(['actor' => $userId], ['id' => 'desc'], $limit);
+        $results = $repository->findBy(['actor' => $userId], ['id' => 'desc'], $limit);
         $collection = new ArrayCollection($results);
 
         $collection = $this->persistentEventLogFilterChain->filter($collection);
@@ -122,8 +123,8 @@ class EventManager implements EventManagerInterface
         }
 
         $className = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
-        $instance  = $this->instanceManager->getInstanceFromRequest();
-        $dql       = 'SELECT e FROM ' . $className . ' e ' . ' WHERE e.instance = ' . $instance->getId() . ' AND e.actor = ' . $userId . ' ORDER BY e.id DESC';
+        $instance = $this->instanceManager->getInstanceFromRequest();
+        $dql = 'SELECT e FROM ' . $className . ' e ' . ' WHERE e.instance = ' . $instance->getId() . ' AND e.actor = ' . $userId . ' ORDER BY e.id DESC';
         $paginator = new DoctrinePaginatorFactory($this->objectManager);
         $paginator = $paginator->createPaginator($dql, $page, $limit);
         $paginator->setFilter($this->persistentEventLogFilterChain);
@@ -139,9 +140,9 @@ class EventManager implements EventManagerInterface
             ));
         }
 
-        $className  = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
+        $className = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
         $repository = $this->getObjectManager()->getRepository($className);
-        $results    = $repository->findBy(['uuid' => $objectId]);
+        $results = $repository->findBy(['uuid' => $objectId]);
 
         if ($recursive) {
             $repository = $this->getObjectManager()->getRepository('Event\Entity\EventParameterUuid');
@@ -180,7 +181,7 @@ class EventManager implements EventManagerInterface
         }
 
         $className = $this->getClassResolver()->resolveClassName('Event\Entity\EventInterface');
-        $event     = $this->getObjectManager()->getRepository($className)->findOneBy(['name' => $name]);
+        $event = $this->getObjectManager()->getRepository($className)->findOneBy(['name' => $name]);
         /* @var $event Entity\EventInterface */
 
         if (!is_object($event)) {
@@ -196,7 +197,7 @@ class EventManager implements EventManagerInterface
     public function getEvent($id)
     {
         $className = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
-        $event     = $this->getObjectManager()->find($className, $id);
+        $event = $this->getObjectManager()->find($className, $id);
         if (!is_object($event)) {
             throw new Exception\EntityNotFoundException(sprintf('Could not find an Entity by the ID of `%d`', $id));
         }
@@ -207,8 +208,8 @@ class EventManager implements EventManagerInterface
     public function findAll($page, $limit = 100)
     {
         $className = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
-        $instance  = $this->instanceManager->getInstanceFromRequest();
-        $dql       = 'SELECT e FROM ' . $className . ' e ' . ' WHERE e.instance = ' . $instance->getId() . ' ORDER BY e.id DESC';
+        $instance = $this->instanceManager->getInstanceFromRequest();
+        $dql = 'SELECT e FROM ' . $className . ' e ' . ' WHERE e.instance = ' . $instance->getId() . ' ORDER BY e.id DESC';
         $paginator = new DoctrinePaginatorFactory($this->objectManager);
         $paginator = $paginator->createPaginator($dql, $page, $limit);
         $paginator->setFilter($this->persistentEventLogFilterChain);
@@ -243,15 +244,16 @@ class EventManager implements EventManagerInterface
         }
 
         $this->getObjectManager()->persist($log);
+        $this->getEventManager()->trigger('log', $this, ['log' => $log]);
 
         return $log;
     }
 
     /**
      * @param Entity\EventLogInterface $log
-     * @param array                    $parameter
-     * @throws Exception\RuntimeException
+     * @param array $parameter
      * @return self
+     * @throws Exception\RuntimeException
      */
     protected function addParameter(Entity\EventLogInterface $log, array $parameter)
     {
@@ -269,7 +271,7 @@ class EventManager implements EventManagerInterface
         }
 
         /* @var $entity \Event\Entity\EventParameterInterface */
-        $name   = $this->findParameterNameByName($parameter['name']);
+        $name = $this->findParameterNameByName($parameter['name']);
         $entity = $this->getClassResolver()->resolve('Event\Entity\EventParameterInterface');
 
         $entity->setLog($log);
@@ -303,5 +305,41 @@ class EventManager implements EventManagerInterface
         }
 
         return $parameterName;
+    }
+
+
+    /**
+     * @var \Zend\EventManager\EventManagerInterface
+     */
+    protected $eventManager;
+
+    /**
+     * Inject an EventManager instance
+     *
+     * @param \Zend\EventManager\EventManagerInterface $eventManager
+     */
+    public function setEventManager(\Zend\EventManager\EventManagerInterface $eventManager)
+    {
+        $className = get_class($this);
+        $eventManager->setIdentifiers([
+            __CLASS__,
+            $className,
+        ]);
+        $this->eventManager = $eventManager;
+    }
+
+    /**
+     * Retrieve the event manager
+     *
+     * Lazy-loads an EventManager instance if none registered.
+     *
+     * @return \Zend\EventManager\EventManagerInterface
+     */
+    public function getEventManager()
+    {
+        if (!$this->eventManager) {
+            $this->setEventManager(new \Zend\EventManager\EventManager());
+        }
+        return $this->eventManager;
     }
 }

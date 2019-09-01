@@ -20,8 +20,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Notification;
 
+use Notification\Listener\EventManagerListener;
 use Zend\Mvc\MvcEvent;
 
 class Module
@@ -66,12 +68,15 @@ class Module
 
     public function onDispatchRegisterListeners(MvcEvent $e)
     {
-        $eventManager       = $e->getApplication()->getEventManager();
+        $application = $e->getApplication();
+        $serviceManager = $application->getServiceManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         foreach (self::$listeners as $listener) {
             $sharedEventManager->attachAggregate(
                 $e->getApplication()->getServiceManager()->get($listener)
             );
         }
+        $sharedEventManager->attachAggregate($serviceManager->get(EventManagerListener::class));
     }
 }

@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Notification\Entity;
 
 use DateTime;
@@ -57,6 +58,16 @@ class Notification implements NotificationInterface
      * @ORM\Column(type="boolean")
      */
     protected $seen;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $email;
+
+    /**
+     * @ORM\Column(name="email_sent", type="boolean")
+     */
+    protected $emailSent;
 
     /**
      * @ORM\Column(type="datetime")
@@ -137,6 +148,26 @@ class Notification implements NotificationInterface
     public function setSeen($seen)
     {
         $this->seen = $seen;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function getEmailSent()
+    {
+        return $this->emailSent;
+    }
+
+    public function setEmailSent($sent)
+    {
+        $this->emailSent = $sent;
     }
 
     public function getTimestamp()
