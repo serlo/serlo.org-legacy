@@ -21,6 +21,7 @@ FROM dependencies as build
 COPY packages/private packages/private
 COPY packages/public/editor-renderer packages/public/editor-renderer
 COPY packages/public/legacy-editor-renderer packages/public/legacy-editor-renderer
+COPY packages/public/notifications-job packages/public/notifications-job
 COPY babel.config.js .
 COPY lerna.json .
 COPY tsconfig.json .

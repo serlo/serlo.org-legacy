@@ -1,0 +1,18 @@
+{
+  "name": "@serlo/serlo-org-notifications-job",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
+    "build:dev": "(cd ../../..; npx lerna run --include-filtered-dependencies --scope=$npm_package_name build)",
+    "deploy:image": "ts-node scripts/deploy"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "mysql": "^2.0.0",
+    "promise-mysql": "^4.0.0"
+  },
+  "devDependencies": {},
+  "private": true
+}
