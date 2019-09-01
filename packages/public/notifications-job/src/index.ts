@@ -33,6 +33,14 @@ function processUsers(users: number[]): Promise<void> {
         user: user
       }),
       {
+        ...(process.env.BASIC_AUTH_USERNAME && process.env.BASIC_AUTH_PASSWORD
+          ? {
+              auth: {
+                username: process.env.BASIC_AUTH_USERNAME,
+                password: process.env.BASIC_AUTH_PASSWORD
+              }
+            }
+          : {}),
         headers: { 'content-type': 'application/x-www-form-urlencoded' }
       }
     )
