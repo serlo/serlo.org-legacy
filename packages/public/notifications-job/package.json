@@ -1,6 +1,6 @@
 {
   "name": "@serlo/serlo-org-notifications-job",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",

@@ -27,7 +27,7 @@ function processUsers(users: number[]): Promise<void> {
 
   return axios
     .post(
-      'http://de.serlo.localhost:4567/notification/worker',
+      `${process.env.SERVER_HOST}/notification/worker`,
       querystring.stringify({
         secret: process.env.JOB_SECRET,
         user: user
