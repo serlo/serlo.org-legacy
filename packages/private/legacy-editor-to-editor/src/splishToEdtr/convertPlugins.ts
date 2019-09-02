@@ -27,10 +27,11 @@ import {
   SplishGeogebraState,
   SplishInjectionState,
   SplishSpoilerState,
+  SplishTableState,
   SplishTextState
 } from '../legacyToSplish/createPlugin'
 import { convertOldSlate, htmlToSlate } from './convertSlate'
-import { ContentCell, Edtr, LayoutPlugin, OtherPlugin } from './types'
+import { ContentCell, OtherPlugin } from './types'
 import { convertSplishToEdtrIO } from '..'
 
 export function convertPlugin(cell: ContentCell): OtherPlugin {
@@ -76,9 +77,10 @@ export function convertPlugin(cell: ContentCell): OtherPlugin {
         }
       }
     case Plugin.Table:
+      const tableState = state as SplishTableState
       return {
         plugin: 'table',
-        state
+        state: tableState.src
       }
     case Plugin.Geogebra:
       const geogebraState = state as SplishGeogebraState
