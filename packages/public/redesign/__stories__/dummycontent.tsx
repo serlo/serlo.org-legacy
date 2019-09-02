@@ -1,3 +1,5 @@
+import { FooterProps } from '../src/footer'
+
 export const serloSlogan = 'Die freie Lernplattform'
 
 export const topNavLinks = [
@@ -72,6 +74,11 @@ export const footerNavEntries = [
         title: 'Twitter',
         url: 'https://twitter.com/de_serlo',
         icon: 'faTwitterSquare'
+      },
+      {
+        title: 'Github',
+        url: 'https://github.com/',
+        icon: 'faGithubSquare'
       }
     ]
   },
@@ -91,3 +98,23 @@ export const footerNavEntries = [
     ]
   }
 ]
+
+export const exampleFooterProps: FooterProps = {
+  slogan: serloSlogan,
+  missionStatementTitle: 'Serlo.org ist die Wiki für das Lernen.',
+  missionStatement:
+    'Wir sind eine bunte Gemeinschaft, die daran arbeitet, hochwertige Bildung weltweit frei verfügbar zu machen.',
+  learnMoreLink: {
+    title: 'Mehr erfahren',
+    url: '/serlo'
+  },
+  participateLink: {
+    title: 'Mitmachen',
+    url: '/mitmachen'
+  },
+  donateLink: {
+    title: 'Spenden',
+    url: '/donate'
+  },
+  navEntries: footerNavEntries
+}

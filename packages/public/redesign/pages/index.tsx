@@ -5,8 +5,8 @@ import { UserContext, EntityContext } from '../src/context'
 
 import {
   topNavLinks,
-  footerNavEntries,
-  serloSlogan
+  serloSlogan,
+  exampleFooterProps
 } from '../__stories__/dummycontent'
 import { Heading } from '../src/heading.component'
 import { Breadcrumb } from '../src/breadcrumb.component'
@@ -263,7 +263,7 @@ export default function Index() {
 
           <EditBox />
 
-          <Footer navEntries={footerNavEntries} slogan={serloSlogan} />
+          <Footer {...exampleFooterProps} />
         </Provider>
       </EntityContext.Provider>
     </UserContext.Provider>

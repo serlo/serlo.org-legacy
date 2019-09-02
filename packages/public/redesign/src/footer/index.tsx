@@ -1,16 +1,13 @@
 import * as React from 'react'
-import { About } from './about'
-import { Nav, NavEntry } from './nav'
+import { About, AboutProps } from './about'
+import { Nav, NavProps } from './nav'
 
-export interface Props {
-  slogan: string
-  navEntries: NavEntry[]
-}
+export type FooterProps = NavProps & AboutProps
 
-export function Footer(props: Props) {
+export function Footer(props: FooterProps) {
   return (
     <footer>
-      <About slogan={props.slogan} />
+      <About {...props} />
       <Nav navEntries={props.navEntries} />
     </footer>
   )

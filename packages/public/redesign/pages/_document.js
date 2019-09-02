@@ -1,6 +1,8 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
+import * as bodyParser from 'body-parser'
+
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const sheet = new ServerStyleSheet()
@@ -50,6 +52,29 @@ export default class MyDocument extends Document {
       )
     }
   }
+}
+
+export async function handleBody(req, res, defaultProps) {
+  const props = defaultProps
+  if (req && res) {
+    await new Promise(resolve => {
+      bodyParser.json()(req, res, resolve)
+    })
+    const json = req.body
+    // requiring valid key
+    if (
+      process.env.ATHENE_NEXTJS_KEY &&
+      json.key === process.env.ATHENE_NEXTJS_KEY
+    ) {
+      for (let key in defaultProps) {
+        if (json[key]) {
+          // @ts-ignore
+          defaultProps[key] = json[key]
+        }
+      }
+    }
+  }
+  return props
 }
 
 class MyScripts extends Head {

@@ -1,16 +1,22 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Grid, Col, Row } from 'react-styled-flexboxgrid'
-import { Anchor } from 'grommet'
+//import { Anchor } from 'grommet'
 import { getColor } from '../provider.component'
 import { Button } from '../button.component'
 
 import Logo from '../logo.component'
+import { NavChild } from './nav'
 const participateSrc = require('../img/footer_participate.svg')
 const donateSrc = require('../img/footer_donate.svg')
 
 export interface AboutProps {
   slogan: string
+  missionStatementTitle: string
+  missionStatement: string
+  learnMoreLink: NavChild
+  participateLink: NavChild
+  donateLink: NavChild
 }
 
 export function About(props: AboutProps) {
@@ -35,21 +41,14 @@ export function About(props: AboutProps) {
         <Col xs={12} md={4}>
           <Summary>
             {/* <Col xs={12}> */}
-            <SummaryHeading>
-              <Anchor href="#" color="#fff">
-                Serlo.org
-              </Anchor>{' '}
-              ist die Wikipedia fürs Lernen.
-            </SummaryHeading>
-            <SummaryBox>
-              Wir sind eine engagierte Gemeinschaft, die daran arbeitet,
-              hochwertige Bildung weltweit frei verfügbar zu machen.
-            </SummaryBox>
+            <SummaryHeading>{props.missionStatementTitle}</SummaryHeading>
+            <SummaryBox>{props.missionStatement}</SummaryBox>
             <SummaryBox>
               <Button
-                label="Mehr erfahren"
+                label={props.learnMoreLink.title}
                 iconName="faChevronCircleRight"
                 backgroundColor="transparent"
+                href={props.learnMoreLink.url}
               />
             </SummaryBox>
             {/* </Col> */}
@@ -57,15 +56,15 @@ export function About(props: AboutProps) {
 
           <RowSupport>
             <Col xs>
-              <ImageLink href="#">
+              <ImageLink href={props.participateLink.url}>
                 <img alt="Icon: Participate" src={participateSrc} />
-                <StyledButton label="Mitmachen" />
+                <StyledButton label={props.participateLink.title} />
               </ImageLink>
             </Col>
             <Col xs>
-              <ImageLink href="#">
+              <ImageLink href={props.donateLink.url}>
                 <img alt="Icon: Spenden" src={donateSrc} />
-                <StyledButton label="Spenden" />
+                <StyledButton label={props.donateLink.title} />
               </ImageLink>
             </Col>
           </RowSupport>

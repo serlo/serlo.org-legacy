@@ -1,53 +1,26 @@
 import { Provider, GlobalStyle } from '../src/provider.component'
 import { Normalize } from 'styled-normalize'
 import * as React from 'react'
-
-import { footerNavEntries } from '../__stories__/dummycontent'
-
-import { Footer } from '../src/footer'
-
-import * as bodyParser from 'body-parser'
+import { handleBody } from './_document'
+import { exampleFooterProps } from '../__stories__/dummycontent'
+import { Footer, FooterProps } from '../src/footer'
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 // Prevent fontawesome from dynamically adding its css since we did it manually above
 config.autoAddCss = false
 
-export default function Index(props: any) {
+export default function Index(props: FooterProps) {
   return (
     <Provider>
       <Normalize />
       <GlobalStyle />
-      <Footer navEntries={props.footerNavEntries} slogan={props.serloSlogan} />
+      <Footer {...props} />
     </Provider>
   )
 }
 Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
-  const props = {
-    footerNavEntries,
-    serloSlogan: 'Wunderschöner Slogan'
-  }
-  if (req && res) {
-    // parsing body
-    await new Promise(resolve => {
-      bodyParser.json()(req, res, resolve)
-    })
-    const json = req.body
-    console.log(json)
-    // requiring valid key
-    if (
-      process.env.ATHENE_NEXTJS_KEY &&
-      json.key === process.env.ATHENE_NEXTJS_KEY
-    ) {
-      if (json.footerNavEntries) {
-        props.footerNavEntries = json.footerNavEntries
-      }
-      if (json.serloSlogan) {
-        props.serloSlogan = json.serloSlogan
-      }
-    }
-  }
-  return props
+  return await handleBody(req, res, exampleFooterProps)
 }
 
 /* example usage:

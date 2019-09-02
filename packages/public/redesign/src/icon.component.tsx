@@ -46,7 +46,8 @@ import {
 
 import {
   faTwitterSquare,
-  faFacebookSquare
+  faFacebookSquare,
+  faGithubSquare
 } from '@fortawesome/free-brands-svg-icons'
 
 interface iconObject {
@@ -93,7 +94,8 @@ const icons: iconObject = {
   faFacebookSquare: faFacebookSquare,
   faCircle: faCircle,
   faVideo: faVideo,
-  faCog: faCog
+  faCog: faCog,
+  faGithubSquare
 }
 
 export type AllowedIcons = keyof (typeof icons)

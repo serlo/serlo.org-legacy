@@ -20,7 +20,12 @@ import { Heading } from '../src/heading.component'
 import { Breadcrumb } from '../src/breadcrumb.component'
 import { MacroLayout } from '../src/macrolayout.component'
 
-import { topNavLinks, footerNavEntries, serloSlogan } from './dummycontent'
+import {
+  topNavLinks,
+  footerNavEntries,
+  serloSlogan,
+  exampleFooterProps
+} from './dummycontent'
 
 storiesOf('Header', module)
   .add('SearchInput', () => {
@@ -67,7 +72,7 @@ storiesOf('Header', module)
       <Provider>
         <Normalize />
         <GlobalStyle />
-        <Header links={topNavLinks} slogan={serloSlogan}/>
+        <Header links={topNavLinks} slogan={serloSlogan} />
       </Provider>
     )
   })
@@ -78,7 +83,7 @@ storiesOf('Footer', module)
       <Provider>
         <Normalize />
         <GlobalStyle />
-        <Footer navEntries={footerNavEntries} slogan={serloSlogan} />
+        <Footer {...exampleFooterProps} />
       </Provider>
     )
   })
@@ -103,7 +108,7 @@ storiesOf('Example Page', module).add('test', () => {
         <Provider>
           <Normalize />
           <GlobalStyle />
-          <Header links={topNavLinks}  slogan={serloSlogan}/>
+          <Header links={topNavLinks} slogan={serloSlogan} />
           <MacroLayout
             main={
               <StyledContent pad="medium" style={{ opacity: 1 }}>
@@ -263,7 +268,7 @@ storiesOf('Example Page', module).add('test', () => {
           />
           <EditBox />
 
-          <Footer navEntries={footerNavEntries} slogan={serloSlogan} />
+          <Footer {...exampleFooterProps} />
         </Provider>
       </EntityContext.Provider>
     </UserContext.Provider>
