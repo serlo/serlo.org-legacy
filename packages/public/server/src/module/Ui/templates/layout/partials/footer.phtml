@@ -42,25 +42,26 @@ $rightNavigation = processNavigation($this->navigation('footer_right_navigation'
 <?php if (!$this->layout()->hideFooter): ?>
     <?php echo $this->renderComponent('footer', [
         'serloSlogan' => $this->brand()->getSlogan(),
-        'missionStatement' => $this->translate('Serlo.org is the Wikipedia for learning.'),
+        'missionStatementTitle' => $this->translate('Serlo.org is the Wikipedia for learning.'),
+        'missionStatement' => $this->translate('We are a community of visionaries working tirelessly to make great education freely available to everyone.'),
         'learnMoreLink' => [
             'title' => $this->translate('Learn more'),
             'url' => '/serlo',
         ],
         'participateLink' => [
             'title' => $this->translate('Join the cause'),
-            'url' => '/mitmachen'
+            'url' => '/mitmachen',
         ],
         'donateLink' => [
             'title' => $this->translate('Donate'),
-            'url' => '/spenden'
+            'url' => '/spenden',
         ],
         'footerNavEntries' => [
             ['title' => $this->translate('General'), 'children' => $leftNavigation,],
             ['title' => $this->translate('Subjects'), 'children' => $subjectNavigation,],
             ['title' => $this->translate('Stay in touch'), 'children' => $socialNavigation,],
             ['title' => $this->translate('Legal terms'), 'children' => $rightNavigation,],
-        ]
+        ],
     ]); ?>
     <footer id="footer" class="home-row">
         <div id="mission-statement" class="col-lg-3 pull-right-lg">
