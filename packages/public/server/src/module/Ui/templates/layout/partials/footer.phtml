@@ -41,7 +41,7 @@ $rightNavigation = processNavigation($this->navigation('footer_right_navigation'
 ?>
 <?php if (!$this->layout()->hideFooter): ?>
     <?php echo $this->renderComponent('footer', [
-        'serloSlogan' => $this->brand()->getSlogan(),
+        'slogan' => $this->brand()->getSlogan(),
         'missionStatementTitle' => $this->translate('Serlo.org is the Wikipedia for learning.'),
         'missionStatement' => $this->translate('We are a community of visionaries working tirelessly to make great education freely available to everyone.'),
         'learnMoreLink' => [
@@ -56,7 +56,7 @@ $rightNavigation = processNavigation($this->navigation('footer_right_navigation'
             'title' => $this->translate('Donate'),
             'url' => '/spenden',
         ],
-        'footerNavEntries' => [
+        'navEntries' => [
             ['title' => $this->translate('General'), 'children' => $leftNavigation,],
             ['title' => $this->translate('Subjects'), 'children' => $subjectNavigation,],
             ['title' => $this->translate('Stay in touch'), 'children' => $socialNavigation,],
@@ -99,9 +99,9 @@ $rightNavigation = processNavigation($this->navigation('footer_right_navigation'
                     <div class="col-lg-2 col-sm-3">
                         <div class="footer-title"><?php echo $this->translate('General'); ?></div>
                         <?php echo $this->navigation('footer_left_navigation')
-                        //                            ->menu()
-                        //                            ->setPartial('layout/navigation/vertical')
-                        //                            ->render();
+                            ->menu()
+                            ->setPartial('layout/navigation/vertical')
+                            ->render();
                         ?>
                     </div>
                     <div class="col-lg-2 col-sm-3">
