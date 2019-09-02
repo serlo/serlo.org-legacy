@@ -54,7 +54,8 @@ class RenderComponentHelper extends AbstractHelper
         $result = curl_exec($ch);
         curl_close($ch);
 
-        return '<div class="next">' . $result . '</div>';
+        // TODO: handle 500
+        return '<div class="next">' . str_replace('<!DOCTYPE html>', '', $result) . '</div>';
 //        return '<iframe src="http://localhost:3000' . '/__' . $component . '"></iframe>';
     }
 

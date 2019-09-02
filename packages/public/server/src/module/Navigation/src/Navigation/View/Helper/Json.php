@@ -34,6 +34,11 @@ class Json extends Menu
     protected $identifier;
 
     /**
+     * @var boolean
+     */
+    protected $showAll;
+
+    /**
      * @return string
      */
     public function getIdentifier()
@@ -48,6 +53,15 @@ class Json extends Menu
     public function setIdentifier($identifier)
     {
         $this->identifier = $identifier;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function showAll()
+    {
+        $this->showAll = true;
         return $this;
     }
 
@@ -155,7 +169,7 @@ class Json extends Menu
         foreach ($container as $page) {
             if (!($page->isVisible() && $this->accept(
                 $page
-                ) && $currentDepth < $end && ($currentDepth > $activeDepth || $this->isActive($page)))
+                ) && $currentDepth < $end && ($this->showAll || $currentDepth > $activeDepth || $this->isActive($page)))
             ) {
                 continue;
             }

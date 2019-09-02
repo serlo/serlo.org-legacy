@@ -33,6 +33,7 @@ Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
       bodyParser.json()(req, res, resolve)
     })
     const json = req.body
+    console.log(json)
     // requiring valid key
     if (
       process.env.ATHENE_NEXTJS_KEY &&
@@ -160,6 +161,10 @@ Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
             ]
           }
         ],
-        "serloSlogan": "Die freie Lernplattform"
+        "serloSlogan": "Die freie Lernplattform",
+        "missionStatement": Serlo.org ist die Wikipedia fürs Lernen.',
+         learnMoreLink: { title: 'Mehr erfahren', url: '/serlo' },
+         participateLink: { title: 'Mitmachen', url: '/mitmachen' },
+         donateLink: { title: 'Spenden', url: '/spenden' },
       }'
 */
