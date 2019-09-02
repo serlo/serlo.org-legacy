@@ -335,12 +335,20 @@ export function deserialize({
               ...(isSingleChoice && singleChoiceRightAnswer
                 ? [
                     {
-                      id: convert(
-                        deserializeEditorState(singleChoiceRightAnswer.content)
+                      id: extractChildFromRows(
+                        convert(
+                          deserializeEditorState(
+                            singleChoiceRightAnswer.content
+                          )
+                        )
                       ),
                       isCorrect: true,
-                      feedback: convert(
-                        deserializeEditorState(singleChoiceRightAnswer.feedback)
+                      feedback: extractChildFromRows(
+                        convert(
+                          deserializeEditorState(
+                            singleChoiceRightAnswer.feedback
+                          )
+                        )
                       ),
                       hasFeedback: !!singleChoiceRightAnswer.feedback
                     }
@@ -353,10 +361,12 @@ export function deserialize({
                     })
                     .map(answer => {
                       return {
-                        id: convert(deserializeEditorState(answer.content)),
+                        id: extractChildFromRows(
+                          convert(deserializeEditorState(answer.content))
+                        ),
                         isCorrect: false,
-                        feedback: convert(
-                          deserializeEditorState(answer.feedback)
+                        feedback: extractChildFromRows(
+                          convert(deserializeEditorState(answer.feedback))
                         ),
                         hasFeedback: !!answer.feedback
                       }
@@ -369,11 +379,12 @@ export function deserialize({
                     })
                     .map(answer => {
                       return {
-                        id: convert(deserializeEditorState(answer.content)),
+                        id: extractChildFromRows(
+                          convert(deserializeEditorState(answer.content))
+                        ),
                         isCorrect: true,
                         feedback: {
-                          plugin: 'rows',
-                          state: [{ plugin: 'text' }]
+                          plugin: 'text'
                         },
                         hasFeedback: false
                       }
@@ -386,10 +397,12 @@ export function deserialize({
                     })
                     .map(answer => {
                       return {
-                        id: convert(deserializeEditorState(answer.content)),
+                        id: extractChildFromRows(
+                          convert(deserializeEditorState(answer.content))
+                        ),
                         isCorrect: false,
-                        feedback: convert(
-                          deserializeEditorState(answer.feedback)
+                        feedback: extractChildFromRows(
+                          convert(deserializeEditorState(answer.feedback))
                         ),
                         hasFeedback: !!answer.feedback
                       }
@@ -400,6 +413,10 @@ export function deserialize({
         }
       }
     }
+  }
+
+  function extractChildFromRows(plugin: RowsPlugin) {
+    return plugin.state.length ? plugin.state[0] : { plugin: 'text' }
   }
 
   function deserializeTextExerciseGroup(
