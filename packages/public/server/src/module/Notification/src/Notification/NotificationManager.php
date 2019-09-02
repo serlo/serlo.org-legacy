@@ -64,6 +64,7 @@ class NotificationManager implements NotificationManagerInterface
         $notification->setUser($user);
         $notification->setSeen(false);
         $notification->setEmail($email);
+        $notification->setEmailSent(false);
         $notification->setTimestamp(new DateTime());
         $notification->addEvent($notificationLog);
         $notificationLog->setEventLog($log);
