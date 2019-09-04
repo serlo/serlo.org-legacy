@@ -25,7 +25,7 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { entity, Controls, editorContent } from '../entities/common'
+import { entity, Controls, editorContent } from './common'
 import { Settings } from './helpers/settings'
 
 export const mathPuzzleTypeState = StateType.object({

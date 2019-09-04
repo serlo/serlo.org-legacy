@@ -31,7 +31,7 @@ import {
   Controls,
   serializedChild,
   HeaderInput
-} from '../entities/common'
+} from './common'
 import { Settings } from './helpers/settings'
 
 export const courseTypeState = StateType.object({

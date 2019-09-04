@@ -42,7 +42,7 @@ import { textExerciseGroupTypeState } from './plugins/types/text-exercise-group'
 import { textSolutionTypeState } from './plugins/types/text-solution'
 import { userTypeState } from './plugins/types/user'
 import { videoTypeState } from './plugins/types/video'
-import { Entity, License, Uuid } from './plugins/entities/common'
+import { Entity, License, Uuid } from './plugins/types/common'
 import { EditorProps } from './editor'
 
 export function deserialize({

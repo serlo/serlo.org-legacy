@@ -32,7 +32,6 @@ import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
-import { tablePlugin } from '@edtr-io/plugin-table'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
 import { appletTypePlugin } from './plugins/types/applet'
@@ -51,6 +50,7 @@ import { videoTypePlugin } from './plugins/types/video'
 import { errorPlugin } from './plugins/error'
 import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
+import { tablePlugin } from './plugins/table'
 
 export function createPlugins(registry?: PluginRegistry) {
   return {

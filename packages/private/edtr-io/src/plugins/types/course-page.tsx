@@ -30,7 +30,7 @@ import {
   Controls,
   editorContent,
   HeaderInput
-} from '../entities/common'
+} from './common'
 import { Settings } from './helpers/settings'
 
 export const coursePageTypeState = StateType.object({

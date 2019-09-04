@@ -31,7 +31,7 @@ import {
   HeaderInput,
   license,
   uuid
-} from '../entities/common'
+} from './common'
 
 export const pageTypeState = StateType.object({
   ...uuid,

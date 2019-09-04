@@ -30,7 +30,7 @@ import {
   editorContent,
   entity,
   HeaderInput
-} from '../entities/common'
+} from './common'
 import { Settings } from './helpers/settings'
 
 export const articleTypeState = StateType.object({

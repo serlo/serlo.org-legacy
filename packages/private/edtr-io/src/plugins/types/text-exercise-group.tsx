@@ -30,7 +30,7 @@ import {
   entity,
   Controls,
   serializedChild
-} from '../entities/common'
+} from './common'
 
 export const textExerciseGroupTypeState = StateType.object({
   ...entity,

@@ -26,7 +26,7 @@ import {
   StateType
 } from '@edtr-io/core'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
-import { Controls, editorContent, entity } from '../entities/common'
+import { Controls, editorContent, entity } from './common'
 
 export const textSolutionTypeState = StateType.object({
   ...entity,

@@ -32,7 +32,7 @@ import {
   editorContent,
   serializedChild,
   HeaderInput
-} from '../entities/common'
+} from './common'
 
 export const videoTypeState = StateType.object({
   ...entity,
