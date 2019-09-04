@@ -25,12 +25,7 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import {
-  editorContent,
-  entity,
-  Controls,
-  serializedChild
-} from './common'
+import { editorContent, entity, Controls, serializedChild } from './common'
 
 export const textExerciseGroupTypeState = StateType.object({
   ...entity,

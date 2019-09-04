@@ -13,7 +13,6 @@ export const tablePlugin: StatefulPlugin<typeof edtrTablePlugin.state> = {
   Component: TableEditor
 }
 
-
 function TableEditor(
   props: StatefulPluginEditorProps<typeof edtrTablePlugin.state>
 ) {
@@ -28,7 +27,7 @@ function TableEditor(
   })
   return (
     <div ref={ref}>
-      <edtrTablePlugin.Component {...props}/>
+      <edtrTablePlugin.Component {...props} />
     </div>
   )
 

@@ -26,12 +26,7 @@ import {
   StateType
 } from '@edtr-io/core'
 
-import {
-  editorContent,
-  entity,
-  Controls,
-  HeaderInput
-} from './common'
+import { editorContent, entity, Controls, HeaderInput } from './common'
 import { Settings } from './helpers/settings'
 
 export const eventTypeState = StateType.object({
