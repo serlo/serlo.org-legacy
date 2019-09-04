@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 /* globals gaOptout */
+import { reprocess, typeset } from '@serlo/mathjax'
 import autosize from 'autosize'
 import $ from 'jquery'
 import 'jquery-sticky'
@@ -32,7 +33,6 @@ import { initContent, initEntityEditor } from '../editor'
 import '../libs/polyfills'
 import Common from '../modules/common'
 import Content from '../modules/content'
-import { reprocess, typeset } from '../modules/mathjax'
 import '../modules/modals'
 import '../modules/spoiler'
 import SystemNotification from '../modules/system_notification'

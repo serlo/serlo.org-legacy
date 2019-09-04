@@ -14,9 +14,10 @@
     "baseUrl": "packages",
     "paths": {
       "@serlo/editor-helpers": ["private/editor-helpers/src"],
+      "@serlo/edtr-io": ["private/edtr-io/src"],
       "@serlo/legacy-editor-to-editor": ["private/legacy-editor-to-editor/src"],
       "@serlo/markdown": ["private/markdown/src"],
-      "@serlo/edtr-io": ["private/edtr-io/src"]
+      "@serlo/mathjax": ["private/mathjax/src"]
     },
     "lib": ["webworker", "dom"]
   },

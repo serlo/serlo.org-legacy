@@ -19,9 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { reprocess } from '@serlo/mathjax'
 import $ from 'jquery'
-
-import { reprocess } from '../../modules/mathjax'
 
 var ToggleAction
 
