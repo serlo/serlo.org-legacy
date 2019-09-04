@@ -25,12 +25,7 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import {
-  Controls,
-  editorContent,
-  entity,
-  HeaderInput
-} from '../entities/common'
+import { Controls, editorContent, entity, HeaderInput } from './common'
 import { Settings } from './helpers/settings'
 
 export const articleTypeState = StateType.object({

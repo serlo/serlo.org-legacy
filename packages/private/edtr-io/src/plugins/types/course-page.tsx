@@ -25,12 +25,7 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import {
-  entity,
-  Controls,
-  editorContent,
-  HeaderInput
-} from '../entities/common'
+import { entity, Controls, editorContent, HeaderInput } from './common'
 import { Settings } from './helpers/settings'
 
 export const coursePageTypeState = StateType.object({

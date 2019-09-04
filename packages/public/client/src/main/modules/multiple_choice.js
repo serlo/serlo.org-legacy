@@ -19,9 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { reprocess, typeset, queue } from '@serlo/mathjax'
 import $ from 'jquery'
 
-import { reprocess, typeset, queue } from '../../modules/mathjax'
 import play from './sounds'
 
 var MultipleChoice

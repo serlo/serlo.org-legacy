@@ -8,6 +8,7 @@ COPY packages/private/edtr-io/package.json packages/private/edtr-io/package.json
 COPY packages/private/gcloud/package.json packages/private/gcloud/package.json
 COPY packages/private/legacy-editor-to-editor/package.json packages/private/legacy-editor-to-editor/package.json
 COPY packages/private/markdown/package.json packages/private/markdown/package.json
+COPY packages/private/mathjax/package.json packages/private/mathjax/package.json
 COPY packages/private/node-image/package.json packages/private/node-image/package.json
 COPY packages/private/workspace-image/package.json packages/private/workspace-image/package.json
 COPY packages/public/editor-renderer packages/public/editor-renderer

@@ -62,104 +62,106 @@
             </div>
         </div>
     </section>
-    {% if singleChoices|length > 0 %}
-        <section>
-            <form class="single-choice-group">
-                <div class="row btn-group">
-                {% for answer in singleChoices %}
-                    {% include 'entity/view/default' with {'entity': answer['entity'], 'right': answer['right'], 'parent': entity} only %}
-                {% endfor %}
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 single-choice-answer-feedback positive collapse">
-                        <div class="pull-right">
-                            {{ positiveFeedback | raw }}
-                        </div>
-                    </div>
-                </div>
-                <div class="single-choice-solution">
-                    {% if showSolution %}
-                        <div class="solution collapsed" data-toggle="collapse"
-                             data-target="#solution-{{ solution.getId() }}">
-                            <a class="collapse-show-label">{% trans %} Show solution {% endtrans %}<span class="caret"></span></a>
-                            <a class="collapse-hide-label">{% trans %} Hide solution {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
-                        </div>
-                    {% endif %}
-                    <button class="btn btn-primary btn-xs single-choice-submit pull-right">
-                        <span class="single-choice-submit-check">
-                            <i class="fa fa-check-circle"></i>
-                            {{ 'Check' | trans }}
-                        </span>
-
-                        <span class="single-choice-submit-correct">
-                            <i class="fa fa-smile-o"></i>
-                            {{ 'Correct!' |trans }}
-                        </span>
-                    </button>
-                    <div style="clear:both;"></div>
-                </div>
-            </form>
-        </section>
-    {% endif %}
-    {% if multipleChoices|length > 0 %}
-        <section>
-            <form class="multiple-choice-group">
-                <div class="row btn-group">
-                    {% for answer in multipleChoices %}
+    {% if isLegacyFormat(revision.get('content')) %}
+        {% if singleChoices|length > 0 %}
+            <section>
+                <form class="single-choice-group">
+                    <div class="row btn-group">
+                    {% for answer in singleChoices %}
                         {% include 'entity/view/default' with {'entity': answer['entity'], 'right': answer['right'], 'parent': entity} only %}
                     {% endfor %}
-                </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 single-choice-answer-feedback positive collapse">
+                            <div class="pull-right">
+                                {{ positiveFeedback | raw }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single-choice-solution">
+                        {% if showSolution %}
+                            <div class="solution collapsed" data-toggle="collapse"
+                                 data-target="#solution-{{ solution.getId() }}">
+                                <a class="collapse-show-label">{% trans %} Show solution {% endtrans %}<span class="caret"></span></a>
+                                <a class="collapse-hide-label">{% trans %} Hide solution {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
+                            </div>
+                        {% endif %}
+                        <button class="btn btn-primary btn-xs single-choice-submit pull-right">
+                            <span class="single-choice-submit-check">
+                                <i class="fa fa-check-circle"></i>
+                                {{ 'Check' | trans }}
+                            </span>
 
-                <div class="row">
-                    <div class="col-xs-12 multiple-choice-answer-feedback negative collapse">
-                        <div class="pull-right">
-                            <p>
-                               {{ 'This solution is not correct.' | trans }}
-                            </p>
-                        </div>
+                            <span class="single-choice-submit-correct">
+                                <i class="fa fa-smile-o"></i>
+                                {{ 'Correct!' |trans }}
+                            </span>
+                        </button>
+                        <div style="clear:both;"></div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 multiple-choice-answer-feedback positive collapse">
-                        <div class="pull-right">
-                            <p>
-                                {{ 'This solution is correct!' | trans }}
-                            </p>
-                        </div>
+                </form>
+            </section>
+        {% endif %}
+        {% if multipleChoices|length > 0 %}
+            <section>
+                <form class="multiple-choice-group">
+                    <div class="row btn-group">
+                        {% for answer in multipleChoices %}
+                            {% include 'entity/view/default' with {'entity': answer['entity'], 'right': answer['right'], 'parent': entity} only %}
+                        {% endfor %}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 multiple-choice-answer-feedback missing-solutions collapse">
-                        <div class="pull-right">
-                            <p>
-                                {{ 'Not quite. There is something missing!' | trans }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="multiple-choice-solution">
-                    {% if showSolution %}
-                        <div class="solution collapsed" data-toggle="collapse"
-                             data-target="#solution-{{ solution.getId() }}">
-                            <a class="collapse-show-label">{% trans %} Show solution {% endtrans %}<span class="caret"></span></a>
-                            <a class="collapse-hide-label">{% trans %} Hide solution {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
-                        </div>
-                    {% endif %}
-                    <button class="btn btn-primary btn-xs multiple-choice-submit pull-right">
-                        <span class="multiple-choice-submit-check">
-                            <i class="fa fa-check-circle"></i>
-                            {{ 'Check' | trans }}
-                        </span>
 
-                        <span class="multiple-choice-submit-correct">
-                            <i class="fa fa-smile-o"></i>
-                            {{ 'Correct!' |trans }}
-                        </span>
-                    </button>
-                    <div style="clear:both;"></div>
-                </div>
-            </form>
-        </section>
+                    <div class="row">
+                        <div class="col-xs-12 multiple-choice-answer-feedback negative collapse">
+                            <div class="pull-right">
+                                <p>
+                                   {{ 'This solution is not correct.' | trans }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 multiple-choice-answer-feedback positive collapse">
+                            <div class="pull-right">
+                                <p>
+                                    {{ 'This solution is correct!' | trans }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 multiple-choice-answer-feedback missing-solutions collapse">
+                            <div class="pull-right">
+                                <p>
+                                    {{ 'Not quite. There is something missing!' | trans }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="multiple-choice-solution">
+                        {% if showSolution %}
+                            <div class="solution collapsed" data-toggle="collapse"
+                                 data-target="#solution-{{ solution.getId() }}">
+                                <a class="collapse-show-label">{% trans %} Show solution {% endtrans %}<span class="caret"></span></a>
+                                <a class="collapse-hide-label">{% trans %} Hide solution {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
+                            </div>
+                        {% endif %}
+                        <button class="btn btn-primary btn-xs multiple-choice-submit pull-right">
+                            <span class="multiple-choice-submit-check">
+                                <i class="fa fa-check-circle"></i>
+                                {{ 'Check' | trans }}
+                            </span>
+
+                            <span class="multiple-choice-submit-correct">
+                                <i class="fa fa-smile-o"></i>
+                                {{ 'Correct!' |trans }}
+                            </span>
+                        </button>
+                        <div style="clear:both;"></div>
+                    </div>
+                </form>
+            </section>
+        {% endif %}
     {% endif %}
     {% if showHint %}
         <div class="solution collapsed" data-toggle="collapse"
@@ -168,7 +170,7 @@
             <a class="collapse-hide-label">{% trans %} Hide hint {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
         </div>
     {% endif %}
-    {% if singleChoices|length == 0 and multipleChoices|length == 0 and not inputChallenge and showSolution %}
+    {% if isLegacyFormat(revision.get('content')) and singleChoices|length == 0 and multipleChoices|length == 0 and not inputChallenge and showSolution %}
         <div class="solution collapsed" data-toggle="collapse"
              data-target="#solution-{{ solution.getId() }}">
             <a class="collapse-show-label">{% trans %} Show solution {% endtrans %}<span class="caret"></span></a>

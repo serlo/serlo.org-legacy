@@ -26,7 +26,7 @@ import {
   StateType
 } from '@edtr-io/core'
 import { hintPlugin } from '@edtr-io/plugin-hint'
-import { Controls, editorContent, entity } from '../entities/common'
+import { Controls, editorContent, entity } from './common'
 
 export const textHintTypeState = StateType.object({
   ...entity,

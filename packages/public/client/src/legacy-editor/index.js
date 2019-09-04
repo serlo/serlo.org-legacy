@@ -21,13 +21,13 @@
  */
 /* global CodeMirror */
 import { converter } from '@serlo/markdown'
+import { typeset } from '@serlo/mathjax'
 import $ from 'jquery'
 import _ from 'underscore'
 
 import eventScope from '../libs/eventscope'
 import Common from '../modules/common'
 import Content from '../modules/content'
-import { typeset } from '../modules/mathjax'
 import '../modules/spoiler'
 import SystemNotification from '../modules/system_notification'
 import t from '../modules/translator'

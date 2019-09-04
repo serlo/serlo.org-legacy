@@ -26,7 +26,7 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { Controls, editorContent } from '../entities/common'
+import { Controls, editorContent } from './common'
 
 export const userTypeState = StateType.object({
   description: editorContent()

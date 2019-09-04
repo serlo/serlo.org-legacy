@@ -20,41 +20,42 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as React from 'react'
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
-import { entity, Controls, editorContent } from './common'
-import { Settings } from './helpers/settings'
+import { createTablePlugin } from '@edtr-io/plugin-table'
+import { converter } from '@serlo/markdown'
+import { typeset } from '@serlo/mathjax'
+import { StatefulPlugin, StatefulPluginEditorProps } from '@edtr-io/core'
 
-export const mathPuzzleTypeState = StateType.object({
-  ...entity,
-  source: StateType.string(),
-  content: editorContent()
+const edtrTablePlugin = createTablePlugin({
+  renderMarkdown: content => converter.makeHtml(content)
 })
 
-export const mathPuzzleTypePlugin: StatefulPlugin<
-  typeof mathPuzzleTypeState
-> = {
-  Component: MathPuzzleTypeEditor,
-  state: mathPuzzleTypeState
+export const tablePlugin: StatefulPlugin<typeof edtrTablePlugin.state> = {
+  ...edtrTablePlugin,
+  Component: TableEditor
 }
 
-function MathPuzzleTypeEditor(
-  props: StatefulPluginEditorProps<typeof mathPuzzleTypeState>
+function TableEditor(
+  props: StatefulPluginEditorProps<typeof edtrTablePlugin.state>
 ) {
-  const { source, content } = props.state
-
+  const ref = React.useRef<HTMLDivElement>(null)
+  React.useEffect(() => {
+    const timeout = setTimeout(typesetMathjax, 1000)
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+    }
+  })
   return (
-    <React.Fragment>
-      <Settings>
-        <Settings.Textarea label="Quellcode" state={source} />
-      </Settings>
-      <div className="math-puzzle" data-source={source.value}>
-        {content.render()}
-      </div>
-      <Controls subscriptions {...props.state} />
-    </React.Fragment>
+    <div ref={ref}>
+      <edtrTablePlugin.Component {...props} />
+    </div>
   )
+
+  function typesetMathjax() {
+    if (!ref.current) {
+      return
+    }
+    typeset(ref.current)
+  }
 }

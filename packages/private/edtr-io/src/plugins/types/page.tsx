@@ -25,13 +25,7 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import {
-  Controls,
-  editorContent,
-  HeaderInput,
-  license,
-  uuid
-} from '../entities/common'
+import { Controls, editorContent, HeaderInput, license, uuid } from './common'
 
 export const pageTypeState = StateType.object({
   ...uuid,
