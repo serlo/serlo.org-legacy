@@ -36,6 +36,7 @@ use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
 use Renderer\View\Helper\FormatHelperAwareTrait;
 use function Sodium\crypto_sign_verify_detached;
+use Uuid\Filter\NotTrashedCollectionFilter;
 use Versioning\Entity\RevisionInterface;
 use Versioning\Exception\RevisionNotFoundException;
 use Versioning\RepositoryManagerAwareTrait;
@@ -369,7 +370,8 @@ class RepositoryController extends AbstractController
             /** @var LinkOptions $linkOptions */
             $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
             foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
-                $children = $entity->getChildren('link', $allowedChild);
+                $filter = new NotTrashedCollectionFilter();
+                $children = $filter->filter($entity->getChildren('link', $allowedChild));
 
                 if ($children->count()) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {

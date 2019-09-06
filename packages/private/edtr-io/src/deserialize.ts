@@ -324,90 +324,94 @@ export function deserialize({
         multipleChoiceWrongAnswer ||
         multipleChoiceRightAnswer
       ) {
+        const convertedSCRightAnswers = singleChoiceRightAnswer && singleChoiceRightAnswer.content
+          ? [
+              {
+                id: extractChildFromRows(
+                  convert(
+                    deserializeEditorState(singleChoiceRightAnswer.content)
+                  )
+                ),
+                isCorrect: true,
+                feedback: extractChildFromRows(
+                  convert(
+                    deserializeEditorState(singleChoiceRightAnswer.feedback)
+                  )
+                ),
+                hasFeedback: !!singleChoiceRightAnswer.feedback
+              }
+            ]
+          : []
+        const convertedSCWrongAnswers = singleChoiceWrongAnswer
+          ? singleChoiceWrongAnswer
+              .filter(answer => {
+                return answer.content
+              })
+              .map(answer => {
+                return {
+                  id: extractChildFromRows(
+                    convert(deserializeEditorState(answer.content))
+                  ),
+                  isCorrect: false,
+                  feedback: extractChildFromRows(
+                    convert(deserializeEditorState(answer.feedback))
+                  ),
+                  hasFeedback: !!answer.feedback
+                }
+              })
+          : []
+
+        const convertedMCRightAnswers = multipleChoiceRightAnswer
+          ? multipleChoiceRightAnswer
+            .filter(answer => {
+              return answer.content
+            })
+            .map(answer => {
+              return {
+                id: extractChildFromRows(
+                  convert(deserializeEditorState(answer.content))
+                ),
+                isCorrect: true,
+                feedback: {
+                  plugin: 'text'
+                },
+                hasFeedback: false
+              }
+            })
+          : []
+
+        const convertedMCWrongAnswers = multipleChoiceWrongAnswer
+          ? multipleChoiceWrongAnswer
+            .filter(answer => {
+              return answer.content
+            })
+            .map(answer => {
+              return {
+                id: extractChildFromRows(
+                  convert(deserializeEditorState(answer.content))
+                ),
+                isCorrect: false,
+                feedback: extractChildFromRows(
+                  convert(deserializeEditorState(answer.feedback))
+                ),
+                hasFeedback: !!answer.feedback
+              }
+            })
+          : []
+        console.log(convertedSCWrongAnswers, convertedSCRightAnswers, convertedMCWrongAnswers, convertedMCRightAnswers)
         const isSingleChoice = !(
-          multipleChoiceRightAnswer || multipleChoiceWrongAnswer
+          convertedMCRightAnswers.length || convertedMCWrongAnswers.length
         )
+        console.log('isSingleChoice', isSingleChoice)
         return {
           plugin: 'scMcExercise',
           state: {
             isSingleChoice: isSingleChoice,
             answers: [
-              ...(isSingleChoice && singleChoiceRightAnswer
-                ? [
-                    {
-                      id: extractChildFromRows(
-                        convert(
-                          deserializeEditorState(
-                            singleChoiceRightAnswer.content
-                          )
-                        )
-                      ),
-                      isCorrect: true,
-                      feedback: extractChildFromRows(
-                        convert(
-                          deserializeEditorState(
-                            singleChoiceRightAnswer.feedback
-                          )
-                        )
-                      ),
-                      hasFeedback: !!singleChoiceRightAnswer.feedback
-                    }
-                  ]
-                : []),
-              ...(isSingleChoice && singleChoiceWrongAnswer
-                ? singleChoiceWrongAnswer
-                    .filter(answer => {
-                      return answer.content
-                    })
-                    .map(answer => {
-                      return {
-                        id: extractChildFromRows(
-                          convert(deserializeEditorState(answer.content))
-                        ),
-                        isCorrect: false,
-                        feedback: extractChildFromRows(
-                          convert(deserializeEditorState(answer.feedback))
-                        ),
-                        hasFeedback: !!answer.feedback
-                      }
-                    })
-                : []),
-              ...(!isSingleChoice && multipleChoiceRightAnswer
-                ? multipleChoiceRightAnswer
-                    .filter(answer => {
-                      return answer.content
-                    })
-                    .map(answer => {
-                      return {
-                        id: extractChildFromRows(
-                          convert(deserializeEditorState(answer.content))
-                        ),
-                        isCorrect: true,
-                        feedback: {
-                          plugin: 'text'
-                        },
-                        hasFeedback: false
-                      }
-                    })
-                : []),
-              ...(!isSingleChoice && multipleChoiceWrongAnswer
-                ? multipleChoiceWrongAnswer
-                    .filter(answer => {
-                      return answer.content
-                    })
-                    .map(answer => {
-                      return {
-                        id: extractChildFromRows(
-                          convert(deserializeEditorState(answer.content))
-                        ),
-                        isCorrect: false,
-                        feedback: extractChildFromRows(
-                          convert(deserializeEditorState(answer.feedback))
-                        ),
-                        hasFeedback: !!answer.feedback
-                      }
-                    })
-                : [])
+              ...(isSingleChoice ? convertedSCRightAnswers : []),
+              ...(isSingleChoice ? convertedSCWrongAnswers : []),
+              ...(!isSingleChoice ? convertedMCRightAnswers : []),
+              ...(!isSingleChoice ? convertedMCWrongAnswers : [])
             ]
           }
         }
