@@ -55,6 +55,9 @@ class PreviewFilter implements FilterInterface
     public function filter($value)
     {
         $value     = trim($value);
+        $value     = preg_replace('/<style[^>]*>([\s\S]*?)<\/style>/i', '', $value);
+        $value     = preg_replace('/<script[^>]*>([\s\S]*?)<\/script>/i', '', $value);
+        $value     = preg_replace('/<button[^>]*>([\s\S]*?)<\/button>/i', '', $value);
         $stripTags = new StripTags();
         $value     = $stripTags->filter($value);
         $length    = $this->length;
