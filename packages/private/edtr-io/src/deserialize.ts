@@ -324,24 +324,25 @@ export function deserialize({
         multipleChoiceWrongAnswer ||
         multipleChoiceRightAnswer
       ) {
-        const convertedSCRightAnswers = singleChoiceRightAnswer && singleChoiceRightAnswer.content
-          ? [
-              {
-                id: extractChildFromRows(
-                  convert(
-                    deserializeEditorState(singleChoiceRightAnswer.content)
-                  )
-                ),
-                isCorrect: true,
-                feedback: extractChildFromRows(
-                  convert(
-                    deserializeEditorState(singleChoiceRightAnswer.feedback)
-                  )
-                ),
-                hasFeedback: !!singleChoiceRightAnswer.feedback
-              }
-            ]
-          : []
+        const convertedSCRightAnswers =
+          singleChoiceRightAnswer && singleChoiceRightAnswer.content
+            ? [
+                {
+                  id: extractChildFromRows(
+                    convert(
+                      deserializeEditorState(singleChoiceRightAnswer.content)
+                    )
+                  ),
+                  isCorrect: true,
+                  feedback: extractChildFromRows(
+                    convert(
+                      deserializeEditorState(singleChoiceRightAnswer.feedback)
+                    )
+                  ),
+                  hasFeedback: !!singleChoiceRightAnswer.feedback
+                }
+              ]
+            : []
         const convertedSCWrongAnswers = singleChoiceWrongAnswer
           ? singleChoiceWrongAnswer
               .filter(answer => {
@@ -363,42 +364,47 @@ export function deserialize({
 
         const convertedMCRightAnswers = multipleChoiceRightAnswer
           ? multipleChoiceRightAnswer
-            .filter(answer => {
-              return answer.content
-            })
-            .map(answer => {
-              return {
-                id: extractChildFromRows(
-                  convert(deserializeEditorState(answer.content))
-                ),
-                isCorrect: true,
-                feedback: {
-                  plugin: 'text'
-                },
-                hasFeedback: false
-              }
-            })
+              .filter(answer => {
+                return answer.content
+              })
+              .map(answer => {
+                return {
+                  id: extractChildFromRows(
+                    convert(deserializeEditorState(answer.content))
+                  ),
+                  isCorrect: true,
+                  feedback: {
+                    plugin: 'text'
+                  },
+                  hasFeedback: false
+                }
+              })
           : []
 
         const convertedMCWrongAnswers = multipleChoiceWrongAnswer
           ? multipleChoiceWrongAnswer
-            .filter(answer => {
-              return answer.content
-            })
-            .map(answer => {
-              return {
-                id: extractChildFromRows(
-                  convert(deserializeEditorState(answer.content))
-                ),
-                isCorrect: false,
-                feedback: extractChildFromRows(
-                  convert(deserializeEditorState(answer.feedback))
-                ),
-                hasFeedback: !!answer.feedback
-              }
-            })
+              .filter(answer => {
+                return answer.content
+              })
+              .map(answer => {
+                return {
+                  id: extractChildFromRows(
+                    convert(deserializeEditorState(answer.content))
+                  ),
+                  isCorrect: false,
+                  feedback: extractChildFromRows(
+                    convert(deserializeEditorState(answer.feedback))
+                  ),
+                  hasFeedback: !!answer.feedback
+                }
+              })
           : []
-        console.log(convertedSCWrongAnswers, convertedSCRightAnswers, convertedMCWrongAnswers, convertedMCRightAnswers)
+        console.log(
+          convertedSCWrongAnswers,
+          convertedSCRightAnswers,
+          convertedMCWrongAnswers,
+          convertedMCRightAnswers
+        )
         const isSingleChoice = !(
           convertedMCRightAnswers.length || convertedMCWrongAnswers.length
         )
