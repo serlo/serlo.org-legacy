@@ -399,16 +399,9 @@ export function deserialize({
                 }
               })
           : []
-        console.log(
-          convertedSCWrongAnswers,
-          convertedSCRightAnswers,
-          convertedMCWrongAnswers,
-          convertedMCRightAnswers
-        )
         const isSingleChoice = !(
           convertedMCRightAnswers.length || convertedMCWrongAnswers.length
         )
-        console.log('isSingleChoice', isSingleChoice)
         return {
           plugin: 'scMcExercise',
           state: {
