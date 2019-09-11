@@ -19,12 +19,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
+  object
+} from '@edtr-io/plugin'
+import * as React from 'react'
+
 import {
   editorContent,
   entity,
@@ -32,7 +33,7 @@ import {
   optionalSerializedChild
 } from './common'
 
-export const textExerciseTypeState = StateType.object({
+export const textExerciseTypeState = object({
   ...entity,
   content: editorContent(),
   'text-hint': optionalSerializedChild('type-text-hint'),

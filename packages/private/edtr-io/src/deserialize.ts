@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { StateType } from '@edtr-io/core'
+import { StateDescriptorSerializedType } from '@edtr-io/plugin'
 import {
   convert,
   isEdtr,
@@ -156,7 +156,7 @@ export function deserialize({
 
   function deserializeApplet(
     state: AppletSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof appletTypeState> {
+  ): StateDescriptorSerializedType<typeof appletTypeState> {
     stack.push({ id: state.id, type: 'applet' })
     return {
       ...state,
@@ -176,7 +176,7 @@ export function deserialize({
 
   function deserializeArticle(
     state: ArticleSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof articleTypeState> {
+  ): StateDescriptorSerializedType<typeof articleTypeState> {
     stack.push({ id: state.id, type: 'article' })
     return {
       ...state,
@@ -195,7 +195,7 @@ export function deserialize({
 
   function deserializeCourse(
     state: CourseSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof courseTypeState> {
+  ): StateDescriptorSerializedType<typeof courseTypeState> {
     stack.push({ id: state.id, type: 'course' })
     return {
       ...state,
@@ -214,7 +214,7 @@ export function deserialize({
 
   function deserializeCoursePage(
     state: CoursePageSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof coursePageTypeState> {
+  ): StateDescriptorSerializedType<typeof coursePageTypeState> {
     stack.push({ id: state.id, type: 'course-page' })
     return {
       ...state,
@@ -229,7 +229,7 @@ export function deserialize({
 
   function deserializeEvent(
     state: EventSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof eventTypeState> {
+  ): StateDescriptorSerializedType<typeof eventTypeState> {
     stack.push({ id: state.id, type: 'event' })
     return {
       ...state,
@@ -245,7 +245,7 @@ export function deserialize({
 
   function deserializeMathPuzzle(
     state: MathPuzzleSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof mathPuzzleTypeState> {
+  ): StateDescriptorSerializedType<typeof mathPuzzleTypeState> {
     stack.push({ id: state.id, type: 'math-puzzle' })
     return {
       ...state,
@@ -259,7 +259,7 @@ export function deserialize({
 
   function deserializePage(
     state: PageSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof pageTypeState> {
+  ): StateDescriptorSerializedType<typeof pageTypeState> {
     stack.push({ id: state.id, type: 'page' })
     return {
       ...state,
@@ -282,7 +282,7 @@ export function deserialize({
     // inputNumberExactMatchChallenge,
     // inputStringNormalizedMatchChallenge,
     ...state
-  }: TextExerciseSerializedState): StateType.StateDescriptorSerializedType<
+  }: TextExerciseSerializedState): StateDescriptorSerializedType<
     typeof textExerciseTypeState
   > {
     stack.push({ id: state.id, type: 'text-exercise' })
@@ -312,9 +312,7 @@ export function deserialize({
     function deserializeScMcExercise():
       | {
           plugin: 'scMcExercise'
-          state: StateType.StateDescriptorSerializedType<
-            typeof scMcExerciseState
-          >
+          state: StateDescriptorSerializedType<typeof scMcExerciseState>
         }
       | undefined {
       stack.push({ id: state.id, type: 'sc-mc-exercise' })
@@ -424,9 +422,7 @@ export function deserialize({
 
   function deserializeTextExerciseGroup(
     state: TextExerciseGroupSerializedState
-  ): StateType.StateDescriptorSerializedType<
-    typeof textExerciseGroupTypeState
-  > {
+  ): StateDescriptorSerializedType<typeof textExerciseGroupTypeState> {
     stack.push({ id: state.id, type: 'text-exercise-group' })
     return {
       ...state,
@@ -442,7 +438,7 @@ export function deserialize({
 
   function deserializeTextHint(
     state: TextHintSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof textSolutionTypeState> {
+  ): StateDescriptorSerializedType<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-hint' })
     return {
       ...state,
@@ -457,7 +453,7 @@ export function deserialize({
 
   function deserializeTextSolution(
     state: TextSolutionSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof textSolutionTypeState> {
+  ): StateDescriptorSerializedType<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-solution' })
     return {
       ...state,
@@ -472,7 +468,7 @@ export function deserialize({
 
   function deserializeUser(
     state: UserSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof userTypeState> {
+  ): StateDescriptorSerializedType<typeof userTypeState> {
     stack.push({ id: state.id, type: 'user' })
     return {
       ...state,
@@ -484,7 +480,7 @@ export function deserialize({
 
   function deserializeVideo(
     state: VideoSerializedState
-  ): StateType.StateDescriptorSerializedType<typeof videoTypeState> {
+  ): StateDescriptorSerializedType<typeof videoTypeState> {
     stack.push({ id: state.id, type: 'video' })
     return {
       ...state,
@@ -632,6 +628,7 @@ function deserializeEditorState(
 }
 
 type EditorState = Legacy | Splish | Edtr | undefined
+
 // Fake `__type` property is just here to let TypeScript distinguish between the types
 type SerializedEditorState = (string | undefined) & {
   __type: 'serialized-editor-state'

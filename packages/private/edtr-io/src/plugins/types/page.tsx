@@ -19,18 +19,20 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
+  object,
+  string
+} from '@edtr-io/plugin'
+import * as React from 'react'
+
 import { Controls, editorContent, HeaderInput, license, uuid } from './common'
 
-export const pageTypeState = StateType.object({
+export const pageTypeState = object({
   ...uuid,
   ...license,
-  title: StateType.string(),
+  title: string(),
   content: editorContent()
 })
 

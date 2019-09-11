@@ -21,9 +21,8 @@
  */
 import 'regenerator-runtime/runtime'
 
-export { DocumentState } from '@edtr-io/core'
+export { DocumentState } from '@edtr-io/store'
 
 export { Editor, EditorProps } from './editor'
 export { Renderer } from './renderer'
-export * from './hooks'
 export { createPlugins } from './plugins'

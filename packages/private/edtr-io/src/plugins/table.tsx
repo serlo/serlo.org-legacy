@@ -19,11 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
+import { StatefulPlugin, StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { createTablePlugin } from '@edtr-io/plugin-table'
 import { converter } from '@serlo/markdown'
 import { typeset } from '@serlo/mathjax'
-import { StatefulPlugin, StatefulPluginEditorProps } from '@edtr-io/core'
+import * as React from 'react'
 
 const edtrTablePlugin = createTablePlugin({
   renderMarkdown: content => converter.makeHtml(content)

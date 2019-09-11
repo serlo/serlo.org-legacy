@@ -19,8 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { StateType } from '@edtr-io/core'
 import { faCog, Icon } from '@edtr-io/editor-ui'
+import { StateDescriptorReturnType, string } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import BSButton from 'react-bootstrap/lib/Button'
@@ -110,9 +110,7 @@ Settings.Textarea = function SettingsTextarea({
   state
 }: {
   label: string
-  state: StateType.StateDescriptorReturnType<
-    ReturnType<typeof StateType.string>
-  >
+  state: StateDescriptorReturnType<ReturnType<typeof string>>
 }) {
   return (
     <BSFormGroup>
@@ -135,9 +133,7 @@ Settings.Select = function SettingsSelect({
   options
 }: {
   label: string
-  state: StateType.StateDescriptorReturnType<
-    ReturnType<typeof StateType.string>
-  >
+  state: StateDescriptorReturnType<ReturnType<typeof string>>
   options: { label: string; value: string }[]
 }) {
   return (

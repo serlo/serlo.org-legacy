@@ -19,22 +19,23 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
+  object,
+  string
+} from '@edtr-io/plugin'
+import * as React from 'react'
 
 import { editorContent, entity, Controls, HeaderInput } from './common'
 import { Settings } from './helpers/settings'
 
-export const eventTypeState = StateType.object({
+export const eventTypeState = object({
   ...entity,
-  title: StateType.string(),
+  title: string(),
   content: editorContent(),
-  meta_title: StateType.string(),
-  meta_description: StateType.string()
+  meta_title: string(),
+  meta_description: string()
 })
 
 export const eventTypePlugin: StatefulPlugin<typeof eventTypeState> = {

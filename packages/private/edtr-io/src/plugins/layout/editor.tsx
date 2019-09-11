@@ -19,15 +19,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
-import {
-  StatefulPluginEditorProps,
-  selectors,
-  useStore,
-  DocumentState
-} from '@edtr-io/core'
-import { layoutState } from '.'
+import { useScopedStore } from '@edtr-io/core'
+import { StatefulPluginEditorProps, StatefulPlugin } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
+import { DocumentState, serializeDocument } from '@edtr-io/store'
+import * as React from 'react'
+
+import { layoutState } from '.'
 
 const LayoutContainer = styled.div({
   display: 'flex',
@@ -67,17 +65,14 @@ export const LayoutRenderer: React.FunctionComponent<
     remove?: () => void
   }
 > = props => {
-  const store = useStore()
+  const store = useScopedStore()
   const convertToRow = () => {
     props.state.items.reverse().forEach(item => {
       if (props.insert) {
-        const element = selectors.serializeDocument(
-          store.getState(),
-          item.child.id
-        )
+        const element = serializeDocument(item.child.id)(store.getState())
         if (element) {
           if (element.plugin === 'rows') {
-            const rowsState = element.state as DocumentState[]
+            const rowsState = (element as { state: DocumentState[] }).state
             rowsState.reverse().forEach(rowsItem => {
               if (props.insert) {
                 props.insert(rowsItem)

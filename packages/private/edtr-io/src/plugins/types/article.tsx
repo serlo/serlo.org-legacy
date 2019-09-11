@@ -23,18 +23,20 @@ import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
+  object,
+  string
+} from '@edtr-io/plugin'
+
 import { Controls, editorContent, entity, HeaderInput } from './common'
 import { Settings } from './helpers/settings'
 
-export const articleTypeState = StateType.object({
+export const articleTypeState = object({
   ...entity,
-  title: StateType.string(),
+  title: string(),
   content: editorContent(),
   reasoning: editorContent(),
-  meta_title: StateType.string(),
-  meta_description: StateType.string()
+  meta_title: string(),
+  meta_description: string()
 })
 
 export const articleTypePlugin: StatefulPlugin<typeof articleTypeState> = {

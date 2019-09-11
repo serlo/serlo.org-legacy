@@ -19,16 +19,25 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { styled } from '@edtr-io/ui'
-import * as React from 'react'
 import {
-  actions,
-  StateType,
-  connect as connectStore,
-  selectors,
-  ScopedActionCreator,
-  ScopeContext
+  ScopeContext,
+  useScopedDispatch,
+  useScopedSelector,
+  useScopedStore
 } from '@edtr-io/core'
+import {
+  StateDescriptor,
+  StateDescriptorsSerializedType,
+  StateDescriptorValueType,
+  StateDescriptorReturnType,
+  child,
+  number,
+  object,
+  string
+} from '@edtr-io/plugin'
+import { styled } from '@edtr-io/ui'
+import { button } from '@storybook/addon-knobs'
+import * as React from 'react'
 import BSAlert from 'react-bootstrap/lib/Alert'
 import BSModal from 'react-bootstrap/lib/Modal'
 import BSButton from 'react-bootstrap/lib/Button'
@@ -36,22 +45,28 @@ import BSCheckbox from 'react-bootstrap/lib/Checkbox'
 import BSFormGroup from 'react-bootstrap/lib/FormGroup'
 import BSControlLabel from 'react-bootstrap/lib/ControlLabel'
 import BSFormControl from 'react-bootstrap/lib/FormControl'
-
 import { createPortal } from 'react-dom'
 
 import { SaveContext } from '../../editor'
-import { button } from '@storybook/addon-knobs'
+import {
+  getRedoStack,
+  getUndoStack,
+  hasPendingChanges,
+  redo,
+  serializeRootDocument,
+  undo
+} from '@edtr-io/store'
 
-export const licenseState = StateType.object({
-  id: StateType.number(),
-  title: StateType.string(),
-  url: StateType.string(),
-  agreement: StateType.string(),
-  iconHref: StateType.string()
+export const licenseState = object({
+  id: number(),
+  title: string(),
+  url: string(),
+  agreement: string(),
+  iconHref: string()
 })
 
 export const uuid = {
-  id: StateType.number()
+  id: number()
 }
 
 export const license = {
@@ -61,41 +76,14 @@ export const license = {
 export const entity = {
   ...uuid,
   ...license,
-  changes: StateType.string()
+  changes: string()
 }
 
-export type Uuid = StateType.StateDescriptorsSerializedType<typeof uuid>
+export type Uuid = StateDescriptorsSerializedType<typeof uuid>
 
-export type License = StateType.StateDescriptorsSerializedType<typeof license>
+export type License = StateDescriptorsSerializedType<typeof license>
 
 export type Entity = Uuid & License & { changes?: string }
-
-const connect = connectStore<
-  StateProps,
-  {
-    undo: ScopedActionCreator<typeof actions.undo>
-    redo: ScopedActionCreator<typeof actions.redo>
-    persist: ScopedActionCreator<typeof actions.persist>
-  },
-  OwnProps & { scope: string }
->(
-  state => {
-    return {
-      undoable: selectors.getUndoStack(state).length > 0,
-      redoable: selectors.getRedoStack(state).length > 0,
-      hasPendingChanges: selectors.hasPendingChanges(state),
-      serializeRootDocument: () => {
-        const serialized = selectors.serializeRootDocument(state)
-        return serialized ? serialized.state : null
-      }
-    }
-  },
-  {
-    undo: actions.undo,
-    redo: actions.redo,
-    persist: actions.persist
-  }
-)
 
 export const HeaderInput = styled.input({
   border: 'none',
@@ -107,14 +95,13 @@ export const HeaderInput = styled.input({
   }
 })
 
-export const Controls = function(props: OwnProps) {
-  const { scope } = React.useContext(ScopeContext)
-  return <InnerControls scope={scope} {...props} />
-}
+export function Controls(props: OwnProps) {
+  const store = useScopedStore()
+  const dispatch = useScopedDispatch()
+  const undoable = useScopedSelector(getUndoStack).length > 0
+  const redoable = useScopedSelector(getRedoStack).length > 0
+  const pendingChanges = useScopedSelector(hasPendingChanges)
 
-const InnerControls = connect(function SaveButton(
-  props: StateProps & DispatchProps & OwnProps
-) {
   const [visible, setVisibility] = React.useState(false)
   const [pending, setPending] = React.useState(false)
   const [hasError, setHasError] = React.useState(false)
@@ -136,9 +123,8 @@ const InnerControls = connect(function SaveButton(
   }, [visible])
 
   React.useEffect(() => {
-    window.onbeforeunload =
-      props.hasPendingChanges && !pending ? () => '' : null
-  }, [props.hasPendingChanges, pending])
+    window.onbeforeunload = pendingChanges && !pending ? () => '' : null
+  }, [pendingChanges, pending])
 
   return (
     <React.Fragment>
@@ -147,18 +133,18 @@ const InnerControls = connect(function SaveButton(
           <button
             className="btn btn-default"
             onClick={() => {
-              props.undo()
+              dispatch(undo())
             }}
-            disabled={!props.undoable}
+            disabled={!undoable}
           >
             <span className="fa fa-undo"></span>
           </button>
           <button
             className="btn btn-default"
             onClick={() => {
-              props.redo()
+              dispatch(redo())
             }}
-            disabled={!props.redoable}
+            disabled={!redoable}
           >
             <span className="fa fa-repeat"></span>
           </button>
@@ -215,14 +201,14 @@ const InnerControls = connect(function SaveButton(
           onClick() {
             setVisibility(true)
           },
-          disabled: !props.hasPendingChanges,
+          disabled: !pendingChanges,
           children: <span className="fa fa-save" />
         }
       : {
           onClick() {
             handleSave()
           },
-          disabled: !props.hasPendingChanges || !maySave() || pending,
+          disabled: !pendingChanges || !maySave() || pending,
           children: pending ? (
             <span className="fa fa-spinner fa-spin" />
           ) : (
@@ -240,7 +226,10 @@ const InnerControls = connect(function SaveButton(
 
   function handleSave() {
     if (!maySave()) return
-    const serialized = props.serializeRootDocument()
+    const serializedRoot = serializeRootDocument()(store.getState())
+    const serialized = serializedRoot
+      ? (serializedRoot as { state: unknown }).state
+      : null
     setPending(true)
     save({
       ...serialized,
@@ -342,22 +331,22 @@ const InnerControls = connect(function SaveButton(
       </React.Fragment>
     )
   }
-})
+}
 
-export function editorContent(): StateType.StateDescriptor<
+export function editorContent(): StateDescriptor<
   string,
-  StateType.StateDescriptorValueType<ReturnType<typeof StateType.child>>,
-  StateType.StateDescriptorReturnType<ReturnType<typeof StateType.child>>
+  StateDescriptorValueType<ReturnType<typeof child>>,
+  StateDescriptorReturnType<ReturnType<typeof child>>
 > {
-  const child = StateType.child('rows')
-  const { serialize, deserialize } = child
-  return Object.assign(child, {
-    serialize(...args: Parameters<typeof child.serialize>) {
+  const originalChild = child('rows')
+  const { serialize, deserialize } = originalChild
+  return Object.assign(originalChild, {
+    serialize(...args: Parameters<typeof originalChild.serialize>) {
       return JSON.stringify(serialize(...args))
     },
     deserialize(
       serialized: string,
-      helpers: Parameters<typeof child.deserialize>[1]
+      helpers: Parameters<typeof originalChild.deserialize>[1]
     ) {
       console.log('stateType', serialized)
       return deserialize(JSON.parse(serialized), helpers)
@@ -367,20 +356,20 @@ export function editorContent(): StateType.StateDescriptor<
 
 export function serializedChild(
   plugin: string
-): StateType.StateDescriptor<
+): StateDescriptor<
   unknown,
-  StateType.StateDescriptorValueType<ReturnType<typeof StateType.child>>,
-  StateType.StateDescriptorReturnType<ReturnType<typeof StateType.child>>
+  StateDescriptorValueType<ReturnType<typeof child>>,
+  StateDescriptorReturnType<ReturnType<typeof child>>
 > {
-  const child = StateType.child(plugin)
-  const { serialize, deserialize } = child
-  return Object.assign(child, {
-    serialize(...args: Parameters<typeof child.serialize>) {
+  const originalChild = child(plugin)
+  const { serialize, deserialize } = originalChild
+  return Object.assign(originalChild, {
+    serialize(...args: Parameters<typeof originalChild.serialize>) {
       return serialize(...args).state
     },
     deserialize(
       serialized: string,
-      helpers: Parameters<typeof child.deserialize>[1]
+      helpers: Parameters<typeof originalChild.deserialize>[1]
     ) {
       return deserialize(
         {
@@ -414,21 +403,8 @@ export function optionalSerializedChild(plugin: string) {
   })
 }
 
-interface StateProps {
-  hasPendingChanges: ReturnType<typeof selectors.hasPendingChanges>
-  undoable: boolean
-  redoable: boolean
-  serializeRootDocument: () => unknown | null
-}
-
-interface DispatchProps {
-  persist: () => void
-  undo: () => void
-  redo: () => void
-}
-
 interface OwnProps {
-  changes?: StateType.StateDescriptorReturnType<typeof entity['changes']>
-  license?: StateType.StateDescriptorReturnType<typeof entity['license']>
+  changes?: StateDescriptorReturnType<typeof entity['changes']>
+  license?: StateDescriptorReturnType<typeof entity['license']>
   subscriptions?: boolean
 }

@@ -19,13 +19,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
-import { EditorInput } from '@edtr-io/editor-ui'
+  object,
+  string
+} from '@edtr-io/plugin'
+import * as React from 'react'
+
 import {
   entity,
   Controls,
@@ -34,10 +35,10 @@ import {
   HeaderInput
 } from './common'
 
-export const videoTypeState = StateType.object({
+export const videoTypeState = object({
   ...entity,
   content: serializedChild('video'),
-  title: StateType.string(),
+  title: string(),
   description: editorContent(),
   reasoning: editorContent()
 })
