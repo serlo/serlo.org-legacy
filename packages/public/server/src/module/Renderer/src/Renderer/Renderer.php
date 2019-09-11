@@ -24,6 +24,7 @@
 namespace Renderer;
 
 use Exception;
+use Raven_Client;
 use Renderer\Exception\RuntimeException;
 use Renderer\View\Helper\FormatHelper;
 use Renderer\View\Helper\FormatHelperAwareTrait;
@@ -54,19 +55,26 @@ class Renderer
     private $cacheEnabled;
 
     /**
+     * @var Raven_Client
+     */
+    private $sentry;
+
+    /**
      * @param string $editorRendererUrl
      * @param string $legacyRendererUrl
      * @param FormatHelper $formatHelper
      * @param StorageInterface $storage
      * @param bool $cacheEnabled
+     * @param Raven_Client $sentry
      */
-    public function __construct($editorRendererUrl, $legacyRendererUrl, FormatHelper $formatHelper, StorageInterface $storage, $cacheEnabled)
+    public function __construct($editorRendererUrl, $legacyRendererUrl, FormatHelper $formatHelper, StorageInterface $storage, $cacheEnabled, Raven_Client $sentry)
     {
         $this->editorRendererUrl = $editorRendererUrl;
         $this->legacyRendererUrl = $legacyRendererUrl;
         $this->formatHelper = $formatHelper;
         $this->storage = $storage;
         $this->cacheEnabled = $cacheEnabled;
+        $this->sentry = $sentry;
     }
 
     /**
@@ -105,6 +113,7 @@ class Renderer
         try {
             $rendered = json_decode($result, true)['html'];
         } catch (Exception $e) {
+            $this->sentry->captureException($e, ['tags' => ['renderer' => true]]);
             throw new RuntimeException(sprintf('Broken pipe'));
         }
 

@@ -22,6 +22,7 @@
  */
 namespace Renderer\Factory;
 
+use Raven_Client;
 use Renderer\Renderer;
 use Renderer\View\Helper\FormatHelper;
 use Zend\Cache\Storage\StorageInterface;
@@ -40,13 +41,17 @@ class RendererFactory implements FactoryInterface
     {
         /** @var StorageInterface $storage */
         $storage = $serviceLocator->get('Renderer\Storage\RendererStorage');
+        /**
+         * @var $sentry Raven_Client
+         */
+        $sentry = $serviceLocator->get('Log\Sentry');
         $formatHelper = new FormatHelper();
         $config  = $serviceLocator->get('config');
         $editorRendererUrl = $config['assets']['editor_renderer'];
         $legacyRendererUrl = $config['assets']['legacy_editor_renderer'];
         $cacheEnabled = $config['renderer']['cache_enabled'];
 
-        $service = new Renderer($editorRendererUrl, $legacyRendererUrl, $formatHelper, $storage, $cacheEnabled);
+        $service = new Renderer($editorRendererUrl, $legacyRendererUrl, $formatHelper, $storage, $cacheEnabled, $sentry);
 
         return $service;
     }
