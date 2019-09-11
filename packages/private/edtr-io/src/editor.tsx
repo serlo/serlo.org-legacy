@@ -19,31 +19,25 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Editor as Core, EditorProps as CoreProps } from '@edtr-io/core'
-import { PluginRegistry } from '@edtr-io/plugin-rows'
-
-import * as React from 'react'
-
-import {
-  deserialize,
-  DeserializeError,
-  DeserializeSuccess,
-  isError
-} from './deserialize'
-import { createPlugins } from './plugins'
-import { textPlugin } from '@edtr-io/plugin-text'
+import { Editor as Core } from '@edtr-io/core'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
+import { PluginRegistry } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { tablePlugin } from '@edtr-io/plugin-table'
+import { textPlugin } from '@edtr-io/plugin-text'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
+import * as React from 'react'
+
+import { deserialize, isError } from './deserialize'
+import { createPlugins } from './plugins'
 import { imagePlugin } from './plugins/image'
 
 export interface EditorProps {

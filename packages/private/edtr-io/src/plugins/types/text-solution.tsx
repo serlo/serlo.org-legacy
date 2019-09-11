@@ -19,19 +19,21 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
+  object,
+  string
+} from '@edtr-io/plugin'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
+import * as React from 'react'
+
 import { Controls, editorContent, entity } from './common'
 
-export const textSolutionTypeState = StateType.object({
+export const textSolutionTypeState = object({
   ...entity,
   // FIXME: solutions don't have a title
-  title: StateType.string(''),
+  title: string(''),
   content: editorContent()
 })
 

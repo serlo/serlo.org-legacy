@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { StateType } from '@edtr-io/core'
+import { LoadedFile, UploadValidator } from '@edtr-io/plugin'
 import { createImagePlugin } from '@edtr-io/plugin-image'
 import axios from 'axios'
 
@@ -69,7 +69,7 @@ function errorCodeToMessage(error: FileErrorCode) {
   }
 }
 
-export const validateFile: StateType.UploadValidator<FileError[]> = file => {
+export const validateFile: UploadValidator<FileError[]> = file => {
   let uploadErrors: FileErrorCode[] = []
 
   if (!file) {
@@ -103,7 +103,7 @@ export function uploadImageHandler(file: File): Promise<string> {
   })
 }
 
-export function readFile(file: File): Promise<StateType.LoadedFile> {
+export function readFile(file: File): Promise<LoadedFile> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
 

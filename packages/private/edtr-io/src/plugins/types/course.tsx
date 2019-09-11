@@ -23,8 +23,11 @@ import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
+  list,
+  object,
+  string
+} from '@edtr-io/plugin'
+
 import {
   editorContent,
   entity,
@@ -34,13 +37,13 @@ import {
 } from './common'
 import { Settings } from './helpers/settings'
 
-export const courseTypeState = StateType.object({
+export const courseTypeState = object({
   ...entity,
-  title: StateType.string(),
+  title: string(),
   content: editorContent(),
   reasoning: editorContent(),
-  meta_description: StateType.string(),
-  'course-page': StateType.list(serializedChild('type-course-page'))
+  meta_description: string(),
+  'course-page': list(serializedChild('type-course-page'))
 })
 
 export const courseTypePlugin: StatefulPlugin<typeof courseTypeState> = {

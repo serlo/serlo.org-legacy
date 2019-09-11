@@ -19,19 +19,21 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
+  object,
+  string
+} from '@edtr-io/plugin'
 import { hintPlugin } from '@edtr-io/plugin-hint'
+import * as React from 'react'
+
 import { Controls, editorContent, entity } from './common'
 
-export const textHintTypeState = StateType.object({
+export const textHintTypeState = object({
   ...entity,
   // FIXME: hints don't have a title
-  title: StateType.string(''),
+  title: string(''),
   content: editorContent()
 })
 

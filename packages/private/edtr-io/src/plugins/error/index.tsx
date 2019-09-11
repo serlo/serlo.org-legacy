@@ -22,14 +22,16 @@
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
-import * as React from 'react'
+  object,
+  scalar,
+  string
+} from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
+import * as React from 'react'
 
-export const errorState = StateType.object({
-  plugin: StateType.string(),
-  state: StateType.scalar<unknown>({})
+export const errorState = object({
+  plugin: string(),
+  state: scalar<unknown>({})
 })
 
 const Error = styled.div({

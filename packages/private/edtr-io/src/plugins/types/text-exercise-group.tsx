@@ -19,18 +19,20 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
+  list,
+  object
+} from '@edtr-io/plugin'
+import * as React from 'react'
+
 import { editorContent, entity, Controls, serializedChild } from './common'
 
-export const textExerciseGroupTypeState = StateType.object({
+export const textExerciseGroupTypeState = object({
   ...entity,
   content: editorContent(),
-  'grouped-text-exercise': StateType.list(serializedChild('type-text-exercise'))
+  'grouped-text-exercise': list(serializedChild('type-text-exercise'))
 })
 
 export const textExerciseGroupTypePlugin: StatefulPlugin<
