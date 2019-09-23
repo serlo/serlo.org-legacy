@@ -23,15 +23,15 @@
 {% set entities = entity().getVisible(entities) %}
 {% set types = entity().asTypeCollection(entities) %}
 {% if entities.count() %}
-    {% for i in 0..3 %}
-        {% set type = cycle(['course', 'article', 'video', 'applet'], i) %}
+    {% for i in 0..4 %}
+        {% set type = cycle([ 'event', 'course', 'article', 'video', 'applet'], i) %}
         {% if types.get(type) %}
             <div class="row top-buffer-10">
                 <div class="col-xs-2 text-center">
-                    <span class="fa h2 fa-2x fa-{{ cycle(['graduation-cap', 'newspaper-o', 'play-circle', 'cubes'], i) }}"></span>
+                    <span class="fa h2 fa-2x fa-{{ cycle(['calendar', 'graduation-cap', 'newspaper-o', 'play-circle', 'cubes'], i) }}"></span>
                 </div>
                 <div class="col-xs-10">
-                    <div class="h2">{{ cycle(['Courses' | trans, 'Articles' | trans, 'Videos' | trans, 'Applets' | trans], i) }}</div>
+                    <div class="h2">{{ cycle(['Events' | trans, 'Courses' | trans, 'Articles' | trans, 'Videos' | trans, 'Applets' | trans], i) }}</div>
                     {% for link in types.get(type) %}
                         <div class="row">
                             <div class="col-xs-12">
