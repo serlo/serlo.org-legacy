@@ -63,12 +63,12 @@
                 {% set entities = entity().getVisible(entities) %}
                 {% set types = entity().asTypeCollection(entities) %}
                 {% if entities.count() %}
-                    {% for i in 0..3 %}
-                        {% set type = cycle(['course', 'article', 'video', 'applet'], i) %}
+                    {% for i in 0..4 %}
+                        {% set type = cycle(['course', 'article', 'video', 'applet', 'event'], i) %}
                         {% if types.get(type) %}
                             <div class="row bottom-buffer-15">
                                 <div class="col-xs-2 text-center">
-                                    <span class="fa fa-1-5x fa-{{ cycle(['graduation-cap', 'newspaper-o', 'play-circle', 'cubes'], i) }}"></span>
+                                    <span class="fa fa-1-5x fa-{{ cycle(['graduation-cap', 'newspaper-o', 'play-circle', 'cubes', 'calendar'], i) }}"></span>
                                 </div>
                                 <div class="col-xs-10">
                                     <ul>

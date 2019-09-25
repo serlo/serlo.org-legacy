@@ -170,12 +170,14 @@
             <a class="collapse-hide-label">{% trans %} Hide hint {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
         </div>
     {% endif %}
-    {% if not isLegacyFormat(revision.get('content')) or (singleChoices|length == 0 and multipleChoices|length == 0 and not inputChallenge and showSolution) %}
-        <div class="solution collapsed" data-toggle="collapse"
-             data-target="#solution-{{ solution.getId() }}">
-            <a class="collapse-show-label">{% trans %} Show solution {% endtrans %}<span class="caret"></span></a>
-            <a class="collapse-hide-label">{% trans %} Hide solution {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
-        </div>
+    {% if showSolution %}
+        {% if not isLegacyFormat(revision.get('content')) or (singleChoices|length == 0 and multipleChoices|length == 0 and not inputChallenge) %}
+            <div class="solution collapsed" data-toggle="collapse"
+                 data-target="#solution-{{ solution.getId() }}">
+                <a class="collapse-show-label">{% trans %} Show solution {% endtrans %}<span class="caret"></span></a>
+                <a class="collapse-hide-label">{% trans %} Hide solution {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
+            </div>
+        {% endif %}
     {% endif %}
     {% if inputChallenge %}
         <section>
