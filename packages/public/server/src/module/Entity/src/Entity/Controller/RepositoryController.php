@@ -42,6 +42,7 @@ use Versioning\Exception\RevisionNotFoundException;
 use Versioning\RepositoryManagerAwareTrait;
 use Zend\Filter\StripTags;
 use Zend\Form\Form;
+use Zend\Form\FormInterface;
 use Zend\Mvc\I18n\Translator;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
@@ -96,10 +97,11 @@ class RepositoryController extends AbstractController
         if ($this->getRequest()->isPost()) {
             $data = json_decode($this->getRequest()->getContent(), true);
             $validated = $this->checkData($data, [
-                "controls" => $data['controls'],
-                "csrf" => $data['csrf'],
-                "license" => [
-                    "agreement" => 1,
+                'changes' => $data['changes'],
+                'controls' => $data['controls'],
+                'csrf' => $data['csrf'],
+                'license' => [
+                    'agreement' => 1,
                 ],
             ]);
 
@@ -138,47 +140,51 @@ class RepositoryController extends AbstractController
 
         if ($this->moduleOptions->getType($type)->hasComponent('link')) {
             // check children
+            $validateChild = function ($child, $merges) use (&$elements, &$messages, &$validChildren) {
+                $validated = $this->checkData($child, $merges);
+                if ($validated['valid']) {
+                    $elements = array_merge($elements, $validated['elements']);
+                } else {
+                    $validChildren = false;
+                    $messages = array_merge($messages, $validated['messages']);
+                }
+            };
+
             /** @var LinkOptions $linkOptions */
             $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
             foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
-                if (isset($data[$allowedChild])) {
+                if (isset($data[$allowedChild]) && $data[$allowedChild]) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
                         /* TODO: create entity for new children (e.g. course page)*/
                         foreach ($data[$allowedChild] as $child) {
-                            $validated = $this->checkData($child, $merges);
-                            if ($validated['valid']) {
-                                $elements = array_merge($elements, $validated['elements']);
-                            } else {
-                                $validChildren = false;
-                                $messages = array_merge($messages, $validated['messages']);
-                            }
+                            $validateChild($child, $merges);
                         }
                     } else {
-                        $validated = $this->checkData($data[$allowedChild], $merges);
-                        if ($validated['valid']) {
-                            $elements = array_merge($elements, $validated['elements']);
-                        } else {
-                            $validChildren = false;
-                            $messages = array_merge($messages, $validated['messages']);
-                        }
+                        $validateChild($data[$allowedChild], $merges);
                     }
                 }
             }
         }
 
-        // check if the data is valid for the entity
-        // and check if the data did change
         $form = $this->getForm($entity);
-        // validation needs to be executed, for getData.
-        $form->isValid();
-        $dataPartPrevious = $form->getData();
         $form->setData($data);
-        if ($form->isValid() && $validChildren) {
-            // get the relevant data of this form and compare it to the previous data (ignoring the $merges)
+        $valid = $form->isValid();
+        if ($valid && $validChildren) {
+            // get the relevant data of this form and compare it to the previous data (ignoring $merges)
             $dataPartNext = $form->getData();
-            if (array_merge($dataPartPrevious, $merges) != array_merge($dataPartNext, $merges)) {
+
+            if ($entity->hasCurrentRevision()) {
+                // check for changes with previous revision data, ignoring $merges
+                $revision = $entity->getCurrentRevision();
+                $dataPartPrevious = $this->getRevisionData($revision);
+                // only check equality (==) not identity (===) to ignore different key order
+                if (array_merge($dataPartPrevious, $merges) != array_merge($dataPartNext, $merges)) {
+                    $elements[] = ['entity' => $entity, 'data' => $dataPartNext];
+                }
+            } else {
                 $elements[] = ['entity' => $entity, 'data' => $dataPartNext];
             }
+
             return ['valid' => true, 'elements' => $elements];
         } else {
             $messages = array_merge($messages, $form->getMessages());
@@ -323,10 +329,7 @@ class RepositoryController extends AbstractController
         $revision = $this->getRevision($entity, $id);
 
         if (is_object($revision)) {
-            $data = [];
-            foreach ($revision->getFields() as $field) {
-                $data[$field->getName()] = $field->getValue();
-            }
+            $data = $this->getRevisionData($revision);
             $form->setData($data);
         }
 
@@ -337,6 +340,16 @@ class RepositoryController extends AbstractController
 
 
         return $form;
+    }
+
+    protected function getRevisionData(RevisionInterface $revision)
+    {
+        $data = [];
+        /** @var RevisionField $field */
+        foreach ($revision->getFields() as $field) {
+            $data[$field->getName()] = $field->getValue();
+        }
+        return $data;
     }
 
     protected function getData(EntityInterface $entity, $id = null)
@@ -359,10 +372,7 @@ class RepositoryController extends AbstractController
         // add revision data
         $revision = $this->getRevision($entity, $id);
         if (is_object($revision)) {
-            /** @var RevisionField $field */
-            foreach ($revision->getFields() as $field) {
-                $data[$field->getName()] = $field->getValue();
-            }
+            $data = array_merge($data, $this->getRevisionData($revision));
         }
 
         if ($this->moduleOptions->getType($type)->hasComponent('link')) {
