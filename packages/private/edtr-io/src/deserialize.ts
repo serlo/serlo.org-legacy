@@ -28,6 +28,7 @@ import {
   RowsPlugin,
   Splish
 } from '@serlo/legacy-editor-to-editor'
+import * as R from 'ramda'
 
 import { appletTypeState } from './plugins/types/applet'
 import { articleTypeState } from './plugins/types/article'
@@ -44,6 +45,7 @@ import { userTypeState } from './plugins/types/user'
 import { videoTypeState } from './plugins/types/video'
 import { Entity, License, Uuid } from './plugins/types/common'
 import { EditorProps } from './editor'
+import { inputExerciseState } from '@edtr-io/plugin-input-exercise'
 
 export function deserialize({
   initialState,
@@ -278,9 +280,9 @@ export function deserialize({
     'single-choice-wrong-answer': singleChoiceWrongAnswer,
     'multiple-choice-right-answer': multipleChoiceRightAnswer,
     'multiple-choice-wrong-answer': multipleChoiceWrongAnswer,
-    // inputExpressionEqualMatchChallenge,
-    // inputNumberExactMatchChallenge,
-    // inputStringNormalizedMatchChallenge,
+    'input-expression-equal-match-challenge': inputExpressionEqualMatchChallenge,
+    'input-number-exact-match-challenge': inputNumberExactMatchChallenge,
+    'input-string-normalized-match-challenge': inputStringNormalizedMatchChallenge,
     ...state
   }: TextExerciseSerializedState): StateTypeSerializedType<
     typeof textExerciseTypeState
@@ -293,8 +295,12 @@ export function deserialize({
         ? deserializeScMcExercise()
         : undefined
 
+    const inputExercise =
+      deserialized && !isEdtr(deserialized)
+        ? deserializeInputExercise()
+        : undefined
+
     const converted = toEdtr(deserialized)
-    // const inputExercise = convertInputExercise({ inputExpressionEqualMatchChallenge, inputNumberExactMatchChallenge, inputStringNormalizedMatchChallenge })
 
     return {
       ...state,
@@ -305,7 +311,11 @@ export function deserialize({
         : '',
       content: serializeEditorState({
         plugin: 'rows',
-        state: [...converted.state, ...(scMcExercise ? [scMcExercise] : [])]
+        state: [
+          ...converted.state,
+          ...(scMcExercise ? [scMcExercise] : []),
+          ...(inputExercise ? [inputExercise] : [])
+        ]
       })
     }
 
@@ -411,6 +421,78 @@ export function deserialize({
               ...(!isSingleChoice ? convertedMCWrongAnswers : [])
             ]
           }
+        }
+      }
+    }
+
+    function deserializeInputExercise():
+      | {
+          plugin: 'inputExercise'
+          state: StateTypeSerializedType<typeof inputExerciseState>
+        }
+      | undefined {
+      if (
+        inputStringNormalizedMatchChallenge ||
+        inputNumberExactMatchChallenge ||
+        inputExpressionEqualMatchChallenge
+      ) {
+        const type = inputStringNormalizedMatchChallenge
+          ? 'input-string-normalized-match-challenge'
+          : inputNumberExactMatchChallenge
+          ? 'input-number-exact-match-challenge'
+          : 'input-expression-equal-match-challenge'
+
+        function extractInputAnswers(
+          inputExercises: InputType[],
+          isCorrect: boolean
+        ): {
+          value: string
+          isCorrect: boolean
+          feedback: { plugin: string; state?: unknown }
+        }[] {
+          if (inputExercises.length === 0) return []
+
+          const answers = inputExercises.map(exercise => {
+            return {
+              value: exercise.solution,
+              feedback: extractChildFromRows(
+                convert(deserializeEditorState(exercise.feedback))
+              ),
+              isCorrect
+            }
+          })
+
+          const children = R.flatten(
+            inputExercises.map(exercise => {
+              return filterDefined([
+                exercise['input-string-normalized-match-challenge'],
+                exercise['input-number-exact-match-challenge'],
+                exercise['input-expression-equal-match-challenge']
+              ])
+            })
+          )
+
+          return R.concat(answers, extractInputAnswers(children, false))
+        }
+        const inputExercises = filterDefined([
+          inputStringNormalizedMatchChallenge,
+          inputNumberExactMatchChallenge,
+          inputExpressionEqualMatchChallenge
+        ])
+
+        return {
+          plugin: 'inputExercise',
+          state: {
+            __version__: 1,
+            value: {
+              type,
+              answers: extractInputAnswers(inputExercises, true)
+            }
+          }
+        }
+
+        function filterDefined<T>(array: (T | undefined)[]): T[] {
+          return array.filter(el => typeof el !== 'undefined') as T[]
         }
       }
     }
@@ -561,6 +643,17 @@ export function deserialize({
       content: SerializedLegacyEditorState
       feedback: SerializedLegacyEditorState
     }[]
+    'input-expression-equal-match-challenge'?: InputType
+    'input-number-exact-match-challenge'?: InputType
+    'input-string-normalized-match-challenge': InputType
+  }
+
+  interface InputType {
+    solution: string
+    feedback: SerializedLegacyEditorState
+    'input-expression-equal-match-challenge'?: InputType[]
+    'input-number-exact-match-challenge'?: InputType[]
+    'input-string-normalized-match-challenge'?: InputType[]
   }
 
   interface TextExerciseGroupSerializedState extends Entity {

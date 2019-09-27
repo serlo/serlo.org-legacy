@@ -179,7 +179,7 @@
             </div>
         {% endif %}
     {% endif %}
-    {% if inputChallenge %}
+    {% if isLegacyFormat(revision.get('content')) and inputChallenge%}
         <section>
             {% include 'entity/view/default' with {
                 'entity': inputChallenge,
