@@ -47,10 +47,10 @@ export const ErrorRenderer: React.FunctionComponent<
         <strong>Beim Konvertieren ist ein Fehler aufgetreten!</strong>
       </p>
       <p>
-        Das Plugin {props.state.plugin()} konnte nicht konvertiert werden. Es
-        enthielt folgende Daten:
+        Das Plugin {props.state.plugin.value} konnte nicht konvertiert werden.
+        Es enthielt folgende Daten:
       </p>
-      <code>{JSON.stringify(props.state.state())}</code>
+      <code>{JSON.stringify(props.state.state.value)}</code>
       <p>Bitte wende dich an einen Entwickler.</p>
     </Error>
   )

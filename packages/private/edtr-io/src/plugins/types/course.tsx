@@ -83,7 +83,7 @@ function CourseTypeEditor(
         )}
       </h1>
       {content.render()}
-      {children.items.map(child => {
+      {children.map(child => {
         return (
           <React.Fragment key={child.id}>
             <hr />

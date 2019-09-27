@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { faCog, Icon } from '@edtr-io/editor-ui'
-import { StateDescriptorReturnType, string } from '@edtr-io/plugin'
+import { StateTypeReturnType, string } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import BSButton from 'react-bootstrap/lib/Button'
@@ -110,7 +110,7 @@ Settings.Textarea = function SettingsTextarea({
   state
 }: {
   label: string
-  state: StateDescriptorReturnType<ReturnType<typeof string>>
+  state: StateTypeReturnType<ReturnType<typeof string>>
 }) {
   return (
     <BSFormGroup>
@@ -133,7 +133,7 @@ Settings.Select = function SettingsSelect({
   options
 }: {
   label: string
-  state: StateDescriptorReturnType<ReturnType<typeof string>>
+  state: StateTypeReturnType<ReturnType<typeof string>>
   options: { label: string; value: string }[]
 }) {
   return (

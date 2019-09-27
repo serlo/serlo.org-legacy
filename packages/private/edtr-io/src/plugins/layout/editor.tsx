@@ -20,9 +20,10 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { useScopedStore } from '@edtr-io/core'
-import { StatefulPluginEditorProps, StatefulPlugin } from '@edtr-io/plugin'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
 import { DocumentState, serializeDocument } from '@edtr-io/store'
+import * as R from 'ramda'
 import * as React from 'react'
 
 import { layoutState } from '.'
@@ -67,7 +68,7 @@ export const LayoutRenderer: React.FunctionComponent<
 > = props => {
   const store = useScopedStore()
   const convertToRow = () => {
-    props.state.items.reverse().forEach(item => {
+    R.reverse(props.state).forEach(item => {
       if (props.insert) {
         const element = serializeDocument(item.child.id)(store.getState())
         if (element) {
@@ -99,9 +100,9 @@ export const LayoutRenderer: React.FunctionComponent<
         </ConvertInfo>
       ) : null}
       <LayoutContainer>
-        {props.state.items.map((item, index) => {
+        {props.state.map((item, index) => {
           return (
-            <ChildContainer key={index} width={item.width()}>
+            <ChildContainer key={index} width={item.width.value}>
               {item.child.render()}
             </ChildContainer>
           )

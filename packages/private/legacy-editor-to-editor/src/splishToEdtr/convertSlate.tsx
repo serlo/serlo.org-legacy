@@ -64,6 +64,7 @@ export function convertOldSlate(value: ValueJSON) {
   })
 
   return htmlToSlate(
+    //@ts-ignore FIXME: two different Value types from text-plugin
     serializer.serialize(Value.fromJSON(value), {
       render: true
     })

@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { StateDescriptorSerializedType } from '@edtr-io/plugin'
+import { StateTypeSerializedType } from '@edtr-io/plugin'
 import {
   convert,
   isEdtr,
@@ -156,7 +156,7 @@ export function deserialize({
 
   function deserializeApplet(
     state: AppletSerializedState
-  ): StateDescriptorSerializedType<typeof appletTypeState> {
+  ): StateTypeSerializedType<typeof appletTypeState> {
     stack.push({ id: state.id, type: 'applet' })
     return {
       ...state,
@@ -176,7 +176,7 @@ export function deserialize({
 
   function deserializeArticle(
     state: ArticleSerializedState
-  ): StateDescriptorSerializedType<typeof articleTypeState> {
+  ): StateTypeSerializedType<typeof articleTypeState> {
     stack.push({ id: state.id, type: 'article' })
     return {
       ...state,
@@ -195,7 +195,7 @@ export function deserialize({
 
   function deserializeCourse(
     state: CourseSerializedState
-  ): StateDescriptorSerializedType<typeof courseTypeState> {
+  ): StateTypeSerializedType<typeof courseTypeState> {
     stack.push({ id: state.id, type: 'course' })
     return {
       ...state,
@@ -214,7 +214,7 @@ export function deserialize({
 
   function deserializeCoursePage(
     state: CoursePageSerializedState
-  ): StateDescriptorSerializedType<typeof coursePageTypeState> {
+  ): StateTypeSerializedType<typeof coursePageTypeState> {
     stack.push({ id: state.id, type: 'course-page' })
     return {
       ...state,
@@ -229,7 +229,7 @@ export function deserialize({
 
   function deserializeEvent(
     state: EventSerializedState
-  ): StateDescriptorSerializedType<typeof eventTypeState> {
+  ): StateTypeSerializedType<typeof eventTypeState> {
     stack.push({ id: state.id, type: 'event' })
     return {
       ...state,
@@ -245,7 +245,7 @@ export function deserialize({
 
   function deserializeMathPuzzle(
     state: MathPuzzleSerializedState
-  ): StateDescriptorSerializedType<typeof mathPuzzleTypeState> {
+  ): StateTypeSerializedType<typeof mathPuzzleTypeState> {
     stack.push({ id: state.id, type: 'math-puzzle' })
     return {
       ...state,
@@ -259,7 +259,7 @@ export function deserialize({
 
   function deserializePage(
     state: PageSerializedState
-  ): StateDescriptorSerializedType<typeof pageTypeState> {
+  ): StateTypeSerializedType<typeof pageTypeState> {
     stack.push({ id: state.id, type: 'page' })
     return {
       ...state,
@@ -282,7 +282,7 @@ export function deserialize({
     // inputNumberExactMatchChallenge,
     // inputStringNormalizedMatchChallenge,
     ...state
-  }: TextExerciseSerializedState): StateDescriptorSerializedType<
+  }: TextExerciseSerializedState): StateTypeSerializedType<
     typeof textExerciseTypeState
   > {
     stack.push({ id: state.id, type: 'text-exercise' })
@@ -312,7 +312,7 @@ export function deserialize({
     function deserializeScMcExercise():
       | {
           plugin: 'scMcExercise'
-          state: StateDescriptorSerializedType<typeof scMcExerciseState>
+          state: StateTypeSerializedType<typeof scMcExerciseState>
         }
       | undefined {
       stack.push({ id: state.id, type: 'sc-mc-exercise' })
@@ -422,7 +422,7 @@ export function deserialize({
 
   function deserializeTextExerciseGroup(
     state: TextExerciseGroupSerializedState
-  ): StateDescriptorSerializedType<typeof textExerciseGroupTypeState> {
+  ): StateTypeSerializedType<typeof textExerciseGroupTypeState> {
     stack.push({ id: state.id, type: 'text-exercise-group' })
     return {
       ...state,
@@ -438,7 +438,7 @@ export function deserialize({
 
   function deserializeTextHint(
     state: TextHintSerializedState
-  ): StateDescriptorSerializedType<typeof textSolutionTypeState> {
+  ): StateTypeSerializedType<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-hint' })
     return {
       ...state,
@@ -453,7 +453,7 @@ export function deserialize({
 
   function deserializeTextSolution(
     state: TextSolutionSerializedState
-  ): StateDescriptorSerializedType<typeof textSolutionTypeState> {
+  ): StateTypeSerializedType<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-solution' })
     return {
       ...state,
@@ -468,7 +468,7 @@ export function deserialize({
 
   function deserializeUser(
     state: UserSerializedState
-  ): StateDescriptorSerializedType<typeof userTypeState> {
+  ): StateTypeSerializedType<typeof userTypeState> {
     stack.push({ id: state.id, type: 'user' })
     return {
       ...state,
@@ -480,7 +480,7 @@ export function deserialize({
 
   function deserializeVideo(
     state: VideoSerializedState
-  ): StateDescriptorSerializedType<typeof videoTypeState> {
+  ): StateTypeSerializedType<typeof videoTypeState> {
     stack.push({ id: state.id, type: 'video' })
     return {
       ...state,
