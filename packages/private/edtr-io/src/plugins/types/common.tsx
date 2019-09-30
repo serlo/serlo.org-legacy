@@ -77,6 +77,7 @@ export const entity = {
   ...license,
   changes: string()
 }
+import { generate } from 'shortid'
 
 export type Uuid = StateTypesSerializedType<typeof uuid>
 
@@ -385,6 +386,18 @@ export function optionalSerializedChild(plugin: string) {
   const child = serializedChild(plugin)
   return {
     ...child,
+    init(...[state, onChange]: Parameters<typeof child.init>) {
+      return {
+        ...child.init(state, onChange),
+        create(state?: unknown) {
+          onChange((_oldId, helpers) => {
+            const id = generate()
+            helpers.createDocument({ id, plugin, state })
+            return id
+          })
+        }
+      }
+    },
     serialize(
       deserialized: string,
       helpers: Parameters<typeof child.serialize>[1]

@@ -32,6 +32,7 @@ import {
   Controls,
   optionalSerializedChild
 } from './common'
+import { Button, Icon, faPlus } from '@edtr-io/editor-ui'
 
 export const textExerciseTypeState = object({
   ...entity,
@@ -45,6 +46,22 @@ export const textExerciseTypePlugin: StatefulPlugin<
 > = {
   Component: TextExerciseTypeEditor,
   state: textExerciseTypeState
+}
+
+const AddHint: React.FunctionComponent<{ onClick: () => void }> = props => {
+  return (
+    <Button onClick={props.onClick}>
+      <Icon icon={faPlus} /> Hinweis hinzufügen{' '}
+    </Button>
+  )
+}
+
+const AddSolution: React.FunctionComponent<{ onClick: () => void }> = props => {
+  return (
+    <Button onClick={props.onClick}>
+      <Icon icon={faPlus} /> Lösung hinzufügen{' '}
+    </Button>
+  )
 }
 
 export function TextExerciseTypeEditor(
@@ -61,8 +78,24 @@ export function TextExerciseTypeEditor(
   return (
     <article className="text-exercise">
       {content.render()}
-      {textHint.render({ skipControls: true })}
-      {textSolution.render({ skipControls: true })}
+      {textHint.id ? (
+        textHint.render({ skipControls: true })
+      ) : (
+        <AddHint
+          onClick={() => {
+            textHint.create()
+          }}
+        />
+      )}
+      {textSolution.id ? (
+        textSolution.render({ skipControls: true })
+      ) : (
+        <AddSolution
+          onClick={() => {
+            textSolution.create()
+          }}
+        />
+      )}
       {props.skipControls ? null : <Controls subscriptions {...props.state} />}
     </article>
   )
