@@ -39,9 +39,7 @@ export function buildDockerImage({
       'build',
       '-f',
       Dockerfile,
-      ...R.flatten(
-        getTags(version).map(tag => ['-t', `${name}:${tag}`])
-      ),
+      ...R.flatten(getTags(version).map(tag => ['-t', `${name}:${tag}`])),
       context
     ],
     {

@@ -31,7 +31,12 @@ echo $this->doctype();
         #header-nav {
             height: auto;
         }
-
+        .call{
+            margin-top : 20px;
+            margin-bottom: 50px;
+            text-align: center;
+            font-size: 18px;
+        }
         .fixed-min-height {
             min-height: 1740px !important;
         }
@@ -133,20 +138,9 @@ echo $this->doctype();
                                 </div>
                                 <div class="r">
                                     <div class="c24">
-                                        <script type="text/javascript">
-                                            (function () {
-                                                var u = "https://spenden.twingle.de/embed/serlo-education-e-v/serlo-org/tw5bcec90da9d45/widget";
-                                                var id = '_' + Math.random().toString(36).substr(2, 9);
-                                                var d = document, g = d.createElement('script'),
-                                                    s = d.getElementsByTagName('script')[0];
-                                                document.write('<div id="twingle-public-embed-' + id + '"></div>');
-                                                g.type = 'text/javascript';
-                                                g.async = true;
-                                                g.defer = true;
-                                                g.src = u + '/' + id;
-                                                s.parentNode.insertBefore(g, s);
-                                            })();
-                                        </script>
+                                        <p class="call"> Mit deiner Spende ermöglichst du es Kindern und Jugendlichen im eigenen Tempo zu lernen und ihr Potential zu entfalten - unabhängig vom Geldbeutel ihrer Eltern.</p>
+                                        <iframe src="https://spenden.twingle.de/serlo-education-e-v/serlo-org/tw5bcec90da9d45/form?tw_rhythm=monthly" style="width: 100%; border: none; overflow: hidden; height: 450px; position: relative; z-index: 2;"></iframe>
+                                        <script src="https://spenden.twingle.de/embed/generic"></script>
                                         <noscript>Bitte Javascript aktivieren</noscript>
                                     </div>
                                 </div>
