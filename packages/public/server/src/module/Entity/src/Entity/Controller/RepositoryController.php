@@ -34,6 +34,7 @@ use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionField;
 use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
+use Instance\Manager\InstanceManagerAwareTrait;
 use Renderer\View\Helper\FormatHelperAwareTrait;
 use Uuid\Filter\NotTrashedCollectionFilter;
 use Versioning\Entity\RevisionInterface;
@@ -47,6 +48,7 @@ use Zend\View\Model\JsonModel;
 
 class RepositoryController extends AbstractController
 {
+    use InstanceManagerAwareTrait;
     use RepositoryManagerAwareTrait;
     use FormatHelperAwareTrait;
 
@@ -54,6 +56,25 @@ class RepositoryController extends AbstractController
      * @var ModuleOptions
      */
     protected $moduleOptions;
+
+    /**
+     * @param string $type
+     * @param int $parent
+     * @return EntityInterface
+     */
+    protected function createLink($type, $parentId) {
+        $instance = $this->getInstanceManager()->getInstanceFromRequest();
+        $entity   = $this->getEntityManager()->createEntity(
+            $type,
+            ['link' => [
+                'type' => 'link',
+                'child' => $parentId
+            ]],
+            $instance
+        );
+        $this->getEntityManager()->flush();
+        return $entity;
+    }
 
     public function addLegacyRevisionAction()
     {
@@ -101,7 +122,7 @@ class RepositoryController extends AbstractController
                 'license' => [
                     'agreement' => 1,
                 ],
-            ]);
+            ], $entity->getType()->getName());
 
             if ($validated['valid']) {
                 $redirectUrl = '';
@@ -121,56 +142,49 @@ class RepositoryController extends AbstractController
         return $view;
     }
 
-    /**
-     * @param array $data
-     * @param array $merges
-     * @return array
-     */
-    protected function checkData($data, $merges)
-    {
+    protected function isValid($data, $merges, $type) {
         $validChildren = true;
-        $elements = [];
         $messages = [];
         $data = array_merge($data, $merges);
 
-        $entity = $this->getEntity($data['id']);
-        $type = $entity->getType()->getName();
-
-        if ($this->moduleOptions->getType($type)->hasComponent('link')) {
-            // check children
-            $validateChild = function ($child, $merges) use (&$elements, &$messages, &$validChildren) {
-                $validated = $this->checkData($child, $merges);
-                if ($validated['valid']) {
-                    $elements = array_merge($elements, $validated['elements']);
-                } else {
-                    $validChildren = false;
-                    $messages = array_merge($messages, $validated['messages']);
-                }
-            };
-
-            /** @var LinkOptions $linkOptions */
-            $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
-            foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
-                if (isset($data[$allowedChild]) && $data[$allowedChild]) {
-                    if ($linkOptions->allowsManyChildren($allowedChild)) {
-                        /* TODO: create entity for new children (e.g. course page)*/
-                        foreach ($data[$allowedChild] as $child) {
-                            $validateChild($child, $merges);
-                        }
-                    } else {
-                        $validateChild($data[$allowedChild], $merges);
-                    }
-                }
+        // check children
+        $validateChild = function ($child, $merges, $childType) use (&$messages, &$validChildren) {
+            $validated = $this->isValid($child, $merges, $childType);
+            if ($validated['valid']) {
+            } else {
+                $validChildren = false;
+                $messages = array_merge($messages, $validated['messages']);
             }
-        }
+        };
 
-        $form = $this->getForm($entity);
+        $this->iterateOverChildren($data, $merges, $type, $validateChild);
+
+        $form = $this->getFormFromType($type);
         $form->setData($data);
         $valid = $form->isValid();
         if ($valid && $validChildren) {
+            return ['valid' => true];
+        } else {
+            $messages = array_merge($messages, $form->getMessages());
+            return ['valid' => false, 'messages' => $messages];
+        }
+    }
+
+    protected function createEntities($data, $merges, $type, $parentId = null)
+    {
+        $elements = [];
+        $data = array_merge($data, $merges);
+        $id = $data['id']; // might be 0, then create a new entity.
+
+        $form = $this->getFormFromType($type);
+        $form->setData($data);
+        $valid = $form->isValid();
+        if ($valid) {
             // get the relevant data of this form and compare it to the previous data (ignoring $merges)
             $dataPartNext = $form->getData();
 
+            //TODO: $parentId undefined
+            $entity = $id ? $this->getEntity($data['id']) : $this->createLink($type, $parentId);
             if ($entity->hasCurrentRevision()) {
                 // check for changes with previous revision data, ignoring $merges
                 $revision = $entity->getCurrentRevision();
@@ -182,11 +196,52 @@ class RepositoryController extends AbstractController
             } else {
                 $elements[] = ['entity' => $entity, 'data' => $dataPartNext];
             }
+            $id = $entity->getId();
+        }
 
-            return ['valid' => true, 'elements' => $elements];
+        $createRevisionChild = function ($child, $merges, $type) use (&$elements, $id) {
+            $childElements = $this->createEntities($child, $merges, $type, $id);
+            $elements = array_merge($elements, $childElements);
+        };
+
+        $this->iterateOverChildren($data, $merges, $type, $createRevisionChild);
+        return $elements;
+    }
+
+    protected function iterateOverChildren($data, $merges, $type, $cb) {
+        $data = array_merge($data, $merges);
+
+        if ($this->moduleOptions->getType($type)->hasComponent('link')) {
+            /** @var LinkOptions $linkOptions */
+            $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
+            foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
+                if (isset($data[$allowedChild]) && $data[$allowedChild]) {
+                    if ($linkOptions->allowsManyChildren($allowedChild)) {
+                        /* TODO: create entity for new children (e.g. course page)*/
+                        foreach ($data[$allowedChild] as $child) {
+                            $cb($child, $merges, $allowedChild);
+                        }
+                    } else {
+                        $cb($data[$allowedChild], $merges, $allowedChild);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @param array $data
+     * @param array $merges
+     * @param string $type
+     * @return array
+     */
+    protected function checkData($data, $merges, $type)
+    {
+        $validated = $this->isValid($data, $merges, $type);
+        if ($validated['valid']) {
+           return ['valid' => true, 'elements' => $this->createEntities($data, $merges, $type)];
         } else {
-            $messages = array_merge($messages, $form->getMessages());
-            return ['valid' => false, 'messages' => $messages];
+            return $validated;
         }
     }
 
@@ -322,8 +377,7 @@ class RepositoryController extends AbstractController
         // Todo: Unhack
 
         $type = $entity->getType()->getName();
-        $form = $this->moduleOptions->getType($type)->getComponent('repository')->getForm();
-        $form = $this->getServiceLocator()->get($form);
+        $form = $this->getFormFromType($type);
         $revision = $this->getRevision($entity, $id);
 
         if (is_object($revision)) {
@@ -338,6 +392,15 @@ class RepositoryController extends AbstractController
 
 
         return $form;
+    }
+
+    /**
+     * @param string $type
+     * @return Form
+     */
+    protected function getFormFromType($type) {
+        $form = $this->moduleOptions->getType($type)->getComponent('repository')->getForm();
+        return $this->getServiceLocator()->get($form);
     }
 
     protected function getRevisionData(RevisionInterface $revision)
