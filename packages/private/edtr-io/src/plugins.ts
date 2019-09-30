@@ -53,9 +53,7 @@ import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
 import { tablePlugin } from './plugins/table'
 
-export function createPlugins(
-  registry?: PluginRegistry
-): Record<string, Plugin> {
+export function createPlugins(registry?: PluginRegistry) {
   return {
     anchor: anchorPlugin,
     blockquote: blockquotePlugin,
