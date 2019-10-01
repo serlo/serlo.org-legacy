@@ -62,13 +62,14 @@ class RepositoryController extends AbstractController
      * @param int $parent
      * @return EntityInterface
      */
-    protected function createLink($type, $parentId) {
+    protected function createLink($type, $parentId)
+    {
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
         $entity   = $this->getEntityManager()->createEntity(
             $type,
             ['link' => [
                 'type' => 'link',
-                'child' => $parentId
+                'child' => $parentId,
             ]],
             $instance
         );
@@ -142,7 +143,8 @@ class RepositoryController extends AbstractController
         return $view;
     }
 
-    protected function isValid($data, $merges, $type) {
+    protected function isValid($data, $merges, $type)
+    {
         $validChildren = true;
         $messages = [];
         $data = array_merge($data, $merges);
@@ -208,7 +210,8 @@ class RepositoryController extends AbstractController
         return $elements;
     }
 
-    protected function iterateOverChildren($data, $merges, $type, $cb) {
+    protected function iterateOverChildren($data, $merges, $type, $cb)
+    {
         $data = array_merge($data, $merges);
 
         if ($this->moduleOptions->getType($type)->hasComponent('link')) {
@@ -239,7 +242,7 @@ class RepositoryController extends AbstractController
     {
         $validated = $this->isValid($data, $merges, $type);
         if ($validated['valid']) {
-           return ['valid' => true, 'elements' => $this->createEntities($data, $merges, $type)];
+            return ['valid' => true, 'elements' => $this->createEntities($data, $merges, $type)];
         } else {
             return $validated;
         }
@@ -398,7 +401,8 @@ class RepositoryController extends AbstractController
      * @param string $type
      * @return Form
      */
-    protected function getFormFromType($type) {
+    protected function getFormFromType($type)
+    {
         $form = $this->moduleOptions->getType($type)->getComponent('repository')->getForm();
         return $this->getServiceLocator()->get($form);
     }
