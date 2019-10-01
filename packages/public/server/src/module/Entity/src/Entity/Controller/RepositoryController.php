@@ -143,6 +143,13 @@ class RepositoryController extends AbstractController
         return $view;
     }
 
+    /**
+     * Recursivly checks if the provided data is valid for this entity and all of its children
+     * @param array $data submitted data in json
+     * @param array $merges data to be merged into all data of children (e.g. changes, csrf, license agreement)
+     * @param string $type type of the entity used to get the correct form for validation
+     * @return array with 'valid' set to true or false, and in the latter case 'messages' with form validation errors
+     */
     protected function isValid($data, $merges, $type)
     {
         $validChildren = true;
@@ -172,7 +179,16 @@ class RepositoryController extends AbstractController
         }
     }
 
-    protected function createEntities($data, $merges, $type, $parentId = null)
+    /**
+     * Recursivly looks through $data to fetch the specified entities or create new ones if they don't exist yet.
+     * Additionally this will add the data for the revision, if it differs from the current revision.
+     * @param array $data with 'id' if entity already exists
+     * @param array $merges data to be merged into all data of children (e.g. changes, csrf, license agreement)
+     * @param string $type type of the entity to (possibly) create
+     * @param int|null $parentId id of the entity link parent. If data['id'] isn't set, then parentId needs to be specified for creating a new one.
+     * @return array list of ['entity' =>(created or existing), 'data' => (revision data for the entity)] where new revisions need to be created
+     */
+    protected function createEntitiesAndGetRevisionData($data, $merges, $type, $parentId = null)
     {
         $elements = [];
         $data = array_merge($data, $merges);
@@ -202,7 +218,7 @@ class RepositoryController extends AbstractController
         }
 
         $createRevisionChild = function ($child, $merges, $type) use (&$elements, $id) {
-            $childElements = $this->createEntities($child, $merges, $type, $id);
+            $childElements = $this->createEntitiesAndGetRevisionData($child, $merges, $type, $id);
             $elements = array_merge($elements, $childElements);
         };
 
@@ -210,7 +226,14 @@ class RepositoryController extends AbstractController
         return $elements;
     }
 
-    protected function iterateOverChildren($data, $merges, $type, $cb)
+    /**
+     * Helper function iterating through $data using children specified in component link config
+     * @param array $data
+     * @param array $merges
+     * @param string $type
+     * @param callable $cb Callback, accepting the child data, merges and type
+     */
+    private function iterateOverChildren($data, $merges, $type, $cb)
     {
         $data = array_merge($data, $merges);
 
@@ -233,6 +256,8 @@ class RepositoryController extends AbstractController
     }
 
     /**
+     * Checks data for validity, creates missing entities if all data is valid and returns the entities
+     * and associated revision data
      * @param array $data
      * @param array $merges
      * @param string $type
@@ -242,7 +267,7 @@ class RepositoryController extends AbstractController
     {
         $validated = $this->isValid($data, $merges, $type);
         if ($validated['valid']) {
-            return ['valid' => true, 'elements' => $this->createEntities($data, $merges, $type)];
+            return ['valid' => true, 'elements' => $this->createEntitiesAndGetRevisionData($data, $merges, $type)];
         } else {
             return $validated;
         }
