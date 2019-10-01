@@ -113,6 +113,9 @@ return [
                     'setRepositoryManager' => [
                         'required' => true,
                     ],
+                    'setUuidManager' => [
+                        'required' => true,
+                    ],
                     'setModuleOptions' => [
                         'required' => true,
                     ],

@@ -37,6 +37,7 @@ use Entity\Options\ModuleOptions;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Renderer\View\Helper\FormatHelperAwareTrait;
 use Uuid\Filter\NotTrashedCollectionFilter;
+use Uuid\Manager\UuidManagerAwareTrait;
 use Versioning\Entity\RevisionInterface;
 use Versioning\Exception\RevisionNotFoundException;
 use Versioning\RepositoryManagerAwareTrait;
@@ -51,31 +52,12 @@ class RepositoryController extends AbstractController
     use InstanceManagerAwareTrait;
     use RepositoryManagerAwareTrait;
     use FormatHelperAwareTrait;
+    use UuidManagerAwareTrait;
 
     /**
      * @var ModuleOptions
      */
     protected $moduleOptions;
-
-    /**
-     * @param string $type
-     * @param int $parent
-     * @return EntityInterface
-     */
-    protected function createLink($type, $parentId)
-    {
-        $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $entity   = $this->getEntityManager()->createEntity(
-            $type,
-            ['link' => [
-                'type' => 'link',
-                'child' => $parentId,
-            ]],
-            $instance
-        );
-        $this->getEntityManager()->flush();
-        return $entity;
-    }
 
     public function addLegacyRevisionAction()
     {
@@ -183,7 +165,7 @@ class RepositoryController extends AbstractController
      * Recursivly looks through $data to fetch the specified entities or create new ones if they don't exist yet.
      * Additionally this will add the data for the revision, if it differs from the current revision.
      * @param array $data with 'id' if entity already exists
-     * @param array $merges data to be merged into all data of children (e.g. changes, csrf, license agreement)
+     * @param array $merges data to be merged into all data of children (e.g. changes, csrf, license agreement). Will be ignored when identifying changes.
      * @param string $type type of the entity to (possibly) create
      * @param int|null $parentId id of the entity link parent. If data['id'] isn't set, then parentId needs to be specified for creating a new one.
      * @return array list of ['entity' =>(created or existing), 'data' => (revision data for the entity)] where new revisions need to be created
@@ -201,8 +183,8 @@ class RepositoryController extends AbstractController
             // get the relevant data of this form and compare it to the previous data (ignoring $merges)
             $dataPartNext = $form->getData();
 
-            //TODO: $parentId undefined
-            $entity = $id ? $this->getEntity($data['id']) : $this->createLink($type, $parentId);
+            $entity = $id ? $this->getEntity($data['id']) : $this->createOrRecycleEntity($type, $parentId);
+
             if ($entity->hasCurrentRevision()) {
                 // check for changes with previous revision data, ignoring $merges
                 $revision = $entity->getCurrentRevision();
@@ -227,6 +209,47 @@ class RepositoryController extends AbstractController
     }
 
     /**
+     * Create an entity link child if the parrent allows multiple, or otherwise reuse an existing child.
+     * @param $type
+     * @param $parentId
+     * @return EntityInterface
+     */
+    protected function createOrRecycleEntity($type, $parentId)
+    {
+        $parent = $this->getEntity($parentId);
+        $parentType = $parent->getType()->getName();
+        $existingChildren = $parent->getChildren('link', $type);
+        if ($existingChildren->count() > 0) {
+            // Check if the parent allows multiple entities, otherwise use the existing and restore it if necessary.
+            if ($this->moduleOptions->getType($type)->hasComponent('link')) {
+                /** @var LinkOptions $linkOptions */
+                $linkOptions = $this->moduleOptions->getType($parentType)->getComponent('link');
+                if (!$linkOptions->allowsManyChildren($type)) {
+                    /** @var EntityInterface $child */
+                    $child = $existingChildren->first();
+                    if ($child->isTrashed()) {
+                        $this->getUuidManager()->restoreUuid($child->getId());
+                        $this->getUuidManager()->flush();
+                        return $child;
+                    }
+                }
+            }
+        }
+
+        $instance = $this->getInstanceManager()->getInstanceFromRequest();
+        $entity   = $this->getEntityManager()->createEntity(
+            $type,
+            ['link' => [
+                'type' => 'link',
+                'child' => $parentId,
+            ]],
+            $instance
+        );
+        $this->getEntityManager()->flush();
+        return $entity;
+    }
+
+    /**
      * Helper function iterating through $data using children specified in component link config
      * @param array $data
      * @param array $merges
@@ -243,7 +266,6 @@ class RepositoryController extends AbstractController
             foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
                 if (isset($data[$allowedChild]) && $data[$allowedChild]) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
-                        /* TODO: create entity for new children (e.g. course page)*/
                         foreach ($data[$allowedChild] as $child) {
                             $cb($child, $merges, $allowedChild);
                         }
