@@ -64,6 +64,10 @@ export function initEntityEditor(
                   reject()
                 }
               })
+              .catch(value => {
+                console.log(value)
+                reject(value)
+              })
           })
         }
       }}

@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as React from 'react'
+import { AddButton } from '@edtr-io/editor-ui'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
@@ -40,7 +41,7 @@ import { Settings } from './helpers/settings'
 export const courseTypeState = object({
   ...entity,
   title: string(),
-  content: editorContent(),
+  description: editorContent(),
   reasoning: editorContent(),
   meta_description: string(),
   'course-page': list(serializedChild('type-course-page'))
@@ -54,12 +55,7 @@ export const courseTypePlugin: StatefulPlugin<typeof courseTypeState> = {
 function CourseTypeEditor(
   props: StatefulPluginEditorProps<typeof courseTypeState>
 ) {
-  const {
-    title,
-    content,
-    meta_description,
-    'course-page': children
-  } = props.state
+  const { title, meta_description, 'course-page': children } = props.state
 
   return (
     <article>
@@ -82,7 +78,6 @@ function CourseTypeEditor(
           <span itemProp="name">{title.value}</span>
         )}
       </h1>
-      {content.render()}
       {children.map(child => {
         return (
           <React.Fragment key={child.id}>
@@ -91,6 +86,10 @@ function CourseTypeEditor(
           </React.Fragment>
         )
       })}
+      <hr />
+      <AddButton onClick={() => children.insert()}>
+        Kursseite hinzufügen
+      </AddButton>
       <Controls subscriptions {...props.state} />
     </article>
   )

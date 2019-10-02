@@ -21,7 +21,9 @@
  #}
 {% set options = entity().getOptions(entity) %}
 {% if options.hasComponent('repository') %}
-    {% if not entity.isUnrevised() and isGranted('entity.revision.create', entity) and isLegacyFormat(entity.getCurrentRevision().get('content')) %}
+    {% if not entity.isUnrevised() and isGranted('entity.revision.create', entity) and isLegacyFormat(entity.getCurrentRevision().get(
+        options.getContent()
+    )) %}
     <li>
         <a href="{{ url('entity/repository/add-revision', {'entity': entity.getId()}) }}">
             <span class="fa fa-pencil"></span>

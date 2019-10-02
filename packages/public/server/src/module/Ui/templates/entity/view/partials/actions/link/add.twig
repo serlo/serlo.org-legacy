@@ -23,7 +23,7 @@
 {% if options.hasComponent('link') %}
     {% set componentOptions = options.getComponent('link') %}
     {% for type in componentOptions.getAllowedChildren() %}
-        {% if entity.hasCurrentRevision() and not isLegacyFormat(entity.getCurrentRevision().get('content')) and type in [
+        {% if entity.hasCurrentRevision() and not isLegacyFormat(entity.getCurrentRevision().get(options.getContent())) and type in [
             'single-choice-right-answer',
             'single-choice-wrong-answer',
             'multiple-choice-wrong-answer',

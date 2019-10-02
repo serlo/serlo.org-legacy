@@ -40,7 +40,9 @@ use Uuid\Filter\NotTrashedCollectionFilter;
 use Uuid\Manager\UuidManagerAwareTrait;
 use Versioning\Entity\RevisionInterface;
 use Versioning\Exception\RevisionNotFoundException;
+use Versioning\Filter\HasCurrentRevisionCollectionFilter;
 use Versioning\RepositoryManagerAwareTrait;
+use Zend\Filter\FilterChain;
 use Zend\Filter\StripTags;
 use Zend\Form\Form;
 use Zend\Mvc\I18n\Translator;
@@ -246,6 +248,7 @@ class RepositoryController extends AbstractController
             $instance
         );
         $this->getEntityManager()->flush();
+        $entity = $this->getEntity($entity->getId());
         return $entity;
     }
 
@@ -492,8 +495,10 @@ class RepositoryController extends AbstractController
             /** @var LinkOptions $linkOptions */
             $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
             foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
-                $filter = new NotTrashedCollectionFilter();
-                $children = $filter->filter($entity->getChildren('link', $allowedChild));
+                $chain    = new FilterChain();
+                $chain->attach(new HasCurrentRevisionCollectionFilter());
+                $chain->attach(new NotTrashedCollectionFilter());
+                $children = $chain->filter($entity->getChildren('link', $allowedChild));
 
                 if ($children->count()) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {

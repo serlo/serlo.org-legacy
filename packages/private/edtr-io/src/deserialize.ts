@@ -203,8 +203,8 @@ export function deserialize({
       ...state,
       changes: '',
       title: state.title || '',
-      content: serializeEditorState(
-        toEdtr(deserializeEditorState(state.content))
+      description: serializeEditorState(
+        toEdtr(deserializeEditorState(state.description))
       ),
       reasoning: serializeEditorState(
         toEdtr(deserializeEditorState(state.reasoning))
@@ -597,7 +597,7 @@ export function deserialize({
 
   interface CourseSerializedState extends Entity {
     title?: string
-    content: SerializedEditorState
+    description: SerializedEditorState
     reasoning: SerializedEditorState
     meta_description?: string
     'course-page'?: CoursePageSerializedState[]
