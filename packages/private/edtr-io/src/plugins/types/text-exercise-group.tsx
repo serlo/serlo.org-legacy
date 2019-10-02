@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { AddButton } from '@edtr-io/editor-ui'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
@@ -62,6 +63,9 @@ function TextExerciseGroupTypeEditor(
           </section>
         )
       })}
+      <AddButton onClick={() => {
+        children.insert()
+      }}>Teilaufgabe hinzufügen</AddButton>
       <Controls subscriptions {...props.state} />
     </article>
   )
