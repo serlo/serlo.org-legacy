@@ -143,8 +143,7 @@ class RepositoryController extends AbstractController
         // check children
         $validateChild = function ($child, $merges, $childType) use (&$messages, &$validChildren) {
             $validated = $this->isValid($child, $merges, $childType);
-            if ($validated['valid']) {
-            } else {
+            if (!$validated['valid']) {
                 $validChildren = false;
                 $messages = array_merge($messages, $validated['messages']);
             }
@@ -232,8 +231,9 @@ class RepositoryController extends AbstractController
                     if ($child->isTrashed()) {
                         $this->getUuidManager()->restoreUuid($child->getId());
                         $this->getUuidManager()->flush();
-                        return $child;
                     }
+
+                    return $child;
                 }
             }
         }
@@ -248,7 +248,6 @@ class RepositoryController extends AbstractController
             $instance
         );
         $this->getEntityManager()->flush();
-        $entity = $this->getEntity($entity->getId());
         return $entity;
     }
 
