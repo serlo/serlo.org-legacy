@@ -412,7 +412,7 @@ export function optionalSerializedChild(plugin: string) {
       if (!serialized) return null
       return child.deserialize(serialized, helpers)
     },
-    createInitialState(){
+    createInitialState() {
       return null
     }
   }

@@ -63,9 +63,13 @@ function TextExerciseGroupTypeEditor(
           </section>
         )
       })}
-      <AddButton onClick={() => {
-        children.insert()
-      }}>Teilaufgabe hinzufügen</AddButton>
+      <AddButton
+        onClick={() => {
+          children.insert()
+        }}
+      >
+        Teilaufgabe hinzufügen
+      </AddButton>
       <Controls subscriptions {...props.state} />
     </article>
   )
