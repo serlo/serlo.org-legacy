@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { StateDescriptorSerializedType } from '@edtr-io/plugin'
+import { StateTypeSerializedType } from '@edtr-io/plugin'
 import {
   convert,
   isEdtr,
@@ -28,6 +28,7 @@ import {
   RowsPlugin,
   Splish
 } from '@serlo/legacy-editor-to-editor'
+import * as R from 'ramda'
 
 import { appletTypeState } from './plugins/types/applet'
 import { articleTypeState } from './plugins/types/article'
@@ -44,6 +45,7 @@ import { userTypeState } from './plugins/types/user'
 import { videoTypeState } from './plugins/types/video'
 import { Entity, License, Uuid } from './plugins/types/common'
 import { EditorProps } from './editor'
+import { inputExerciseState } from '@edtr-io/plugin-input-exercise'
 
 export function deserialize({
   initialState,
@@ -156,7 +158,7 @@ export function deserialize({
 
   function deserializeApplet(
     state: AppletSerializedState
-  ): StateDescriptorSerializedType<typeof appletTypeState> {
+  ): StateTypeSerializedType<typeof appletTypeState> {
     stack.push({ id: state.id, type: 'applet' })
     return {
       ...state,
@@ -176,7 +178,7 @@ export function deserialize({
 
   function deserializeArticle(
     state: ArticleSerializedState
-  ): StateDescriptorSerializedType<typeof articleTypeState> {
+  ): StateTypeSerializedType<typeof articleTypeState> {
     stack.push({ id: state.id, type: 'article' })
     return {
       ...state,
@@ -195,14 +197,14 @@ export function deserialize({
 
   function deserializeCourse(
     state: CourseSerializedState
-  ): StateDescriptorSerializedType<typeof courseTypeState> {
+  ): StateTypeSerializedType<typeof courseTypeState> {
     stack.push({ id: state.id, type: 'course' })
     return {
       ...state,
       changes: '',
       title: state.title || '',
-      content: serializeEditorState(
-        toEdtr(deserializeEditorState(state.content))
+      description: serializeEditorState(
+        toEdtr(deserializeEditorState(state.description))
       ),
       reasoning: serializeEditorState(
         toEdtr(deserializeEditorState(state.reasoning))
@@ -214,7 +216,7 @@ export function deserialize({
 
   function deserializeCoursePage(
     state: CoursePageSerializedState
-  ): StateDescriptorSerializedType<typeof coursePageTypeState> {
+  ): StateTypeSerializedType<typeof coursePageTypeState> {
     stack.push({ id: state.id, type: 'course-page' })
     return {
       ...state,
@@ -229,7 +231,7 @@ export function deserialize({
 
   function deserializeEvent(
     state: EventSerializedState
-  ): StateDescriptorSerializedType<typeof eventTypeState> {
+  ): StateTypeSerializedType<typeof eventTypeState> {
     stack.push({ id: state.id, type: 'event' })
     return {
       ...state,
@@ -245,7 +247,7 @@ export function deserialize({
 
   function deserializeMathPuzzle(
     state: MathPuzzleSerializedState
-  ): StateDescriptorSerializedType<typeof mathPuzzleTypeState> {
+  ): StateTypeSerializedType<typeof mathPuzzleTypeState> {
     stack.push({ id: state.id, type: 'math-puzzle' })
     return {
       ...state,
@@ -259,7 +261,7 @@ export function deserialize({
 
   function deserializePage(
     state: PageSerializedState
-  ): StateDescriptorSerializedType<typeof pageTypeState> {
+  ): StateTypeSerializedType<typeof pageTypeState> {
     stack.push({ id: state.id, type: 'page' })
     return {
       ...state,
@@ -278,11 +280,11 @@ export function deserialize({
     'single-choice-wrong-answer': singleChoiceWrongAnswer,
     'multiple-choice-right-answer': multipleChoiceRightAnswer,
     'multiple-choice-wrong-answer': multipleChoiceWrongAnswer,
-    // inputExpressionEqualMatchChallenge,
-    // inputNumberExactMatchChallenge,
-    // inputStringNormalizedMatchChallenge,
+    'input-expression-equal-match-challenge': inputExpressionEqualMatchChallenge,
+    'input-number-exact-match-challenge': inputNumberExactMatchChallenge,
+    'input-string-normalized-match-challenge': inputStringNormalizedMatchChallenge,
     ...state
-  }: TextExerciseSerializedState): StateDescriptorSerializedType<
+  }: TextExerciseSerializedState): StateTypeSerializedType<
     typeof textExerciseTypeState
   > {
     stack.push({ id: state.id, type: 'text-exercise' })
@@ -293,8 +295,12 @@ export function deserialize({
         ? deserializeScMcExercise()
         : undefined
 
+    const inputExercise =
+      deserialized && !isEdtr(deserialized)
+        ? deserializeInputExercise()
+        : undefined
+
     const converted = toEdtr(deserialized)
-    // const inputExercise = convertInputExercise({ inputExpressionEqualMatchChallenge, inputNumberExactMatchChallenge, inputStringNormalizedMatchChallenge })
 
     return {
       ...state,
@@ -305,14 +311,18 @@ export function deserialize({
         : '',
       content: serializeEditorState({
         plugin: 'rows',
-        state: [...converted.state, ...(scMcExercise ? [scMcExercise] : [])]
+        state: [
+          ...converted.state,
+          ...(scMcExercise ? [scMcExercise] : []),
+          ...(inputExercise ? [inputExercise] : [])
+        ]
       })
     }
 
     function deserializeScMcExercise():
       | {
           plugin: 'scMcExercise'
-          state: StateDescriptorSerializedType<typeof scMcExerciseState>
+          state: StateTypeSerializedType<typeof scMcExerciseState>
         }
       | undefined {
       stack.push({ id: state.id, type: 'sc-mc-exercise' })
@@ -414,6 +424,78 @@ export function deserialize({
         }
       }
     }
+
+    function deserializeInputExercise():
+      | {
+          plugin: 'inputExercise'
+          state: StateTypeSerializedType<typeof inputExerciseState>
+        }
+      | undefined {
+      if (
+        inputStringNormalizedMatchChallenge ||
+        inputNumberExactMatchChallenge ||
+        inputExpressionEqualMatchChallenge
+      ) {
+        const type = inputStringNormalizedMatchChallenge
+          ? 'input-string-normalized-match-challenge'
+          : inputNumberExactMatchChallenge
+          ? 'input-number-exact-match-challenge'
+          : 'input-expression-equal-match-challenge'
+
+        function extractInputAnswers(
+          inputExercises: InputType[],
+          isCorrect: boolean
+        ): {
+          value: string
+          isCorrect: boolean
+          feedback: { plugin: string; state?: unknown }
+        }[] {
+          if (inputExercises.length === 0) return []
+
+          const answers = inputExercises.map(exercise => {
+            return {
+              value: exercise.solution,
+              feedback: extractChildFromRows(
+                convert(deserializeEditorState(exercise.feedback))
+              ),
+              isCorrect
+            }
+          })
+
+          const children = R.flatten(
+            inputExercises.map(exercise => {
+              return filterDefined([
+                exercise['input-string-normalized-match-challenge'],
+                exercise['input-number-exact-match-challenge'],
+                exercise['input-expression-equal-match-challenge']
+              ])
+            })
+          )
+
+          return R.concat(answers, extractInputAnswers(children, false))
+        }
+        const inputExercises = filterDefined([
+          inputStringNormalizedMatchChallenge,
+          inputNumberExactMatchChallenge,
+          inputExpressionEqualMatchChallenge
+        ])
+
+        return {
+          plugin: 'inputExercise',
+          state: {
+            __version__: 1,
+            value: {
+              type,
+              answers: extractInputAnswers(inputExercises, true)
+            }
+          }
+        }
+
+        function filterDefined<T>(array: (T | undefined)[]): T[] {
+          return array.filter(el => typeof el !== 'undefined') as T[]
+        }
+      }
+    }
   }
 
   function extractChildFromRows(plugin: RowsPlugin) {
@@ -422,7 +504,7 @@ export function deserialize({
 
   function deserializeTextExerciseGroup(
     state: TextExerciseGroupSerializedState
-  ): StateDescriptorSerializedType<typeof textExerciseGroupTypeState> {
+  ): StateTypeSerializedType<typeof textExerciseGroupTypeState> {
     stack.push({ id: state.id, type: 'text-exercise-group' })
     return {
       ...state,
@@ -438,7 +520,7 @@ export function deserialize({
 
   function deserializeTextHint(
     state: TextHintSerializedState
-  ): StateDescriptorSerializedType<typeof textSolutionTypeState> {
+  ): StateTypeSerializedType<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-hint' })
     return {
       ...state,
@@ -453,7 +535,7 @@ export function deserialize({
 
   function deserializeTextSolution(
     state: TextSolutionSerializedState
-  ): StateDescriptorSerializedType<typeof textSolutionTypeState> {
+  ): StateTypeSerializedType<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-solution' })
     return {
       ...state,
@@ -468,7 +550,7 @@ export function deserialize({
 
   function deserializeUser(
     state: UserSerializedState
-  ): StateDescriptorSerializedType<typeof userTypeState> {
+  ): StateTypeSerializedType<typeof userTypeState> {
     stack.push({ id: state.id, type: 'user' })
     return {
       ...state,
@@ -480,7 +562,7 @@ export function deserialize({
 
   function deserializeVideo(
     state: VideoSerializedState
-  ): StateDescriptorSerializedType<typeof videoTypeState> {
+  ): StateTypeSerializedType<typeof videoTypeState> {
     stack.push({ id: state.id, type: 'video' })
     return {
       ...state,
@@ -515,7 +597,7 @@ export function deserialize({
 
   interface CourseSerializedState extends Entity {
     title?: string
-    content: SerializedEditorState
+    description: SerializedEditorState
     reasoning: SerializedEditorState
     meta_description?: string
     'course-page'?: CoursePageSerializedState[]
@@ -561,6 +643,17 @@ export function deserialize({
       content: SerializedLegacyEditorState
       feedback: SerializedLegacyEditorState
     }[]
+    'input-expression-equal-match-challenge'?: InputType
+    'input-number-exact-match-challenge'?: InputType
+    'input-string-normalized-match-challenge': InputType
+  }
+
+  interface InputType {
+    solution: string
+    feedback: SerializedLegacyEditorState
+    'input-expression-equal-match-challenge'?: InputType[]
+    'input-number-exact-match-challenge'?: InputType[]
+    'input-string-normalized-match-challenge'?: InputType[]
   }
 
   interface TextExerciseGroupSerializedState extends Entity {

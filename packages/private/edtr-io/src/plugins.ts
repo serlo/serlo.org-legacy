@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { Plugin } from '@edtr-io/plugin'
 import { createTextPlugin } from '@edtr-io/plugin-text'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
@@ -52,7 +53,9 @@ import { imagePlugin } from './plugins/image'
 import { layoutPlugin } from './plugins/layout'
 import { tablePlugin } from './plugins/table'
 
-export function createPlugins(registry?: PluginRegistry) {
+export function createPlugins(
+  registry?: PluginRegistry
+): Record<string, Plugin> {
   return {
     anchor: anchorPlugin,
     blockquote: blockquotePlugin,

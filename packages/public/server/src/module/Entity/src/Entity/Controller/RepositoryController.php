@@ -34,23 +34,27 @@ use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionField;
 use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
+use Instance\Manager\InstanceManagerAwareTrait;
 use Renderer\View\Helper\FormatHelperAwareTrait;
-use function Sodium\crypto_sign_verify_detached;
 use Uuid\Filter\NotTrashedCollectionFilter;
+use Uuid\Manager\UuidManagerAwareTrait;
 use Versioning\Entity\RevisionInterface;
 use Versioning\Exception\RevisionNotFoundException;
+use Versioning\Filter\HasCurrentRevisionCollectionFilter;
 use Versioning\RepositoryManagerAwareTrait;
+use Zend\Filter\FilterChain;
 use Zend\Filter\StripTags;
 use Zend\Form\Form;
-use Zend\Form\FormInterface;
 use Zend\Mvc\I18n\Translator;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 
 class RepositoryController extends AbstractController
 {
+    use InstanceManagerAwareTrait;
     use RepositoryManagerAwareTrait;
     use FormatHelperAwareTrait;
+    use UuidManagerAwareTrait;
 
     /**
      * @var ModuleOptions
@@ -103,7 +107,7 @@ class RepositoryController extends AbstractController
                 'license' => [
                     'agreement' => 1,
                 ],
-            ]);
+            ], $entity->getType()->getName());
 
             if ($validated['valid']) {
                 $redirectUrl = '';
@@ -124,54 +128,63 @@ class RepositoryController extends AbstractController
     }
 
     /**
-     * @param array $data
-     * @param array $merges
-     * @return array
+     * Recursivly checks if the provided data is valid for this entity and all of its children
+     * @param array $data submitted data in json
+     * @param array $merges data to be merged into all data of children (e.g. changes, csrf, license agreement)
+     * @param string $type type of the entity used to get the correct form for validation
+     * @return array with 'valid' set to true or false, and in the latter case 'messages' with form validation errors
      */
-    protected function checkData($data, $merges)
+    protected function isValid($data, $merges, $type)
     {
         $validChildren = true;
-        $elements = [];
         $messages = [];
         $data = array_merge($data, $merges);
 
-        $entity = $this->getEntity($data['id']);
-        $type = $entity->getType()->getName();
-
-        if ($this->moduleOptions->getType($type)->hasComponent('link')) {
-            // check children
-            $validateChild = function ($child, $merges) use (&$elements, &$messages, &$validChildren) {
-                $validated = $this->checkData($child, $merges);
-                if ($validated['valid']) {
-                    $elements = array_merge($elements, $validated['elements']);
-                } else {
-                    $validChildren = false;
-                    $messages = array_merge($messages, $validated['messages']);
-                }
-            };
-
-            /** @var LinkOptions $linkOptions */
-            $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
-            foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
-                if (isset($data[$allowedChild]) && $data[$allowedChild]) {
-                    if ($linkOptions->allowsManyChildren($allowedChild)) {
-                        /* TODO: create entity for new children (e.g. course page)*/
-                        foreach ($data[$allowedChild] as $child) {
-                            $validateChild($child, $merges);
-                        }
-                    } else {
-                        $validateChild($data[$allowedChild], $merges);
-                    }
-                }
+        // check children
+        $validateChild = function ($child, $merges, $childType) use (&$messages, &$validChildren) {
+            $validated = $this->isValid($child, $merges, $childType);
+            if (!$validated['valid']) {
+                $validChildren = false;
+                $messages = array_merge($messages, $validated['messages']);
             }
-        }
+        };
 
-        $form = $this->getForm($entity);
+        $this->iterateOverChildren($data, $merges, $type, $validateChild);
+
+        $form = $this->getFormFromType($type);
         $form->setData($data);
         $valid = $form->isValid();
         if ($valid && $validChildren) {
+            return ['valid' => true];
+        } else {
+            $messages = array_merge($messages, $form->getMessages());
+            return ['valid' => false, 'messages' => $messages];
+        }
+    }
+
+    /**
+     * Recursivly looks through $data to fetch the specified entities or create new ones if they don't exist yet.
+     * Additionally this will add the data for the revision, if it differs from the current revision.
+     * @param array $data with 'id' if entity already exists
+     * @param array $merges data to be merged into all data of children (e.g. changes, csrf, license agreement). Will be ignored when identifying changes.
+     * @param string $type type of the entity to (possibly) create
+     * @param int|null $parentId id of the entity link parent. If data['id'] isn't set, then parentId needs to be specified for creating a new one.
+     * @return array list of ['entity' =>(created or existing), 'data' => (revision data for the entity)] where new revisions need to be created
+     */
+    protected function createEntitiesAndGetRevisionData($data, $merges, $type, $parentId = null)
+    {
+        $elements = [];
+        $data = array_merge($data, $merges);
+        $id = $data['id']; // might be 0, then create a new entity.
+
+        $form = $this->getFormFromType($type);
+        $form->setData($data);
+        $valid = $form->isValid();
+        if ($valid) {
             // get the relevant data of this form and compare it to the previous data (ignoring $merges)
             $dataPartNext = $form->getData();
+
+            $entity = $id ? $this->getEntity($data['id']) : $this->createOrRecycleEntity($type, $parentId);
 
             if ($entity->hasCurrentRevision()) {
                 // check for changes with previous revision data, ignoring $merges
@@ -184,11 +197,103 @@ class RepositoryController extends AbstractController
             } else {
                 $elements[] = ['entity' => $entity, 'data' => $dataPartNext];
             }
+            $id = $entity->getId();
+        }
 
-            return ['valid' => true, 'elements' => $elements];
+        $createRevisionChild = function ($child, $merges, $type) use (&$elements, $id) {
+            $childElements = $this->createEntitiesAndGetRevisionData($child, $merges, $type, $id);
+            $elements = array_merge($elements, $childElements);
+        };
+
+        $this->iterateOverChildren($data, $merges, $type, $createRevisionChild);
+        return $elements;
+    }
+
+    /**
+     * Create an entity link child if the parrent allows multiple, or otherwise reuse an existing child.
+     * @param $type
+     * @param $parentId
+     * @return EntityInterface
+     */
+    protected function createOrRecycleEntity($type, $parentId)
+    {
+        $parent = $this->getEntity($parentId);
+        $parentType = $parent->getType()->getName();
+        $existingChildren = $parent->getChildren('link', $type);
+        if ($existingChildren->count() > 0) {
+            // Check if the parent allows multiple entities, otherwise use the existing and restore it if necessary.
+            if ($this->moduleOptions->getType($type)->hasComponent('link')) {
+                /** @var LinkOptions $linkOptions */
+                $linkOptions = $this->moduleOptions->getType($parentType)->getComponent('link');
+                if (!$linkOptions->allowsManyChildren($type)) {
+                    /** @var EntityInterface $child */
+                    $child = $existingChildren->first();
+                    if ($child->isTrashed()) {
+                        $this->getUuidManager()->restoreUuid($child->getId());
+                        $this->getUuidManager()->flush();
+                    }
+
+                    return $child;
+                }
+            }
+        }
+
+        $instance = $this->getInstanceManager()->getInstanceFromRequest();
+        $entity   = $this->getEntityManager()->createEntity(
+            $type,
+            ['link' => [
+                'type' => 'link',
+                'child' => $parentId,
+            ]],
+            $instance
+        );
+        $this->getEntityManager()->flush();
+        return $entity;
+    }
+
+    /**
+     * Helper function iterating through $data using children specified in component link config
+     * @param array $data
+     * @param array $merges
+     * @param string $type
+     * @param callable $cb Callback, accepting the child data, merges and type
+     */
+    private function iterateOverChildren($data, $merges, $type, $cb)
+    {
+        $data = array_merge($data, $merges);
+
+        if ($this->moduleOptions->getType($type)->hasComponent('link')) {
+            /** @var LinkOptions $linkOptions */
+            $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
+            foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
+                if (isset($data[$allowedChild]) && $data[$allowedChild]) {
+                    if ($linkOptions->allowsManyChildren($allowedChild)) {
+                        foreach ($data[$allowedChild] as $child) {
+                            $cb($child, $merges, $allowedChild);
+                        }
+                    } else {
+                        $cb($data[$allowedChild], $merges, $allowedChild);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks data for validity, creates missing entities if all data is valid and returns the entities
+     * and associated revision data
+     * @param array $data
+     * @param array $merges
+     * @param string $type
+     * @return array
+     */
+    protected function checkData($data, $merges, $type)
+    {
+        $validated = $this->isValid($data, $merges, $type);
+        if ($validated['valid']) {
+            return ['valid' => true, 'elements' => $this->createEntitiesAndGetRevisionData($data, $merges, $type)];
         } else {
-            $messages = array_merge($messages, $form->getMessages());
-            return ['valid' => false, 'messages' => $messages];
+            return $validated;
         }
     }
 
@@ -324,8 +429,7 @@ class RepositoryController extends AbstractController
         // Todo: Unhack
 
         $type = $entity->getType()->getName();
-        $form = $this->moduleOptions->getType($type)->getComponent('repository')->getForm();
-        $form = $this->getServiceLocator()->get($form);
+        $form = $this->getFormFromType($type);
         $revision = $this->getRevision($entity, $id);
 
         if (is_object($revision)) {
@@ -340,6 +444,16 @@ class RepositoryController extends AbstractController
 
 
         return $form;
+    }
+
+    /**
+     * @param string $type
+     * @return Form
+     */
+    protected function getFormFromType($type)
+    {
+        $form = $this->moduleOptions->getType($type)->getComponent('repository')->getForm();
+        return $this->getServiceLocator()->get($form);
     }
 
     protected function getRevisionData(RevisionInterface $revision)
@@ -380,8 +494,10 @@ class RepositoryController extends AbstractController
             /** @var LinkOptions $linkOptions */
             $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
             foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
-                $filter = new NotTrashedCollectionFilter();
-                $children = $filter->filter($entity->getChildren('link', $allowedChild));
+                $chain    = new FilterChain();
+                $chain->attach(new HasCurrentRevisionCollectionFilter());
+                $chain->attach(new NotTrashedCollectionFilter());
+                $children = $chain->filter($entity->getChildren('link', $allowedChild));
 
                 if ($children->count()) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {

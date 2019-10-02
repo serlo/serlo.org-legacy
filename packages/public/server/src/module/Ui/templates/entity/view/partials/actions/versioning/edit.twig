@@ -28,7 +28,7 @@
             <span class="label label-community-light">{{ entity.countUnrevised() }}</span>
         </a>
     {% else %}
-        {% set route = isLegacyFormat(entity.getCurrentRevision().get('content')) ? 'entity/repository/add-revision-old' : 'entity/repository/add-revision' %}
+        {% set route = isLegacyFormat(entity.getCurrentRevision().get(options.getContent())) ? 'entity/repository/add-revision-old' : 'entity/repository/add-revision' %}
         <a class="btn btn-success"
            href="{{ url(route, {'entity': entity.getId()}) }}"
         >

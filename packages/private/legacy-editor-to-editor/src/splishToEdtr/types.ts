@@ -76,6 +76,7 @@ export type OtherPlugin = {
     | 'image'
     | 'important'
     | 'injection'
+    | 'inputExercise'
     | 'spoiler'
     | 'scMcExercise'
     | 'table'

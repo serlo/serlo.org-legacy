@@ -71,6 +71,9 @@ class LinkService implements LinkServiceInterface
 
         $this->getObjectManager()->persist($link);
 
+        $parent->getChildLinks()->add($link);
+        $child->getParentLinks()->add($link);
+
         return $this;
     }
 

@@ -23,38 +23,50 @@
 {% if options.hasComponent('link') %}
     {% set componentOptions = options.getComponent('link') %}
     {% for type in componentOptions.getAllowedChildren() %}
-        {% set allowsManyChildren = componentOptions.allowsManyChildren(type) %}
-        {% set count = entity.getChildren('link', type).count() %}
-        {% if (allowsManyChildren or (not(allowsManyChildren) and count < 1)) and isGranted('entity.link.create', entity) %}
-            <li>
-                <a rel="nofollow" href="{{ url('entity/create', {'type': type}, {'query': {'link': {'type': 'link', 'child': entity.getId()}}}) }}">
-                    <span class="fa fa-plus"></span>
-                    {% trans %}
-                        Add {{ type }}
-                    {% endtrans %}
-                </a>
-            </li>
+        {% if entity.hasCurrentRevision() and not isLegacyFormat(entity.getCurrentRevision().get(options.getContent())) and type in [
+            'single-choice-right-answer',
+            'single-choice-wrong-answer',
+            'multiple-choice-wrong-answer',
+            'multiple-choice-right-answer',
+            'input-string-normalized-match-challenge',
+            'input-number-exact-match-challenge',
+            'input-expression-equal-match-challenge'
+        ] %}
+            {# skip. Handled directly in new editor. #}
         {% else %}
-            {% set child = entity.getChildren('link', type).first() %}
-            {% if not(allowsManyChildren) and count == 1 and child.isTrashed() and isGranted('entity.revision.restore', child) %}
-            <li>
-                <a rel="nofollow" href="{{ url('uuid/restore', {'id' : child.getId()}) }}">
-                    <span class="fa fa-recycle"></span>
-                    {% trans %}
-                    Restore {{ type }}
-                    {% endtrans %}
-                </a>
-            </li>
-            {% elseif not(allowsManyChildren) and count == 1 and not child.isTrashed() and not child.hasCurrentRevision()
-                    and isGranted('entity.revision.create', child) %}
+            {% set allowsManyChildren = componentOptions.allowsManyChildren(type) %}
+            {% set count = entity.getChildren('link', type).count() %}
+            {% if (allowsManyChildren or (not(allowsManyChildren) and count < 1)) and isGranted('entity.link.create', entity) %}
                 <li>
-                    <a rel="nofollow" href="{{  url('entity/repository/add-revision-old', {'entity': child.getId()}) }}">
+                    <a rel="nofollow" href="{{ url('entity/create', {'type': type}, {'query': {'link': {'type': 'link', 'child': entity.getId()}}}) }}">
                         <span class="fa fa-plus"></span>
                         {% trans %}
-                        Add {{ type }}
+                            Add {{ type }}
                         {% endtrans %}
                     </a>
                 </li>
+            {% else %}
+                {% set child = entity.getChildren('link', type).first() %}
+                {% if not(allowsManyChildren) and count == 1 and child.isTrashed() and isGranted('entity.revision.restore', child) %}
+                <li>
+                    <a rel="nofollow" href="{{ url('uuid/restore', {'id' : child.getId()}) }}">
+                        <span class="fa fa-recycle"></span>
+                        {% trans %}
+                        Restore {{ type }}
+                        {% endtrans %}
+                    </a>
+                </li>
+                {% elseif not(allowsManyChildren) and count == 1 and not child.isTrashed() and not child.hasCurrentRevision()
+                        and isGranted('entity.revision.create', child) %}
+                    <li>
+                        <a rel="nofollow" href="{{  url('entity/repository/add-revision-old', {'entity': child.getId()}) }}">
+                            <span class="fa fa-plus"></span>
+                            {% trans %}
+                            Add {{ type }}
+                            {% endtrans %}
+                        </a>
+                    </li>
+                {% endif %}
             {% endif %}
         {% endif %}
     {% endfor %}

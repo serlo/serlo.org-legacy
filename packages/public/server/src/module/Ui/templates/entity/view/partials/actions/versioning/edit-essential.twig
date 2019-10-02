@@ -25,7 +25,7 @@
     <li>
     {% if entity.isUnrevised() %}
         <a rel="nofollow" href="{{ url('entity/repository/history', {'entity': entity.getId()}) }}">
-    {% elseif not isLegacyFormat(entity.getCurrentRevision().get('content')) %}
+    {% elseif not isLegacyFormat(entity.getCurrentRevision().get(options.getContent())) %}
         <a class="{{ revisionGranted ? 'edit-button' : ''}}"
            data-id="{{ entity.getId() }}"
            data-type="{{ entity.getType() }}"

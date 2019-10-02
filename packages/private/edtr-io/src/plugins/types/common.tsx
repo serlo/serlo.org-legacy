@@ -20,16 +20,15 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import {
-  ScopeContext,
   useScopedDispatch,
   useScopedSelector,
   useScopedStore
 } from '@edtr-io/core'
 import {
-  StateDescriptor,
-  StateDescriptorsSerializedType,
-  StateDescriptorValueType,
-  StateDescriptorReturnType,
+  StateType,
+  StateTypesSerializedType,
+  StateTypeValueType,
+  StateTypeReturnType,
   child,
   number,
   object,
@@ -79,9 +78,9 @@ export const entity = {
   changes: string()
 }
 
-export type Uuid = StateDescriptorsSerializedType<typeof uuid>
+export type Uuid = StateTypesSerializedType<typeof uuid>
 
-export type License = StateDescriptorsSerializedType<typeof license>
+export type License = StateTypesSerializedType<typeof license>
 
 export type Entity = Uuid & License & { changes?: string }
 
@@ -333,45 +332,45 @@ export function Controls(props: OwnProps) {
   }
 }
 
-export function editorContent(): StateDescriptor<
+export function editorContent(): StateType<
   string,
-  StateDescriptorValueType<ReturnType<typeof child>>,
-  StateDescriptorReturnType<ReturnType<typeof child>>
+  StateTypeValueType<ReturnType<typeof child>>,
+  StateTypeReturnType<ReturnType<typeof child>>
 > {
   const originalChild = child('rows')
-  const { serialize, deserialize } = originalChild
-  return Object.assign(originalChild, {
+  return {
+    ...originalChild,
     serialize(...args: Parameters<typeof originalChild.serialize>) {
-      return JSON.stringify(serialize(...args))
+      return JSON.stringify(originalChild.serialize(...args))
     },
     deserialize(
       serialized: string,
       helpers: Parameters<typeof originalChild.deserialize>[1]
     ) {
       console.log('stateType', serialized)
-      return deserialize(JSON.parse(serialized), helpers)
+      return originalChild.deserialize(JSON.parse(serialized), helpers)
     }
-  })
+  }
 }
 
 export function serializedChild(
   plugin: string
-): StateDescriptor<
+): StateType<
   unknown,
-  StateDescriptorValueType<ReturnType<typeof child>>,
-  StateDescriptorReturnType<ReturnType<typeof child>>
+  StateTypeValueType<ReturnType<typeof child>>,
+  StateTypeReturnType<ReturnType<typeof child>>
 > {
   const originalChild = child(plugin)
-  const { serialize, deserialize } = originalChild
-  return Object.assign(originalChild, {
+  return {
+    ...originalChild,
     serialize(...args: Parameters<typeof originalChild.serialize>) {
-      return serialize(...args).state
+      return originalChild.serialize(...args).state
     },
     deserialize(
       serialized: string,
       helpers: Parameters<typeof originalChild.deserialize>[1]
     ) {
-      return deserialize(
+      return originalChild.deserialize(
         {
           plugin,
           state: serialized
@@ -379,32 +378,48 @@ export function serializedChild(
         helpers
       )
     }
-  })
+  }
 }
 
 export function optionalSerializedChild(plugin: string) {
   const child = serializedChild(plugin)
-  const { serialize, deserialize } = child
-  return Object.assign(child, {
+  return {
+    ...child,
+    init(...[state, onChange]: Parameters<typeof child.init>) {
+      return {
+        ...child.init(state, onChange),
+        create(state?: unknown) {
+          onChange((_oldId, helpers) => {
+            if (typeof state !== 'undefined') {
+              return child.deserialize(state, helpers)
+            }
+            return child.createInitialState(helpers)
+          })
+        }
+      }
+    },
     serialize(
       deserialized: string,
       helpers: Parameters<typeof child.serialize>[1]
     ) {
       if (!deserialized) return null
-      return serialize(deserialized, helpers)
+      return child.serialize(deserialized, helpers)
     },
     deserialize(
       serialized: string | null,
       helpers: Parameters<typeof child.deserialize>[1]
     ) {
       if (!serialized) return null
-      return deserialize(serialized, helpers)
+      return child.deserialize(serialized, helpers)
+    },
+    createInitialState() {
+      return null
     }
-  })
+  }
 }
 
 interface OwnProps {
-  changes?: StateDescriptorReturnType<typeof entity['changes']>
-  license?: StateDescriptorReturnType<typeof entity['license']>
+  changes?: StateTypeReturnType<typeof entity['changes']>
+  license?: StateTypeReturnType<typeof entity['license']>
   subscriptions?: boolean
 }

@@ -32,6 +32,7 @@ import {
   Controls,
   optionalSerializedChild
 } from './common'
+import { AddButton } from '@edtr-io/editor-ui'
 
 export const textExerciseTypeState = object({
   ...entity,
@@ -61,8 +62,28 @@ export function TextExerciseTypeEditor(
   return (
     <article className="text-exercise">
       {content.render()}
-      {textHint.render({ skipControls: true })}
-      {textSolution.render({ skipControls: true })}
+      {textHint.id ? (
+        textHint.render({ skipControls: true })
+      ) : (
+        <AddButton
+          onClick={() => {
+            textHint.create()
+          }}
+        >
+          Hinweis hinzufügen
+        </AddButton>
+      )}
+      {textSolution.id ? (
+        textSolution.render({ skipControls: true })
+      ) : (
+        <AddButton
+          onClick={() => {
+            textSolution.create()
+          }}
+        >
+          Lösung hinzufügen
+        </AddButton>
+      )}
       {props.skipControls ? null : <Controls subscriptions {...props.state} />}
     </article>
   )

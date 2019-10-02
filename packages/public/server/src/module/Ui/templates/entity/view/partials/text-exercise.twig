@@ -20,6 +20,7 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 {% set revision = entity.getCurrentRevision() %}
+{% set legacyFormat = isLegacyFormat(revision.get('content')) %}
 {% set solution = entity.getChildren('link', 'text-solution').first() %}
 {% set showSolution = (solution and solution.hasCurrentRevision() and not solution.isTrashed()) %}
 {% set hint = entity.getChildren('link', 'text-hint').first() %}
@@ -45,24 +46,26 @@
             <div class="pull-right">
                 <div class="btn-group">
                     {% set subitems = [] %}
-                    {% for answer in singleChoices %}
-                        {% set subitems = subitems|merge([answer['entity']]) %}
-                    {% endfor %}
-                    {% for answer in multipleChoices %}
-                        {% set subitems = subitems|merge([answer['entity']]) %}
-                    {% endfor %}
-                    {% if inputChallenge %}
-                        {% set subitems = subitems|merge([inputChallenge]) %}
-                        {% for child in inputChallenge().fetchWrongInputs(inputChallenge) %}
-                            {% set subitems = subitems|merge([child['entity']]) %}
+                    {% if legacyFormat %}
+                        {% for answer in singleChoices %}
+                            {% set subitems = subitems|merge([answer['entity']]) %}
                         {% endfor %}
+                        {% for answer in multipleChoices %}
+                            {% set subitems = subitems|merge([answer['entity']]) %}
+                        {% endfor %}
+                        {% if inputChallenge %}
+                            {% set subitems = subitems|merge([inputChallenge]) %}
+                            {% for child in inputChallenge().fetchWrongInputs(inputChallenge) %}
+                                {% set subitems = subitems|merge([child['entity']]) %}
+                            {% endfor %}
+                        {% endif %}
                     {% endif %}
                     {% include 'entity/view/partials/actions/small-essential' with {'entity': entity, 'subitems': subitems} %}
                 </div>
             </div>
         </div>
     </section>
-    {% if isLegacyFormat(revision.get('content')) %}
+    {% if legacyFormat %}
         {% if singleChoices|length > 0 %}
             <section>
                 <form class="single-choice-group">
@@ -171,7 +174,8 @@
         </div>
     {% endif %}
     {% if showSolution %}
-        {% if not isLegacyFormat(revision.get('content')) or (singleChoices|length == 0 and multipleChoices|length == 0 and not inputChallenge) %}
+        {# legacy format with interactive elements already display the handle for the solution in different places #}
+        {% if not legacyFormat or (singleChoices|length == 0 and multipleChoices|length == 0 and not inputChallenge) %}
             <div class="solution collapsed" data-toggle="collapse"
                  data-target="#solution-{{ solution.getId() }}">
                 <a class="collapse-show-label">{% trans %} Show solution {% endtrans %}<span class="caret"></span></a>
@@ -179,7 +183,7 @@
             </div>
         {% endif %}
     {% endif %}
-    {% if inputChallenge %}
+    {% if legacyFormat and inputChallenge%}
         <section>
             {% include 'entity/view/default' with {
                 'entity': inputChallenge,

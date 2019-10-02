@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { AddButton } from '@edtr-io/editor-ui'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
@@ -50,7 +51,7 @@ function TextExerciseGroupTypeEditor(
   return (
     <article className="exercisegroup">
       <section className="row">{content.render()}</section>
-      {children.items.map((child, index) => {
+      {children.map((child, index) => {
         return (
           <section className="row" key={child.id}>
             <div className="col-sm-1 hidden-xs">
@@ -62,6 +63,13 @@ function TextExerciseGroupTypeEditor(
           </section>
         )
       })}
+      <AddButton
+        onClick={() => {
+          children.insert()
+        }}
+      >
+        Teilaufgabe hinzufügen
+      </AddButton>
       <Controls subscriptions {...props.state} />
     </article>
   )
