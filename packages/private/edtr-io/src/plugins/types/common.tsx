@@ -27,13 +27,24 @@ import {
 import {
   StateType,
   StateTypesSerializedType,
+  StateTypeSerializedType,
   StateTypeValueType,
   StateTypeReturnType,
+  StateUpdater,
   child,
   number,
   object,
   string
 } from '@edtr-io/plugin'
+import {
+  getDocument,
+  getRedoStack,
+  getUndoStack,
+  hasPendingChanges,
+  redo,
+  serializeRootDocument,
+  undo
+} from '@edtr-io/store'
 import { styled } from '@edtr-io/ui'
 import { button } from '@storybook/addon-knobs'
 import * as React from 'react'
@@ -47,14 +58,7 @@ import BSFormControl from 'react-bootstrap/lib/FormControl'
 import { createPortal } from 'react-dom'
 
 import { SaveContext } from '../../editor'
-import {
-  getRedoStack,
-  getUndoStack,
-  hasPendingChanges,
-  redo,
-  serializeRootDocument,
-  undo
-} from '@edtr-io/store'
+import { coursePageTypeState } from './course-page'
 
 export const licenseState = object({
   id: number(),
@@ -381,13 +385,29 @@ export function serializedChild(
   }
 }
 
-export function optionalSerializedChild(plugin: string) {
+export function optionalSerializedChild(
+  plugin: string
+): StateType<
+  StateTypeSerializedType<ReturnType<typeof serializedChild>> | null,
+  StateTypeValueType<ReturnType<typeof serializedChild>> | null,
+  StateTypeReturnType<ReturnType<typeof serializedChild>> & {
+    create: (state?: unknown) => void
+    remove: () => void
+  }
+> {
   const child = serializedChild(plugin)
   return {
     ...child,
-    init(...[state, onChange]: Parameters<typeof child.init>) {
+    init(
+      state: string,
+      onChange: (updater: StateUpdater<string | null>) => void
+    ) {
       return {
-        ...child.init(state, onChange),
+        ...child.init(state, updater => {
+          onChange((oldId, helpers) => {
+            return updater(oldId || '', helpers)
+          })
+        }),
         create(state?: unknown) {
           onChange((_oldId, helpers) => {
             if (typeof state !== 'undefined') {
@@ -395,11 +415,14 @@ export function optionalSerializedChild(plugin: string) {
             }
             return child.createInitialState(helpers)
           })
+        },
+        remove() {
+          onChange(() => null)
         }
       }
     },
     serialize(
-      deserialized: string,
+      deserialized: string | null,
       helpers: Parameters<typeof child.serialize>[1]
     ) {
       if (!deserialized) return null
@@ -416,6 +439,46 @@ export function optionalSerializedChild(plugin: string) {
       return null
     }
   }
+}
+
+const RemoveButton = styled.button({
+  borderRadius: '50%',
+  outline: 'none',
+  background: 'white',
+  zIndex: 20,
+  float: 'right',
+  transform: 'translate(50%, -40%)',
+  border: '2px solid lightgrey',
+  '&:hover': {
+    border: '3px solid #007ec1',
+    color: '#007ec1'
+  }
+})
+
+export function OptionalChild(props: {
+  state: StateTypeReturnType<ReturnType<typeof serializedChild>>
+  onRemove: () => void
+}) {
+  const document = useScopedSelector(getDocument(props.state.id)) as {
+    plugin: 'type-course-page'
+    state: StateTypeValueType<typeof coursePageTypeState>
+  }
+
+  return (
+    <React.Fragment>
+      <hr />
+      {document.state.id === 0 ? (
+        <RemoveButton
+          onClick={() => {
+            props.onRemove()
+          }}
+        >
+          x
+        </RemoveButton>
+      ) : null}
+      {props.state.render({ skipControls: true })}
+    </React.Fragment>
+  )
 }
 
 interface OwnProps {

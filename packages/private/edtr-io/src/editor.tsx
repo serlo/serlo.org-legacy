@@ -113,7 +113,7 @@ export function Editor(props: EditorProps) {
     const isExercise = [
       'grouped-text-exercise',
       'text-exercise',
-      'grouped-text-exercise'
+      'text-exercise-group'
     ].includes(props.type)
     return [
       {

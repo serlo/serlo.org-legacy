@@ -34,7 +34,8 @@ import {
   entity,
   Controls,
   serializedChild,
-  HeaderInput
+  HeaderInput,
+  OptionalChild
 } from './common'
 import { Settings } from './helpers/settings'
 
@@ -78,12 +79,15 @@ function CourseTypeEditor(
           <span itemProp="name">{title.value}</span>
         )}
       </h1>
-      {children.map(child => {
+      {children.map((child, index) => {
         return (
-          <React.Fragment key={child.id}>
-            <hr />
-            {child.render({ skipControls: true })}
-          </React.Fragment>
+          <OptionalChild
+            state={child}
+            key={child.id}
+            onRemove={() => {
+              children.remove(index)
+            }}
+          />
         )
       })}
       <hr />

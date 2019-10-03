@@ -28,7 +28,13 @@ import {
 } from '@edtr-io/plugin'
 import * as React from 'react'
 
-import { editorContent, entity, Controls, serializedChild } from './common'
+import {
+  editorContent,
+  entity,
+  Controls,
+  serializedChild,
+  OptionalChild
+} from './common'
 
 export const textExerciseGroupTypeState = object({
   ...entity,
@@ -58,7 +64,12 @@ function TextExerciseGroupTypeEditor(
               <em>{String.fromCharCode(97 + index)})</em>
             </div>
             <div className="col-sm-11 col-xs-12">
-              {child.render({ skipControls: true })}
+              <OptionalChild
+                state={child}
+                onRemove={() => {
+                  children.remove(index)
+                }}
+              />
             </div>
           </section>
         )

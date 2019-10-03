@@ -30,7 +30,8 @@ import {
   editorContent,
   entity,
   Controls,
-  optionalSerializedChild
+  optionalSerializedChild,
+  OptionalChild
 } from './common'
 import { AddButton } from '@edtr-io/editor-ui'
 
@@ -63,7 +64,12 @@ export function TextExerciseTypeEditor(
     <article className="text-exercise">
       {content.render()}
       {textHint.id ? (
-        textHint.render({ skipControls: true })
+        <OptionalChild
+          state={textHint}
+          onRemove={() => {
+            textHint.remove()
+          }}
+        />
       ) : (
         <AddButton
           onClick={() => {
@@ -74,7 +80,12 @@ export function TextExerciseTypeEditor(
         </AddButton>
       )}
       {textSolution.id ? (
-        textSolution.render({ skipControls: true })
+        <OptionalChild
+          state={textSolution}
+          onRemove={() => {
+            textSolution.remove()
+          }}
+        />
       ) : (
         <AddButton
           onClick={() => {
