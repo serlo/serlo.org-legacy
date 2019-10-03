@@ -51,6 +51,11 @@ function CoursePageTypeEditor(
 ) {
   const { title, icon, content } = props.state
 
+  React.useEffect(() => {
+    if (!['explanation', 'play', 'question'].includes(icon.value)) {
+      icon.set('explanation')
+    }
+  }, [icon.value])
   return (
     <article>
       <Settings>
