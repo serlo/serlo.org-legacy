@@ -53,7 +53,7 @@ export const SaveContext = React.createContext<EditorProps['onSave']>(() => {
 })
 
 export function Editor(props: EditorProps) {
-  const result = deserialize(props)
+  let result = deserialize(props)
   const plugins = createPlugins(getRegistry())
 
   if (isError(result)) {
@@ -80,7 +80,18 @@ export function Editor(props: EditorProps) {
         )
     }
   }
-
+  const stored = getStored()
+  if (
+    stored &&
+    confirm(
+      'Es wurde eine alte Bearbeitung von dir gefunden. Möchtest du diese wiederherstellen?'
+    )
+  ) {
+    result = {
+      success: true,
+      initialState: stored
+    }
+  }
   return (
     <SaveContext.Provider value={props.onSave}>
       <div className="alert alert-warning" role="alert">
@@ -177,5 +188,34 @@ export function Editor(props: EditorProps) {
         name: 'video'
       }
     ]
+  }
+}
+
+function getStored(): { plugin: string; state?: unknown } | undefined {
+  const edtr = localStorage.getItem('edtr')
+  if (!edtr) return
+
+  const state = JSON.parse(edtr)
+  return state[window.location.pathname]
+}
+
+export function storeState(state: unknown) {
+  const edtr = localStorage.getItem('edtr')
+  if (!edtr) {
+    localStorage.setItem(
+      'edtr',
+      JSON.stringify({
+        [window.location.pathname]: state
+      })
+    )
+  } else {
+    const parsed = JSON.parse(edtr)
+    localStorage.setItem(
+      'edtr',
+      JSON.stringify({
+        ...parsed,
+        [window.location.pathname]: state
+      })
+    )
   }
 }

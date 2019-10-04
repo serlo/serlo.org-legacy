@@ -57,7 +57,7 @@ import BSControlLabel from 'react-bootstrap/lib/ControlLabel'
 import BSFormControl from 'react-bootstrap/lib/FormControl'
 import { createPortal } from 'react-dom'
 
-import { SaveContext } from '../../editor'
+import { SaveContext, storeState } from '../../editor'
 import { coursePageTypeState } from './course-page'
 
 export const licenseState = object({
@@ -108,6 +108,7 @@ export function Controls(props: OwnProps) {
   const [visible, setVisibility] = React.useState(false)
   const [pending, setPending] = React.useState(false)
   const [hasError, setHasError] = React.useState(false)
+  const [savedToLocalstorage, setSavedToLocalstorage] = React.useState(false)
   const save = React.useContext(SaveContext)
   const [agreement, setAgreement] = React.useState(false)
   const [emailSubscription, setEmailSubscription] = React.useState(true)
@@ -121,6 +122,7 @@ export function Controls(props: OwnProps) {
       // Reset license agreement
       setPending(false)
       setHasError(false)
+      setSavedToLocalstorage(false)
       setAgreement(false)
     }
   }, [visible])
@@ -250,6 +252,7 @@ export function Controls(props: OwnProps) {
       }
     })
       .then(() => {
+        storeState(undefined)
         setPending(false)
         setHasError(false)
       })
@@ -262,15 +265,34 @@ export function Controls(props: OwnProps) {
   function renderAlert() {
     if (!hasError) return null
     return (
-      <BSAlert
-        bsStyle="danger"
-        onDismiss={() => {
-          setHasError(false)
-        }}
-      >
-        Speichern ist leider fehlgeschlagen. Bitte schnappe dir einen
-        Entwickler.
-      </BSAlert>
+      <React.Fragment>
+        <BSAlert
+          bsStyle="danger"
+          onDismiss={() => {
+            setHasError(false)
+          }}
+        >
+          Speichern ist leider fehlgeschlagen. Bitte schnappe dir einen
+          Entwickler. <br />
+          <br />
+          Du kannst die Bearbeitung lokal zwischenspeichern, dann die Seite neu
+          laden und es erneut versuchen.
+        </BSAlert>
+        <BSModal.Footer>
+          <BSButton
+            bsStyle="success"
+            onClick={() => {
+              const serializedRoot = serializeRootDocument()(store.getState())
+              storeState(serializedRoot)
+              setSavedToLocalstorage(true)
+            }}
+          >
+            {savedToLocalstorage
+              ? 'Bearbeitung gespeichert!'
+              : 'Bearbeitung zwischenspeichern'}
+          </BSButton>
+        </BSModal.Footer>
+      </React.Fragment>
     )
   }
 
