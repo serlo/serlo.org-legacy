@@ -49,7 +49,7 @@ export function initEntityEditor(
           })
         },
         onSave: data => {
-          return new Promise((_resolve, reject) => {
+          return new Promise((resolve, reject) => {
             axios
               .post(window.location.pathname, data, {
                 headers: {
@@ -58,6 +58,7 @@ export function initEntityEditor(
               })
               .then(value => {
                 if (value.data.success) {
+                  resolve()
                   window.location = value.data.redirect
                 } else {
                   console.log(value.data.errors)
