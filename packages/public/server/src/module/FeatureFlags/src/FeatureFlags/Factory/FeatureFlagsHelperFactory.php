@@ -21,40 +21,29 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace FeatureFlags;
+namespace FeatureFlags\Factory;
 
-use FeatureFlagsTest\MockSentry;
-use PHPUnit\Framework\TestCase;
+use FeatureFlags\Service;
+use FeatureFlags\View\Helper\FeatureFlags;
+use Zend\Http\Request;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ServiceTest extends TestCase
+class FeatureFlagsHelperFactory implements FactoryInterface
 {
-    /** @var MockSentry */
-    private $logger;
-    /** @var Service */
-    private $service;
-
-    public function setUp()
+    /**
+     * Create service
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return FeatureFlags
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $this->logger = new MockSentry();
-        $this->service = new Service([
-            'foo' => true,
-            'bar' => false,
-        ], $this->logger);
-    }
-
-    public function testEnabledFeature()
-    {
-        $this->assertTrue($this->service->isEnabled('foo'));
-    }
-
-    public function testDisabledFunction()
-    {
-        $this->assertFalse($this->service->isEnabled('bar'));
-    }
-
-    public function testMissingFunction()
-    {
-        $this->assertFalse($this->service->isEnabled('foobar'));
-        $this->assertEquals('No configuration found for feature flag "foobar"', $this->logger->lastMessage);
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        /** @var Service $service */
+        $service = $serviceLocator->get(Service::class);
+        /** @var Request $request */
+        $request = $serviceLocator->get('Request');
+        return new FeatureFlags($service, $request);
     }
 }

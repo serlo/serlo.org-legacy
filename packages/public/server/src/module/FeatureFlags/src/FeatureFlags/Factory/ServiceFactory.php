@@ -40,7 +40,6 @@ class ServiceFactory implements FactoryInterface
          * @var $sentry ServiceLoggerInterface
          */
         $sentry = $serviceLocator->get('Log\Sentry');
-
         return new Service($config, $sentry);
     }
 }

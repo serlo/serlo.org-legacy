@@ -21,40 +21,16 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace FeatureFlags;
+namespace FeatureFlagsTest;
 
-use FeatureFlagsTest\MockSentry;
-use PHPUnit\Framework\TestCase;
+use FeatureFlags\ServiceLoggerInterface;
 
-class ServiceTest extends TestCase
+class MockSentry implements ServiceLoggerInterface
 {
-    /** @var MockSentry */
-    private $logger;
-    /** @var Service */
-    private $service;
+    public $lastMessage;
 
-    public function setUp()
+    public function captureMessage(string $msg, array $params)
     {
-        $this->logger = new MockSentry();
-        $this->service = new Service([
-            'foo' => true,
-            'bar' => false,
-        ], $this->logger);
-    }
-
-    public function testEnabledFeature()
-    {
-        $this->assertTrue($this->service->isEnabled('foo'));
-    }
-
-    public function testDisabledFunction()
-    {
-        $this->assertFalse($this->service->isEnabled('bar'));
-    }
-
-    public function testMissingFunction()
-    {
-        $this->assertFalse($this->service->isEnabled('foobar'));
-        $this->assertEquals('No configuration found for feature flag "foobar"', $this->logger->lastMessage);
+        $this->lastMessage = vsprintf($msg, $params);
     }
 }

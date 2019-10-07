@@ -21,17 +21,23 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace FeatureFlags;
+namespace FeatureFlags\View\Helper;
 
+use FeatureFlags\Service;
 use FeatureFlagsTest\MockSentry;
 use PHPUnit\Framework\TestCase;
+use Zend\Http\Request;
 
-class ServiceTest extends TestCase
+class FeatureFlagsTest extends TestCase
 {
     /** @var MockSentry */
     private $logger;
     /** @var Service */
     private $service;
+    /** @var FeatureFlags */
+    private $helper;
+    /** @var Request */
+    private $request;
 
     public function setUp()
     {
@@ -40,21 +46,29 @@ class ServiceTest extends TestCase
             'foo' => true,
             'bar' => false,
         ], $this->logger);
+        $this->request = new Request();
+        $this->helper = new FeatureFlags($this->service, $this->request);
     }
 
     public function testEnabledFeature()
     {
-        $this->assertTrue($this->service->isEnabled('foo'));
+        $this->assertTrue($this->helper->isEnabled('foo'));
     }
 
     public function testDisabledFunction()
     {
-        $this->assertFalse($this->service->isEnabled('bar'));
+        $this->assertFalse($this->helper->isEnabled('bar'));
     }
 
-    public function testMissingFunction()
+    public function testEnabledViaQueryParam()
     {
-        $this->assertFalse($this->service->isEnabled('foobar'));
-        $this->assertEquals('No configuration found for feature flag "foobar"', $this->logger->lastMessage);
+        $this->request->getQuery()->set('featureFlagBar', '');
+        $this->assertTrue($this->helper->isEnabled('bar'));
+    }
+
+    public function testEnabledViaCookie()
+    {
+        $this->request->getHeaders()->addHeaderLine('Cookie', 'feature-flag/bar=');
+        $this->assertTrue($this->helper->isEnabled('bar'));
     }
 }
