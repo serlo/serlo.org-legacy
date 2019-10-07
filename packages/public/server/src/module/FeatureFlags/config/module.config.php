@@ -20,8 +20,22 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace FeatureFlags;
+
+use FeatureFlags\Factory\FeatureFlagsHelperFactory;
+use FeatureFlags\Factory\ServiceFactory;
 
 return [
     'feature_flags' => [],
+    'service_manager' => [
+        'factories' => [
+            Service::class => ServiceFactory::class,
+        ],
+    ],
+    'view_helpers' => [
+        'factories' => [
+            'featureFlags' => FeatureFlagsHelperFactory::class,
+        ],
+    ],
 ];
