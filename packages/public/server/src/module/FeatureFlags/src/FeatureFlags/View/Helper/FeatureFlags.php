@@ -65,7 +65,7 @@ class FeatureFlags extends AbstractHelper
 
     private function isEnabledViaCookie(string $feature): bool
     {
-        $cookieName = 'feature-flags/' . $feature;
+        $cookieName = 'feature-flag/' . $feature;
         $cookie = $this->request->getCookie();
         // If no cookie header sent, return false
         if (!$cookie) {

@@ -68,7 +68,7 @@ class FeatureFlagsTest extends TestCase
 
     public function testEnabledViaCookie()
     {
-        $this->request->getHeaders()->addHeaderLine('Cookie', 'feature-flags/bar=');
+        $this->request->getHeaders()->addHeaderLine('Cookie', 'feature-flag/bar=');
         $this->assertTrue($this->helper->isEnabled('bar'));
     }
 }
