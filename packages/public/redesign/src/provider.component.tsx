@@ -232,20 +232,16 @@ setDefaultBreakpoints(
 
 export const GlobalStyle = createGlobalStyle`
 
-html  {
+  html  {
     font-size: 16px;
-    background-color: #fff;
   }
-  body {
+  .__next, #__next, .sb-show-main  {
     font-family: 'Karmilla';
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.35;
     letter-spacing:-0.01em;
-    // -webkit-text-stroke: .6px;
-  }
-  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-weight: 700;
+    background-color: #fff;
   }
   @media (min-width: ${theme.flexboxgrid.breakpoints.md + 'rem'} ){
     html{
@@ -256,14 +252,5 @@ html  {
 	html{
 		font-size: 20px;
   }
-
-	/*.container{
-		max-width: 56rem !important;
-		position: relative;
-  }
-
-	.wide-container{
-		padding: 0 4rem;
-	}*/
 }
 `

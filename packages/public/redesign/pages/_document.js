@@ -96,6 +96,7 @@ class MyMain extends Main {
     // supporting multiroot in production, append page to id of react root
     return (
       <div
+        className="__next"
         id={`__next${
           process.env.NODE_ENV === 'production'
             ? this.context._documentProps.__NEXT_DATA__.page
