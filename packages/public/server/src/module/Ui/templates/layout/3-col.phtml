@@ -47,6 +47,9 @@ if (!empty($this->registry()->get('rnav'))) {
 if (!$this->layout()->fullWidth) {
     array_push($pageClasses, 'container');
 }
+if ($this->layout()->hideBreadcrumbs) {
+    array_push($pageClasses, 'no-indent');
+}
 
 $pageClass = join(' ', $pageClasses);
 ?>
