@@ -23,11 +23,12 @@
 {% set parent = entity.getParents('link').first() %}
 {% do headTitle(title ~ ' - ' ~ entity().findSubject(parent) ~ ' ' ~ (entity.getType().getName() | trans)) %}
 {% do normalize().headMeta(entity) %}
-{{ pageHeader(normalize().toTitle(entity))
-    .setSubtitle(entity.getType().getName() | trans)
-    .setBacklink(normalize().toUrl(entity.getParents('link').first()))
-    .render(false) }}
-
+{% if not layout().usingAPI %}
+    {{ pageHeader(normalize().toTitle(entity))
+        .setSubtitle(entity.getType().getName() | trans)
+        .setBacklink(normalize().toUrl(entity.getParents('link').first()))
+        .render(false) }}
+{% endif %}
 {% include 'entity/page/partials/placeholders' %}
 {% include 'entity/page/partials/alerts' %}
 {% include 'entity/view/default' %}

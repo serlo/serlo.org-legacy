@@ -23,10 +23,12 @@
 {% do headTitle(title ~ ' - ' ~ entity().findSubject(entity) ~ ' ' ~ (entity.getType().getName() | trans)) %}
 {% do normalize().headMeta(entity) %}
 {% include 'entity/page/partials/placeholders' %}
-<div class="page-header">
-    <h1>{{ title }}
-        <small>{% trans %} Text exercise group {% endtrans %}</small>
-    </h1>
-</div>
+{% if not layout().usingAPI %}
+    <div class="page-header">
+        <h1>{{ title }}
+            <small>{% trans %} Text exercise group {% endtrans %}</small>
+        </h1>
+    </div>
+{% endif %}
 {% include 'entity/page/partials/alerts' %}
 {% include 'entity/view/default' %}

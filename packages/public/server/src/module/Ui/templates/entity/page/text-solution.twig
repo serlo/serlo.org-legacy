@@ -21,10 +21,12 @@
  #}
 {% set title = normalize().toTitle(entity) %}
 {% do normalize().headMeta(entity) %}
-{{ pageHeader(title)
-    .setSubtitle('Text solution' | trans)
-    .setBacklink(normalize().toUrl(entity.getParents('link').first()))
-    .render(false) }}
+{% if not layout().usingAPI %}
+    {{ pageHeader(title)
+        .setSubtitle('Text solution' | trans)
+        .setBacklink(normalize().toUrl(entity.getParents('link').first()))
+        .render(false) }}
+{% endif %}
 
 {% set parent = entity.getParents('link').first() %}
 {% set subject =  entity().findSubject(parent) %}

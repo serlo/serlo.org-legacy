@@ -57,7 +57,7 @@ $pageClass = join(' ', $pageClasses);
     <div id="page" class="<?php echo $pageClass ?>">
         <?php echo $this->partial('layout/partials/left-sidebar'); ?>
         <section class="main clearfix">
-            <div id="content-layout" class="content clearfix">
+            <div id="content-layout" class="content clearfix <?php echo $this->layout()->usingAPI ? 'api' : '' ?>">
                 <?php echo $this->partial('layout/partials/notifications'); ?>
                 <?php echo $this->partial('layout/partials/main'); ?>
             </div>

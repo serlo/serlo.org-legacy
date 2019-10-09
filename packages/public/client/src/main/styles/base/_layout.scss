@@ -154,7 +154,9 @@
   width: 100%;
 
   // For Now
-  min-height: 670px;
+  &:not(.api) {
+    min-height: 670px;
+  }
   padding: 0 $contentPadding $contentPadding;
 
   @media only screen and (min-width: $screen-lg-min) {
