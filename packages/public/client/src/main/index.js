@@ -26,8 +26,14 @@ import $ from 'jquery'
 import 'jquery-sticky'
 import 'jquery-ui'
 import 'katex/dist/katex.css'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import { config } from '@fortawesome/fontawesome-svg-core'
+
 import 'magnific-popup'
 import moment from 'moment'
+import 'iframe-resizer/js/iframeResizer.contentWindow'
+
+config.autoAddCss = false
 
 import { initContent, initEntityEditor } from '../editor'
 import '../libs/polyfills'
