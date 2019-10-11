@@ -19,8 +19,8 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{% set title = normalize().toTitle(entity) %}
-{% do headTitle(title ~ ' - ' ~ entity().findSubject(entity) ~ ' ' ~ (entity.getType().getName() | trans)) %}
+{% set title = entity.getType().getName() | trans %}
+{% do headTitle(entity().findSubject(entity) ~ ' ' ~ title) %}
 {% do normalize().headMeta(entity) %}
 {% include 'entity/page/partials/placeholders' %}
 <div class="page-header">

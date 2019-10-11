@@ -19,14 +19,7 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{% set title = normalize().toTitle(entity) %}
 {% do normalize().headMeta(entity) %}
-{% if not layout().usingAPI %}
-    {{ pageHeader(title)
-        .setSubtitle('Text solution' | trans)
-        .setBacklink(normalize().toUrl(entity.getParents('link').first()))
-        .render(false) }}
-{% endif %}
 
 {% set parent = entity.getParents('link').first() %}
 {% set subject =  entity().findSubject(parent) %}
@@ -36,8 +29,9 @@
     {% set parent = parent.getParents('link').first() %}
     {% set subject =  entity().findSubject(parent) %}
 {% endif %}
+{% set title = parent.getType().getName() | trans %}
 
-{% do headTitle(title ~ ' - ' ~ subject ~ ' ' ~ (parent.getType().getName() | trans)) %}
+{% do headTitle(subject ~ ' ' ~ title) %}
 {% include 'entity/page/partials/placeholders' %}
 {% include 'entity/page/partials/alerts' %}
 {% include 'entity/view/default' %}

@@ -19,16 +19,9 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{% set title = normalize().toTitle(entity) %}
-{% do headTitle(title ~ ' - ' ~ entity().findSubject(entity) ~ ' ' ~ (entity.getType().getName() | trans)) %}
+{% set title = entity.getType().getName() | trans %}
+{% do headTitle(entity().findSubject(entity) ~ ' ' ~ title) %}
 {% do normalize().headMeta(entity) %}
 {% include 'entity/page/partials/placeholders' %}
-{% if not layout().usingAPI %}
-    <div class="page-header">
-        <h1>{{ title }}
-            <small>{% trans %} Text exercise group {% endtrans %}</small>
-        </h1>
-    </div>
-{% endif %}
 {% include 'entity/page/partials/alerts' %}
 {% include 'entity/view/default' %}
