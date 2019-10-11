@@ -189,9 +189,6 @@ return [
                         ],
                     ],
                     'license' => [],
-                    'redirect' => [
-                        'toType' => 'parent',
-                    ],
                 ],
             ],
             'multiple-choice-wrong-answer' => [

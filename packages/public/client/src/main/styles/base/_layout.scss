@@ -1,6 +1,22 @@
+/* api overrides */
+.api {
+  height: auto;
+
+  #page.no-indent {
+    margin-top: 0;
+  }
+
+  .wrap {
+    min-height: 0;
+  }
+  #content-layout {
+    min-height: 0;
+  }
+}
+
 /* MAIN PAGE LAYOUT */
 .wrap {
-  //min-height: 100%;
+  min-height: 100%;
   height: auto !important;
   height: 100%;
 
@@ -30,7 +46,7 @@
   }
 }
 
-#page:not(.no-indent) {
+#page {
   margin-top: 10px;
 }
 
@@ -154,9 +170,7 @@
   width: 100%;
 
   // For Now
-  &:not(.api) {
-    min-height: 670px;
-  }
+  min-height: 670px;
   padding: $contentPadding $contentPadding $contentPadding;
 
   @media only screen and (min-width: $screen-lg-min) {

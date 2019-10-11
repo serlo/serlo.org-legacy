@@ -61,14 +61,14 @@ $pageClass = join(' ', $pageClasses);
     <?php echo $this->partial('layout/partials/head'); ?>
     <?php echo $this->partial('layout/partials/styles'); ?>
 </head>
-<body itemscope itemtype="http://schema.org/WebPage">
+<body itemscope itemtype="http://schema.org/WebPage" class="<?php echo $this->layout()->usingAPI ? 'api' : '' ?>">
 <div class="<?php echo $class ?>">
     <?php echo $this->partial('layout/partials/header'); ?>
 
     <div id="page" class="<?php echo $pageClass ?>">
         <?php echo $this->partial('layout/partials/left-sidebar'); ?>
         <section class="main clearfix">
-            <div id="content-layout" class="content clearfix <?php echo $this->layout()->usingAPI ? 'api' : '' ?>">
+            <div id="content-layout" class="content clearfix">
                 <?php echo $this->partial('layout/partials/notifications'); ?>
                 <?php echo $this->partial('layout/partials/main'); ?>
             </div>

@@ -9125,15 +9125,7 @@ iferr@^0.1.5:
   resolved "https://registry.yarnpkg.com/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
   integrity sha1-xg7taebY/bazEEofy8ocGS3FtQE=
 
-iframe-resizer-react@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/iframe-resizer-react/-/iframe-resizer-react-1.0.0.tgz#503cdd61f937b4f424cea23b78947e81dd2cf3b8"
-  integrity sha512-bPOvgWBU0oqI9tgu8M9oZbNMS5UUpzpAD3iNAPFkAw5Cr+qzwJQVtlgGiykSc26SFzfXWTyZtWgu3If/A5wHgA==
-  dependencies:
-    iframe-resizer "^4.2.0"
-    warning "^4.0.3"
-
-iframe-resizer@^4.2.0, iframe-resizer@^4.2.1:
+iframe-resizer@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-4.2.1.tgz#618330cdae190a379646fa7d5de5c2b94b387294"
   integrity sha512-KvNkwvTg75b5qCyEG8xTCguMG54oBE55NzE6dQOrqTaDMmeGhCqkFefRoEoa/XoMeeMR5FWnlTmGrI83SKrZsg==
@@ -10738,11 +10730,6 @@ lodash.memoize@4.x, lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
-
-lodash.omit@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
-  integrity sha1-brGa5aHuHdnfC5aeZs4Lf6MLXmA=
 
 lodash.set@^4.3.2:
   version "4.3.2"
@@ -13666,14 +13653,6 @@ react-hotkeys@^2.0.0:
   integrity sha512-3n3OU8vLX/pfcJrR3xJ1zlww6KS1kEJt0Whxc4FiGV+MJrQ1mYSYI3qS/11d2MJDFm8IhOXMTFQirfu6AVOF6Q==
   dependencies:
     prop-types "^15.6.1"
-
-react-iframe-resizer@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-iframe-resizer/-/react-iframe-resizer-1.0.1.tgz#3f138e4b2b4246975bb03232c1de9946ea8ee9da"
-  integrity sha1-PxOOSytCRpdbsDIywd6ZRuqO6do=
-  dependencies:
-    lodash.omit "^4.5.0"
-    object-assign "^4.1.0"
 
 react-immutable-proptypes@^2.1.0:
   version "2.1.0"
