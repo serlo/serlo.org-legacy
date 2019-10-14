@@ -25,6 +25,7 @@ namespace User\Entity;
 use Authorization\Entity\RoleInterface;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
+use Entity\Entity\RevisionField;
 use Uuid\Entity\UuidInterface;
 use ZfcRbac\Identity\IdentityInterface;
 
@@ -138,4 +139,23 @@ interface UserInterface extends UuidInterface, IdentityInterface
      * @return self
      */
     public function updateLoginData();
+
+    /**
+     * @param string $field
+     * @return Field
+     */
+    public function getField($field);
+
+    /**
+     * @param string $field
+     * @param string $value
+     * @return Field
+     */
+    public function setField($field, $value);
+
+    /**
+     * @return Field[]
+     */
+    public function getFields();
+
 }

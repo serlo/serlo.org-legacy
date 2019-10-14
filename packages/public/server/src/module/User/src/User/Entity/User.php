@@ -25,6 +25,7 @@ namespace User\Entity;
 use Authorization\Entity\RoleInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Uuid\Entity\Uuid;
 
@@ -37,12 +38,16 @@ use Uuid\Entity\Uuid;
  */
 class User extends Uuid implements UserInterface
 {
-
     /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
      * @ORM\JoinTable(name="role_user")
      */
     protected $roles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Field", mappedBy="user", cascade={"persist"})
+     */
+    protected $fields;
 
     /**
      * @ORM\Column(type="string", unique=true)
@@ -90,8 +95,7 @@ class User extends Uuid implements UserInterface
     public function __construct()
     {
         $this->roles       = new ArrayCollection();
-        $this->ads_enabled = true;
-        $this->removed     = false;
+        $this->fields      = new ArrayCollection();
         $this->logins      = 0;
         $this->generateToken();
     }
@@ -210,5 +214,43 @@ class User extends Uuid implements UserInterface
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getField($field) {
+        $expression = Criteria::expr()->eq("name", $field);
+        $criteria   = Criteria::create()->where($expression)->setFirstResult(0)->setMaxResults(1);
+        $data       = $this->fields->matching($criteria);
+
+        if (empty($data)) {
+            return null;
+        }
+
+        return $data[0];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setField($field, $value) {
+        $entity = $this->getField($field);
+
+        if (!is_object($entity)) {
+            $entity = new Field($this, $field, $value);
+            $this->fields->add($entity);
+        }
+
+        $entity->setUser($this);
+        $entity->setName($field);
+        $entity->setValue($value);
+
+        return $entity;
+    }
+
+    public function getFields()
+    {
+        return $this->fields;
     }
 }

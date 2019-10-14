@@ -153,6 +153,19 @@ class UserManager implements UserManagerInterface
         $this->getObjectManager()->persist($user);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function setFields($user, $data) {
+        foreach ($data as $key => $value) {
+            if (is_string($key) && is_string($value)) {
+                $user->setField($key, $value);
+            }
+        }
+        $this->getObjectManager()->persist($user);
+    }
+
+
     public function flush()
     {
         $this->getObjectManager()->flush();

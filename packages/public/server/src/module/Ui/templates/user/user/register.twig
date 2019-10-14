@@ -72,6 +72,11 @@
             {{ passwordConfirmErrors }}
         </div>
     </div>
+    <div class="form-group{{ interestsErrors ? ' has-error' }}">
+        {{ formLabel(form.get('interests')) }}
+        {{ formElement(form.get('interests')) }}
+        {{ interestsErrors }}
+    </div>
 </fieldset>
 <fieldset>
     <legend>{{ 'Stay in touch!' | trans }}</legend>
@@ -103,11 +108,6 @@
             </div>
             {{ lastNameErrors }}
         </div>
-    </div>
-    <div class="form-group{{ interestsErrors ? ' has-error' }}">
-        {{ formLabel(form.get('interests')) }}
-        {{ formElement(form.get('interests')) }}
-        {{ interestsErrors }}
     </div>
     <div class="form-group">
         <p>
