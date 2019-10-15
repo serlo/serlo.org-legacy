@@ -47,6 +47,9 @@ if (!empty($this->registry()->get('rnav'))) {
 if (!$this->layout()->fullWidth) {
     array_push($pageClasses, 'container');
 }
+if ($this->layout()->hideBreadcrumbs) {
+    array_push($pageClasses, 'no-indent');
+}
 
 $pageClass = join(' ', $pageClasses);
 ?>
@@ -58,7 +61,7 @@ $pageClass = join(' ', $pageClasses);
     <?php echo $this->partial('layout/partials/head'); ?>
     <?php echo $this->partial('layout/partials/styles'); ?>
 </head>
-<body itemscope itemtype="http://schema.org/WebPage">
+<body itemscope itemtype="http://schema.org/WebPage" class="<?php echo $this->layout()->usingAPI ? 'api' : '' ?>">
 <div class="<?php echo $class ?>">
     <?php echo $this->partial('layout/partials/header'); ?>
 

@@ -1,6 +1,6 @@
 {
   "name": "@serlo/serlo-org-client",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config --output-public-path=https://packages.serlo.org/serlo-org-client@$npm_package_version/",
@@ -30,6 +30,7 @@
     "dnode": "^1.0.0",
     "font-awesome": "^4.0.0",
     "howler": "^2.0.0",
+    "iframe-resizer": "^4.0.0",
     "jasny-bootstrap": "^3.0.0",
     "jquery": "^3.0.0",
     "jquery-sticky": "^1.0.0",

@@ -43,7 +43,7 @@ export const initContentApi = () => {
   const queryParams = parseQueryParams(href)
 
   const contentApiQueryParams = R.pickBy(
-    (_value, key) => R.contains(key, contentApiQueryKeys),
+    (_value, key) => R.includes(key, contentApiQueryKeys),
     queryParams
   )
   const contentApiQueryString = stringifyQueryParams(contentApiQueryParams)

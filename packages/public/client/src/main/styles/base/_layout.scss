@@ -1,3 +1,19 @@
+/* api overrides */
+.api {
+  height: auto;
+
+  #page.no-indent {
+    margin-top: 0;
+  }
+
+  .wrap {
+    min-height: 0;
+  }
+  #content-layout {
+    min-height: 0;
+  }
+}
+
 /* MAIN PAGE LAYOUT */
 .wrap {
   min-height: 100%;
@@ -155,7 +171,7 @@
 
   // For Now
   min-height: 670px;
-  padding: 0 $contentPadding $contentPadding;
+  padding: $contentPadding $contentPadding $contentPadding;
 
   @media only screen and (min-width: $screen-lg-min) {
     padding: $contentPadding $contentPadding * 2 $contentPadding * 2;
