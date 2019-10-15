@@ -21,8 +21,11 @@
  */
 import $ from 'jquery'
 
-export const initContent = () => {
-  const $elements = $('.edtr-io[data-edit-type="edtr-io"][data-raw-content]')
+export const initContent = ($context: JQuery<HTMLElement>) => {
+  const $elements = $(
+    '.edtr-io[data-edit-type="edtr-io"][data-raw-content]',
+    $context
+  )
 
   if ($elements.length === 0) {
     return

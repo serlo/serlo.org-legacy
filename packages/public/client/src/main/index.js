@@ -157,7 +157,6 @@ const init = $context => {
   setLanguage()
   initChangeDimensionEvents()
   initContentApi()
-  initContent()
   initConsentBanner()
 
   // create an system notification whenever Common.genericError is called
@@ -170,6 +169,7 @@ const init = $context => {
   }
 
   Content.add($context => {
+    initContent($context)
     $('.sortable', $context).SortableList()
     $('.timeago', $context).TimeAgo()
     $('.dialog', $context).SerloModals()
