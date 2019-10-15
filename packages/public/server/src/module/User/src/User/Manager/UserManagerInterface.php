@@ -91,10 +91,10 @@ interface UserManagerInterface extends Flushable
      * Adds or sets user fields to a user.
      *
      * <code>
-     * $userManager->setFields($user, ['foo' => 'bar', 'acme' => 'bar']);
+     * $userManager->mergeFields($user, ['foo' => 'bar', 'acme' => 'bar']);
      * </code>
      * @param UserInterface $user
      * @param array $data
      */
-    public function setFields($user, $data);
+    public function mergeFields($user, $data);
 }

@@ -98,7 +98,7 @@ class UserController extends AbstractUserController
             if ($form->isValid()) {
                 $data = $form->getData();
                 $user = $this->getUserManager()->createUser($data);
-                $this->getUserManager()->setFields($user, [
+                $this->getUserManager()->mergeFields($user, [
                     'interests' => $data['interests']
                 ]);
 
