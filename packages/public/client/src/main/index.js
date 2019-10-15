@@ -189,7 +189,7 @@ const init = $context => {
     $('.math-puzzle', $context).MathPuzzle()
     $('form:has(button.g-recaptcha)').ReCaptcha()
 
-    const $editor = $('#editor', $context)
+    const $editor = $('#editor[data-state][data-type]', $context)
     if ($editor.length > 0) {
       initEntityEditor(
         {
