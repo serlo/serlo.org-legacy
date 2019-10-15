@@ -99,7 +99,7 @@ class UserController extends AbstractUserController
                 $data = $form->getData();
                 $user = $this->getUserManager()->createUser($data);
                 $this->getUserManager()->mergeFields($user, [
-                    'interests' => $data['interests']
+                    'interests' => $data['interests'],
                 ]);
 
                 $this->getEventManager()->trigger(

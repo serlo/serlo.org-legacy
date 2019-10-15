@@ -219,7 +219,8 @@ class User extends Uuid implements UserInterface
     /**
      * @inheritDoc
      */
-    public function getField($field) {
+    public function getField($field)
+    {
         $expression = Criteria::expr()->eq("name", $field);
         $criteria   = Criteria::create()->where($expression)->setFirstResult(0)->setMaxResults(1);
         $data       = $this->fields->matching($criteria);
@@ -234,7 +235,8 @@ class User extends Uuid implements UserInterface
     /**
      * @inheritDoc
      */
-    public function setField($field, $value) {
+    public function setField($field, $value)
+    {
         $entity = $this->getField($field);
 
         if (!is_object($entity)) {

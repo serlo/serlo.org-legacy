@@ -156,7 +156,8 @@ class UserManager implements UserManagerInterface
     /**
      * @inheritDoc
      */
-    public function mergeFields($user, $data) {
+    public function mergeFields($user, $data)
+    {
         foreach ($data as $key => $value) {
             if (is_string($key) && is_string($value)) {
                 $user->setField($key, $value);

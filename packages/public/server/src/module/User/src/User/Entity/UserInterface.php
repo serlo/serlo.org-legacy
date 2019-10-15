@@ -157,5 +157,4 @@ interface UserInterface extends UuidInterface, IdentityInterface
      * @return Field[]
      */
     public function getFields();
-
 }
