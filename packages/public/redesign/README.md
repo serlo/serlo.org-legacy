@@ -36,4 +36,10 @@ yarn next:build
 yarn next:start
 ```
 
-Directory overview: `src` contains react components, `static` contains font files, `pages` and `.next` are related to next.js, `__stories__` and `.storybook` are related to storybook.
+## Upgrade guide for next.js
+
+Upgrading next.js is a little bit involved because of a patch we implemented to support multiple react root divs. This creates a source dependency and upgrading should be handled with special care.
+
+The current version is fixed to `9.1.1`. The file we patches is located at `patch/next/dist/client/index.tsx` and is a modification of https://github.com/zeit/next.js/blob/3762e7570433ae5c2be8cc3f2d28ff91a9332651/packages/next/client/index.js. Please follow the instructions in our file to upgrade it (the process consists of upgrading changes manually and transpiling the file with babel).
+
+In addition, the file `pages/_document.js` is relying on some next.js interna, with may change with a upgrade. If something breaks, you should take a look at this file.

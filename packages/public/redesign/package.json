@@ -45,7 +45,6 @@
     "@storybook/react": "^5.0.11",
     "@storybook/theming": "^5.0.11",
     "@types/body-parser": "^1.17.1",
-    "@types/next": "^8.0.4",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/react-inlinesvg": "^0.8.0",
@@ -57,10 +56,10 @@
     "body-parser": "^1.19.0",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
-    "next": "8.1.1-canary.52",
-    "next-images": "^1.1.2",
+    "next": "9.1.1",
+    "next-images": "^1.2.0",
     "prettier": "^1.0.0",
-    "typescript": "^3.5.0"
+    "typescript": "^3.6.4"
   },
   "peerDependencies": {
     "react": "^16.8.0",
