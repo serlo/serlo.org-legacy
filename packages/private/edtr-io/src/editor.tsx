@@ -33,6 +33,7 @@ import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { tablePlugin } from '@edtr-io/plugin-table'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { videoPlugin } from '@edtr-io/plugin-video'
+import { terminatorPlugin } from '@entkenntnis/plugin-terminator'
 
 import * as React from 'react'
 
@@ -186,6 +187,10 @@ export function Editor(props: EditorProps) {
       {
         ...videoPlugin,
         name: 'video'
+      },
+      {
+        ...terminatorPlugin,
+        name: 'terminator'
       }
     ]
   }

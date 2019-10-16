@@ -34,6 +34,7 @@ import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { videoPlugin } from '@edtr-io/plugin-video'
+import { terminatorPlugin } from '@entkenntnis/plugin-terminator'
 
 import { appletTypePlugin } from './plugins/types/applet'
 import { articleTypePlugin } from './plugins/types/article'
@@ -73,6 +74,7 @@ export function createPlugins(
     solution: solutionPlugin,
     spoiler: spoilerPlugin,
     table: tablePlugin,
+    terminator: terminatorPlugin,
     text: createTextPlugin(registry),
     video: videoPlugin,
 
