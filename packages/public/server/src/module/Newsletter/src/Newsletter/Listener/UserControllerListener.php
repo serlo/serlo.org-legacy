@@ -92,12 +92,23 @@ class UserControllerListener extends AbstractSharedListenerAggregate
         if ($interests) {
             $request = array_merge($request, array(
                 'interests' => array(
-                    $interests => true,
+                    $this->getInterestsKey($interests) => true,
                 ),
             ));
         }
 
         $result = $this->mailChimp->post('lists/a7bb2bbc4f/members', $request);
+    }
+
+    private function getInterestsKey($interests)
+    {
+        switch ($interests) {
+            case 'parent': return 'dec9a97288';
+            case 'teacher': return '05a5ab768a';
+            case 'pupil': return 'bbffc7a064';
+            case 'student': return 'ebff3b63f6';
+            case 'other': return 'd251aad97e';
+        }
     }
 
     protected function getMonitoredClass()

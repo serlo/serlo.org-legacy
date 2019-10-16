@@ -138,7 +138,7 @@ class RegisterFilter extends InputFilter
         $this->add(
             [
                 'name' => 'interests',
-                'required' => false,
+                'required' => true,
             ]
         );
     }
