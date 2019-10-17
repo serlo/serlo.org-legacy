@@ -18,10 +18,13 @@ const Container = styled.div<{ expanded: boolean }>(({ expanded }) => {
   }
 })
 const Container2 = styled.div({
-  padding: '45px 60px 5px',
+  padding: '45px 10px 5px',
   maxHeight: 'calc(100vh - 20px)',
   overflowY: 'scroll',
   backgroundColor: '#fff',
+  [bigScreens]: {
+    padding: '45px 60px 5px',
+  }
 })
 
 const Drawer = styled.div({
@@ -62,8 +65,7 @@ const Call = styled.div({
   position: 'relative',
   fontSize: '17px',
   [smallScreens]: {
-    width: '100%',
-    fontSize: '14px'
+    width: '100%'
   }
 })
 
@@ -81,7 +83,7 @@ const Form = styled.div<{ expanded: boolean }>(({ expanded }) => {
 const Title = styled.p({
   fontSize: '21px',
   [smallScreens]: {
-    fontSize: '16px'
+    fontSize: '19px'
   }
 })
 
@@ -109,7 +111,8 @@ const Close = styled.div({
   fontWeight: 'bold',
   color: 'rgba(0,0,0,0.2)',
   textShadow: '0 1px 0 #fff',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  zIndex: 1000
 })
 
 const ProgressContainer = styled.div({
@@ -251,7 +254,7 @@ const DonationBanner: React.FunctionComponent<DonationBannerProps> = props => {
                   width: '100%',
                   border: 'none',
                   overflow: 'hidden',
-                  height: '450px',
+                  height: '410px',
                   position: 'relative',
                   zIndex: 2,
                   display: 'block'
