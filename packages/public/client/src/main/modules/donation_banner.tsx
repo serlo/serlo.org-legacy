@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const breakPoint = 780
 const smallScreens = `@media screen and (max-width: ${breakPoint}px)`
-const bigScreens =`@media screen and (min-width: ${breakPoint +1}px)`
+const bigScreens = `@media screen and (min-width: ${breakPoint + 1}px)`
 
 const Container = styled.div<{ expanded: boolean }>(({ expanded }) => {
   return {
@@ -23,7 +23,7 @@ const Container2 = styled.div({
   overflowY: 'scroll',
   backgroundColor: '#fff',
   [bigScreens]: {
-    padding: '45px 60px 5px',
+    padding: '45px 60px 5px'
   }
 })
 
@@ -150,7 +150,7 @@ const Triangle = styled.div({
   height: '0',
   borderTop: '25px solid transparent',
   borderBottom: '25px solid transparent',
-  borderLeft: '15px solid #95bc1a',
+  borderLeft: '15px solid #95bc1a'
 })
 
 const Remaining = styled.div({
@@ -184,7 +184,7 @@ const BlurBackground = styled.div({
   zIndex: 998,
   backgroundColor: 'rgba(100,100,100,0.6)',
   position: 'fixed',
-  top: '0',
+  top: '0'
 })
 const DonationBanner: React.FunctionComponent<DonationBannerProps> = props => {
   const [visible, setVisible] = React.useState(true)
