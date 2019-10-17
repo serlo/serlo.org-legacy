@@ -75,6 +75,7 @@ import './modules/toggle'
 import initTracking from './modules/tracking'
 import './modules/trigger'
 import './styles/main.scss'
+import { initDonationBanner } from './modules/donation_banner'
 
 window.$ = $
 window.jQuery = $
@@ -160,6 +161,7 @@ const init = $context => {
   initContentApi()
   initConsentBanner()
   initDiff()
+  initDonationBanner()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
