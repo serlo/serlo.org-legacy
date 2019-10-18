@@ -32,8 +32,11 @@ class Slugify implements FilterInterface
      */
     protected static function slugify($text)
     {
-        $text = trim($text, " ");
         $text = preg_replace("~ +~u", '-', $text);
+        // replace non letter or digits
+        $text = preg_replace('~[^\\pL\\pM\d-]+~u', '', $text);
+        // trim
+        $text = trim($text, '-');
         $text = strtolower($text);
         if (empty($text)) {
             return false;
