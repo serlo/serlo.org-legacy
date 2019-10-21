@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
-"POT-Creation-Date: 2019-07-30 02:05+0200\n"
-"PO-Revision-Date: 2019-08-20 18:50\n"
+"POT-Creation-Date: 2019-10-21 04:54+0200\n"
+"PO-Revision-Date: 2019-10-21 02:58\n"
 "Last-Translator: Serlo Education (Serlo)\n"
 "Language-Team: Tamil\n"
 "Language: ta\n"
@@ -198,7 +198,7 @@ msgstr "நிகழ்வு பதிவு"
 msgid "Message:"
 msgstr "செய்தி:"
 
-#: ../module/Ads/src/Ads/Controller/AdsController.php:110
+#: ../module/Ads/src/Ads/Controller/AdsController.php:112
 #: ../module/RelatedContent/src/RelatedContent/Controller/RelatedContentController.php:165
 msgid "The element could not be removed (validation failed)"
 msgstr "நீங்கள் தேர்ந்தெடுத்த விடயத்தை அகற்றமுடியவில்லை (சரிபார்த்தல் தோல்வியடைந்தது)"
@@ -226,6 +226,7 @@ msgstr "Url:"
 #: ../module/Blog/src/Blog/Form/CreatePostForm.php:82
 #: ../module/Blog/src/Blog/Form/UpdatePostForm.php:63
 #: ../module/Entity/src/Entity/Form/ArticleForm.php:45
+#: ../module/Entity/src/Entity/Form/EventForm.php:45
 #: ../module/Entity/src/Entity/Form/GroupedTextExerciseForm.php:43
 #: ../module/Entity/src/Entity/Form/MathPuzzleForm.php:43
 #: ../module/Entity/src/Entity/Form/ModulePageForm.php:56
@@ -390,11 +391,11 @@ msgstr "இணைக்க"
 msgid "Your changes have been saved."
 msgstr "உங்களுடைய மாற்றங்கள் சேமிக்கப்பட்டுள்ளது."
 
-#: ../module/Entity/src/Entity/Controller/RepositoryController.php:81
+#: ../module/Entity/src/Entity/Controller/RepositoryController.php:308
 msgid "Your revision has been saved and is available"
 msgstr "நீங்கள் திருத்தியது சேமிக்கப்பட்டு காணக்கூடியதாக்கப்பட்டுள்ளது"
 
-#: ../module/Entity/src/Entity/Controller/RepositoryController.php:84
+#: ../module/Entity/src/Entity/Controller/RepositoryController.php:311
 msgid "Your revision has been saved, it will be available once it gets approved"
 msgstr "உங்கள் திருத்தம் \n"
 "பதிவடைந்தது.அது அங்கீகரிக்கப்பட்டவுடன் வெளியிடப்படும்"
@@ -418,6 +419,7 @@ msgstr "காரணம்:"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:52
 #: ../module/Entity/src/Entity/Form/ArticleForm.php:48
+#: ../module/Entity/src/Entity/Form/EventForm.php:47
 #: ../module/Entity/src/Entity/Form/GroupedTextExerciseForm.php:45
 #: ../module/Entity/src/Entity/Form/InputChallengeForm.php:47
 #: ../module/Entity/src/Entity/Form/MathPuzzleForm.php:51
@@ -631,11 +633,11 @@ msgstr "நகர்வு:"
 msgid "description:"
 msgstr "விளக்கம்:"
 
-#: ../module/User/src/User/Controller/UserController.php:113
+#: ../module/User/src/User/Controller/UserController.php:118
 msgid "You have registered successfully and will soon receive an email with instructions on how to activate your account."
 msgstr "நீங்கள் வெற்றிகரமாக பதிவுசெய்துள்ளீர்கள், விரைவில் உங்கள் கணக்கை எவ்வாறு செயல்படுத்துவது என்பதற்கான வழிமுறைகளுடன் ஒரு மின்னஞ்சலைப் பெறுவீர்கள்."
 
-#: ../module/User/src/User/Controller/UserController.php:175
+#: ../module/User/src/User/Controller/UserController.php:185
 msgid "Your profile has been saved"
 msgstr "உங்கள் சுயவிவரம் சேமிக்கப்பட்டது"
 
@@ -798,7 +800,7 @@ msgstr "பயனர்பெயர்"
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:29
 #: ../module/Ui/templates/authorization/role/roles.phtml:24
-#: ../module/Ui/templates/user/user/profile.twig:124
+#: ../module/Ui/templates/user/user/profile.twig:120
 #: ../module/Ui/templates/user/users/partial/users-table.twig:26
 msgid "Roles"
 msgstr "செயல்பங்கு"
@@ -885,7 +887,7 @@ msgstr "உரிமத்தைப் புதுப்பிக்குக"
 msgid "Move resource"
 msgstr "ஆதாரம் அசை"
 
-#: ../module/Ui/templates/entity/repository/update-revision.phtml:24
+#: ../module/Ui/templates/entity/repository/update-revision-legacy.phtml:24
 msgid "Update revision"
 msgstr "மீட்டலை புதுப்பித்தல் "
 
@@ -1034,27 +1036,27 @@ msgstr "#"
 msgid "Toggle navigation"
 msgstr "Toggle நிர்வகி"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:70
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:93
 msgid "democratically structured"
 msgstr "ஜனநாயக ரீதியாக"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:84
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:107
 msgid "free of charge"
 msgstr "இலவசம்"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:96
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:119
 msgid "ad-free"
 msgstr "விளம்பரமின்றி"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:108
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:131
 msgid "openly licensed"
 msgstr "திறந்த உரிமம்"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:127
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:150
 msgid "transparent"
 msgstr "ஒளி புகும்"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:139
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:162
 msgid "non-profit"
 msgstr "இலாப நோக்கற்றது"
 
@@ -1079,44 +1081,44 @@ msgstr "/serlo"
 msgid "Learn more"
 msgstr "மேலும் அறிக"
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:137
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:138
 msgid "Serlo is the Wikipedia for Learning"
 msgstr "Serlo ஓர் கற்றலுக்கான விக்கிபீடியா"
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:142
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:144
 msgid "Just like Wikipedia, this platform is created by an engaged community of authors. Serlo Education \n"
 "                                is run and owned by decentralized teams of volunteers and professionals all over the world."
 msgstr "Serlo.org விக்கிபீடியாபோல திறந்த உரிமம் கொண்ட ஓர் இணையத்தளம்.  இது எம் எழுத்தாளர் குழுவால் உருவாக்கப்படுகின்றது."
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:154
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:157
 msgid "Become a Part of Our Movement for Open Education"
 msgstr "நீங்களும் இதில் பணியாற்றலாம்"
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:161
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:164
 msgid "We are looking for teachers and enthusiastic educators who are passionate about their subject.\n"
 "                             Become an author on serlo.org! You can create new learning material and help us improve existing content."
 msgstr "ஆசிரியர்களும் ஆர்வமுள்ள எழுத்தாளர்களும் பாடங்களை உருவாக்க பல வழிகளில் உதவலாம். புதுப்  பயிற்சிகளை உருவாக்குவதற்கும் இந்தத் தளத்தின் சில உள்ளடக்கங்களை இன்னும் மேம்படுத்துவதற்கும்  நீங்கள் உதவலாம். அதற்கு கீழுள்ள இணையத்திற்குச் செல்லவும்."
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:165
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:187
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:168
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:190
 msgid "Visit the landing page for authors"
 msgstr "எழுத்தாளருக்கான பக்கத்தைப் பார்வையிடவும்"
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:173
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:176
 msgid "We offer a diverse range of jobs and volunteering opportunities in the fields of software development,\n"
 "                                 design, translation, communications, project management and more."
 msgstr "நாங்கள் பல வகையான வேலைவாய்ப்புகளையும் பொதுச்சேவையாகப் பணியாற்றும் வாய்ப்புகளையும் வழங்குகின்றோம். இந்த இணையத்தளதிற்கு மொழிபெயர்ப்பாளர்கள், வடிவமைப்பாளர்கள், தொலைத்தொடர்பாளர்கள் போன்ற துறை சார்ந்தவர்களை நாங்கள் தேடி நிற்கின்றோம். இணைந்து கொள்ளுங்கள்."
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:178
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:193
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:181
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:196
 msgid "Get involved!"
 msgstr "நீங்களும் ஈடுபடுங்கள்!"
 
 #: ../module/Ui/templates/layout/partials/default-modal.phtml:33
 #: ../module/Ui/templates/layout/partials/noscript.phtml:45
-#: ../module/Ui/templates/editor/partials/video-modal.twig:34
 #: ../module/Ui/templates/entity/repository/modal-accept.twig:37
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:37
+#: ../module/Ui/templates/legacy-editor/partials/video-modal.twig:34
 msgid "Close"
 msgstr "மூடு"
 
@@ -1336,41 +1338,6 @@ msgstr "இந்த பக்கத்தை அணுக நீங்கள்
 msgid "Log in"
 msgstr "உள்நுழை"
 
-#: ../module/Ui/templates/authentication/login.twig:38
-#: ../module/Ui/templates/common/csrfform.twig:25
-#: ../module/Ui/templates/discussion/partials/form-renderer.twig:24
-#: ../module/Ui/templates/taxonomy/term/batch-copy.twig:25
-#: ../module/Ui/templates/taxonomy/term/batch-move.twig:25
-#: ../module/Ui/templates/taxonomy/term/organize/partial.twig:44
-#: ../module/Ui/templates/user/user/register.twig:37
-msgid "csrf"
-msgstr ""
-
-#: ../module/Ui/templates/authentication/login.twig:42
-#: ../module/Ui/templates/user/user/register.twig:27
-#: ../module/Ui/templates/user/user/register.twig:49
-#: ../module/Ui/templates/user/user/register.twig:52
-msgid "email"
-msgstr ""
-
-#: ../module/Ui/templates/authentication/login.twig:48
-#: ../module/Ui/templates/user/user/register.twig:28
-#: ../module/Ui/templates/user/user/register.twig:59
-#: ../module/Ui/templates/user/user/register.twig:62
-msgid "password"
-msgstr ""
-
-#: ../module/Ui/templates/authentication/login.twig:52
-#: ../module/Ui/templates/common/csrfform.twig:34
-#: ../module/Ui/templates/taxonomy/term/batch-copy.twig:41
-#: ../module/Ui/templates/taxonomy/term/batch-move.twig:41
-msgid "submit"
-msgstr ""
-
-#: ../module/Ui/templates/authentication/login.twig:53
-msgid "remember"
-msgstr ""
-
 #: ../module/Ui/templates/authentication/login.twig:58
 msgid "Are you new here? %sSign up%s!"
 msgstr "நீங்கள் இங்கு புதியவரா? %sபதிவு செய்க%s!"
@@ -1396,10 +1363,6 @@ msgstr "கடவுசீட்டை மீட்டேடு"
 #: ../module/Ui/templates/blog/blog/view-all.twig:22
 msgid "Unpublished"
 msgstr "வெளியிடப்படவில்லை"
-
-#: ../module/Ui/templates/blog/blog/view-partial.twig:40
-msgid "IntlDateFormatter::LONG"
-msgstr ""
 
 #: ../module/Ui/templates/blog/blog/view-partial.twig:42
 msgid "unpublished"
@@ -1485,7 +1448,7 @@ msgid "%author% %time%"
 msgstr "%author% %time%"
 
 #: ../module/Ui/templates/discussion/helper/default/default.twig:28
-#: ../module/Ui/templates/user/user/profile.twig:44
+#: ../module/Ui/templates/user/user/profile.twig:40
 msgid "Comments"
 msgstr "கருத்துகள்"
 
@@ -1513,33 +1476,6 @@ msgstr "%type%%object%: %title%"
 msgid "Discuss"
 msgstr "விவாதிக்க"
 
-#: ../module/Ui/templates/discussion/partials/form-renderer.twig:25
-msgid "subscription"
-msgstr ""
-
-#: ../module/Ui/templates/discussion/partials/form-renderer.twig:27
-#: ../module/Ui/templates/entity/view/applet.twig:22
-#: ../module/Ui/templates/entity/view/article.twig:24
-#: ../module/Ui/templates/entity/view/course-page.twig:24
-#: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:38
-#: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:29
-#: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:29
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:42
-#: ../module/Ui/templates/entity/view/text-exercise-group.twig:31
-#: ../module/Ui/templates/entity/view/text-hint.twig:42
-#: ../module/Ui/templates/entity/view/text-solution.twig:41
-#: ../module/Ui/templates/entity/view/video.twig:26
-msgid "content"
-msgstr ""
-
-#: ../module/Ui/templates/discussion/partials/form-renderer.twig:29
-msgid "start"
-msgstr ""
-
-#: ../module/Ui/templates/editor/partials/video-modal.twig:35
-msgid "Don't show again"
-msgstr ""
-
 #: ../module/Ui/templates/entity/link/order.twig:33
 #: ../module/Ui/templates/entity/taxonomy/update.twig:50
 #: ../module/Ui/templates/related-content/manage.twig:88
@@ -1555,47 +1491,22 @@ msgstr "நிறுத்துதல்"
 msgid "Related taxonomies"
 msgstr "தொடர்புடைய வகைதொகுப்பியல்கள்"
 
-#: ../module/Ui/templates/entity/page/applet.twig:25
-#: ../module/Ui/templates/entity/page/article.twig:25
-#: ../module/Ui/templates/entity/page/course-navigation.twig:37
-#: ../module/Ui/templates/entity/page/course-navigation.twig:63
-#: ../module/Ui/templates/entity/page/course.twig:23
-#: ../module/Ui/templates/entity/page/pending.twig:25
-#: ../module/Ui/templates/entity/view/course-page.twig:37
-#: ../module/Ui/templates/entity/view/course-page.twig:48
-#: ../module/Ui/templates/entity/view/course-page.twig:65
-#: ../module/Ui/templates/entity/view/toc/course.twig:26
-#: ../module/Ui/templates/entity/view/toc/course.twig:47
-#: ../module/Ui/templates/taxonomy/term/entity/applet.twig:25
-#: ../module/Ui/templates/taxonomy/term/entity/applet.twig:31
-#: ../module/Ui/templates/taxonomy/term/entity/article.twig:24
-#: ../module/Ui/templates/taxonomy/term/entity/article.twig:28
-#: ../module/Ui/templates/taxonomy/term/entity/course.twig:24
-#: ../module/Ui/templates/taxonomy/term/entity/course.twig:28
-#: ../module/Ui/templates/taxonomy/term/entity/video.twig:24
-#: ../module/Ui/templates/taxonomy/term/entity/video.twig:28
-msgid "title"
-msgstr ""
-
-#: ../module/Ui/templates/entity/page/course-navigation.twig:55
-#: ../module/Ui/templates/entity/view/toc/course.twig:43
-#: ../module/Ui/templates/navigation/render/partial/nested-list.twig:57
-#: ../module/Ui/templates/navigation/render/partial/nested-list.twig:58
-msgid "icon"
-msgstr ""
-
-#: ../module/Ui/templates/entity/page/default.twig:31
-#: ../module/Ui/templates/entity/view/default.twig:31
+#: ../module/Ui/templates/entity/page/default.twig:29
+#: ../module/Ui/templates/entity/view/default.twig:29
 #: ../module/Ui/templates/entity/view/toc/default.twig:29
 msgid "No view found for %name%"
 msgstr "%name%க்கு பார்வை காணவில்லை"
+
+#: ../module/Ui/templates/entity/page/event.twig:28
+msgid "Event"
+msgstr ""
 
 #: ../module/Ui/templates/entity/page/math-puzzle.twig:28
 msgid "Math puzzle"
 msgstr "Math puzzle"
 
 #: ../module/Ui/templates/entity/page/partials/alerts.twig:26
-#: ../module/Ui/templates/entity/page/pending.twig:50
+#: ../module/Ui/templates/entity/page/pending.twig:47
 #: ../module/Ui/templates/entity/repository/partials/alerts.twig:26
 #: ../module/Ui/templates/taxonomy/term/page/partials/alerts.twig:26
 msgid "Warning"
@@ -1607,39 +1518,22 @@ msgstr "எச்சரிக்கை"
 msgid "This content is marked for deletion."
 msgstr "இந்த உள்ளடக்கம் குப்பையாக குறிக்கப்பட்டுள்ளது."
 
-#: ../module/Ui/templates/entity/page/pending.twig:37
-#: ../module/Ui/templates/entity/page/pending.twig:39
+#: ../module/Ui/templates/entity/page/pending.twig:34
+#: ../module/Ui/templates/entity/page/pending.twig:36
 msgid "Pending approval"
 msgstr "அனுமதிக்காக காத்திருத்தல்"
 
-#: ../module/Ui/templates/entity/page/pending.twig:41
+#: ../module/Ui/templates/entity/page/pending.twig:38
 msgid "Dead node"
 msgstr "Dead node"
 
-#: ../module/Ui/templates/entity/page/pending.twig:56
+#: ../module/Ui/templates/entity/page/pending.twig:53
 msgid "This content is pending approval and may therefore not be viewed yet."
 msgstr "இந்த உள்ளடக்கம் நிலுவையில் உள்ளது."
 
-#: ../module/Ui/templates/entity/page/pending.twig:60
+#: ../module/Ui/templates/entity/page/pending.twig:57
 msgid "This content is a dead node and has no content. Please edit or remove it."
 msgstr "இந்த உள்ளடக்கம்  எந்த கருத்தும் இல்லை. தயவுசெய்து திருத்தவும் அல்லது அகற்றவும்"
-
-#: ../module/Ui/templates/entity/page/text-exercise-group.twig:28
-msgid "Text exercise group"
-msgstr "பந்திப் பயிற்சி செய்யும் குழு"
-
-#: ../module/Ui/templates/entity/page/text-exercise.twig:28
-msgid "Text exercise"
-msgstr "பயிற்சி பந்தி"
-
-#: ../module/Ui/templates/entity/page/text-hint.twig:25
-#: ../module/Ui/templates/entity/view/text-hint.twig:33
-msgid "Hint"
-msgstr "உதவிக்குறிப்பு"
-
-#: ../module/Ui/templates/entity/page/text-solution.twig:25
-msgid "Text solution"
-msgstr "பந்தியின் விடை"
 
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:40
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:26
@@ -1657,7 +1551,7 @@ msgstr "முற்பார்வை"
 #: ../module/Ui/templates/entity/repository/history.twig:22
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/history.twig:27
 #: ../module/Ui/templates/page/partials/actions.twig:39
-#: ../module/Ui/templates/page/partials/controls.twig:42
+#: ../module/Ui/templates/page/partials/controls.twig:46
 msgid "History"
 msgstr "வரலாறு"
 
@@ -1681,10 +1575,6 @@ msgstr "ஆசிரியர்"
 #: ../module/Ui/templates/entity/repository/history.twig:47
 msgid "show"
 msgstr "காட்டு"
-
-#: ../module/Ui/templates/entity/repository/history.twig:51
-msgid "changes"
-msgstr ""
 
 #: ../module/Ui/templates/entity/repository/history.twig:56
 msgid "Create a new revision starting from this specific revision"
@@ -1718,17 +1608,6 @@ msgstr "மறுக்கிறேன்"
 msgid "Assign resource"
 msgstr "பயிற்சி அசை"
 
-#: ../module/Ui/templates/entity/view/applet.twig:25
-msgid "url"
-msgstr ""
-
-#: ../module/Ui/templates/entity/view/applet.twig:27
-#: ../module/Ui/templates/entity/view/video.twig:29
-#: ../module/Ui/templates/entity/view/video.twig:33
-#: ../module/Ui/templates/entity/view/video.twig:40
-msgid "/"
-msgstr ""
-
 #: ../module/Ui/templates/entity/view/applet.twig:38
 msgid "Could not embed geogebra applet. Unknown url format."
 msgstr "Geogebra Applet ஐ உட்பொதிக்கமுடியவில்லை. அறியப்படாத URL Format."
@@ -1740,6 +1619,10 @@ msgstr "கட்டுரை"
 #: ../module/Ui/templates/entity/view/course-page.twig:22
 msgid "course-page"
 msgstr "வகுப்பு-பக்கம்"
+
+#: ../module/Ui/templates/entity/view/event.twig:22
+msgid "event"
+msgstr ""
 
 #: ../module/Ui/templates/entity/view/grouped-text-exercise.twig:22
 msgid "grouped-text-exercise"
@@ -1758,7 +1641,6 @@ msgid "input-string-normalized-match-challenge"
 msgstr "input-string-normalized-match-challenge"
 
 #: ../module/Ui/templates/entity/view/math-puzzle.twig:22
-#: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:47
 msgid "math-puzzle"
 msgstr "math-puzzle"
 
@@ -1777,7 +1659,7 @@ msgstr "மேலும்"
 
 #: ../module/Ui/templates/entity/view/partials/actions/controls.twig:26
 #: ../module/Ui/templates/entity/view/partials/actions/course/course-controls-wrapper.twig:26
-#: ../module/Ui/templates/page/partials/controls.twig:36
+#: ../module/Ui/templates/page/partials/controls.twig:31
 #: ../module/Ui/templates/taxonomy/term/templates/partials/controls.twig:30
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-controls.twig:30
 msgid "Toggle Dropdown"
@@ -1793,35 +1675,23 @@ msgstr "முழு வகுப்பு"
 
 #: ../module/Ui/templates/entity/view/partials/actions/event/history.twig:26
 #: ../module/Ui/templates/page/partials/actions.twig:45
-#: ../module/Ui/templates/page/partials/controls.twig:48
+#: ../module/Ui/templates/page/partials/controls.twig:52
 #: ../module/Ui/templates/page/revisions.twig:52
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:37
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:36
 msgid "Log"
 msgstr "பதிவு"
 
-#: ../module/Ui/templates/entity/view/partials/actions/license/show.twig:23
-#: ../module/Ui/templates/entity/view/partials/actions/license/update.twig:23
-msgid "license"
-msgstr ""
-
 #: ../module/Ui/templates/entity/view/partials/actions/license/update.twig:27
 msgid "Change license"
 msgstr "உத்தரவு மாற்றுதல்"
 
-#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:23
-#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:24
-#: ../module/Ui/templates/entity/view/partials/actions/link/sort.twig:23
-#: ../module/Ui/templates/entity/view/partials/actions/link/update.twig:23
-msgid "link"
-msgstr ""
-
-#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:33
-#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:54
+#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:44
+#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:65
 msgid "Add %type%"
 msgstr "இணைக்குக %type%"
 
-#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:44
+#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:55
 msgid "Restore %type%"
 msgstr "%type% நீக்க"
 
@@ -1833,10 +1703,6 @@ msgstr "குழந்தைகளுக்கானவை"
 msgid "Change parent %name%"
 msgstr "பெற்றோர் %name% மாற்று"
 
-#: ../module/Ui/templates/entity/view/partials/actions/related-content/manage.twig:23
-msgid "related_content"
-msgstr ""
-
 #: ../module/Ui/templates/entity/view/partials/actions/related-content/manage.twig:27
 msgid "Manage related items"
 msgstr "ஒத்திய இணைமுகவரியை கையாள்க"
@@ -1844,10 +1710,6 @@ msgstr "ஒத்திய இணைமுகவரியை கையாள்�
 #: ../module/Ui/templates/entity/view/partials/actions/small-essential.twig:30
 msgid "Subitem"
 msgstr "துணைஉருப்படி"
-
-#: ../module/Ui/templates/entity/view/partials/actions/taxonomy/update.twig:23
-msgid "taxonomy"
-msgstr ""
 
 #: ../module/Ui/templates/entity/view/partials/actions/taxonomy/update.twig:29
 msgid "Edit topic and curriculum assignments"
@@ -1861,15 +1723,8 @@ msgstr "குப்பைக்கு நகர்த்தவும்"
 msgid "Restore"
 msgstr "மீட்டெடு"
 
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/convert.twig:23
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/edit-essential.twig:24
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/edit.twig:24
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/history.twig:23
-msgid "repository"
-msgstr ""
-
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/convert.twig:29
-#: ../module/Ui/templates/page/partials/controls.twig:79
+#: ../module/Ui/templates/entity/view/partials/actions/versioning/convert.twig:30
+#: ../module/Ui/templates/page/partials/controls.twig:39
 msgid "Convert"
 msgstr "மாற்று"
 
@@ -1879,45 +1734,35 @@ msgstr "மாற்று"
 msgid "Edit"
 msgstr "திருத்தம்"
 
-#: ../module/Ui/templates/entity/view/partials/input-challenge.twig:24
-msgid "solution"
-msgstr ""
-
-#: ../module/Ui/templates/entity/view/partials/input-challenge.twig:25
-#: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:28
-#: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:28
-msgid "feedback"
-msgstr ""
-
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:32
 msgid "Type answer"
 msgstr "விடையை எழுதுக"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:50
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:60
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:84
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:144
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:174
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:88
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:148
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:181
 msgid "Show solution"
 msgstr "விடையைக் காட்டு"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:54
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:61
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:85
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:145
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:175
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:89
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:149
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:182
 msgid "Hide solution"
 msgstr "விடையை மறைக்கவும்"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:62
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:91
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:151
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:95
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:155
 msgid "Check"
 msgstr "சரிபார்க்கவும்"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:66
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:96
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:156
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:100
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:160
 msgid "Correct!"
 msgstr "சரி!"
 
@@ -1925,17 +1770,13 @@ msgstr "சரி!"
 msgid "Info"
 msgstr "தகவல்"
 
-#: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:23
-msgid "source"
-msgstr ""
-
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:53
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:167
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:172
 msgid "Show hint"
 msgstr "உதவிக் குறிப்பைக் காட்டு"
 
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:54
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:168
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:173
 msgid "Hide hint"
 msgstr "உதவிக் குறிப்பை மறைக்க"
 
@@ -1949,19 +1790,19 @@ msgstr "இல்லை. மீண்டும் முயற்சிக்க
 msgid "This answer has been created but no content has been added yet or it is pending approval."
 msgstr "இந்த பதில் உருவாக்கப்பட்டது, ஆனால் இதுவரை எந்த உள்ளடக்கம் இணைக்கப்படவில்லை அல்லது அனுமதி வேண்டிநிற்கிறது."
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:29
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:30
 msgid "Right!"
 msgstr "சரி!"
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:117
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:121
 msgid "This solution is not correct."
 msgstr "பிழையான விடை."
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:126
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:130
 msgid "This solution is correct!"
 msgstr "சரியான விடை!"
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:135
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:139
 msgid "Not quite. There is something missing!"
 msgstr "முழுமையில்லை. இதில் ஏதோ குறைகின்றது!"
 
@@ -1974,8 +1815,6 @@ msgid "single-choice-wrong-answer"
 msgstr "ஒரு பதில் மட்டும் பிழை"
 
 #: ../module/Ui/templates/entity/view/text-exercise-group.twig:22
-#: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:47
-#: ../module/Ui/templates/taxonomy/term/templates/partials/subfolders.twig:97
 msgid "text-exercise-group"
 msgstr "பந்தி-பயிற்சி-குழு"
 
@@ -1984,14 +1823,16 @@ msgid "I want to comment this"
 msgstr "இதற்கு என் கருத்தைப் பகிர விரும்புகின்றேன்"
 
 #: ../module/Ui/templates/entity/view/text-exercise.twig:22
-#: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:47
-#: ../module/Ui/templates/taxonomy/term/templates/partials/subfolders.twig:97
 msgid "text-exercise"
 msgstr "பயிற்சி பந்தி"
 
 #: ../module/Ui/templates/entity/view/text-hint.twig:22
 msgid "text-hint"
 msgstr "பந்தியின் குறிப்பு"
+
+#: ../module/Ui/templates/entity/view/text-hint.twig:33
+msgid "Hint"
+msgstr "உதவிக்குறிப்பு"
 
 #: ../module/Ui/templates/entity/view/text-hint.twig:44
 msgid "A hint has been created but no content has been added yet or it is pending approval."
@@ -2005,22 +1846,9 @@ msgstr "பந்தியின் விடை"
 msgid "A solution has been created but no content has been added yet or it is pending approval."
 msgstr "இந்த பதில் உருவாக்கப்பட்டது, ஆனால் இதுவரை எந்த உள்ளடக்கம் இணைக்கப்படவில்லை அல்லது அனுமதி வேண்டிநிற்கிறது."
 
-#: ../module/Ui/templates/entity/view/toc/course.twig:28
-#: ../module/Ui/templates/entity/view/video.twig:23
-msgid "description"
-msgstr ""
-
 #: ../module/Ui/templates/entity/view/video.twig:22
 msgid "video"
 msgstr "வீடியோ"
-
-#: ../module/Ui/templates/entity/view/video.twig:29
-msgid "?v="
-msgstr ""
-
-#: ../module/Ui/templates/entity/view/video.twig:29
-msgid "&"
-msgstr ""
 
 #: ../module/Ui/templates/entity/view/video.twig:58
 msgid "Could not embed video - platform unknown"
@@ -2111,6 +1939,10 @@ msgstr "%user%%object% ஐ மீட்டுள்ளார்"
 #: ../module/Ui/templates/notification/type/uuid/trash.twig:34
 msgid "%user% trashed %object%"
 msgstr "%user%%object% ஐ குப்பைக்குள் போட்டுவிட்டார்"
+
+#: ../module/Ui/templates/legacy-editor/partials/video-modal.twig:35
+msgid "Don't show again"
+msgstr ""
 
 #: ../module/Ui/templates/mailman/messages/notification/body.twig:24
 #: ../module/Ui/templates/mailman/messages/notification/plain.twig:24
@@ -2230,7 +2062,7 @@ msgstr "பக்கத்தைச் சேர்க்க"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:53
 #: ../module/Ui/templates/page/partials/actions.twig:68
-#: ../module/Ui/templates/page/partials/controls.twig:71
+#: ../module/Ui/templates/page/partials/controls.twig:75
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
@@ -2241,11 +2073,6 @@ msgstr "பக்கத்தை அகற்று"
 #: ../module/Ui/templates/navigation/page/update.twig:22
 msgid "Page settings"
 msgstr "பக்க அமைப்புகள்"
-
-#: ../module/Ui/templates/navigation/render/partial/nested-list.twig:47
-#: ../module/Ui/templates/navigation/render/partial/nested-list.twig:48
-msgid "elements"
-msgstr ""
 
 #: ../module/Ui/templates/notification/notification.twig:31
 msgid "No template found for notification \"%type%\""
@@ -2382,7 +2209,7 @@ msgstr "இதுவரையும் எந்த மீட்டலும் 
 
 #: ../module/Ui/templates/page/pages.twig:47
 #: ../module/Ui/templates/page/partials/actions.twig:53
-#: ../module/Ui/templates/page/partials/controls.twig:56
+#: ../module/Ui/templates/page/partials/controls.twig:60
 #: ../module/Ui/templates/page/revisions.twig:59
 msgid "Trash"
 msgstr "குப்பை"
@@ -2392,11 +2219,11 @@ msgid "Create a new page"
 msgstr "புதுப் பக்கத்தை உருவாக்கவும்"
 
 #: ../module/Ui/templates/page/partials/actions.twig:61
-#: ../module/Ui/templates/page/partials/controls.twig:64
+#: ../module/Ui/templates/page/partials/controls.twig:68
 msgid "Set as base revision"
 msgstr "அடிப்படை மீட்டலாக அமைக்கவும்"
 
-#: ../module/Ui/templates/page/revision/create-ory.twig:22
+#: ../module/Ui/templates/page/revision/create-legacy.twig:22
 #: ../module/Ui/templates/page/revision/create.twig:22
 msgid "Create a revision"
 msgstr "மீட்டலைத் தயாரித்தல்"
@@ -2457,10 +2284,6 @@ msgstr "வெளிப்புறம்"
 msgid "Search results"
 msgstr "முடிவுகளைத் தேடுக"
 
-#: ../module/Ui/templates/static/de/datenschutz/archive.twig:22
-msgid "<li><span>Aktualisierungen: Datenschutzerklärung</span></li>"
-msgstr ""
-
 #: ../module/Ui/templates/static/de/datenschutz/partials/header.twig:34
 msgid "Datenschutzerklärung"
 msgstr ""
@@ -2476,18 +2299,6 @@ msgstr "வேறு பயிற்சிகள்"
 #: ../module/Ui/templates/taxonomy/term/batch-copy.twig:22
 msgid "Copy associations"
 msgstr "இணைப்பைப் பிரதி எடுக்கவும்"
-
-#: ../module/Ui/templates/taxonomy/term/batch-copy.twig:26
-#: ../module/Ui/templates/taxonomy/term/batch-move.twig:26
-msgid "destination"
-msgstr ""
-
-#: ../module/Ui/templates/taxonomy/term/batch-copy.twig:27
-#: ../module/Ui/templates/taxonomy/term/batch-copy.twig:30
-#: ../module/Ui/templates/taxonomy/term/batch-move.twig:27
-#: ../module/Ui/templates/taxonomy/term/batch-move.twig:30
-msgid "associations"
-msgstr ""
 
 #: ../module/Ui/templates/taxonomy/term/batch-move.twig:22
 msgid "Move associations"
@@ -2551,6 +2362,10 @@ msgstr "காணொளிகள்"
 msgid "Applets"
 msgstr "Applets"
 
+#: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
+msgid "Events"
+msgstr ""
+
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:49
 msgid "Exercises"
 msgstr "பயிற்சிகள்"
@@ -2583,78 +2398,43 @@ msgstr "விதிமுறையை புதுப்பி"
 msgid "Profile"
 msgstr "விவரம்"
 
-#: ../module/Ui/templates/user/user/profile.twig:33
+#: ../module/Ui/templates/user/user/profile.twig:29
 msgid "Statistics"
 msgstr "புள்ளிவிவரங்கள்"
 
-#: ../module/Ui/templates/user/user/profile.twig:55
+#: ../module/Ui/templates/user/user/profile.twig:51
 msgid "Edits"
 msgstr "கையாளுதல்"
 
-#: ../module/Ui/templates/user/user/profile.twig:66
+#: ../module/Ui/templates/user/user/profile.twig:62
 msgid "Reviews"
 msgstr "மீளாய்வு"
 
-#: ../module/Ui/templates/user/user/profile.twig:77
+#: ../module/Ui/templates/user/user/profile.twig:73
 msgid "Taxonomy associations"
 msgstr "வகைப்பாடு சங்கங்கள்"
 
-#: ../module/Ui/templates/user/user/profile.twig:88
+#: ../module/Ui/templates/user/user/profile.twig:84
 msgid "Taxonomy changes"
 msgstr "வகைப்பாடு மாற்றங்கள்"
 
-#: ../module/Ui/templates/user/user/profile.twig:99
+#: ../module/Ui/templates/user/user/profile.twig:95
 msgid "Total deletions"
 msgstr "நீக்கப்படடவை"
 
-#: ../module/Ui/templates/user/user/profile.twig:104
+#: ../module/Ui/templates/user/user/profile.twig:100
 msgid "Recent activities"
 msgstr "சமீபத்திய செய்தவை"
 
-#: ../module/Ui/templates/user/user/profile.twig:117
+#: ../module/Ui/templates/user/user/profile.twig:113
 msgid "Last seen"
 msgstr "இறுதியாக பார்க்கப்பட்டது"
 
-#: ../module/Ui/templates/user/user/register.twig:26
-#: ../module/Ui/templates/user/user/register.twig:41
-#: ../module/Ui/templates/user/user/register.twig:44
-msgid "username"
-msgstr ""
-
-#: ../module/Ui/templates/user/user/register.twig:29
-#: ../module/Ui/templates/user/user/register.twig:67
-#: ../module/Ui/templates/user/user/register.twig:70
-msgid "passwordConfirm"
-msgstr ""
-
-#: ../module/Ui/templates/user/user/register.twig:30
-#: ../module/Ui/templates/user/user/register.twig:91
-#: ../module/Ui/templates/user/user/register.twig:94
-msgid "firstName"
-msgstr ""
-
-#: ../module/Ui/templates/user/user/register.twig:31
-#: ../module/Ui/templates/user/user/register.twig:99
-#: ../module/Ui/templates/user/user/register.twig:102
-msgid "lastName"
-msgstr ""
-
-#: ../module/Ui/templates/user/user/register.twig:32
-#: ../module/Ui/templates/user/user/register.twig:108
-#: ../module/Ui/templates/user/user/register.twig:109
-msgid "interests"
-msgstr ""
-
-#: ../module/Ui/templates/user/user/register.twig:33
-#: ../module/Ui/templates/user/user/register.twig:85
-msgid "newsletterOptIn"
-msgstr ""
-
-#: ../module/Ui/templates/user/user/register.twig:77
+#: ../module/Ui/templates/user/user/register.twig:82
 msgid "Stay in touch!"
 msgstr "தொடர்பில் இருக்கவும்!"
 
-#: ../module/Ui/templates/user/user/register.twig:80
+#: ../module/Ui/templates/user/user/register.twig:85
 msgid "<strong>Sign up to our newsletter to receive quarterly updates about our work.</strong> Serlo Education e.V. will use the information you provided to send you the newsletter and (optionally) personalise these mailings. We will also supply insights on aspects of Serlo that may be particularly interesting to you, based on the information you provided. To enable us to keep serlo.org free of charge and free of advertising we send out a fundraiser campaign through our newsletter list annually around Christmas. Please confirm below if you would like to give us permission to contact you in this way."
 msgstr "<strong> எங்களுடைய செயற்பாடுகளின் தகவலை மூன்று மாதத்திற்கு ஒருமுறை பெறுவதற்கு உள்நுழைதல்.</strong> Serlo Education e.V. உங்களுடைய தகவல்களை, உங்களுக்கு அனுப்பவிருக்கும் மின்னஞ்சல் அறிவிப்புகளுக்குப் பாவிப்பதுடன் (விருப்பப்பட்டால்) தனிப்பயனாக்கவும்படும். நீங்கள் குறிப்பிட்ட தகவலின் அடிப்படையில் உங்களுக்கு விருப்பமான பக்கங்களில் இருந்து Serloவில் ஓர் அறிமுகம் கிடைக்கும். Serlo.orgஐ இலவசமாகவும் விளம்பரமின்றி பாவனை செய்ய ஒவ்வொரு வருடமும் நத்தார் நேரம் ஓர் தகவல்கடித நிரலை அனுப்புவோம். தயவு செய்து இதற்கு சம்மதம் என்றால் கீழ் உள்ளதை அடையாளப்படுத்தவும்."
 
@@ -2665,10 +2445,6 @@ msgstr "குழுவிலக என்ற இணைப்பை அழுத
 #: ../module/Ui/templates/user/user/register.twig:122
 msgid "By clicking <em>Sign up</em>, you agree to our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and <a href=\"/21654\" target=\"_blank\">Terms</a>. You may receive email notifications from us and can opt out at any time."
 msgstr "<em> உள்நுழைத்தலை </em> அழுத்தும்போது நீங்கள் எங்களுடைய<a href=\"/22964\" target=\"_blank\"> ஒப்பந்தங்களையும்</a> <a href=\"/21654\" target=\"_blank\"> விதிமுறைகளையும்</a> ஏற்றுக்கொள்கின்றீர்கள். உங்களுக்கு மின்னஞ்சல் மூலம் அறிவிப்புத்தரப்படும், அத்துடன் நீங்கள் எக்கணமும் இதனை மறுதளிக்கலாம்."
-
-#: ../module/Ui/templates/user/user/register.twig:126
-msgid "g-recaptcha-response"
-msgstr ""
 
 #: ../module/Ui/templates/user/user/settings.twig:22
 msgid "My settings"
