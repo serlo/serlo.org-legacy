@@ -48,6 +48,7 @@ export async function render(input: string): Promise<string> {
   try {
     return wrapOutput(coreRender({ plugins, state }))
   } catch (e) {
+    console.log('render failed', e, stringifyState(state))
     return wrapOutput()
   }
 
