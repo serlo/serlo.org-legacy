@@ -27,6 +27,8 @@
     "bootstrap-datepicker": "^1.0.0",
     "bootstrap-sass": "^3.0.0",
     "d3": "^3.0.0",
+    "diff": "^4.0.1",
+    "diff2html": "^2.12.1",
     "dnode": "^1.0.0",
     "font-awesome": "^4.0.0",
     "howler": "^2.0.0",
@@ -52,6 +54,7 @@
   "devDependencies": {
     "@babel/register": "^7.0.0",
     "@serlo/gcloud": "^0.0.0",
+    "@types/diff": "^4.0.2",
     "@types/jquery": "^3.0.0",
     "@types/lodash": "^4.0.0",
     "@types/ramda": "^0.26.0",

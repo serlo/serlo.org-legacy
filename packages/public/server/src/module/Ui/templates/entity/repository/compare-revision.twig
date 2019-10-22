@@ -45,19 +45,16 @@
                 </div>
                 <div class="panel-body">
                     <div class="tab-content">
-                        <div class="tab-pane fade" id="source{{ field.getName() }}">
+                        <div class="tab-pane fade revision-compare" id="source{{ field.getName() }}" data-field-name="{{ field.getName() }}">
                             {% set oldField = compareRevision.get(field.getName()) %}
                             {% if oldField %}
-                                {{ diff().markdown(oldField, field.getValue()) }}
-                            {% else %}
-                                {% if fieldIsLegacy %}
-                                    {{ renderer().toHtml(field.getValue()) }}
-                                {% else %}
-                                    <div class="editable" data-edit-type="ory">
-                                        {{ renderer().toHtml(field.getValue()) }}
-                                    </div>
-                                {% endif %}
+                                <div class="revision-compare-old" style="display:none;">
+                                    {{ oldField }}
+                                </div>
                             {% endif %}
+                            <div class="revision-compare-new" style="display:none;">
+                                {{ field.getValue() }}
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="old{{ field.getName() }}">
                             {% if compareFieldIsLegacy %}
