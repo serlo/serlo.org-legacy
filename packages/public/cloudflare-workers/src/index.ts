@@ -28,7 +28,6 @@ export async function handleRequest(request: Request) {
   const response =
     (await enforceHttps(request)) ||
     (await redirects(request)) ||
-    (await serloOrgProxy(request)) ||
     (await blockSerloEducation(request)) ||
     (await blockSerloDev(request)) ||
     (await semanticFileNames(request)) ||
@@ -83,80 +82,6 @@ async function redirects(request: Request) {
     const newUrl = new URL(url)
     newUrl.hostname = 'stats.serlo.dev'
     return Response.redirect(newUrl.href)
-  }
-}
-
-async function serloOrgProxy(request: Request) {
-  /**
-   * Experiment config
-   */
-  /** Change cookie name when changing probability so that a new cookie is created */
-  const cookieName = 'proxy-10'
-  /** Probablity (0 <= p <= 1) that the legacy backend is chosen */
-  const legacyProbability = 0
-
-  enum Backend {
-    legacy = 'serlo.education',
-    kubernetes = 'serlo.dev'
-  }
-
-  // Routes to manually choose preferred backend
-  if (request.url === 'https://de.serlo.org/experiments/enable-kubernetes') {
-    const res = new Response('Set backend to kubernetes', {
-      status: 200
-    })
-    res.headers.append(
-      'Set-Cookie',
-      `${cookieName}=${Backend.kubernetes}; path=/`
-    )
-    return res
-  }
-  if (request.url === 'https://de.serlo.org/experiments/disable-kubernetes') {
-    const res = new Response('Set backend to legacy', {
-      status: 200
-    })
-    res.headers.append('Set-Cookie', `${cookieName}=${Backend.legacy}; path=/`)
-    return res
-  }
-
-  const match = request.url.match(/^https:\/\/(de|en|es|hi|ta|fr)\.serlo\.org/)
-  if (!match) return null
-
-  const { backend, createCookie } = chooseBackend()
-
-  const subdomain = match[1]
-  const url = new URL(request.url)
-  url.hostname = `${subdomain}.${backend}`
-  let response = await fetch((url as unknown) as RequestInfo, request)
-  response = new Response(response.body, response)
-  response.headers.set('x-backend', backend)
-  if (createCookie) {
-    response.headers.append('Set-Cookie', `${cookieName}=${backend}; path=/`)
-  }
-  return response
-
-  function chooseBackend(): { backend: Backend; createCookie: boolean } {
-    const cookie = request.headers.get('Cookie')
-
-    if (cookie && cookie.includes(`${cookieName}=${Backend.legacy}`)) {
-      return {
-        backend: Backend.legacy,
-        createCookie: false
-      }
-    }
-
-    if (cookie && cookie.includes(`${cookieName}=${Backend.kubernetes}`)) {
-      return {
-        backend: Backend.kubernetes,
-        createCookie: false
-      }
-    }
-
-    return {
-      backend:
-        Math.random() < legacyProbability ? Backend.legacy : Backend.kubernetes,
-      createCookie: true
-    }
   }
 }
 
