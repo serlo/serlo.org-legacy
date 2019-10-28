@@ -31,7 +31,7 @@ require __DIR__ . '/../definitions.local.php';
 return [
     // (FeatureFlags Module)
     'feature_flags' => [
-        'redesign' => false
+        'redesign' => false,
     ],
 
     'assets' => array_merge(
