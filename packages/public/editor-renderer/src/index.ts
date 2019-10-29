@@ -33,7 +33,6 @@ app.use(bodyParser.json())
 app.post('/', (req: { body: { state: string } }, res) => {
   render(req.body.state)
     .then(html => {
-      console.log(html)
       console.log('request successful')
       res.status(200).send({ html })
     })
