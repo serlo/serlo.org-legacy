@@ -77,12 +77,6 @@ async function redirects(request: Request) {
     newUrl.hostname = 'de.serlo.org'
     return Response.redirect(newUrl.href)
   }
-
-  if (/^https:\/\/stats\.serlo\.org/.test(url)) {
-    const newUrl = new URL(url)
-    newUrl.hostname = 'stats.serlo.dev'
-    return Response.redirect(newUrl.href)
-  }
 }
 
 async function blockSerloEducation(request: Request) {
@@ -92,10 +86,6 @@ async function blockSerloEducation(request: Request) {
 }
 
 async function blockSerloDev(request: Request) {
-  if (/^https:\/\/de\.serlo\.dev\/notification\/worker/.test(request.url))
-    return null
-  if (/^https:\/\/de\.serlo\.dev\/session\/gc/.test(request.url)) return null
-  if (/^https:\/\/stats\.serlo\.dev/.test(request.url)) return null
   if (!/^https:\/\/(\w+\.)?serlo\.dev/.test(request.url)) return null
   const url = request.url.replace('serlo.dev/', 'serlo.org/')
   return Response.redirect(url, 301)
