@@ -69,6 +69,7 @@ export type LayoutPlugin = {
 
 export type OtherPlugin = {
   plugin:
+    | 'anchor'
     | 'blockquote'
     | 'error'
     | 'geogebra'
@@ -81,6 +82,7 @@ export type OtherPlugin = {
     | 'scMcExercise'
     | 'table'
     | 'text'
+    | 'video'
   state: unknown
 }
 

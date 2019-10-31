@@ -52,6 +52,7 @@ import Breadcrumbs from './modules/breadcrumbs'
 import { initChangeDimensionEvents } from './modules/change-dimension-events'
 import { initContentApi } from './modules/content_api'
 import { initConsentBanner } from './modules/consent_banner'
+import { initDiff } from './modules/diff/diff'
 import './modules/forum_select'
 import './modules/injections'
 import './modules/input_challenge'
@@ -158,6 +159,7 @@ const init = $context => {
   initChangeDimensionEvents()
   initContentApi()
   initConsentBanner()
+  initDiff()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
