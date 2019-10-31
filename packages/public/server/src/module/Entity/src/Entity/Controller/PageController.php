@@ -48,7 +48,7 @@ class PageController extends AbstractController
         }
 
         $type = $this->moduleOptions->getType($entity->getType()->getName());
-        if ($type->hasComponent('redirect')) {
+        if ($type->hasComponent('redirect') && !$this->getRequest()->isXmlHttpRequest()) {
             /* @var $redirect RedirectOptions */
             $redirect = $type->getComponent('redirect');
 
