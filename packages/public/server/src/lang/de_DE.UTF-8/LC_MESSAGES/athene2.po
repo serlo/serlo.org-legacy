@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
-"POT-Creation-Date: 2019-07-30 02:05+0200\n"
-"PO-Revision-Date: 2019-08-20 18:50\n"
+"POT-Creation-Date: 2019-10-21 04:54+0200\n"
+"PO-Revision-Date: 2019-10-21 02:57\n"
 "Last-Translator: Serlo Education (Serlo)\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -198,7 +198,7 @@ msgstr "Aktivitätslog"
 msgid "Message:"
 msgstr "Nachricht:"
 
-#: ../module/Ads/src/Ads/Controller/AdsController.php:110
+#: ../module/Ads/src/Ads/Controller/AdsController.php:112
 #: ../module/RelatedContent/src/RelatedContent/Controller/RelatedContentController.php:165
 msgid "The element could not be removed (validation failed)"
 msgstr "Das Element konnte nicht entfernt werden. (Validierung fehlgeschlagen)"
@@ -226,6 +226,7 @@ msgstr "URL:"
 #: ../module/Blog/src/Blog/Form/CreatePostForm.php:82
 #: ../module/Blog/src/Blog/Form/UpdatePostForm.php:63
 #: ../module/Entity/src/Entity/Form/ArticleForm.php:45
+#: ../module/Entity/src/Entity/Form/EventForm.php:45
 #: ../module/Entity/src/Entity/Form/GroupedTextExerciseForm.php:43
 #: ../module/Entity/src/Entity/Form/MathPuzzleForm.php:43
 #: ../module/Entity/src/Entity/Form/ModulePageForm.php:56
@@ -390,11 +391,11 @@ msgstr "Kommentar abschicken"
 msgid "Your changes have been saved."
 msgstr "Deine Änderungen wurden gespeichert."
 
-#: ../module/Entity/src/Entity/Controller/RepositoryController.php:81
+#: ../module/Entity/src/Entity/Controller/RepositoryController.php:308
 msgid "Your revision has been saved and is available"
 msgstr "Deine Bearbeitung wurde gespeichert und ist verfügbar"
 
-#: ../module/Entity/src/Entity/Controller/RepositoryController.php:84
+#: ../module/Entity/src/Entity/Controller/RepositoryController.php:311
 msgid "Your revision has been saved, it will be available once it gets approved"
 msgstr "Deine Bearbeitung wurde gespeichert und ist verfügbar, sobald sie überprüft wurde"
 
@@ -417,6 +418,7 @@ msgstr "Didaktische Überlegungen:"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:52
 #: ../module/Entity/src/Entity/Form/ArticleForm.php:48
+#: ../module/Entity/src/Entity/Form/EventForm.php:47
 #: ../module/Entity/src/Entity/Form/GroupedTextExerciseForm.php:45
 #: ../module/Entity/src/Entity/Form/InputChallengeForm.php:47
 #: ../module/Entity/src/Entity/Form/MathPuzzleForm.php:51
@@ -630,11 +632,11 @@ msgstr "Verschieben nach:"
 msgid "description:"
 msgstr "Beschreibung:"
 
-#: ../module/User/src/User/Controller/UserController.php:113
+#: ../module/User/src/User/Controller/UserController.php:118
 msgid "You have registered successfully and will soon receive an email with instructions on how to activate your account."
 msgstr "Du hast dich erfolgreich registriert. In Kürze erhältst du eine E-Mail mit Anweisungen, wie du deinen Account aktivieren kannst."
 
-#: ../module/User/src/User/Controller/UserController.php:175
+#: ../module/User/src/User/Controller/UserController.php:185
 msgid "Your profile has been saved"
 msgstr "Dein Profil wurde gespeichert"
 
@@ -797,7 +799,7 @@ msgstr "Benutzername"
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:29
 #: ../module/Ui/templates/authorization/role/roles.phtml:24
-#: ../module/Ui/templates/user/user/profile.twig:124
+#: ../module/Ui/templates/user/user/profile.twig:120
 #: ../module/Ui/templates/user/users/partial/users-table.twig:26
 msgid "Roles"
 msgstr "Rollen"
@@ -884,7 +886,7 @@ msgstr "Lizenz bearbeiten"
 msgid "Move resource"
 msgstr "Bezugsquelle verschieben"
 
-#: ../module/Ui/templates/entity/repository/update-revision.phtml:24
+#: ../module/Ui/templates/entity/repository/update-revision-legacy.phtml:24
 msgid "Update revision"
 msgstr "Revision bearbeiten"
 
@@ -1033,27 +1035,27 @@ msgstr "#"
 msgid "Toggle navigation"
 msgstr "Navigation ein-/ausblenden"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:70
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:93
 msgid "democratically structured"
 msgstr "demokratisch organisiert"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:84
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:107
 msgid "free of charge"
 msgstr "kostenlos"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:96
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:119
 msgid "ad-free"
 msgstr "werbefrei"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:108
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:131
 msgid "openly licensed"
 msgstr "frei lizensiert"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:127
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:150
 msgid "transparent"
 msgstr "transparent"
 
-#: ../module/Ui/templates/layout/default/about-serlo.phtml:139
+#: ../module/Ui/templates/layout/default/about-serlo.phtml:162
 msgid "non-profit"
 msgstr "non-profit"
 
@@ -1081,46 +1083,46 @@ msgstr "/serlo"
 msgid "Learn more"
 msgstr "Mehr erfahren"
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:137
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:138
 msgid "Serlo is the Wikipedia for Learning"
 msgstr "Serlo.org ist die Wikipedia fürs Lernen"
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:142
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:144
 msgid "Just like Wikipedia, this platform is created by an engaged community of authors. Serlo Education \n"
 "                                is run and owned by decentralized teams of volunteers and professionals all over the world."
 msgstr "Genau die Wikipedia wird diese Plattform von einer engagierten Autor*innen Community erstellt. Serlo Education wird betrieben von einem dezentralisierten Team Ehrenamtlicher und Professioneller überall auf der Welt."
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:154
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:157
 msgid "Become a Part of Our Movement for Open Education"
 msgstr "Werden Sie Teil unserer Bewegung für freie Bildung"
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:161
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:164
 msgid "We are looking for teachers and enthusiastic educators who are passionate about their subject.\n"
 "                             Become an author on serlo.org! You can create new learning material and help us improve existing content."
 msgstr "Wir suchen Lehrer*innen mit Begeisterung für ihr Fach. Werden Sie Autor*in auf serlo.org, erstellen Sie neue Inhalte\n"
 " und helfen Sie uns, die Qualität der Lernplattform zu sichern."
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:165
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:187
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:168
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:190
 msgid "Visit the landing page for authors"
 msgstr "Besuche die Startseite für Autor*innen"
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:173
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:176
 msgid "We offer a diverse range of jobs and volunteering opportunities in the fields of software development,\n"
 "                                 design, translation, communications, project management and more."
 msgstr "Wir bieten eine breite Auswahl an Jobs und Möglichkeiten zur Ehrenamtlichen Mitarbeit in den Bereichen Softwareentwicklung,\n"
 "Übersetzung, Kommunikation, Projektmanagement und mehr."
 
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:178
-#: ../module/Ui/templates/layout/default/serlo-home.phtml:193
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:181
+#: ../module/Ui/templates/layout/default/serlo-home.phtml:196
 msgid "Get involved!"
 msgstr "Mach mit!"
 
 #: ../module/Ui/templates/layout/partials/default-modal.phtml:33
 #: ../module/Ui/templates/layout/partials/noscript.phtml:45
-#: ../module/Ui/templates/editor/partials/video-modal.twig:34
 #: ../module/Ui/templates/entity/repository/modal-accept.twig:37
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:37
+#: ../module/Ui/templates/legacy-editor/partials/video-modal.twig:34
 msgid "Close"
 msgstr "Schließen"
 
@@ -1340,41 +1342,6 @@ msgstr "Du musst angemeldet sein, um auf diese Seite zugreifen zu können."
 msgid "Log in"
 msgstr "Anmelden"
 
-#: ../module/Ui/templates/authentication/login.twig:38
-#: ../module/Ui/templates/common/csrfform.twig:25
-#: ../module/Ui/templates/discussion/partials/form-renderer.twig:24
-#: ../module/Ui/templates/taxonomy/term/batch-copy.twig:25
-#: ../module/Ui/templates/taxonomy/term/batch-move.twig:25
-#: ../module/Ui/templates/taxonomy/term/organize/partial.twig:44
-#: ../module/Ui/templates/user/user/register.twig:37
-msgid "csrf"
-msgstr "csrf"
-
-#: ../module/Ui/templates/authentication/login.twig:42
-#: ../module/Ui/templates/user/user/register.twig:27
-#: ../module/Ui/templates/user/user/register.twig:49
-#: ../module/Ui/templates/user/user/register.twig:52
-msgid "email"
-msgstr "E-Mail"
-
-#: ../module/Ui/templates/authentication/login.twig:48
-#: ../module/Ui/templates/user/user/register.twig:28
-#: ../module/Ui/templates/user/user/register.twig:59
-#: ../module/Ui/templates/user/user/register.twig:62
-msgid "password"
-msgstr "Passwort"
-
-#: ../module/Ui/templates/authentication/login.twig:52
-#: ../module/Ui/templates/common/csrfform.twig:34
-#: ../module/Ui/templates/taxonomy/term/batch-copy.twig:41
-#: ../module/Ui/templates/taxonomy/term/batch-move.twig:41
-msgid "submit"
-msgstr "Senden"
-
-#: ../module/Ui/templates/authentication/login.twig:53
-msgid "remember"
-msgstr "Erinnern"
-
 #: ../module/Ui/templates/authentication/login.twig:58
 msgid "Are you new here? %sSign up%s!"
 msgstr "Bist du neu hier? %sRegistrier dich%s!"
@@ -1400,10 +1367,6 @@ msgstr "Passwort zurücksetzen"
 #: ../module/Ui/templates/blog/blog/view-all.twig:22
 msgid "Unpublished"
 msgstr "Unveröffentlicht"
-
-#: ../module/Ui/templates/blog/blog/view-partial.twig:40
-msgid "IntlDateFormatter::LONG"
-msgstr "IntlDateFormatter::LONG"
 
 #: ../module/Ui/templates/blog/blog/view-partial.twig:42
 msgid "unpublished"
@@ -1489,7 +1452,7 @@ msgid "%author% %time%"
 msgstr "%author% %time%"
 
 #: ../module/Ui/templates/discussion/helper/default/default.twig:28
-#: ../module/Ui/templates/user/user/profile.twig:44
+#: ../module/Ui/templates/user/user/profile.twig:40
 msgid "Comments"
 msgstr "Kommentare"
 
@@ -1517,33 +1480,6 @@ msgstr "Zu %type% %object%: %title%"
 msgid "Discuss"
 msgstr "Kommentieren"
 
-#: ../module/Ui/templates/discussion/partials/form-renderer.twig:25
-msgid "subscription"
-msgstr "Abonnement"
-
-#: ../module/Ui/templates/discussion/partials/form-renderer.twig:27
-#: ../module/Ui/templates/entity/view/applet.twig:22
-#: ../module/Ui/templates/entity/view/article.twig:24
-#: ../module/Ui/templates/entity/view/course-page.twig:24
-#: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:38
-#: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:29
-#: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:29
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:42
-#: ../module/Ui/templates/entity/view/text-exercise-group.twig:31
-#: ../module/Ui/templates/entity/view/text-hint.twig:42
-#: ../module/Ui/templates/entity/view/text-solution.twig:41
-#: ../module/Ui/templates/entity/view/video.twig:26
-msgid "content"
-msgstr "Inhalt"
-
-#: ../module/Ui/templates/discussion/partials/form-renderer.twig:29
-msgid "start"
-msgstr "Start"
-
-#: ../module/Ui/templates/editor/partials/video-modal.twig:35
-msgid "Don't show again"
-msgstr "Nicht erneut anzeigen"
-
 #: ../module/Ui/templates/entity/link/order.twig:33
 #: ../module/Ui/templates/entity/taxonomy/update.twig:50
 #: ../module/Ui/templates/related-content/manage.twig:88
@@ -1559,47 +1495,22 @@ msgstr "Abbrechen"
 msgid "Related taxonomies"
 msgstr "Zugehörige Themen"
 
-#: ../module/Ui/templates/entity/page/applet.twig:25
-#: ../module/Ui/templates/entity/page/article.twig:25
-#: ../module/Ui/templates/entity/page/course-navigation.twig:37
-#: ../module/Ui/templates/entity/page/course-navigation.twig:63
-#: ../module/Ui/templates/entity/page/course.twig:23
-#: ../module/Ui/templates/entity/page/pending.twig:25
-#: ../module/Ui/templates/entity/view/course-page.twig:37
-#: ../module/Ui/templates/entity/view/course-page.twig:48
-#: ../module/Ui/templates/entity/view/course-page.twig:65
-#: ../module/Ui/templates/entity/view/toc/course.twig:26
-#: ../module/Ui/templates/entity/view/toc/course.twig:47
-#: ../module/Ui/templates/taxonomy/term/entity/applet.twig:25
-#: ../module/Ui/templates/taxonomy/term/entity/applet.twig:31
-#: ../module/Ui/templates/taxonomy/term/entity/article.twig:24
-#: ../module/Ui/templates/taxonomy/term/entity/article.twig:28
-#: ../module/Ui/templates/taxonomy/term/entity/course.twig:24
-#: ../module/Ui/templates/taxonomy/term/entity/course.twig:28
-#: ../module/Ui/templates/taxonomy/term/entity/video.twig:24
-#: ../module/Ui/templates/taxonomy/term/entity/video.twig:28
-msgid "title"
-msgstr "Titel"
-
-#: ../module/Ui/templates/entity/page/course-navigation.twig:55
-#: ../module/Ui/templates/entity/view/toc/course.twig:43
-#: ../module/Ui/templates/navigation/render/partial/nested-list.twig:57
-#: ../module/Ui/templates/navigation/render/partial/nested-list.twig:58
-msgid "icon"
-msgstr "icon"
-
-#: ../module/Ui/templates/entity/page/default.twig:31
-#: ../module/Ui/templates/entity/view/default.twig:31
+#: ../module/Ui/templates/entity/page/default.twig:29
+#: ../module/Ui/templates/entity/view/default.twig:29
 #: ../module/Ui/templates/entity/view/toc/default.twig:29
 msgid "No view found for %name%"
 msgstr "Keine Ansicht für %name% gefunden"
+
+#: ../module/Ui/templates/entity/page/event.twig:28
+msgid "Event"
+msgstr "Veranstaltung"
 
 #: ../module/Ui/templates/entity/page/math-puzzle.twig:28
 msgid "Math puzzle"
 msgstr "Math puzzle"
 
 #: ../module/Ui/templates/entity/page/partials/alerts.twig:26
-#: ../module/Ui/templates/entity/page/pending.twig:50
+#: ../module/Ui/templates/entity/page/pending.twig:47
 #: ../module/Ui/templates/entity/repository/partials/alerts.twig:26
 #: ../module/Ui/templates/taxonomy/term/page/partials/alerts.twig:26
 msgid "Warning"
@@ -1611,39 +1522,22 @@ msgstr "Achtung"
 msgid "This content is marked for deletion."
 msgstr "Dieser Inhalt wurde zum Löschen markiert."
 
-#: ../module/Ui/templates/entity/page/pending.twig:37
-#: ../module/Ui/templates/entity/page/pending.twig:39
+#: ../module/Ui/templates/entity/page/pending.twig:34
+#: ../module/Ui/templates/entity/page/pending.twig:36
 msgid "Pending approval"
 msgstr "Ausstehende Bestätigung"
 
-#: ../module/Ui/templates/entity/page/pending.twig:41
+#: ../module/Ui/templates/entity/page/pending.twig:38
 msgid "Dead node"
 msgstr "Toter Datenknoten"
 
-#: ../module/Ui/templates/entity/page/pending.twig:56
+#: ../module/Ui/templates/entity/page/pending.twig:53
 msgid "This content is pending approval and may therefore not be viewed yet."
 msgstr "Dieser Inhalt muss noch bestätigt werden und kann daher noch nicht angezeigt werden."
 
-#: ../module/Ui/templates/entity/page/pending.twig:60
+#: ../module/Ui/templates/entity/page/pending.twig:57
 msgid "This content is a dead node and has no content. Please edit or remove it."
 msgstr "Dies ist ein toter Datenknoten ohne Inhalt. Bitte bearbeite oder lösche ihn."
-
-#: ../module/Ui/templates/entity/page/text-exercise-group.twig:28
-msgid "Text exercise group"
-msgstr "Textbasierte Aufgabengruppe"
-
-#: ../module/Ui/templates/entity/page/text-exercise.twig:28
-msgid "Text exercise"
-msgstr "Textaufgabe"
-
-#: ../module/Ui/templates/entity/page/text-hint.twig:25
-#: ../module/Ui/templates/entity/view/text-hint.twig:33
-msgid "Hint"
-msgstr "Tipp"
-
-#: ../module/Ui/templates/entity/page/text-solution.twig:25
-msgid "Text solution"
-msgstr "Text-Lösung"
 
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:40
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:26
@@ -1661,7 +1555,7 @@ msgstr "Vorschau"
 #: ../module/Ui/templates/entity/repository/history.twig:22
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/history.twig:27
 #: ../module/Ui/templates/page/partials/actions.twig:39
-#: ../module/Ui/templates/page/partials/controls.twig:42
+#: ../module/Ui/templates/page/partials/controls.twig:46
 msgid "History"
 msgstr "Bearbeitungsverlauf"
 
@@ -1686,10 +1580,6 @@ msgstr "Verfasser"
 #: ../module/Ui/templates/entity/repository/history.twig:47
 msgid "show"
 msgstr "Anzeigen"
-
-#: ../module/Ui/templates/entity/repository/history.twig:51
-msgid "changes"
-msgstr "Änderungen"
 
 #: ../module/Ui/templates/entity/repository/history.twig:56
 msgid "Create a new revision starting from this specific revision"
@@ -1723,17 +1613,6 @@ msgstr "Ablehnen"
 msgid "Assign resource"
 msgstr "Ressource zuordnen"
 
-#: ../module/Ui/templates/entity/view/applet.twig:25
-msgid "url"
-msgstr "url"
-
-#: ../module/Ui/templates/entity/view/applet.twig:27
-#: ../module/Ui/templates/entity/view/video.twig:29
-#: ../module/Ui/templates/entity/view/video.twig:33
-#: ../module/Ui/templates/entity/view/video.twig:40
-msgid "/"
-msgstr "/"
-
 #: ../module/Ui/templates/entity/view/applet.twig:38
 msgid "Could not embed geogebra applet. Unknown url format."
 msgstr "Leider konnte das GeoGebra Applet nicht eingebunden werden, da die URL in einem unbekannten Format ist."
@@ -1745,6 +1624,10 @@ msgstr "Artikel"
 #: ../module/Ui/templates/entity/view/course-page.twig:22
 msgid "course-page"
 msgstr "Kursseite"
+
+#: ../module/Ui/templates/entity/view/event.twig:22
+msgid "event"
+msgstr "Veranstaltung"
 
 #: ../module/Ui/templates/entity/view/grouped-text-exercise.twig:22
 msgid "grouped-text-exercise"
@@ -1763,7 +1646,6 @@ msgid "input-string-normalized-match-challenge"
 msgstr "Eingabeaufgabe: Wort"
 
 #: ../module/Ui/templates/entity/view/math-puzzle.twig:22
-#: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:47
 msgid "math-puzzle"
 msgstr "Math puzzle"
 
@@ -1782,7 +1664,7 @@ msgstr "Mehr"
 
 #: ../module/Ui/templates/entity/view/partials/actions/controls.twig:26
 #: ../module/Ui/templates/entity/view/partials/actions/course/course-controls-wrapper.twig:26
-#: ../module/Ui/templates/page/partials/controls.twig:36
+#: ../module/Ui/templates/page/partials/controls.twig:31
 #: ../module/Ui/templates/taxonomy/term/templates/partials/controls.twig:30
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-controls.twig:30
 msgid "Toggle Dropdown"
@@ -1798,35 +1680,23 @@ msgstr "Gesamter Kurs"
 
 #: ../module/Ui/templates/entity/view/partials/actions/event/history.twig:26
 #: ../module/Ui/templates/page/partials/actions.twig:45
-#: ../module/Ui/templates/page/partials/controls.twig:48
+#: ../module/Ui/templates/page/partials/controls.twig:52
 #: ../module/Ui/templates/page/revisions.twig:52
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:37
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:36
 msgid "Log"
 msgstr "Verlauf"
 
-#: ../module/Ui/templates/entity/view/partials/actions/license/show.twig:23
-#: ../module/Ui/templates/entity/view/partials/actions/license/update.twig:23
-msgid "license"
-msgstr "Lizenz"
-
 #: ../module/Ui/templates/entity/view/partials/actions/license/update.twig:27
 msgid "Change license"
 msgstr "Lizenz auswählen"
 
-#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:23
-#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:24
-#: ../module/Ui/templates/entity/view/partials/actions/link/sort.twig:23
-#: ../module/Ui/templates/entity/view/partials/actions/link/update.twig:23
-msgid "link"
-msgstr "Link"
-
-#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:33
-#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:54
+#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:44
+#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:65
 msgid "Add %type%"
 msgstr "%type% hinzufügen"
 
-#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:44
+#: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:55
 msgid "Restore %type%"
 msgstr "%type% wiederherstellen"
 
@@ -1838,10 +1708,6 @@ msgstr "Unterelemente sortieren"
 msgid "Change parent %name%"
 msgstr "Diesen Inhalt zu einem anderen Überelement (%name%) verschieben"
 
-#: ../module/Ui/templates/entity/view/partials/actions/related-content/manage.twig:23
-msgid "related_content"
-msgstr "verwandter_Inhalt"
-
 #: ../module/Ui/templates/entity/view/partials/actions/related-content/manage.twig:27
 msgid "Manage related items"
 msgstr "Zugehörige Inhalte verwalten"
@@ -1849,10 +1715,6 @@ msgstr "Zugehörige Inhalte verwalten"
 #: ../module/Ui/templates/entity/view/partials/actions/small-essential.twig:30
 msgid "Subitem"
 msgstr "Unterinhalt"
-
-#: ../module/Ui/templates/entity/view/partials/actions/taxonomy/update.twig:23
-msgid "taxonomy"
-msgstr "Baumstruktur"
 
 #: ../module/Ui/templates/entity/view/partials/actions/taxonomy/update.twig:29
 msgid "Edit topic and curriculum assignments"
@@ -1866,15 +1728,8 @@ msgstr "In den Papierkorb verschieben"
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/convert.twig:23
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/edit-essential.twig:24
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/edit.twig:24
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/history.twig:23
-msgid "repository"
-msgstr "repository"
-
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/convert.twig:29
-#: ../module/Ui/templates/page/partials/controls.twig:79
+#: ../module/Ui/templates/entity/view/partials/actions/versioning/convert.twig:30
+#: ../module/Ui/templates/page/partials/controls.twig:39
 msgid "Convert"
 msgstr "Konvertieren"
 
@@ -1884,45 +1739,35 @@ msgstr "Konvertieren"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: ../module/Ui/templates/entity/view/partials/input-challenge.twig:24
-msgid "solution"
-msgstr "Lösung"
-
-#: ../module/Ui/templates/entity/view/partials/input-challenge.twig:25
-#: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:28
-#: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:28
-msgid "feedback"
-msgstr "Feedback"
-
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:32
 msgid "Type answer"
 msgstr "Deine Lösung"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:50
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:60
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:84
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:144
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:174
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:88
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:148
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:181
 msgid "Show solution"
 msgstr "Lösung anzeigen"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:54
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:61
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:85
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:145
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:175
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:89
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:149
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:182
 msgid "Hide solution"
 msgstr "Lösung ausblenden"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:62
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:91
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:151
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:95
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:155
 msgid "Check"
 msgstr "Stimmt's?"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:66
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:96
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:156
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:100
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:160
 msgid "Correct!"
 msgstr "Stimmt!"
 
@@ -1930,17 +1775,13 @@ msgstr "Stimmt!"
 msgid "Info"
 msgstr "Information"
 
-#: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:23
-msgid "source"
-msgstr "Quelle"
-
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:53
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:167
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:172
 msgid "Show hint"
 msgstr "Tipp anzeigen"
 
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:54
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:168
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:173
 msgid "Hide hint"
 msgstr "Tipp ausblenden"
 
@@ -1954,19 +1795,19 @@ msgstr "Leider nein. Probier's nochmal!"
 msgid "This answer has been created but no content has been added yet or it is pending approval."
 msgstr "Die Antwort wurde erstellt, aber ihr noch kein Inhalt hinzugefügt oder noch nicht akzeptiert."
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:29
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:30
 msgid "Right!"
 msgstr "Richtig!"
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:117
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:121
 msgid "This solution is not correct."
 msgstr "Diese Lösung ist nicht richtig."
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:126
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:130
 msgid "This solution is correct!"
 msgstr "Die Lösung ist richtig!"
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:135
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:139
 msgid "Not quite. There is something missing!"
 msgstr "Fast. Das sind noch nicht alle richtigen Antworten!"
 
@@ -1979,8 +1820,6 @@ msgid "single-choice-wrong-answer"
 msgstr "falsche Single Choice-Antwort"
 
 #: ../module/Ui/templates/entity/view/text-exercise-group.twig:22
-#: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:47
-#: ../module/Ui/templates/taxonomy/term/templates/partials/subfolders.twig:97
 msgid "text-exercise-group"
 msgstr "Textaufgabengruppe"
 
@@ -1989,14 +1828,16 @@ msgid "I want to comment this"
 msgstr "Ich möchte das kommentieren"
 
 #: ../module/Ui/templates/entity/view/text-exercise.twig:22
-#: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:47
-#: ../module/Ui/templates/taxonomy/term/templates/partials/subfolders.twig:97
 msgid "text-exercise"
 msgstr "Textaufgabe"
 
 #: ../module/Ui/templates/entity/view/text-hint.twig:22
 msgid "text-hint"
 msgstr "Text-Tipp"
+
+#: ../module/Ui/templates/entity/view/text-hint.twig:33
+msgid "Hint"
+msgstr "Tipp"
 
 #: ../module/Ui/templates/entity/view/text-hint.twig:44
 msgid "A hint has been created but no content has been added yet or it is pending approval."
@@ -2010,22 +1851,9 @@ msgstr "Textlösung"
 msgid "A solution has been created but no content has been added yet or it is pending approval."
 msgstr "Eine Lösung wurde erstellt, aber ihr noch kein Inhalt hinzugefügt oder noch nicht akzeptiert."
 
-#: ../module/Ui/templates/entity/view/toc/course.twig:28
-#: ../module/Ui/templates/entity/view/video.twig:23
-msgid "description"
-msgstr "Beschreibung"
-
 #: ../module/Ui/templates/entity/view/video.twig:22
 msgid "video"
 msgstr "Video"
-
-#: ../module/Ui/templates/entity/view/video.twig:29
-msgid "?v="
-msgstr "?v="
-
-#: ../module/Ui/templates/entity/view/video.twig:29
-msgid "&"
-msgstr "&"
 
 #: ../module/Ui/templates/entity/view/video.twig:58
 msgid "Could not embed video - platform unknown"
@@ -2116,6 +1944,10 @@ msgstr "%user% hat %object% wiederhergestellt"
 #: ../module/Ui/templates/notification/type/uuid/trash.twig:34
 msgid "%user% trashed %object%"
 msgstr "%user% hat %object% in den Papierkorb verschoben"
+
+#: ../module/Ui/templates/legacy-editor/partials/video-modal.twig:35
+msgid "Don't show again"
+msgstr "Nicht erneut anzeigen"
 
 #: ../module/Ui/templates/mailman/messages/notification/body.twig:24
 #: ../module/Ui/templates/mailman/messages/notification/plain.twig:24
@@ -2238,7 +2070,7 @@ msgstr "Seite hinzufügen"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:53
 #: ../module/Ui/templates/page/partials/actions.twig:68
-#: ../module/Ui/templates/page/partials/controls.twig:71
+#: ../module/Ui/templates/page/partials/controls.twig:75
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -2249,11 +2081,6 @@ msgstr "Seite entfernen"
 #: ../module/Ui/templates/navigation/page/update.twig:22
 msgid "Page settings"
 msgstr "Seiteneinstellungen"
-
-#: ../module/Ui/templates/navigation/render/partial/nested-list.twig:47
-#: ../module/Ui/templates/navigation/render/partial/nested-list.twig:48
-msgid "elements"
-msgstr "Elemente"
 
 #: ../module/Ui/templates/notification/notification.twig:31
 msgid "No template found for notification \"%type%\""
@@ -2390,7 +2217,7 @@ msgstr "Es ist noch keine Überarbeitung gesetzt."
 
 #: ../module/Ui/templates/page/pages.twig:47
 #: ../module/Ui/templates/page/partials/actions.twig:53
-#: ../module/Ui/templates/page/partials/controls.twig:56
+#: ../module/Ui/templates/page/partials/controls.twig:60
 #: ../module/Ui/templates/page/revisions.twig:59
 msgid "Trash"
 msgstr "Papierkorb"
@@ -2400,11 +2227,11 @@ msgid "Create a new page"
 msgstr "Eine neue Seite erstellen"
 
 #: ../module/Ui/templates/page/partials/actions.twig:61
-#: ../module/Ui/templates/page/partials/controls.twig:64
+#: ../module/Ui/templates/page/partials/controls.twig:68
 msgid "Set as base revision"
 msgstr "Als aktuelle Version benutzen"
 
-#: ../module/Ui/templates/page/revision/create-ory.twig:22
+#: ../module/Ui/templates/page/revision/create-legacy.twig:22
 #: ../module/Ui/templates/page/revision/create.twig:22
 msgid "Create a revision"
 msgstr "Bearbeitung erstellen"
@@ -2465,10 +2292,6 @@ msgstr "Extern"
 msgid "Search results"
 msgstr "Suchergebnisse"
 
-#: ../module/Ui/templates/static/de/datenschutz/archive.twig:22
-msgid "<li><span>Aktualisierungen: Datenschutzerklärung</span></li>"
-msgstr "<li><span>Aktualisierungen: Datenschutzerklärung</span></li>"
-
 #: ../module/Ui/templates/static/de/datenschutz/partials/header.twig:34
 msgid "Datenschutzerklärung"
 msgstr "Datenschutzerklärung"
@@ -2484,18 +2307,6 @@ msgstr "Weitere Aufgaben"
 #: ../module/Ui/templates/taxonomy/term/batch-copy.twig:22
 msgid "Copy associations"
 msgstr "Zuordnungen kopieren"
-
-#: ../module/Ui/templates/taxonomy/term/batch-copy.twig:26
-#: ../module/Ui/templates/taxonomy/term/batch-move.twig:26
-msgid "destination"
-msgstr "Ziel"
-
-#: ../module/Ui/templates/taxonomy/term/batch-copy.twig:27
-#: ../module/Ui/templates/taxonomy/term/batch-copy.twig:30
-#: ../module/Ui/templates/taxonomy/term/batch-move.twig:27
-#: ../module/Ui/templates/taxonomy/term/batch-move.twig:30
-msgid "associations"
-msgstr "Verbindungen"
 
 #: ../module/Ui/templates/taxonomy/term/batch-move.twig:22
 msgid "Move associations"
@@ -2559,6 +2370,10 @@ msgstr "Videos"
 msgid "Applets"
 msgstr "Applets"
 
+#: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
+msgid "Events"
+msgstr "Veranstaltungen"
+
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:49
 msgid "Exercises"
 msgstr "Aufgaben"
@@ -2591,78 +2406,43 @@ msgstr "Begriff aktualisieren"
 msgid "Profile"
 msgstr "Profil"
 
-#: ../module/Ui/templates/user/user/profile.twig:33
+#: ../module/Ui/templates/user/user/profile.twig:29
 msgid "Statistics"
 msgstr "Statistiken"
 
-#: ../module/Ui/templates/user/user/profile.twig:55
+#: ../module/Ui/templates/user/user/profile.twig:51
 msgid "Edits"
 msgstr "Bearbeitungen"
 
-#: ../module/Ui/templates/user/user/profile.twig:66
+#: ../module/Ui/templates/user/user/profile.twig:62
 msgid "Reviews"
 msgstr "Überprüfungen"
 
-#: ../module/Ui/templates/user/user/profile.twig:77
+#: ../module/Ui/templates/user/user/profile.twig:73
 msgid "Taxonomy associations"
 msgstr "Taxonomie-Zuordnungen"
 
-#: ../module/Ui/templates/user/user/profile.twig:88
+#: ../module/Ui/templates/user/user/profile.twig:84
 msgid "Taxonomy changes"
 msgstr "Taxonomie-Bearbeitungen"
 
-#: ../module/Ui/templates/user/user/profile.twig:99
+#: ../module/Ui/templates/user/user/profile.twig:95
 msgid "Total deletions"
 msgstr "Löschungen"
 
-#: ../module/Ui/templates/user/user/profile.twig:104
+#: ../module/Ui/templates/user/user/profile.twig:100
 msgid "Recent activities"
 msgstr "Aktuelle Aktivitäten"
 
-#: ../module/Ui/templates/user/user/profile.twig:117
+#: ../module/Ui/templates/user/user/profile.twig:113
 msgid "Last seen"
 msgstr "Zuletzt gesehen"
 
-#: ../module/Ui/templates/user/user/register.twig:26
-#: ../module/Ui/templates/user/user/register.twig:41
-#: ../module/Ui/templates/user/user/register.twig:44
-msgid "username"
-msgstr "Benutzername"
-
-#: ../module/Ui/templates/user/user/register.twig:29
-#: ../module/Ui/templates/user/user/register.twig:67
-#: ../module/Ui/templates/user/user/register.twig:70
-msgid "passwordConfirm"
-msgstr "passwordConfirm"
-
-#: ../module/Ui/templates/user/user/register.twig:30
-#: ../module/Ui/templates/user/user/register.twig:91
-#: ../module/Ui/templates/user/user/register.twig:94
-msgid "firstName"
-msgstr "Vorname"
-
-#: ../module/Ui/templates/user/user/register.twig:31
-#: ../module/Ui/templates/user/user/register.twig:99
-#: ../module/Ui/templates/user/user/register.twig:102
-msgid "lastName"
-msgstr "Nachname"
-
-#: ../module/Ui/templates/user/user/register.twig:32
-#: ../module/Ui/templates/user/user/register.twig:108
-#: ../module/Ui/templates/user/user/register.twig:109
-msgid "interests"
-msgstr "Interessen"
-
-#: ../module/Ui/templates/user/user/register.twig:33
-#: ../module/Ui/templates/user/user/register.twig:85
-msgid "newsletterOptIn"
-msgstr "newsletterOptIn"
-
-#: ../module/Ui/templates/user/user/register.twig:77
+#: ../module/Ui/templates/user/user/register.twig:82
 msgid "Stay in touch!"
 msgstr "Bleib auf dem Laufenden!"
 
-#: ../module/Ui/templates/user/user/register.twig:80
+#: ../module/Ui/templates/user/user/register.twig:85
 msgid "<strong>Sign up to our newsletter to receive quarterly updates about our work.</strong> Serlo Education e.V. will use the information you provided to send you the newsletter and (optionally) personalise these mailings. We will also supply insights on aspects of Serlo that may be particularly interesting to you, based on the information you provided. To enable us to keep serlo.org free of charge and free of advertising we send out a fundraiser campaign through our newsletter list annually around Christmas. Please confirm below if you would like to give us permission to contact you in this way."
 msgstr "<strong>In unserem Newsletter informieren wir dich einmal im Quartal kompakt über unsere Aktivitäten.</strong> Serlo Education e.V. nutzt deine Angaben um dir den Newsletter zuzustellen, für eine personalisierte Ansprache in den Mailings (optional), und um dich über für dich besonders interessante Aspekte von Serlo zu informieren. Um unser Angebot dauerhaft kostenlos und werbefrei halten zu können, versenden wir außerdem einmal jährlich um Weihnachten eine Spendenkampagne über unseren Newsletterverteiler. Bitte teile uns mit, ob wir dich auf diese Art per E-Mail kontaktieren dürfen."
 
@@ -2673,10 +2453,6 @@ msgstr "Du kannst deine Einwilligung jederzeit zurückziehen, indem du den Abmel
 #: ../module/Ui/templates/user/user/register.twig:122
 msgid "By clicking <em>Sign up</em>, you agree to our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and <a href=\"/21654\" target=\"_blank\">Terms</a>. You may receive email notifications from us and can opt out at any time."
 msgstr "Indem du auf <em>Registrieren</em> klickst, erklärst du dich mit unserer <a href=\"/datenschutz\" target=\"_blank\">Datenschutzerklärung</a> und <a href=\"/21654\" target=\"_blank\">Nutzungsbedingungen</a> einverstanden. Wir schicken dir eventuell Benachrichtigungen per Email, die du jederzeit abbestellen kannst."
-
-#: ../module/Ui/templates/user/user/register.twig:126
-msgid "g-recaptcha-response"
-msgstr "g-recaptcha-Antwort"
 
 #: ../module/Ui/templates/user/user/settings.twig:22
 msgid "My settings"

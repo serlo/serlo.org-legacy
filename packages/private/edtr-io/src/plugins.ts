@@ -30,7 +30,6 @@ import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { createRowsPlugin, PluginRegistry } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
-import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { videoPlugin } from '@edtr-io/plugin-video'
@@ -50,6 +49,7 @@ import { userTypePlugin } from './plugins/types/user'
 import { videoTypePlugin } from './plugins/types/video'
 import { errorPlugin } from './plugins/error'
 import { imagePlugin } from './plugins/image'
+import { injectionPlugin } from './plugins/injection'
 import { layoutPlugin } from './plugins/layout'
 import { tablePlugin } from './plugins/table'
 
@@ -65,7 +65,7 @@ export function createPlugins(
     hint: hintPlugin,
     image: imagePlugin,
     important: importantStatementPlugin,
-    injection: serloInjectionPlugin,
+    injection: injectionPlugin,
     inputExercise: inputExercisePlugin,
     layout: layoutPlugin,
     rows: createRowsPlugin(registry),
