@@ -43,7 +43,7 @@ return [
     ),
 
     // TODO:
-    'redesign_url' => 'http://host.docker.internal:3000',
+    'redesign_url' => 'http://redesign:3000',
 
     // Branding, one entry per instance (Ui Module)
     'brand' => [
