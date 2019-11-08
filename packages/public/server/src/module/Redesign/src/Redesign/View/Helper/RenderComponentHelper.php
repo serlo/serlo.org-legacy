@@ -52,20 +52,15 @@ class RenderComponentHelper extends AbstractHelper
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $result = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            // simple error reporting
+            echo 'cURL-Fehler: ' . curl_error($ch) . '<br>';
+            print_r(curl_getinfo($ch));
+        }
+
         curl_close($ch);
 
-        // TODO: handle 500
         return '<div class="next">' . str_replace('<!DOCTYPE html>', '', $result) . '</div>';
-//        return '<iframe src="http://localhost:3000' . '/__' . $component . '"></iframe>';
     }
-
-//    /**
-//     * @param string $content
-//     * @return string
-//     */
-//    public function toHtml($content)
-//    {
-//        $json = json_decode($content, true);
-//        return ($json === null) ? htmlspecialchars($content) : $this->getRenderService()->render($content);
-//    }
 }
