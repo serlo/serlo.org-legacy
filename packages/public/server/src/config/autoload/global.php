@@ -37,6 +37,9 @@ return [
         $assets
     ),
 
+    // (FeatureFlags Module)
+    'feature_flags' => $featureFlags,
+
     // Branding, one entry per instance (Ui Module)
     'brand' => [
         'instances' => [

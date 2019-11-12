@@ -1,10 +1,17 @@
+import axios from 'axios'
 import * as React from 'react'
 import { render } from 'react-dom'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 const breakPoint = 780
 const smallScreens = `@media screen and (max-width: ${breakPoint}px)`
 const bigScreens = `@media screen and (min-width: ${breakPoint + 1}px)`
+
+const PreventBodyScroll = createGlobalStyle({
+  body: {
+    overflow: 'hidden'
+  }
+})
 
 const Container = styled.div<{ expanded: boolean }>(({ expanded }) => {
   return {
@@ -13,7 +20,8 @@ const Container = styled.div<{ expanded: boolean }>(({ expanded }) => {
     transition: 'transform .5s ease-in-out',
     zIndex: 999,
     [smallScreens]: {
-      padding: '10px 10px 0'
+      padding: '10px 10px 0',
+      paddingRight: 0
     }
   }
 })
@@ -22,8 +30,13 @@ const Container2 = styled.div({
   maxHeight: 'calc(100vh - 20px)',
   overflowY: 'scroll',
   backgroundColor: '#fff',
+  paddingRight: 0,
   [bigScreens]: {
-    padding: '45px 60px 5px'
+    padding: '45px 60px 5px',
+    paddingRight: 0,
+    iframe: {
+      marginTop: '-45px'
+    }
   }
 })
 
@@ -56,7 +69,8 @@ const Wrapper = styled.div({
   flexWrap: 'wrap',
   minHeight: '85px',
   [bigScreens]: {
-    padding: '0 50px'
+    padding: '0 50px',
+    paddingRight: 0
   }
 })
 
@@ -161,13 +175,14 @@ const Remaining = styled.div({
   fontWeight: 'bold'
 })
 
-function DonationProgress(props: DonationBannerProps) {
-  const progress = `${props.amount} Spenden`
-  const remaining = `es fehlen noch ${props.goal - props.amount}`
+function DonationProgress({ data }: DonationBannerProps) {
+  const progress = `${data.progress.value} €`
+  const remaining = `es fehlen noch ${data.progress.max -
+    data.progress.value} €`
   return (
     <ProgressContainer>
       <BarWrapper
-        percentage={(props.amount / props.goal) * 100}
+        percentage={(data.progress.value / data.progress.max) * 100}
         title={progress}
       >
         <Bar>{progress}</Bar>
@@ -184,28 +199,30 @@ const BlurBackground = styled.div({
   zIndex: 998,
   backgroundColor: 'rgba(100,100,100,0.6)',
   position: 'fixed',
-  top: '0'
+  top: '0',
+  '&:hover': {
+    cursor: 'pointer'
+  }
 })
-const DonationBanner: React.FunctionComponent<DonationBannerProps> = props => {
+
+function DonationBanner({ data }: DonationBannerProps) {
   const [visible, setVisible] = React.useState(true)
   const [expanded, setExpanded] = React.useState(
     window.document.body.offsetWidth > breakPoint
   )
 
-  // const localStorageKey = 'consent'
+  const localStorageKey = 'donation-popup'
+  const state = localStorage.getItem(localStorageKey)
+  if (state === 'closed') return null
+  if (!visible) return null
 
-  // const consent = localStorage.getItem(localStorageKey)
-  //
-  // if (consent === 'closed') {
-  //   return
-  // }
-
-  if (!visible) {
-    return null
-  }
+  const campaignId = `${data.id}-${data.group}-${
+    data.authenticated ? 'user' : 'guest'
+  }`
 
   return (
     <>
+      {visible ? <PreventBodyScroll /> : null}
       <Container expanded={expanded}>
         {!expanded ? (
           <Drawer
@@ -218,8 +235,7 @@ const DonationBanner: React.FunctionComponent<DonationBannerProps> = props => {
           <Logo>V</Logo>
           <Close
             onClick={() => {
-              // localStorage.setItem(localStorageKey, "closed")
-              setVisible(false)
+              close()
             }}
           >
             X
@@ -227,29 +243,18 @@ const DonationBanner: React.FunctionComponent<DonationBannerProps> = props => {
           <Wrapper>
             <Call>
               <Title>
-                <strong>
-                  Ist Dir der Erhalt unserer hochwertigen, werbefreien und frei
-                  verfügbaren Lernseite 5€ im Monat wert?
-                </strong>
+                <strong>{data.text.heading}</strong>
               </Title>
               {expanded ? (
                 <>
-                  <p>
-                    Lieber Nutzerin / Lieber Nutzer, bitte entschuldige die
-                    Störung. Serlo.org hilft einer Million jungen Menschen im
-                    Monat beim lernen - kostenlos, werbefrei und ohne Anmeldung.
-                    Um dieses Angebot zu ermöglichen, sind wir auf Spenden
-                    angewiesen. Wir brauchen nur 500 Spender*innen, damit wir
-                    unseren offenen Finanzbedarf im nächsten Jahr decken können
-                    und serlo.org für alle frei verfügbar bleibt!
-                  </p>
-                  <DonationProgress {...props} />
+                  <p>{data.text.body}</p>
+                  <DonationProgress data={data} />
                 </>
               ) : null}
             </Call>
             <Form expanded={expanded}>
               <iframe
-                src={`https://spenden.twingle.de/serlo-education-e-v/wkp-bannerwidget-2019/tw5da828fb550c6/widget?tw_rhythm=${props.rhythm}`}
+                src={`${data.widget}?tw_rhythm=yearly&tw_campaign_id=${campaignId}`}
                 style={{
                   width: '100%',
                   border: 'none',
@@ -259,29 +264,43 @@ const DonationBanner: React.FunctionComponent<DonationBannerProps> = props => {
                   zIndex: 2,
                   display: 'block'
                 }}
-                scrolling="no"
-              ></iframe>
-              <script src="https://spenden.twingle.de/embed/generic"></script>
+              />
+              <script src="https://spenden.twingle.de/embed/generic" />
             </Form>
           </Wrapper>
         </Container2>
       </Container>
-      <BlurBackground />
+      <BlurBackground
+        onClick={() => {
+          close()
+        }}
+      />
     </>
   )
+
+  function close() {
+    localStorage.setItem(localStorageKey, 'closed')
+    setVisible(false)
+  }
 }
 
-export function initDonationBanner() {
+export async function initDonationBanner() {
+  const { data } = await axios.get(
+    'https://serlo-donation-campaign.serlo.workers.dev/',
+    {
+      withCredentials: true
+    }
+  )
+  if (!data.enabled) return
+
   const div = window.document.getElementById('donation-banner')
   if (div) {
-    const goal = div.getAttribute('data-goal')
-    const amount = div.getAttribute('data-amount')
-    const rhythm = div.getAttribute('data-rhythm')
     render(
       <DonationBanner
-        goal={goal ? parseInt(goal, 10) : 100}
-        amount={amount ? parseInt(amount, 10) : 30}
-        rhythm={rhythm || 'yearly'}
+        data={{
+          ...data,
+          authenticated: div.getAttribute('data-authenticated') !== ''
+        }}
       />,
       div
     )
@@ -289,9 +308,20 @@ export function initDonationBanner() {
 }
 
 interface DonationBannerProps {
-  goal: number
-  amount: number
-  rhythm: string
+  data: {
+    id: string
+    progress: {
+      value: number
+      max: number
+    }
+    group: string
+    text: {
+      heading: string
+      body: string
+    }
+    widget: string
+    authenticated: boolean
+  }
 }
 
 interface ProgressBarProps {

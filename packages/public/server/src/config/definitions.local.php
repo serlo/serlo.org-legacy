@@ -46,6 +46,9 @@ $recaptcha = [
 
 $smtp_options = [];
 $tracking = [];
+$featureFlags = [
+    'donation-banner' => true,
+];
 
 $cronjob_secret = 'secret';
 $upload_secret = 'secret';
