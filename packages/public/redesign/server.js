@@ -21,5 +21,5 @@ srv.on('error', err => {
 })
 
 app.prepare().then(() => {
-  srv.listen(3000, 'localhost')
+  srv.listen(3000, '0.0.0.0')
 })
