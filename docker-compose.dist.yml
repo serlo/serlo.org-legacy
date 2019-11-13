@@ -62,6 +62,13 @@ services:
     depends_on:
       - workspace
 
+  redesign:
+    build:
+      context: .
+      dockerfile: packages/public/redesign/Dockerfile
+    ports:
+      - '3000:3000'
+
   server-composer:
     image: composer:1.8
     volumes:
