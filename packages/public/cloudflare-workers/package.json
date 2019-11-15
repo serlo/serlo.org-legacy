@@ -2,14 +2,10 @@
   "name": "@serlo/cloudflare-workers",
   "version": "0.0.0",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "cross-env NODE_ENV=production webpack",
-    "deploy:cloudflare": "ts-node scripts/deploy"
+    "deploy:cloudflare": "cross-env NODE_ENV=production wrangler publish"
   },
   "devDependencies": {
-    "@serlo/cloudflare": "^0.0.0",
-    "webpack": "^4.0.0",
-    "webpack-cli": "^3.0.0"
+    "@cloudflare/wrangler": "^1.0.0"
   },
   "private": true
 }

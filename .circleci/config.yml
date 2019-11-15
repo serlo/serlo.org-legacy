@@ -54,6 +54,8 @@ gcloud: &gcloud
 cloudflare_secret: &cloudflare_secret
   name: Creating Cloudflare secret
   command: |
+    export CF_EMAIL=$CLOUDFLARE_EMAIL
+    export CF_API_KEY=$CLOUDFLARE_KEY
     echo "{ \"email\": \"$CLOUDFLARE_EMAIL\", \"key\": \"$CLOUDFLARE_KEY\" }" >> packages/private/cloudflare/cloudflare.secret.json
 
 version: 2.1
