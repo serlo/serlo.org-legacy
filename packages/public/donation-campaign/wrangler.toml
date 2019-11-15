@@ -1,0 +1,8 @@
+name = "serlo-donation-campaign"
+type = "webpack"
+account_id = "3bfabc4463c2c3c340f7301d22ed18c0"
+webpack_config = "webpack.config.js"
+workers_dev = true
+kv-namespaces = [
+    { binding = "SECRETS_KV", id = "dc00259c8eab4cddb567da0d5d8e0988" }
+]
