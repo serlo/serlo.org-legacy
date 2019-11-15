@@ -1,11 +1,12 @@
 {
-  "name": "@serlo/cloudflare-workers",
+  "name": "@serlo/donation-campaign",
   "version": "0.0.0",
   "scripts": {
     "deploy:cloudflare": "cross-env NODE_ENV=production wrangler publish"
   },
   "devDependencies": {
-    "@cloudflare/wrangler": "^1.0.0"
+    "@cloudflare/wrangler": "^1.0.0",
+    "googleapis": "^45.0.0"
   },
   "private": true
 }

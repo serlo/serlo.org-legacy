@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@babel/register": "^7.0.0",
+    "@serlo/cloudflare": "^0.0.0",
     "@serlo/gcloud": "^0.0.0",
     "@types/diff": "^4.0.0",
     "@types/jquery": "^3.0.0",
