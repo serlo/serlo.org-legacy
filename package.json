@@ -10,7 +10,7 @@
   "scripts": {
     "build": "lerna run --stream build",
     "predeploy:cloudflare": "lerna run --stream build --scope=@serlo/cloudflare-workers --include-filtered-dependencies",
-    "deploy:cloudflare": "lerna run --stream deploy:cloudflare",
+    "deploy:cloudflare": "lerna run --stream deploy:cloudflare --concurrency 1",
     "deploy:images": "lerna run --stream deploy:image",
     "predeploy:packages": "lerna run --stream build --scope=@serlo/serlo-org-{client,static-assets} --include-filtered-dependencies",
     "deploy:packages": "lerna run --stream deploy:package",
