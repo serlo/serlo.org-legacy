@@ -61,6 +61,11 @@ export async function handleRequest(request: Request) {
       headers: { 'Content-Type': 'application/json' }
     }
   )
+  response.headers.append(
+    'Access-Control-Allow-Origin',
+    request.headers.get('Origin') || ''
+  )
+  response.headers.append('Access-Control-Allow-Credentials', 'true')
   if (experiment.createCookie) {
     response.headers.append(
       'Set-Cookie',
