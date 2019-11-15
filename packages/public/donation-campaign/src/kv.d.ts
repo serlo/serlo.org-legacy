@@ -19,40 +19,6 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { uploadWorker } from '@serlo/cloudflare'
-import * as fs from 'fs'
-import * as path from 'path'
-import { Signale } from 'signale'
-import * as util from 'util'
-
-const readFile = util.promisify(fs.readFile)
-
-const fsOptions = { encoding: 'utf-8' }
-
-const signale = new Signale({ interactive: true })
-
-run().then(() => {})
-
-async function run() {
-  try {
-    signale.info('Deploying Cloudflare workers')
-
-    await uploadWorkers()
-
-    signale.success('Successfully deployed Cloudflare workers')
-  } catch (e) {
-    signale.fatal(e)
-    throw e
-  }
-}
-
-async function uploadWorkers(): Promise<void> {
-  const content = await readFile(
-    path.join(__dirname, '..', 'dist', 'index.js'),
-    fsOptions
-  )
-  await uploadWorker({
-    name: 'serlo',
-    body: content
-  })
+declare var SECRETS_KV: {
+  get: (key: 'google-sheets-api-key') => Promise<string>
 }

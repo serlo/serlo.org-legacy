@@ -6,6 +6,7 @@
     "deploy:package": "ts-node scripts/deploy"
   },
   "devDependencies": {
+    "@serlo/cloudflare": "^0.0.0",
     "@serlo/gcloud": "^0.0.0",
     "serve": "^11.0.0"
   },
