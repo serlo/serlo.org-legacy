@@ -39,38 +39,53 @@ export async function handleRequest(request: Request) {
 
   const cookieName = `experiment/${experimentData.id}`
 
-  const { widget, text, createCookie } = executeExperiment()
-  const group = `${widget === 0 ? 'A' : 'B'}${text === 0 ? 'A' : 'B'}`
+  const experiment = executeExperiment()
 
   const response = new Response(
-    JSON.stringify({
-      id: experimentData.id,
-      group: `${widget === 0 ? 'A' : 'B'}${text === 0 ? 'A' : 'B'}`,
-      progress: experimentData.progress,
-      text: experimentData.texts[text],
-      widget: experimentData.widgets[widget]
-    }),
+    JSON.stringify(
+      experiment.enabled
+        ? {
+            enabled: true,
+            id: experimentData.id,
+            group: getCookieValue(),
+            progress: experimentData.progress,
+            text: experimentData.texts[experiment.text],
+            widget: experimentData.widgets[experiment.widget]
+          }
+        : {
+            enabled: false
+          }
+    ),
     {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     }
   )
-  if (createCookie) {
+  if (experiment.createCookie) {
     response.headers.append(
       'Set-Cookie',
-      `${cookieName}=${group}; path=/; Max-Age=${30 * 24 * 60 * 60}`
+      `${cookieName}=${getCookieValue()}; path=/; Max-Age=${30 * 24 * 60 * 60}`
     )
   }
   return response
 
-  function executeExperiment() {
+  function executeExperiment():
+    | { enabled: false; createCookie: boolean }
+    | { enabled: true; widget: 0 | 1; text: 0 | 1; createCookie: boolean } {
     const cookie = request.headers.get('Cookie')
 
     if (cookie) {
+      if (cookie.includes(`${cookieName}=none`)) {
+        return {
+          enabled: false,
+          createCookie: false
+        }
+      }
       if (cookie.includes(`${cookieName}=AA`)) {
         return {
           widget: 0,
           text: 0,
+          enabled: true,
           createCookie: false
         }
       }
@@ -78,6 +93,7 @@ export async function handleRequest(request: Request) {
         return {
           widget: 0,
           text: 1,
+          enabled: true,
           createCookie: false
         }
       }
@@ -85,6 +101,7 @@ export async function handleRequest(request: Request) {
         return {
           widget: 1,
           text: 0,
+          enabled: true,
           createCookie: false
         }
       }
@@ -92,18 +109,31 @@ export async function handleRequest(request: Request) {
         return {
           widget: 1,
           text: 1,
+          enabled: true,
           createCookie: false
         }
       }
     }
 
+    const enabled = Math.random() < experimentData.enabledProbability
     const text = Math.random() < experimentData.textAProbability ? 0 : 1
     const widget = Math.random() < experimentData.widgetAProbability ? 0 : 1
     return {
+      enabled,
       widget,
       text,
       createCookie: true
     }
+  }
+
+  function getCookieValue() {
+    if (experiment.enabled) {
+      return `${experiment.widget === 0 ? 'A' : 'B'}${
+        experiment.text === 0 ? 'A' : 'B'
+      }`
+    }
+
+    return 'none'
   }
 }
 
@@ -119,7 +149,7 @@ export function processSheetsResponse(
   return {
     progress,
     id: experiment.id,
-    enableProbability: experiment.enableProbability,
+    enabledProbability: experiment.enabledProbability,
     widgetAProbability: experiment.widgetAProbability,
     textAProbability: experiment.textAProbability,
     widgets,
@@ -150,7 +180,7 @@ export function processSheetsResponse(
         return {
           id,
           start: Date.parse(start),
-          enableProbability: parseInt(enableProbability, 10) / 100,
+          enabledProbability: parseInt(enableProbability, 10) / 100,
           widgetAProbability: parseInt(widgetAProbability, 10) / 100,
           textA,
           textAProbability: parseInt(textAProbability, 10) / 100,

@@ -7,7 +7,6 @@
   "devDependencies": {
     "@cloudflare/wrangler": "^1.0.0",
     "googleapis": "^45.0.0"
-
   },
   "private": true
 }

@@ -23,7 +23,7 @@ test('Successful process of sheets response', async () => {
       { heading: 'heading2', body: 'body2' }
     ],
     widgets: ['widgetA', 'widgetB'],
-    enableProbability: 1,
+    enabledProbability: 1,
     textAProbability: 1,
     widgetAProbability: 0.5,
     progress: {
