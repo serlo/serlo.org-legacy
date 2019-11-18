@@ -110,4 +110,7 @@
     <?php if (!$this->layout()->fullWidth): ?>
         </div>
     <?php endif; ?>
+    <?php if ($this->featureFlags()->isEnabled('donation-banner')): ?>
+        <div id="donation-banner" data-authenticated="<?php echo $this->user()->getAuthenticatedUserID(); ?>"></div>
+    <?php endif; ?>
 </header>

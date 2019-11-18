@@ -32,10 +32,13 @@ return [
     'assets' => array_merge(
         [
             'assets_host' => 'https://packages.serlo.org/serlo-org-static-assets@1/',
-            'bundle_host' => 'https://packages.serlo.org/serlo-org-client@2/',
+            'bundle_host' => 'https://packages.serlo.org/serlo-org-client@3/',
         ],
         $assets
     ),
+
+    // (FeatureFlags Module)
+    'feature_flags' => $featureFlags,
 
     // Branding, one entry per instance (Ui Module)
     'brand' => [

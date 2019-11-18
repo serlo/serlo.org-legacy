@@ -27,7 +27,9 @@ use FeatureFlags\Factory\FeatureFlagsHelperFactory;
 use FeatureFlags\Factory\ServiceFactory;
 
 return [
-    'feature_flags' => [],
+    'feature_flags' => [
+        'donation-banner' => false,
+    ],
     'service_manager' => [
         'factories' => [
             Service::class => ServiceFactory::class,

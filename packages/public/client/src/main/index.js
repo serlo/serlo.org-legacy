@@ -51,7 +51,7 @@ import AjaxOverlay from './modules/ajax_overlay'
 import Breadcrumbs from './modules/breadcrumbs'
 import { initChangeDimensionEvents } from './modules/change-dimension-events'
 import { initContentApi } from './modules/content_api'
-import { initConsentBanner } from './modules/consent_banner'
+import { initConsentBanner } from './modules/consent-banner'
 import { initDiff } from './modules/diff/diff'
 import './modules/forum_select'
 import './modules/injections'
@@ -75,6 +75,7 @@ import './modules/toggle'
 import initTracking from './modules/tracking'
 import './modules/trigger'
 import './styles/main.scss'
+import { initDonationBanner } from './modules/donation-banner'
 
 window.$ = $
 window.jQuery = $
@@ -160,6 +161,7 @@ const init = $context => {
   initContentApi()
   initConsentBanner()
   initDiff()
+  initDonationBanner()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
