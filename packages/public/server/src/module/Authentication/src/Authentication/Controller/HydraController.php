@@ -130,6 +130,7 @@ class HydraController extends AbstractActionController
 
         $consentResponse = $this->hydraService->getConsentRequest($challenge);
 
+        $user = $this->getUserManager()->getUser($consentResponse['subject']);
         $acceptResponse = $this->hydraService->acceptConsentRequest($challenge, [
             'grant_scope' => $consentResponse['requested_scope'],
             'grant_access_token_audience' => $consentResponse['requested_access_token_audience'],
@@ -137,7 +138,8 @@ class HydraController extends AbstractActionController
             'remember_for' => 60 * 60, // seconds
             'session' => [
                 'id_token' => [
-                    'user_id' => $consentResponse['subject'],
+                    'id' => $user->getId(),
+                    'username' => $user->getUsername(),
                 ],
             ],
         ]);
