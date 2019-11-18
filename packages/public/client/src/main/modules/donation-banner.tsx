@@ -20,8 +20,7 @@ const Container = styled.div<{ expanded: boolean }>(({ expanded }) => {
     transition: 'transform .5s ease-in-out',
     zIndex: 999,
     [smallScreens]: {
-      padding: '10px 10px 0',
-      paddingRight: 0
+      padding: '10px 10px 0'
     }
   }
 })
@@ -76,10 +75,12 @@ const Wrapper = styled.div({
 
 const Call = styled.div({
   width: '66.7%',
+  paddingRight: '30px',
   position: 'relative',
   fontSize: '17px',
   [smallScreens]: {
-    width: '100%'
+    width: '100%',
+    paddingRight: '10px'
   }
 })
 
