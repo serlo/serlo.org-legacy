@@ -29,12 +29,14 @@
         {% do placeholder('controls').set(controls) %}
         {% do placeholder('isLeaf').set(true) %}
         {% do placeholder('breadcrumbs').set('<li><span>' ~ title ~ '</span></li>') %}
-        <div class="editable"
-          data-id="{{ entity.getId() }}"
-          data-edit-field="title"
-          data-edit-type="text">
-            <h1><span itemprop="name">{{ title }}</span></h1>
-        </div>
+        {% if not layout().usingAPI %}
+          <div id="title" class="editable"
+            data-id="{{ entity.getId() }}"
+            data-edit-field="title"
+            data-edit-type="text">
+              <h1><span itemprop="name">{{ title }}</span></h1>
+          </div>
+        {% endif %}
         {% include 'entity/view/partials/actions/big' %}
     </div>
     {% include 'entity/page/partials/alerts' %}

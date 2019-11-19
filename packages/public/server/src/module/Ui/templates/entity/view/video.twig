@@ -61,12 +61,14 @@
             </p>
         {% endif %}
     </section>
-    <section itemprop="description editable"
-             data-id="{{ entity.getId() }}"
-             data-edit-field="description"
-             data-edit-type="ory">
-        {{ description }}
-    </section>
+    {% if not layout().usingAPI %}
+      <section id="description" itemprop="description editable"
+               data-id="{{ entity.getId() }}"
+               data-edit-field="description"
+               data-edit-type="ory">
+          {{ description }}
+      </section>
+    {% endif %}
     {% include 'entity/view/partials/license' %}
 </article>
 {% set discussions %}
