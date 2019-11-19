@@ -99,7 +99,8 @@ const Title = styled.p({
   fontSize: '21px',
   [smallScreens]: {
     fontSize: '19px'
-  }
+  },
+  color: '#007ec1'
 })
 
 const Logo = styled.span({
@@ -177,9 +178,10 @@ const Remaining = styled.div({
 })
 
 function DonationProgress({ data }: DonationBannerProps) {
-  const progress = `${data.progress.value} €`
-  const remaining = `es fehlen noch ${data.progress.max -
-    data.progress.value} €`
+  const progress = `${data.progress.value.toLocaleString('de-DE')} €`
+  const remaining = `es fehlen noch ${(
+    data.progress.max - data.progress.value
+  ).toLocaleString('de-DE')} €`
   return (
     <ProgressContainer>
       <BarWrapper
@@ -228,7 +230,7 @@ function DonationBanner({ data }: DonationBannerProps) {
     ? parseInt(localStorageKeyValue, 10)
     : 0
 
-  if (pagesUntilNextPopup !== 0) null
+  if (pagesUntilNextPopup !== 0) return null
   if (!visible) return null
 
   const campaignId = `${data.id}-${data.group}-${
@@ -262,7 +264,7 @@ function DonationBanner({ data }: DonationBannerProps) {
               </Title>
               {expanded ? (
                 <>
-                  <p>{data.text.body}</p>
+                  <p dangerouslySetInnerHTML={{ __html: data.text.body }} />
                   <DonationProgress data={data} />
                 </>
               ) : null}

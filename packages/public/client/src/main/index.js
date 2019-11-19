@@ -161,8 +161,9 @@ const init = $context => {
   initContentApi()
   initConsentBanner()
   initDiff()
-  initDonationBanner()
-
+  if (window.location.host.startsWith('de.')) {
+    initDonationBanner()
+  }
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
     SystemNotification.error()
