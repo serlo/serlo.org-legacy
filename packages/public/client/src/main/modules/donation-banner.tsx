@@ -212,9 +212,23 @@ function DonationBanner({ data }: DonationBannerProps) {
     window.document.body.offsetWidth > breakPoint
   )
 
-  const localStorageKey = 'donation-popup'
-  const state = localStorage.getItem(localStorageKey)
-  if (state === 'closed') return null
+  React.useEffect(() => {
+    const localStorageKey = `donation-popup/${data.id}`
+    const localStorageKeyValue = localStorage.getItem(localStorageKey)
+    const oldValue = localStorageKeyValue
+      ? parseInt(localStorageKeyValue, 10)
+      : 0
+    const newValue = (oldValue + 1) % data.frequency
+    localStorage.setItem(localStorageKey, `${newValue}`)
+  }, [data.frequency])
+
+  const localStorageKey = `donation-popup/${data.id}`
+  const localStorageKeyValue = localStorage.getItem(localStorageKey)
+  const pagesUntilNextPopup = localStorageKeyValue
+    ? parseInt(localStorageKeyValue, 10)
+    : 0
+
+  if (pagesUntilNextPopup !== 0) null
   if (!visible) return null
 
   const campaignId = `${data.id}-${data.group}-${
@@ -255,7 +269,7 @@ function DonationBanner({ data }: DonationBannerProps) {
             </Call>
             <Form expanded={expanded}>
               <iframe
-                src={`${data.widget}?tw_rhythm=yearly&tw_campaign_id=${campaignId}`}
+                src={`${data.widget.url}?tw_rhythm=${data.widget.rhythm}&tw_amount=${data.widget.amount}&tw_campaign_id=${campaignId}`}
                 style={{
                   width: '100%',
                   border: 'none',
@@ -280,7 +294,6 @@ function DonationBanner({ data }: DonationBannerProps) {
   )
 
   function close() {
-    localStorage.setItem(localStorageKey, 'closed')
     setVisible(false)
   }
 }
@@ -320,8 +333,13 @@ interface DonationBannerProps {
       heading: string
       body: string
     }
-    widget: string
+    widget: {
+      url: string
+      amount: string
+      rhythm: string
+    }
     authenticated: boolean
+    frequency: number
   }
 }
 

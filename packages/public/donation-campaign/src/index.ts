@@ -31,14 +31,13 @@ const spreadsheetId = '18ri3s1cqw1-jYjnPbPkI_9v4t9wBY1Sp3YtklXO0_Wg'
 export async function handleRequest(request: Request) {
   const key = await SECRETS_KV.get('google-sheets-api-key')
   const sheetsResponse = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values:batchGet?ranges=Spendenziel!A2:B&ranges=A/B Testing!A2:J&ranges=Widgets!A2:B&ranges=Texte!A2:C&key=${key}`
+    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values:batchGet?ranges=Spendenziel!A2:B&ranges=A/B Testing!A2:J&ranges=Widgets!A2:D&ranges=Texte!A2:C&key=${key}`
     // ({ cf: { cacheTtl: 60 * 60 } } as unknown) as RequestInit
   )
   const { valueRanges } = await sheetsResponse.json()
   const experimentData = processSheetsResponse(valueRanges)
 
   const cookieName = `experiment/${experimentData.id}`
-
   const experiment = executeExperiment()
 
   const response = new Response(
@@ -50,7 +49,8 @@ export async function handleRequest(request: Request) {
             group: getCookieValue(),
             progress: experimentData.progress,
             text: experimentData.texts[experiment.text],
-            widget: experimentData.widgets[experiment.widget]
+            widget: experimentData.widgets[experiment.widget],
+            frequency: experimentData.frequency
           }
         : {
             enabled: false
@@ -158,7 +158,8 @@ export function processSheetsResponse(
     widgetAProbability: experiment.widgetAProbability,
     textAProbability: experiment.textAProbability,
     widgets,
-    texts: [texts[experiment.textA], texts[experiment.textB]]
+    texts: [texts[experiment.textA], texts[experiment.textB]],
+    frequency: experiment.frequency
   }
 
   function handleProgress({ values }: sheets_v4.Schema$ValueRange) {
@@ -171,28 +172,33 @@ export function processSheetsResponse(
 
   function handleExperiment({ values }: sheets_v4.Schema$ValueRange) {
     const rows = values as string[][]
-    const experiments = rows.map(
-      ([
-        id,
-        start,
-        enableProbability,
-        widgetAProbability,
-        _,
-        textA,
-        textAProbability,
-        textB
-      ]) => {
-        return {
+    const experiments = rows
+      .map(
+        ([
           id,
-          start: Date.parse(start),
-          enabledProbability: parseInt(enableProbability, 10) / 100,
-          widgetAProbability: parseInt(widgetAProbability, 10) / 100,
+          start,
+          enableProbability,
+          widgetAProbability,
+          widgetBProbability,
           textA,
-          textAProbability: parseInt(textAProbability, 10) / 100,
-          textB
+          textAProbability,
+          textB,
+          textBProbability,
+          frequency
+        ]) => {
+          return {
+            id,
+            start: Date.parse(start),
+            enabledProbability: parseInt(enableProbability, 10) / 100,
+            widgetAProbability: parseInt(widgetAProbability, 10) / 100,
+            textA,
+            textAProbability: parseInt(textAProbability, 10) / 100,
+            textB,
+            frequency: parseInt(frequency, 10)
+          }
         }
-      }
-    )
+      )
+      .filter(({ id }) => id !== '')
     experiments.reverse()
     const activeExperiment = experiments.find(experiment => {
       return experiment.start <= Date.now()
@@ -202,7 +208,13 @@ export function processSheetsResponse(
 
   function handleWidgets({ values }: sheets_v4.Schema$ValueRange) {
     const rows = values as string[][]
-    return [rows[0][1], rows[1][1]]
+    return rows.map(([id, url, amount, rhythm]) => {
+      return {
+        url,
+        amount,
+        rhythm
+      }
+    })
   }
 
   function handleTexts({ values }: sheets_v4.Schema$ValueRange) {
