@@ -62,10 +62,7 @@
         {% endif %}
     </section>
     {% if not layout().usingAPI %}
-      <section id="description" itemprop="description editable"
-               data-id="{{ entity.getId() }}"
-               data-edit-field="description"
-               data-edit-type="ory">
+      <section id="description" itemprop="description editable">
           {{ description }}
       </section>
     {% endif %}
