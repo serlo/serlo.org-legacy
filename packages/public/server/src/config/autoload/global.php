@@ -42,7 +42,6 @@ return [
         $assets
     ),
 
-    // TODO:
     'redesign_url' => 'http://redesign:3000',
 
     // Branding, one entry per instance (Ui Module)
