@@ -283,8 +283,9 @@ function DonationBanner({ data }: DonationBannerProps) {
   if (pagesUntilNextPopup !== 0) return null
   if (!visible) return null
 
+  const interests = data.interests || 'none'
   const campaignId = `${data.id}-${data.group}-${
-    data.authenticated ? 'user' : 'guest'
+    data.authenticated ? `user-${interests}` : 'guest'
   }`
 
   return (
@@ -321,7 +322,7 @@ function DonationBanner({ data }: DonationBannerProps) {
             </Call>
             <Form expanded={expanded}>
               <iframe
-                src={`${data.widget.url}?tw_rhythm=${data.widget.rhythm}&tw_amount=${data.widget.amount}&tw_campaign_id=${campaignId}`}
+                src={`${data.widget.url}?tw_rhythm=${data.widget.rhythm}&tw_amount=${data.widget.amount}&tw_cid=${campaignId}`}
                 style={{
                   width: '100%',
                   border: 'none',
@@ -365,7 +366,8 @@ export async function initDonationBanner() {
       <DonationBanner
         data={{
           ...data,
-          authenticated: div.getAttribute('data-authenticated') !== ''
+          authenticated: div.getAttribute('data-authenticated') !== '',
+          interests: div.getAttribute('data-interests')
         }}
       />,
       div
@@ -392,6 +394,7 @@ interface DonationBannerProps {
     }
     authenticated: boolean
     frequency: number
+    interests: string
   }
 }
 
