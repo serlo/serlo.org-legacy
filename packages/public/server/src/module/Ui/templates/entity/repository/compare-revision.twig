@@ -49,11 +49,19 @@
                             {% set oldField = compareRevision.get(field.getName()) %}
                             {% if oldField %}
                                 <div class="revision-compare-old" style="display:none;">
-                                    {{ oldField | escape}}
+                                    {% if compareFieldIsLegacy and fieldIsLegacy %}
+                                        {{ diff().cleanMarkdown(oldField) | escape }}
+                                    {% else %}
+                                        {{ oldField | escape}}
+                                    {% endif %}
                                 </div>
                             {% endif %}
                             <div class="revision-compare-new" style="display:none;">
-                                {{ field.getValue() | escape }}
+                                {% if compareFieldIsLegacy and fieldIsLegacy %}
+                                    {{ diff().cleanMarkdown(field.getValue()) | escape }}
+                                {% else %}
+                                    {{ field.getValue() | escape }}
+                                {% endif %}
                             </div>
                         </div>
                         <div class="tab-pane fade" id="old{{ field.getName() }}">
