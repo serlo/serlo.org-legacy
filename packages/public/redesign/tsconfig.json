@@ -1,31 +1,36 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": { "*": ["types/*"] },
-    "allowSyntheticDefaultImports": false,
-    "alwaysStrict": true,
-    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "*": [
+        "types/*"
+      ]
+    },
     "jsx": "preserve",
     "module": "esnext",
     "moduleResolution": "node",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "skipLibCheck": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
-    "strictNullChecks": true,
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "strict": true,
     "noEmit": true,
+    "target": "es6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
     "isolatedModules": true
   },
-  "include": ["src", "__stories__", "pages"],
-  "exclude": ["node_modules", "src/styles"]
+  "include": [
+    "src",
+    "__stories__",
+    "pages"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/styles"
+  ]
 }
