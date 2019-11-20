@@ -3,7 +3,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
-const breakPoint = 780
+const breakPoint = 1000
 const smallScreens = `@media screen and (max-width: ${breakPoint}px)`
 const bigScreens = `@media screen and (min-width: ${breakPoint + 1}px)`
 
@@ -26,8 +26,6 @@ const Container = styled.div<{ expanded: boolean }>(({ expanded }) => {
 })
 const Container2 = styled.div({
   padding: '45px 10px 5px',
-  maxHeight: 'calc(100vh - 20px)',
-  overflowY: 'scroll',
   backgroundColor: '#fff',
   paddingRight: 0,
   [bigScreens]: {
@@ -84,6 +82,10 @@ const Call = styled.div({
   }
 })
 
+const AccountWrapper = styled.div({
+  fontSize: '12px'
+})
+
 const Form = styled.div<{ expanded: boolean }>(({ expanded }) => {
   return {
     display: expanded ? 'block' : 'none',
@@ -131,18 +133,27 @@ const Close = styled.div({
   zIndex: 1000
 })
 
-const ProgressContainer = styled.div({
-  width: '100%',
-  height: '50px',
-  borderRadius: '4px',
-  backgroundImage:
-    'linear-gradient(267deg, rgba(199, 223, 56, 0.27) 50%, rgba(149, 188, 26, 0.78))',
-  margin: '20px 0'
-})
+const ProgressContainer = styled.div<{ desktop?: boolean; mobile?: boolean }>(
+  ({ desktop, mobile }) => {
+    return {
+      [smallScreens]: {
+        display: desktop ? 'none' : 'flex'
+      },
+      [bigScreens]: {
+        display: mobile ? 'none' : 'flex'
+      },
+      width: '100%',
+      height: '50px',
+      borderRadius: '4px',
+      backgroundImage:
+        'linear-gradient(267deg, rgba(199, 223, 56, 0.27) 50%, rgba(149, 188, 26, 0.78))',
+      fontSize: '14px'
+    }
+  }
+)
 
 const BarWrapper = styled.div<ProgressBarProps>(({ percentage }) => {
   return {
-    position: 'absolute',
     width: `${percentage}%`,
     height: '50px',
     display: 'flex',
@@ -150,15 +161,17 @@ const BarWrapper = styled.div<ProgressBarProps>(({ percentage }) => {
   }
 })
 
-const Bar = styled.div({
-  backgroundImage: 'linear-gradient(256deg, #95bc1a 91%, #82a317)',
-  color: '#fff',
-  lineHeight: '50px',
-  textAlign: 'right',
-  paddingRight: '20px',
-  fontWeight: 'bold',
-  flex: 1,
-  borderRadius: '4px 0 0 4px'
+const Bar = styled.div<{ center: boolean }>(({ center }) => {
+  return {
+    backgroundImage: 'linear-gradient(256deg, #95bc1a 91%, #82a317)',
+    color: '#fff',
+    lineHeight: '50px',
+    paddingRight: center ? 0 : '20px',
+    fontWeight: 'bold',
+    flex: 1,
+    borderRadius: '4px 0 0 4px',
+    textAlign: center ? 'center' : 'right'
+  }
 })
 
 const Triangle = styled.div({
@@ -169,30 +182,67 @@ const Triangle = styled.div({
   borderLeft: '15px solid #95bc1a'
 })
 
-const Remaining = styled.div({
-  color: '#95bc1a',
+const Remaining = styled.div<{ center: boolean }>(({ center }) => {
+  return {
+    color: '#95bc1a',
+    lineHeight: '50px',
+    paddingRight: center ? 0 : '20px',
+    fontWeight: 'bold',
+    textAlign: center ? 'center' : 'right',
+    flex: 1
+  }
+})
+
+const GoalWrapper = styled.div({
+  [bigScreens]: {
+    display: 'none'
+  },
   textAlign: 'right',
-  lineHeight: '50px',
-  paddingRight: '20px',
-  fontWeight: 'bold'
+  fontSize: '12px'
 })
 
 function DonationProgress({ data }: DonationBannerProps) {
   const progress = `${data.progress.value.toLocaleString('de-DE')} €`
-  const remaining = `es fehlen noch ${(
-    data.progress.max - data.progress.value
-  ).toLocaleString('de-DE')} €`
+  const remaining = `${(data.progress.max - data.progress.value).toLocaleString(
+    'de-DE'
+  )} €`
+  const remainingFull = `es fehlen noch ${remaining}`
+  const percentage = (data.progress.value / data.progress.max) * 100
   return (
-    <ProgressContainer>
-      <BarWrapper
-        percentage={(data.progress.value / data.progress.max) * 100}
-        title={progress}
-      >
-        <Bar>{progress}</Bar>
-        <Triangle />
-      </BarWrapper>
-      <Remaining title={remaining}>{remaining}</Remaining>
-    </ProgressContainer>
+    <>
+      <ProgressContainer mobile>
+        <BarWrapper percentage={percentage} title={progress}>
+          <Bar center>{percentage < 25 ? null : progress}</Bar>
+          <Triangle />
+        </BarWrapper>
+        <Remaining title={remainingFull} center>
+          {percentage > 80 ? null : remaining}
+        </Remaining>
+      </ProgressContainer>
+      <ProgressContainer desktop>
+        <BarWrapper percentage={percentage} title={progress}>
+          <Bar center={percentage > 60 && percentage <= 85}>
+            {percentage <= 20
+              ? null
+              : percentage > 85
+              ? remainingFull
+              : progress}
+          </Bar>
+          <Triangle />
+        </BarWrapper>
+        <Remaining title={remainingFull} center={percentage > 60}>
+          {percentage > 85 ? null : percentage > 60 ? remaining : remainingFull}
+        </Remaining>
+      </ProgressContainer>
+      <GoalWrapper>
+        Spendenziel {data.progress.max.toLocaleString('de-DE')} €
+      </GoalWrapper>
+      <AccountWrapper>
+        Spendenkonto Serlo Education e.V.{' '}
+        <strong>DE98 4306 0967 8204 5906 00</strong>{' '}
+        <a href="https://www.paypal.me/serlo">via PayPal spenden</a>
+      </AccountWrapper>
+    </>
   )
 }
 
@@ -259,15 +309,15 @@ function DonationBanner({ data }: DonationBannerProps) {
           </Close>
           <Wrapper>
             <Call>
-              <Title>
-                <strong>{data.text.heading}</strong>
-              </Title>
-              {expanded ? (
-                <>
+              <div>
+                <Title>
+                  <strong>{data.text.heading}</strong>
+                </Title>
+                {expanded ? (
                   <p dangerouslySetInnerHTML={{ __html: data.text.body }} />
-                  <DonationProgress data={data} />
-                </>
-              ) : null}
+                ) : null}
+              </div>
+              {expanded ? <DonationProgress data={data} /> : null}
             </Call>
             <Form expanded={expanded}>
               <iframe
