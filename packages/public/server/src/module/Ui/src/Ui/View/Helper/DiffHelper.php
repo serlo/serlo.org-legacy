@@ -31,63 +31,12 @@ class DiffHelper extends AbstractHelper
         return $this;
     }
 
-    public function html($old, $new)
+    public function cleanMarkdown($markdown)
     {
-        $old = strip_tags($old);
-        $new = strip_tags($new);
-        $diff = $this->text(explode(' ', $old), explode(' ', $new));
-        $ret  = '';
-        foreach ($diff as $k) {
-            if (is_array($k)) {
-                $ret .= (!empty($k['d']) ? "<del class=\"text-muted diff\">" . implode(' ', $k['d']) . "</del> " :
-                        '') . (!empty($k['i']) ?
-                        "<ins class=\"text-success diff\">" . implode(' ', $k['i']) . "</ins> " : '');
-            } else {
-                $ret .= $k . ' ';
-            }
-        }
-        return $ret;
-    }
-
-    public function cleanMarkdown($markdown) {
         $pattern = '@[{"col":[0-9]+,"content":"@is';
         $markdown  = preg_replace($pattern, "", $markdown);
         $pattern = '@"},|"}],|"}]]@is';
-        return preg_replace($pattern, "\n", $markdown);
-    }
-    
-    public function markdown($old, $new)
-    {
-        $old = $this->cleanMarkdown($old);
-        $new = $this->cleanMarkdown($new);
-        $out     = $this->html($old, $new);
-        $out     = preg_replace('@\\n|\\\\n@is', '<br>', $out);
-        $out     = preg_replace('@\\\\@is', '\\', $out);
-        return $out;
-    }
-
-    public function text($old, $new)
-    {
-        $maxlen = $omax = $nmax = 0;
-        foreach ($old as $oindex => $ovalue) {
-            $nkeys = array_keys($new, $ovalue);
-            foreach ($nkeys as $nindex) {
-                $matrix[$oindex][$nindex] = isset($matrix[$oindex - 1][$nindex - 1]) ?
-                    $matrix[$oindex - 1][$nindex - 1] + 1 : 1;
-                if ($matrix[$oindex][$nindex] > $maxlen) {
-                    $maxlen = $matrix[$oindex][$nindex];
-                    $omax   = $oindex + 1 - $maxlen;
-                    $nmax   = $nindex + 1 - $maxlen;
-                }
-            }
-        }
-        if ($maxlen == 0) {
-            return array(array('d' => $old, 'i' => $new));
-        }
-        return array_merge(
-            $this->text(array_slice($old, 0, $omax), array_slice($new, 0, $nmax)),
-            array_slice($new, $nmax, $maxlen),
-            $this->text(array_slice($old, $omax + $maxlen), array_slice($new, $nmax + $maxlen))
-        );
+        $markdown = preg_replace($pattern, "\n", $markdown);
+        return preg_replace('@\\n|\\\\n@is', "\n", $markdown);
     }
 }
