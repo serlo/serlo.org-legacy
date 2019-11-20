@@ -53,6 +53,9 @@ class HydraService
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $reqUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+           'X-Forwarded-Proto: https',
+        ]);
 
         $result = curl_exec($ch);
         curl_close($ch);
@@ -77,6 +80,7 @@ class HydraService
         $httpHeader = [
             'Accept: application/json',
             'Content-Type: application/json',
+            'X-Forwarded-Proto: https',
         ];
 
         $ch = curl_init();
