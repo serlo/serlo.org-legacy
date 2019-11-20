@@ -49,14 +49,17 @@ class DiffHelper extends AbstractHelper
         return $ret;
     }
 
+    public function cleanMarkdown($markdown) {
+        $pattern = '@[{"col":[0-9]+,"content":"@is';
+        $markdown  = preg_replace($pattern, "", $markdown);
+        $pattern = '@"},|"}],|"}]]@is';
+        return preg_replace($pattern, "\n", $markdown);
+    }
+    
     public function markdown($old, $new)
     {
-        $pattern = '@[{"col":[0-9]+,"content":"@is';
-        $old     = preg_replace($pattern, "", $old);
-        $new     = preg_replace($pattern, "", $new);
-        $pattern = '@"},|"}],|"}]]@is';
-        $old     = preg_replace($pattern, "\n", $old);
-        $new     = preg_replace($pattern, "\n", $new);
+        $old = $this->cleanMarkdown($old);
+        $new = $this->cleanMarkdown($new);
         $out     = $this->html($old, $new);
         $out     = preg_replace('@\\n|\\\\n@is', '<br>', $out);
         $out     = preg_replace('@\\\\@is', '\\', $out);
