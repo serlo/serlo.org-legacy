@@ -131,16 +131,21 @@ class HydraController extends AbstractActionController
         $consentResponse = $this->hydraService->getConsentRequest($challenge);
 
         $user = $this->getUserManager()->getUser($consentResponse['subject']);
+        $requestedScope = $consentResponse['requested_scope'];
+
         $acceptResponse = $this->hydraService->acceptConsentRequest($challenge, [
             'grant_scope' => $consentResponse['requested_scope'],
             'grant_access_token_audience' => $consentResponse['requested_access_token_audience'],
             'remember' => true,
             'remember_for' => 60 * 60, // seconds
             'session' => [
-                'id_token' => [
+                'id_token' => array_merge([
                     'id' => $user->getId(),
                     'username' => $user->getUsername(),
-                ],
+                ], in_array('email', $requestedScope) ? [
+                    'email' => $user->getEmail(),
+                    'email_verified' => true, // if email were not verified, then login wouldn't work
+                ] : []),
             ],
         ]);
 
