@@ -9,7 +9,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withCSS(
   withImages(
     withBundleAnalyzer({
-      assetPrefix: 'http://localhost:3000',
+      assetPrefix: process.env.ASSET_PREFIX ? process.env.ASSET_PREFIX : '',
       webpack: config => {
         // for multiroot support we need to overwrite one specific file
         // doing it with webpack
