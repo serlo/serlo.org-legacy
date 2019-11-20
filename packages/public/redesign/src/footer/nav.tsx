@@ -98,4 +98,8 @@ const NavLink = styled.a`
     color: ${getColor('darkGray')};
     border-bottom: 2px solid #ccc;
   }
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
 `
