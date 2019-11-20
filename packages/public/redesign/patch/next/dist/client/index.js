@@ -37,7 +37,7 @@ var _isDynamic = require("next/dist/next-server/lib/router/utils/is-dynamic");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -333,7 +333,8 @@ var _default = async function _default() {
         Component: components[_page],
         props: pageProps,
         err: initialErr,
-        emitter: emitter
+        emitter: emitter,
+        domEl: document.getElementById('__next' + _page)
       };
       render(_renderCtx);
     }
@@ -505,7 +506,8 @@ async function doRender(_ref8) {
   var App = _ref8.App,
       Component = _ref8.Component,
       props = _ref8.props,
-      err = _ref8.err;
+      err = _ref8.err,
+      domEl = _ref8.domEl;
 
   // Usual getInitialProps fetching is handled in next/router
   // this is for when ErrorComponent gets replaced by Component by HMR
@@ -545,7 +547,13 @@ async function doRender(_ref8) {
     appProps: appProps
   }); // We catch runtime errors using componentDidCatch which will trigger renderError
 
-  renderReactElement(_react.default.createElement(AppContainer, null, _react.default.createElement(App, appProps)), appElement);
+  renderReactElement(_react.default.createElement(AppContainer, null, _react.default.createElement(App, appProps)), // ----------------- MODIFICATION 6 --------------------
+  // Original:
+  // appElement
+  // New:
+  domEl ? domEl : appElement // Reason: Render into separate dom element
+  // ----------------- END MODIFICATION 6 --------------------
+  );
   emitter.emit('after-reactdom-render', {
     Component: Component,
     ErrorComponent: ErrorComponent,

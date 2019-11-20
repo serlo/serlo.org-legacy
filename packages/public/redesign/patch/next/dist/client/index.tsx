@@ -300,7 +300,8 @@ export default async ({ webpackHMR: passedWebpackHMR } = {}) => {
         Component: components[page],
         props: pageProps,
         err: initialErr,
-        emitter
+        emitter,
+        domEl: document.getElementById('__next' + page)
       }
       render(renderCtx)
     }
@@ -468,7 +469,7 @@ const wrapApp = App => props => {
   )
 }
 
-async function doRender({ App, Component, props, err }) {
+async function doRender({ App, Component, props, err, domEl }) {
   // Usual getInitialProps fetching is handled in next/router
   // this is for when ErrorComponent gets replaced by Component by HMR
   if (
@@ -502,11 +503,25 @@ async function doRender({ App, Component, props, err }) {
   })
 
   // We catch runtime errors using componentDidCatch which will trigger renderError
+
+
   renderReactElement(
     <AppContainer>
       <App {...appProps} />
     </AppContainer>,
-    appElement
+    // ----------------- MODIFICATION 6 --------------------
+
+    // Original:
+
+    // appElement
+
+    // New:
+
+    domEl ? domEl : appElement
+
+    // Reason: Render into separate dom element
+
+    // ----------------- END MODIFICATION 6 --------------------
   )
 
   emitter.emit('after-reactdom-render', { Component, ErrorComponent, appProps })
