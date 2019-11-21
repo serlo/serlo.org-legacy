@@ -238,7 +238,7 @@ function DonationProgress({ data }: DonationBannerProps) {
         Spendenziel {data.progress.max.toLocaleString('de-DE')} €
       </GoalWrapper>
       <AccountWrapper>
-        Spendenkonto Serlo Education e.V.{' '}
+        Spendenkonto Serlo Education e.V.:{' '}
         <strong>DE98 4306 0967 8204 5906 00</strong>{' '}
         <a href="https://www.paypal.me/serlo">via PayPal spenden</a>
       </AccountWrapper>
