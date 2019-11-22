@@ -6,7 +6,6 @@
   "scripts": {
     "build__": "cross-env next build && next export -o dist",
     "build": "build-storybook -c .storybook -o dist -s ./static",
-    "format": "prettier --write \"{{.storybook,__stories__,src/**/*,*},*}.{js,jsx,ts,tsx,css,scss,json,md,markdown}\"",
     "start-storybook": "start-storybook -p 9000 -c .storybook -s ./static",
     "start": "npm-run-all next:build next:start",
     "start-dev": "next",
