@@ -2,6 +2,8 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Button, DropButton } from './button.component'
 import { Box } from 'grommet'
+import ShareModal from './sharemodal.component'
+
 import {
   getColor,
   getDefaultTransition,
@@ -10,17 +12,28 @@ import {
 } from './provider.component'
 import { useScrollYPosition } from 'react-use-scroll-position'
 
+const { useRef } = React
+
 export const EditBox: React.FunctionComponent<
   React.HTMLAttributes<HTMLDivElement>
 > = props => {
   const scrollY = useScrollYPosition()
-  const summary = scrollY > 30 ? false : true
+  //TODO: Hack, components needs real height value of footer component
+  const minSpaceToBottom =
+    document.documentElement.scrollHeight < 1800 ? 0 : 1800
+  const posIsFixed =
+    scrollY > document.documentElement.scrollHeight - minSpaceToBottom
+      ? false
+      : true
+
+  const modalRef = useRef()
 
   return (
     <React.Fragment>
-      <Summary show={summary}>
+      <Summary isFixed={posIsFixed} minSpaceToBottom={minSpaceToBottom}>
         {/* Bearbeitungen: <b>5</b> */}
         <div>
+          <ShareModal ref={modalRef}></ShareModal>
           <SummaryButton
             label="Inhalt bearbeiten"
             iconName="faPencilAlt"
@@ -28,6 +41,15 @@ export const EditBox: React.FunctionComponent<
             backgroundColor="transparent"
             activeBackgroundColor={getColor('brandGreen')}
             size={0.8}
+          />
+          <SummaryButton
+            label="Teilen!"
+            iconName="faShareAlt"
+            fontColor={getColor('brandGreen')}
+            backgroundColor="transparent"
+            activeBackgroundColor={getColor('brandGreen')}
+            size={0.8}
+            onClick={() => modalRef.current.openModal()}
           />
           <SummaryDropButton
             dropContent={renderItems()}
@@ -38,19 +60,9 @@ export const EditBox: React.FunctionComponent<
             size={0.8}
             label="Weitere Funktionen"
             dropAlign={{ bottom: 'top', right: 'right' }}
-            {...(!summary && { open: false })}
           />
         </div>
       </Summary>
-      <StyledButton
-        className={props.className}
-        a11yTitle={props.title}
-        plain
-        iconName="faPencilAlt"
-        hiddenLabel={'Artikel bearbeiten'}
-        show={!summary}
-        activeBackgroundColor={getColor('brandGreen')}
-      />
     </React.Fragment>
   )
 }
@@ -116,6 +128,17 @@ const renderItems = () => (
   </DropContent>
 )
 
+const ModalStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+}
+
 const SummaryButton = styled(Button)`
   margin-left: -0.3em;
   svg {
@@ -125,6 +148,7 @@ const SummaryButton = styled(Button)`
 `
 
 const SummaryDropButton = styled(DropButton)`
+  display: none;
   margin-left: -0.3em;
   svg {
     width: 1em !important;
@@ -133,17 +157,21 @@ const SummaryDropButton = styled(DropButton)`
 `
 
 interface SummaryProps {
-  show: boolean
+  isFixed: boolean
+  minSpaceToBottom: number
 }
 
-const Summary = styled.div<SummaryProps>`
+const Summary = styled.nav<SummaryProps>`
   display: none;
 
   @media screen and (min-width: ${getBreakpoint('md')}) {
     display: block;
-    position: absolute;
-    bottom: 2rem;
+    position: ${props => (props.isFixed ? 'fixed' : 'absolute')};
     right: 2rem;
+    bottom: ${props => (props.isFixed ? '2rem' : 'auto')};
+      /*props.minSpaceToBottom + 'px'*/
+    margin-top: ${props => (props.isFixed ? '0' : '-8rem')};
+
 
     font-size: 0.8rem;
     width: 10rem;
@@ -158,62 +186,6 @@ const Summary = styled.div<SummaryProps>`
     }
 
     /* transition: opacity 0.2s ease-in-out; */
-    opacity: ${props => (props.show ? 1 : 0)};
-    pointer-events: ${props => (props.show ? 'all' : 'none')};
-  }
-`
-
-interface StyledButtonProps {
-  show: boolean
-  hiddenLabel: string
-}
-
-const StyledButton = styled(Button)<StyledButtonProps>`
-  display: none;
-  @media screen and (min-width: ${getBreakpoint('md')}){
-    display: block;
-    position: fixed;
-    bottom: 4rem;
-    right: 7rem;
-    text-align: right;
-
-    transition: opacity .2s ease-in-out;
-    opacity: ${props => (props.show ? 1 : 0)};
-    pointer-events: ${props => (props.show ? 'all' : 'none')};
-
-    @media screen and (hover: hover) {
-      &:hover {
-        width: 7.5rem;
-      }
-      &:before {
-        position: absolute;
-        text-align: right;
-        font-size: 0.8rem;
-        line-height: 1.2;
-        width: 5rem;
-        left: 0;
-        top: .27rem;
-        content: "${props => props.hiddenLabel}";
-        display: inline-block;
-        color: #fff;
-        transition: none;
-        transition-delay: 0;
-        opacity: 0;
-      }
-
-      &:hover:before {
-        opacity: 1;
-        transition: ${getDefaultTransition()};
-        transition-delay: 0.05s;
-      }
-    }
-
-    > svg {
-      width: 1.3rem !important;
-      height: 1.3rem !important;
-      vertical-align: -0.2em;
-      margin-right: .6rem;
-    }
   }
 `
 
