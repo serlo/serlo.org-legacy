@@ -22,7 +22,7 @@
  */
 namespace Flag\Form;
 
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use Doctrine\Common\Collections\Collection;
 use Zend\Form\Element\Select;
 use Zend\Form\Element\Submit;

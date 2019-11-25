@@ -22,7 +22,7 @@
  */
 namespace Entity\Form;
 
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use Common\Form\Element\EditorState;
 use Common\Form\Element\Title;
 use License\Entity\LicenseInterface;

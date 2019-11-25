@@ -22,7 +22,7 @@
  */
 namespace User\Form;
 
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use Zend\Form\Element\Email;
 use Zend\Form\Element\Submit;
 use Zend\Form\Form;

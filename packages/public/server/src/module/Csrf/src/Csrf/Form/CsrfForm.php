@@ -20,10 +20,23 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-?>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<?php $this->normalize()->appendBrand()?>
-<?php echo $this->headTitle()->setSeparator(' – '); ?>
-<?php echo $this->headMeta(); ?>
-<?php echo $this->headLink(['rel' => 'icon', 'href' => '/favicon.ico', 'type' => 'image/x-icon']); ?>
+namespace Csrf\Form;
+
+use Csrf\Form\Element\CsrfToken;
+use Zend\Form\Element\Submit;
+use Zend\Form\Form;
+
+class CsrfForm extends Form
+{
+    public function __construct($name)
+    {
+        parent::__construct($name);
+        $this->setAttribute('method', 'post');
+
+        $this->add(new CsrfToken());
+
+        $this->add(
+            (new Submit('submit'))->setValue('')->setAttribute('class', 'btn btn-success pull-right')
+        );
+    }
+}

@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { LoadedFile, UploadValidator } from '@edtr-io/plugin'
-import { createImagePlugin } from '@edtr-io/plugin-image'
+import { createImagePlugin as createCoreImagePlugin } from '@edtr-io/plugin-image'
 import axios from 'axios'
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024
@@ -50,6 +50,7 @@ function handleErrors(errors: FileErrorCode[]): FileError[] {
     message: errorCodeToMessage(error)
   }))
 }
+
 function onError(errors: FileError[]): void {
   alert(errors.map(error => error.message).join('\n'))
 }
@@ -90,52 +91,57 @@ export const validateFile: UploadValidator<FileError[]> = file => {
   }
 }
 
-export function uploadImageHandler(file: File): Promise<string> {
-  const validation = validateFile(file)
-  if (!validation.valid) {
-    onError(validation.errors)
-    return Promise.reject(validation.errors)
-  }
-
-  //TODO: implement real file upload here
-  return readFile(file).then(loaded => {
-    return loaded.dataUrl
-  })
-}
-
-export function readFile(file: File): Promise<LoadedFile> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-
-    reader.onload = function(e: ProgressEvent) {
-      if (!e.target) return
-      const formData = new FormData()
-      formData.append('attachment[file]', file)
-      formData.append('type', 'file')
-      // @ts-ignore TODO: maybe pass this via props because should be typed in client
-      formData.append('csrf', window['csrf'])
-
-      axios
-        .post('/attachment/upload', formData)
-        .then(({ data }) => {
-          console.log(data)
-          if (!data['success']) reject()
-          resolve({
-            file,
-            dataUrl: data.files[0].location
-          })
-        })
-        .catch(() => {
-          reject()
-        })
+export function createUploadImageHandler(getCsrfToken: () => string) {
+  const readFile = createReadFile(getCsrfToken)
+  return function uploadImageHandler(file: File): Promise<string> {
+    const validation = validateFile(file)
+    if (!validation.valid) {
+      onError(validation.errors)
+      return Promise.reject(validation.errors)
     }
 
-    reader.readAsDataURL(file)
-  })
+    return readFile(file).then(loaded => {
+      return loaded.dataUrl
+    })
+  }
 }
 
-export const imagePlugin = createImagePlugin({
-  upload: uploadImageHandler,
-  validate: validateFile,
-  secondInput: 'description'
-})
+export function createReadFile(getCsrfToken: () => string) {
+  return function readFile(file: File): Promise<LoadedFile> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+
+      reader.onload = function(e: ProgressEvent) {
+        if (!e.target) return
+        const formData = new FormData()
+        formData.append('attachment[file]', file)
+        formData.append('type', 'file')
+        formData.append('csrf', getCsrfToken())
+
+        axios
+          .post('/attachment/upload', formData)
+          .then(({ data }) => {
+            console.log(data)
+            if (!data['success']) reject()
+            resolve({
+              file,
+              dataUrl: data.files[0].location
+            })
+          })
+          .catch(() => {
+            reject()
+          })
+      }
+
+      reader.readAsDataURL(file)
+    })
+  }
+}
+
+export function createImagePlugin(getCsrfToken: () => string) {
+  return createCoreImagePlugin({
+    upload: createUploadImageHandler(getCsrfToken),
+    validate: validateFile,
+    secondInput: 'description'
+  })
+}

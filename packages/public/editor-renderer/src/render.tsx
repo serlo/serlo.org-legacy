@@ -31,7 +31,7 @@ import {
 } from '@serlo/legacy-editor-to-editor'
 import * as React from 'react'
 
-const plugins = createPlugins()
+const plugins = createPlugins(() => '')
 
 export async function render(input: string): Promise<string> {
   if (input === undefined) throw new Error('No input given')

@@ -20,10 +20,38 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-?>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<?php $this->normalize()->appendBrand()?>
-<?php echo $this->headTitle()->setSeparator(' – '); ?>
-<?php echo $this->headMeta(); ?>
-<?php echo $this->headLink(['rel' => 'icon', 'href' => '/favicon.ico', 'type' => 'image/x-icon']); ?>
+
+namespace Csrf;
+
+use Exception;
+use Zend\Session\Container;
+
+class CsrfTokenContainer
+{
+    /**
+     * Returns the CSRF token associated with the current session
+     *
+     * @return string CSRF token
+     * @throws Exception
+     */
+    public static function getToken()
+    {
+        $container = new Container('csrf');
+        if (!isset($container->token)) {
+            $container->token = CsrfTokenContainer::generateToken();
+        }
+        return $container->token;
+    }
+
+    /**
+     * Generates as pseudorandom token
+     *
+     * @return string Pseudorandom token
+     * @throws Exception
+     */
+    private static function generateToken()
+    {
+        $bytes = random_bytes(16);
+        return bin2hex($bytes);
+    }
+}

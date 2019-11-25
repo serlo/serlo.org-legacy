@@ -20,23 +20,41 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Common\Form;
 
-use Common\Form\Element\CsrfToken;
-use Zend\Form\Element\Submit;
-use Zend\Form\Form;
+namespace Csrf\Form\Element;
 
-class CsrfForm extends Form
+use Csrf\CsrfTokenContainer;
+use Csrf\Validator\CsrfTokenValidator;
+use Zend\Form\Element;
+use Zend\InputFilter\InputProviderInterface;
+
+class CsrfToken extends Element implements InputProviderInterface
 {
-    public function __construct($name)
+    protected $attributes = array(
+        'type' => 'hidden',
+    );
+
+    public function __construct()
     {
-        parent::__construct($name);
-        $this->setAttribute('method', 'post');
+        parent::__construct('csrf');
+    }
 
-        $this->add(new CsrfToken());
+    public function getValue()
+    {
+        return CsrfTokenContainer::getToken();
+    }
 
-        $this->add(
-            (new Submit('submit'))->setValue('')->setAttribute('class', 'btn btn-success pull-right')
+    public function getInputSpecification()
+    {
+        return array(
+            'name' => $this->getName(),
+            'required' => true,
+            'filters' => array(
+                array('name' => 'Zend\Filter\StringTrim'),
+            ),
+            'validators' => array(
+                new CsrfTokenValidator(),
+            ),
         );
     }
 }

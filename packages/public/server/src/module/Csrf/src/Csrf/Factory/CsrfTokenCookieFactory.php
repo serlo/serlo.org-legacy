@@ -21,28 +21,31 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Common\Form\Element;
+namespace Csrf\Factory;
 
-use Zend\Form\Element\Csrf;
-use Common\Validator\CsrfValidator;
+use Csrf\CsrfTokenCookie;
+use Zend\Http\Request;
+use Zend\Http\Response;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Session\Config\SessionConfig;
 
-class CsrfToken extends Csrf
+class CsrfTokenCookieFactory implements FactoryInterface
 {
-    public function __construct()
-    {
-        parent::__construct('csrf');
-    }
-
     /**
-     * {@inheritDoc}
+     * Create service
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return mixed
      */
-    public function getCsrfValidator()
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        if (null === $this->csrfValidator) {
-            $csrfOptions = $this->getCsrfValidatorOptions();
-            $csrfOptions = array_merge($csrfOptions, array('name' => $this->getName()));
-            $this->setCsrfValidator(new CsrfValidator($csrfOptions));
-        }
-        return $this->csrfValidator;
+        /** @var $sessionConfig SessionConfig */
+        $sessionConfig = $serviceLocator->get('Zend\Session\Config\SessionConfig');
+        /** @var $request Request */
+        $request = $serviceLocator->get('Request');
+        /** @var $response Response */
+        $response = $serviceLocator->get('Response');
+        return new CsrfTokenCookie($sessionConfig, $request, $response);
     }
 }
