@@ -28,10 +28,10 @@ require __DIR__ . '/definitions.local.php';
 
 return [
     // This should be an array of module namespaces used in the application.
-    'modules'                 => [
+    'modules' => [
         // Session needs to be the first entry, so db storage instead of php storage is used!
-        'PageSpeed',
         'Session',
+        'PageSpeed',
         'ZendDeveloperTools',
         'Application',
         'DoctrineModule',
