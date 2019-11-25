@@ -5,9 +5,12 @@ WORKDIR packages/public/redesign
 COPY packages/public/redesign/package.json .
 RUN yarn --frozen-lockfile --production=false --silent
 
-ARG ASSET_PREFIX
-ENV ASSET_PREFIX "$ASSET_PREFIX"
+ENV NEXT_TELEMETRY_DISABLED=1
 COPY packages/public/redesign .
 RUN yarn next:build
-ENTRYPOINT ["node", "server.js"]
+
+ENV NEXT_ASSET_PREFIX http://localhost:3000
+ENV ASSET_PREFIX http://localhost:3000
+
+ENTRYPOINT ["node", "serverless.js"]
 EXPOSE 3000
