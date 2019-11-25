@@ -6,10 +6,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 })
 
-module.exports = withCSS(
-  withImages(
+module.exports = withCSS({
+  target: 'serverless',
+  ...withImages(
     withBundleAnalyzer({
-      assetPrefix: process.env.ASSET_PREFIX ? process.env.ASSET_PREFIX : '',
       webpack: config => {
         // for multiroot support we need to overwrite one specific file
         // doing it with webpack
@@ -35,4 +35,4 @@ module.exports = withCSS(
       }
     })
   )
-)
+})

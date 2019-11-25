@@ -61,16 +61,10 @@ export async function handleBody(req, res, defaultProps) {
       bodyParser.json()(req, res, resolve)
     })
     const json = req.body
-    // requiring valid key
-    if (
-      process.env.ATHENE_NEXTJS_KEY &&
-      json.key === process.env.ATHENE_NEXTJS_KEY
-    ) {
-      for (let key in defaultProps) {
-        if (json[key]) {
-          // @ts-ignore
-          defaultProps[key] = json[key]
-        }
+    for (let key in defaultProps) {
+      if (json[key]) {
+        // @ts-ignore
+        defaultProps[key] = json[key]
       }
     }
   }
@@ -82,10 +76,29 @@ class MyScripts extends Head {
     return (
       <>
         {this.props.children}
-        {this.getCssLinks()}
+        {this.myGetCssLinks()}
         {this.context._documentProps.styles || null}
       </>
     )
+  }
+
+  myGetCssLinks() {
+    const { files } = this.context._documentProps
+    const assetPrefix = process.env.NEXT_ASSET_PREFIX || ''
+    const cssFiles =
+      files && files.length ? files.filter(f => /\.css$/.test(f)) : []
+
+    return cssFiles.length === 0
+      ? null
+      : cssFiles.map(file => (
+          <link
+            key={file}
+            nonce={this.props.nonce}
+            rel="stylesheet"
+            href={`${assetPrefix}/_next/${encodeURI(file)}`}
+            crossOrigin={this.props.crossOrigin || process.crossOrigin}
+          />
+        ))
   }
 }
 
@@ -110,15 +123,14 @@ class MyMain extends Main {
 
 class MyNextScript extends NextScript {
   render() {
-    const {
+    let {
       staticMarkup,
-      assetPrefix,
       inAmpMode,
       devFiles,
       files,
       __NEXT_DATA__
     } = this.context._documentProps
-
+    const assetPrefix = process.env.NEXT_ASSET_PREFIX
     const { page, buildId } = __NEXT_DATA__
 
     if (
@@ -161,7 +173,8 @@ class MyNextScript extends NextScript {
             }}
           />
           {createDedupScriptTag(
-            assetPrefix + `/_next/static/${buildId}/pages/_app.js`
+            assetPrefix + `/_next/static/${buildId}/pages/_app.js`,
+            '--_app.js--'
           )}
           {files &&
             files.length > 0 &&

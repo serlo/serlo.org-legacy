@@ -10,6 +10,7 @@ import { Heading } from '../src/heading.component'
 import { List } from '../src/list.component'
 import { Table } from '../src/table.component'
 import LicenseInfo from '../src/licenseinfo.component'
+import { getPath } from '../src/assets'
 
 import styled from 'styled-components'
 
@@ -131,7 +132,7 @@ storiesOf('*(Content Components for Editor)', module)
           title="Diese Inhalte stehen unter der freien CC-BY-SA 4.0 Lizenz, wenn nicht anders angeben."
           licenseURL="https://creativecommons.org/licenses/by-sa/4.0/deed.de"
           infoURL="https://de.serlo.org/license/detail/1"
-          symbolURL={require('../src/img/license_ccbysa.svg')}
+          symbolURL={getPath('/img/license_ccbysa.svg')}
         />
       </Box>
     </Provider>
