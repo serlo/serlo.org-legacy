@@ -35,6 +35,8 @@ $services = [
     'hydra' => 'http://hydra:4445',
 ];
 
+$kafka_host = 'http://kafka-rest-proxy:8082';
+
 $db = [
     'host' => 'mysql',
     'port' => '3306',

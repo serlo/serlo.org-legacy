@@ -41,6 +41,7 @@ return [
 
     // (FeatureFlags Module)
     'feature_flags' => $featureFlags,
+    'kafka_host' => $kafka_host,
 
     // (KeyValueStore Module)
     'key_value_store' => $keyValueStore,

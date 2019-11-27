@@ -20,17 +20,17 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Discussion\Controller;
 
 use Discussion\Exception\CommentNotFoundException;
 use Discussion\Form\CommentForm;
 use Discussion\Form\DiscussionForm;
 use Instance\Manager\InstanceManagerAwareTrait;
-use Taxonomy\Entity\TaxonomyTermInterface;
+use Kafka\Producer;
 use Taxonomy\Manager\TaxonomyManagerInterface;
 use User\Manager\UserManagerAwareTrait;
-use Uuid\Entity\UuidInterface;
-use Uuid\Manager\UuidManagerAwareTrait;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Discussion\Exception\RuntimeException;
 
@@ -53,14 +53,22 @@ class DiscussionController extends AbstractController
      */
     protected $taxonomyManager;
 
+    /**
+     * @var Producer $producer
+     */
+    protected $producer;
+
     public function __construct(
         CommentForm $commentForm,
         DiscussionForm $discussionForm,
-        TaxonomyManagerInterface $taxonomyManager
-    ) {
-        $this->commentForm     = $commentForm;
-        $this->discussionForm  = $discussionForm;
+        TaxonomyManagerInterface $taxonomyManager,
+        Producer $producer
+    )
+    {
+        $this->commentForm = $commentForm;
+        $this->discussionForm = $discussionForm;
         $this->taxonomyManager = $taxonomyManager;
+        $this->producer = $producer;
     }
 
     public function archiveAction()
@@ -80,8 +88,8 @@ class DiscussionController extends AbstractController
     public function commentAction()
     {
         $discussion = $this->getDiscussion($this->params('discussion'));
-        $url        = $this->url()->fromRoute('uuid/get', ['uuid' => $this->params('discussion')]);
-        $ref        = $this->params()->fromQuery('redirect');
+        $url = $this->url()->fromRoute('uuid/get', ['uuid' => $this->params('discussion')]);
+        $ref = $this->params()->fromQuery('redirect');
 
         if (!$discussion) {
             return false;
@@ -97,8 +105,8 @@ class DiscussionController extends AbstractController
         if ($this->getRequest()->isPost()) {
             $data = [
                 'instance' => $this->getInstanceManager()->getInstanceFromRequest(),
-                'parent'   => $this->params('discussion'),
-                'author'   => $this->getUserManager()->getUserFromAuthenticator(),
+                'parent' => $this->params('discussion'),
+                'author' => $this->getUserManager()->getUserFromAuthenticator(),
             ];
             $form->setData(array_merge($this->params()->fromPost(), $data));
             if ($form->isValid()) {
@@ -126,7 +134,7 @@ class DiscussionController extends AbstractController
 
         $view = new ViewModel([
             'discussion' => $discussion,
-            'user'       => $this->getUserManager()->getUserFromAuthenticator(),
+            'user' => $this->getUserManager()->getUserFromAuthenticator(),
         ]);
         $view->setTemplate('discussion/discussion/index');
 
@@ -135,47 +143,73 @@ class DiscussionController extends AbstractController
 
     public function startAction()
     {
-        $form     = $this->getForm('discussion', $this->params('on'));
-        $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $author   = $this->getUserManager()->getUserFromAuthenticator();
-        $url      = $this->url()->fromRoute('uuid/get', ['uuid' => $this->params('on')]);
-        $ref      = $this->params()->fromQuery('redirect');
+        // $form     = $this->getForm('discussion', $this->params('on'));
+        // $instance = $this->getInstanceManager()->getInstanceFromRequest();
+        $author = $this->getUserManager()->getUserFromAuthenticator();
+        // $url      = $this->url()->fromRoute('uuid/get', ['uuid' => $this->params('on')]);
+        // $ref      = $this->params()->fromQuery('redirect');
 
-        if ($ref == null) {
-            $ref = $url;
-        }
+        // if ($ref == null) {
+        //     $ref = $url;
+        // }
 
-        $view     = new ViewModel(['form' => $form, 'ref' => $ref]);
-        $this->assertGranted('discussion.create', $instance);
+        // $view     = new ViewModel(['form' => $form, 'ref' => $ref]);
+        // $this->assertGranted('discussion.create', $instance);
 
         if ($this->getRequest()->isPost()) {
-            $data = [
-                'instance' => $instance,
-                'author'   => $author,
-                'object'   => $this->params('on'),
+            // $data = [
+            //     'instance' => $instance,
+            //     'author'   => $author,
+            //     'object'   => $this->params('on'),
+            // ];
+            // $form->setData(array_merge($this->params()->fromPost(), $data));
+            // if ($form->isValid()) {
+            //     $this->getDiscussionManager()->startDiscussion($form);
+            //     $this->getDiscussionManager()->flush();
+            //     if (!$this->getRequest()->isXmlHttpRequest()) {
+            //         $this->flashMessenger()->addSuccessMessage('Your discussion has been started.');
+            //         return $this->redirect()->toUrl($ref);
+            //     }
+            //     $view->setTerminal(true);
+            //     return $view;
+            // }
+            // return $view
+            $message = [
+                'type' => 'create-thread',
+                'payload' => [
+                    'author' => [
+                        'provider_id' => 'serlo.org',
+                        // TODO: handle anonymous user
+                        // 'user_id' => $author->getId()
+                        'user_id' => 'foobar',
+                    ],
+                    'entity' => [
+                        'provider_id' => 'serlo.org',
+                        'id' => $this->params('on'),
+                    ],
+                    'title' => 'foobar',
+                    'content' => 'foobar',
+                    'created_at' => (new DateTime('NOW'))->format(DateTime::ISO8601),
+                    'source' => [
+                        'provider_id' => 'serlo.org',
+                        'type' => 'discussion/create',
+                    ],
+                ],
             ];
-            $form->setData(array_merge($this->params()->fromPost(), $data));
-            if ($form->isValid()) {
-                $this->getDiscussionManager()->startDiscussion($form);
-                $this->getDiscussionManager()->flush();
-                if (!$this->getRequest()->isXmlHttpRequest()) {
-                    $this->flashMessenger()->addSuccessMessage('Your discussion has been started.');
-                    return $this->redirect()->toUrl($ref);
-                }
-                $view->setTerminal(true);
-                return $view;
-            }
-        } else {
-            $this->referer()->store('discussion-start');
+//            $this->producer->send([
+//                [
+//                    'topic' => 'comments-queue',
+//                    'value' => json_encode($message),
+//                    'key' => '',
+//                ],
+//            ]);
+
+            return new JsonModel($message);
         }
-
-        $view->setTemplate('discussion/discussion/start');
-        //$this->layout('legacy-editor/layout');
-
-        return $view;
     }
 
-    public function voteAction()
+    public
+    function voteAction()
     {
         $discussion = $this->getDiscussion($this->params('comment'));
 
@@ -204,9 +238,10 @@ class DiscussionController extends AbstractController
         return $this->redirect()->toReferer();
     }
 
-    protected function getDiscussion($id = null)
+    protected
+    function getDiscussion($id = null)
     {
-        $id = $id ? : $this->params('id');
+        $id = $id ?: $this->params('id');
         try {
             return $this->getDiscussionManager()->getComment($id);
         } catch (CommentNotFoundException $e) {
@@ -215,7 +250,8 @@ class DiscussionController extends AbstractController
         }
     }
 
-    protected function getForm($type, $id)
+    protected
+    function getForm($type, $id)
     {
         switch ($type) {
             case 'discussion':
