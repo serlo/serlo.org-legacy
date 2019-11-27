@@ -30,7 +30,7 @@ const ShareModal: React.FunctionComponent<
   }))
 
   function afterOpenModal() {}
-  
+
   function closeModal() {
     setIsOpen(false)
   }
@@ -44,6 +44,7 @@ const ShareModal: React.FunctionComponent<
     document.execCommand('copy')
     e.target.focus()
     setCopySuccess('Copied!')
+    /* TODO: Get int8 string */
   }
 
   const urlEncoded = encodeURIComponent(window.location.href)
@@ -93,6 +94,8 @@ const ShareModal: React.FunctionComponent<
       contentLabel="Example Modal"
     >
       <h2>Yeah Teilen!</h2>
+      {/* TODO: Get int8 string */}
+
       <p>
         <ShareInput
           ref={shareInputRef}
@@ -101,7 +104,7 @@ const ShareModal: React.FunctionComponent<
         />{' '}
         {document.queryCommandSupported('copy') && (
           <Button
-            label="Copy"
+            label="Copy" /* TODO: Get int8 string */
             iconName="faCopy"
             fontColor={getColor('brandGreen')}
             backgroundColor="transparent"
@@ -116,6 +119,16 @@ const ShareModal: React.FunctionComponent<
       <p>{buildButtons(socialShare)} </p>
       <p>{buildButtons(lmsShare)} </p>
       {/* <ModalFooter>Site ID: asdasd</ModalFooter> */}
+      <CloseButton
+        onClick={closeModal}
+        title="Close" /* TODO: Get int8 string */
+        iconName="faTimes"
+        size={0.8}
+        iconColor={getColor('dark-1')}
+        activeIconColor={getColor('white')}
+        backgroundColor="transparent"
+        // activeBackgroundColor={getColor('lightblue')}
+      />
     </Modal>
   )
 })
@@ -176,6 +189,16 @@ const ShareInput = styled.input`
   padding: 0.36rem;
   width: 15rem;
   /* margin-bottom: 1.5rem; */
-
   background-color: ${lightenColor('brandGreen', 0.45)};
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 4px 0 ${getColor('brand')};
+  }
+`
+
+const CloseButton = styled(Button)`
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
 `
