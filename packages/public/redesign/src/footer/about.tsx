@@ -7,8 +7,7 @@ import { Button } from '../button.component'
 
 import Logo from '../logo.component'
 import { NavChild } from './nav'
-const participateSrc = require('../img/footer_participate.svg')
-const donateSrc = require('../img/footer_donate.svg')
+import { getPath } from '../assets'
 
 export interface AboutProps {
   slogan: string
@@ -57,13 +56,19 @@ export function About(props: AboutProps) {
           <RowSupport>
             <Col xs>
               <ImageLink href={props.participateLink.url}>
-                <img alt="Icon: Participate" src={participateSrc} />
+                <img
+                  alt="Icon: Participate"
+                  src={getPath('/img/footer_participate.svg')}
+                />
                 <StyledButton label={props.participateLink.title} />
               </ImageLink>
             </Col>
             <Col xs>
               <ImageLink href={props.donateLink.url}>
-                <img alt="Icon: Spenden" src={donateSrc} />
+                <img
+                  alt="Icon: Spenden"
+                  src={getPath('/img/footer_donate.svg')}
+                />
                 <StyledButton label={props.donateLink.title} />
               </ImageLink>
             </Col>

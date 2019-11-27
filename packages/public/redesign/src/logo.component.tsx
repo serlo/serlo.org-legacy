@@ -6,8 +6,7 @@ import {
   transparentizeColor
 } from './provider.component'
 
-const logoSrc = require('./img/serlo-logo.svg')
-const logoWhiteSrc = require('./img/serlo-logo-white.svg')
+import { getPath } from './assets'
 
 export interface Props {
   subline?: string
@@ -20,7 +19,12 @@ export default function Logo(props: Props) {
     <React.Fragment>
       <Header>
         <Link href=".">
-          <Image alt="Serlo" src={props.dark ? logoWhiteSrc : logoSrc} />
+          <Image
+            alt="Serlo"
+            src={getPath(
+              props.dark ? '/img/serlo-logo-white.svg' : '/img/serlo-logo.svg'
+            )}
+          />
         </Link>
       </Header>
       {!props.subline ? null : (

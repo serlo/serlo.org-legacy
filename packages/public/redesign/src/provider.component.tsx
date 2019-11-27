@@ -5,8 +5,6 @@ import { lighten, transparentize } from 'polished'
 
 import { BreakpointProvider, setDefaultBreakpoints } from 'react-socks'
 
-import './fonts/fonts.css'
-
 export const Provider: React.FunctionComponent = ({ children }) => {
   return (
     <BreakpointProvider>
@@ -252,5 +250,26 @@ export const GlobalStyle = createGlobalStyle`
 	html{
 		font-size: 20px;
   }
+
+  @font-face {
+    font-family: 'Karmilla';
+    font-style: normal;
+    font-weight: 400;
+    src: url('${process.env.ASSET_PREFIX ||
+      ''}/karmilla-regular.woff2') format('woff2'),
+      url('${process.env.ASSET_PREFIX ||
+        ''}/karmilla-regular.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Karmilla';
+    font-style: normal;
+    font-weight: 700;
+    src: url('${process.env.ASSET_PREFIX ||
+      ''}/karmilla-bold.woff2') format('woff2'),
+      url('${process.env.ASSET_PREFIX ||
+        ''}/karmilla-bold.woff') format('woff');
+  }
+
 }
 `
