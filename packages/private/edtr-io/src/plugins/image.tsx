@@ -121,7 +121,6 @@ export function createReadFile(getCsrfToken: () => string) {
         axios
           .post('/attachment/upload', formData)
           .then(({ data }) => {
-            console.log(data)
             if (!data['success']) reject()
             resolve({
               file,
