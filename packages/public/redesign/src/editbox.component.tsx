@@ -19,7 +19,7 @@ export const EditBox: React.FunctionComponent<
 > = props => {
   try {
     document.getElementById('lalal')
-  } catch(e) {
+  } catch (e) {
     return null
   }
   const scrollY = useScrollYPosition()
@@ -31,7 +31,7 @@ export const EditBox: React.FunctionComponent<
       ? false
       : true
 
-  const modalRef:any = useRef()
+  const modalRef: any = useRef()
 
   return (
     <React.Fragment>
