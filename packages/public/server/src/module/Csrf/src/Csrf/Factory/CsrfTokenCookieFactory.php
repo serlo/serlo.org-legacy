@@ -24,11 +24,11 @@
 namespace Csrf\Factory;
 
 use Csrf\CsrfTokenCookie;
-use Zend\Http\Request;
-use Zend\Http\Response;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Session\Config\SessionConfig;
+use Zend\Stdlib\RequestInterface;
+use Zend\Stdlib\ResponseInterface;
 
 class CsrfTokenCookieFactory implements FactoryInterface
 {
@@ -42,9 +42,9 @@ class CsrfTokenCookieFactory implements FactoryInterface
     {
         /** @var $sessionConfig SessionConfig */
         $sessionConfig = $serviceLocator->get('Zend\Session\Config\SessionConfig');
-        /** @var $request Request */
+        /** @var $request RequestInterface */
         $request = $serviceLocator->get('Request');
-        /** @var $response Response */
+        /** @var $response ResponseInterface */
         $response = $serviceLocator->get('Response');
         return new CsrfTokenCookie($sessionConfig, $request, $response);
     }

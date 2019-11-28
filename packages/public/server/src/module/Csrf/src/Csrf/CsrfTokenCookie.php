@@ -28,6 +28,8 @@ use Zend\Http\Header\SetCookie;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Session\Config\SessionConfig;
+use Zend\Stdlib\RequestInterface;
+use Zend\Stdlib\ResponseInterface;
 
 class CsrfTokenCookie
 {
@@ -38,7 +40,7 @@ class CsrfTokenCookie
     /** @var Response */
     private $response;
 
-    public function __construct(SessionConfig $sessionConfig, Request $request, Response $response)
+    public function __construct(SessionConfig $sessionConfig, RequestInterface $request, ResponseInterface $response)
     {
         $this->sessionConfig = $sessionConfig;
         $this->request = $request;
@@ -52,6 +54,11 @@ class CsrfTokenCookie
      */
     public function init()
     {
+        // Abort when request is not an HTTP request
+        if (!$this->request instanceof Request || !$this->response instanceof Response) {
+            return;
+        }
+
         if (!$this->shouldCreateCookie()) {
             return;
         }
