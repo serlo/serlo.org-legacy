@@ -292,7 +292,7 @@ function initDonationBanner(consent) {
   ) {
     return
   }
-  
+
   import('./modules/donation-banner').then(({ initDonationBanner }) => {
     initDonationBanner()
   })

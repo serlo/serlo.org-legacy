@@ -41,7 +41,13 @@ const Container = styled.div<{ expanded: boolean }>(({ expanded }) => {
     transition: 'transform .5s ease-in-out',
     zIndex: 999,
     [smallScreens]: {
-      padding: '10px 10px 0'
+      padding: '10px 10px 0',
+      ...(expanded
+        ? {
+            height: '100%',
+            overflow: 'scroll'
+          }
+        : {})
     }
   }
 })
