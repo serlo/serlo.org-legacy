@@ -18,9 +18,7 @@ interface Props {
   // isOpen: boolean
 }
 
-const ShareModal: React.FunctionComponent<
-  React.HTMLAttributes<HTMLDivElement>
-> = forwardRef((props, ref) => {
+const ShareModal: any = forwardRef((props, ref) => {
   const [modalIsOpen, setIsOpen] = React.useState(false)
 
   useImperativeHandle(ref, () => ({
@@ -133,11 +131,13 @@ const ShareModal: React.FunctionComponent<
   )
 })
 
+const Button_: any = Button
+
 function buildButtons(hosts) {
   let result = hosts.map(function(host) {
     return (
       <React.Fragment>
-        <Button
+        <Button_
           label={host.title}
           iconName={host.icon}
           fontColor={getColor('brandGreen')}

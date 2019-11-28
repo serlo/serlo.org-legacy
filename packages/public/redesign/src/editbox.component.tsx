@@ -17,6 +17,11 @@ const { useRef } = React
 export const EditBox: React.FunctionComponent<
   React.HTMLAttributes<HTMLDivElement>
 > = props => {
+  try {
+    document.getElementById('lalal')
+  } catch(e) {
+    return null
+  }
   const scrollY = useScrollYPosition()
   //TODO: Hack, components needs real height value of footer component
   const minSpaceToBottom =
@@ -26,7 +31,7 @@ export const EditBox: React.FunctionComponent<
       ? false
       : true
 
-  const modalRef = useRef()
+  const modalRef:any = useRef()
 
   return (
     <React.Fragment>
