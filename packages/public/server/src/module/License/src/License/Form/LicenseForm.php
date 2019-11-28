@@ -22,7 +22,7 @@
  */
 namespace License\Form;
 
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use License\Hydrator\LicenseHydrator;
 use Zend\Form\Element\Checkbox;
 use Zend\Form\Element\Submit;

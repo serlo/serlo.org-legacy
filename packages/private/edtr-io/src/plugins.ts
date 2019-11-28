@@ -48,12 +48,13 @@ import { textSolutionTypePlugin } from './plugins/types/text-solution'
 import { userTypePlugin } from './plugins/types/user'
 import { videoTypePlugin } from './plugins/types/video'
 import { errorPlugin } from './plugins/error'
-import { imagePlugin } from './plugins/image'
+import { createImagePlugin } from './plugins/image'
 import { injectionPlugin } from './plugins/injection'
 import { layoutPlugin } from './plugins/layout'
 import { tablePlugin } from './plugins/table'
 
 export function createPlugins(
+  getCsrfToken: () => string,
   registry?: PluginRegistry
 ): Record<string, Plugin> {
   return {
@@ -63,7 +64,7 @@ export function createPlugins(
     geogebra: geogebraPlugin,
     highlight: highlightPlugin,
     hint: hintPlugin,
-    image: imagePlugin,
+    image: createImagePlugin(getCsrfToken),
     important: importantStatementPlugin,
     injection: injectionPlugin,
     inputExercise: inputExercisePlugin,

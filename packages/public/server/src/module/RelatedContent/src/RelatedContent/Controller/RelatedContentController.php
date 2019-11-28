@@ -22,7 +22,7 @@
  */
 namespace RelatedContent\Controller;
 
-use Common\Form\CsrfForm;
+use Csrf\Form\CsrfForm;
 use RelatedContent\Exception\NotFoundException;
 use RelatedContent\Form\CategoryForm;
 use RelatedContent\Form\ExternalForm;

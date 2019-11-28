@@ -22,7 +22,7 @@
  */
 namespace License\Form;
 
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use Zend\Form\Element\Select;
 use Zend\Form\Element\Submit;
 use Zend\Form\Form;

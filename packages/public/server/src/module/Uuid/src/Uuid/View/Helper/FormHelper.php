@@ -22,7 +22,7 @@
  */
 namespace Uuid\View\Helper;
 
-use Common\Form\CsrfForm;
+use Csrf\Form\CsrfForm;
 use Zend\View\Helper\AbstractHelper;
 use Zend\Form\Form;
 

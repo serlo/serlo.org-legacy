@@ -22,7 +22,7 @@
  */
 namespace User\Form;
 
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use Common\Form\Element\ReCaptcha;
 use Doctrine\ORM\EntityManager;
 use Zend\Form\Element\Checkbox;

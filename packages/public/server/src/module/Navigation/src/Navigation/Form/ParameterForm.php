@@ -22,7 +22,7 @@
  */
 namespace Navigation\Form;
 
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as ObjectHydrator;
 use Navigation\Manager\NavigationManagerInterface;

@@ -31,6 +31,7 @@ return [
     'modules' => [
         // Session needs to be the first entry, so db storage instead of php storage is used!
         'Session',
+        'Csrf',
         'PageSpeed',
         'ZendDeveloperTools',
         'Application',

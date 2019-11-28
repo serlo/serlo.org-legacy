@@ -22,7 +22,7 @@
  */
 namespace License\Controller;
 
-use Common\Form\CsrfForm;
+use Csrf\Form\CsrfForm;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Instance\Manager\InstanceManagerInterface;
 use License\Manager\LicenseManagerAwareTrait;

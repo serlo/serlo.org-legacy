@@ -22,7 +22,7 @@
  */
 namespace Uuid\Controller;
 
-use Common\Form\CsrfForm;
+use Csrf\Form\CsrfForm;
 use Uuid\Manager\UuidManagerAwareTrait;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;

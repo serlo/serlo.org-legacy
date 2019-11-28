@@ -20,23 +20,16 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Common\Form;
 
-use Common\Form\Element\CsrfToken;
-use Zend\Form\Element\Submit;
-use Zend\Form\Form;
+namespace Csrf\Validator;
 
-class CsrfForm extends Form
+use Csrf\CsrfTokenContainer;
+use Zend\Validator\AbstractValidator;
+
+class CsrfTokenValidator extends AbstractValidator
 {
-    public function __construct($name)
+    public function isValid($value)
     {
-        parent::__construct($name);
-        $this->setAttribute('method', 'post');
-
-        $this->add(new CsrfToken());
-
-        $this->add(
-            (new Submit('submit'))->setValue('')->setAttribute('class', 'btn btn-success pull-right')
-        );
+        return $value === CsrfTokenContainer::getToken();
     }
 }

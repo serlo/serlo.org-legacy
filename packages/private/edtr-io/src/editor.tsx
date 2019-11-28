@@ -36,11 +36,14 @@ import { videoPlugin } from '@edtr-io/plugin-video'
 
 import * as React from 'react'
 
+import { CsrfContext } from './csrf-context'
 import { deserialize, isError } from './deserialize'
 import { createPlugins } from './plugins'
-import { imagePlugin } from './plugins/image'
+import { createImagePlugin } from './plugins/image'
 
 export interface EditorProps {
+  getCsrfToken(): string
+
   children?: React.ReactNode
   onSave: (data: unknown) => Promise<void>
   onError?: (error: Error, context: Record<string, string>) => void
@@ -54,7 +57,7 @@ export const SaveContext = React.createContext<EditorProps['onSave']>(() => {
 
 export function Editor(props: EditorProps) {
   let result = deserialize(props)
-  const plugins = createPlugins(getRegistry())
+  const plugins = createPlugins(props.getCsrfToken, getRegistry())
 
   if (isError(result)) {
     const url = window.location.pathname.replace(
@@ -93,31 +96,34 @@ export function Editor(props: EditorProps) {
     }
   }
   return (
-    <SaveContext.Provider value={props.onSave}>
-      <div className="alert alert-warning" role="alert">
-        <strong>Willkommen im neuen Serlo-Editor :)</strong>
-        <br />
-        Bitte beachte, dass sich der neue Editor noch in einer Testphase
-        befindet. Du kannst dein Feedback in{' '}
-        <a
-          href="https://docs.google.com/document/d/1Lb_hB0zgwzIHgmDPY75XXJKVu5sa33UUwvNTQdRGALk/edit"
-          target="_blank"
+    <CsrfContext.Provider value={props.getCsrfToken}>
+      <SaveContext.Provider value={props.onSave}>
+        <div className="alert alert-warning" role="alert">
+          <strong>Willkommen im neuen Serlo-Editor :)</strong>
+          <br />
+          Bitte beachte, dass sich der neue Editor noch in einer Testphase
+          befindet. Du kannst dein Feedback in{' '}
+          <a
+            href="https://docs.google.com/document/d/1Lb_hB0zgwzIHgmDPY75XXJKVu5sa33UUwvNTQdRGALk/edit"
+            target="_blank"
+          >
+            diesem Google Doc
+          </a>{' '}
+          hinterlassen (oder alternativ via Mail an jonas@serlo.org). Dort
+          findest du auch eine Liste von bekannten Problemen und ggf.
+          Workarounds.
+        </div>
+        <Core
+          onError={props.onError}
+          plugins={plugins}
+          defaultPlugin="text"
+          initialState={result.initialState}
+          editable
         >
-          diesem Google Doc
-        </a>{' '}
-        hinterlassen (oder alternativ via Mail an jonas@serlo.org). Dort findest
-        du auch eine Liste von bekannten Problemen und ggf. Workarounds.
-      </div>
-      <Core
-        onError={props.onError}
-        plugins={plugins}
-        defaultPlugin="text"
-        initialState={result.initialState}
-        editable
-      >
-        {props.children}
-      </Core>
-    </SaveContext.Provider>
+          {props.children}
+        </Core>
+      </SaveContext.Provider>
+    </CsrfContext.Provider>
   )
 
   function getRegistry(): PluginRegistry {
@@ -148,7 +154,7 @@ export function Editor(props: EditorProps) {
         name: 'anchor'
       },
       {
-        ...imagePlugin,
+        ...createImagePlugin(() => ''),
         name: 'image'
       },
       {
