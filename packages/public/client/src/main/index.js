@@ -42,6 +42,7 @@ import Content from '../modules/content'
 import '../modules/modals'
 import '../modules/spoiler'
 import SystemNotification from '../modules/system_notification'
+import { tenant } from '../modules/tenant'
 import t from '../modules/translator'
 import '../thirdparty/jquery.nestable'
 import '../thirdparty/deployggb'
@@ -75,7 +76,6 @@ import './modules/toggle'
 import initTracking from './modules/tracking'
 import './modules/trigger'
 import './styles/main.scss'
-import { initDonationBanner } from './modules/donation-banner'
 
 window.$ = $
 window.jQuery = $
@@ -159,11 +159,11 @@ const init = $context => {
   setLanguage()
   initChangeDimensionEvents()
   initContentApi()
-  initConsentBanner()
+  initConsentBanner().then(consent => {
+    initDonationBanner(consent)
+  })
   initDiff()
-  if (window.location.host.startsWith('de.')) {
-    initDonationBanner()
-  }
+
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
     SystemNotification.error()
@@ -271,3 +271,29 @@ const init = $context => {
 
 init($('body'))
 Supporter.check()
+
+function initDonationBanner(consent) {
+  // Disable donation banner if privacy policy hasn't been consented
+  if (!consent) return
+  if (tenant !== 'de') return
+
+  const disabledPages = [
+    '/auth/login',
+    '/user/register',
+    '/community',
+    '/spenden',
+    '/eltern',
+    '/lehrkraefte'
+  ]
+  if (
+    disabledPages.indexOf(window.location.pathname) > -1 ||
+    window.location.pathname.startsWith('/page/revision/create/') ||
+    window.location.pathname.startsWith('/page/revision/create-old/')
+  ) {
+    return
+  }
+
+  import('./modules/donation-banner').then(({ initDonationBanner }) => {
+    initDonationBanner()
+  })
+}
