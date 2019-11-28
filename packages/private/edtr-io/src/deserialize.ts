@@ -542,9 +542,19 @@ export function deserialize({
       changes: '',
       // FIXME: solutions don't have a title
       title: '',
-      content: serializeEditorState(
-        toEdtr(deserializeEditorState(state.content))
-      )
+      content: serializeEditorState({
+        plugin: 'solutionStep',
+        state: {
+          introduction: { plugin: 'text' },
+          solutionSteps: [
+            {
+              type: 'step',
+              isHalf: false,
+              content: toEdtr(deserializeEditorState(state.content))
+            }
+          ]
+        }
+      })
     }
   }
 
