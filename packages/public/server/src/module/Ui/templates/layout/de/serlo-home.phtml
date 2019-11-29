@@ -304,6 +304,10 @@ echo $this->doctype();
         </section>
     </div>
     <div id="footer-push"></div>
+
+    <?php if ($this->featureFlags()->isEnabled('redesign')): ?>
+        <?php echo $this->renderComponent('comments', ['exampleProp' => 'this is from server']) ?>
+    <?php endif; ?>
 </div>
 
 <?php echo $this->partial('layout/partials/footer'); ?>

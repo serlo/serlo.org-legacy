@@ -4,6 +4,7 @@ const fs = require('fs')
 const path = require('path')
 
 const footer = require('./.next/serverless/pages/__footer.js')
+const comments = require('./.next/serverless/pages/__comments.js')
 
 // maps file extension to MIME types
 const map = {
@@ -22,6 +23,9 @@ const server = new http.Server((req, res) => {
   // render page
   if (pathname === '/__footer') {
     return footer.render(req, res)
+  }
+  if (pathname === '/__comments') {
+    return comments.render(req, res)
   }
 
   // based on the URL path, extract the file extention. e.g. .js, .doc, ...

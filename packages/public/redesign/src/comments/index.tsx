@@ -26,21 +26,19 @@ export function Comments({ data, onSendComment }: CommentsProps) {
         </Heading>
         {/* todo: calculate amount of comments (and children) or get from server */}
 
-        <LazyLoad offset={200} once placeholder={<div>Loading…</div>}>
-          <div>
-            {data
-              ? data.map(comment => {
-                  return (
-                    <Comment
-                      key={comment.id}
-                      {...comment}
-                      onSendComment={onSendComment}
-                    />
-                  )
-                })
-              : null}
-          </div>
-        </LazyLoad>
+        <div>
+          {data
+            ? data.map(comment => {
+                return (
+                  <Comment
+                    key={comment.id}
+                    {...comment}
+                    onSendComment={onSendComment}
+                  />
+                )
+              })
+            : null}
+        </div>
       </CommentBox>
     </React.Fragment>
   )
