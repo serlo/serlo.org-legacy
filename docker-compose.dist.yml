@@ -66,12 +66,8 @@ services:
     build:
       context: .
       dockerfile: packages/public/redesign/Dockerfile
-      args:
-        - ASSET_PREFIX=http://localhost:3000
     ports:
       - '3000:3000'
-    environment:
-      - ASSET_PREFIX=http://localhost:3000
 
   server-composer:
     image: composer:1.8
