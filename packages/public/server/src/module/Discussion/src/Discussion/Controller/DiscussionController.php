@@ -23,6 +23,7 @@
 
 namespace Discussion\Controller;
 
+use DateTime;
 use Discussion\Exception\CommentNotFoundException;
 use Discussion\Form\CommentForm;
 use Discussion\Form\DiscussionForm;
@@ -87,41 +88,36 @@ class DiscussionController extends AbstractController
 
     public function commentAction()
     {
-        $discussion = $this->getDiscussion($this->params('discussion'));
-        $url = $this->url()->fromRoute('uuid/get', ['uuid' => $this->params('discussion')]);
-        $ref = $this->params()->fromQuery('redirect');
-
-        if (!$discussion) {
-            return false;
-        }
-
-        if ($ref == null) {
-            $ref = $url;
-        }
-
-        $form = $this->commentForm;
-        $this->assertGranted('discussion.comment.create', $discussion);
-
         if ($this->getRequest()->isPost()) {
+            $form = $this->commentForm;
             $data = [
-                'instance' => $this->getInstanceManager()->getInstanceFromRequest(),
                 'parent' => $this->params('discussion'),
-                'author' => $this->getUserManager()->getUserFromAuthenticator(),
             ];
             $form->setData(array_merge($this->params()->fromPost(), $data));
             if ($form->isValid()) {
-                $this->getDiscussionManager()->commentDiscussion($form);
-                $this->getDiscussionManager()->flush();
-                $this->flashMessenger()->addSuccessMessage('Your comment has been saved.');
-                return $this->redirect()->toUrl($ref);
-            }
-        } else {
-            $this->referer()->store('discussion-comment');
-        }
+                $message = [
+                    'type' => 'create-comment',
+                    'payload' => [
+                        'author' => $this->getAuthorFromRequest(),
+                        'thread_id' => $data['parent'],
+                        'content' => $form->getData()['content'],
+                        'created_at' => (new DateTime('NOW'))->format(DateTime::ISO8601),
+                        'source' => [
+                            'provider_id' => 'serlo.org',
+                            'type' => 'comments/create',
+                        ],
+                    ],
+                ];
+                $success = $this->producer->send(
+                    'comments-queue',
+                    $message
+                );
 
-        $view = new ViewModel(['form' => $form, 'discussion' => $discussion, 'ref' => $ref]);
-        $view->setTemplate('discussion/discussion/comment');
-        return $view;
+                return new JsonModel(['success' => $success, 'comment' => $message['payload']]);
+            }
+            return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
+        }
+        return new JsonModel(['success' => false]);
     }
 
     public function showAction()
@@ -143,69 +139,40 @@ class DiscussionController extends AbstractController
 
     public function startAction()
     {
-        // $form     = $this->getForm('discussion', $this->params('on'));
-        // $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $author = $this->getUserManager()->getUserFromAuthenticator();
-        // $url      = $this->url()->fromRoute('uuid/get', ['uuid' => $this->params('on')]);
-        // $ref      = $this->params()->fromQuery('redirect');
-
-        // if ($ref == null) {
-        //     $ref = $url;
-        // }
-
-        // $view     = new ViewModel(['form' => $form, 'ref' => $ref]);
-        // $this->assertGranted('discussion.create', $instance);
-
+        $form = $this->getForm('discussion', $this->params('on'));
         if ($this->getRequest()->isPost()) {
-            // $data = [
-            //     'instance' => $instance,
-            //     'author'   => $author,
-            //     'object'   => $this->params('on'),
-            // ];
-            // $form->setData(array_merge($this->params()->fromPost(), $data));
-            // if ($form->isValid()) {
-            //     $this->getDiscussionManager()->startDiscussion($form);
-            //     $this->getDiscussionManager()->flush();
-            //     if (!$this->getRequest()->isXmlHttpRequest()) {
-            //         $this->flashMessenger()->addSuccessMessage('Your discussion has been started.');
-            //         return $this->redirect()->toUrl($ref);
-            //     }
-            //     $view->setTerminal(true);
-            //     return $view;
-            // }
-            // return $view
-            $message = [
-                'type' => 'create-thread',
-                'payload' => [
-                    'author' => [
-                        'provider_id' => 'serlo.org',
-                        // TODO: handle anonymous user
-                        // 'user_id' => $author->getId()
-                        'user_id' => 'foobar',
-                    ],
-                    'entity' => [
-                        'provider_id' => 'serlo.org',
-                        'id' => $this->params('on'),
-                    ],
-                    'title' => 'foobar',
-                    'content' => 'foobar',
-                    'created_at' => (new DateTime('NOW'))->format(DateTime::ISO8601),
-                    'source' => [
-                        'provider_id' => 'serlo.org',
-                        'type' => 'discussion/create',
-                    ],
-                ],
+            $data = [
+                'object' => $this->params('on'),
             ];
-//            $this->producer->send([
-//                [
-//                    'topic' => 'comments-queue',
-//                    'value' => json_encode($message),
-//                    'key' => '',
-//                ],
-//            ]);
+            $form->setData(array_merge($this->params()->fromPost(), $data));
+            if ($form->isValid()) {
+                $message = [
+                    'type' => 'create-thread',
+                    'payload' => [
+                        'author' => $this->getAuthorFromRequest(),
+                        'entity' => [
+                            'provider_id' => 'serlo.org',
+                            'id' => $this->params('on'),
+                        ],
+                        'title' => '',
+                        'content' => $form->getData()['content'],
+                        'created_at' => (new DateTime('NOW'))->format(DateTime::ISO8601),
+                        'source' => [
+                            'provider_id' => 'serlo.org',
+                            'type' => 'discussion/create',
+                        ],
+                    ],
+                ];
+                $success = $this->producer->send(
+                    'comments-queue',
+                    $message
+                );
 
-            return new JsonModel($message);
+                return new JsonModel(['success' => $success, 'thread' => $message['payload']]);
+            }
+            return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
         }
+        return new JsonModel(['success' => false]);
     }
 
     public
@@ -272,5 +239,20 @@ class DiscussionController extends AbstractController
             default:
                 throw new RuntimeException();
         }
+    }
+
+    protected function getAuthorFromRequest()
+    {
+        $user = $this->getUserManager()->getUserFromAuthenticator();
+        if ($user) {
+            return [
+                'provider_id' => 'serlo.org',
+                'user_id' => $user->getId(),
+            ];
+        }
+        return [
+            'provider_id' => 'serlo.org-session',
+            'user_id' => session_id(),
+        ];
     }
 }

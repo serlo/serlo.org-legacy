@@ -122,7 +122,7 @@
                         </article>
                     </li>
                 {% endfor %}
-                {% if not discussion.getArchived() and isGranted('discussion.comment.create', discussion) %}
+                {% if not discussion.getArchived() %}
                     <li class="list-group-item">
                         <p>
                             <strong>{% trans %} Answer discussion: {% endtrans %}</strong>

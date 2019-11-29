@@ -28,19 +28,17 @@
     </div>
     <div class="panel-body">
         <ul class="list-group discussions">
-            {% if isGranted('discussion.create') %}
-                {% set form = discussion().getForm('discussion', object, forum) %}
-                <li class="list-group-item">
-                    <div class="discussion-head">
-                        <strong>
-                            {% trans %} Start a new discussion {% endtrans %}
-                        </strong>
-                    </div>
-                    <div class="discussion-text">
-                        {{ form().render(form, null) }}
-                    </div>
-                </li>
-            {% endif %}
+            {% set form = discussion().getForm('discussion', object, forum) %}
+            <li class="list-group-item">
+                <div class="discussion-head">
+                    <strong>
+                        {% trans %} Start a new discussion {% endtrans %}
+                    </strong>
+                </div>
+                <div class="discussion-text">
+                    {{ form().render(form, null) }}
+                </div>
+            </li>
             {% for discussion in discussions %}
                 <li class="list-group-item">
                     {% include 'discussion/discussion/show' with {'discussion': discussion} only %}
@@ -48,7 +46,8 @@
             {% else %}
                 <li class="list-group-item">
                     <div class="discussion-text">
-                        <span class="text-muted">{% trans %} There are no discussions on this topic yet. {% endtrans %}</span>
+                        <span
+                            class="text-muted">{% trans %} There are no discussions on this topic yet. {% endtrans %}</span>
                     </div>
                 </li>
             {% endfor %}

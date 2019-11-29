@@ -47,16 +47,6 @@ class CommentForm extends AbstractForm
         $this->add(
             [
                 'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'author',
-                'options' => [
-                    'object_manager' => $objectManager,
-                    'target_class'   => 'User\Entity\User',
-                ],
-            ]
-        );
-        $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
                 'name'    => 'parent',
                 'options' => [
                     'object_manager' => $objectManager,
@@ -64,20 +54,6 @@ class CommentForm extends AbstractForm
                 ],
             ]
         );
-        $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'instance',
-                'options' => [
-                    'object_manager' => $objectManager,
-                    'target_class'   => 'Instance\Entity\Instance',
-                ],
-            ]
-        );
-
-
-        $this->add(new OptInHiddenFieldset());
-
         $this->add(
             (new Textarea('content'))
                 ->setAttribute('placeholder', t('Your response'))
@@ -88,10 +64,7 @@ class CommentForm extends AbstractForm
             (new Submit('start'))->setValue(t('Reply'))->setAttribute('class', 'btn btn-success pull-right discussion-submit')
         );
 
-
         $inputFilter->add(['name' => 'content', 'required' => true]);
-        $inputFilter->add(['name' => 'instance', 'required' => true]);
-        $inputFilter->add(['name' => 'author', 'required' => true]);
         $inputFilter->add(['name' => 'parent', 'required' => true]);
     }
 }

@@ -25,13 +25,44 @@ namespace Kafka;
 
 class Producer
 {
+
+    /** @var string */
+    private $host;
+
     /**
      * Producer constructor.
      * @param $host string
      */
     public function __construct($host)
     {
-        var_dump($host);
-        exit();
+        $this->host = $host;
+    }
+
+    public function send(string $topic, $value)
+    {
+        $httpHeader = [
+            'Accept: application/vnd.kafka.v2+json, application/vnd.kafka+json, application/json',
+            'Content-Type: application/vnd.kafka.json.v2+json',
+        ];
+
+        $body = [
+            'records' => [
+                [
+                    'value' => $value,
+                ],
+            ],
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
+        curl_setopt($ch, CURLOPT_URL, $this->host . '/topics/' . $topic);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeader);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_ENCODING, '');
+        $response = curl_exec($ch);
+        return $response != false;
     }
 }

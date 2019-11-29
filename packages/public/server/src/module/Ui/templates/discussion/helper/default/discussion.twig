@@ -133,17 +133,10 @@
                     </section>
                     {% if not discussion.getArchived() %}
                         {% set form = discussion().getForm('comment', discussion) %}
-                        {% if not isGranted('discussion.comment.create', discussion) %}
-                            <a class="btn btn-info pull-right"
-                               href="{{ url('authentication/login', [], {'query': {'ref': form.getAttribute('action') }}) }}">
-                                <span class="fa fa-share"></span> {{ 'Reply' | trans }}
-                            </a>
-                        {% else %}
                         <div class="discussion-form"
                              id="discussion-comment-form-container-{{ discussion.getId() }}">
                             {% include 'discussion/partials/form-renderer' with {'form' : form} %}
                         </div>
-                        {% endif %}
                     {% endif %}
                     {% if discussion.getArchived() %}
                 </div>
