@@ -24,33 +24,31 @@ namespace Authentication\Controller;
 
 use Authentication\Adapter\AdapterInterface;
 use Authentication\Service\HydraService;
+use Common\Traits\AuthenticationServiceAwareTrait;
 use User\Form\Login;
 use User\Manager\UserManagerAwareTrait;
 use User\Manager\UserManagerInterface;
+use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class HydraController extends AbstractActionController
 {
+    use AuthenticationServiceAwareTrait;
     use UserManagerAwareTrait;
     /**
      * @var HydraService
      */
     protected $hydraService;
 
-    /**
-     * @var AdapterInterface
-     */
-    protected $adapter;
-
 
     public function __construct(
         HydraService $hydraService,
-        AdapterInterface $adapter,
+        AuthenticationService $authenticationService,
         UserManagerInterface $userManager
     ) {
         $this->hydraService = $hydraService;
-        $this->adapter = $adapter;
+        $this->authenticationService = $authenticationService;
         $this->userManager = $userManager;
     }
 
@@ -62,11 +60,21 @@ class HydraController extends AbstractActionController
 
             $loginResponse = $this->hydraService->getLoginRequest($challenge);
 
-            // if skip, accept without login
+            // if hydra knows the user already, accept without login
             if ($loginResponse['skip']) {
                 $acceptResponse = $this->hydraService->acceptLoginRequest($challenge, [
                     // All we need to do is to confirm that we indeed want to log in the user.
                     'subject' => $loginResponse['subject'],
+                ]);
+
+                return $this->redirect()->toUrl($acceptResponse['redirect_to']);
+            }
+
+            // if user is already logged in, accept request
+            $user = $this->getUserManager()->getUserFromAuthenticator();
+            if ($user) {
+                $acceptResponse = $this->hydraService->acceptLoginRequest($challenge, [
+                    'subject' => "" . $user->getId(),
                 ]);
 
                 return $this->redirect()->toUrl($acceptResponse['redirect_to']);
@@ -85,10 +93,14 @@ class HydraController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                $this->adapter->setIdentity($data['email']);
-                $this->adapter->setCredential($data['password']);
+                $adapter = $this->getAuthenticationService()->getAdapter();
+                $storage = $this->getAuthenticationService()->getStorage();
 
-                $result = $this->adapter->authenticate();
+                $adapter->setIdentity($data['email']);
+                $adapter->setCredential($data['password']);
+                $storage->setRememberMe($data['remember']);
+
+                $result = $this->getAuthenticationService()->authenticate();
 
                 if ($result->isValid()) {
                     $user = $this->getUserManager()->getUser($result->getIdentity()->getId());
@@ -131,16 +143,21 @@ class HydraController extends AbstractActionController
         $consentResponse = $this->hydraService->getConsentRequest($challenge);
 
         $user = $this->getUserManager()->getUser($consentResponse['subject']);
+        $requestedScope = $consentResponse['requested_scope'];
+
         $acceptResponse = $this->hydraService->acceptConsentRequest($challenge, [
             'grant_scope' => $consentResponse['requested_scope'],
             'grant_access_token_audience' => $consentResponse['requested_access_token_audience'],
             'remember' => true,
             'remember_for' => 60 * 60, // seconds
             'session' => [
-                'id_token' => [
+                'id_token' => array_merge([
                     'id' => $user->getId(),
                     'username' => $user->getUsername(),
-                ],
+                ], in_array('email', $requestedScope) ? [
+                    'email' => $user->getEmail(),
+                    'email_verified' => true, // if email were not verified, then login wouldn't work
+                ] : []),
             ],
         ]);
 

@@ -29,7 +29,7 @@ use Authorization\Service\PermissionServiceAwareTrait;
 use Authorization\Service\PermissionServiceInterface;
 use Authorization\Service\RoleServiceAwareTrait;
 use Authorization\Service\RoleServiceInterface;
-use Common\Form\CsrfForm;
+use Csrf\Form\CsrfForm;
 use Instance\Entity\InstanceAwareTrait;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Instance\Manager\InstanceManagerInterface;

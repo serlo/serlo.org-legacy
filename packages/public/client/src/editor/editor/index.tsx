@@ -27,6 +27,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 
 import { Sentry } from '../../main/modules/sentry'
+import { getCsrfToken } from '../../modules/csrf'
 
 export function initEntityEditor(
   props: Omit<EditorProps, 'onError' | 'onSave'>,
@@ -40,6 +41,7 @@ export function initEntityEditor(
       }}
       props={{
         ...props,
+        getCsrfToken: getCsrfToken,
         onError: (error, context) => {
           console.log('edtr-io error', error, context)
           Sentry.withScope(scope => {

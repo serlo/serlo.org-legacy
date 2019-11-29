@@ -1,4 +1,3 @@
-<?php
 /**
  * This file is part of Serlo.org.
  *
@@ -20,12 +19,6 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Common;
+import React from 'react'
 
-class CsrfTokenGenerator
-{
-    public static function getToken()
-    {
-        return md5(session_id());
-    }
-}
+export const CsrfContext = React.createContext<() => string>(() => '')

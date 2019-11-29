@@ -49,11 +49,27 @@ class UserHelper extends AbstractHelper
     }
 
     /**
-     * @return \User\Entity\UserInterface
+     * @return string
      */
     public function getAuthenticatedUserID()
     {
         $user = $this->userManager->getUserFromAuthenticator();
         return $user ? $user->getId() : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthenticatedInterests()
+    {
+        $user = $this->userManager->getUserFromAuthenticator();
+        if (!$user) {
+            return '';
+        }
+        $field = $user->getField('interests');
+        if (!$field) {
+            return '';
+        }
+        return $field->getValue();
     }
 }

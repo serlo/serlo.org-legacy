@@ -3,19 +3,10 @@ version: '3.4'
 services:
   mysql:
     image: mysql:5.7
-    #ports:
-    #  - '3306:3306'
     volumes:
       - ./packages/public/server/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_ROOT_PASSWORD=secret
-
-  #phpmyadmin:
-  #  image: phpmyadmin/phpmyadmin
-  #  links:
-  #    - mysql:db
-  #  ports:
-  #    - '8080:80'
 
   node:
     build:
@@ -72,7 +63,6 @@ services:
   server-composer:
     image: composer:1.8
     volumes:
-      # For macOS, add `:cached` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
       - ./packages/public/server/composer.json:/app/composer.json:cached
       - ./packages/public/server/composer.lock:/app/composer.lock:cached
       - ./packages/public/server/src/vendor:/app/src/vendor:cached
@@ -80,7 +70,6 @@ services:
   server-composer-dev-tools:
     image: composer:1.8
     volumes:
-      # For macOS, add `:cached` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
       - ./packages/public/server/dev-tools/composer.json:/app/composer.json:cached
       - ./packages/public/server/dev-tools/composer.lock:/app/composer.lock:cached
       - ./packages/public/server/dev-tools/vendor:/app/vendor:cached
@@ -93,7 +82,6 @@ services:
     ports:
       - '4567:80'
     volumes:
-      # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
       - ./packages/public/server/src/public:/usr/local/apache2/htdocs/src/public:delegated
     environment:
       - PHP_HOST=server-php
@@ -104,7 +92,6 @@ services:
       dockerfile: docker/php/Dockerfile
       target: base
     volumes:
-      # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
       - ./packages/public/server/dev-tools/vendor:/usr/local/apache2/htdocs/dev-tools/vendor:delegated
       - ./packages/public/server/package.json:/usr/local/apache2/htdocs/package.json:delegated
       - ./packages/public/server/php-cs-fixer.config.php:/usr/local/apache2/htdocs/php-cs-fixer.config.php:delegated
@@ -122,5 +109,4 @@ services:
     ports:
       - '8082:80'
     volumes:
-      # For macOS, add `:delegated` to every volume for improved performance, see also https://docs.docker.com/docker-for-mac/osxfs-caching/#semantics
       - ./packages/public/static-assets/src:/usr/share/nginx/html:delegated

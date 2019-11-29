@@ -22,7 +22,7 @@
  */
 namespace Navigation\Controller;
 
-use Common\Form\CsrfForm;
+use Csrf\Form\CsrfForm;
 use Instance\Manager\InstanceManagerInterface;
 use Navigation\Form\ContainerForm;
 use Navigation\Form\PageForm;

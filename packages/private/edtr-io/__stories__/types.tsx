@@ -240,7 +240,12 @@ function addContentTypeStories(
     stories.add(`${name} Editor`, () => {
       return (
         <Container>
-          <Editor type={type} initialState={state} onSave={mockSave} />
+          <Editor
+            getCsrfToken={() => ''}
+            type={type}
+            initialState={state}
+            onSave={mockSave}
+          />
         </Container>
       )
     })

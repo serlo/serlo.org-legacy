@@ -21,41 +21,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
+namespace Csrf;
 
-namespace Common\Validator;
+use Csrf\Factory\CsrfTokenCookieFactory;
 
-use Common\CsrfTokenGenerator;
-use Zend\Validator\Csrf;
-
-class CsrfValidator extends Csrf
-{
-    /**
-     * {@inheritDoc}
-     */
-    protected function generateHash()
-    {
-        $this->hash = CsrfTokenGenerator::getToken();
-
-        $this->setValue($this->hash);
-        $this->initCsrfToken();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function initCsrfToken()
-    {
-        $session = $this->getSession();
-        $hash = $this->getHash();
-        $session->hash = $hash;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getValidationToken($tokenId = null)
-    {
-        $session = $this->getSession();
-        return $session->hash;
-    }
-}
+return [
+    'service_manager' => [
+        'factories' => [
+            CsrfTokenCookie::class => CsrfTokenCookieFactory::class,
+        ],
+    ],
+];

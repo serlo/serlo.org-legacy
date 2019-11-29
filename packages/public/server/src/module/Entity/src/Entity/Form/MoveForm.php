@@ -22,7 +22,7 @@
  */
 namespace Entity\Form;
 
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
 

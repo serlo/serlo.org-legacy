@@ -22,7 +22,7 @@
  */
 namespace Taxonomy\Controller;
 
-use Common\Form\CsrfForm;
+use Csrf\Form\CsrfForm;
 use Entity\Manager\EntityManagerAwareTrait;
 use Entity\Manager\EntityManagerInterface;
 use Versioning\Filter\HasHeadCollectionFilter;

@@ -21,36 +21,55 @@
  */
 import $ from 'jquery'
 
-export function initConsentBanner() {
-  const { hostname } = window.location
+import { tenant } from '../../modules/tenant'
+import { getGa } from './analytics'
 
-  // Only use on de.serlo.org for now
-  if (/^de\.serlo/.test(hostname)) {
-    const localStorageKey = 'datenschutz-consent'
+export async function initConsentBanner(): Promise<boolean> {
+  if (tenant !== 'de') return true
 
-    $.get('/datenschutz/json').then(([currentRevision]: string[]) => {
-      const consent = localStorage.getItem(localStorageKey)
+  const localStorageKey = 'consent'
+  const localStorageValue = localStorage.getItem(localStorageKey)
+  const value: ConsentLogalStorageValue = localStorageValue
+    ? JSON.parse(localStorageValue)
+    : { showEvent: false, consentEvent: false }
 
-      if (consent === currentRevision) {
-        return
-      }
+  const [currentRevision]: string[] = await $.get('/datenschutz/json')
+  if (value.revision === currentRevision) return true
 
-      const $div = $(`
+  if (!value.showEvent) {
+    getGa()('send', 'event', 'consent', 'show', 'Banner shown')
+    persist({ ...value, showEvent: true })
+  }
+
+  const $div = $(`
         <div id="consent-banner">
             Mit der Nutzung dieser Webseite erklärst du dich mit unserer
             <a href="/datenschutz">Datenschutzerklärung</a> und
             <a href="/21654">Nutzungsbedingungen</a> einverstanden.
         </div>
        `)
-      const $button = $('<button class="btn btn-success">Verstanden</button>')
-      $div.append($button)
+  const $button = $('<button class="btn btn-success">Verstanden</button>')
+  $div.append($button)
 
-      $button.on('click', () => {
-        localStorage.setItem(localStorageKey, currentRevision)
-        $div.remove()
-      })
+  $button.on('click', () => {
+    if (!value.consentEvent) {
+      getGa()('send', 'event', 'consent', 'consent', 'Banner consented')
+    }
+    persist({ revision: currentRevision, showEvent: true, consentEvent: true })
+    $div.remove()
+  })
 
-      $('body').append($div)
-    })
+  $('body').append($div)
+
+  return false
+
+  function persist(value: ConsentLogalStorageValue) {
+    localStorage.setItem(localStorageKey, JSON.stringify(value))
   }
+}
+
+interface ConsentLogalStorageValue {
+  revision?: string
+  showEvent: boolean
+  consentEvent: boolean
 }
