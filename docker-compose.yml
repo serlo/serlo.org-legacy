@@ -143,3 +143,16 @@ services:
       KAFKA_REST_DEBUG: 'true'
     depends_on:
       - zookeeper
+
+  commenting-system:
+    image: pactfoundation/pact-stub-server
+    ports:
+      - '8080:8080'
+    entrypoint:
+      - /app/pact-stub-server
+      - -p
+      - '8080'
+      - -d
+      - pacts
+    volumes:
+      - ./pacts/:/app/pacts

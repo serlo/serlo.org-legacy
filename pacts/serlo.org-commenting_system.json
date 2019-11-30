@@ -1,0 +1,65 @@
+{
+  "consumer": {
+    "name": "serlo.org"
+  },
+  "provider": {
+    "name": "Commenting System"
+  },
+  "interactions": [
+    {
+      "description": "get all threads for entity 123",
+      "providerState": "no threads",
+      "request": {
+        "method": "GET",
+        "path": "/threads/serlo.org/123/"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+
+        ]
+      },
+      "metadata": null
+    },
+    {
+      "description": "get all threads for entity 234",
+      "providerState": "one thread for entity 234",
+      "request": {
+        "method": "GET",
+        "path": "/threads/serlo.org/234/"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "id": "barfoo",
+            "title": "Antwort auf Frage XY",
+            "comments": [
+              {
+                "id": "foobar",
+                "content": "Ich habe folgende Frage",
+                "author": {
+                  "user_id": "456",
+                  "provider_id": "serlo.org"
+                },
+                "created_at": "2019-11-11 11:11:11+02:00"
+              }
+            ]
+          }
+        ]
+      },
+      "metadata": null
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

@@ -7,8 +7,8 @@
     "deploy:image": "ts-node scripts/deploy",
     "sentry-release": "ts-node scripts/sentry-release"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@pact-foundation/pact": "^9.5.0",
     "@serlo/docker": "^0.0.0",
     "@types/expect-puppeteer": "^3.0.0",
     "@types/jest-environment-puppeteer": "^4.0.0",
