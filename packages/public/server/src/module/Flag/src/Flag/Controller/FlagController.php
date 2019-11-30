@@ -22,7 +22,7 @@
  */
 namespace Flag\Controller;
 
-use Common\Form\CsrfForm;
+use Csrf\Form\CsrfForm;
 use Flag\Form\FlagForm;
 use Flag\Manager\FlagManagerAwareTrait;
 use Flag\Manager\FlagManagerInterface;

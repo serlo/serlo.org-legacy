@@ -25,7 +25,7 @@ namespace Ads\Controller;
 use Ads\Form\AdForm;
 use Ads\Form\AdPageForm;
 use Attachment\Exception\NoFileSent;
-use Common\Form\CsrfForm;
+use Csrf\Form\CsrfForm;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Page\Entity\PageRevisionInterface;
 use Zend\Mvc\Controller\AbstractActionController;

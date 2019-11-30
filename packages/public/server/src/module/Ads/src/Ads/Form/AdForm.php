@@ -24,7 +24,7 @@ namespace Ads\Form;
 
 use Attachment\Form\AttachmentFieldset;
 use Attachment\Form\AttachmentFieldsetProvider;
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use Zend\Form\Element\Checkbox;
 use Zend\Form\Element\Select;
 use Zend\Form\Element\Submit;

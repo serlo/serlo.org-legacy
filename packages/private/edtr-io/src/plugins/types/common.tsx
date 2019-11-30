@@ -57,6 +57,7 @@ import BSControlLabel from 'react-bootstrap/lib/ControlLabel'
 import BSFormControl from 'react-bootstrap/lib/FormControl'
 import { createPortal } from 'react-dom'
 
+import { CsrfContext } from '../../csrf-context'
 import { SaveContext, storeState } from '../../editor'
 import { coursePageTypeState } from './course-page'
 
@@ -104,6 +105,7 @@ export function Controls(props: OwnProps) {
   const undoable = useScopedSelector(getUndoStack).length > 0
   const redoable = useScopedSelector(getRedoStack).length > 0
   const pendingChanges = useScopedSelector(hasPendingChanges)
+  const getCsrfToken = React.useContext(CsrfContext)
 
   const [visible, setVisibility] = React.useState(false)
   const [pending, setPending] = React.useState(false)
@@ -238,8 +240,7 @@ export function Controls(props: OwnProps) {
     setPending(true)
     save({
       ...serialized,
-      // @ts-ignore TODO: maybe pass this via props because should be typed in client
-      csrf: window.csrf,
+      csrf: getCsrfToken(),
       controls: {
         ...(props.subscriptions
           ? {

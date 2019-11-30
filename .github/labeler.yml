@@ -1,0 +1,42 @@
+workspace:
+  - ./*
+
+client:
+  - packages/public/client/*
+  - packages/public/client/**/*
+
+cloudflare-workers:
+  - packages/public/cloudflare-workers/*
+  - packages/public/cloudflare-workers/**/*
+
+donation-campaign:
+  - packages/public/donation-campaign/*
+  - packages/public/donation-campaign/**/*
+
+editor-renderer:
+  - packages/public/editor-renderer/*
+  - packages/public/editor-renderer/**/*
+
+legacy-editor-renderer:
+  - packages/public/legacy-editor-renderer/*
+  - packages/public/legacy-editor-renderer/**/*
+
+notifications-job:
+  - packages/public/notifications-job/*
+  - packages/public/notifications-job/**/*
+
+server:
+  - packages/public/server/*
+  - packages/public/server/**/*
+
+static-assets:
+  - packages/public/static-assets/*
+  - packages/public/static-assets/**/*
+
+private:
+  - packages/private/**/*
+
+ci:
+  - .circleci/*
+  - .github/*
+  - .github/**/*

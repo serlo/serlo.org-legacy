@@ -22,7 +22,7 @@
  */
 namespace Taxonomy\Form;
 
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use Taxonomy\Hydrator\TaxonomyTermHydrator;
 use Term\Form\TermFieldset;
 use Zend\Form\Element\Submit;

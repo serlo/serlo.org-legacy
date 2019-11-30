@@ -25,6 +25,7 @@ namespace Authentication\Factory;
 use Authentication\Adapter\AdapterInterface;
 use Authentication\Adapter\UserAuthAdapter;
 use Authentication\Controller\HydraController;
+use Authentication\Service\AuthenticationService;
 use Authentication\Service\HydraService;
 use User\Factory\UserManagerFactoryTrait;
 use Zend\ServiceManager\AbstractPluginManager;
@@ -33,6 +34,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class HydraControllerFactory implements FactoryInterface
 {
+    use AuthenticationServiceFactoryTrait;
     use UserManagerFactoryTrait;
     /**
      * Create service
@@ -47,9 +49,8 @@ class HydraControllerFactory implements FactoryInterface
         $userManager           = $this->getUserManager($serviceManager);
         /* @var $hydraService HydraService */
         $hydraService          = $serviceManager->get(HydraService::class);
-        /* @var $adapter AdapterInterface */
-        $adapter               = $serviceManager->get(UserAuthAdapter::class);
-        $controller            = new HydraController($hydraService, $adapter, $userManager);
+        $authenticationService = $this->getAuthenticationService($serviceManager);
+        $controller            = new HydraController($hydraService, $authenticationService, $userManager);
 
         return $controller;
     }

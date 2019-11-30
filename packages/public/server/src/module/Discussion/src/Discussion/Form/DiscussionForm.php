@@ -22,7 +22,7 @@
  */
 namespace Discussion\Form;
 
-use Common\Form\Element\CsrfToken;
+use Csrf\Form\Element\CsrfToken;
 use Common\Hydrator\HydratorPluginAwareDoctrineObject;
 use Doctrine\Common\Persistence\ObjectManager;
 use Notification\Form\OptInHiddenFieldset;

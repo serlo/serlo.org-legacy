@@ -27,6 +27,3 @@
 <?php echo $this->headTitle()->setSeparator(' – '); ?>
 <?php echo $this->headMeta(); ?>
 <?php echo $this->headLink(['rel' => 'icon', 'href' => '/favicon.ico', 'type' => 'image/x-icon']); ?>
-<script type="text/javascript">
-    window.csrf = '<?php echo \Common\CsrfTokenGenerator::getToken(); ?>'
-</script>

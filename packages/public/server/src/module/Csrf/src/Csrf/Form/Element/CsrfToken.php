@@ -21,28 +21,40 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Common\Form\Element;
+namespace Csrf\Form\Element;
 
-use Zend\Form\Element\Csrf;
-use Common\Validator\CsrfValidator;
+use Csrf\CsrfTokenContainer;
+use Csrf\Validator\CsrfTokenValidator;
+use Zend\Form\Element;
+use Zend\InputFilter\InputProviderInterface;
 
-class CsrfToken extends Csrf
+class CsrfToken extends Element implements InputProviderInterface
 {
+    protected $attributes = array(
+        'type' => 'hidden',
+    );
+
     public function __construct()
     {
         parent::__construct('csrf');
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getCsrfValidator()
+    public function getValue()
     {
-        if (null === $this->csrfValidator) {
-            $csrfOptions = $this->getCsrfValidatorOptions();
-            $csrfOptions = array_merge($csrfOptions, array('name' => $this->getName()));
-            $this->setCsrfValidator(new CsrfValidator($csrfOptions));
-        }
-        return $this->csrfValidator;
+        return CsrfTokenContainer::getToken();
+    }
+
+    public function getInputSpecification()
+    {
+        return array(
+            'name' => $this->getName(),
+            'required' => true,
+            'filters' => array(
+                array('name' => 'Zend\Filter\StringTrim'),
+            ),
+            'validators' => array(
+                new CsrfTokenValidator(),
+            ),
+        );
     }
 }
