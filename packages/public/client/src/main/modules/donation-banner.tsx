@@ -24,6 +24,8 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
+import { getGa } from './analytics'
+
 const breakPoint = 1000
 const smallScreens = `@media screen and (max-width: ${breakPoint}px)`
 const bigScreens = `@media screen and (min-width: ${breakPoint + 1}px)`
@@ -267,7 +269,15 @@ function DonationProgress({ data }: DonationBannerProps) {
       <AccountWrapper>
         Spendenkonto Serlo Education e.V.:{' '}
         <strong>DE98 4306 0967 8204 5906 00</strong>{' '}
-        <a href="https://www.paypal.me/serlo">via PayPal spenden</a>
+        <a
+          href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9NHZ43WLF236&source=url"
+          target="_blank"
+          onClick={() => {
+            localStorage.setItem('donation-popup-donated', '1')
+          }}
+        >
+          via PayPal spenden
+        </a>
       </AccountWrapper>
     </>
   )
@@ -291,6 +301,33 @@ function DonationBanner({ data }: DonationBannerProps) {
     window.document.body.offsetWidth > breakPoint
   )
 
+  React.useEffect(() => {
+    window.addEventListener('message', listener, false)
+
+    function listener(event: MessageEvent) {
+      if (event && event.data && event.data.type === 'stepChange') {
+        getGa()(
+          'send',
+          'event',
+          `donation-${data.id}`,
+          `step-${event.data.value.step}`,
+          'Step changed'
+        )
+      }
+
+      if (event && event.data && event.data.type === 'donationFinished') {
+        getGa()(
+          'send',
+          'event',
+          `donation-${data.id}`,
+          'finished',
+          'Donation finished'
+        )
+        localStorage.setItem('donation-popup-donated', '1')
+        window.removeEventListener('message', listener, false)
+      }
+    }
+  }, [])
   React.useEffect(() => {
     const localStorageKey = `donation-popup/${data.id}`
     const localStorageKeyValue = localStorage.getItem(localStorageKey)
@@ -330,7 +367,7 @@ function DonationBanner({ data }: DonationBannerProps) {
           <Logo>V</Logo>
           <Close
             onClick={() => {
-              close()
+              setVisible(false)
             }}
           >
             X
@@ -367,15 +404,11 @@ function DonationBanner({ data }: DonationBannerProps) {
       </Container>
       <BlurBackground
         onClick={() => {
-          close()
+          setVisible(false)
         }}
       />
     </>
   )
-
-  function close() {
-    setVisible(false)
-  }
 }
 
 export async function initDonationBanner() {
