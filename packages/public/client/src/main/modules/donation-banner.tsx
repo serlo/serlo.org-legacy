@@ -239,33 +239,33 @@ function DonationProgress({ data }: DonationBannerProps) {
   const percentage = (data.progress.value / data.progress.max) * 100
   return (
     <>
-      <ProgressContainer mobile>
-        <BarWrapper percentage={percentage} title={progress}>
-          <Bar center>{percentage < 25 ? null : progress}</Bar>
-          <Triangle />
-        </BarWrapper>
-        <Remaining title={remainingFull} center>
-          {percentage > 80 ? null : remaining}
-        </Remaining>
-      </ProgressContainer>
-      <ProgressContainer desktop>
-        <BarWrapper percentage={percentage} title={progress}>
-          <Bar center={percentage > 60 && percentage <= 85}>
-            {percentage <= 20
-              ? null
-              : percentage > 85
-              ? remainingFull
-              : progress}
-          </Bar>
-          <Triangle />
-        </BarWrapper>
-        <Remaining title={remainingFull} center={percentage > 60}>
-          {percentage > 85 ? null : percentage > 60 ? remaining : remainingFull}
-        </Remaining>
-      </ProgressContainer>
-      <GoalWrapper>
-        Spendenziel {data.progress.max.toLocaleString('de-DE')} €
-      </GoalWrapper>
+      {/*<ProgressContainer mobile>*/}
+      {/*  <BarWrapper percentage={percentage} title={progress}>*/}
+      {/*    <Bar center>{percentage < 25 ? null : progress}</Bar>*/}
+      {/*    <Triangle />*/}
+      {/*  </BarWrapper>*/}
+      {/*  <Remaining title={remainingFull} center>*/}
+      {/*    {percentage > 80 ? null : remaining}*/}
+      {/*  </Remaining>*/}
+      {/*</ProgressContainer>*/}
+      {/*<ProgressContainer desktop>*/}
+      {/*  <BarWrapper percentage={percentage} title={progress}>*/}
+      {/*    <Bar center={percentage > 60 && percentage <= 85}>*/}
+      {/*      {percentage <= 20*/}
+      {/*        ? null*/}
+      {/*        : percentage > 85*/}
+      {/*        ? remainingFull*/}
+      {/*        : progress}*/}
+      {/*    </Bar>*/}
+      {/*    <Triangle />*/}
+      {/*  </BarWrapper>*/}
+      {/*  <Remaining title={remainingFull} center={percentage > 60}>*/}
+      {/*    {percentage > 85 ? null : percentage > 60 ? remaining : remainingFull}*/}
+      {/*  </Remaining>*/}
+      {/*</ProgressContainer>*/}
+      {/*<GoalWrapper>*/}
+      {/*  Spendenziel {data.progress.max.toLocaleString('de-DE')} €*/}
+      {/*</GoalWrapper>*/}
       <AccountWrapper>
         Spendenkonto Serlo Education e.V.:{' '}
         <strong>DE98 4306 0967 8204 5906 00</strong>{' '}
@@ -299,6 +299,11 @@ function DonationBanner({ data }: DonationBannerProps) {
   const [visible, setVisible] = React.useState(true)
   const [expanded, setExpanded] = React.useState(
     window.document.body.offsetWidth > breakPoint
+  )
+  const localStorageKey = `donation-popup/${data.id}`
+  const localStorageKeyValue = localStorage.getItem(localStorageKey)
+  const pagesUntilNextPopup = React.useRef(
+    localStorageKeyValue ? parseInt(localStorageKeyValue, 10) : 0
   )
 
   React.useEffect(() => {
@@ -338,13 +343,7 @@ function DonationBanner({ data }: DonationBannerProps) {
     localStorage.setItem(localStorageKey, `${newValue}`)
   }, [data.frequency])
 
-  const localStorageKey = `donation-popup/${data.id}`
-  const localStorageKeyValue = localStorage.getItem(localStorageKey)
-  const pagesUntilNextPopup = localStorageKeyValue
-    ? parseInt(localStorageKeyValue, 10)
-    : 0
-
-  if (pagesUntilNextPopup !== 0) return null
+  if (pagesUntilNextPopup.current !== 0) return null
   if (!visible) return null
 
   const interests = data.interests || 'none'
