@@ -29,7 +29,7 @@ describe('videos', () => {
   let browser: Browser
   let page: Page
 
-  const pageHeaderSelector = ".page-header"
+  const pageHeaderSelector = '.page-header'
   const groupedExerciseUrl = 'http://de.serlo.localhost:4567/12727'
 
   beforeAll(async () => {
@@ -49,13 +49,13 @@ describe('videos', () => {
   })
 
   test('grouped exercise has page header', async () => {
-      await page.goto(groupedExerciseUrl)
-      expect(await page.$$(pageHeaderSelector)).toHaveLength(1)
+    await page.goto(groupedExerciseUrl)
+    expect(await page.$$(pageHeaderSelector)).toHaveLength(1)
   })
 
   test.each(['contentOnly', 'hideBanner', 'fullWidth'])(
     'grouped exercise has no page header when %p is set (content-api)',
-    async (contentApiParam) => {
+    async contentApiParam => {
       await page.goto(groupedExerciseUrl + '?' + contentApiParam)
       expect(await page.$(pageHeaderSelector)).toBeNull()
     }
