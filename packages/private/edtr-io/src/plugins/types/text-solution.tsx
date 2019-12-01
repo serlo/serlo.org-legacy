@@ -37,9 +37,7 @@ export const textSolutionTypeState = object({
   content: editorContent()
 })
 
-export const textSolutionTypePlugin: StatefulPlugin<
-  typeof textSolutionTypeState
-> = {
+export const textSolutionTypePlugin: StatefulPlugin<typeof textSolutionTypeState> = {
   Component: TextSolutionTypeEditor,
   state: textSolutionTypeState
 }

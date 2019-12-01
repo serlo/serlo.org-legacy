@@ -30,6 +30,7 @@ export interface ButtonProps extends grommetButtonProps {
   }
   dropContent?: JSX.Element
   dropTarget?: object
+  onClick?: (event: React.MouseEvent) => void
   onOpen?: () => void
   onClose?: () => void
 }

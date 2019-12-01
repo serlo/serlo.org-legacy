@@ -948,8 +948,8 @@ window.GGBApplet = function() {
     // Reload the script when not loaded yet, or  currently the wrong version is loaded
     if (
       (!isRenderGGBElementEnabled && !scriptLoadStarted) ||
-      (ggbHTML5LoadedCodebaseVersion !== html5CodebaseVersion ||
-        (ggbHTML5LoadedCodebaseIsWebSimple && !html5CodebaseIsWebSimple))
+      ggbHTML5LoadedCodebaseVersion !== html5CodebaseVersion ||
+      (ggbHTML5LoadedCodebaseIsWebSimple && !html5CodebaseIsWebSimple)
     ) {
       loadScript = true
       isRenderGGBElementEnabled = false

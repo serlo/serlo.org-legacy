@@ -114,16 +114,14 @@ class Components extends React.Component {
           />
         </p>
         <p>
-          {
-            // @ts-ignore // secondary is an extension from provider
-            <Button
+          {/* see https://github.com/Microsoft/TypeScript/issues/27552#issuecomment-495830020
+          // @ts-ignore */ /* prettier-ignore */}
+          <Button secondary
               label="Reverse"
-              secondary
               reverse
               icon={<FontAwesomeIcon icon={faArrowCircleRight} />}
               onClick={() => {}}
             />
-          }
         </p>
         <p>
           <Button label="Green" primary color="brandGreen" onClick={() => {}} />
@@ -343,6 +341,7 @@ class Components extends React.Component {
   }
 }
 
+// @ts-ignore
 storiesOf('*(Grommet)', module)
   .add('(All)', () => <Components />)
   .add('(Buttons)', () => (
@@ -366,17 +365,14 @@ storiesOf('*(Grommet)', module)
           onClick={() => {}}
         />
         <br />
-        {
-          // @ts-ignore
-          <Button
-            label="Reverse"
-            secondary
-            reverse
-            icon={<FontAwesomeIcon icon={faArrowCircleRight} />}
-            onClick={() => {}}
-          />
-        }
-
+        {/* see https://github.com/Microsoft/TypeScript/issues/27552#issuecomment-495830020
+        // @ts-ignore */ /* prettier-ignore */}
+        <Button secondary
+          label="Reverse"
+          reverse
+          icon={<FontAwesomeIcon icon={faArrowCircleRight} />}
+          onClick={() => {}}
+        />
         <br />
         <Button label="Green" primary color="brandGreen" onClick={() => {}} />
         <br />

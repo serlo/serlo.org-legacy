@@ -139,7 +139,7 @@ const theme = {
       dark: 'white'
     },
     border: {
-      width: 0,
+      width: '0',
       radius: '5em'
     },
     disabled: {
@@ -182,20 +182,20 @@ const theme = {
 }
 
 export function getColor(
-  colorName: keyof (typeof theme)['global']['colors']
+  colorName: keyof typeof theme['global']['colors']
 ): string {
   return theme.global.colors[colorName]
 }
 
 export function lightenColor(
-  colorName: keyof (typeof theme)['global']['colors'],
+  colorName: keyof typeof theme['global']['colors'],
   amount: number
 ): string {
   return lighten(amount, theme.global.colors[colorName])
 }
 
 export function transparentizeColor(
-  colorName: keyof (typeof theme)['global']['colors'],
+  colorName: keyof typeof theme['global']['colors'],
   amount: number
 ): string {
   return transparentize(amount, theme.global.colors[colorName])
@@ -206,12 +206,12 @@ export function getDefaultTransition() {
 }
 
 export function getBreakpoint(
-  pointName: keyof (typeof theme)['flexboxgrid']['breakpoints']
+  pointName: keyof typeof theme['flexboxgrid']['breakpoints']
 ): string {
   return theme.flexboxgrid.breakpoints[pointName] + 'rem'
 }
 
-let breakpoints: (keyof (typeof theme)['flexboxgrid']['breakpoints'])[] = [
+let breakpoints: (keyof typeof theme['flexboxgrid']['breakpoints'])[] = [
   'xs',
   'sm',
   'md',

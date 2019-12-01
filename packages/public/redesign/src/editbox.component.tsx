@@ -14,9 +14,9 @@ import { useScrollYPosition } from 'react-use-scroll-position'
 
 const { useRef } = React
 
-export const EditBox: React.FunctionComponent<
-  React.HTMLAttributes<HTMLDivElement>
-> = props => {
+export const EditBox: React.FunctionComponent<React.HTMLAttributes<
+  HTMLDivElement
+>> = props => {
   try {
     document.getElementById('lalal')
   } catch (e) {

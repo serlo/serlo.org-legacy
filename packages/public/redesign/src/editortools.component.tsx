@@ -8,9 +8,9 @@ import {
 } from './provider.component'
 // import { useScrollYPosition } from 'react-use-scroll-position'
 
-export const EditorTools: React.FunctionComponent<
-  React.HTMLAttributes<HTMLDivElement>
-> = props => {
+export const EditorTools: React.FunctionComponent<React.HTMLAttributes<
+  HTMLDivElement
+>> = props => {
   // const scrollY = useScrollYPosition()
   // const summary = scrollY > 30 ? false : true
 

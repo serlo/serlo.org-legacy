@@ -235,7 +235,7 @@ export function Controls(props: OwnProps) {
     if (!maySave()) return
     const serializedRoot = serializeRootDocument()(store.getState())
     const serialized = serializedRoot
-      ? (serializedRoot as { state: unknown }).state
+      ? (serializedRoot as { state: object }).state
       : null
     setPending(true)
     save({

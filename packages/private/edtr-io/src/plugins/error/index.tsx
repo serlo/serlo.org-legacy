@@ -38,9 +38,9 @@ const Error = styled.div({
   backgroundColor: 'rgb(204,0,0)',
   color: '#fff'
 })
-export const ErrorRenderer: React.FunctionComponent<
-  StatefulPluginEditorProps<typeof errorState>
-> = props => {
+export const ErrorRenderer: React.FunctionComponent<StatefulPluginEditorProps<
+  typeof errorState
+>> = props => {
   return (
     <Error>
       <p>

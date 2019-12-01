@@ -9,9 +9,7 @@ interface SecondaryMenuProps {
   selectedIndex: number
 }
 
-export const SecondaryMenu: React.FunctionComponent<
-  SecondaryMenuProps
-> = props => {
+export const SecondaryMenu: React.FunctionComponent<SecondaryMenuProps> = props => {
   return (
     <StyledScrollMenu>
       <ScrollMenu

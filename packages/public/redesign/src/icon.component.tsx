@@ -106,7 +106,7 @@ const icons: iconObject = {
   faGithubSquare: faGithubSquare
 }
 
-export type AllowedIcons = keyof (typeof icons)
+export type AllowedIcons = keyof typeof icons
 
 // type Props = Exclude<"icon", FontAwesomeProps> & { icon: AllowedIcons, className: string, size: string }
 
