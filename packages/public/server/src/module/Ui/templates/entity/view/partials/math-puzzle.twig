@@ -30,11 +30,7 @@
     <section class="row">
         <div class="col-xs-12 col-sm-11">
             <div class="math-puzzle" data-source="{{ source }}">
-                <div class="exercise editable"
-                     data-id="{{ entity.getId() }}"
-                     data-edit-field="content"
-                     data-edit-type="ory"
-                >
+                <div class="exercise editable">
                     {{ renderer().toHtml(revision.get('content')) | raw }}
                 </div>
             </div>

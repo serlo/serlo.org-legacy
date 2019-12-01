@@ -34,10 +34,7 @@
             </strong>
         </div>
         <div class="list-group">
-            <div class="list-group-item editable"
-                 data-id="{{ entity.getId() }}"
-                 data-edit-field="content"
-                 data-edit-type="ory">
+            <div class="list-group-item editable">
                 {% if revision %}
                     {{ renderer().toHtml(revision.get('content')) | raw }}
                 {% elseif not entity.getHead() %}

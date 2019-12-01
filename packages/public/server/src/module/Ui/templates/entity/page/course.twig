@@ -24,10 +24,7 @@
 {% include 'entity/page/partials/placeholders' %}
 <div itemscope itemtype="http://schema.org/Article">
     <div class="page-header">
-        <div class="editable"
-             data-id="{{ entity.getId() }}"
-             data-edit-field="title"
-             data-edit-type="text">
+        <div class="editable">
             <h1><span itemprop="name">{{ title }}</span></h1>
         </div>
         {% include 'entity/view/partials/actions/big' %}

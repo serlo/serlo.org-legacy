@@ -22,12 +22,7 @@
 {% set title = 'text-exercise-group' | trans %}
 <article class="exercisegroup">
     <section class="row" style="margin-right:0px">
-        <div class="col-xs-12 col-sm-11 editable"
-             itemprop="articleBody"
-             data-id="{{ entity.getId() }}"
-             data-edit-field="content"
-             data-edit-type="ory"
-        >
+        <div class="col-xs-12 col-sm-11 editable" itemprop="articleBody">
             {{ renderer().toHtml(entity.getCurrentRevision().get('content')) }}
         </div>
         <div class="col-xs-hidden col-sm-1" style="padding:0">

@@ -33,19 +33,12 @@
 <div class="col-sm-3 multiple-choice-answer-group" itemprop="articleBody">
     <button class="btn multiple-choice-answer-content button-default editable"
             name="multiple-choice-answer-choice-{{  parent.getID() }}"
-            data-correct="{{ right }}"
-            data-id="{{ entity.getId() }}"
-            data-edit-field="content"
-            data-edit-type="ory"
-    >
+            data-correct="{{ right }}">
         {{ displayContent | raw }}
     </button>
     {% if not right %}
         <div class="multiple-choice-answer-feedback collapse">
-            <div class="alert alert-warning editable"
-                 data-id="{{ entity.getId() }}"
-                 data-edit-field="feedback"
-                 data-edit-type="ory">
+            <div class="alert alert-warning editable">
                 {{ feedback | raw }}
             </div>
         </div>

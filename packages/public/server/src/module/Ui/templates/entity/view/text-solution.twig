@@ -32,11 +32,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12 editable"
-                         data-id="{{ entity.getId() }}"
-                         data-edit-field="content"
-                         data-edit-type="ory"
-                    >
+                    <div class="col-xs-12 editable">
                         {% if revision %}
                             {{ renderer().toHtml(revision.get('content')) | raw }}
                         {% elseif not entity.getHead() %}
