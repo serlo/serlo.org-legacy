@@ -23,7 +23,7 @@
 {% set revision = entity.getCurrentRevision() %}
 {% set content = renderer().toHtml(revision.get('content')) %}
 <article>
-    <section class="editable" data-id="{{ entity.getId() }}" data-edit-field="content" data-edit-type="ory">
+    <section class="editable">
         {{ content }}
     </section>
 

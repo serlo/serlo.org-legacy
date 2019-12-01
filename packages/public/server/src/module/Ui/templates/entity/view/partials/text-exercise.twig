@@ -35,11 +35,7 @@
 {% set inputChallenge = inputChallenge().fetchInput(entity) %}
 <article class="text-exercise  {{ multipleChoices|length>4 or singleChoices|length>4 ? 'extended' }}" itemscope itemtype="http://schema.org/Article">
     <section class="row">
-        <div class="col-xs-12 col-sm-11 editable" itemprop="articleBody"
-             data-id="{{ entity.getId() }}"
-             data-edit-field="content"
-             data-edit-type="ory"
-        >
+        <div class="col-xs-12 col-sm-11 editable" itemprop="articleBody">
             {{ renderer().toHtml(revision.get('content')) | raw }}
         </div>
         <div class="hidden-xs col-sm-1" style="padding:0">
