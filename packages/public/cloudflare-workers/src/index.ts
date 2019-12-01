@@ -26,6 +26,7 @@ addEventListener('fetch', (event: Event) => {
 
 export async function handleRequest(request: Request) {
   const response =
+    (await ignoreDev(request)) ||
     (await enforceHttps(request)) ||
     (await redirects(request)) ||
     (await blockSerloEducation(request)) ||
@@ -35,6 +36,12 @@ export async function handleRequest(request: Request) {
     (await fetch(request))
 
   return response
+}
+
+async function ignoreDev(request: Request) {
+  if (/^https:\/\/(\w+\.)?dev\.serlo\.org/.test(request.url)) {
+    return fetch(request)
+  }
 }
 
 async function enforceHttps(request: Request) {
