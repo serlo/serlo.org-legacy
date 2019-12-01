@@ -27,5 +27,5 @@ const tsPreset = require('ts-jest/jest-preset')
 module.exports = {
   ...mergeDeepRight(puppeteerPreset, tsPreset),
   testRegex: '/__tests-e2e__/.*\\.[jt]sx?$',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
+  setupFilesAfterEnv: ['<rootDir>/jest.setup-e2e.js']
 }
