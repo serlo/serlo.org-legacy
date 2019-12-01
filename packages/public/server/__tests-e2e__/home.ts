@@ -21,9 +21,6 @@
  */
 import { Browser, launch, Page } from 'puppeteer'
 
-const seconds = 60
-jest.setTimeout(1000 * seconds)
-
 describe('Home', () => {
   let browser: Browser
   let page: Page
