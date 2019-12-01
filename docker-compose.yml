@@ -57,8 +57,18 @@ services:
     build:
       context: .
       dockerfile: packages/public/redesign/Dockerfile
+      target: development
+    depends_on:
+      - workspace
     ports:
       - '3000:3000'
+
+  redesign-assets:
+    image: nginx
+    ports:
+      - '3001:80'
+    volumes:
+      - ./packages/public/redesign/public:/usr/share/nginx/html:delegated
 
   server-composer:
     image: composer:1.8

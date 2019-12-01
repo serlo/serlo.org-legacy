@@ -1,18 +1,20 @@
 {
   "name": "@serlo/serlo-org-redesign",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
-    "build__": "cross-env next build && next export -o dist",
-    "build": "build-storybook -c .storybook -o dist -s ./public",
+    "build-next": "cross-env next build && next export -o dist",
+    "build-storybook": "build-storybook -c .storybook -o dist -s ./public",
     "start-storybook": "start-storybook -p 9000 -c .storybook -s ./public",
     "start": "npm-run-all next:build next:start",
     "start-dev": "next",
     "lint": "yarn tsc --noemit",
-    "next:build": "next build",
+    "build": "cross-env NEXT_TELEMETRY_DISABLED=1 next build",
     "next:start": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 node serverless.js",
-    "next:analyze": "cross-env ANALYZE=true next build"
+    "next:analyze": "cross-env ANALYZE=true next build",
+    "deploy:image": "(cd scripts; ts-node deploy-image)",
+    "deploy:package": "(cd scripts; ts-node deploy-package)"
   },
   "dependencies": {},
   "devDependencies": {
@@ -28,6 +30,7 @@
     "@storybook/react": "^5.0.0",
     "@storybook/theming": "^5.0.0",
     "@types/body-parser": "^1.0.0",
+    "@types/ncp": "^2.0.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/react-inlinesvg": "^0.8.0",
@@ -42,6 +45,7 @@
     "css-loader": "^1.0.0",
     "grommet": "^2.0.0",
     "moment": "^2.0.0",
+    "ncp": "^2.0.0",
     "next": "9.1.1",
     "next-images": "^1.0.0",
     "polished": "^2.0.0",
