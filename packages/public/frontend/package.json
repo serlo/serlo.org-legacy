@@ -1,6 +1,6 @@
 {
   "name": "@serlo/serlo-org-frontend",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
@@ -25,6 +25,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",
     "@next/bundle-analyzer": "^9.0.0",
+    "@serlo/docker": "^0.0.0",
+
     "@serlo/node-image": "^0.0.0",
     "@serlo/workspace-image": "^0.0.0",
     "@storybook/addon-actions": "^5.0.0",
