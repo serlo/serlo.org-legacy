@@ -20,24 +20,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Redesign\Factory;
+namespace Frontend;
 
-use Redesign\View\Helper\RenderComponentHelper;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Frontend\Factory\RenderComponentHelperFactory;
 
-class RenderComponentHelperFactory implements FactoryInterface
-{
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        $url   = $serviceLocator->get('config')['redesign_url'];
-        return new RenderComponentHelper($url);
-    }
-}
+return [
+    'view_helpers'    => [
+        'factories' => [
+            'renderComponent' => RenderComponentHelperFactory::class,
+        ],
+    ],
+];

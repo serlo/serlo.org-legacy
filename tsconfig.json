@@ -21,5 +21,5 @@
     },
     "lib": ["webworker", "dom"]
   },
-  "exclude": ["packages/public/server/src/vendor", "packages/public/redesign"]
+  "exclude": ["packages/public/server/src/vendor", "packages/public/frontend"]
 }

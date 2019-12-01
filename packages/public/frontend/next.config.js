@@ -21,7 +21,7 @@ module.exports = withCSS({
               path.join(
                 'packages',
                 'public',
-                'redesign',
+                'frontend',
                 'patch',
                 'next',
                 'dist',

@@ -12,9 +12,9 @@ COPY packages/private/mathjax/package.json packages/private/mathjax/package.json
 COPY packages/private/node-image/package.json packages/private/node-image/package.json
 COPY packages/private/workspace-image/package.json packages/private/workspace-image/package.json
 COPY packages/public/editor-renderer/package.json packages/public/editor-renderer/package.json
+COPY packages/public/frontend/package.json packages/public/frontend/package.json
 COPY packages/public/legacy-editor-renderer/package.json packages/public/legacy-editor-renderer/package.json
 COPY packages/public/notifications-job/package.json packages/public/notifications-job/package.json
-COPY packages/public/redesign/package.json packages/public/redesign/package.json
 
 COPY package.json .
 COPY yarn.lock .
@@ -26,7 +26,7 @@ COPY packages/private packages/private
 COPY packages/public/editor-renderer packages/public/editor-renderer
 COPY packages/public/legacy-editor-renderer packages/public/legacy-editor-renderer
 COPY packages/public/notifications-job packages/public/notifications-job
-COPY packages/public/redesign packages/public/redesign
+COPY packages/public/frontend packages/public/frontend
 COPY babel.config.js .
 COPY lerna.json .
 COPY tsconfig.json .
@@ -37,7 +37,7 @@ FROM build as release
 RUN npx lerna exec --scope=@serlo/{editor-helpers,edtr-io,legacy-editor-to-editor,markdown,mathjax,serlo-org-editor-renderer,serlo-org-legacy-editor-renderer,serlo-org-notifications-job} "find . -maxdepth 1 -type d ! -name dist ! -name . -exec rm -rf {} +"
 RUN npx lerna exec --scope=@serlo/{editor-helpers,edtr-io,legacy-editor-to-editor,markdown,mathjax,serlo-org-editor-renderer,serlo-org-legacy-editor-renderer,serlo-org-notifications-job} "find . -maxdepth 1 -type f ! -name package.json -exec rm -rf {} +"
 RUN npx lerna exec --scope=@serlo/{workspace-image,node-image} "find . -maxdepth 1 -type f ! -name package.json -exec rm -rf {} +"
-RUN npx lerna exec --scope=@serlo/serlo-org-redesign "find . -maxdepth 1 -type d ! -name .next ! -name pages ! -name . -exec rm -rf {} +"
-RUN npx lerna exec --scope=@serlo/serlo-org-redesign "find . -maxdepth 1 -type f ! -name package.json ! -name serverless.js -exec rm -rf {} +"
+RUN npx lerna exec --scope=@serlo/serlo-org-frontend "find . -maxdepth 1 -type d ! -name .next ! -name pages ! -name . -exec rm -rf {} +"
+RUN npx lerna exec --scope=@serlo/serlo-org-frontend "find . -maxdepth 1 -type f ! -name package.json ! -name serverless.js -exec rm -rf {} +"
 RUN npx lerna clean --yes
 RUN yarn --frozen-lockfile --production=true --silent

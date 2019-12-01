@@ -29,6 +29,7 @@ use FeatureFlags\Factory\ServiceFactory;
 return [
     'feature_flags' => [
         'donation-banner' => false,
+        'redesign' => false,
     ],
     'service_manager' => [
         'factories' => [

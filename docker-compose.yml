@@ -46,29 +46,29 @@ services:
     depends_on:
       - workspace
 
-  legacy-editor-renderer:
+  frontend:
     build:
       context: .
-      dockerfile: packages/public/legacy-editor-renderer/Dockerfile
-    depends_on:
-      - workspace
-
-  redesign:
-    build:
-      context: .
-      dockerfile: packages/public/redesign/Dockerfile
+      dockerfile: packages/public/frontend/Dockerfile
       target: development
     depends_on:
       - workspace
     ports:
       - '3000:3000'
 
-  redesign-assets:
+  frontend-assets:
     image: nginx
     ports:
       - '3001:80'
     volumes:
-      - ./packages/public/redesign/public:/usr/share/nginx/html:delegated
+      - ./packages/public/frontend/public:/usr/share/nginx/html:delegated
+
+  legacy-editor-renderer:
+    build:
+      context: .
+      dockerfile: packages/public/legacy-editor-renderer/Dockerfile
+    depends_on:
+      - workspace
 
   server-composer:
     image: composer:1.8

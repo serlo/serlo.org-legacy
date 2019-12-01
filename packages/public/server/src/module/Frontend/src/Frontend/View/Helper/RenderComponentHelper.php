@@ -21,7 +21,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Redesign\View\Helper;
+namespace Frontend\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 

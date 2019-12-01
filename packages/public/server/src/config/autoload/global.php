@@ -29,11 +29,6 @@ $version = $json['version'];
 require __DIR__ . '/../definitions.local.php';
 
 return [
-    // (FeatureFlags Module)
-    'feature_flags' => [
-        'redesign' => false,
-    ],
-
     'assets' => array_merge(
         [
             'assets_host' => 'https://packages.serlo.org/serlo-org-static-assets@1/',
@@ -42,7 +37,10 @@ return [
         $assets
     ),
 
-    'redesign_url' => 'http://redesign:3000',
+    'services' => $services,
+
+    // (FeatureFlags Module)
+    'feature_flags' => $featureFlags,
 
     // Branding, one entry per instance (Ui Module)
     'brand' => [
