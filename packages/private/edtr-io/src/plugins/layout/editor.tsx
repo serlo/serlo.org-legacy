@@ -60,12 +60,12 @@ const ConvertButton = styled.button({
   '&:hover': { backgroundColor: '#ebccd1' }
 })
 
-export const LayoutRenderer: React.FunctionComponent<
-  StatefulPluginEditorProps<typeof layoutState> & {
-    insert?: (options?: DocumentState) => void
-    remove?: () => void
-  }
-> = props => {
+export const LayoutRenderer: React.FunctionComponent<StatefulPluginEditorProps<
+  typeof layoutState
+> & {
+  insert?: (options?: DocumentState) => void
+  remove?: () => void
+}> = props => {
   const store = useScopedStore()
   const convertToRow = () => {
     R.reverse(props.state).forEach(item => {

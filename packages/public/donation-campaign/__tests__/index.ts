@@ -61,7 +61,10 @@ test('Successful process of sheets response', async () => {
       ]
     },
     {
-      values: [['1', 'heading1', 'body1'], ['2', 'heading2', 'body2']]
+      values: [
+        ['1', 'heading1', 'body1'],
+        ['2', 'heading2', 'body2']
+      ]
     }
   ])
   expect(result).toEqual({

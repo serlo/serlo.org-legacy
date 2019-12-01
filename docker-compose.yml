@@ -46,6 +46,23 @@ services:
     depends_on:
       - workspace
 
+  frontend:
+    build:
+      context: .
+      dockerfile: packages/public/frontend/Dockerfile
+      target: development
+    depends_on:
+      - workspace
+    ports:
+      - '3000:3000'
+
+  frontend-assets:
+    image: nginx
+    ports:
+      - '3001:80'
+    volumes:
+      - ./packages/public/frontend/public:/usr/share/nginx/html:delegated
+
   legacy-editor-renderer:
     build:
       context: .

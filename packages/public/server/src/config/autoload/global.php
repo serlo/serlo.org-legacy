@@ -37,6 +37,8 @@ return [
         $assets
     ),
 
+    'services' => $services,
+
     // (FeatureFlags Module)
     'feature_flags' => $featureFlags,
 

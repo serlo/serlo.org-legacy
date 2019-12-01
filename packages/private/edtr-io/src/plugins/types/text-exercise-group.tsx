@@ -42,9 +42,7 @@ export const textExerciseGroupTypeState = object({
   'grouped-text-exercise': list(serializedChild('type-text-exercise'))
 })
 
-export const textExerciseGroupTypePlugin: StatefulPlugin<
-  typeof textExerciseGroupTypeState
-> = {
+export const textExerciseGroupTypePlugin: StatefulPlugin<typeof textExerciseGroupTypeState> = {
   Component: TextExerciseGroupTypeEditor,
   state: textExerciseGroupTypeState
 }

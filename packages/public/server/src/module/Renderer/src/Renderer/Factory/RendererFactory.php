@@ -47,8 +47,8 @@ class RendererFactory implements FactoryInterface
         $sentry = $serviceLocator->get('Log\Sentry');
         $formatHelper = new FormatHelper();
         $config  = $serviceLocator->get('config');
-        $editorRendererUrl = $config['assets']['editor_renderer'];
-        $legacyRendererUrl = $config['assets']['legacy_editor_renderer'];
+        $editorRendererUrl = $config['services']['editor_renderer'];
+        $legacyRendererUrl = $config['services']['legacy_editor_renderer'];
         $cacheEnabled = $config['renderer']['cache_enabled'];
 
         $service = new Renderer($editorRendererUrl, $legacyRendererUrl, $formatHelper, $storage, $cacheEnabled, $sentry);

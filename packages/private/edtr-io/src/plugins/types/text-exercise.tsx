@@ -42,9 +42,7 @@ export const textExerciseTypeState = object({
   'text-solution': optionalSerializedChild('type-text-solution')
 })
 
-export const textExerciseTypePlugin: StatefulPlugin<
-  typeof textExerciseTypeState
-> = {
+export const textExerciseTypePlugin: StatefulPlugin<typeof textExerciseTypeState> = {
   Component: TextExerciseTypeEditor,
   state: textExerciseTypeState
 }

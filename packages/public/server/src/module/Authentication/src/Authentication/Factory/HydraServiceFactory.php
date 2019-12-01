@@ -37,7 +37,7 @@ class HydraServiceFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        $baseUrl = $config['assets']['hydra'];
+        $baseUrl = $config['services']['hydra'];
 
         return new HydraService($baseUrl);
     }
