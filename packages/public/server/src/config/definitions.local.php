@@ -26,8 +26,12 @@ $env = 'development';
 $assets = [
     'assets_host' => 'http://localhost:8082/',
     'bundle_host' => 'http://localhost:8081/',
-    'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000/',
-    'editor_renderer' => 'http://editor-renderer:3000/',
+];
+
+$services = [
+    'editor_renderer' => 'http://editor-renderer:3000',
+    'frontend' => 'http://frontend:3000',
+    'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000',
     'hydra' => 'http://hydra:4445',
 ];
 

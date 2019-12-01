@@ -36,9 +36,7 @@ export const mathPuzzleTypeState = object({
   content: editorContent()
 })
 
-export const mathPuzzleTypePlugin: StatefulPlugin<
-  typeof mathPuzzleTypeState
-> = {
+export const mathPuzzleTypePlugin: StatefulPlugin<typeof mathPuzzleTypeState> = {
   Component: MathPuzzleTypeEditor,
   state: mathPuzzleTypeState
 }

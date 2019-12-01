@@ -21,6 +21,7 @@
  */
 import * as React from 'react'
 import Html, { Rule } from 'slate-html-serializer'
+// @ts-ignore
 import { parseFragment } from 'parse5'
 import { Block, Data, Inline, Mark, Value, ValueJSON } from 'slate'
 

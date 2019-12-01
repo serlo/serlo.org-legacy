@@ -37,9 +37,7 @@ export const coursePageTypeState = object({
   content: editorContent()
 })
 
-export const coursePageTypePlugin: StatefulPlugin<
-  typeof coursePageTypeState
-> = {
+export const coursePageTypePlugin: StatefulPlugin<typeof coursePageTypeState> = {
   Component: CoursePageTypeEditor,
   state: coursePageTypeState
 }

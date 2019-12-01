@@ -31,8 +31,8 @@ const spreadsheetId = '18ri3s1cqw1-jYjnPbPkI_9v4t9wBY1Sp3YtklXO0_Wg'
 export async function handleRequest(request: Request) {
   const key = await SECRETS_KV.get('google-sheets-api-key')
   const sheetsResponse = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values:batchGet?ranges=Spendenziel!A2:B&ranges=A/B Testing!A2:J&ranges=Widgets!A2:D&ranges=Texte!A2:C&key=${key}`
-    // ({ cf: { cacheTtl: 60 * 60 } } as unknown) as RequestInit
+    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values:batchGet?ranges=Spendenziel!A2:B&ranges=A/B Testing!A2:J&ranges=Widgets!A2:D&ranges=Texte!A2:C&key=${key}`,
+    ({ cf: { cacheTtl: 60 * 60 } } as unknown) as RequestInit
   )
   const { valueRanges } = await sheetsResponse.json()
   const experimentData = processSheetsResponse(valueRanges)

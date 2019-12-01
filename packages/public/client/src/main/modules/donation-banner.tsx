@@ -24,6 +24,8 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
+import { getGa } from './analytics'
+
 const breakPoint = 1000
 const smallScreens = `@media screen and (max-width: ${breakPoint}px)`
 const bigScreens = `@media screen and (min-width: ${breakPoint + 1}px)`
@@ -237,37 +239,45 @@ function DonationProgress({ data }: DonationBannerProps) {
   const percentage = (data.progress.value / data.progress.max) * 100
   return (
     <>
-      <ProgressContainer mobile>
-        <BarWrapper percentage={percentage} title={progress}>
-          <Bar center>{percentage < 25 ? null : progress}</Bar>
-          <Triangle />
-        </BarWrapper>
-        <Remaining title={remainingFull} center>
-          {percentage > 80 ? null : remaining}
-        </Remaining>
-      </ProgressContainer>
-      <ProgressContainer desktop>
-        <BarWrapper percentage={percentage} title={progress}>
-          <Bar center={percentage > 60 && percentage <= 85}>
-            {percentage <= 20
-              ? null
-              : percentage > 85
-              ? remainingFull
-              : progress}
-          </Bar>
-          <Triangle />
-        </BarWrapper>
-        <Remaining title={remainingFull} center={percentage > 60}>
-          {percentage > 85 ? null : percentage > 60 ? remaining : remainingFull}
-        </Remaining>
-      </ProgressContainer>
-      <GoalWrapper>
-        Spendenziel {data.progress.max.toLocaleString('de-DE')} €
-      </GoalWrapper>
+      {/*<ProgressContainer mobile>*/}
+      {/*  <BarWrapper percentage={percentage} title={progress}>*/}
+      {/*    <Bar center>{percentage < 25 ? null : progress}</Bar>*/}
+      {/*    <Triangle />*/}
+      {/*  </BarWrapper>*/}
+      {/*  <Remaining title={remainingFull} center>*/}
+      {/*    {percentage > 80 ? null : remaining}*/}
+      {/*  </Remaining>*/}
+      {/*</ProgressContainer>*/}
+      {/*<ProgressContainer desktop>*/}
+      {/*  <BarWrapper percentage={percentage} title={progress}>*/}
+      {/*    <Bar center={percentage > 60 && percentage <= 85}>*/}
+      {/*      {percentage <= 20*/}
+      {/*        ? null*/}
+      {/*        : percentage > 85*/}
+      {/*        ? remainingFull*/}
+      {/*        : progress}*/}
+      {/*    </Bar>*/}
+      {/*    <Triangle />*/}
+      {/*  </BarWrapper>*/}
+      {/*  <Remaining title={remainingFull} center={percentage > 60}>*/}
+      {/*    {percentage > 85 ? null : percentage > 60 ? remaining : remainingFull}*/}
+      {/*  </Remaining>*/}
+      {/*</ProgressContainer>*/}
+      {/*<GoalWrapper>*/}
+      {/*  Spendenziel {data.progress.max.toLocaleString('de-DE')} €*/}
+      {/*</GoalWrapper>*/}
       <AccountWrapper>
         Spendenkonto Serlo Education e.V.:{' '}
         <strong>DE98 4306 0967 8204 5906 00</strong>{' '}
-        <a href="https://www.paypal.me/serlo">via PayPal spenden</a>
+        <a
+          href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9NHZ43WLF236&source=url"
+          target="_blank"
+          onClick={() => {
+            localStorage.setItem('donation-popup-donated', '1')
+          }}
+        >
+          via PayPal spenden
+        </a>
       </AccountWrapper>
     </>
   )
@@ -290,7 +300,39 @@ function DonationBanner({ data }: DonationBannerProps) {
   const [expanded, setExpanded] = React.useState(
     window.document.body.offsetWidth > breakPoint
   )
+  const localStorageKey = `donation-popup/${data.id}`
+  const localStorageKeyValue = localStorage.getItem(localStorageKey)
+  const pagesUntilNextPopup = React.useRef(
+    localStorageKeyValue ? parseInt(localStorageKeyValue, 10) : 0
+  )
 
+  React.useEffect(() => {
+    window.addEventListener('message', listener, false)
+
+    function listener(event: MessageEvent) {
+      if (event && event.data && event.data.type === 'stepChange') {
+        getGa()(
+          'send',
+          'event',
+          `donation-${data.id}`,
+          `step-${event.data.value.step}`,
+          'Step changed'
+        )
+      }
+
+      if (event && event.data && event.data.type === 'donationFinished') {
+        getGa()(
+          'send',
+          'event',
+          `donation-${data.id}`,
+          'finished',
+          'Donation finished'
+        )
+        localStorage.setItem('donation-popup-donated', '1')
+        window.removeEventListener('message', listener, false)
+      }
+    }
+  }, [])
   React.useEffect(() => {
     const localStorageKey = `donation-popup/${data.id}`
     const localStorageKeyValue = localStorage.getItem(localStorageKey)
@@ -301,13 +343,7 @@ function DonationBanner({ data }: DonationBannerProps) {
     localStorage.setItem(localStorageKey, `${newValue}`)
   }, [data.frequency])
 
-  const localStorageKey = `donation-popup/${data.id}`
-  const localStorageKeyValue = localStorage.getItem(localStorageKey)
-  const pagesUntilNextPopup = localStorageKeyValue
-    ? parseInt(localStorageKeyValue, 10)
-    : 0
-
-  if (pagesUntilNextPopup !== 0) return null
+  if (pagesUntilNextPopup.current !== 0) return null
   if (!visible) return null
 
   const interests = data.interests || 'none'
@@ -330,7 +366,7 @@ function DonationBanner({ data }: DonationBannerProps) {
           <Logo>V</Logo>
           <Close
             onClick={() => {
-              close()
+              setVisible(false)
             }}
           >
             X
@@ -367,15 +403,11 @@ function DonationBanner({ data }: DonationBannerProps) {
       </Container>
       <BlurBackground
         onClick={() => {
-          close()
+          setVisible(false)
         }}
       />
     </>
   )
-
-  function close() {
-    setVisible(false)
-  }
 }
 
 export async function initDonationBanner() {
