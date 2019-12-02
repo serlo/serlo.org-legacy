@@ -49,15 +49,17 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: packages/public/frontend/Dockerfile
+      dockerfile: packages/public/frontend/docker/Dockerfile
       target: development
     depends_on:
       - workspace
     ports:
       - '3000:3000'
-
+  
   frontend-assets:
-    image: nginx
+    build:
+      context: .
+      dockerfile: packages/public/frontend/docker/FrontendAssetsDockerfile
     ports:
       - '3001:80'
     volumes:

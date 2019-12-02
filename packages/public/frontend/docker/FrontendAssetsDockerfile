@@ -1,0 +1,5 @@
+FROM nginx
+
+COPY packages/public/frontend/docker/nginx.conf /etc/nginx/conf.d/frontend-assets.conf
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
