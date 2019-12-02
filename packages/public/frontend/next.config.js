@@ -8,10 +8,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withCSS({
   target: 'serverless',
-  generateBuildId: async () => {
-    // For example get the latest git commit hash here
-    return require('./package.json').version
-  },
+  generateBuildId: async () =>
+    process.env.BUILD_ID ? process.env.BUILD_ID : null,
   ...withImages(
     withBundleAnalyzer({
       webpack: config => {
