@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 
 const footer = require('./.next/serverless/pages/__footer.js')
-const comments = require('./.next/serverless/pages/__comments.js')
+//const comments = require('./.next/serverless/pages/__comments.js')
 
 // maps file extension to MIME types
 const map = {
