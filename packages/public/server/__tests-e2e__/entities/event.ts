@@ -51,5 +51,12 @@ describe('events', () => {
       return document.querySelector<HTMLElement>('h1#title')!.innerText
     })
     expect(title).toBe('Beispielveranstaltung')
+
+    const descriptionHTML = await page.evaluate(() => {
+      return document.querySelector('article#description p')!.innerHTML
+    })
+    expect(descriptionHTML).toBe(
+      '<strong>Jeden Donnerstag:</strong> Redaktionssitzung in Münster'
+    )
   })
 })
