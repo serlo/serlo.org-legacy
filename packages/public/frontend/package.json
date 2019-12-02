@@ -10,7 +10,7 @@
     "start": "npm-run-all next:build next:start",
     "start-dev": "next",
     "lint": "yarn tsc --noemit",
-    "build": "cross-env NEXT_TELEMETRY_DISABLED=1 next build",
+    "build": "cross-env NEXT_TELEMETRY_DISABLED=1 BUILD_ID=current next build",
     "next:start": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 node serverless.js",
     "next:analyze": "cross-env ANALYZE=true next build",
     "deploy:image": "(cd scripts; ts-node deploy-image)",
