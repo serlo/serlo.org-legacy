@@ -3,8 +3,30 @@ const url = require('url')
 const fs = require('fs')
 const path = require('path')
 
-const footer = require('./.next/serverless/pages/__footer.js')
-//const comments = require('./.next/serverless/pages/__comments.js')
+new http.Server((req, res) => {
+  const pathname = url.parse(req.url).pathname
+  const middlewares = [healthCheck, renderPage, serveAssets, page404, () => {}]
+  middlewares.reduceRight((acc, cur) => () => cur(pathname, req, res, acc))()
+}).listen(3000, () => console.log('Listening on http://localhost:3000'))
+
+// middlewares
+function healthCheck(pathname, req, res, next) {
+  if (pathname === '/') {
+    res.statusCode = 200
+    return res.end(`frontend@${require('./package.json').version}`)
+  }
+  next()
+}
+
+function renderPage(pathname, req, res, next) {
+  if (pathname.startsWith('/__')) {
+    const pagePath = './.next/serverless/pages' + pathname + '.js'
+    if (fs.existsSync(pagePath)) {
+      return require(pagePath).render(req, res)
+    }
+  }
+  next()
+}
 
 // maps file extension to MIME types
 const map = {
@@ -16,47 +38,38 @@ const map = {
   '.png': 'image/png'
 }
 
-const server = new http.Server((req, res) => {
-  // parse URL and extract path
-  const pathname = url.parse(req.url).pathname
+// ONLY for development
+function serveAssets(pathname, req, res, next) {
+  if (process.env.SERVE_ASSETS === 'true') {
+    // based on the URL path, extract the file extention. e.g. .js, .doc, ...
+    const ext = path.parse(pathname).ext
 
-  // render page
-  if (pathname === '/__footer') {
-    return footer.render(req, res)
-  }
-  if (pathname === '/__comments') {
-    return comments.render(req, res)
-  }
+    const filename =
+      pathname.indexOf('/_next/') === 0
+        ? pathname.replace('/_next/', './.next/')
+        : './public' + pathname
 
-  // based on the URL path, extract the file extention. e.g. .js, .doc, ...
-  const ext = path.parse(pathname).ext
-
-  const filename =
-    pathname.indexOf('/_next/') === 0
-      ? pathname.replace('/_next/', './.next/')
-      : './public' + pathname
-
-  fs.exists(filename, function(exist) {
-    if (!exist) {
-      // if the file is not found, return 404
-      res.statusCode = 404
-      res.end(`File ${pathname} not found!`)
-      return
-    }
-
-    // read file from file system
-    fs.readFile(filename, function(err, data) {
-      if (err) {
-        res.statusCode = 500
-        res.end(`Error getting the file: ${err}.`)
-      } else {
-        // if the file is found, set Content-type and send data
-        res.setHeader('Content-type', map[ext] || 'text/plain')
-        res.setHeader('Access-Control-Allow-Origin', '*')
-        res.end(data)
+    fs.exists(filename, function(exist) {
+      if (!exist) {
+        return next()
       }
-    })
-  })
-})
 
-server.listen(3000, () => console.log('Listening on http://localhost:3000'))
+      // read file from file system
+      fs.readFile(filename, function(err, data) {
+        if (err) {
+          next()
+        } else {
+          // if the file is found, set Content-type and send data
+          res.setHeader('Content-type', map[ext] || 'text/plain')
+          res.setHeader('Access-Control-Allow-Origin', '*')
+          res.end(data)
+        }
+      })
+    })
+  } else next()
+}
+
+function page404(pathname, req, res, next) {
+  res.statusCode = 404
+  res.end('Nothing to do')
+}

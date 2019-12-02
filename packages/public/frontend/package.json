@@ -4,17 +4,15 @@
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
-    "build-next": "cross-env next build && next export -o dist",
-    "build-storybook": "build-storybook -c .storybook -o dist -s ./public",
-    "start-storybook": "start-storybook -p 9000 -c .storybook -s ./public",
-    "start": "npm-run-all next:build next:start",
-    "start-dev": "next",
-    "lint": "yarn tsc --noemit",
+    "analyze": "cross-env ANALYZE=true next build",
     "build": "cross-env NEXT_TELEMETRY_DISABLED=1 BUILD_ID=current next build",
-    "next:start": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 node serverless.js",
-    "next:analyze": "cross-env ANALYZE=true next build",
+    "build-storybook": "build-storybook -c .storybook -o dist -s ./public",
     "deploy:image": "(cd scripts; ts-node deploy-image)",
-    "deploy:package": "(cd scripts; ts-node deploy-package)"
+    "deploy:package": "(cd scripts; ts-node deploy-package)",
+    "lint": "yarn tsc --noemit",
+    "serverless": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 SERVE_ASSETS=false node serverless.js",
+    "start": "next",
+    "start-storybook": "start-storybook -p 9000 -c .storybook -s ./public"
   },
   "dependencies": {},
   "devDependencies": {
