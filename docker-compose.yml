@@ -55,7 +55,7 @@ services:
       - workspace
     ports:
       - '3000:3000'
-  
+
   frontend-assets:
     build:
       context: .
