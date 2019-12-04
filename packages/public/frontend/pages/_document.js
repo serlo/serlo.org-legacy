@@ -67,6 +67,7 @@ export async function handleBody(req, res, defaultProps) {
         defaultProps[key] = json[key]
       }
     }
+    props.assetPrefix = process.env.ASSET_PREFIX || ''
   }
   return props
 }
