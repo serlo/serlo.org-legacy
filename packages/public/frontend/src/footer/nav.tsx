@@ -94,6 +94,10 @@ const NavLink = styled.a`
   color: #888;
   text-decoration: none;
 
+  &:focus {
+    text-decoration: none;
+    color: #888;
+  }
   &:hover {
     color: ${getColor('darkGray')};
     border-bottom: 2px solid #ccc;
