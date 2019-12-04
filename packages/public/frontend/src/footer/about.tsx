@@ -43,7 +43,7 @@ export function About(props: AboutProps) {
             <SummaryHeading>{props.missionStatementTitle}</SummaryHeading>
             <SummaryBox>{props.missionStatement}</SummaryBox>
             <SummaryBox>
-              <Button
+              <LearnMoreButton
                 label={props.learnMoreLink.title}
                 iconName="faChevronCircleRight"
                 backgroundColor="transparent"
@@ -105,6 +105,12 @@ const TopButton = styled(Button)`
 
   > svg {
     vertical-align: -1.6em;
+  }
+` as typeof Button
+
+const LearnMoreButton = styled(Button)`
+  :hover {
+    text-decoration: none;
   }
 ` as typeof Button
 
