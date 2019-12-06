@@ -1,8 +1,13 @@
 import { Matchers, MessageConsumerPact, Pact } from '@pact-foundation/pact'
 import axios from 'axios'
 import * as path from 'path'
+import rimraf from 'rimraf'
+import * as util from 'util'
+
+const rm = util.promisify(rimraf)
 
 const root = path.join(__dirname, '..')
+const pactDir = path.join(root, 'pacts')
 
 describe('HTTP Contract', () => {
   const httpPact = new Pact({
@@ -10,10 +15,11 @@ describe('HTTP Contract', () => {
     provider: 'Commenting System',
     port: 9009,
     log: path.join(root, 'pact-http.log'),
-    dir: path.join(root, 'pacts', 'http')
+    dir: path.join(pactDir, 'http')
   })
 
   beforeAll(async () => {
+    await rm(pactDir)
     await httpPact.setup()
   })
 
@@ -44,7 +50,7 @@ describe('HTTP Contract', () => {
 
   test('GETting all threads (one thread)', async () => {
     await httpPact.addInteraction({
-      state: 'one thread for entity 234 exist',
+      state: 'one thread for entity 234 exists',
       uponReceiving: 'get all threads for entity 234',
       withRequest: {
         method: 'GET',
@@ -78,7 +84,7 @@ describe('Message Contract', () => {
     consumer: 'serlo.org',
     provider: 'Commenting System',
     log: path.join(root, 'pact-message.log'),
-    dir: path.join(root, 'pacts', 'message')
+    dir: path.join(pactDir, 'message')
   })
 
   test('create-thread', async () => {
@@ -123,7 +129,7 @@ describe('Message Contract', () => {
         thread_id: Matchers.uuid(),
         entity: {
           provider_id: 'serlo.org',
-          id: '123'
+          id: '234'
         },
         content: 'Content',
         created_at: Matchers.iso8601DateTime(),
@@ -134,7 +140,7 @@ describe('Message Contract', () => {
       }
     }
     await messagePact
-      .given('no threads exist')
+      .given('one thread for entity 234 exists')
       .expectsToReceive('a `create-comment` message')
       .withContent(message)
       .verify(async message => {
