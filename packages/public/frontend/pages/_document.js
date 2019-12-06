@@ -68,6 +68,7 @@ export async function handleBody(req, res, defaultProps) {
       }
     }
     props.assetPrefix = process.env.ASSET_PREFIX || ''
+    props.nextAssetPrefix = process.env.NEXT_ASSET_PREFIX || ''
   }
   return props
 }

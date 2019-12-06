@@ -109,7 +109,21 @@ const {
 const d = JSON.parse(window.__NEXT_DATA__.dataManager)
 export const dataManager = new DataManager(d)
 
-const prefix = assetPrefix || ''
+// ----------------- MODIFICATION 7 --------------------
+
+// Original:
+
+// const prefix = assetPrefix || ''
+
+// New:
+
+const prefix = props.pageProps.nextAssetPrefix || ''
+
+// Reason:
+
+// Loading the right prefix from server
+
+// ----------------- END MODIFICATION 7 --------------------
 
 // With dynamic assetPrefix it's no longer possible to set assetPrefix at the build time
 // So, this is how we do it in the client side at runtime
@@ -429,9 +443,12 @@ function markRenderComplete() {
 }
 
 function clearMarks() {
-  ;['beforeRender', 'afterHydrate', 'afterRender', 'routeChange'].forEach(
-    mark => performance.clearMarks(mark)
-  )
+  ;[
+    'beforeRender',
+    'afterHydrate',
+    'afterRender',
+    'routeChange'
+  ].forEach(mark => performance.clearMarks(mark))
   ;[
     'Next.js-before-hydration',
     'Next.js-hydration',
@@ -503,7 +520,6 @@ async function doRender({ App, Component, props, err, domEl }) {
   })
 
   // We catch runtime errors using componentDidCatch which will trigger renderError
-
 
   renderReactElement(
     <AppContainer>
