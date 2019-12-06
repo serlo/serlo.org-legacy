@@ -273,8 +273,6 @@ init($('body'))
 Supporter.check()
 
 function initDonationBanner(consent) {
-  // Disable donation banner if privacy policy hasn't been consented
-  if (!consent) return
   if (tenant !== 'de') return
   if (localStorage.getItem('donation-popup-donated') === '1') return
 
