@@ -1,6 +1,5 @@
 const withCSS = require('@zeit/next-css')
 const withImages = require('next-images')
-const webpack = require('webpack')
 const path = require('path')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
@@ -12,7 +11,7 @@ module.exports = withCSS({
     process.env.BUILD_ID ? process.env.BUILD_ID : null,
   ...withImages(
     withBundleAnalyzer({
-      webpack: config => {
+      webpack: (config, { dev, webpack }) => {
         // for multiroot support we need to overwrite one specific file
         // doing it with webpack
         const regex = /node_modules(\\|\/)next(\\|\/)dist(\\|\/)client(\\|\/)index.js/
@@ -33,6 +32,14 @@ module.exports = withCSS({
             )
           })
         )
+        // disable contenthashes in production build
+        if (!dev) {
+          config.output.chunkFilename = config.output.chunkFilename.replace(
+            '.[contenthash]',
+            ''
+          )
+          config.output.filename = () => '[name]'
+        }
         return config
       }
     })
