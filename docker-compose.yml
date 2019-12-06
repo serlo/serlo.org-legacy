@@ -155,4 +155,4 @@ services:
       - -d
       - pacts
     volumes:
-      - ./pacts/:/app/pacts
+      - ./packages/public/server/pacts/http:/app/pacts

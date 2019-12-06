@@ -1,0 +1,79 @@
+{
+  "consumer": {
+    "name": "serlo.org"
+  },
+  "provider": {
+    "name": "Commenting System"
+  },
+  "interactions": [
+    {
+      "description": "get all threads for entity 123",
+      "providerState": "no threads",
+      "request": {
+        "method": "GET",
+        "path": "/threads/serlo.org/123/"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+
+        ]
+      },
+      "metadata": null
+    },
+    {
+      "description": "get all threads for entity 234",
+      "providerState": "one thread for entity 234 with title `Antwort auf Frage XY`, content: `Ich habe folgende Frage` from author `{ user_id: '456', provider_id: 'serlo.org' }`",
+      "request": {
+        "method": "GET",
+        "path": "/threads/serlo.org/234/"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "id": "ce118b6e-d8e1-11e7-9296-cec278b6b50a",
+            "title": "Antwort auf Frage XY",
+            "comments": [
+              {
+                "id": "ce118b6e-d8e1-11e7-9296-cec278b6b50a",
+                "content": "Ich habe folgende Frage",
+                "author": {
+                  "user_id": "456",
+                  "provider_id": "serlo.org"
+                },
+                "created_at": "2015-08-06T16:53:10+01:00"
+              }
+            ]
+          }
+        ],
+        "matchingRules": {
+          "$.body[0].id": {
+            "match": "regex",
+            "regex": "^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+          },
+          "$.body[0].comments[0].id": {
+            "match": "regex",
+            "regex": "^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+          },
+          "$.body[0].comments[0].created_at": {
+            "match": "regex",
+            "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d([+-][0-2]\\d:[0-5]\\d|Z)$"
+          }
+        }
+      },
+      "metadata": null
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

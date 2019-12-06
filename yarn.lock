@@ -2848,7 +2848,7 @@
     unixify "1.0.0"
     url-join "^4.0.0"
 
-"@pact-foundation/pact@^9.5.0":
+"@pact-foundation/pact@^9.0.0":
   version "9.6.0"
   resolved "https://registry.yarnpkg.com/@pact-foundation/pact/-/pact-9.6.0.tgz#590ccc93aa3608b18ecc2309b1d7cb4433431a43"
   integrity sha512-jmo5KvXMiJn3BlQoNnN8JtCZfLuGQiF76yJShPTlmjl+NT3PezhQ46BpYoeL9IJF8cVxpbJ79Zs4P3qaT9tEqw==
