@@ -2,12 +2,14 @@ import { Pact } from '@pact-foundation/pact'
 import axios from 'axios'
 import * as path from 'path'
 
+const root = path.join(__dirname, '..')
+
 const provider = new Pact({
   consumer: 'serlo.org',
   provider: 'Commenting System',
   port: 9009,
-  log: path.resolve(process.cwd(), 'pact.log'),
-  dir: path.resolve(process.cwd(), 'pacts'),
+  log: path.join(root, 'pact.log'),
+  dir: path.join(root, 'pacts'),
   logLevel: 'warn'
 })
 
@@ -28,10 +30,9 @@ test('empty', async () => {
       body: []
     }
   })
-  const { data } = await axios.get(
+  await axios.get(
     'http://localhost:9009/threads/serlo.org/123/'
   )
-  expect(data).toEqual([])
 })
 
 test('non-empty', async () => {
@@ -61,23 +62,9 @@ test('non-empty', async () => {
       ]
     }
   })
-  const { data } = await axios.get(
+  await axios.get(
     'http://localhost:9009/threads/serlo.org/234/'
   )
-  expect(data).toEqual([
-    {
-      id: 'barfoo',
-      title: 'Antwort auf Frage XY',
-      comments: [
-        {
-          id: 'foobar',
-          content: 'Ich habe folgende Frage',
-          author: { user_id: '456', provider_id: 'serlo.org' },
-          created_at: '2019-11-11 11:11:11+02:00'
-        }
-      ]
-    }
-  ])
 })
 
 afterEach(async () => {
