@@ -228,7 +228,11 @@ setDefaultBreakpoints(
 
 // export function getColor<K extends keyof (typeof theme)["global"]["colors"]>( colorName: K): ((typeof theme)["global"]["colors"][K]) {
 
-export const GlobalStyle: any = createGlobalStyle`
+interface GlobalStyleProps {
+  assetPrefix?: string
+}
+
+export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
 
   html  {
     font-size: 16px;
