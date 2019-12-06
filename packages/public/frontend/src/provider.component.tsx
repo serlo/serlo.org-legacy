@@ -228,7 +228,11 @@ setDefaultBreakpoints(
 
 // export function getColor<K extends keyof (typeof theme)["global"]["colors"]>( colorName: K): ((typeof theme)["global"]["colors"][K]) {
 
-export const GlobalStyle = createGlobalStyle`
+interface GlobalStyleProps {
+  assetPrefix?: string
+}
+
+export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
 
   html  {
     font-size: 16px;
@@ -255,21 +259,21 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Karmilla';
     font-style: normal;
     font-weight: 400;
-    src: url('${process.env.ASSET_PREFIX ||
-      ''}/karmilla-regular.woff2') format('woff2'),
-      url('${process.env.ASSET_PREFIX ||
-        ''}/karmilla-regular.woff') format('woff');
+    src: url('${getFontPath}/karmilla-regular.woff2') format('woff2'),
+      url('${getFontPath}/karmilla-regular.woff') format('woff');
   }
 
   @font-face {
     font-family: 'Karmilla';
     font-style: normal;
     font-weight: 700;
-    src: url('${process.env.ASSET_PREFIX ||
-      ''}/karmilla-bold.woff2') format('woff2'),
-      url('${process.env.ASSET_PREFIX ||
-        ''}/karmilla-bold.woff') format('woff');
+    src: url('${getFontPath}/karmilla-bold.woff2') format('woff2'),
+      url('${getFontPath}/karmilla-bold.woff') format('woff');
   }
 
 }
 `
+
+function getFontPath(props) {
+  return props.assetPrefix
+}

@@ -1,10 +1,14 @@
-const http = require('http')
-const url = require('url')
+const lib = require('./lib')
+
+lib
+  .createServer([lib.healthCheck, lib.renderPage, serveAssets, lib.page404])
+  .listen(3000, () =>
+    console.log('Frontend (development) on http://localhost:3000')
+  )
+
+// ONLY for development: serve static assets
 const fs = require('fs')
 const path = require('path')
-
-const footer = require('./.next/serverless/pages/__footer.js')
-const comments = require('./.next/serverless/pages/__comments.js')
 
 // maps file extension to MIME types
 const map = {
@@ -16,18 +20,7 @@ const map = {
   '.png': 'image/png'
 }
 
-const server = new http.Server((req, res) => {
-  // parse URL and extract path
-  const pathname = url.parse(req.url).pathname
-
-  // render page
-  if (pathname === '/__footer') {
-    return footer.render(req, res)
-  }
-  if (pathname === '/__comments') {
-    return comments.render(req, res)
-  }
-
+function serveAssets(pathname, req, res, next) {
   // based on the URL path, extract the file extention. e.g. .js, .doc, ...
   const ext = path.parse(pathname).ext
 
@@ -38,17 +31,13 @@ const server = new http.Server((req, res) => {
 
   fs.exists(filename, function(exist) {
     if (!exist) {
-      // if the file is not found, return 404
-      res.statusCode = 404
-      res.end(`File ${pathname} not found!`)
-      return
+      return next()
     }
 
     // read file from file system
     fs.readFile(filename, function(err, data) {
       if (err) {
-        res.statusCode = 500
-        res.end(`Error getting the file: ${err}.`)
+        next()
       } else {
         // if the file is found, set Content-type and send data
         res.setHeader('Content-type', map[ext] || 'text/plain')
@@ -57,6 +46,4 @@ const server = new http.Server((req, res) => {
       }
     })
   })
-})
-
-server.listen(3000, () => console.log('Listening on http://localhost:3000'))
+}

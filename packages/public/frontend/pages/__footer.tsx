@@ -10,16 +10,16 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 // Prevent fontawesome from dynamically adding its css since we did it manually above
 config.autoAddCss = false
 
-export default function Index(props: FooterProps) {
+export default function Index(props) {
   return (
     <Provider>
       <Normalize />
-      <GlobalStyle />
+      <GlobalStyle assetPrefix={props.assetPrefix} />
       <Footer {...props} />
     </Provider>
   )
 }
-Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
+Index.getInitialProps = async ({ req, res }) => {
   return await handleBody(req, res, exampleFooterProps)
 }
 
