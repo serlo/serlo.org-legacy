@@ -10,7 +10,7 @@ describe('HTTP Contract', () => {
     provider: 'Commenting System',
     port: 9009,
     log: path.join(root, 'pact-http.log'),
-    dir: path.join(root, 'pacts', 'http'),
+    dir: path.join(root, 'pacts', 'http')
   })
 
   beforeAll(async () => {
@@ -27,7 +27,7 @@ describe('HTTP Contract', () => {
 
   test('GETting all threads (empty response)', async () => {
     await httpPact.addInteraction({
-      state: 'no threads',
+      state: 'no threads exist',
       uponReceiving: 'get all threads for entity 123',
       withRequest: {
         method: 'GET',
@@ -44,8 +44,7 @@ describe('HTTP Contract', () => {
 
   test('GETting all threads (one thread)', async () => {
     await httpPact.addInteraction({
-      state:
-        "one thread for entity 234 with title `Antwort auf Frage XY`, content: `Ich habe folgende Frage` from author `{ user_id: '456', provider_id: 'serlo.org' }`",
+      state: 'one thread for entity 234 exist',
       uponReceiving: 'get all threads for entity 234',
       withRequest: {
         method: 'GET',
@@ -104,7 +103,7 @@ describe('Message Contract', () => {
       }
     }
     await messagePact
-      .given('no threads')
+      .given('no threads exist')
       .expectsToReceive('a `create-thread` message')
       .withContent(message)
       .verify(async message => {
@@ -135,7 +134,7 @@ describe('Message Contract', () => {
       }
     }
     await messagePact
-      .given('none')
+      .given('no threads exist')
       .expectsToReceive('a `create-comment` message')
       .withContent(message)
       .verify(async message => {

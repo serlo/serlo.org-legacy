@@ -8,7 +8,7 @@
   "interactions": [
     {
       "description": "get all threads for entity 123",
-      "providerState": "no threads",
+      "providerState": "no threads exist",
       "request": {
         "method": "GET",
         "path": "/threads/serlo.org/123/"
@@ -26,7 +26,7 @@
     },
     {
       "description": "get all threads for entity 234",
-      "providerState": "one thread for entity 234 with title `Antwort auf Frage XY`, content: `Ich habe folgende Frage` from author `{ user_id: '456', provider_id: 'serlo.org' }`",
+      "providerState": "one thread for entity 234 exist",
       "request": {
         "method": "GET",
         "path": "/threads/serlo.org/234/"
