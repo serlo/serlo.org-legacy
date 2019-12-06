@@ -10,7 +10,7 @@
     "deploy:image": "(cd scripts; ts-node deploy-image)",
     "deploy:package": "(cd scripts; ts-node deploy-package)",
     "lint": "yarn tsc --noemit",
-    "serverless": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 SERVE_ASSETS=true node serverless.js",
+    "serverless": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 node serverless/serverless.development.js",
     "start": "next",
     "start-storybook": "start-storybook -p 9000 -c .storybook -s ./public"
   },
