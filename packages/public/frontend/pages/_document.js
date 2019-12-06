@@ -112,11 +112,7 @@ class MyMain extends Main {
     return (
       <div
         className="__next"
-        id={`__next${
-          process.env.NODE_ENV === 'production'
-            ? this.context._documentProps.__NEXT_DATA__.page
-            : ''
-        }`}
+        id={`__next${this.context._documentProps.__NEXT_DATA__.page}`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     )
@@ -137,9 +133,7 @@ class MyNextScript extends NextScript {
 
     if (
       !inAmpMode &&
-      process.env.NODE_ENV === 'production' &&
       !staticMarkup &&
-      (!devFiles || devFiles.length === 0) &&
       page !== '/_error' &&
       this.getDynamicChunks().length === 0 &&
       !(this.props.crossOrigin || process.crossOrigin) &&
@@ -185,6 +179,19 @@ class MyNextScript extends NextScript {
                 return null
               }
               return createDedupScriptTag(`${assetPrefix}/_next/${file}`, file)
+            })}
+          {devFiles &&
+            devFiles.length > 0 &&
+            devFiles.map(file => {
+              if (!/\.js$/.exec(file)) {
+                return null
+              }
+              return (
+                <script
+                  src={`${assetPrefix}/_next/${file}`}
+                  key={file}
+                ></script>
+              )
             })}
         </>
       )
