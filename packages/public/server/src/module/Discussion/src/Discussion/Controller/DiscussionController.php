@@ -144,7 +144,8 @@ class DiscussionController extends AbstractController
             $data = [
                 'object' => $this->params('on'),
             ];
-            $form->setData(array_merge($this->params()->fromPost(), $data));
+            $postData = json_decode($this->getRequest()->getContent(), true);
+            $form->setData(array_merge($postData, $data));
             if ($form->isValid()) {
                 $message = [
                     'type' => 'create-thread',
@@ -168,7 +169,19 @@ class DiscussionController extends AbstractController
                     $message
                 );
 
-                return new JsonModel(['success' => $success, 'thread' => $message['payload']]);
+                return new JsonModel(['success' => $success, 'thread' => [
+                    'comments' => [
+                        [
+                            'author' => [
+                                'id' => $message['payload']['author']['user_id'],
+                                // TODO: handle guests
+                                'username' => $this->getUserManager()->getUser($message['payload']['author']['user_id'])->getUsername()
+                            ],
+                            'content' => $message['payload']['content'],
+                            'created_at' => $message['payload']['created_at']
+                        ]
+                    ]
+                ]]);
             }
             return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
         }

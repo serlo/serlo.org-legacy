@@ -206,7 +206,23 @@ class Discussion extends AbstractHelper
                 $template,
                 [
                     'props' => [
-                        'discussions' => $this->discussions
+                        'entity_id' => $this->getObject()->getId(),
+                        'threads' => array_map(function ($thread) {
+                            return array_merge(
+                                $thread,
+                                ['comments' => array_map(function ($comment) {
+                                    // TODO: handle guest check provider.id
+                                    $id = $comment['author']['user_id'];
+                                    return array_merge(
+                                        $comment,
+                                        ['author' => [
+                                            'id' => $id,
+                                            'username' => $this->getUserManager()->getUser($id)->getUsername()
+                                        ]]
+                                    );
+                                }, $thread['comments'])]
+                            );
+                        }, $this->discussions)
                     ],
 //                    'isArchived'  => $this->archived,
 //                    'object'      => $this->getObject(),

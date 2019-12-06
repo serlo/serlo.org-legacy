@@ -13,8 +13,6 @@ import {
 export interface SendProps {
   entity_id: string
   parent_id: string
-  user_id: string
-  user_name: string
   body?: string
 }
 
@@ -39,8 +37,6 @@ export default class CommentForm extends React.Component<
   render() {
     const { parent_id, onSendComment } = this.props
     return (
-      <UserContext.Consumer>
-        {({ user }) => (
           <EntityContext.Consumer>
             {({ entity }) => (
               <StyledBox margin={{ bottom: 'medium' }}>
@@ -68,8 +64,6 @@ export default class CommentForm extends React.Component<
                           onSendComment({
                             entity_id: entity.id,
                             parent_id: parent_id,
-                            user_id: user.id,
-                            user_name: user.username,
                             body: this.state.newCommentValue
                           })
                       : () => {}
@@ -78,8 +72,6 @@ export default class CommentForm extends React.Component<
               </StyledBox>
             )}
           </EntityContext.Consumer>
-        )}
-      </UserContext.Consumer>
     )
   }
 }

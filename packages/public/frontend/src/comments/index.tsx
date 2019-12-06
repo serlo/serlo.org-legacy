@@ -22,10 +22,8 @@ export function Comments({ data, onSendComment }: CommentsProps) {
         />
 
         <Heading level={2} icon={'faComments'}>
-          99 Kommentare
+          {data.length} {data.length === 1 ? 'Kommentar' : 'Kommentare'}
         </Heading>
-        {/* todo: calculate amount of comments (and children) or get from server */}
-
         <div>
           {data
             ? data.map(comment => {
