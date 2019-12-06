@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Discussion\View\Helper;
 
 use Discussion\Entity\CommentInterface;
@@ -85,18 +86,20 @@ class Discussion extends AbstractHelper
         DiscussionForm $discussionForm,
         TwigRenderer $renderer,
         Request $request
-    ) {
-        $this->renderer       = $renderer;
-        $this->form           = [];
-        $this->termForm       = $termForm;
-        $this->commentForm    = $commentForm;
+    )
+    {
+        $this->renderer = $renderer;
+        $this->form = [];
+        $this->termForm = $termForm;
+        $this->commentForm = $commentForm;
         $this->discussionForm = $discussionForm;
-        $this->request       = $request;
+        $this->request = $request;
     }
 
     public function __invoke(UuidInterface $object = null, $forum = null, $archived = null)
     {
         if ($object !== null) {
+            // TODO:
             $this->discussions = $this->getDiscussionManager()->findDiscussionsOn($object, $archived);
             $this->setObject($object);
         }
@@ -196,16 +199,19 @@ class Discussion extends AbstractHelper
 
     public function render($template = null, $leftWidth = 2, $force = false)
     {
+        // TODO:
         $template = $template ? 'discussion/helper/' . $template . '/' . $template : $this->getOption('template');
         if ($force || !$this->request->isXmlHttpRequest()) {
             return $this->renderer->render(
                 $template,
                 [
-                    'discussions' => $this->discussions,
-                    'isArchived'  => $this->archived,
-                    'object'      => $this->getObject(),
-                    'forum'     => $this->getForum(),
-                    'leftWidth' => $leftWidth,
+                    'props' => [
+                        'discussions' => $this->discussions
+                    ],
+//                    'isArchived'  => $this->archived,
+//                    'object'      => $this->getObject(),
+//                    'forum'     => $this->getForum(),
+//                    'leftWidth' => $leftWidth,
                 ]
             );
         } else {
@@ -228,8 +234,8 @@ class Discussion extends AbstractHelper
     {
         return [
             'template' => 'discussion/helper/default/default',
-            'root'     => 'root',
-            'forum'    => 'forum',
+            'root' => 'root',
+            'forum' => 'forum',
         ];
     }
 }

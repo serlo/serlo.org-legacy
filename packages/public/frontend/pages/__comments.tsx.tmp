@@ -11,6 +11,8 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 config.autoAddCss = false
 
 export default function Index(props) {
+    console.log('foooooo')
+    console.log(props)
   return (
     <UserContext.Provider value={{ user: { id: '1', username: 'aeneas' } }}>
       <EntityContext.Provider
@@ -113,5 +115,5 @@ export default function Index(props) {
 }
 
 Index.getInitialProps = async ({ req, res }: { req: any; res: any }) => {
-  return await handleBody(req, res, { exampleProp: 'lala123' })
+  return await handleBody(req, res, { threads: [] })
 }

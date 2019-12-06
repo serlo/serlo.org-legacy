@@ -19,24 +19,25 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{% set discussions = discussion().getDiscussions(object) %}
-{% set form = discussion().getForm('discussion', object, forum) %}
-<div class="h2 heading-content">
-    <span>{{ 'Comments' | trans }}</span>
-</div>
-<div id="discussion-form-container-{{ object.getId() }}">
-    <div class="row">
-        <div class="col-md-12 discussion-form">
-            {% include 'discussion/partials/form-renderer' with {'form': form} %}
-        </div>
-    </div>
-</div>
+{#{% set discussions = discussion().getDiscussions(object) %}#}
+{#{% set form = discussion().getForm('discussion', object, forum) %}#}
+{#<div class="h2 heading-content">#}
+{#    <span>{{ 'Comments' | trans }}</span>#}
+{#</div>#}
+{#<div id="discussion-form-container-{{ object.getId() }}">#}
+{#    <div class="row">#}
+{#        <div class="col-md-12 discussion-form">#}
+{#            {% include 'discussion/partials/form-renderer' with {'form': form} %}#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 
-{% if not discussions is empty %}
-    <hr/>
-{% endif %}
-<div class="discussions">
-    {% for discussion in discussions %}
-        {% include 'discussion/helper/default/discussion' with {'discussion': discussion, 'blockquoteClass': ''} %}
-    {% endfor %}
-</div>
+{#{% if not discussions is empty %}#}
+{#    <hr/>#}
+{#{% endif %}#}
+{#<div class="discussions">#}
+{#    {% for discussion in discussions %}#}
+{#        {% include 'discussion/helper/default/discussion' with {'discussion': discussion, 'blockquoteClass': ''} %}#}
+{#    {% endfor %}#}
+{#</div>#}
+{{ renderComponent('comments', props) }}

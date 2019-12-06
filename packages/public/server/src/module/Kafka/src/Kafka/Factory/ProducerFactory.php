@@ -35,7 +35,7 @@ class ProducerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $host = $serviceLocator->get('Config')['kafka_host'];
+        $host = $serviceLocator->get('Config')['services']['kafka'];
         return new Producer($host);
     }
 }

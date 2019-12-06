@@ -33,9 +33,9 @@ $services = [
     'frontend' => 'http://frontend:3000',
     'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000',
     'hydra' => 'http://hydra:4445',
+    'kafka' => 'http://kafka-rest-proxy:8082',
+    'commenting-system' => 'http://commenting-system:8080'
 ];
-
-$kafka_host = 'http://kafka-rest-proxy:8082';
 
 $db = [
     'host' => 'mysql',

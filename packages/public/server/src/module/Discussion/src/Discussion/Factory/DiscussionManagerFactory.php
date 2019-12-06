@@ -47,7 +47,8 @@ class DiscussionManagerFactory implements FactoryInterface
         $authorizationService = $this->getAuthorizationService($serviceLocator);
         $classResolver        = $this->getClassResolver($serviceLocator);
         $objectManager        = $this->getEntityManager($serviceLocator);
-        $discussionManager    = new DiscussionManager($authorizationService, $classResolver, $objectManager);
+        $host = $serviceLocator->get('Config')['services']['commenting-system'];
+        $discussionManager    = new DiscussionManager($authorizationService, $classResolver, $objectManager, $host);
         return $discussionManager;
     }
 }

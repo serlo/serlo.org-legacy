@@ -60,15 +60,21 @@ class DiscussionManager implements DiscussionManagerInterface
      * @var string
      */
     protected $entityInterface = 'Discussion\Entity\CommentInterface';
+    /**
+     * @var string
+     */
+    protected $host;
 
     public function __construct(
         AuthorizationService $authorizationService,
         ClassResolverInterface $classResolver,
-        ObjectManager $objectManager
+        ObjectManager $objectManager,
+        string $host
     ) {
         $this->setAuthorizationService($authorizationService);
         $this->classResolver = $classResolver;
         $this->objectManager = $objectManager;
+        $this->host = $host;
     }
 
     public function commentDiscussion(FormInterface $form)
@@ -132,20 +138,16 @@ class DiscussionManager implements DiscussionManagerInterface
 
     public function findDiscussionsOn(UuidInterface $uuid, $archived = null)
     {
-        $className        = $this->getClassResolver()->resolveClassName($this->entityInterface);
-        $objectRepository = $this->getObjectManager()->getRepository($className);
-        $criteria         = ['object' => $uuid->getId()];
-        if ($archived !== null) {
-            $criteria['archived'] = $archived;
-        }
-        $discussions = $objectRepository->findBy($criteria);
-
-        foreach ($discussions as $discussion) {
-            $this->assertGranted('discussion.get', $discussion);
-        }
-
-        $collection = new ArrayCollection($discussions);
-        return $this->sortDiscussions($collection);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->host . '/threads/serlo.org/' . $uuid->getId() . '/');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_ENCODING, '');
+        $response = curl_exec($ch);
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $body = substr($response, $header_size);
+        return json_decode($body, true);
     }
 
     public function getComment($id)
