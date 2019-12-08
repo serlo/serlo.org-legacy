@@ -37,7 +37,7 @@
     "c": "docker-compose run --rm server-composer composer",
     "c-dev": "docker-compose run --rm server-composer-dev-tools composer",
     "start": "npm-run-all start:server start:client",
-    "start:client": "lerna run start --scope=@serlo/serlo-org-client",
+    "start:client": "lerna run --stream --scope=@serlo/serlo-org-client start",
     "prestart:server": "yarn c install && yarn c-dev install",
     "start:server": "docker-compose up --build --detach",
     "stop:server": "docker-compose stop",
