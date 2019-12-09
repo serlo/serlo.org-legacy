@@ -1,0 +1,10 @@
+/**
+ * Styles for rendering the donation banner on „Mathe für Nicht-Freaks“.
+ */
+
+@import '../../main/styles/base/variables';
+@import '../../main/styles/partials/serlo_brand';
+
+#donation-banner div {
+  box-sizing: border-box;
+}
