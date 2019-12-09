@@ -82,5 +82,5 @@ dist
 # Docker Compose override file
 docker-compose.override.yml
 
-# Configuration file of the asdf virtual manager ( https://asdf-vm.com/ )
+# asdf-vm configuration file
 .tool-versions
