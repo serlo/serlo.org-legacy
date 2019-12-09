@@ -23,38 +23,29 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { initDonationBanner } from './modules/donation-banner'
+import { initDonationBanner } from '../main/modules/donation-banner'
 import './styles/donation-banner-mfnf.scss'
 
+init()
+
+function init() {
+  if (isSerloPageOnWikibooks()) {
+    preparePageForBanner()
+    initDonationBanner()
+  }
+}
+
 function isSerloPageOnWikibooks() {
+  const mw = (window as any)['mw']
   return mw && mw.config.get('wgPageName').startsWith('Mathe_für_Nicht-Freaks')
 }
 
-function isPageReadyForBanner() {
-  return $('#donation-banner').length > 0
-}
-
 function preparePageForBanner() {
-  const serloClientBaseUrl =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:8081/'
-      : 'https://packages.serlo.org/serlo-org-client@5/'
-  const bannerStylesheet = serloClientBaseUrl + 'donation-banner-mfnf.css'
+  if ($('#donation-banner').length > 0) return
+  const bannerStylesheet = __webpack_public_path__ + 'donation-banner-mfnf.css'
 
   $('body').prepend("<div id='donation-banner'></div>")
   $('head').prepend(
     `<link rel='stylesheet' type='text/css' href='${bannerStylesheet}' />`
   )
 }
-
-function displayDonationBannerOnMFNF() {
-  if (isSerloPageOnWikibooks()) {
-    if (!isPageReadyForBanner()) {
-      preparePageForBanner()
-    }
-
-    initDonationBanner()
-  }
-}
-
-displayDonationBannerOnMFNF()
