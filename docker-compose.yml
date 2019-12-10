@@ -115,6 +115,15 @@ services:
       - ./packages/public/server/src/vendor:/usr/local/apache2/htdocs/src/vendor:delegated
       - ./packages/public/server/src/init_autoloader.php:/usr/local/apache2/htdocs/src/init_autoloader.php:delegated
 
+  server-migrate:
+    build:
+      context: packages/public/server
+      dockerfile: docker/migrate/Dockerfile
+    volumes:
+      - ./packages/public/server/migrations:/app/migrations:delegated
+    environment:
+      - DATABASE=mysql://root:secret@tcp(mysql:3306)/serlo?query
+
   static-assets:
     image: nginx
     ports:
