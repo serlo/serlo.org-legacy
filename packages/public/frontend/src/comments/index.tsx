@@ -25,11 +25,12 @@ export function Comments({ data, onSendComment }: CommentsProps) {
           {data.length} {data.length === 1 ? 'Kommentar' : 'Kommentare'}
         </Heading>
         <div>
+          {console.log(data)}
           {data
-            ? data.map(comment => {
+            ? data.map((comment, index) => {
                 return (
                   <Comment
-                    key={comment.id}
+                    key={comment.id ? comment.id : index}
                     {...comment}
                     onSendComment={onSendComment}
                   />
@@ -50,7 +51,7 @@ interface CommentsProps {
   data: Comment[]
   entity?: Entity
   user?: User
-  onSendComment: (props: SendProps) => void
+  onSendComment: (props: SendProps) => Promise<void>
 }
 
 // interface CommentProps extends Comment {

@@ -34,7 +34,7 @@ $services = [
     'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000',
     'hydra' => 'http://hydra:4445',
     'kafka' => 'http://kafka-rest-proxy:8082',
-    'commenting-system' => 'http://commenting-system:8080'
+    'commenting-system' => 'http://commenting-system:8080',
 ];
 
 $db = [

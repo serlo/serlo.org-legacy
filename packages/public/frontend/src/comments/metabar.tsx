@@ -53,9 +53,9 @@ export default function MetaBar({
   return (
     <MetaBarBox direction="row" justify="between">
       <BoldButton
-        label={author.username}
+        label={author ? author.username : 'Gast'}
         iconName="faUserGraduate"
-        href={`https://serlo.org/${author.id}`}
+        href={author ? `/${author.id}` : undefined}
         backgroundColor="transparent"
         activeBackgroundColor={getColor('lightblue')}
         fontColor={getColor('brand')}

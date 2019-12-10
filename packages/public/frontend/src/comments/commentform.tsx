@@ -18,60 +18,70 @@ export interface SendProps {
 
 interface CommentFormProps {
   parent_id: string
-  onSendComment?: (props: SendProps) => void
+  onSendComment?: (props: SendProps) => Promise<void>
   placeholder: string
   reply?: boolean
 }
 
 export default class CommentForm extends React.Component<
   CommentFormProps,
-  { newCommentValue: string; focus: boolean }
+  { newCommentValue: string; focus: boolean; disabled: boolean }
 > {
   constructor(props: CommentFormProps) {
     super(props)
     this.state = {
       newCommentValue: '',
-      focus: false
+      focus: false,
+      disabled: false
     }
   }
   render() {
     const { parent_id, onSendComment } = this.props
     return (
-          <EntityContext.Consumer>
-            {({ entity }) => (
-              <StyledBox margin={{ bottom: 'medium' }}>
-                <StyledTextarea
-                  value={this.state.newCommentValue}
-                  onFocus={() => {
-                    this.setState({ focus: true })
-                  }}
-                  onBlur={() => {
-                    this.setState({ focus: false })
-                  }}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    this.setState({ newCommentValue: event.target.value })
-                  }}
-                  placeholder={this.props.placeholder}
-                  focused={this.state.focus ? 'focused' : undefined}
-                />
-                <SendButton
-                  iconName={this.props.reply ? 'faReply' : 'faArrowRight'}
-                  title="Abschicken"
-                  active={this.state.focus}
-                  onClick={
-                    onSendComment
-                      ? () =>
-                          onSendComment({
-                            entity_id: entity.id,
-                            parent_id: parent_id,
-                            body: this.state.newCommentValue
-                          })
-                      : () => {}
-                  }
-                />
-              </StyledBox>
-            )}
-          </EntityContext.Consumer>
+      <EntityContext.Consumer>
+        {({ entity }) => (
+          <StyledBox margin={{ bottom: 'medium' }}>
+            <StyledTextarea
+              value={this.state.newCommentValue}
+              onFocus={() => {
+                this.setState({ focus: true })
+              }}
+              onBlur={() => {
+                this.setState({ focus: false })
+              }}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                this.setState({ newCommentValue: event.target.value })
+              }}
+              placeholder={this.props.placeholder}
+              focused={this.state.focus ? 'focused' : undefined}
+            />
+
+            <SendButton
+              iconName={this.props.reply ? 'faReply' : 'faArrowRight'}
+              title="Abschicken"
+              active={this.state.focus}
+              disabled={this.state.disabled || !this.state.newCommentValue}
+              onClick={
+                !this.state.disabled && onSendComment
+                  ? () => {
+                      this.setState({ disabled: true })
+                      onSendComment({
+                        entity_id: entity.id,
+                        parent_id: parent_id,
+                        body: this.state.newCommentValue
+                      }).then(() => {
+                        this.setState({
+                          newCommentValue: '',
+                          disabled: false
+                        })
+                      })
+                    }
+                  : undefined
+              }
+            />
+          </StyledBox>
+        )}
+      </EntityContext.Consumer>
     )
   }
 }

@@ -174,7 +174,7 @@ return [
                                         'action'     => 'comment',
                                     ],
                                     'constraints' => [
-                                        'discussion' => '[0-9]+',
+                                        'discussion' => '[a-z\-0-9]+',
                                     ],
                                 ],
                             ],

@@ -103,17 +103,38 @@ const StyledButton = styled(GrommetButton)<ButtonProps>`
 
   box-shadow: none;
 
-  &:hover,
-  &:focus {
-    color: ${props =>
-      !props.active ? props.activeFontColor : props.fontColor};
-    background-color: ${props =>
-      !props.active ? props.activeBackgroundColor : props.backgroundColor};
-  }
+  ${props =>
+    props.disabled
+      ? `
+          &:hover,
+          &:focus {
+            color: ${props =>
+              props.active
+                ? props.activeFontColor
+                : props.fontColor} !important;
+            background-color: ${props =>
+              props.active
+                ? props.activeBackgroundColor
+                : props.backgroundColor} !important;
+          }
+        `
+      : `
+          &:hover,
+          &:focus {
+            color: ${props =>
+              !props.active
+                ? props.activeFontColor
+                : props.fontColor} !important;
+            background-color: ${props =>
+              !props.active
+                ? props.activeBackgroundColor
+                : props.backgroundColor} !important;
+          }
 
-  &:focus {
-    box-shadow: 0 0 4px 0 ${getColor('brand')};
-  }
+          &:focus {
+            box-shadow: 0 0 4px 0 ${getColor('brand')};
+          }
+        `}
 
   ${props =>
     props.label &&
@@ -136,17 +157,21 @@ interface StyledIconProps {
 // label = { props.label }
 // iconName = { props.iconName }
 
-const StyledIcon = styled(Icon)<StyledIconProps>`
+export const StyledIcon = styled(Icon)<StyledIconProps>`
   width: 1.5em !important;
   height: 1.5em !important;
   vertical-align: -0.4em;
 
   color: ${props => (props.active ? props.activeIconColor : props.iconColor)};
 
+  ${props =>
+    props.disabled
+      ? ``
+      : `
   ${StyledButton}:hover & {
     color: ${props =>
       !props.active ? props.activeIconColor : props.iconColor};
-  }
+  }`}
 
   ${props =>
     props.label &&

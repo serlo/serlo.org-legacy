@@ -86,8 +86,7 @@ class Discussion extends AbstractHelper
         DiscussionForm $discussionForm,
         TwigRenderer $renderer,
         Request $request
-    )
-    {
+    ) {
         $this->renderer = $renderer;
         $this->form = [];
         $this->termForm = $termForm;
@@ -212,17 +211,19 @@ class Discussion extends AbstractHelper
                                 $thread,
                                 ['comments' => array_map(function ($comment) {
                                     // TODO: handle guest check provider.id
+                                    $provider = $comment['author']['provider_id'];
                                     $id = $comment['author']['user_id'];
+
                                     return array_merge(
                                         $comment,
-                                        ['author' => [
+                                        ['author' => $provider == 'serlo.org' ? [
                                             'id' => $id,
-                                            'username' => $this->getUserManager()->getUser($id)->getUsername()
-                                        ]]
+                                            'username' => $this->getUserManager()->getUser($id)->getUsername(),
+                                        ] : null]
                                     );
                                 }, $thread['comments'])]
                             );
-                        }, $this->discussions)
+                        }, $this->discussions),
                     ],
 //                    'isArchived'  => $this->archived,
 //                    'object'      => $this->getObject(),

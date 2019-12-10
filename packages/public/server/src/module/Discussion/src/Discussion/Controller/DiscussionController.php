@@ -64,8 +64,7 @@ class DiscussionController extends AbstractController
         DiscussionForm $discussionForm,
         TaxonomyManagerInterface $taxonomyManager,
         Producer $producer
-    )
-    {
+    ) {
         $this->commentForm = $commentForm;
         $this->discussionForm = $discussionForm;
         $this->taxonomyManager = $taxonomyManager;
@@ -93,7 +92,8 @@ class DiscussionController extends AbstractController
             $data = [
                 'parent' => $this->params('discussion'),
             ];
-            $form->setData(array_merge($this->params()->fromPost(), $data));
+            $postData = json_decode($this->getRequest()->getContent(), true);
+            $form->setData(array_merge($postData, $data));
             if ($form->isValid()) {
                 $message = [
                     'type' => 'create-comment',
@@ -113,7 +113,14 @@ class DiscussionController extends AbstractController
                     $message
                 );
 
-                return new JsonModel(['success' => $success, 'comment' => $message['payload']]);
+                return new JsonModel(['success' => $success, 'comment' => [
+                    'author' => $message['payload']['author']['provider_id'] == 'serlo.org' ? [
+                        'id' => $message['payload']['author']['user_id'],
+                        'username' => $this->getUserManager()->getUser($message['payload']['author']['user_id'])->getUsername(),
+                    ] : null,
+                    'content' => $message['payload']['content'],
+                    'created_at' => $message['payload']['created_at'],
+                ]]);
             }
             return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
         }
@@ -172,15 +179,14 @@ class DiscussionController extends AbstractController
                 return new JsonModel(['success' => $success, 'thread' => [
                     'comments' => [
                         [
-                            'author' => [
+                            'author' => $message['payload']['author']['provider_id'] == 'serlo.org' ? [
                                 'id' => $message['payload']['author']['user_id'],
-                                // TODO: handle guests
-                                'username' => $this->getUserManager()->getUser($message['payload']['author']['user_id'])->getUsername()
-                            ],
+                                'username' => $this->getUserManager()->getUser($message['payload']['author']['user_id'])->getUsername(),
+                            ] : null,
                             'content' => $message['payload']['content'],
-                            'created_at' => $message['payload']['created_at']
-                        ]
-                    ]
+                            'created_at' => $message['payload']['created_at'],
+                        ],
+                    ],
                 ]]);
             }
             return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
@@ -188,8 +194,7 @@ class DiscussionController extends AbstractController
         return new JsonModel(['success' => false]);
     }
 
-    public
-    function voteAction()
+    public function voteAction()
     {
         $discussion = $this->getDiscussion($this->params('comment'));
 
@@ -218,8 +223,7 @@ class DiscussionController extends AbstractController
         return $this->redirect()->toReferer();
     }
 
-    protected
-    function getDiscussion($id = null)
+    protected function getDiscussion($id = null)
     {
         $id = $id ?: $this->params('id');
         try {
@@ -230,8 +234,7 @@ class DiscussionController extends AbstractController
         }
     }
 
-    protected
-    function getForm($type, $id)
+    protected function getForm($type, $id)
     {
         switch ($type) {
             case 'discussion':

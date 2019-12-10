@@ -14,7 +14,6 @@ export function Comment({
   entity,
   onSendComment
 }: CommentProps) {
-  console.log(onSendComment)
   return (
     <React.Fragment>
       <Grid
@@ -54,10 +53,10 @@ export function Comment({
           <MetaBar author={author} timestamp={timestamp} leaf={leaf} />
           {body}
           {children && !leaf
-            ? children.map(comment => {
+            ? children.map((comment, index) => {
                 return (
                   <Comment
-                    key={comment.id}
+                    key={comment.id ? comment.id : index}
                     leaf
                     onSendComment={onSendComment}
                     {...comment}
@@ -65,14 +64,14 @@ export function Comment({
                 )
               })
             : null}
-          {leaf || entity === undefined ? null : (
+          {!leaf && id ? (
             <CommentForm
               placeholder="Deine Antwort …"
               reply
               parent_id={id}
               onSendComment={onSendComment}
             />
-          )}
+          ) : null}
         </Box>
       </Grid>
     </React.Fragment>
@@ -81,7 +80,7 @@ export function Comment({
 
 interface CommentProps extends Comment {
   leaf?: boolean
-  onSendComment?: (props: SendProps) => void
+  onSendComment?: (props: SendProps) => Promise<void>
 }
 
 interface Comment {
