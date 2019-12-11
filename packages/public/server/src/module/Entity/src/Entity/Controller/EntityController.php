@@ -24,11 +24,13 @@ namespace Entity\Controller;
 
 use Entity\Result;
 use Instance\Manager\InstanceManagerAwareTrait;
+use Normalizer\NormalizerAwareTrait;
 use Zend\EventManager\ResponseCollection;
+use Zend\View\Model\ViewModel;
 
 class EntityController extends AbstractController
 {
-    use InstanceManagerAwareTrait;
+    use InstanceManagerAwareTrait, NormalizerAwareTrait;
 
     public function createAction()
     {
@@ -62,5 +64,30 @@ class EntityController extends AbstractController
             return $this->redirect()->toReferer();
         }
         return true;
+    }
+
+    public function unrevisedAction()
+    {
+        $revisions = $this->getEntityManager()->findAllUnrevisedRevisions()->getIterator();
+
+        $revisions->uasort(function ($revisionA, $revisionB) {
+            $timestampA = $revisionA->getTimestamp()->getTimestamp();
+            $timestampB = $revisionB->getTimestamp()->getTimestamp();
+
+            return $timestampB - $timestampA;
+        });
+
+        $revisionsGrouped = array();
+
+        foreach ($revisions as $revision) {
+            $normalizedRevision = $this->getNormalizer()->normalize($revision);
+
+            $revisionsGrouped[$revision->getRepository()->getId()][] = $normalizedRevision;
+        }
+
+        $view = new ViewModel(['revisionsGrouped' => $revisionsGrouped]);
+        $view->setTemplate('entity/unrevised');
+
+        return $view;
     }
 }

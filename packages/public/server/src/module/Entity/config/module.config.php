@@ -99,6 +99,9 @@ return [
                     'setInstanceManager' => [
                         'required' => true,
                     ],
+                    'setNormalizer' => [
+                        'required' => true,
+                    ],
                 ],
                 __NAMESPACE__ . '\Controller\RepositoryController' => [
                     'setEntityManager' => [
