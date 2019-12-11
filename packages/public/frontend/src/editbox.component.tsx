@@ -16,7 +16,7 @@ const { useRef } = React
 
 export const EditBox: React.FunctionComponent<React.HTMLAttributes<
   HTMLDivElement
->> = props => {
+> & { contentID?: string }> = props => {
   try {
     document.getElementById('lalal')
   } catch (e) {
@@ -38,7 +38,7 @@ export const EditBox: React.FunctionComponent<React.HTMLAttributes<
       <Summary isFixed={posIsFixed} minSpaceToBottom={minSpaceToBottom}>
         {/* Bearbeitungen: <b>5</b> */}
         <div>
-          <ShareModal ref={modalRef}></ShareModal>
+          <ShareModal ref={modalRef} contentID={props.contentID}></ShareModal>
           <SummaryButton
             label="Inhalt bearbeiten"
             iconName="faPencilAlt"

@@ -15,10 +15,10 @@ export default function Index(props) {
     <Provider>
       <Normalize />
       <GlobalStyle assetPrefix={props.assetPrefix} />
-      <EditBox />
+      <EditBox contentID={props.contentID} />
     </Provider>
   )
 }
 Index.getInitialProps = async ({ req, res }) => {
-  return await handleBody(req, res, {})
+  return await handleBody(req, res, { contentID: '123' })
 }

@@ -17,9 +17,10 @@ Modal.setAppElement('body')
 
 interface Props {
   // isOpen: boolean
+  contentID?: string
 }
 
-const ShareModal: any = forwardRef((props, ref) => {
+const ShareModal: any = forwardRef((props: Props, ref) => {
   const [modalIsOpen, setIsOpen] = React.useState(false)
 
   if (!ExecutionEnvironment.canUseDOM) {
@@ -50,7 +51,11 @@ const ShareModal: any = forwardRef((props, ref) => {
     /* TODO: Get int8 string */
   }
 
-  const urlEncoded = encodeURIComponent(window.location.href)
+  const url = props.contentID
+    ? `https://serlo.org/${props.contentID}`
+    : 'https://serlo.org/'
+
+  const urlEncoded = encodeURIComponent(url)
   const titleEncoded = encodeURIComponent(document.title)
 
   const socialShare = [
@@ -58,7 +63,7 @@ const ShareModal: any = forwardRef((props, ref) => {
       title: 'E-Mail',
       icon: 'faEnvelope',
       href: `mailto:?subject=${titleEncoded}&body=${encodeURIComponent(
-        document.title + '\n' + window.location.href
+        document.title + '\n' + url
       )}`
     },
     {
@@ -70,7 +75,7 @@ const ShareModal: any = forwardRef((props, ref) => {
       title: 'Whatsapp',
       icon: 'faWhatsappSquare',
       href: `whatsapp://send?text=${encodeURIComponent(
-        document.title + ': ' + window.location.href
+        document.title + ': ' + url
       )}`
     }
   ]
@@ -100,11 +105,7 @@ const ShareModal: any = forwardRef((props, ref) => {
       {/* TODO: Get int8 string */}
 
       <p>
-        <ShareInput
-          ref={shareInputRef}
-          onFocus={handleFocus}
-          value={window.location.href}
-        />{' '}
+        <ShareInput ref={shareInputRef} onFocus={handleFocus} value={url} />{' '}
         {document.queryCommandSupported('copy') && (
           <Button
             label="Copy" /* TODO: Get int8 string */
