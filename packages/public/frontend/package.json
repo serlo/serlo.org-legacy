@@ -14,7 +14,9 @@
     "start": "next",
     "start-storybook": "start-storybook -p 9000 -c .storybook -s ./public"
   },
-  "dependencies": {},
+  "dependencies": {
+    "exenv": "^1.2.2"
+  },
   "devDependencies": {
     "@babel/runtime": "^7.0.0",
     "@fortawesome/fontawesome-free": "^5.0.0",

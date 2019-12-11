@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Button } from './button.component'
 import Modal from 'react-modal'
+import ExecutionEnvironment from 'exenv'
 const { forwardRef, useImperativeHandle } = React
 
 import {
@@ -12,7 +13,7 @@ import {
   transparentizeColor
 } from './provider.component'
 
-Modal.setAppElement('#root')
+Modal.setAppElement('body')
 
 interface Props {
   // isOpen: boolean
@@ -20,6 +21,10 @@ interface Props {
 
 const ShareModal: any = forwardRef((props, ref) => {
   const [modalIsOpen, setIsOpen] = React.useState(false)
+
+  if (!ExecutionEnvironment.canUseDOM) {
+    return null
+  }
 
   useImperativeHandle(ref, () => ({
     openModal() {
@@ -166,7 +171,8 @@ const ModalStyles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     width: '30rem',
-    borderRadius: '1.1rem'
+    borderRadius: '1.1rem',
+    fontFamily: 'Karmilla'
   }
 }
 
