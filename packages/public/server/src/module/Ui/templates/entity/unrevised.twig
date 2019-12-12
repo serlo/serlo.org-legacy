@@ -20,33 +20,38 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 {{ pageHeader('Unrevised learning resources').render() }}
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>{% trans %} Title {% endtrans %}</th>
-      <th>{% trans %} Revision {% endtrans %}</th>
-      <th>{% trans %} Type {% endtrans %}</th>
-      <th>{% trans %} Timestamp {% endtrans %}</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for revisions in revisionsGrouped %}
-      {% for revision in revisions %}
-        <tr>
-          <td style="width:30%">
-            {% if loop.first %}
-              {{ revision.getTitle() }}
-            {% endif %}
-          </td>
-          <td>
-            <a href="{{ url(revision.getRouteName(), revision.getRouteParams()) }}">
-              {{ revision.getId() }}
-            </a>
-          </td>
-          <td>{{ revision.getType() | trans }}</td>
-          <td>{{ timeago().render(revision.getMetadata().getCreationDate()) }}</td>
-        </tr>
+<div class="unrevised">
+{% for subject, revisionsByEntity in revisionsBySubject %}
+  <h2>{{ subject }}</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>{% trans %} Title {% endtrans %}</th>
+        <th>{% trans %} Revision {% endtrans %}</th>
+        <th>{% trans %} Type {% endtrans %}</th>
+        <th>{% trans %} Timestamp {% endtrans %}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for revisions in revisionsByEntity %}
+        {% for revision in revisions %}
+          <tr>
+            <td style="width:30%">
+              {% if loop.first %}
+                {{ revision.getTitle() }}
+              {% endif %}
+            </td>
+            <td>
+              <a href="{{ url(revision.getRouteName(), revision.getRouteParams()) }}">
+                {{ revision.getId() }}
+              </a>
+            </td>
+            <td>{{ revision.getType() | trans }}</td>
+            <td>{{ timeago().render(revision.getMetadata().getCreationDate()) }}</td>
+          </tr>
+        {% endfor %}
       {% endfor %}
-    {% endfor %}
-  </tbody>
-</table>
+    </tbody>
+  </table>
+{% endfor %}
+</div>

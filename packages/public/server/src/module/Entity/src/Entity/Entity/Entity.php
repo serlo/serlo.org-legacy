@@ -260,6 +260,19 @@ class Entity extends Uuid implements EntityInterface
         return $collection;
     }
 
+    public function getSubjects()
+    {
+        if (!$this->getTaxonomyTerms()->isEmpty()) {
+            return array_unique($this->getTaxonomyTerms()->map(function ($term) {
+                return $term->getSecondLevelAncestor();
+            })->toArray(), SORT_REGULAR);
+        } else {
+            return array_merge($this->getParents('link')->map(function ($parent) {
+                return $parent->getSubjects();
+            }));
+        }
+    }
+
     public function getTimestamp()
     {
         return $this->date;

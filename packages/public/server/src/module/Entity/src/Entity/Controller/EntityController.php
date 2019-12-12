@@ -77,15 +77,18 @@ class EntityController extends AbstractController
             return $timestampB - $timestampA;
         });
 
-        $revisionsGrouped = array();
+        $revisionsBySubject = array();
 
         foreach ($revisions as $revision) {
             $normalizedRevision = $this->getNormalizer()->normalize($revision);
+            $entity = $revision->getRepository();
 
-            $revisionsGrouped[$revision->getRepository()->getId()][] = $normalizedRevision;
+            foreach ($entity->getSubjects() as $subject) {
+                $revisionsBySubject[$subject->getName()][$entity->getId()][] = $normalizedRevision;
+            }
         }
 
-        $view = new ViewModel(['revisionsGrouped' => $revisionsGrouped]);
+        $view = new ViewModel(['revisionsBySubject' => $revisionsBySubject]);
         $view->setTemplate('entity/unrevised');
 
         return $view;

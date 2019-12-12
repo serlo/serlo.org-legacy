@@ -90,6 +90,11 @@ interface EntityInterface extends UuidInterface, InstanceAwareInterface, Reposit
     public function getPreviousValidSibling($linkType, EntityInterface $following);
 
     /**
+     * @return TaxonomyTermInterface[]|Collection
+     */
+    public function getSubjects();
+
+    /**
      * @return bool
      */
     public function isUnrevised();

@@ -103,6 +103,11 @@ interface TaxonomyTermInterface extends InstanceProviderInterface, UuidInterface
     /**
      * @return self
      */
+    public function getSecondLevelAncestor();
+
+    /**
+     * @return self
+     */
     public function getParent();
 
     /**

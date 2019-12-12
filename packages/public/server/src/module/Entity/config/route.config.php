@@ -103,7 +103,7 @@ return [
                             'route' => '/unrevised',
                             'defaults' => [
                                 'controller' => __NAMESPACE__ . '\Controller\EntityController',
-                                'action' => 'unrevised'
+                                'action' => 'unrevised',
                             ],
                         ],
                     ],
