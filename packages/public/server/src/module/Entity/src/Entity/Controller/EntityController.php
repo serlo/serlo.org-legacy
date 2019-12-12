@@ -24,13 +24,12 @@ namespace Entity\Controller;
 
 use Entity\Result;
 use Instance\Manager\InstanceManagerAwareTrait;
-use Normalizer\NormalizerAwareTrait;
 use Zend\EventManager\ResponseCollection;
 use Zend\View\Model\ViewModel;
 
 class EntityController extends AbstractController
 {
-    use InstanceManagerAwareTrait, NormalizerAwareTrait;
+    use InstanceManagerAwareTrait;
 
     public function createAction()
     {
@@ -80,11 +79,10 @@ class EntityController extends AbstractController
         $revisionsBySubject = array();
 
         foreach ($revisions as $revision) {
-            $normalizedRevision = $this->getNormalizer()->normalize($revision);
             $entity = $revision->getRepository();
 
             foreach ($entity->getSubjects() as $subject) {
-                $revisionsBySubject[$subject->getName()][$entity->getId()][] = $normalizedRevision;
+                $revisionsBySubject[$subject->getName()][$entity->getId()][] = $revision;
             }
         }
 

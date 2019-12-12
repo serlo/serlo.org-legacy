@@ -35,19 +35,20 @@
     <tbody>
     {% for revisions in revisionsByEntity %}
         {% for revision in revisions %}
+          {% set normalized = normalize(revision) %}
           <tr>
             <td style="width:30%">
               {% if loop.first %}
-                {{ revision.getTitle() }}
+                {{ normalized.getTitle() }}
               {% endif %}
             </td>
             <td>
-              <a href="{{ url(revision.getRouteName(), revision.getRouteParams()) }}">
-                {{ revision.getId() }}
+              <a href="{{ url(normalized.getRouteName(), normalized.getRouteParams()) }}">
+                {{ normalized.getId() }}
               </a>
             </td>
-            <td>{{ revision.getType() | trans }}</td>
-            <td>{{ timeago().render(revision.getMetadata().getCreationDate()) }}</td>
+            <td>{{ normalized.getType() | trans }}</td>
+            <td>{{ timeago().render(normalized.getMetadata().getCreationDate()) }}</td>
           </tr>
         {% endfor %}
       {% endfor %}
