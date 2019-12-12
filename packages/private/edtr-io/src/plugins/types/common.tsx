@@ -191,7 +191,7 @@ export function Controls(props: OwnProps) {
             title={
               maySave()
                 ? undefined
-                : 'Du musst zuerst die Lizenzbedingungen akzeptieren'
+                : 'Du musst zuerst die Lizenzbedingungen akzeptieren und die Änderungen ausfüllen'
             }
           >
             {pending ? 'Speichert ...' : 'Speichern'}
@@ -227,8 +227,9 @@ export function Controls(props: OwnProps) {
   }
 
   function maySave() {
-    if (!props.license) return true
-    return agreement
+    const licenseAccepted = !props.license || agreement
+    const changesSet = !props.changes || props.changes.value
+    return licenseAccepted && changesSet
   }
 
   function handleSave() {

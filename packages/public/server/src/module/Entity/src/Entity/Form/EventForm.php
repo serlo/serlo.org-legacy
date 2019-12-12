@@ -22,6 +22,7 @@
  */
 namespace Entity\Form;
 
+use Entity\Form\Element\Changes;
 use Csrf\Form\Element\CsrfToken;
 use Common\Form\Element\EditorState;
 use Common\Form\Element\Title;
@@ -43,12 +44,7 @@ class EventForm extends Form
 
         $this->add(new Title());
         $this->add((new EditorState('content'))->setLabel('Content:'));
-        $this->add(
-            (new Textarea('changes'))->setAttribute('id', 'changes')->setLabel('Changes:')->setAttribute(
-                'class',
-                'plain control'
-            )
-        );
+        $this->add(new Changes());
         $this->add(new Element\MetaTitle());
         $this->add(new Element\MetaDescription());
         $this->add(new AgreementFieldset($license));

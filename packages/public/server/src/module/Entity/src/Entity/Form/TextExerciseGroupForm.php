@@ -22,6 +22,7 @@
  */
 namespace Entity\Form;
 
+use Entity\Form\Element\Changes;
 use Csrf\Form\Element\CsrfToken;
 use Common\Form\Element\EditorState;
 use License\Entity\LicenseInterface;
@@ -41,18 +42,12 @@ class TextExerciseGroupForm extends Form
         $this->setAttribute('class', 'clearfix');
 
         $this->add((new EditorState('content'))->setLabel('Content:'));
-        $this->add(
-            (new Textarea('changes'))->setAttribute('id', 'changes')->setLabel('Changes:')->setAttribute(
-                'class',
-                'plain control'
-            )
-        );
+        $this->add(new Changes());
         $this->add(new AgreementFieldset($license));
         $this->add(new Controls());
 
         $inputFilter = new InputFilter('text-exercise-group');
         $inputFilter->add(['name' => 'content', 'required' => true]);
-        $inputFilter->add(['name' => 'changes', 'required' => false, 'filters' => [['name' => 'StripTags']]]);
         $this->setInputFilter($inputFilter);
     }
 }

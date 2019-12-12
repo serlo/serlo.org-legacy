@@ -22,6 +22,7 @@
  */
 namespace Entity\Form;
 
+use Entity\Form\Element\Changes;
 use Csrf\Form\Element\CsrfToken;
 use Common\Form\Element\EditorState;
 use License\Entity\LicenseInterface;
@@ -43,18 +44,12 @@ class InputChallengeForm extends Form
 
         $this->add((new Text('solution'))->setAttribute('id', 'solution')->setLabel('Solution:'));
         $this->add((new EditorState('feedback'))->setLabel('Feedback:'));
-        $this->add(
-            (new Textarea('changes'))->setAttribute('id', 'changes')->setLabel('Changes:')->setAttribute(
-                'class',
-                'plain control'
-            )
-        );
+        $this->add(new Changes());
         $this->add(new AgreementFieldset($license));
         $this->add(new Controls());
 
         $inputFilter = new InputFilter('input-challenge');
         $inputFilter->add(['name' => 'solution', 'required' => true]);
-        $inputFilter->add(['name' => 'changes', 'required' => false, 'filters' => [['name' => 'StripTags']]]);
         $this->setInputFilter($inputFilter);
     }
 }
