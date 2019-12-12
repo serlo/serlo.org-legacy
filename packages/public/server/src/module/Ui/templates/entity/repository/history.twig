@@ -48,7 +48,7 @@
                 </a>)
             </td>
             <td>{{ isCurrent ? '<span class="fa fa-check"></span>' : '' }}</td>
-            <th>{{ revision.get('changes') }}</th>
+            <td>{{ revision.get('changes') }}</td>
             <td>{{ normalize().toAnchor(revision.getAuthor()) }}</td>
             <td>{{ timeago().render(revision.getTimestamp()) }}</td>
             <td>
