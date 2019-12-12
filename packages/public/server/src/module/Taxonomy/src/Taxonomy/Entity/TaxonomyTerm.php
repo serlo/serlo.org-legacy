@@ -293,7 +293,7 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
 
     public function hasParent()
     {
-        return (is_object($this->getParent()));
+        return is_object($this->getParent());
     }
 
     public function isAssociated(TaxonomyTermAwareInterface $object)
