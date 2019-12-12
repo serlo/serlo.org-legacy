@@ -110,7 +110,7 @@ return [
                     'entity' => [
                         'type'    => 'literal',
                         'options' => [
-                            'route'    => '/entity/trashBin',
+                            'route'    => '/entity/trash-bin',
                             'defaults' => [
                                 'controller' => __NAMESPACE__ . '\Controller\EntityController',
                                 'action'     => 'trashBin',
