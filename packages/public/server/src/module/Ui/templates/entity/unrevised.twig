@@ -27,9 +27,9 @@
       <tr>
         <th>{% trans %} Title {% endtrans %}</th>
         <th>{% trans %} Revision {% endtrans %}</th>
+        <th>{% trans %} Changes {% endtrans %}</th>
         <th>{% trans %} Type {% endtrans %}</th>
         <th>{% trans %} Timestamp {% endtrans %}</th>
-        <th>{% trans %} Changes {% endtrans %}</th>
       </tr>
     </thead>
     <tbody>
@@ -47,9 +47,9 @@
                 {{ normalized.getId() }}
               </a>
             </td>
+            <td>{{ revision.get('changes') }}</td>
             <td>{{ normalized.getType() | trans }}</td>
             <td>{{ timeago().render(normalized.getMetadata().getCreationDate()) }}</td>
-            <td>{{ revision.get('changes') }}</td>
           </tr>
         {% endfor %}
       {% endfor %}
