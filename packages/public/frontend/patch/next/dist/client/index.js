@@ -456,6 +456,7 @@ var _default = async function _default() {
           var id = _step.value
           var component = await pageLoader.loadPage(id)
           components[id] = component
+          if (!Component) Component = component
         }
       } catch (err) {
         _didIteratorError = true

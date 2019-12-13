@@ -253,6 +253,7 @@ export default async ({ webpackHMR: passedWebpackHMR } = {}) => {
       for (let id of window.NEXT_ROOTS) {
         let component = await pageLoader.loadPage(id)
         components[id] = component
+        if (!Component) Component = component
       }
     }
 
