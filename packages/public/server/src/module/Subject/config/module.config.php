@@ -108,12 +108,12 @@ return [
                 ],
                 'child_routes' => [
                     'entity' => [
-                        'type'    => 'segment',
+                        'type'    => 'literal',
                         'options' => [
-                            'route'    => '/entity/:action',
+                            'route'    => '/entity/trash-bin',
                             'defaults' => [
                                 'controller' => __NAMESPACE__ . '\Controller\EntityController',
-                                'action'     => 'index',
+                                'action'     => 'trashBin',
                             ],
                         ],
                     ],

@@ -25,6 +25,7 @@ namespace Entity\Controller;
 use Entity\Result;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Zend\EventManager\ResponseCollection;
+use Zend\View\Model\ViewModel;
 
 class EntityController extends AbstractController
 {
@@ -62,5 +63,32 @@ class EntityController extends AbstractController
             return $this->redirect()->toReferer();
         }
         return true;
+    }
+
+    public function unrevisedAction()
+    {
+        $revisions = $this->getEntityManager()->findAllUnrevisedRevisions()->getIterator();
+
+        $revisions->uasort(function ($revisionA, $revisionB) {
+            $timestampA = $revisionA->getTimestamp()->getTimestamp();
+            $timestampB = $revisionB->getTimestamp()->getTimestamp();
+
+            return $timestampB - $timestampA;
+        });
+
+        $revisionsBySubject = array();
+
+        foreach ($revisions as $revision) {
+            $entity = $revision->getRepository();
+
+            foreach ($entity->getSubjects() as $subject) {
+                $revisionsBySubject[$subject->getName()][$entity->getId()][] = $revision;
+            }
+        }
+
+        $view = new ViewModel(['revisionsBySubject' => $revisionsBySubject]);
+        $view->setTemplate('entity/unrevised');
+
+        return $view;
     }
 }

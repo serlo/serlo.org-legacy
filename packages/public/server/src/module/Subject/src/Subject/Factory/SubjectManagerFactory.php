@@ -42,8 +42,7 @@ class SubjectManagerFactory implements FactoryInterface
         $taxonomyManager = $this->getTaxonomyManager($serviceLocator);
         $storage         = $serviceLocator->get('Subject\Storage\SubjectStorage');
         $normalizer      = $serviceLocator->get('Normalizer\Normalizer');
-        $entityManager   = $serviceLocator->get('Entity\Manager\EntityManager');
-        $service         = new SubjectManager($normalizer, $storage, $taxonomyManager, $entityManager);
+        $service         = new SubjectManager($normalizer, $storage, $taxonomyManager);
 
         return $service;
     }

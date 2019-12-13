@@ -49,17 +49,11 @@ class SubjectManager implements SubjectManagerInterface
      */
     protected $normalizer;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    public function __construct(Normalizer $normalizer, StorageInterface $storage, TaxonomyManagerInterface $taxonomyManager, EntityManagerInterface $entityManager)
+    public function __construct(Normalizer $normalizer, StorageInterface $storage, TaxonomyManagerInterface $taxonomyManager)
     {
         $this->taxonomyManager = $taxonomyManager;
         $this->storage = $storage;
         $this->normalizer = $normalizer;
-        $this->entityManager = $entityManager;
     }
 
     public function findSubjectByString($name, InstanceInterface $instance)
@@ -102,64 +96,6 @@ class SubjectManager implements SubjectManagerInterface
             $normalized = $this->normalizer->normalize($entity);
             $collection->add($normalized);
         }
-    }
-
-    public function getUnrevisedRevisions(TaxonomyTermInterface $term)
-    {
-        $revisions = $this->entityManager->findAllUnrevisedRevisions();
-
-        // collection for filtered entities by $term
-        $filteredRevisions = new ArrayCollection();
-        $recentTimestampsPerEntity = new ArrayCollection();
-
-        // find all entities where $term matches (also in parents)
-        foreach ($revisions as $revision) {
-            if ($this->isInSubject($revision->getRepository(), $term)) {
-                $normalized = $this->normalizer->normalize($revision);
-                $filteredRevisions->add($revision);
-                $entityId = $revision->getRepository()->getId();
-                $recentTimestampsPerEntity->set(
-                    $entityId,
-                    max($normalized->getMetadata()->getCreationDate()->getTimestamp(), $recentTimestampsPerEntity->get($entityId))
-                );
-            }
-        }
-
-        $iterator = $filteredRevisions->getIterator();
-        $iterator->uasort(function ($revisionA, $revisionB) use ($recentTimestampsPerEntity) {
-            /**
-             * @var RevisionInterface $revisionA
-             * @var RevisionInterface $revisionB
-             */
-            $entityA = $revisionA->getRepository();
-            $entityB = $revisionB->getRepository();
-            if ($entityA !== $entityB) {
-                return $recentTimestampsPerEntity->get($entityB->getId()) - $recentTimestampsPerEntity->get($entityA->getId());
-            } else {
-                return $revisionB->getId() - $revisionA->getId();
-            }
-        });
-        $collection = new ArrayCollection(iterator_to_array($iterator));
-        return $collection;
-    }
-
-    protected function isInSubject(EntityInterface $entity, TaxonomyTermInterface $term)
-    {
-        if (!$entity->getTaxonomyTerms()->isEmpty()) {
-            foreach ($entity->getTaxonomyTerms() as $tempTerm) {
-                if ($tempTerm->knowsAncestor($term)) {
-                    return true;
-                }
-            }
-        } else {
-            foreach ($entity->getParents('link') as $parent) {
-                if ($this->isInSubject($parent, $term)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     protected function getEntities(TaxonomyTermInterface $term)

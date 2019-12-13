@@ -34,13 +34,4 @@ class EntityController extends AbstractController
         $view->setTemplate('subject/entity/trash-bin');
         return $view;
     }
-
-    public function unrevisedAction()
-    {
-        $subject  = $this->getSubject();
-        $revisions = $this->getSubjectManager()->getUnrevisedRevisions($subject);
-        $view     = new ViewModel(['revisions' => $revisions, 'subject' => $subject]);
-        $view->setTemplate('subject/entity/unrevised');
-        return $view;
-    }
 }

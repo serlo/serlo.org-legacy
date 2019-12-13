@@ -97,6 +97,16 @@ return [
                             ],
                         ],
                     ],
+                    'unrevised' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/unrevised',
+                            'defaults' => [
+                                'controller' => __NAMESPACE__ . '\Controller\EntityController',
+                                'action' => 'unrevised',
+                            ],
+                        ],
+                    ],
                     'create'     => [
                         'type'    => 'segment',
                         'options' => [

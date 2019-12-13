@@ -256,6 +256,15 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
         $parent->getChildren()->add($this);
     }
 
+    public function getSecondLevelAncestor()
+    {
+        if ($this->hasParent() && $this->getParent()->hasParent()) {
+            return $this->getParent()->getSecondLevelAncestor();
+        } else {
+            return $this;
+        }
+    }
+
     public function getPosition()
     {
         return $this->weight;
@@ -293,7 +302,7 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
 
     public function hasParent()
     {
-        return (is_object($this->getParent()));
+        return is_object($this->getParent());
     }
 
     public function isAssociated(TaxonomyTermAwareInterface $object)
