@@ -20,14 +20,17 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { faCog, Icon } from '@edtr-io/editor-ui'
+import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory'
 import { StateTypeReturnType, string } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
+import axios from 'axios'
 import * as React from 'react'
 import BSButton from 'react-bootstrap/lib/Button'
 import BSFormControl from 'react-bootstrap/lib/FormControl'
 import BSControlLabel from 'react-bootstrap/lib/ControlLabel'
 import BSFormGroup from 'react-bootstrap/lib/FormGroup'
 import BSModal from 'react-bootstrap/lib/Modal'
+import { deserialize, isError } from '../../../deserialize'
 
 const StyledSettings = styled.div({
   position: 'absolute',
@@ -48,6 +51,7 @@ const Content = styled.div({
 })
 
 const StyledIconContainer = styled.div({
+  marginBottom: '5px',
   height: '24px',
   opacity: 0.8,
   cursor: 'pointer',
@@ -68,8 +72,31 @@ function SettingsIcon(props: { open: () => void }) {
   )
 }
 
-export function Settings(props: React.PropsWithChildren<{}>) {
+interface RevisionData {
+  id: number
+  timestamp: { date: string }
+  author: string
+}
+
+export function Settings<T>(
+  props: React.PropsWithChildren<{
+    id: number
+    onSwitchRevision: (data: T) => void
+  }>
+) {
   const [open, setOpen] = React.useState(false)
+  const [availableRevisions, setAvailableRevisions] = React.useState<
+    RevisionData[]
+  >([])
+  React.useEffect(() => {
+    axios
+      .get<RevisionData[]>(`/entity/repository/get-revisions/${props.id}`)
+      .then(response => {
+        setAvailableRevisions(response.data)
+      })
+  }, [])
+
+  const [showRevisions, setShowRevisions] = React.useState(false)
   return (
     <div style={{ position: 'relative' }}>
       <StyledSettings>
@@ -79,6 +106,17 @@ export function Settings(props: React.PropsWithChildren<{}>) {
               setOpen(true)
             }}
           />
+          <span
+            onClick={() => {
+              if (availableRevisions.length) {
+                setShowRevisions(true)
+              }
+            }}
+          >
+            <StyledIconContainer title="Andere Version auswählen">
+              <Icon icon={faHistory} size="lg" />
+            </StyledIconContainer>
+          </span>
         </Content>
       </StyledSettings>
       <BSModal
@@ -95,6 +133,57 @@ export function Settings(props: React.PropsWithChildren<{}>) {
           <BSButton
             onClick={() => {
               setOpen(false)
+            }}
+          >
+            Schließen
+          </BSButton>
+        </BSModal.Footer>
+      </BSModal>
+      <BSModal
+        show={showRevisions}
+        onHide={() => {
+          setShowRevisions(false)
+        }}
+      >
+        <BSModal.Header closeButton>
+          <BSModal.Title>Andere Version auswählen</BSModal.Title>
+        </BSModal.Header>
+        <BSModal.Body>
+          {availableRevisions.map(revisionData => {
+            return (
+              <BSButton
+                onClick={() => {
+                  axios
+                    .get<{ state: unknown; type: string }>(
+                      `/entity/repository/get-revision-data/${props.id}/${revisionData.id}`
+                    )
+                    .then(response => {
+                      const deserialized = deserialize({
+                        initialState: response.data.state,
+                        type: response.data.type
+                      })
+                      if (isError(deserialized)) {
+                        alert(deserialized.error)
+                      } else {
+                        props.onSwitchRevision(
+                          deserialized.initialState.state as T
+                        )
+                        setShowRevisions(false)
+                      }
+                    })
+                }}
+                key={revisionData.id}
+              >
+                {revisionData.id} von {revisionData.author} am{' '}
+                {revisionData.timestamp.date}
+              </BSButton>
+            )
+          })}
+        </BSModal.Body>
+        <BSModal.Footer>
+          <BSButton
+            onClick={() => {
+              setShowRevisions(false)
             }}
           >
             Schließen

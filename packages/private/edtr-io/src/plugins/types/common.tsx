@@ -28,7 +28,9 @@ import {
   StateType,
   StateTypesSerializedType,
   StateTypeSerializedType,
+  StateTypesValueType,
   StateTypeValueType,
+  StateTypesReturnType,
   StateTypeReturnType,
   StateUpdater,
   child,
@@ -47,6 +49,7 @@ import {
 } from '@edtr-io/store'
 import { styled } from '@edtr-io/ui'
 import { button } from '@storybook/addon-knobs'
+import * as R from 'ramda'
 import * as React from 'react'
 import BSAlert from 'react-bootstrap/lib/Alert'
 import BSModal from 'react-bootstrap/lib/Modal'
@@ -357,6 +360,7 @@ export function Controls(props: OwnProps) {
         >
           Benachrichtigungen auf Serlo erhalten
         </BSCheckbox>
+        const a = R.values(children)
         <BSCheckbox
           checked={emailSubscription}
           onChange={e => {
@@ -368,6 +372,48 @@ export function Controls(props: OwnProps) {
         </BSCheckbox>
       </React.Fragment>
     )
+  }
+}
+
+export function entityType<
+  Ds extends Record<string, StateType>,
+  Childs extends Record<string, StateType>
+>(
+  ownTypes: Ds,
+  children: Childs,
+  getFocusableChildren?: (
+    children: { [K in keyof Ds]: { id: string }[] }
+  ) => { id: string }[]
+): StateType<
+  StateTypesSerializedType<Ds & Childs>,
+  StateTypesValueType<Ds & Childs>,
+  StateTypesReturnType<Ds & Childs> & {
+    replaceOwnState: (newValue: StateTypesSerializedType<Ds>) => void
+  }
+> {
+  const objectType = object<Ds & Childs>(
+    { ...ownTypes, ...children },
+    getFocusableChildren
+  )
+  return {
+    ...objectType,
+    init(state, onChange, pluginProps) {
+      const initialisedObject = objectType.init(state, onChange, pluginProps)
+      return {
+        ...initialisedObject,
+        replaceOwnState(newValue) {
+          onChange((previousState, helpers) => {
+            return R.mapObjIndexed((value, key) => {
+              if (key in ownTypes) {
+                return ownTypes[key].deserialize(newValue[key], helpers)
+              } else {
+                return previousState[key]
+              }
+            }, previousState) as StateTypesValueType<Ds & Childs>
+          })
+        }
+      }
+    }
   }
 }
 

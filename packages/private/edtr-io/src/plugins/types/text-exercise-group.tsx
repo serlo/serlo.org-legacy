@@ -33,14 +33,20 @@ import {
   entity,
   Controls,
   serializedChild,
-  OptionalChild
+  OptionalChild,
+  entityType
 } from './common'
+import { Settings } from './helpers/settings'
 
-export const textExerciseGroupTypeState = object({
-  ...entity,
-  content: editorContent(),
-  'grouped-text-exercise': list(serializedChild('type-text-exercise'))
-})
+export const textExerciseGroupTypeState = entityType(
+  {
+    ...entity,
+    content: editorContent()
+  },
+  {
+    'grouped-text-exercise': list(serializedChild('type-text-exercise'))
+  }
+)
 
 export const textExerciseGroupTypePlugin: StatefulPlugin<typeof textExerciseGroupTypeState> = {
   Component: TextExerciseGroupTypeEditor,
@@ -54,6 +60,10 @@ function TextExerciseGroupTypeEditor(
 
   return (
     <article className="exercisegroup">
+      <Settings
+        id={props.state.id.value}
+        onSwitchRevision={props.state.replaceOwnState}
+      />
       <section className="row">{content.render()}</section>
       {children.map((child, index) => {
         return (

@@ -31,6 +31,7 @@
 namespace Entity\Controller;
 
 use Entity\Entity\EntityInterface;
+use Entity\Entity\Revision;
 use Entity\Entity\RevisionField;
 use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
@@ -125,6 +126,31 @@ class RepositoryController extends AbstractController
         $this->layout('layout/3-col');
         $view->setTemplate('entity/repository/update-revision');
         return $view;
+    }
+
+    protected function getRevisionsAction()
+    {
+        $entity = $this->getEntity();
+        if (!$entity || $entity->isTrashed()) {
+            $this->getResponse()->setStatusCode(404);
+            return false;
+        }
+        $revisions = $entity->getRevisions()->map(function (Revision $revision) {
+            return [ 'id' => $revision->getId(), 'timestamp' => $revision->getTimestamp(), 'author' => $revision->getAuthor()->getUsername() ];
+        });
+        return new JsonModel($revisions);
+    }
+
+    protected function getRevisionDataAction()
+    {
+        $entity = $this->getEntity();
+        if (!$entity || $entity->isTrashed()) {
+            $this->getResponse()->setStatusCode(404);
+            return false;
+        }
+
+        $state = $this->getData($entity, $this->params('revision'));
+        return new JsonModel(['state' => $state, 'type' => $entity->getType()->getName()]);
     }
 
     /**
@@ -502,12 +528,28 @@ class RepositoryController extends AbstractController
                 if ($children->count()) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
                         $data[$allowedChild] = [];
+                        /** @var EntityInterface $child */
                         foreach ($children as $child) {
-                            /* TODO: select correct revision id */
-                            $data[$allowedChild][] = $this->getData($child);
+                            // select child revision id by the following heuristic:
+                            //  - If an id of the entity revision was specified, then we take the newest existing revision of the child
+                            //    (Use case: Continue editing when it wasn't reviewed yet)
+                            //  - Otherwise we take the current revision (Use case: Editing the content visible on the website)
+                            if ($id === null) {
+                                $data[$allowedChild][] = $this->getData($child);
+                            } else {
+                                $filter = new NotTrashedCollectionFilter();
+                                $childRevisionId = $filter->filter($child->getRevisions())->first()->getId();
+                                $data[$allowedChild][] = $this->getData($child, $childRevisionId);
+                            }
                         }
                     } else {
-                        $data[$allowedChild] = $this->getData($children->first());
+                        if ($id === null) {
+                            $data[$allowedChild] = $this->getData($children->first());
+                        } else {
+                            $filter = new NotTrashedCollectionFilter();
+                            $childRevisionId = $filter->filter($children->first()->getRevisions())->first()->getId();
+                            $data[$allowedChild] = $this->getData($children->first(), $childRevisionId);
+                        }
                     }
                 }
             }

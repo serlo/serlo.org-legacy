@@ -35,18 +35,23 @@ import {
   Controls,
   serializedChild,
   HeaderInput,
-  OptionalChild
+  OptionalChild,
+  entityType
 } from './common'
 import { Settings } from './helpers/settings'
 
-export const courseTypeState = object({
-  ...entity,
-  title: string(),
-  description: editorContent(),
-  reasoning: editorContent(),
-  meta_description: string(),
-  'course-page': list(serializedChild('type-course-page'))
-})
+export const courseTypeState = entityType(
+  {
+    ...entity,
+    title: string(),
+    description: editorContent(),
+    reasoning: editorContent(),
+    meta_description: string()
+  },
+  {
+    'course-page': list(serializedChild('type-course-page'))
+  }
+)
 
 export const courseTypePlugin: StatefulPlugin<typeof courseTypeState> = {
   Component: CourseTypeEditor,
@@ -60,7 +65,10 @@ function CourseTypeEditor(
 
   return (
     <article>
-      <Settings>
+      <Settings
+        id={props.state.id.value}
+        onSwitchRevision={props.state.replaceOwnState}
+      >
         <Settings.Textarea
           label="Suchmaschinen-Beschreibung"
           state={meta_description}

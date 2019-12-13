@@ -28,14 +28,18 @@ import {
 import { solutionPlugin } from '@edtr-io/plugin-solution'
 import * as React from 'react'
 
-import { Controls, editorContent, entity } from './common'
+import { Controls, editorContent, entity, entityType } from './common'
+import { Settings } from './helpers/settings'
 
-export const textSolutionTypeState = object({
-  ...entity,
-  // FIXME: solutions don't have a title
-  title: string(''),
-  content: editorContent()
-})
+export const textSolutionTypeState = entityType(
+  {
+    ...entity,
+    // FIXME: solutions don't have a title
+    title: string(''),
+    content: editorContent()
+  },
+  {}
+)
 
 export const textSolutionTypePlugin: StatefulPlugin<typeof textSolutionTypeState> = {
   Component: TextSolutionTypeEditor,
@@ -49,6 +53,10 @@ function TextSolutionTypeEditor(
 ) {
   return (
     <React.Fragment>
+      <Settings
+        id={props.state.id.value}
+        onSwitchRevision={props.state.replaceOwnState}
+      />
       <solutionPlugin.Component {...props} />
       {props.skipControls ? null : <Controls subscriptions {...props.state} />}
     </React.Fragment>

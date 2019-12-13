@@ -32,19 +32,23 @@ import {
   Controls,
   editorContent,
   serializedChild,
-  HeaderInput
+  HeaderInput,
+  entityType
 } from './common'
 import { Settings } from './helpers/settings'
 
-export const appletTypeState = object({
-  ...entity,
-  title: string(),
-  content: editorContent(),
-  reasoning: editorContent(),
-  meta_title: string(),
-  meta_description: string(),
-  url: serializedChild('geogebra')
-})
+export const appletTypeState = entityType(
+  {
+    ...entity,
+    title: string(),
+    content: editorContent(),
+    reasoning: editorContent(),
+    meta_title: string(),
+    meta_description: string(),
+    url: serializedChild('geogebra')
+  },
+  {}
+)
 
 export const appletTypePlugin: StatefulPlugin<typeof appletTypeState> = {
   Component: AppletTypeEditor,
@@ -59,7 +63,10 @@ function AppletTypeEditor(
   return (
     <div>
       <div className="page-header">
-        <Settings>
+        <Settings
+          id={props.state.id.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        >
           <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />
           <Settings.Textarea
             label="Suchmaschinen-Beschreibung"

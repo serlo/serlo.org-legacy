@@ -31,16 +31,22 @@ import {
   entity,
   Controls,
   optionalSerializedChild,
-  OptionalChild
+  OptionalChild,
+  entityType
 } from './common'
 import { AddButton } from '@edtr-io/editor-ui'
+import { Settings } from './helpers/settings'
 
-export const textExerciseTypeState = object({
-  ...entity,
-  content: editorContent(),
-  'text-hint': optionalSerializedChild('type-text-hint'),
-  'text-solution': optionalSerializedChild('type-text-solution')
-})
+export const textExerciseTypeState = entityType(
+  {
+    ...entity,
+    content: editorContent()
+  },
+  {
+    'text-hint': optionalSerializedChild('type-text-hint'),
+    'text-solution': optionalSerializedChild('type-text-solution')
+  }
+)
 
 export const textExerciseTypePlugin: StatefulPlugin<typeof textExerciseTypeState> = {
   Component: TextExerciseTypeEditor,
@@ -60,6 +66,10 @@ export function TextExerciseTypeEditor(
 
   return (
     <article className="text-exercise">
+      <Settings
+        id={props.state.id.value}
+        onSwitchRevision={props.state.replaceOwnState}
+      />
       {content.render()}
       {textHint.id ? (
         <OptionalChild

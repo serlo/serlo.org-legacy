@@ -203,6 +203,31 @@ return [
                                     ],
                                 ],
                             ],
+                            'get-revisions' => [
+                                'type' => 'segment',
+                                'options' => [
+                                    'route' => '/get-revisions/:entity',
+                                    'defaults' => [
+                                        'action' => 'getRevisions',
+                                    ],
+                                    'constraints' => [
+                                        'entity' => '[0-9]+',
+                                    ],
+                                ],
+                            ],
+                            'get-revision-data' => [
+                                'type'  => 'segment',
+                                'options' => [
+                                    'route' => '/get-revision-data/:entity[/:revision]',
+                                    'defaults' => [
+                                        'action' => 'getRevisionData',
+                                    ],
+                                    'constraints' => [
+                                        'entity' => '[0-9]+',
+                                        'revision' => '[0-9]+',
+                                    ],
+                                ],
+                            ],
                         ],
                     ],
                     'license'    => [
