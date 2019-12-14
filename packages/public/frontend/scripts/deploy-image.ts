@@ -38,7 +38,7 @@ async function run() {
   buildDockerImage({
     name: 'serlo-org-frontend',
     version,
-    Dockerfile: path.join(root, 'Dockerfile'),
+    Dockerfile: path.join(root, 'docker', 'Dockerfile'),
     context: '../../..'
   })
 }
