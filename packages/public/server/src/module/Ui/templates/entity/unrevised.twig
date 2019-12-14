@@ -19,6 +19,7 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
+<div class="editor-design">
 {{ pageHeader('Unrevised learning resources').render() }}
 {% for subject, revisionsByEntity in revisionsBySubject %}
   <h2>{{ subject }}</h2>
@@ -27,9 +28,9 @@
       <tr>
         <th>{% trans %} Title {% endtrans %}</th>
         <th>{% trans %} Revision {% endtrans %}</th>
+        <th>{% trans %} Changes {% endtrans %}</th>
         <th>{% trans %} Type {% endtrans %}</th>
         <th>{% trans %} Timestamp {% endtrans %}</th>
-        <th>{% trans %} Changes {% endtrans %}</th>
       </tr>
     </thead>
     <tbody>
@@ -47,12 +48,13 @@
                 {{ normalized.getId() }}
               </a>
             </td>
+            <td>{{ revision.get('changes') }}</td>
             <td>{{ normalized.getType() | trans }}</td>
             <td>{{ timeago().render(normalized.getMetadata().getCreationDate()) }}</td>
-            <td>{{ revision.get('changes') }}</td>
           </tr>
         {% endfor %}
       {% endfor %}
     </tbody>
   </table>
 {% endfor %}
+</div>
