@@ -9,3 +9,6 @@ EXPOSE 3000
 
 FROM development as release
 RUN find .next -maxdepth 1 -type d ! -name serverless ! -name .next -exec rm -rf {} +
+
+ENTRYPOINT ["node", "serverless/serverless.production.js"]
+EXPOSE 3000

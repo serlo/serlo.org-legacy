@@ -37,7 +37,7 @@ FROM build as release
 RUN npx lerna exec --scope=@serlo/{editor-helpers,edtr-io,legacy-editor-to-editor,markdown,mathjax,serlo-org-editor-renderer,serlo-org-legacy-editor-renderer,serlo-org-notifications-job} "find . -maxdepth 1 -type d ! -name dist ! -name . -exec rm -rf {} +"
 RUN npx lerna exec --scope=@serlo/{editor-helpers,edtr-io,legacy-editor-to-editor,markdown,mathjax,serlo-org-editor-renderer,serlo-org-legacy-editor-renderer,serlo-org-notifications-job} "find . -maxdepth 1 -type f ! -name package.json -exec rm -rf {} +"
 RUN npx lerna exec --scope=@serlo/{workspace-image,node-image} "find . -maxdepth 1 -type f ! -name package.json -exec rm -rf {} +"
-RUN npx lerna exec --scope=@serlo/serlo-org-frontend "find . -maxdepth 1 -type d ! -name .next ! -name pages ! -name . -exec rm -rf {} +"
-RUN npx lerna exec --scope=@serlo/serlo-org-frontend "find . -maxdepth 1 -type f ! -name package.json ! -name serverless.js -exec rm -rf {} +"
+RUN npx lerna exec --scope=@serlo/serlo-org-frontend "find . -maxdepth 1 -type d ! -name .next ! -name pages ! -name serverless ! -name . -exec rm -rf {} +"
+RUN npx lerna exec --scope=@serlo/serlo-org-frontend "find . -maxdepth 1 -type f ! -name package.json -exec rm -rf {} +"
 RUN npx lerna clean --yes
 RUN yarn --frozen-lockfile --production=true --silent
