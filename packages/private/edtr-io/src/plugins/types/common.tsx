@@ -188,11 +188,7 @@ export function Controls(props: OwnProps) {
             }}
             bsStyle="success"
             disabled={!maySave() || pending}
-            title={
-              maySave()
-                ? undefined
-                : 'Du musst zuerst die Lizenzbedingungen akzeptieren'
-            }
+            title={getSaveHint()}
           >
             {pending ? 'Speichert ...' : 'Speichern'}
           </BSButton>
@@ -226,9 +222,25 @@ export function Controls(props: OwnProps) {
     return <button className="btn btn-success" {...buttonProps} />
   }
 
+  function licenseAccepted() {
+    return !props.license || agreement
+  }
+  function changesFilledIn() {
+    return !props.changes || props.changes.value
+  }
   function maySave() {
-    if (!props.license) return true
-    return agreement
+    return licenseAccepted() && changesFilledIn()
+  }
+
+  function getSaveHint() {
+    if (maySave()) return undefined
+    if (licenseAccepted() && !changesFilledIn()) {
+      return 'Du musst zuerst die Änderungen ausfüllen.'
+    } else if (!licenseAccepted() && changesFilledIn()) {
+      return 'Du musst zuerst die Lizenzbedingungen akzeptieren.'
+    } else {
+      return 'Du musst zuerst die Lizenzbedingungen akzeptieren und die Änderungen ausfüllen'
+    }
   }
 
   function handleSave() {

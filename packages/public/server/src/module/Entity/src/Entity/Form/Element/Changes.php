@@ -20,34 +20,39 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Entity\Form;
+namespace Entity\Form\Element;
 
-use Entity\Form\Element\Changes;
-use Csrf\Form\Element\CsrfToken;
-use Common\Form\Element\EditorState;
-use License\Entity\LicenseInterface;
-use License\Form\AgreementFieldset;
 use Zend\Form\Element\Textarea;
-use Zend\Form\Form;
-use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputProviderInterface;
 
-class TextExerciseForm extends Form
+class Changes extends Textarea implements InputProviderInterface
 {
-    public function __construct(LicenseInterface $license)
+    public function __construct()
     {
-        parent::__construct('text-exercise');
-        $this->add(new CsrfToken());
+        parent::__construct('changes');
 
-        $this->setAttribute('method', 'post');
-        $this->setAttribute('class', 'clearfix');
+        $this->setAttribute('id', 'changes');
+        $this->setLabel('Changes:');
+        $this->setAttribute(
+            'class',
+            'plain'
+        );
+    }
 
-        $this->add((new EditorState('content'))->setLabel('Content:'));
-        $this->add(new Changes());
-        $this->add(new AgreementFieldset($license));
-        $this->add(new Controls());
-
-        $inputFilter = new InputFilter('text-exercise');
-        $inputFilter->add(['name' => 'content', 'required' => true]);
-        $this->setInputFilter($inputFilter);
+    /**
+     * Should return an array specification compatible with
+     * {@link Zend\InputFilter\Factory::createInputFilter()}.
+     *
+     * @return array
+     */
+    public function getInputSpecification()
+    {
+        return [
+            'name' => $this->getName(),
+            'required' => true,
+            'filters' => [
+                ['name' => 'StripTags'],
+            ],
+        ];
     }
 }
