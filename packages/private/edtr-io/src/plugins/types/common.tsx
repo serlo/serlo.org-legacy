@@ -236,7 +236,7 @@ export function Controls(props: OwnProps) {
     if (maySave()) return undefined
     if (licenseAccepted() && !changesFilledIn()) {
       return 'Du musst zuerst die Änderungen ausfüllen.'
-    } else if(!licenseAccepted() && changesFilledIn()) {
+    } else if (!licenseAccepted() && changesFilledIn()) {
       return 'Du musst zuerst die Lizenzbedingungen akzeptieren.'
     } else {
       return 'Du musst zuerst die Lizenzbedingungen akzeptieren und die Änderungen ausfüllen'
