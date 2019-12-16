@@ -311,7 +311,7 @@ class IndexController extends AbstractAPIAwareActionController
             return $this->notFound();
         }
 
-        $revisions      = $pageRepository->getRevisions();
+        $revisions      = array_reverse($pageRepository->getRevisions()->toArray());
         $view           = new ViewModel(['revisions' => $revisions, 'page' => $pageRepository]);
 
         $this->assertGranted('page.get', $pageRepository);
