@@ -25,6 +25,7 @@ import { render } from 'react-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import { getGa } from '../../frontend/modules/analytics'
+import { Sentry } from '../../frontend/modules/sentry'
 
 const breakPoint = 1000
 const smallScreens = `@media screen and (max-width: ${breakPoint}px)`
@@ -411,26 +412,30 @@ function DonationBanner({ data }: DonationBannerProps) {
 }
 
 export async function initDonationBanner() {
-  const { data } = await axios.get(
-    'https://serlo-donation-campaign.serlo.workers.dev/',
-    {
-      withCredentials: true
-    }
-  )
-  if (!data.enabled) return
-
-  const div = window.document.getElementById('donation-banner')
-  if (div) {
-    render(
-      <DonationBanner
-        data={{
-          ...data,
-          authenticated: div.getAttribute('data-authenticated') !== '',
-          interests: div.getAttribute('data-interests')
-        }}
-      />,
-      div
+  try {
+    const { data } = await axios.get(
+      'https://serlo-donation-campaign.serlo.workers.dev/',
+      {
+        withCredentials: true
+      }
     )
+    if (!data.enabled) return
+
+    const div = window.document.getElementById('donation-banner')
+    if (div) {
+      render(
+        <DonationBanner
+          data={{
+            ...data,
+            authenticated: div.getAttribute('data-authenticated') !== '',
+            interests: div.getAttribute('data-interests')
+          }}
+        />,
+        div
+      )
+    }
+  } catch (e) {
+    Sentry.captureMessage('Fetch of donation banner worker failed', e)
   }
 }
 
