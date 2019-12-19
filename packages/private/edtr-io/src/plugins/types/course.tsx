@@ -25,7 +25,6 @@ import {
   StatefulPlugin,
   StatefulPluginEditorProps,
   list,
-  object,
   string
 } from '@edtr-io/plugin'
 

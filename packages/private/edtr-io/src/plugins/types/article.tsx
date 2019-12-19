@@ -23,7 +23,6 @@ import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  StateTypeSerializedType,
   string
 } from '@edtr-io/plugin'
 

@@ -212,9 +212,11 @@ class RepositoryController extends AbstractController
 
             $entity = $id ? $this->getEntity($data['id']) : $this->createOrRecycleEntity($type, $parentId);
 
-            if ($entity->hasCurrentRevision()) {
+            if ($entity->hasHead()) {
+                $startedFromHead = $data['revision'] === $entity->getHead()->getId();
+
                 // check for changes with previous revision data, ignoring $merges
-                $revision = $entity->getCurrentRevision();
+                $revision = $startedFromHead || !$entity->hasCurrentRevision() ? $entity->getHead() : $entity->getCurrentRevision();
                 $dataPartPrevious = $this->getRevisionData($revision);
                 // only check equality (==) not identity (===) to ignore different key order
                 if (array_merge($dataPartPrevious, $merges) != array_merge($dataPartNext, $merges)) {
@@ -499,6 +501,7 @@ class RepositoryController extends AbstractController
 
         $data = [
             'id' => $entity->getId(),
+            'revision' => $id ? intval($id) : 0,
             'license' => [
                 'id' => $license->getId(),
                 'title' => $license->getTitle(),

@@ -83,6 +83,7 @@ export const license = {
 export const entity = {
   ...uuid,
   ...license,
+  revision: number(),
   changes: string()
 }
 
@@ -90,7 +91,7 @@ export type Uuid = StateTypesSerializedType<typeof uuid>
 
 export type License = StateTypesSerializedType<typeof license>
 
-export type Entity = Uuid & License & { changes?: string }
+export type Entity = Uuid & License & { revision: number; changes?: string }
 
 export const HeaderInput = styled.input({
   border: 'none',
@@ -360,7 +361,6 @@ export function Controls(props: OwnProps) {
         >
           Benachrichtigungen auf Serlo erhalten
         </BSCheckbox>
-        const a = R.values(children)
         <BSCheckbox
           checked={emailSubscription}
           onChange={e => {

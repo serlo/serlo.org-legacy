@@ -22,7 +22,6 @@
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  object,
   string
 } from '@edtr-io/plugin'
 import * as React from 'react'

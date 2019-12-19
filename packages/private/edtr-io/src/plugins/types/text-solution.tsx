@@ -22,7 +22,6 @@
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  object,
   string
 } from '@edtr-io/plugin'
 import { solutionPlugin } from '@edtr-io/plugin-solution'

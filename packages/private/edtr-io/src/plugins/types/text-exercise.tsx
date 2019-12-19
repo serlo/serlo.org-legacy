@@ -19,11 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  object
-} from '@edtr-io/plugin'
+import { StatefulPlugin, StatefulPluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import {

@@ -23,8 +23,7 @@ import { AddButton } from '@edtr-io/editor-ui'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  list,
-  object
+  list
 } from '@edtr-io/plugin'
 import * as React from 'react'
 
