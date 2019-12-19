@@ -155,7 +155,7 @@ class MyNextScript extends NextScript {
             }}
           />
           <script
-            async
+            defer
             key={page}
             src={assetPrefix + `/_next/static/${buildId}/pages${page}.js`}
           />
@@ -211,6 +211,7 @@ function createDedupScriptTag(path, key) {
           if (!cache["${key}"]) {
             var script = document.createElement("script");
             script.src ="${path}";
+            script.setAttribute("defer", "");
             document.head.appendChild(script);
             cache["${key}"] = true
           }

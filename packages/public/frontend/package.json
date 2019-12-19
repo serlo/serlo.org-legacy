@@ -11,7 +11,7 @@
     "deploy:package": "(cd scripts; ts-node deploy-package)",
     "lint": "yarn tsc --noemit",
     "serverless": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 node serverless/serverless.development.js",
-    "start": "NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 next",
+    "start": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 next",
     "start-storybook": "start-storybook -p 9000 -c .storybook -s ./public"
   },
   "dependencies": {},
