@@ -20,11 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { AddButton } from '@edtr-io/editor-ui'
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  list
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import {
@@ -47,13 +43,14 @@ export const textExerciseGroupTypeState = entityType(
   }
 )
 
-export const textExerciseGroupTypePlugin: StatefulPlugin<typeof textExerciseGroupTypeState> = {
+export const textExerciseGroupTypePlugin: EditorPlugin<typeof textExerciseGroupTypeState> = {
   Component: TextExerciseGroupTypeEditor,
-  state: textExerciseGroupTypeState
+  state: textExerciseGroupTypeState,
+  config: {}
 }
 
 function TextExerciseGroupTypeEditor(
-  props: StatefulPluginEditorProps<typeof textExerciseGroupTypeState>
+  props: EditorPluginProps<typeof textExerciseGroupTypeState>
 ) {
   const { content, 'grouped-text-exercise': children } = props.state
 

@@ -21,12 +21,7 @@
  */
 import * as React from 'react'
 import { AddButton } from '@edtr-io/editor-ui'
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  list,
-  string
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, list, string } from '@edtr-io/plugin'
 
 import {
   editorContent,
@@ -52,14 +47,13 @@ export const courseTypeState = entityType(
   }
 )
 
-export const courseTypePlugin: StatefulPlugin<typeof courseTypeState> = {
+export const courseTypePlugin: EditorPlugin<typeof courseTypeState> = {
   Component: CourseTypeEditor,
-  state: courseTypeState
+  state: courseTypeState,
+  config: {}
 }
 
-function CourseTypeEditor(
-  props: StatefulPluginEditorProps<typeof courseTypeState>
-) {
+function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
   const { title, meta_description, 'course-page': children } = props.state
 
   return (

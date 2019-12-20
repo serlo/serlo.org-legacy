@@ -19,11 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  string
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import {
@@ -49,14 +45,13 @@ export const appletTypeState = entityType(
   {}
 )
 
-export const appletTypePlugin: StatefulPlugin<typeof appletTypeState> = {
+export const appletTypePlugin: EditorPlugin<typeof appletTypeState> = {
   Component: AppletTypeEditor,
-  state: appletTypeState
+  state: appletTypeState,
+  config: {}
 }
 
-function AppletTypeEditor(
-  props: StatefulPluginEditorProps<typeof appletTypeState>
-) {
+function AppletTypeEditor(props: EditorPluginProps<typeof appletTypeState>) {
   const { title, url, content, meta_title, meta_description } = props.state
 
   return (

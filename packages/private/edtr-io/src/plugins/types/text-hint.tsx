@@ -19,12 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  string
-} from '@edtr-io/plugin'
-import { hintPlugin } from '@edtr-io/plugin-hint'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { createHintPlugin } from '@edtr-io/plugin-hint'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
@@ -40,15 +36,21 @@ export const textHintTypeState = entityType(
   {}
 )
 
-export const textHintTypePlugin: StatefulPlugin<typeof textHintTypeState> = {
+const hintPlugin = createHintPlugin()
+
+export const textHintTypePlugin: EditorPlugin<
+  typeof textHintTypeState,
+  { skipControls: boolean }
+> = {
   Component: TextHintTypeEditor,
-  state: textHintTypeState
+  state: textHintTypeState,
+  config: {
+    skipControls: false
+  }
 }
 
 function TextHintTypeEditor(
-  props: StatefulPluginEditorProps<typeof textHintTypeState> & {
-    skipControls?: boolean
-  }
+  props: EditorPluginProps<typeof textHintTypeState, { skipControls: boolean }>
 ) {
   return (
     <React.Fragment>
@@ -58,7 +60,9 @@ function TextHintTypeEditor(
         onSwitchRevision={props.state.replaceOwnState}
       />
       <hintPlugin.Component {...props} />
-      {props.skipControls ? null : <Controls subscriptions {...props.state} />}
+      {props.config.skipControls ? null : (
+        <Controls subscriptions {...props.state} />
+      )}
     </React.Fragment>
   )
 }

@@ -19,20 +19,20 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Plugin } from '@edtr-io/plugin'
+import { EditorPlugin } from '@edtr-io/plugin'
 import { createTextPlugin } from '@edtr-io/plugin-text'
-import { anchorPlugin } from '@edtr-io/plugin-anchor'
-import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
-import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
-import { highlightPlugin } from '@edtr-io/plugin-highlight'
-import { hintPlugin } from '@edtr-io/plugin-hint'
-import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
-import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
-import { createRowsPlugin, PluginRegistry } from '@edtr-io/plugin-rows'
-import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
-import { solutionPlugin } from '@edtr-io/plugin-solution'
-import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
-import { videoPlugin } from '@edtr-io/plugin-video'
+import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
+import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
+import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
+import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
+import { createHintPlugin } from '@edtr-io/plugin-hint'
+import { createImportantStatementPlugin } from '@edtr-io/plugin-important-statement'
+import { createInputExercisePlugin } from '@edtr-io/plugin-input-exercise'
+import { createRowsPlugin, RowsConfig } from '@edtr-io/plugin-rows'
+import { createScMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
+import { createSolutionPlugin } from '@edtr-io/plugin-solution'
+import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
+import { createVideoPlugin } from '@edtr-io/plugin-video'
 
 import { appletTypePlugin } from './plugins/types/applet'
 import { articleTypePlugin } from './plugins/types/article'
@@ -52,30 +52,43 @@ import { createImagePlugin } from './plugins/image'
 import { injectionPlugin } from './plugins/injection'
 import { layoutPlugin } from './plugins/layout'
 import { tablePlugin } from './plugins/table'
+import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
 
 export function createPlugins(
   getCsrfToken: () => string,
-  registry?: PluginRegistry
-): Record<string, Plugin> {
+  registry: RowsConfig['plugins']
+): Record<string, EditorPlugin<any, any>> {
   return {
-    anchor: anchorPlugin,
-    blockquote: blockquotePlugin,
+    anchor: createAnchorPlugin(),
+    blockquote: createBlockquotePlugin(),
     error: errorPlugin,
-    geogebra: geogebraPlugin,
-    highlight: highlightPlugin,
-    hint: hintPlugin,
+    geogebra: createGeogebraPlugin(),
+    highlight: createHintPlugin(),
+    hint: createHintPlugin(),
     image: createImagePlugin(getCsrfToken),
-    important: importantStatementPlugin,
+    important: createImportantStatementPlugin(),
     injection: injectionPlugin,
-    inputExercise: inputExercisePlugin,
+    inputExercise: createInputExercisePlugin(),
     layout: layoutPlugin,
-    rows: createRowsPlugin(registry),
-    scMcExercise: scMcExercisePlugin,
-    solution: solutionPlugin,
-    spoiler: spoilerPlugin,
+    multimedia: createMultimediaExplanationPlugin({
+      plugins: [{
+        name: 'image',
+        title: 'Bild'
+      },{
+        name: 'video',
+        title: 'Video'
+      },{
+        name: 'geogebra',
+        title: 'GeoGebra Applet'
+      }]
+    }),
+    rows: createRowsPlugin({ plugins: registry }),
+    scMcExercise: createScMcExercisePlugin(),
+    solution: createSolutionPlugin(),
+    spoiler: createSpoilerPlugin(),
     table: tablePlugin,
-    text: createTextPlugin(registry),
-    video: videoPlugin,
+    text: createTextPlugin({ registry: registry }),
+    video: createVideoPlugin(),
 
     // Internal plugins for our content types
     'type-applet': appletTypePlugin,

@@ -19,12 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  string
-} from '@edtr-io/plugin'
-import { solutionPlugin } from '@edtr-io/plugin-solution'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
@@ -40,16 +36,26 @@ export const textSolutionTypeState = entityType(
   {}
 )
 
-export const textSolutionTypePlugin: StatefulPlugin<typeof textSolutionTypeState> = {
+const solutionPlugin = createSolutionPlugin()
+
+export const textSolutionTypePlugin: EditorPlugin<
+  typeof textSolutionTypeState,
+  { skipControls: boolean }
+> = {
   Component: TextSolutionTypeEditor,
-  state: textSolutionTypeState
+  state: textSolutionTypeState,
+  config: {
+    skipControls: false
+  }
 }
 
 function TextSolutionTypeEditor(
-  props: StatefulPluginEditorProps<typeof textSolutionTypeState> & {
-    skipControls?: boolean
-  }
+  props: EditorPluginProps<
+    typeof textSolutionTypeState,
+    { skipControls: boolean }
+  >
 ) {
+  console.log(props.config)
   return (
     <React.Fragment>
       <Settings
@@ -58,7 +64,9 @@ function TextSolutionTypeEditor(
         onSwitchRevision={props.state.replaceOwnState}
       />
       <solutionPlugin.Component {...props} />
-      {props.skipControls ? null : <Controls subscriptions {...props.state} />}
+      {props.config.skipControls ? null : (
+        <Controls subscriptions {...props.state} />
+      )}
     </React.Fragment>
   )
 }

@@ -19,11 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  string
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { entity, Controls, editorContent, entityType } from './common'
@@ -38,13 +34,14 @@ export const mathPuzzleTypeState = entityType(
   {}
 )
 
-export const mathPuzzleTypePlugin: StatefulPlugin<typeof mathPuzzleTypeState> = {
+export const mathPuzzleTypePlugin: EditorPlugin<typeof mathPuzzleTypeState> = {
   Component: MathPuzzleTypeEditor,
-  state: mathPuzzleTypeState
+  state: mathPuzzleTypeState,
+  config: {}
 }
 
 function MathPuzzleTypeEditor(
-  props: StatefulPluginEditorProps<typeof mathPuzzleTypeState>
+  props: EditorPluginProps<typeof mathPuzzleTypeState>
 ) {
   const { source, content } = props.state
 

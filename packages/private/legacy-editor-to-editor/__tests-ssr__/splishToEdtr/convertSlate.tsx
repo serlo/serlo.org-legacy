@@ -20,13 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as React from 'react'
-import { renderToString } from 'react-dom/server'
-import {
-  htmlToSlate,
-  listItemNode,
-  strongMark
-} from '../../src/splishToEdtr/convertSlate'
-import { textPlugin } from '@edtr-io/plugin-text'
+import { htmlToSlate } from '../../src/splishToEdtr/convertSlate'
 
 describe('slate serializer and deserializer work', () => {
   it('can handle empty paragraphs', () => {

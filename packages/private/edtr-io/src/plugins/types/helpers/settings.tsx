@@ -19,10 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { faCog, Icon, faCheck } from '@edtr-io/editor-ui'
 import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory'
 import { StateTypeReturnType, string } from '@edtr-io/plugin'
-import { styled } from '@edtr-io/ui'
+import { faCog, Icon, faCheck, styled } from '@edtr-io/ui'
 import axios from 'axios'
 import moment from 'moment'
 import * as React from 'react'

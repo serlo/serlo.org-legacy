@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { StatefulPlugin, StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import {
@@ -44,15 +44,22 @@ export const textExerciseTypeState = entityType(
   }
 )
 
-export const textExerciseTypePlugin: StatefulPlugin<typeof textExerciseTypeState> = {
+export const textExerciseTypePlugin: EditorPlugin<
+  typeof textExerciseTypeState,
+  { skipControls: boolean }
+> = {
   Component: TextExerciseTypeEditor,
-  state: textExerciseTypeState
+  state: textExerciseTypeState,
+  config: {
+    skipControls: false
+  }
 }
 
 export function TextExerciseTypeEditor(
-  props: StatefulPluginEditorProps<typeof textExerciseTypeState> & {
-    skipControls?: boolean
-  }
+  props: EditorPluginProps<
+    typeof textExerciseTypeState,
+    { skipControls: boolean }
+  >
 ) {
   const {
     content,
@@ -100,7 +107,9 @@ export function TextExerciseTypeEditor(
           Lösung hinzufügen
         </AddButton>
       )}
-      {props.skipControls ? null : <Controls subscriptions {...props.state} />}
+      {props.config.skipControls ? null : (
+        <Controls subscriptions {...props.state} />
+      )}
     </article>
   )
 }

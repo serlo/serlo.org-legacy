@@ -20,21 +20,15 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import axios from 'axios'
+import { OverlayInput } from '@edtr-io/core'
 import {
-  OverlayInput,
   PrimarySettings,
   EditorInput,
   PreviewOverlay,
-  styled,
-  createIcon,
-  Icon,
-  faNewspaper
+  styled
 } from '@edtr-io/editor-ui'
-import {
-  StatefulPluginEditorProps,
-  string,
-  StatefulPlugin
-} from '@edtr-io/plugin'
+import { EditorPluginProps, string, EditorPlugin } from '@edtr-io/plugin'
+import { Icon, faNewspaper } from '@edtr-io/ui'
 import * as React from 'react'
 
 /* global */
@@ -43,12 +37,10 @@ declare const Common: {
 }
 
 export const injectionState = string()
-export const injectionPlugin: StatefulPlugin<typeof injectionState> = {
+export const injectionPlugin: EditorPlugin<typeof injectionState> = {
   Component: InjectionEditor,
   state: injectionState,
-  title: 'Serlo Inhalt',
-  description: 'Binde einen Inhalt von serlo.org via ID ein',
-  icon: createIcon(faNewspaper)
+  config: {}
 }
 
 export function InjectionRenderer(props: { src: string }) {
@@ -116,11 +108,7 @@ const PlaceholderWrapper = styled.div({
   textAlign: 'center'
 })
 
-function InjectionEditor(
-  props: StatefulPluginEditorProps<typeof injectionState> & {
-    renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
-  }
-) {
+function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
   const [cache, setCache] = React.useState(props.state.value)
   const [preview, setPreview] = React.useState(false)
 
@@ -173,22 +161,20 @@ function InjectionEditor(
           />
         </PrimarySettings>
       ) : null}
-      {props.renderIntoExtendedSettings
-        ? props.renderIntoExtendedSettings(
-            <React.Fragment>
-              {/*
-               // @ts-ignore */}
-              <OverlayInput
-                label="Serlo ID:"
-                placeholder="123456"
-                value={props.state.value}
-                onChange={e => {
-                  props.state.set(e.target.value)
-                }}
-              />
-            </React.Fragment>
-          )
-        : null}
+      {props.renderIntoSettings(
+        <React.Fragment>
+          {/*
+           // @ts-ignore */}
+          <OverlayInput
+            label="Serlo ID:"
+            placeholder="123456"
+            value={props.state.value}
+            onChange={e => {
+              props.state.set(e.target.value)
+            }}
+          />
+        </React.Fragment>
+      )}
     </React.Fragment>
   )
 }

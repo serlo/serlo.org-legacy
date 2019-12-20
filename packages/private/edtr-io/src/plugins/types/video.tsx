@@ -19,11 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  string
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import {
@@ -47,14 +43,13 @@ export const videoTypeState = entityType(
   {}
 )
 
-export const videoTypePlugin: StatefulPlugin<typeof videoTypeState> = {
+export const videoTypePlugin: EditorPlugin<typeof videoTypeState> = {
   Component: VideoTypeEditor,
-  state: videoTypeState
+  state: videoTypeState,
+  config: {}
 }
 
-function VideoTypeEditor(
-  props: StatefulPluginEditorProps<typeof videoTypeState>
-) {
+function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
   const { title, content, description } = props.state
 
   return (

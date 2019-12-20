@@ -19,11 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  string
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import {
@@ -45,15 +41,19 @@ export const coursePageTypeState = entityType(
   {}
 )
 
-export const coursePageTypePlugin: StatefulPlugin<typeof coursePageTypeState> = {
+export const coursePageTypePlugin: EditorPlugin<typeof coursePageTypeState, { skipControls: boolean }> = {
   Component: CoursePageTypeEditor,
-  state: coursePageTypeState
+  state: coursePageTypeState,
+  config: {
+    skipControls: false
+  }
 }
 
 function CoursePageTypeEditor(
-  props: StatefulPluginEditorProps<typeof coursePageTypeState> & {
-    skipControls?: boolean
-  }
+  props: EditorPluginProps<
+    typeof coursePageTypeState,
+    { skipControls: boolean }
+  >
 ) {
   const { title, icon, content } = props.state
 
@@ -102,7 +102,7 @@ function CoursePageTypeEditor(
         )}
       </h1>
       {content.render()}
-      {props.skipControls ? null : <Controls subscriptions {...props.state} />}
+      {props.config.skipControls ? null : <Controls subscriptions {...props.state} />}
     </article>
   )
 }

@@ -38,14 +38,14 @@ import { eventTypeState } from './plugins/types/event'
 import { mathPuzzleTypeState } from './plugins/types/math-puzzle'
 import { pageTypeState } from './plugins/types/page'
 import { textExerciseTypeState } from './plugins/types/text-exercise'
-import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
+import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { textExerciseGroupTypeState } from './plugins/types/text-exercise-group'
 import { textSolutionTypeState } from './plugins/types/text-solution'
 import { userTypeState } from './plugins/types/user'
 import { videoTypeState } from './plugins/types/video'
 import { Entity, License, Uuid } from './plugins/types/common'
 import { EditorProps } from './editor'
-import { inputExerciseState } from '@edtr-io/plugin-input-exercise'
+import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
 
 export function deserialize({
   initialState,
@@ -327,7 +327,7 @@ export function deserialize({
     function deserializeScMcExercise():
       | {
           plugin: 'scMcExercise'
-          state: StateTypeSerializedType<typeof scMcExerciseState>
+          state: StateTypeSerializedType<ScMcExerciseState>
         }
       | undefined {
       stack.push({ id: state.id, type: 'sc-mc-exercise' })
@@ -433,7 +433,7 @@ export function deserialize({
     function deserializeInputExercise():
       | {
           plugin: 'inputExercise'
-          state: StateTypeSerializedType<typeof inputExerciseState>
+          state: StateTypeSerializedType<InputExerciseState>
         }
       | undefined {
       if (
