@@ -22,20 +22,28 @@
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  object,
   string
 } from '@edtr-io/plugin'
 import * as React from 'react'
 
-import { entity, Controls, editorContent, HeaderInput } from './common'
+import {
+  entity,
+  Controls,
+  editorContent,
+  HeaderInput,
+  entityType
+} from './common'
 import { Settings } from './helpers/settings'
 
-export const coursePageTypeState = object({
-  ...entity,
-  icon: string('explanation'),
-  title: string(''),
-  content: editorContent()
-})
+export const coursePageTypeState = entityType(
+  {
+    ...entity,
+    icon: string('explanation'),
+    title: string(''),
+    content: editorContent()
+  },
+  {}
+)
 
 export const coursePageTypePlugin: StatefulPlugin<typeof coursePageTypeState> = {
   Component: CoursePageTypeEditor,
@@ -56,7 +64,11 @@ function CoursePageTypeEditor(
   }, [icon.value])
   return (
     <article>
-      <Settings>
+      <Settings
+        id={props.state.id.value}
+        currentRevision={props.state.revision.value}
+        onSwitchRevision={props.state.replaceOwnState}
+      >
         <Settings.Select
           label="Icon"
           state={icon}

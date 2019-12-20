@@ -23,21 +23,29 @@ import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  object,
   string
 } from '@edtr-io/plugin'
 
-import { Controls, editorContent, entity, HeaderInput } from './common'
+import {
+  Controls,
+  editorContent,
+  entity,
+  HeaderInput,
+  entityType
+} from './common'
 import { Settings } from './helpers/settings'
 
-export const articleTypeState = object({
-  ...entity,
-  title: string(),
-  content: editorContent(),
-  reasoning: editorContent(),
-  meta_title: string(),
-  meta_description: string()
-})
+export const articleTypeState = entityType(
+  {
+    ...entity,
+    title: string(),
+    content: editorContent(),
+    reasoning: editorContent(),
+    meta_title: string(),
+    meta_description: string()
+  },
+  {}
+)
 
 export const articleTypePlugin: StatefulPlugin<typeof articleTypeState> = {
   Component: ArticleTypeEditor,
@@ -52,7 +60,11 @@ function ArticleTypeEditor(
   return (
     <React.Fragment>
       <div className="page-header">
-        <Settings>
+        <Settings
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        >
           <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />
           <Settings.Textarea
             label="Suchmaschinen-Beschreibung"

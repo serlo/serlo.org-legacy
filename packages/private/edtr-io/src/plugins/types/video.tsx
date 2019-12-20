@@ -22,7 +22,6 @@
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  object,
   string
 } from '@edtr-io/plugin'
 import * as React from 'react'
@@ -32,16 +31,21 @@ import {
   Controls,
   editorContent,
   serializedChild,
-  HeaderInput
+  HeaderInput,
+  entityType
 } from './common'
+import { Settings } from './helpers/settings'
 
-export const videoTypeState = object({
-  ...entity,
-  content: serializedChild('video'),
-  title: string(),
-  description: editorContent(),
-  reasoning: editorContent()
-})
+export const videoTypeState = entityType(
+  {
+    ...entity,
+    content: serializedChild('video'),
+    title: string(),
+    description: editorContent(),
+    reasoning: editorContent()
+  },
+  {}
+)
 
 export const videoTypePlugin: StatefulPlugin<typeof videoTypeState> = {
   Component: VideoTypeEditor,
@@ -55,6 +59,11 @@ function VideoTypeEditor(
 
   return (
     <section>
+      <Settings
+        id={props.state.id.value}
+        currentRevision={props.state.revision.value}
+        onSwitchRevision={props.state.replaceOwnState}
+      />
       <div className="page-header">
         <h1>
           {props.editable ? (

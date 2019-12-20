@@ -22,19 +22,21 @@
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  object,
   string
 } from '@edtr-io/plugin'
 import * as React from 'react'
 
-import { entity, Controls, editorContent } from './common'
+import { entity, Controls, editorContent, entityType } from './common'
 import { Settings } from './helpers/settings'
 
-export const mathPuzzleTypeState = object({
-  ...entity,
-  source: string(),
-  content: editorContent()
-})
+export const mathPuzzleTypeState = entityType(
+  {
+    ...entity,
+    source: string(),
+    content: editorContent()
+  },
+  {}
+)
 
 export const mathPuzzleTypePlugin: StatefulPlugin<typeof mathPuzzleTypeState> = {
   Component: MathPuzzleTypeEditor,
@@ -48,7 +50,11 @@ function MathPuzzleTypeEditor(
 
   return (
     <React.Fragment>
-      <Settings>
+      <Settings
+        id={props.state.id.value}
+        currentRevision={props.state.revision.value}
+        onSwitchRevision={props.state.replaceOwnState}
+      >
         <Settings.Textarea label="Quellcode" state={source} />
       </Settings>
       <div className="math-puzzle" data-source={source.value}>

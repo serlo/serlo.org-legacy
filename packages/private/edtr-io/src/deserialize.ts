@@ -51,7 +51,7 @@ export function deserialize({
   initialState,
   type,
   onError
-}: EditorProps): DeserializeResult {
+}: Pick<EditorProps, 'initialState' | 'type' | 'onError'>): DeserializeResult {
   const stack: { id: number; type: string }[] = []
   try {
     switch (type) {
@@ -120,6 +120,11 @@ export function deserialize({
           state: deserializeTextSolution(
             initialState as TextSolutionSerializedState
           )
+        })
+      case 'text-hint':
+        return succeed({
+          plugin: 'type-text-hint',
+          state: deserializeTextHint(initialState as TextHintSerializedState)
         })
       case 'user':
         return succeed({

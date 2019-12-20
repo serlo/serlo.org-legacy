@@ -22,20 +22,23 @@
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  object,
   string
 } from '@edtr-io/plugin'
 import { hintPlugin } from '@edtr-io/plugin-hint'
 import * as React from 'react'
 
-import { Controls, editorContent, entity } from './common'
+import { Controls, editorContent, entity, entityType } from './common'
+import { Settings } from './helpers/settings'
 
-export const textHintTypeState = object({
-  ...entity,
-  // FIXME: hints don't have a title
-  title: string(''),
-  content: editorContent()
-})
+export const textHintTypeState = entityType(
+  {
+    ...entity,
+    // FIXME: hints don't have a title
+    title: string(''),
+    content: editorContent()
+  },
+  {}
+)
 
 export const textHintTypePlugin: StatefulPlugin<typeof textHintTypeState> = {
   Component: TextHintTypeEditor,
@@ -49,6 +52,11 @@ function TextHintTypeEditor(
 ) {
   return (
     <React.Fragment>
+      <Settings
+        id={props.state.id.value}
+        currentRevision={props.state.revision.value}
+        onSwitchRevision={props.state.replaceOwnState}
+      />
       <hintPlugin.Component {...props} />
       {props.skipControls ? null : <Controls subscriptions {...props.state} />}
     </React.Fragment>

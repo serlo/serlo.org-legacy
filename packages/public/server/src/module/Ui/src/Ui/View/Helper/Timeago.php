@@ -34,7 +34,7 @@ class Timeago extends AbstractHelper
 
     public function format(\Datetime $datetime)
     {
-        return $datetime->format('Y-m-d H:i:s');
+        return $datetime->format('Y-m-d H:i:sO');
     }
 
     public function render(Datetime $datetime, $plain = false)

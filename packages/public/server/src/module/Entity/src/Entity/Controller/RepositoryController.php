@@ -31,11 +31,13 @@
 namespace Entity\Controller;
 
 use Entity\Entity\EntityInterface;
+use Entity\Entity\Revision;
 use Entity\Entity\RevisionField;
 use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Renderer\View\Helper\FormatHelperAwareTrait;
+use Ui\View\Helper\Timeago;
 use Uuid\Filter\NotTrashedCollectionFilter;
 use Uuid\Manager\UuidManagerAwareTrait;
 use Versioning\Entity\RevisionInterface;
@@ -127,6 +129,37 @@ class RepositoryController extends AbstractController
         return $view;
     }
 
+    protected function getRevisionsAction()
+    {
+        $entity = $this->getEntity();
+        if (!$entity || $entity->isTrashed()) {
+            $this->getResponse()->setStatusCode(404);
+            return false;
+        }
+        $revisions = $entity->getRevisions()->map(function (Revision $revision) use ($entity) {
+            return [
+                'id' => $revision->getId(),
+                'timestamp' => (new Timeago())->format($revision->getTimestamp()),
+                'author' => $revision->getAuthor()->getUsername(),
+                'changes' => $revision->get('changes'),
+                'active' => $revision->getId() === $entity->getCurrentRevision()->getId(),
+            ];
+        });
+        return new JsonModel($revisions);
+    }
+
+    protected function getRevisionDataAction()
+    {
+        $entity = $this->getEntity();
+        if (!$entity || $entity->isTrashed()) {
+            $this->getResponse()->setStatusCode(404);
+            return false;
+        }
+
+        $state = $this->getData($entity, $this->params('revision'));
+        return new JsonModel(['state' => $state, 'type' => $entity->getType()->getName()]);
+    }
+
     /**
      * Recursivly checks if the provided data is valid for this entity and all of its children
      * @param array $data submitted data in json
@@ -186,9 +219,11 @@ class RepositoryController extends AbstractController
 
             $entity = $id ? $this->getEntity($data['id']) : $this->createOrRecycleEntity($type, $parentId);
 
-            if ($entity->hasCurrentRevision()) {
+            if ($entity->hasHead()) {
+                $startedFromHead = $data['revision'] === $entity->getHead()->getId();
+
                 // check for changes with previous revision data, ignoring $merges
-                $revision = $entity->getCurrentRevision();
+                $revision = $startedFromHead || !$entity->hasCurrentRevision() ? $entity->getHead() : $entity->getCurrentRevision();
                 $dataPartPrevious = $this->getRevisionData($revision);
                 // only check equality (==) not identity (===) to ignore different key order
                 if (array_merge($dataPartPrevious, $merges) != array_merge($dataPartNext, $merges)) {
@@ -473,6 +508,7 @@ class RepositoryController extends AbstractController
 
         $data = [
             'id' => $entity->getId(),
+            'revision' => $id ? intval($id) : 0,
             'license' => [
                 'id' => $license->getId(),
                 'title' => $license->getTitle(),
@@ -502,12 +538,28 @@ class RepositoryController extends AbstractController
                 if ($children->count()) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
                         $data[$allowedChild] = [];
+                        /** @var EntityInterface $child */
                         foreach ($children as $child) {
-                            /* TODO: select correct revision id */
-                            $data[$allowedChild][] = $this->getData($child);
+                            // select child revision id by the following heuristic:
+                            //  - If an id of the entity revision was specified, then we take the newest existing revision of the child
+                            //    (Use case: Continue editing when it wasn't reviewed yet)
+                            //  - Otherwise we take the current revision (Use case: Editing the content visible on the website)
+                            if ($id === null) {
+                                $data[$allowedChild][] = $this->getData($child);
+                            } else {
+                                $filter = new NotTrashedCollectionFilter();
+                                $childRevisionId = $filter->filter($child->getRevisions())->first()->getId();
+                                $data[$allowedChild][] = $this->getData($child, $childRevisionId);
+                            }
                         }
                     } else {
-                        $data[$allowedChild] = $this->getData($children->first());
+                        if ($id === null) {
+                            $data[$allowedChild] = $this->getData($children->first());
+                        } else {
+                            $filter = new NotTrashedCollectionFilter();
+                            $childRevisionId = $filter->filter($children->first()->getRevisions())->first()->getId();
+                            $data[$allowedChild] = $this->getData($children->first(), $childRevisionId);
+                        }
                     }
                 }
             }

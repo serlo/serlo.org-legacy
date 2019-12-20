@@ -22,21 +22,29 @@
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
-  object,
   string
 } from '@edtr-io/plugin'
 import * as React from 'react'
 
-import { editorContent, entity, Controls, HeaderInput } from './common'
+import {
+  editorContent,
+  entity,
+  Controls,
+  HeaderInput,
+  entityType
+} from './common'
 import { Settings } from './helpers/settings'
 
-export const eventTypeState = object({
-  ...entity,
-  title: string(),
-  content: editorContent(),
-  meta_title: string(),
-  meta_description: string()
-})
+export const eventTypeState = entityType(
+  {
+    ...entity,
+    title: string(),
+    content: editorContent(),
+    meta_title: string(),
+    meta_description: string()
+  },
+  {}
+)
 
 export const eventTypePlugin: StatefulPlugin<typeof eventTypeState> = {
   Component: EventTypeEditor,
@@ -51,7 +59,11 @@ function EventTypeEditor(
   return (
     <React.Fragment>
       <div className="page-header">
-        <Settings>
+        <Settings
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        >
           <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />
           <Settings.Textarea
             label="Suchmaschinen-Beschreibung"
