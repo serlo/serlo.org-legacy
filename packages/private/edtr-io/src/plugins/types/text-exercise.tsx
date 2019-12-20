@@ -64,6 +64,7 @@ export function TextExerciseTypeEditor(
     <article className="text-exercise">
       <Settings
         id={props.state.id.value}
+        currentRevision={props.state.revision.value}
         onSwitchRevision={props.state.replaceOwnState}
       />
       {content.render()}

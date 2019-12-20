@@ -37,6 +37,7 @@ use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Renderer\View\Helper\FormatHelperAwareTrait;
+use Ui\View\Helper\Timeago;
 use Uuid\Filter\NotTrashedCollectionFilter;
 use Uuid\Manager\UuidManagerAwareTrait;
 use Versioning\Entity\RevisionInterface;
@@ -135,8 +136,14 @@ class RepositoryController extends AbstractController
             $this->getResponse()->setStatusCode(404);
             return false;
         }
-        $revisions = $entity->getRevisions()->map(function (Revision $revision) {
-            return [ 'id' => $revision->getId(), 'timestamp' => $revision->getTimestamp(), 'author' => $revision->getAuthor()->getUsername() ];
+        $revisions = $entity->getRevisions()->map(function (Revision $revision) use ($entity) {
+            return [
+                'id' => $revision->getId(),
+                'timestamp' => (new Timeago())->format($revision->getTimestamp()),
+                'author' => $revision->getAuthor()->getUsername(),
+                'changes' => $revision->get('changes'),
+                'active' => $revision->getId() === $entity->getCurrentRevision()->getId(),
+            ];
         });
         return new JsonModel($revisions);
     }

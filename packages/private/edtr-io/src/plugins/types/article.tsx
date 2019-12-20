@@ -62,6 +62,7 @@ function ArticleTypeEditor(
       <div className="page-header">
         <Settings
           id={props.state.id.value}
+          currentRevision={props.state.revision.value}
           onSwitchRevision={props.state.replaceOwnState}
         >
           <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />

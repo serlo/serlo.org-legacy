@@ -61,6 +61,7 @@ function VideoTypeEditor(
     <section>
       <Settings
         id={props.state.id.value}
+        currentRevision={props.state.revision.value}
         onSwitchRevision={props.state.replaceOwnState}
       />
       <div className="page-header">

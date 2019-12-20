@@ -66,6 +66,7 @@ function CourseTypeEditor(
     <article>
       <Settings
         id={props.state.id.value}
+        currentRevision={props.state.revision.value}
         onSwitchRevision={props.state.replaceOwnState}
       >
         <Settings.Textarea

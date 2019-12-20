@@ -61,6 +61,7 @@ function TextExerciseGroupTypeEditor(
     <article className="exercisegroup">
       <Settings
         id={props.state.id.value}
+        currentRevision={props.state.revision.value}
         onSwitchRevision={props.state.replaceOwnState}
       />
       <section className="row">{content.render()}</section>
