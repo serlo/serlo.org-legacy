@@ -94,6 +94,7 @@ of the following packages:
 - `yarn format:php` formats all PHP source code (requires `yarn start` beforehand)
 - `yarn lint:js` lints all non-PHP source code
 - `yarn lint:php` lints all PHP source code (requires `yarn start` beforehand)
+- `yarn mysql` connects to the running MySQL database (requires `yarn start` beforehand)
 - `yarn test:js` runs all non-PHP unit tests
 - `yarn test:php` runs all PHP unit tests (requires `yarn start` beforehand)
 - `yarn test:e2e` runs all end-to-end tests (requires `yarn start` beforehand)
