@@ -15,7 +15,7 @@
     "predeploy:packages": "lerna run --stream build --scope=@serlo/serlo-org-{client,frontend,static-assets} --include-filtered-dependencies",
     "deploy:packages": "lerna run --stream deploy:package",
     "deploy": "lerna run deploy",
-    "dump:sql": "scripts/dump_mysql_serlo_database.sh",
+    "dump:sql": "ts-node scripts/dump_mysql_serlo_database.ts",
     "sentry-release": "lerna run --stream sentry-release",
     "format": "npm-run-all --parallel format:*",
     "format:prettier": "yarn _prettier --write",
