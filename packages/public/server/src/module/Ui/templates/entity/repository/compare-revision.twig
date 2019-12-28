@@ -45,25 +45,21 @@
                 </div>
                 <div class="panel-body">
                     <div class="tab-content">
-                        <div class="tab-pane fade revision-compare" id="source{{ field.getName() }}" data-field-name="{{ field.getName() }}">
-                            {% set oldField = compareRevision.get(field.getName()) %}
-                            {% if oldField %}
-                                <div class="revision-compare-old" style="display:none;">
-                                    {% if compareFieldIsLegacy and fieldIsLegacy %}
+                        {% if compareFieldIsLegacy and fieldIsLegacy %}
+                            <div class="tab-pane fade revision-compare" id="source{{ field.getName() }}" data-field-name="{{ field.getName() }}">
+                                {% set oldField = compareRevision.get(field.getName()) %}
+                                {% if oldField %}
+                                    <div class="revision-compare-old" style="display:none;">
                                         {{ diff().cleanMarkdown(oldField) | escape }}
-                                    {% else %}
-                                        {{ oldField | escape}}
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                            <div class="revision-compare-new" style="display:none;">
-                                {% if compareFieldIsLegacy and fieldIsLegacy %}
-                                    {{ diff().cleanMarkdown(field.getValue()) | escape }}
-                                {% else %}
-                                    {{ field.getValue() | escape }}
+                                    </div>
                                 {% endif %}
+                                <div class="revision-compare-new" style="display:none;">
+                                    {{ diff().cleanMarkdown(field.getValue()) | escape }}
+                                </div>
                             </div>
-                        </div>
+                        {% else %}
+                            {{ renderComponent('diff', {revisionOld: oldField | escape, revisionNew: field.getValue() | escape, title: field.getName()})}}
+                        {% endif %}
                         <div class="tab-pane fade" id="old{{ field.getName() }}">
                             {% if compareFieldIsLegacy %}
                                 {{ renderer().toHtml(compareRevision.get(field.getName())) }}

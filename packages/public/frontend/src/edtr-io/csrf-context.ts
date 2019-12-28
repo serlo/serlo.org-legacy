@@ -19,4 +19,6 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-export { Editor } from '@serlo/edtr-io'
+import React from 'react'
+
+export const CsrfContext = React.createContext<() => string>(() => '')

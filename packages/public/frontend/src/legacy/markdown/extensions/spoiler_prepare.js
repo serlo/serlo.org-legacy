@@ -19,14 +19,29 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getStateFromElement } from '@serlo/editor-helpers'
-import * as React from 'react'
-import { hydrate } from 'react-dom'
-import { Renderer } from '@serlo/edtr-io'
-import { Edtr } from '@serlo/legacy-editor-to-editor'
+/* global define */
+/**
+ * Serlo Flavored Markdown
+ * Spoilers:
+ * Transforms ///.../// blocks into spoilers
+ **/
+var spoilerprepare = function() {
+  var filter
+  var findSpoilers = new RegExp(/^\/\/\/ (.*)\n([\s\S]*?)(\n|\r)+\/\/\//gm)
 
-export const initElement = (element: HTMLElement) => {
-  const content = (getStateFromElement(element) as unknown) as Edtr
+  filter = function(text) {
+    // convert all "///"s into "=,sp."s
+    return text.replace(findSpoilers, function(original, title, content) {
+      return '<p>=,sp. ' + title + '</p>\n' + content + '<p>=,sp.</p>'
+    })
+  }
 
-  hydrate(<Renderer state={content} />, element)
+  return [
+    {
+      type: 'lang',
+      filter: filter
+    }
+  ]
 }
+
+export default spoilerprepare

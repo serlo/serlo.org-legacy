@@ -19,12 +19,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import axios from 'axios'
 import * as React from 'react'
-import { render } from 'react-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
-import { getGa } from './analytics'
+function getGa(): (...args: any[]) => void {
+  const w = (window as unknown) as any
+  const ga = w[w['GoogleAnalyticsObject'] || 'ga']
+  return ga || (() => {})
+}
 
 const breakPoint = 1000
 const smallScreens = `@media screen and (max-width: ${breakPoint}px)`
@@ -295,7 +297,7 @@ const BlurBackground = styled.div({
   }
 })
 
-function DonationBanner({ data }: DonationBannerProps) {
+export function DonationBanner({ data }: DonationBannerProps) {
   const [visible, setVisible] = React.useState(true)
   const [expanded, setExpanded] = React.useState(
     window.document.body.offsetWidth > breakPoint
@@ -408,30 +410,6 @@ function DonationBanner({ data }: DonationBannerProps) {
       />
     </>
   )
-}
-
-export async function initDonationBanner() {
-  const { data } = await axios.get(
-    'https://serlo-donation-campaign.serlo.workers.dev/',
-    {
-      withCredentials: true
-    }
-  )
-  if (!data.enabled) return
-
-  const div = window.document.getElementById('donation-banner')
-  if (div) {
-    render(
-      <DonationBanner
-        data={{
-          ...data,
-          authenticated: div.getAttribute('data-authenticated') !== '',
-          interests: div.getAttribute('data-interests')
-        }}
-      />,
-      div
-    )
-  }
 }
 
 interface DonationBannerProps {

@@ -1,52 +1,52 @@
-/**
- * This file is part of Serlo.org.
- *
- * Copyright (c) 2013-2019 Serlo Education e.V.
- *
- * Licensed under the Apache License, Version 2.0 (the "License")
- * you may not use this file except in compliance with the License
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
- * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
- * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
- */
 import * as React from 'react'
-import { render } from 'react-dom'
 import { convert, isEdtr } from '@serlo/legacy-editor-to-editor'
 import { cleanEdtrState } from '@serlo/edtr-io'
 import styled from 'styled-components'
 import $ from 'jquery'
 
-//@ts-ignore
-import t from '../../../modules/translator'
+import { Provider, GlobalStyle } from '../src/provider.component'
+import { Normalize } from 'styled-normalize'
+import { handleBody } from './_document'
 
-export function initDiff() {
-  const $elements = $('.revision-compare')
-  if (!$elements.length) return
+//import t from '../../../modules/translator'
+import 'diff2html/dist/diff2html.css'
+import '../src/overrides.css'
+import { createPatch } from 'diff'
+import { Diff2Html } from 'diff2html'
 
-  import('./helper').then(({ createPatch, Diff2Html }) => {
-    $elements.each((_index, el) => {
-      const title = $(el).data('field-name')
-      const $old = $('.revision-compare-old', el)
-      const $new = $('.revision-compare-new', el)
+export default function Index(props) {
+  return (
+    <Provider>
+      <Normalize />
+      <GlobalStyle assetPrefix={props.assetPrefix} />
+      <Diff
+        revisionOld={props.revisionOld}
+        revisionNew={props.revisionNew}
+        title={props.title}
+      />
+    </Provider>
+  )
+}
+Index.getInitialProps = async ({ req, res }) => {
+  return await handleBody(req, res, {
+    revisionOld: '',
+    revisionNew: '',
+    title: ''
+  })
+}
 
-      const diff = createPatch(title, ...prettify($old.text(), $new.text()))
-      const html = Diff2Html.getPrettyHtml(diff, {
-        inputFormat: 'diff',
-        showFiles: false,
-        matching: 'lines',
-        maxLineSizeInBlockForComparison: 1000,
-        rawTemplates: {
-          'line-by-line-file-diff': `
+function Diff(props) {
+  const diff = createPatch(
+    props.title,
+    ...prettify(props.revisionOld, props.revisionNew)
+  )
+  const html = Diff2Html.getPrettyHtml(diff, {
+    inputFormat: 'diff',
+    showFiles: false,
+    matching: 'lines',
+    maxLineSizeInBlockForComparison: 1000,
+    rawTemplates: {
+      'line-by-line-file-diff': `
 <div class="d2h-file-diff">
     <div class="d2h-code-wrapper">
         <table class="d2h-diff-table">
@@ -57,7 +57,7 @@ export function initDiff() {
     </div>
 </div>
 `,
-          'generic-empty-diff': `
+      'generic-empty-diff': `
 <tr>
     <td class="{{diffParser.LINE_TYPE.INFO}}">
         <div class="{{contentClass}} {{diffParser.LINE_TYPE.INFO}}">
@@ -65,22 +65,22 @@ export function initDiff() {
         </div>
     </td>
 </tr>`
-        }
-      })
-
-      const sideBySideHtml = Diff2Html.getPrettyHtml(diff, {
-        inputFormat: 'diff',
-        showFiles: false,
-        matching: 'lines',
-        maxLineSizeInBlockForComparison: 1000,
-        outputFormat: 'side-by-side'
-      })
-      const modal = $('<div>').attr('id', `side-by-side-${title}`)
-      $(el).append(modal)
-      render(<SideBySide diffHtml={sideBySideHtml} />, modal.get(0))
-      $(el).append(html)
-    })
+    }
   })
+
+  const sideBySideHtml = Diff2Html.getPrettyHtml(diff, {
+    inputFormat: 'diff',
+    showFiles: false,
+    matching: 'lines',
+    maxLineSizeInBlockForComparison: 1000,
+    outputFormat: 'side-by-side'
+  })
+  return (
+    <>
+      <SideBySide diffHtml={sideBySideHtml} />
+      <div dangerouslySetInnerHTML={{ __html: html }}></div>
+    </>
+  )
 }
 
 const Wrapper = styled.div({
@@ -155,7 +155,7 @@ function SideBySide(props: { diffHtml: string }) {
             setOpen(true)
           }}
         >
-          {t('Show changes side by side')}
+          {/*t(*/ 'Show changes side by side' /*)*/}
         </a>
       )}
     </Wrapper>

@@ -35,14 +35,12 @@ import 'iframe-resizer/js/iframeResizer.contentWindow'
 
 config.autoAddCss = false
 
-import { initContent, initEntityEditor } from '../editor'
 import '../libs/polyfills'
 import Common from '../modules/common'
 import Content from '../modules/content'
 import '../modules/modals'
 import '../modules/spoiler'
 import SystemNotification from '../modules/system_notification'
-import { tenant } from '../modules/tenant'
 import t from '../modules/translator'
 import '../thirdparty/jquery.nestable'
 import '../thirdparty/deployggb'
@@ -53,7 +51,6 @@ import Breadcrumbs from './modules/breadcrumbs'
 import { initChangeDimensionEvents } from './modules/change-dimension-events'
 import { initContentApi } from './modules/content_api'
 import { initConsentBanner } from './modules/consent-banner'
-import { initDiff } from './modules/diff/diff'
 import './modules/forum_select'
 import './modules/injections'
 import './modules/input_challenge'
@@ -159,10 +156,7 @@ const init = $context => {
   setLanguage()
   initChangeDimensionEvents()
   initContentApi()
-  initConsentBanner().then(consent => {
-    initDonationBanner(consent)
-  })
-  initDiff()
+  initConsentBanner()
 
   // create an system notification whenever Common.genericError is called
   Common.addEventListener('generic error', () => {
@@ -174,7 +168,6 @@ const init = $context => {
   }
 
   Content.add($context => {
-    initContent($context)
     $('.sortable', $context).SortableList()
     $('.timeago', $context).TimeAgo()
     $('.dialog', $context).SerloModals()
@@ -194,16 +187,6 @@ const init = $context => {
     $('.math-puzzle', $context).MathPuzzle()
     $('form:has(button.g-recaptcha)').ReCaptcha()
 
-    const $editor = $('#editor[data-state][data-type]', $context)
-    if ($editor.length > 0) {
-      initEntityEditor(
-        {
-          initialState: $editor.data('state'),
-          type: $editor.data('type')
-        },
-        $editor.get(0)
-      )
-    }
     // Dirty Hack for Course Pages Mobile
     if ($('.side-context-course').length > 0) {
       $('#content-layout').addClass('course-page')
@@ -271,28 +254,3 @@ const init = $context => {
 
 init($('body'))
 Supporter.check()
-
-function initDonationBanner(consent) {
-  if (tenant !== 'de') return
-  if (localStorage.getItem('donation-popup-donated') === '1') return
-
-  const disabledPages = [
-    '/auth/login',
-    '/user/register',
-    '/community',
-    '/spenden',
-    '/eltern',
-    '/lehrkraefte'
-  ]
-  if (
-    disabledPages.indexOf(window.location.pathname) > -1 ||
-    window.location.pathname.startsWith('/page/revision/create/') ||
-    window.location.pathname.startsWith('/page/revision/create-old/')
-  ) {
-    return
-  }
-
-  import('./modules/donation-banner').then(({ initDonationBanner }) => {
-    initDonationBanner()
-  })
-}

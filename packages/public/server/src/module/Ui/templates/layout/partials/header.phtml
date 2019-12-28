@@ -111,6 +111,6 @@
         </div>
     <?php endif; ?>
     <?php if ($this->featureFlags()->isEnabled('donation-banner')): ?>
-        <div id="donation-banner" data-authenticated="<?php echo $this->user()->getAuthenticatedUserID(); ?>" data-interests="<?php echo $this->user()->getAuthenticatedInterests(); ?>"></div>
+        <?php echo $this->renderComponent('donationbanner', ["authenticated" => $this->user()->getAuthenticatedUserID(), "interests" => $this->user()->getAuthenticatedInterests()]) ?>
     <?php endif; ?>
 </header>

@@ -19,7 +19,19 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import 'diff2html/dist/diff2html.css'
-import './overrides.css'
-export { createPatch } from 'diff'
-export { Diff2Html } from 'diff2html'
+/* global define */
+var strikethrough = function() {
+  return [
+    {
+      // strike-through
+      // NOTE: showdown already replaced "~" with "~T", so we need to adjust accordingly.
+      type: 'lang',
+      regex: '(~T){2}([^~]+)(~T){2}',
+      replace: function(match, prefix, content, suffix) {
+        return '<del>' + content + '</del>'
+      }
+    }
+  ]
+}
+
+export default strikethrough

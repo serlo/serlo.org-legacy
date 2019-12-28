@@ -90,32 +90,36 @@ class Renderer
         }
 
         $rendered = null;
-        $data = ['state' => $input];
 
+        if ($this->getFormatHelper()->isLegacyFormat($input)) {
+            $data = ['state' => $input];
 
-        $httpHeader = [
-            'Accept: application/json',
-            'Content-Type: application/json',
-        ];
+            $httpHeader = [
+                'Accept: application/json',
+                'Content-Type: application/json',
+            ];
+            $url = $this->legacyRendererUrl;
 
-        $url = $this->getFormatHelper()->isLegacyFormat($input) ? $this->legacyRendererUrl : $this->editorRendererUrl;
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeader);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeader);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            curl_close($ch);
 
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        try {
-            $rendered = json_decode($result, true)['html'];
-        } catch (Exception $e) {
-            $this->sentry->captureException($e, ['tags' => ['renderer' => true]]);
-            throw new RuntimeException(sprintf('Broken pipe'));
+            try {
+                $rendered = json_decode($result, true)['html'];
+            } catch (Exception $e) {
+                $this->sentry->captureException($e, ['tags' => ['renderer' => true]]);
+                throw new RuntimeException(sprintf('Broken pipe'));
+            }
+        } else {
+            $rendered = $this->renderComponent('content', [content => $input])
         }
+
 
         if ($this->cacheEnabled) {
             $this->storage->setItem($key, $rendered);

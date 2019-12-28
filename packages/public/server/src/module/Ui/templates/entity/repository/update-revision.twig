@@ -19,4 +19,4 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-<div id="editor" data-state="{{ state }}" data-type="{{ type }}"></div>
+{{ renderComponent('editor', {content: content, type: type})}}

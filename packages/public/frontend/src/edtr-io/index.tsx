@@ -19,21 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import $ from 'jquery'
+import 'regenerator-runtime/runtime'
 
-export const initContent = ($context: JQuery<HTMLElement>) => {
-  const $elements = $(
-    '.edtr-io[data-edit-type="edtr-io"][data-raw-content]',
-    $context
-  )
+export { DocumentState } from '@edtr-io/store'
 
-  if ($elements.length === 0) {
-    return
-  }
-
-  return import('./init-element').then(({ initElement }) => {
-    $elements.each((_i, element) => {
-      initElement(element)
-    })
-  })
-}
+export { Editor, EditorProps } from './editor'
+export { Renderer } from './renderer'
+export { createPlugins } from './plugins'
+export { cleanEdtrState } from './cleanState'
