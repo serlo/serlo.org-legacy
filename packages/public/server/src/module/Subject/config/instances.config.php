@@ -454,7 +454,8 @@ return [
                         'applet',
                     ],
                 ],
-                'அகராதி' => [ // dictionary 
+                // dictionary
+                'அகராதி' => [
                     'allowed_taxonomies' => [
                         'topic',
                         'locale',
