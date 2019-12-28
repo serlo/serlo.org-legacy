@@ -5,36 +5,12 @@ import { handleBody } from './_document'
 import { DonationBanner } from '../src/donation-banner.component'
 import axios from 'axios'
 
-const tenant = window.location.hostname.split('.')[0]
-
 export default function Index(props) {
-  try {
-    window
-  } catch (e) {
-    return null
-  }
-  if (tenant !== 'de') return null
-  if (localStorage.getItem('donation-popup-donated') === '1') return null
-
-  const disabledPages = [
-    '/auth/login',
-    '/user/register',
-    '/community',
-    '/spenden',
-    '/eltern',
-    '/lehrkraefte'
-  ]
-  if (
-    disabledPages.indexOf(window.location.pathname) > -1 ||
-    window.location.pathname.startsWith('/page/revision/create/') ||
-    window.location.pathname.startsWith('/page/revision/create-old/')
-  ) {
-    return null
-  }
   return (
     <Provider>
       <Normalize />
       <GlobalStyle assetPrefix={props.assetPrefix} />
+      <DonationBannerWrapper {...props} />
     </Provider>
   )
 }
@@ -46,11 +22,33 @@ function DonationBannerWrapper(props) {
   const [data, setData] = React.useState({})
   React.useEffect(() => {
     // on mount
+    const tenant = window.location.hostname.split('.')[0]
+    if (!window.location.hostname.includes('localhost') && tenant !== 'de')
+      return
+    if (localStorage.getItem('donation-popup-donated') === '1') return
+
+    const disabledPages = [
+      '/auth/login',
+      '/user/register',
+      '/community',
+      '/spenden',
+      '/eltern',
+      '/lehrkraefte'
+    ]
+    if (
+      disabledPages.indexOf(window.location.pathname) > -1 ||
+      window.location.pathname.startsWith('/page/revision/create/') ||
+      window.location.pathname.startsWith('/page/revision/create-old/')
+    ) {
+      return
+    }
     axios
       .get('https://serlo-donation-campaign.serlo.workers.dev/', {
         withCredentials: true
       })
-      .then(data => setData(data))
+      .then(res => {
+        setData(res.data)
+      })
   }, [])
   return (
     <DonationBanner

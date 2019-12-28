@@ -298,6 +298,7 @@ const BlurBackground = styled.div({
 })
 
 export function DonationBanner({ data }: DonationBannerProps) {
+  if (!data.id) return null
   const [visible, setVisible] = React.useState(true)
   const [expanded, setExpanded] = React.useState(
     window.document.body.offsetWidth > breakPoint
