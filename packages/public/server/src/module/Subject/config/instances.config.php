@@ -246,6 +246,21 @@ return [
                         'applet',
                     ],
                 ],
+                'boîte à méthodes' => [
+                    'allowed_taxonomies' => [
+                        'topic',
+                        'locale',
+                    ],
+                    'allowed_entities'   => [
+                        'article',
+                        'text-exercise',
+                        'video',
+                        'course',
+                        'text-exercise-group',
+                        'math-puzzle',
+                        'applet',
+                    ],
+                ],
                 'nouvelles matières' => [
                     'allowed_taxonomies' => [
                         'topic',
@@ -426,6 +441,21 @@ return [
                     ],
                 ],
                 'வரலாறு' => [ // history
+                    'allowed_taxonomies' => [
+                        'topic',
+                        'locale',
+                    ],
+                    'allowed_entities'   => [
+                        'article',
+                        'text-exercise',
+                        'video',
+                        'course',
+                        'text-exercise-group',
+                        'applet',
+                    ],
+                ],
+                // dictionary
+                'அகராதி' => [
                     'allowed_taxonomies' => [
                         'topic',
                         'locale',

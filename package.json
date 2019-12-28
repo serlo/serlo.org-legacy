@@ -47,7 +47,7 @@
     "stop:server": "docker-compose stop",
     "down:server": "docker-compose down",
     "_prettier": "prettier \"{{packages/{private,public}/*/,}{.circleci,__mocks__,__tests__,__tests-e2e__,scripts,src}/**/*,*}.{js,jsx,ts,tsx,json,md,yaml,yml,css,scss}\"",
-    "_php-cs-fixer": "docker-compose exec server-php dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php"
+    "_php-cs-fixer": "docker-compose run --rm server-php dev-tools/vendor/bin/php-cs-fixer fix --config=php-cs-fixer.config.php"
   },
   "dependencies": {},
   "devDependencies": {
