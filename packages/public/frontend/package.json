@@ -47,6 +47,7 @@
     "@fortawesome/react-fontawesome": "^0.1.0",
     "@next/bundle-analyzer": "^9.0.0",
     "@serlo/docker": "^0.0.0",
+    "@serlo/editor-plugins-registry": "^0.5.1",
     "@serlo/node-image": "^0.0.0",
     "@serlo/workspace-image": "^0.0.0",
     "@storybook/addon-actions": "^5.0.0",

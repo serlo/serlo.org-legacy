@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { converter } from '@serlo/markdown'
+import { converter } from '../../markdown'
 
 const renderMarkdown = (input: string) => {
   let html = converter.makeHtml(input)

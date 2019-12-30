@@ -21,13 +21,9 @@
  */
 import split from './legacyToSplish/split'
 import transform from './legacyToSplish/transform'
-import {
-  Legacy,
-  Splish,
-  RowsPlugin,
-  isSplish,
-  convertRow
-} from './splishToEdtr'
+import { isSplish, convertRow } from './splishToEdtr'
+
+import { Legacy, Splish, RowsPlugin } from './splishToEdtr/types'
 
 export function convert(content: Legacy | Splish): RowsPlugin {
   if (!content) return { plugin: 'rows', state: [] }
@@ -52,11 +48,4 @@ export function convertSplishToEdtrIO(content: Splish): RowsPlugin {
   }
 }
 
-export {
-  RowsPlugin,
-  Edtr,
-  Legacy,
-  Splish,
-  isSplish,
-  isEdtr
-} from './splishToEdtr'
+export { isSplish, isEdtr } from './splishToEdtr'

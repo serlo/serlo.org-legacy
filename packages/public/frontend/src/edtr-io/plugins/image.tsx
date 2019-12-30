@@ -96,7 +96,9 @@ export function createUploadImageHandler(getCsrfToken: () => string) {
   return function uploadImageHandler(file: File): Promise<string> {
     const validation = validateFile(file)
     if (!validation.valid) {
+      // @ts-ignore
       onError(validation.errors)
+      // @ts-ignore
       return Promise.reject(validation.errors)
     }
 

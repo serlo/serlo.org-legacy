@@ -21,7 +21,7 @@
  */
 import { StatefulPlugin, StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { createTablePlugin } from '@edtr-io/plugin-table'
-import { converter } from '@serlo/markdown'
+import { converter } from '../../legacy/markdown'
 import { typeset } from '@serlo/mathjax'
 import * as React from 'react'
 

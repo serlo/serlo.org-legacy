@@ -20,14 +20,15 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { StateTypeSerializedType } from '@edtr-io/plugin'
+import { convert, isEdtr } from '../legacy/legacy-editor-to-editor'
+
 import {
-  convert,
-  isEdtr,
   Edtr,
   Legacy,
   RowsPlugin,
   Splish
-} from '@serlo/legacy-editor-to-editor'
+} from '../legacy/legacy-editor-to-editor/splishToEdtr/types'
+
 import * as R from 'ramda'
 
 import { appletTypeState } from './plugins/types/applet'

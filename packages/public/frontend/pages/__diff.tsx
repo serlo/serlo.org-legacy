@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { convert, isEdtr } from '@serlo/legacy-editor-to-editor'
-import { cleanEdtrState } from '@serlo/edtr-io'
+import { convert, isEdtr } from '../src/legacy/legacy-editor-to-editor'
+import { cleanEdtrState } from '../src/edtr-io'
 import styled from 'styled-components'
 import $ from 'jquery'
 

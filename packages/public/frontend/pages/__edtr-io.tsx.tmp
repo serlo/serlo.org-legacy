@@ -1,7 +1,7 @@
 import { handleBody } from './_document'
 import { Renderer } from '@edtr-io/renderer'
-import { createPlugins } from '@serlo/edtr-io'
-import { stringifyState } from '@serlo/editor-helpers'
+import { createPlugins } from '../src/edtr-io'
+import { stringifyState } from '../src/editor-helpers'
 
 import '../public/main.css'
 

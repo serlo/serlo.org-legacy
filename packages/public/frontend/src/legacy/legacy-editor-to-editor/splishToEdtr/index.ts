@@ -24,7 +24,7 @@ import * as R from 'ramda'
 import { Cell, isContentCell, LayoutPlugin, OtherPlugin, Row } from './types'
 import { convertPlugin } from './convertPlugins'
 
-export { RowsPlugin, Edtr, Legacy, Splish, isSplish, isEdtr } from './types'
+export { isSplish, isEdtr } from './types'
 
 export function convertRow(row: Row): (LayoutPlugin | OtherPlugin)[] {
   // no cells, then end the recursion

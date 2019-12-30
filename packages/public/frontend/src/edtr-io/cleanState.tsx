@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { Edtr } from '@serlo/legacy-editor-to-editor'
+import { Edtr } from '../legacy/legacy-editor-to-editor/splishToEdtr/types'
 // import { slateValueToHtml } from '@edtr-io/plugin-text-state'
 import Html from 'slate-html-serializer'
 import * as React from 'react'
