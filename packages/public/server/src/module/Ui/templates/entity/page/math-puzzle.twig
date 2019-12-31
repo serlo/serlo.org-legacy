@@ -24,9 +24,7 @@
 {% do normalize().headMeta(entity) %}
 {% include 'entity/page/partials/placeholders' %}
 <div class="page-header">
-    <h1>{{ title }}
-        <small>{% trans %} Math puzzle {% endtrans %}</small>
-    </h1>
+    <h1 id="title">{{ title }}</h1>
 </div>
 {% include 'entity/page/partials/alerts' %}
 {% include 'entity/view/default' %}

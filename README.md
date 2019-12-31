@@ -90,6 +90,7 @@ of the following packages:
 
 - `yarn build` builds our packages (only needed for deployment)
 - `yarn build:docker` builds our docker images (only needed for deployment)
+- `yarn dump:sql` to update the docker initialization file of the sql database with the current database state
 - `yarn format:js` formats all non-PHP source code
 - `yarn format:php` formats all PHP source code (requires `yarn start` beforehand)
 - `yarn lint:js` lints all non-PHP source code
