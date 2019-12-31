@@ -28,7 +28,7 @@ require('bootstrap-sass')
 
 // Mocks
 window.MathJax = { Hub: { Queue: () => {} } }
-jest.mock('../src/main/modules/sounds')
+jest.mock('../src/frontend/modules/sounds')
 
 require('../src/frontend/modules/input_challenge')
 

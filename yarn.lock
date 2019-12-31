@@ -16595,7 +16595,7 @@ should-proxy@^1.0.4:
   resolved "https://registry.yarnpkg.com/should-proxy/-/should-proxy-1.0.4.tgz#c805a501abf69539600634809e62fbf238ba35e4"
   integrity sha1-yAWlAav2lTlgBjSAnmL78ji6NeQ=
 
-showdown@^1.0.0, showdown@^1.9.1:
+showdown@^1.0.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/showdown/-/showdown-1.9.1.tgz#134e148e75cd4623e09c21b0511977d79b5ad0ef"
   integrity sha512-9cGuS382HcvExtf5AHk7Cb4pAeQQ+h0eTr33V1mu+crYWV4KvWAw6el92bDrqGEk5d46Ai/fhbEUwqJ/mTCNEA==

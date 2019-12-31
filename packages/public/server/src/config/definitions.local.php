@@ -51,6 +51,7 @@ $recaptcha = [
 $smtp_options = [];
 $tracking = [];
 $featureFlags = [
+    'client-frontend' => false,
     'donation-banner' => true,
     'frontend-content' => false,
     'frontend-footer' => false,

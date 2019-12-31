@@ -100,7 +100,7 @@
     "react-styled-flexboxgrid": "^3.0.0",
     "react-textarea-autosize": "^7.0.0",
     "react-use-scroll-position": "^2.0.0",
-    "showdown": "^1.9.1",
+    "showdown": "^1.0.0",
     "slate-html-serializer": "^0.7.0",
     "styled-components": "^4.0.0",
     "styled-normalize": "^8.0.0",
