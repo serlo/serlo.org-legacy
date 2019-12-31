@@ -24,9 +24,6 @@
     "styled-components": "^4.0.0"
   },
   "devDependencies": {
-    "@serlo/docker": "^0.0.0",
-    "@serlo/node-image": "^0.0.0",
-    "@serlo/workspace-image": "^0.0.0",
     "@types/express": "^4.0.0",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^16.0.0",

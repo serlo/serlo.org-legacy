@@ -14,7 +14,9 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 config.autoAddCss = false
 
 function getCsrfToken(): string {
-  return window.Cookies.get('CSRF') as string
+  // TODO: won't work like this
+  // return window.Cookies.get('CSRF') as string
+  return ''
 }
 
 export default function Index(props) {

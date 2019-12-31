@@ -19,30 +19,24 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { buildDockerImage } from '@serlo/docker'
-import * as fs from 'fs'
-import * as path from 'path'
-import * as util from 'util'
-
-const root = path.join(__dirname, '..')
-const packageJsonPath = path.join(root, 'package.json')
-
-const fsOptions = { encoding: 'utf-8' }
-
-const readFile = util.promisify(fs.readFile)
-
-run().then(() => {})
-
-async function run() {
-  const { version } = await fetchPackageJSON()
-  buildDockerImage({
-    name: 'serlo-org-frontend',
-    version,
-    Dockerfile: path.join(root, 'docker', 'Dockerfile'),
-    context: '../../../..'
-  })
+export function reprocess(context?: unknown) {
+  command('Reprocess', context)
 }
 
-function fetchPackageJSON(): Promise<{ version: string }> {
-  return readFile(packageJsonPath, fsOptions).then(JSON.parse)
+export function typeset(context?: unknown) {
+  command('Typeset', context)
+}
+
+export function queue(args: unknown) {
+  const { MathJax } = window as { MathJax?: any }
+  if (MathJax) {
+    MathJax.Hub.Queue(args)
+  }
+}
+
+function command(command: string, context?: unknown) {
+  const { MathJax } = window as { MathJax?: any }
+  if (MathJax) {
+    MathJax.Hub.Queue([command, MathJax.Hub, ...(context ? [context] : [])])
+  }
 }
