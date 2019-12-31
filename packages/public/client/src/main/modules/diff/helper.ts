@@ -1,4 +1,3 @@
-<?php
 /**
  * This file is part of Serlo.org.
  *
@@ -20,28 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-
-namespace FeatureFlags;
-
-use FeatureFlags\Factory\FeatureFlagsHelperFactory;
-use FeatureFlags\Factory\ServiceFactory;
-
-return [
-    'feature_flags' => [
-        'client-frontend' => false,
-        'frontend-content' => false,
-        'frontend-footer' => false,
-        'frontend-legacy-content' => false,
-        'donation-banner' => false,
-    ],
-    'service_manager' => [
-        'factories' => [
-            Service::class => ServiceFactory::class,
-        ],
-    ],
-    'view_helpers' => [
-        'factories' => [
-            'featureFlags' => FeatureFlagsHelperFactory::class,
-        ],
-    ],
-];
+import 'diff2html/dist/diff2html.css'
+import './overrides.css'
+export { createPatch } from 'diff'
+export { Diff2Html } from 'diff2html'

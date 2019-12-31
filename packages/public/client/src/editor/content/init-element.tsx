@@ -1,4 +1,3 @@
-<?php
 /**
  * This file is part of Serlo.org.
  *
@@ -20,28 +19,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { getStateFromElement } from '@serlo/editor-helpers'
+import * as React from 'react'
+import { hydrate } from 'react-dom'
+import { Renderer } from '@serlo/edtr-io'
+import { Edtr } from '@serlo/legacy-editor-to-editor'
 
-namespace FeatureFlags;
+export const initElement = (element: HTMLElement) => {
+  const content = (getStateFromElement(element) as unknown) as Edtr
 
-use FeatureFlags\Factory\FeatureFlagsHelperFactory;
-use FeatureFlags\Factory\ServiceFactory;
-
-return [
-    'feature_flags' => [
-        'client-frontend' => false,
-        'frontend-content' => false,
-        'frontend-footer' => false,
-        'frontend-legacy-content' => false,
-        'donation-banner' => false,
-    ],
-    'service_manager' => [
-        'factories' => [
-            Service::class => ServiceFactory::class,
-        ],
-    ],
-    'view_helpers' => [
-        'factories' => [
-            'featureFlags' => FeatureFlagsHelperFactory::class,
-        ],
-    ],
-];
+  hydrate(<Renderer state={content} />, element)
+}

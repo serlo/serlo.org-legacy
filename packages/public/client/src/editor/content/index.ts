@@ -1,4 +1,3 @@
-<?php
 /**
  * This file is part of Serlo.org.
  *
@@ -20,28 +19,21 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import $ from 'jquery'
 
-namespace FeatureFlags;
+export const initContent = ($context: JQuery<HTMLElement>) => {
+  const $elements = $(
+    '.edtr-io[data-edit-type="edtr-io"][data-raw-content]',
+    $context
+  )
 
-use FeatureFlags\Factory\FeatureFlagsHelperFactory;
-use FeatureFlags\Factory\ServiceFactory;
+  if ($elements.length === 0) {
+    return
+  }
 
-return [
-    'feature_flags' => [
-        'client-frontend' => false,
-        'frontend-content' => false,
-        'frontend-footer' => false,
-        'frontend-legacy-content' => false,
-        'donation-banner' => false,
-    ],
-    'service_manager' => [
-        'factories' => [
-            Service::class => ServiceFactory::class,
-        ],
-    ],
-    'view_helpers' => [
-        'factories' => [
-            'featureFlags' => FeatureFlagsHelperFactory::class,
-        ],
-    ],
-];
+  return import('./init-element').then(({ initElement }) => {
+    $elements.each((_i, element) => {
+      initElement(element)
+    })
+  })
+}

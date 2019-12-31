@@ -30,7 +30,7 @@ require('bootstrap-sass')
 window.MathJax = { Hub: { Queue: () => {} } }
 jest.mock('../src/main/modules/sounds')
 
-require('../src/main/modules/input_challenge')
+require('../src/frontend/modules/input_challenge')
 
 describe('Input challenge', function() {
   describe('input-string-exact-match-challenge', function() {
