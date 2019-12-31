@@ -52,6 +52,9 @@ $smtp_options = [];
 $tracking = [];
 $featureFlags = [
     'donation-banner' => true,
+    'frontend-content' => false,
+    'frontend-footer' => false,
+    'frontend-legacy-content' => false,
 ];
 
 $cronjob_secret = 'secret';

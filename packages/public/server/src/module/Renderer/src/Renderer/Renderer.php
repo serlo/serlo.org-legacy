@@ -24,6 +24,8 @@
 namespace Renderer;
 
 use Exception;
+use FeatureFlags\Service as FeatureFlagsService;
+use Frontend\View\Helper\RenderComponentHelper;
 use Raven_Client;
 use Renderer\Exception\RuntimeException;
 use Renderer\View\Helper\FormatHelper;
@@ -33,6 +35,16 @@ use Zend\Cache\Storage\StorageInterface;
 class Renderer
 {
     use FormatHelperAwareTrait;
+
+    /**
+     * @var FeatureFlagsService
+     */
+    private $featureFlags;
+
+    /**
+     * @var RenderComponentHelper
+     */
+    private $renderComponentHelper;
 
     /**
      * @var string
@@ -60,19 +72,23 @@ class Renderer
     private $sentry;
 
     /**
+     * @param FeatureFlagsService $featureFlags
      * @param string $editorRendererUrl
      * @param string $legacyRendererUrl
      * @param FormatHelper $formatHelper
+     * @param RenderComponentHelper $renderComponentHelper
      * @param StorageInterface $storage
      * @param bool $cacheEnabled
      * @param Raven_Client $sentry
      */
-    public function __construct($editorRendererUrl, $legacyRendererUrl, FormatHelper $formatHelper, StorageInterface $storage, $cacheEnabled, Raven_Client $sentry)
+    public function __construct(FeatureFlagsService $featureFlags, $editorRendererUrl, $legacyRendererUrl, FormatHelper $formatHelper, RenderComponentHelper $renderComponentHelper, StorageInterface $storage, $cacheEnabled, Raven_Client $sentry)
     {
+        $this->featureFlags = $featureFlags;
         $this->editorRendererUrl = $editorRendererUrl;
         $this->legacyRendererUrl = $legacyRendererUrl;
         $this->formatHelper = $formatHelper;
         $this->storage = $storage;
+        $this->renderComponentHelper = $renderComponentHelper;
         $this->cacheEnabled = $cacheEnabled;
         $this->sentry = $sentry;
     }
@@ -83,6 +99,18 @@ class Renderer
      */
     public function render($input)
     {
+        if ($this->featureFlags->isEnabled('frontend-legacy-content') && $this->getFormatHelper()->isLegacyFormat($input)) {
+            return $this->renderComponentHelper->__invoke('legacy-content', [
+                'input' => $input,
+            ]);
+        }
+
+        if ($this->featureFlags->isEnabled('frontend-content') && !$this->getFormatHelper()->isLegacyFormat($input)) {
+            return $this->renderComponentHelper->__invoke('content', [
+                'input' => $input,
+            ]);
+        }
+
         $key = 'renderer/' . hash('sha512', $input);
 
         if ($this->cacheEnabled && $this->storage->hasItem($key)) {
@@ -90,36 +118,32 @@ class Renderer
         }
 
         $rendered = null;
+        $data = ['state' => $input];
 
-        if ($this->getFormatHelper()->isLegacyFormat($input)) {
-            $data = ['state' => $input];
 
-            $httpHeader = [
-                'Accept: application/json',
-                'Content-Type: application/json',
-            ];
-            $url = $this->legacyRendererUrl;
+        $httpHeader = [
+            'Accept: application/json',
+            'Content-Type: application/json',
+        ];
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeader);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $url = $this->getFormatHelper()->isLegacyFormat($input) ? $this->legacyRendererUrl : $this->editorRendererUrl;
 
-            $result = curl_exec($ch);
-            curl_close($ch);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeader);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-            try {
-                $rendered = json_decode($result, true)['html'];
-            } catch (Exception $e) {
-                $this->sentry->captureException($e, ['tags' => ['renderer' => true]]);
-                throw new RuntimeException(sprintf('Broken pipe'));
-            }
-        } else {
-            $rendered = $this->renderComponent('content', [content => $input])
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        try {
+            $rendered = json_decode($result, true)['html'];
+        } catch (Exception $e) {
+            $this->sentry->captureException($e, ['tags' => ['renderer' => true]]);
+            throw new RuntimeException(sprintf('Broken pipe'));
         }
-
 
         if ($this->cacheEnabled) {
             $this->storage->setItem($key, $rendered);

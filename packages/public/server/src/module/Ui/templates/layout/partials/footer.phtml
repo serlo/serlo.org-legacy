@@ -40,7 +40,7 @@ $socialNavigation = processNavigation($this->navigation('social_navigation')->js
 $rightNavigation = processNavigation($this->navigation('footer_right_navigation')->json()->setMaxDepth(1)->showAll()->render());
 ?>
 <?php if (!$this->layout()->hideFooter): ?>
-    <?php if ($this->featureFlags()->isEnabled('redesign')): ?>
+    <?php if ($this->featureFlags()->isEnabled('frontend-footer')): ?>
         <?php echo $this->renderComponent('footer', [
             'slogan' => $this->brand()->getSlogan(),
             'missionStatementTitle' => $this->translate('Serlo.org is the Wikipedia for learning.'),

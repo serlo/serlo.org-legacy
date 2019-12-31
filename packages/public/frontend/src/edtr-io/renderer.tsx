@@ -26,10 +26,6 @@ import { createPlugins } from './plugins'
 
 const plugins = createPlugins(() => '')
 
-export function Renderer(
-  props: React.PropsWithChildren<{
-    state: RendererProps['state']
-  }>
-) {
-  return <Core plugins={plugins} state={props.state || { plugin: 'text' }} />
+export function Renderer({ state }: { state: RendererProps['state'] }) {
+  return <Core plugins={plugins} state={state} />
 }
