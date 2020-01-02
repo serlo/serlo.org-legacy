@@ -19,13 +19,7 @@ export default function Index(props) {
   // TODO: handle convert?
   // const state = isEdtr(data) ? data : convert(data)
 
-  return (
-    <Provider>
-      <Normalize />
-      <GlobalStyle assetPrefix={props.assetPrefix} />
-      <Renderer state={state} />
-    </Provider>
-  )
+  return <Renderer state={state} />
 }
 Index.getInitialProps = async ({ req, res }) => {
   return await handleBody(req, res, {
