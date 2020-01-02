@@ -63,8 +63,7 @@ Button.defaultProps = {
   backgroundColor: getColor('brandGreen'),
   activeBackgroundColor: getColor('brand'),
   activeFontColor: '#fff',
-  fontColor: '#fff',
-  as: GrommetButton
+  fontColor: '#fff'
 }
 
 export function Button(props: ButtonProps) {
@@ -75,7 +74,6 @@ export function Button(props: ButtonProps) {
         className={props.className}
         a11yTitle={props.title}
         plain
-        as={props.as}
         icon={
           props.iconName ? (
             <StyledIcon

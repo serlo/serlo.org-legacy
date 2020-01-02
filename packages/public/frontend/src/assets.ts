@@ -19,7 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-const assetPrefix = process.env.ASSET_PREFIX || ''
+let assetPrefix = process.env.ASSET_PREFIX || ''
+
+export function setAssetPrefix(path) {
+  assetPrefix = path
+}
 
 export function getPath(path) {
   return assetPrefix + path

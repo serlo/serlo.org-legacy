@@ -31,7 +31,10 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 // Prevent fontawesome from dynamically adding its css since we did it manually above
 config.autoAddCss = false
 
+import { setAssetPrefix } from '../src/assets'
+
 export default function Index(props) {
+  setAssetPrefix(props.assetPrefix)
   return (
     <Provider>
       <Normalize />
