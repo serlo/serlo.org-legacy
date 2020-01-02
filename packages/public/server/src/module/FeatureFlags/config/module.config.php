@@ -30,6 +30,7 @@ return [
     'feature_flags' => [
         'client-frontend' => false,
         'frontend-content' => false,
+        'frontend-donation-banner' => false,
         'frontend-footer' => false,
         'frontend-legacy-content' => false,
         'donation-banner' => false,

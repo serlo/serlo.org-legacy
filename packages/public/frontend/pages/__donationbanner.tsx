@@ -6,12 +6,9 @@ import { DonationBanner } from '../src/donation-banner.component'
 import axios from 'axios'
 
 export default function Index(props) {
+  if (typeof window === 'undefined') return null
   return (
-    <Provider>
-      <Normalize />
-      <GlobalStyle assetPrefix={props.assetPrefix} />
       <DonationBannerWrapper {...props} />
-    </Provider>
   )
 }
 Index.getInitialProps = async ({ req, res }) => {
