@@ -20,12 +20,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Page\Controller;
 
 use Alias\AliasManagerAwareTrait;
 use Alias\AliasManagerInterface;
 use Common\Controller\AbstractAPIAwareActionController;
-use Common\Traits\ObjectManagerAwareTrait;
+use FeatureFlags\Service as FeatureFlagsService;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Instance\Manager\InstanceManagerInterface;
 use Page\Exception\PageNotFoundException;
@@ -57,6 +58,11 @@ class IndexController extends AbstractAPIAwareActionController
      */
     protected $revisionForm;
 
+    /**
+     * @var FeatureFlagsService
+     */
+    protected $featureFlags;
+
     public function __construct(
         AliasManagerInterface $aliasManager,
         InstanceManagerInterface $instanceManager,
@@ -64,20 +70,22 @@ class IndexController extends AbstractAPIAwareActionController
         RepositoryForm $repositoryForm,
         RevisionForm $revisionForm,
         RepositoryManagerInterface $repositoryManager,
-        UserManagerInterface $userManager
+        UserManagerInterface $userManager,
+        FeatureFlagsService $featureFlags
     ) {
-        $this->aliasManager      = $aliasManager;
-        $this->instanceManager   = $instanceManager;
-        $this->pageManager       = $pageManager;
+        $this->aliasManager = $aliasManager;
+        $this->instanceManager = $instanceManager;
+        $this->pageManager = $pageManager;
         $this->repositoryManager = $repositoryManager;
-        $this->userManager       = $userManager;
-        $this->repositoryForm    = $repositoryForm;
-        $this->revisionForm      = $revisionForm;
+        $this->userManager = $userManager;
+        $this->repositoryForm = $repositoryForm;
+        $this->revisionForm = $revisionForm;
+        $this->featureFlags = $featureFlags;
     }
 
     public function checkoutAction()
     {
-        $id             = $this->params('revision');
+        $id = $this->params('revision');
         $pageRepository = $this->getPageRepository();
         if (!$pageRepository) {
             return $this->notFound();
@@ -92,7 +100,7 @@ class IndexController extends AbstractAPIAwareActionController
     public function createAction()
     {
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $form     = $this->repositoryForm;
+        $form = $this->repositoryForm;
         $this->assertGranted('page.create', $instance);
 
         if ($this->getRequest()->isPost()) {
@@ -101,10 +109,10 @@ class IndexController extends AbstractAPIAwareActionController
             $form->setData($data);
             if ($form->isValid()) {
                 $repository = $this->getPageManager()->createPageRepository($form);
-                $data       = $form->getData(FormInterface::VALUES_AS_ARRAY);
-                $params     = [
+                $data = $form->getData(FormInterface::VALUES_AS_ARRAY);
+                $params = [
                     'repository' => $repository,
-                    'slug'       => $data['slug'],
+                    'slug' => $data['slug'],
                 ];
                 $this->getEventManager()->trigger('page.create', $this, $params);
                 $this->getPageManager()->flush();
@@ -123,7 +131,7 @@ class IndexController extends AbstractAPIAwareActionController
     {
         $user = $this->getUserManager()->getUserFromAuthenticator();
         $form = $this->revisionForm;
-        $id   = $this->params('revision');
+        $id = $this->params('revision');
         $page = $this->getPageRepository();
         if (!$page) {
             return $this->notFound();
@@ -139,7 +147,7 @@ class IndexController extends AbstractAPIAwareActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $array           = $form->getData();
+                $array = $form->getData();
                 $array['author'] = $user;
                 $this->getPageManager()->createRevision($page, $array, $user);
                 $this->getPageManager()->flush();
@@ -156,7 +164,7 @@ class IndexController extends AbstractAPIAwareActionController
     public function createRevisionAction()
     {
         $user = $this->getUserManager()->getUserFromAuthenticator();
-        $id   = $this->params('revision');
+        $id = $this->params('revision');
         $page = $this->getPageRepository();
 
         if (!$page) {
@@ -182,9 +190,9 @@ class IndexController extends AbstractAPIAwareActionController
                 $this->getPageManager()->createRevision($page, $data, $user);
                 $this->getPageManager()->flush();
                 $redirectUrl = $this->plugin('url')->fromRoute('page/view', ['page' => $page->getId()]);
-                return new JsonModel([ 'success' => true, 'redirect' => $redirectUrl ]);
+                return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
             } else {
-                return new JsonModel([ 'success' => false, 'errors' => $form->getMessages() ]);
+                return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
             }
         }
 
@@ -204,7 +212,9 @@ class IndexController extends AbstractAPIAwareActionController
             'content' => $revision->getContent(),
             'title' => $revision->getTitle(),
         ];
-        $state = htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
+        $state = $this->featureFlags->isEnabled('frontend-editor')
+            ? json_encode($data)
+            : htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
         $view = new ViewModel(['state' => $state]);
         $view->setTemplate('page/revision/create');
         $this->layout('layout/3-col');
@@ -225,8 +235,8 @@ class IndexController extends AbstractAPIAwareActionController
     {
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
         $this->assertGranted('page.create', $instance);
-        $pages    = $this->getPageManager()->findAllRepositories($instance);
-        $view     = new ViewModel(['pages' => $pages]);
+        $pages = $this->getPageManager()->findAllRepositories($instance);
+        $view = new ViewModel(['pages' => $pages]);
         $view->setTemplate('page/pages');
         return $view;
     }
@@ -234,13 +244,13 @@ class IndexController extends AbstractAPIAwareActionController
     public function updateAction()
     {
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $page     = $this->getPageRepository();
+        $page = $this->getPageRepository();
         if (!$page) {
             return $this->notFound();
         }
 
-        $alias    = $this->getAliasManager()->findAliasByObject($page)->getAlias();
-        $form     = $this->repositoryForm;
+        $alias = $this->getAliasManager()->findAliasByObject($page)->getAlias();
+        $form = $this->repositoryForm;
 
         $this->assertGranted('page.update', $page);
         $form->bind($page);
@@ -250,7 +260,7 @@ class IndexController extends AbstractAPIAwareActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $array  = $form->getData(FormInterface::VALUES_AS_ARRAY);
+                $array = $form->getData(FormInterface::VALUES_AS_ARRAY);
                 $source = $this->url()->fromRoute('page/view', ['page' => $page->getId()], null, null, false);
                 $this->getAliasManager()->createAlias(
                     $source,
@@ -293,10 +303,10 @@ class IndexController extends AbstractAPIAwareActionController
 
     public function viewRevisionAction()
     {
-        $id             = $this->params('revision');
-        $revision       = $this->getPageManager()->getRevision($id);
+        $id = $this->params('revision');
+        $revision = $this->getPageManager()->getRevision($id);
         $pageRepository = $revision->getRepository();
-        $view           = new ViewModel(['revision' => $revision, 'page' => $pageRepository]);
+        $view = new ViewModel(['revision' => $revision, 'page' => $pageRepository]);
 
         $this->assertGranted('page.get', $pageRepository);
         $view->setTemplate('page/revision/view');
@@ -311,8 +321,8 @@ class IndexController extends AbstractAPIAwareActionController
             return $this->notFound();
         }
 
-        $revisions      = array_reverse($pageRepository->getRevisions()->toArray());
-        $view           = new ViewModel(['revisions' => $revisions, 'page' => $pageRepository]);
+        $revisions = array_reverse($pageRepository->getRevisions()->toArray());
+        $view = new ViewModel(['revisions' => $revisions, 'page' => $pageRepository]);
 
         $this->assertGranted('page.get', $pageRepository);
         $view->setTemplate('page/revisions');

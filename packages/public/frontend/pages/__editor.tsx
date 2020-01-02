@@ -1,5 +1,6 @@
 import { Provider, GlobalStyle } from '../src/provider.component'
 import { Normalize } from 'styled-normalize'
+import Cookies from 'js-cookie'
 import * as React from 'react'
 import { handleBody } from './_document'
 import { Editor } from '../src/edtr-io'
@@ -14,94 +15,51 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 config.autoAddCss = false
 
 function getCsrfToken(): string {
-  // TODO: won't work like this
-  // return window.Cookies.get('CSRF') as string
-  return ''
+  return Cookies.get('CSRF') as string
 }
 
 export default function Index(props) {
-  try {
-    window
-  } catch (e) {
-    return null
-  }
+  if (typeof window === 'undefined') return null
   Sentry.setExtra('type', props.type)
   return (
-    <Provider>
-      <Normalize />
-      <GlobalStyle assetPrefix={props.assetPrefix} />
-      <DynamicComponent<React.PropsWithChildren<any>>
-        load={() =>
-          new Promise(res => {
-            res(Editor)
-          })
-        }
-        props={{
-          ...props,
-          getCsrfToken: getCsrfToken,
-          onError: (error, context) => {
-            console.log('edtr-io error', error, context)
-            Sentry.withScope(scope => {
-              scope.setTag('edtr-io', 'true')
-              scope.setExtras(context)
-              Sentry.captureException(error)
+    <Editor
+      initialState={JSON.parse(props.initialState)}
+      type={props.type}
+      getCsrfToken={getCsrfToken}
+      onError={(error, context) => {
+        console.log('edtr-io error', error, context)
+        Sentry.withScope(scope => {
+          scope.setTag('edtr-io', 'true')
+          scope.setExtras(context)
+          Sentry.captureException(error)
+        })
+      }}
+      onSave={data => {
+        return new Promise((resolve, reject) => {
+          axios
+            .post(window.location.pathname, data, {
+              headers: {
+                'X-Requested-with': 'XMLHttpRequest'
+              }
             })
-          },
-          onSave: data => {
-            return new Promise((resolve, reject) => {
-              axios
-                .post(window.location.pathname, data, {
-                  headers: {
-                    'X-Requested-with': 'XMLHttpRequest'
-                  }
-                })
-                .then(value => {
-                  if (value.data.success) {
-                    resolve()
-                    window.location = value.data.redirect
-                  } else {
-                    console.log(value.data.errors)
-                    reject()
-                  }
-                })
-                .catch(value => {
-                  console.log(value)
-                  reject(value)
-                })
+            .then(value => {
+              if (value.data.success) {
+                resolve()
+                window.location = value.data.redirect
+              } else {
+                console.log(value.data.errors)
+                reject()
+              }
             })
-          }
-        }}
-      />
-    </Provider>
+            .catch(value => {
+              console.log(value)
+              reject(value)
+            })
+        })
+      }}
+    />
   )
 }
 Index.getInitialProps = async ({ req, res }) => {
-  return await handleBody(req, res, { content: '', type: '' })
-}
-
-function DynamicComponent<P>({
-  load,
-  props
-}: {
-  load: () => Promise<React.ComponentType<P>>
-  props: P
-}) {
-  const [Component, setComponent] = React.useState<React.ComponentType<
-    P
-  > | null>(null)
-  React.useEffect(() => {
-    load().then(Component => {
-      // Has to be a function. Otherwise, React will interpret the Component as a change handler and try to call it.
-      setComponent(() => Component)
-    })
-  }, [])
-
-  if (!Component) {
-    return (
-      <div style={{ textAlign: 'center' }}>
-        <FontAwesomeIcon icon={faSpinner} spin size="2x" />
-      </div>
-    )
-  }
-  return <Component {...props} />
+  return await handleBody(req, res, { initialState: '', type: '' })
 }

@@ -19,4 +19,8 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{{ renderComponent('editor', {content: content, type: type})}}
+{% if featureFlags().isEnabled('frontend-editor') %}
+    {{ renderComponent('editor', {initialState: state, type: type})}}
+{% else %}
+    <div id="editor" data-state="{{ state }}" data-type="{{ type }}"></div>
+{% endif %}

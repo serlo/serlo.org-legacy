@@ -31,6 +31,7 @@ return [
         'client-frontend' => false,
         'frontend-content' => false,
         'frontend-donation-banner' => false,
+        'frontend-editor' => false,
         'frontend-footer' => false,
         'frontend-legacy-content' => false,
         'donation-banner' => false,
