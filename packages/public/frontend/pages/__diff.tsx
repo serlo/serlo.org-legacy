@@ -16,15 +16,11 @@ import { Diff2Html } from 'diff2html'
 
 export default function Index(props) {
   return (
-    <Provider>
-      <Normalize />
-      <GlobalStyle assetPrefix={props.assetPrefix} />
-      <Diff
-        revisionOld={props.revisionOld}
-        revisionNew={props.revisionNew}
-        title={props.title}
-      />
-    </Provider>
+    <Diff
+      revisionOld={props.revisionOld}
+      revisionNew={props.revisionNew}
+      title={props.title}
+    />
   )
 }
 Index.getInitialProps = async ({ req, res }) => {
