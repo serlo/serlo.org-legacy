@@ -20,8 +20,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace User\Controller;
 
+use FeatureFlags\Service as FeatureFlagsService;
 use Instance\Manager\InstanceManagerAwareTrait;
 use User\Exception\UserNotFoundException;
 use User\Form\SettingsForm;
@@ -35,12 +37,22 @@ class UserController extends AbstractUserController
     use InstanceManagerAwareTrait;
 
     protected $forms = [
-        'register'         => 'User\Form\Register',
-        'login'            => 'User\Form\Login',
-        'user_select'      => 'User\Form\SelectUserForm',
+        'register' => 'User\Form\Register',
+        'login' => 'User\Form\Login',
+        'user_select' => 'User\Form\SelectUserForm',
         'restore_password' => 'User\Form\LostPassword',
-        'settings'         => 'User\Form\SettingsForm',
+        'settings' => 'User\Form\SettingsForm',
     ];
+
+    /**
+     * @var FeatureFlagsService
+     */
+    protected $featureFlags;
+
+    public function __construct(FeatureFlagsService $featureFlags)
+    {
+        $this->featureFlags = $featureFlags;
+    }
 
     public function meAction()
     {
@@ -106,9 +118,9 @@ class UserController extends AbstractUserController
                     'register',
                     $this,
                     [
-                        'user'     => $user,
+                        'user' => $user,
                         'instance' => $this->getInstanceManager()->getInstanceFromRequest(),
-                        'data'     => $data,
+                        'data' => $data,
                     ]
                 );
 
@@ -150,7 +162,7 @@ class UserController extends AbstractUserController
 
     /**
      * @param string $name
-     * @param Form   $form
+     * @param Form $form
      */
     public function setForm($name, Form $form)
     {
@@ -185,16 +197,18 @@ class UserController extends AbstractUserController
                     'Your profile has been saved'
                 );
                 $redirectUrl = $this->plugin('url')->fromRoute('user/me');
-                return new JsonModel([ 'success' => true, 'redirect' => $redirectUrl ]);
+                return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
             } else {
-                return new JsonModel([ 'success' => false, 'errors' => $form->getMessages() ]);
+                return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
             }
         }
 
         $data = [
             'description' => $user->getDescription(),
         ];
-        $state = htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
+        $state = $this->featureFlags->isEnabled('frontend-editor')
+            ? json_encode($data)
+            : htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
         $view = new ViewModel(['state' => $state]);
         $view->setTemplate('user/user/settings');
         $this->layout('layout/3-col');

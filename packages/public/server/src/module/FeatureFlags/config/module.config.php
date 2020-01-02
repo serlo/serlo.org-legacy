@@ -28,8 +28,14 @@ use FeatureFlags\Factory\ServiceFactory;
 
 return [
     'feature_flags' => [
+        'client-frontend' => false,
+        'frontend-content' => false,
+        'frontend-diff' => false,
+        'frontend-donation-banner' => false,
+        'frontend-editor' => false,
+        'frontend-footer' => false,
+        'frontend-legacy-content' => false,
         'donation-banner' => false,
-        'redesign' => false,
     ],
     'service_manager' => [
         'factories' => [

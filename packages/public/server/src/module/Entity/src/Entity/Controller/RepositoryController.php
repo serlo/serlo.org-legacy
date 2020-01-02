@@ -28,6 +28,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  * @link        https://github.com/serlo-org/athene2 for the canonical source repository
  */
+
 namespace Entity\Controller;
 
 use Entity\Entity\EntityInterface;
@@ -35,6 +36,7 @@ use Entity\Entity\Revision;
 use Entity\Entity\RevisionField;
 use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
+use FeatureFlags\Service as FeatureFlagsService;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Renderer\View\Helper\FormatHelperAwareTrait;
 use Ui\View\Helper\Timeago;
@@ -62,6 +64,16 @@ class RepositoryController extends AbstractController
      * @var ModuleOptions
      */
     protected $moduleOptions;
+
+    /**
+     * @var FeatureFlagsService
+     */
+    protected $featureFlags;
+
+    public function __construct(FeatureFlagsService $featureFlags)
+    {
+        $this->featureFlags = $featureFlags;
+    }
 
     public function addLegacyRevisionAction()
     {
@@ -116,13 +128,16 @@ class RepositoryController extends AbstractController
                 foreach ($validated['elements'] as $el) {
                     $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['data']);
                 }
-                return new JsonModel([ 'success' => true, 'redirect' => $redirectUrl]);
+                return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
             } else {
-                return new JsonModel([ 'success' => false, 'errors' => $validated['messages']]);
+                return new JsonModel(['success' => false, 'errors' => $validated['messages']]);
             }
         }
 
-        $state = htmlspecialchars(json_encode($this->getData($entity, $this->params('revision'))), ENT_QUOTES, 'UTF-8');
+        $data = $this->getData($entity, $this->params('revision'));
+        $state = $this->featureFlags->isEnabled('frontend-editor')
+            ? json_encode($data)
+            : htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
         $view = new ViewModel(['state' => $state, 'type' => $entity->getType()->getName()]);
         $this->layout('layout/3-col');
         $view->setTemplate('entity/repository/update-revision');
@@ -274,7 +289,7 @@ class RepositoryController extends AbstractController
         }
 
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $entity   = $this->getEntityManager()->createEntity(
+        $entity = $this->getEntityManager()->createEntity(
             $type,
             ['link' => [
                 'type' => 'link',
@@ -396,8 +411,8 @@ class RepositoryController extends AbstractController
         $view = new ViewModel([
             'currentRevision' => $currentRevision,
             'compareRevision' => $previousRevision,
-            'revision'        => $revision,
-            'entity'          => $entity,
+            'revision' => $revision,
+            'entity' => $entity,
         ]);
 
         $view->setTemplate('entity/repository/compare-revision');
@@ -419,8 +434,8 @@ class RepositoryController extends AbstractController
         $this->assertGranted('entity.repository.history', $entity);
 
         $view = new ViewModel([
-            'entity'          => $entity,
-            'revisions'       => $entity->getRevisions(),
+            'entity' => $entity,
+            'revisions' => $entity->getRevisions(),
             'currentRevision' => $currentRevision,
         ]);
 
@@ -472,7 +487,7 @@ class RepositoryController extends AbstractController
             $form->setData($data);
         }
 
-        $license   = $entity->getLicense();
+        $license = $entity->getLicense();
         $agreement = $license->getAgreement() ? $license->getAgreement() : $license->getTitle();
         $form->get('license')->get('agreement')->setLabel($agreement);
         $form->get('changes')->setValue('');
@@ -530,7 +545,7 @@ class RepositoryController extends AbstractController
             /** @var LinkOptions $linkOptions */
             $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
             foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
-                $chain    = new FilterChain();
+                $chain = new FilterChain();
                 $chain->attach(new HasCurrentRevisionCollectionFilter());
                 $chain->attach(new NotTrashedCollectionFilter());
                 $children = $chain->filter($entity->getChildren('link', $allowedChild));
@@ -569,7 +584,7 @@ class RepositoryController extends AbstractController
 
     /**
      * @param EntityInterface $entity
-     * @param string          $id
+     * @param string $id
      * @return RevisionInterface|null
      */
     protected function getRevision(EntityInterface $entity, $id = null)

@@ -13,10 +13,5 @@
     "mysql": "^2.0.0",
     "promise-mysql": "^4.0.0"
   },
-  "devDependencies": {
-    "@serlo/docker": "^0.0.0",
-    "@serlo/node-image": "^0.0.0",
-    "@serlo/workspace-image": "^0.0.0"
-  },
   "private": true
 }

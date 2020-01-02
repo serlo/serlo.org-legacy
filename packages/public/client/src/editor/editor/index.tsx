@@ -26,7 +26,7 @@ import axios from 'axios'
 import * as React from 'react'
 import { render } from 'react-dom'
 
-import { Sentry } from '../../main/modules/sentry'
+import { Sentry } from '../../frontend/modules/sentry'
 import { getCsrfToken } from '../../modules/csrf'
 
 export function initEntityEditor(

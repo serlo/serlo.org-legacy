@@ -22,4 +22,6 @@
  */
 ?>
 <?php echo $this->headStyle(); ?>
-<link href="<?php echo $this->assets()->getBundle('main.css'); ?>" rel="stylesheet">
+<link href="<?php echo $this->assets()->getBundle(
+    $this->featureFlags()->isEnabled('client-frontend') ? 'frontend.css' : 'main.css'
+); ?>" rel="stylesheet">

@@ -39,7 +39,7 @@ async function run() {
     name: 'serlo-org-frontend',
     version,
     Dockerfile: path.join(root, 'docker', 'Dockerfile'),
-    context: '../../..'
+    context: '../../../..'
   })
 }
 

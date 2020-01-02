@@ -24,7 +24,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
-import { getGa } from './analytics'
+import { getGa } from '../../frontend/modules/analytics'
 
 const breakPoint = 1000
 const smallScreens = `@media screen and (max-width: ${breakPoint}px)`

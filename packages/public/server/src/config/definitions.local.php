@@ -51,7 +51,11 @@ $recaptcha = [
 $smtp_options = [];
 $tracking = [];
 $featureFlags = [
+    'client-frontend' => false,
     'donation-banner' => true,
+    'frontend-content' => false,
+    'frontend-footer' => false,
+    'frontend-legacy-content' => false,
 ];
 
 $cronjob_secret = 'secret';

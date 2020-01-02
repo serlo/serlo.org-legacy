@@ -20,9 +20,9 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 {% set subtitle %}
-<small>
-    {{ timeago().render(revision.getTimestamp()) }} {{ 'by' | trans }} {{ normalize().toAnchor(revision.getAuthor()) }}
-</small>
+    <small>
+        {{ timeago().render(revision.getTimestamp()) }} {{ 'by' | trans }} {{ normalize().toAnchor(revision.getAuthor()) }}
+    </small>
 {% endset %}
 {{ pageHeader(normalize().toTitle(revision)).setSubtitle(subtitle).append(contexter().renderButton('right')).setBacklink(url('entity/repository/history', {'entity': entity.getId()})).render() }}
 
@@ -30,7 +30,7 @@
 <article class="panel-group">
     <div class="clearfix">
     </div>
-{% if compareRevision and revision is not sameas(compareRevision) %}
+    {% if compareRevision and revision is not sameas(compareRevision) %}
         {% for field in revision.getFields() %}
             {% set fieldIsLegacy = isLegacyFormat(field.getValue()) %}
             {% set compareFieldIsLegacy = isLegacyFormat(compareRevision.get(field.getName())) %}
@@ -56,13 +56,17 @@
                                     {% endif %}
                                 </div>
                             {% endif %}
-                            <div class="revision-compare-new" style="display:none;">
-                                {% if compareFieldIsLegacy and fieldIsLegacy %}
-                                    {{ diff().cleanMarkdown(field.getValue()) | escape }}
-                                {% else %}
-                                    {{ field.getValue() | escape }}
-                                {% endif %}
-                            </div>
+                            {% if featureFlags().isEnabled('frontend-diff') %}
+                                {{ renderComponent('diff', {revisionOld: oldField, revisionNew: field.getValue(), title: field.getName()})}}
+                            {% else %}
+                                <div class="revision-compare-new" style="display:none;">
+                                    {% if compareFieldIsLegacy and fieldIsLegacy %}
+                                        {{ diff().cleanMarkdown(field.getValue()) | escape }}
+                                    {% else %}
+                                        {{ field.getValue() | escape }}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="tab-pane fade" id="old{{ field.getName() }}">
                             {% if compareFieldIsLegacy %}
