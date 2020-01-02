@@ -19,15 +19,21 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { faCog, Icon } from '@edtr-io/editor-ui'
+import { faCog, Icon, faCheck } from '@edtr-io/editor-ui'
+import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory'
 import { StateTypeReturnType, string } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
+import axios from 'axios'
+import moment from 'moment'
 import * as React from 'react'
 import BSButton from 'react-bootstrap/lib/Button'
 import BSFormControl from 'react-bootstrap/lib/FormControl'
 import BSControlLabel from 'react-bootstrap/lib/ControlLabel'
 import BSFormGroup from 'react-bootstrap/lib/FormGroup'
 import BSModal from 'react-bootstrap/lib/Modal'
+import BSTable from 'react-bootstrap/lib/Table'
+
+import { deserialize, isError } from '../../../deserialize'
 
 const StyledSettings = styled.div({
   position: 'absolute',
@@ -48,6 +54,7 @@ const Content = styled.div({
 })
 
 const StyledIconContainer = styled.div({
+  marginBottom: '5px',
   height: '24px',
   opacity: 0.8,
   cursor: 'pointer',
@@ -56,6 +63,16 @@ const StyledIconContainer = styled.div({
   '&:hover': {
     color: 'rgb(70,155,255)'
   }
+})
+
+const StyledTR = styled.tr<{ selected: boolean }>(props => {
+  return props.selected
+    ? {
+        border: '3px solid rgb(0,100,0)'
+      }
+    : {
+        cursor: 'pointer'
+      }
 })
 
 function SettingsIcon(props: { open: () => void }) {
@@ -68,8 +85,34 @@ function SettingsIcon(props: { open: () => void }) {
   )
 }
 
-export function Settings(props: React.PropsWithChildren<{}>) {
+interface RevisionData {
+  id: number
+  timestamp: string
+  author: string
+  changes: string
+  active: boolean
+}
+
+export function Settings<T>(
+  props: React.PropsWithChildren<{
+    id: number
+    currentRevision: number
+    onSwitchRevision: (data: T) => void
+  }>
+) {
   const [open, setOpen] = React.useState(false)
+  const [availableRevisions, setAvailableRevisions] = React.useState<
+    RevisionData[]
+  >([])
+  React.useEffect(() => {
+    axios
+      .get<RevisionData[]>(`/entity/repository/get-revisions/${props.id}`)
+      .then(response => {
+        setAvailableRevisions(response.data)
+      })
+  }, [])
+
+  const [showRevisions, setShowRevisions] = React.useState(false)
   return (
     <div style={{ position: 'relative' }}>
       <StyledSettings>
@@ -79,6 +122,17 @@ export function Settings(props: React.PropsWithChildren<{}>) {
               setOpen(true)
             }}
           />
+          <span
+            onClick={() => {
+              if (availableRevisions.length) {
+                setShowRevisions(true)
+              }
+            }}
+          >
+            <StyledIconContainer title="Andere Version auswählen">
+              <Icon icon={faHistory} size="lg" />
+            </StyledIconContainer>
+          </span>
         </Content>
       </StyledSettings>
       <BSModal
@@ -95,6 +149,87 @@ export function Settings(props: React.PropsWithChildren<{}>) {
           <BSButton
             onClick={() => {
               setOpen(false)
+            }}
+          >
+            Schließen
+          </BSButton>
+        </BSModal.Footer>
+      </BSModal>
+      <BSModal
+        show={showRevisions}
+        onHide={() => {
+          setShowRevisions(false)
+        }}
+        bsSize="lg"
+      >
+        <BSModal.Header closeButton>
+          <BSModal.Title>Andere Version auswählen</BSModal.Title>
+        </BSModal.Header>
+        <BSModal.Body>
+          <BSTable striped hover>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Aktuell</th>
+                <th>Änderungen</th>
+                <th>Verfasser</th>
+                <th>Zeitstempel</th>
+              </tr>
+            </thead>
+            <tbody>
+              {availableRevisions.map(revisionData => {
+                const selected = props.currentRevision
+                  ? props.currentRevision === revisionData.id
+                  : revisionData.active
+
+                const dateTime = moment.utc(revisionData.timestamp).local()
+                return (
+                  <StyledTR
+                    selected={selected}
+                    onClick={() => {
+                      // don't select the current selected
+                      if (selected) return
+
+                      axios
+                        .get<{ state: unknown; type: string }>(
+                          `/entity/repository/get-revision-data/${props.id}/${revisionData.id}`
+                        )
+                        .then(response => {
+                          const deserialized = deserialize({
+                            initialState: response.data.state,
+                            type: response.data.type
+                          })
+                          if (isError(deserialized)) {
+                            alert(deserialized.error)
+                          } else {
+                            props.onSwitchRevision(
+                              deserialized.initialState.state as T
+                            )
+                            setShowRevisions(false)
+                          }
+                        })
+                    }}
+                    key={revisionData.id}
+                  >
+                    <td>{revisionData.id}</td>
+                    <td>
+                      {revisionData.active ? <Icon icon={faCheck} /> : null}
+                    </td>
+                    <th>{revisionData.changes}</th>
+                    <td>{revisionData.author}</td>
+                    <td title={dateTime.format('LL, LTS')}>
+                      {dateTime.fromNow()}
+                    </td>
+                  </StyledTR>
+                )
+              })}
+            </tbody>
+          </BSTable>
+        </BSModal.Body>
+        <BSModal.Footer>
+          <BSButton
+            onClick={() => {
+              setShowRevisions(false)
             }}
           >
             Schließen
