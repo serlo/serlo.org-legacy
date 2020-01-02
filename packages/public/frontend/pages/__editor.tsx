@@ -5,7 +5,7 @@ import * as React from 'react'
 import { handleBody } from './_document'
 import { Editor } from '../src/edtr-io'
 import axios from 'axios'
-import * as Sentry from '@sentry/browser'
+// import * as Sentry from '@sentry/browser'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
@@ -20,7 +20,7 @@ function getCsrfToken(): string {
 
 export default function Index(props) {
   if (typeof window === 'undefined') return null
-  Sentry.setExtra('type', props.type)
+  // Sentry.setExtra('type', props.type)
   return (
     <Editor
       initialState={JSON.parse(props.initialState)}
@@ -28,11 +28,11 @@ export default function Index(props) {
       getCsrfToken={getCsrfToken}
       onError={(error, context) => {
         console.log('edtr-io error', error, context)
-        Sentry.withScope(scope => {
-          scope.setTag('edtr-io', 'true')
-          scope.setExtras(context)
-          Sentry.captureException(error)
-        })
+        // Sentry.withScope(scope => {
+        //   scope.setTag('edtr-io', 'true')
+        //   scope.setExtras(context)
+        //   Sentry.captureException(error)
+        // })
       }}
       onSave={data => {
         return new Promise((resolve, reject) => {
