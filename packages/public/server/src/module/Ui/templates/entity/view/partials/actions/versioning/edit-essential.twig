@@ -25,14 +25,10 @@
     <li>
     {% if entity.isUnrevised() %}
         <a rel="nofollow" href="{{ url('entity/repository/history', {'entity': entity.getId()}) }}">
-    {% elseif not isLegacyFormat(entity.getCurrentRevision().get(options.getContent())) %}
+    {% else %}
         <a class="{{ revisionGranted ? 'edit-button' : ''}}"
-           data-id="{{ entity.getId() }}"
-           data-type="{{ entity.getType() }}"
            rel="nofollow"
            href="{{ url('entity/repository/add-revision', {'entity': entity.getId()}) }}">
-    {% else %}
-        <a data-id="{{ entity.getId() }}" rel="nofollow" href="{{ url('entity/repository/add-revision-old', {'entity': entity.getId()}) }}">
     {% endif %}
             <span class="fa fa-pencil"></span>
             {% trans %} Edit {% endtrans %}

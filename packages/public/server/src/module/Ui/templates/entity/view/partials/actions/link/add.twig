@@ -23,7 +23,7 @@
 {% if options.hasComponent('link') %}
     {% set componentOptions = options.getComponent('link') %}
     {% for type in componentOptions.getAllowedChildren() %}
-        {% if entity.hasCurrentRevision() and not isLegacyFormat(entity.getCurrentRevision().get(options.getContent())) and type in [
+        {% if type in [
             'single-choice-right-answer',
             'single-choice-wrong-answer',
             'multiple-choice-wrong-answer',
@@ -59,7 +59,7 @@
                 {% elseif not(allowsManyChildren) and count == 1 and not child.isTrashed() and not child.hasCurrentRevision()
                         and isGranted('entity.revision.create', child) %}
                     <li>
-                        <a rel="nofollow" href="{{  url('entity/repository/add-revision-old', {'entity': child.getId()}) }}">
+                        <a rel="nofollow" href="{{  url('entity/repository/add-revision', {'entity': child.getId()}) }}">
                             <span class="fa fa-plus"></span>
                             {% trans %}
                             Add {{ type }}

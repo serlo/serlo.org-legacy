@@ -21,8 +21,7 @@
  #}
 <div class="btn-group btn-group-community">
     {% if isGranted('page.revision.create', page) %}
-        {% set route = isLegacyFormat(revision.getContent()) ? 'page/revision/create-old' : 'page/revision/create' %}
-        <a href="{{ url(route, {'page': page.getId(), 'revision': revision.getId()}) }}" class="btn btn-success">
+        <a href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId()}) }}" class="btn btn-success">
             <span class="fa fa-pencil"></span>
         </a>
     {% endif %}
@@ -32,15 +31,6 @@
     </button>
     <ul class="dropdown-menu pull-right" role="menu">
         {{ subscribe(page).subMenuItem() }}
-        {% if isGranted('page.revision.create', page) and isLegacyFormat(revision.getContent()) %}
-        <li>
-            <a href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId() }) }}">
-                <span class="fa fa-pencil"></span>
-                {% trans %} Convert {% endtrans %}
-                <span class="label label-info pull-right">Beta</span>
-            </a>
-        </li>
-        {% endif %}
         <li>
             <a href="{{ url('page/revision/view-all', {'page': page.getId()}) }}">
                 <span class="fa fa-clock-o"></span> {% trans %} History {% endtrans %}

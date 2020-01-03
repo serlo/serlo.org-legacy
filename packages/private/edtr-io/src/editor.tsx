@@ -108,21 +108,6 @@ export function Editor(props: EditorProps) {
       <SaveContext.Provider
         value={{ onSave: props.onSave, mayCheckout: props.mayCheckout }}
       >
-        <div className="alert alert-warning" role="alert">
-          <strong>Willkommen im neuen Serlo-Editor :)</strong>
-          <br />
-          Bitte beachte, dass sich der neue Editor noch in einer Testphase
-          befindet. Du kannst dein Feedback in{' '}
-          <a
-            href="https://docs.google.com/document/d/1Lb_hB0zgwzIHgmDPY75XXJKVu5sa33UUwvNTQdRGALk/edit"
-            target="_blank"
-          >
-            diesem Google Doc
-          </a>{' '}
-          hinterlassen (oder alternativ via Mail an jonas@serlo.org). Dort
-          findest du auch eine Liste von bekannten Problemen und ggf.
-          Workarounds.
-        </div>
         <Core
           onError={props.onError}
           plugins={plugins}

@@ -36,41 +36,6 @@ return [
                     ],
                 ],
                 'child_routes'  => [
-                    'about' => [
-                        'type'    => 'literal',
-                        'may_terminate' => true,
-                        'options'       => [
-                            'route'    => '/about',
-                            'defaults' => [
-                                'controller' => 'Ads\Controller\AdsController',
-                                'action'     => 'adPage',
-                            ],
-                        ],
-                        'child_routes'  => [
-                            'editabout' => [
-                                'type'    => 'literal',
-                                'may_terminate' => true,
-                                'options'       => [
-                                    'route'    => '/editabout',
-                                    'defaults' => [
-                                        'controller' => 'Ads\Controller\AdsController',
-                                        'action'     => 'editAdPage',
-                                    ],
-                                ],
-                            ],
-                            'setabout'  => [
-                                'type'    => 'literal',
-                                'may_terminate' => true,
-                                'options'       => [
-                                    'route'    => '/setabout',
-                                    'defaults' => [
-                                        'controller' => 'Ads\Controller\AdsController',
-                                        'action'     => 'setAbout',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
                     'add'   => [
                         'type'    => 'literal',
                         'options' => [
