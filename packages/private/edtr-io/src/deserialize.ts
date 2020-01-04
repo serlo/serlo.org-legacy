@@ -37,6 +37,7 @@ import { coursePageTypeState } from './plugins/types/course-page'
 import { eventTypeState } from './plugins/types/event'
 import { mathPuzzleTypeState } from './plugins/types/math-puzzle'
 import { pageTypeState } from './plugins/types/page'
+import { taxonomyTypeState } from './plugins/types/taxonomy'
 import { textExerciseTypeState } from './plugins/types/text-exercise'
 import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { textExerciseGroupTypeState } from './plugins/types/text-exercise-group'
@@ -135,6 +136,11 @@ export function deserialize({
         return succeed({
           plugin: 'type-video',
           state: deserializeVideo(initialState as VideoSerializedState)
+        })
+      case 'taxonomy':
+        return succeed({
+          plugin: 'type-taxonomy',
+          state: deserializeTaxonomy(initialState as TaxonomySerializedState)
         })
       default:
         return {
@@ -273,6 +279,19 @@ export function deserialize({
       title: state.title || '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
+      )
+    }
+  }
+
+  function deserializeTaxonomy(
+    state: TaxonomySerializedState
+  ): StateTypeSerializedType<typeof taxonomyTypeState> {
+    stack.push({ id: state.id, type: 'taxonomy' })
+    return {
+      ...state,
+      term: state.term,
+      description: serializeEditorState(
+        toEdtr(deserializeEditorState(state.description))
       )
     }
   }
@@ -630,6 +649,13 @@ export function deserialize({
   interface PageSerializedState extends Uuid, License {
     title?: string
     content: SerializedEditorState
+  }
+
+  interface TaxonomySerializedState extends Uuid {
+    term: {
+      name: string
+    }
+    description: SerializedEditorState
   }
 
   interface TextExerciseSerializedState extends Entity {

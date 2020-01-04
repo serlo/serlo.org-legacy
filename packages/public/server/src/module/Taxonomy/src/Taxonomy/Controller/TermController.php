@@ -25,6 +25,7 @@ namespace Taxonomy\Controller;
 use Csrf\Form\CsrfForm;
 use Entity\Manager\EntityManagerAwareTrait;
 use Entity\Manager\EntityManagerInterface;
+use FeatureFlags\Service as FeatureFlagsService;
 use Versioning\Filter\HasHeadCollectionFilter;
 use Instance\Manager\InstanceManagerInterface;
 use Taxonomy\Form\BatchCopyForm;
@@ -32,6 +33,7 @@ use Taxonomy\Form\BatchMoveForm;
 use Taxonomy\Form\TermForm;
 use Taxonomy\Manager\TaxonomyManagerInterface;
 use Uuid\Filter\NotTrashedCollectionFilter;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use ZfcRbac\Exception\UnauthorizedException;
 use Zend\Filter\FilterChain;
@@ -40,22 +42,31 @@ class TermController extends AbstractController
 {
     use EntityManagerAwareTrait;
 
+
+    /**
+     * @var FeatureFlagsService
+     */
+    protected $featureFlags;
+
     /**
      * @param InstanceManagerInterface $instanceManager
      * @param EntityManagerInterface   $entityManager
      * @param TaxonomyManagerInterface $taxonomyManager
      * @param TermForm                 $termForm
+     * @param FeatureFlagsService      $featureFlags
      */
     public function __construct(
         InstanceManagerInterface $instanceManager,
         EntityManagerInterface $entityManager,
         TaxonomyManagerInterface $taxonomyManager,
-        TermForm $termForm
+        TermForm $termForm,
+        FeatureFlagsService $featureFlags
     ) {
         $this->instanceManager = $instanceManager;
         $this->taxonomyManager = $taxonomyManager;
         $this->termForm        = $termForm;
         $this->entityManager   = $entityManager;
+        $this->featureFlags    = $featureFlags;
     }
 
     public function createAction()
@@ -64,7 +75,7 @@ class TermController extends AbstractController
         $form = $this->termForm;
 
         if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
+            $data = json_decode($this->getRequest()->getContent(), true);
             $data = array_merge(
                 $data,
                 [
@@ -78,13 +89,25 @@ class TermController extends AbstractController
                 $this->getTaxonomyManager()->createTerm($form);
                 $this->getTaxonomyManager()->flush();
                 $this->flashMessenger()->addSuccessMessage('The node has been added successfully!');
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                $redirectUrl = $this->referer()->fromStorage();
+                return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
+            } else {
+                return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
             }
         } else {
             $this->referer()->store();
         }
-        $view = new ViewModel(['form' => $form, 'isUpdating' => false]);
-        $this->layout('legacy-editor/layout');
+        $data = [
+            "term" => [
+                "name" => '',
+            ],
+            "description" => '',
+        ];
+
+        $state = $this->featureFlags->isEnabled('frontend-editor')
+            ? json_encode($data)
+            : htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
+        $view = new ViewModel(['state' => $state]);
         $view->setTemplate('taxonomy/term/create');
         return $view;
     }
@@ -245,20 +268,35 @@ class TermController extends AbstractController
         $form->bind($term);
 
         if ($this->getRequest()->isPost()) {
-            $post = $this->getRequest()->getPost();
-            $form->setData($post);
+            $data = json_decode($this->getRequest()->getContent(), true);
+            $form->setData($data);
             if ($form->isValid()) {
                 $this->getTaxonomyManager()->updateTerm($form);
                 $this->getTaxonomyManager()->flush();
                 $this->flashMessenger()->addSuccessMessage('Your changes have been saved!');
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                $redirectUrl = $this->referer()->fromStorage();
+                return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
+            } else {
+                return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
             }
         } else {
             $this->referer()->store();
         }
 
-        $view = new ViewModel(['form' => $form]);
-        $this->layout('legacy-editor/layout');
+        $data = [
+            "id" => $term->getId(),
+            "term" => [
+                "name" => $term->getName(),
+            ],
+            "taxonomy" => $term->getTaxonomy()->getId(),
+            "parent" => $term->getParent()->getId(),
+            "position" => $term->getPosition(),
+            "description" => $term->getDescription(),
+        ];
+        $state = $this->featureFlags->isEnabled('frontend-editor')
+            ? json_encode($data)
+            : htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
+        $view = new ViewModel(['state' => $state]);
         $view->setTemplate('taxonomy/term/update');
         return $view;
     }
