@@ -447,38 +447,6 @@ export function deserialize({
           ? 'input-number-exact-match-challenge'
           : 'input-expression-equal-match-challenge'
 
-        function extractInputAnswers(
-          inputExercises: InputType[],
-          isCorrect: boolean
-        ): {
-          value: string
-          isCorrect: boolean
-          feedback: { plugin: string; state?: unknown }
-        }[] {
-          if (inputExercises.length === 0) return []
-
-          const answers = inputExercises.map(exercise => {
-            return {
-              value: exercise.solution,
-              feedback: extractChildFromRows(
-                convert(deserializeEditorState(exercise.feedback))
-              ),
-              isCorrect
-            }
-          })
-
-          const children = R.flatten(
-            inputExercises.map(exercise => {
-              return filterDefined([
-                exercise['input-string-normalized-match-challenge'],
-                exercise['input-number-exact-match-challenge'],
-                exercise['input-expression-equal-match-challenge']
-              ])
-            })
-          )
-
-          return R.concat(answers, extractInputAnswers(children, false))
-        }
         const inputExercises = filterDefined([
           inputStringNormalizedMatchChallenge,
           inputNumberExactMatchChallenge,
@@ -495,10 +463,43 @@ export function deserialize({
             }
           }
         }
+      }
 
-        function filterDefined<T>(array: (T | undefined)[]): T[] {
-          return array.filter(el => typeof el !== 'undefined') as T[]
-        }
+      function extractInputAnswers(
+        inputExercises: InputType[],
+        isCorrect: boolean
+      ): {
+        value: string
+        isCorrect: boolean
+        feedback: { plugin: string; state?: unknown }
+      }[] {
+        if (inputExercises.length === 0) return []
+
+        const answers = inputExercises.map(exercise => {
+          return {
+            value: exercise.solution,
+            feedback: extractChildFromRows(
+              convert(deserializeEditorState(exercise.feedback))
+            ),
+            isCorrect
+          }
+        })
+
+        const children = R.flatten(
+          inputExercises.map(exercise => {
+            return filterDefined([
+              exercise['input-string-normalized-match-challenge'],
+              exercise['input-number-exact-match-challenge'],
+              exercise['input-expression-equal-match-challenge']
+            ])
+          })
+        )
+
+        return R.concat(answers, extractInputAnswers(children, false))
+      }
+
+      function filterDefined<T>(array: (T | undefined)[]): T[] {
+        return array.filter(el => typeof el !== 'undefined') as T[]
       }
     }
   }

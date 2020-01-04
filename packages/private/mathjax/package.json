@@ -2,12 +2,17 @@
   "name": "@serlo/mathjax",
   "version": "0.0.0",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/mathjax.esm.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "npm-run-all build:*",
-    "build:babel": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
-    "build:tsc": "tsc --build src"
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
+  "dependencies": {
+    "tslib": "^1.0.0"
+  },
+  "devDependencies": {
+    "tsdx": "^0.12.0",
+    "typescript": "^3.0.0"
   },
   "private": true
 }

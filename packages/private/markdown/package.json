@@ -2,12 +2,18 @@
   "name": "@serlo/markdown",
   "version": "0.0.0",
   "main": "dist/index.js",
+  "module": "dist/markdown.esm.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "cross-env NODE_ENV=production babel src --out-dir dist --root-mode upward --source-maps"
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "showdown": "^1.0.0"
+    "showdown": "^1.0.0",
+    "tslib": "^1.0.0"
+  },
+  "devDependencies": {
+    "tsdx": "^0.12.0",
+    "typescript": "^3.0.0"
   },
   "private": true
 }

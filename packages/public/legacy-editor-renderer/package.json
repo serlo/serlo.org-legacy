@@ -3,20 +3,21 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
-    "build:dev": "(cd ../../..; npx lerna run --include-filtered-dependencies --scope=$npm_package_name build)",
-    "deploy:image": "ts-node scripts/deploy",
-    "start": "nodemon --watch src --ext ts,tsx --exec \"yarn build:dev && node dist/index.js\""
+    "build": "tsdx build --target node --format cjs --tsconfig tsconfig.prod.json",
+    "start": "node .",
+    "deploy:image": "ts-node scripts/deploy"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@serlo/markdown": "^0.0.0",
     "body-parser": "^1.0.0",
-    "express": "^4.0.0"
+    "express": "^4.0.0",
+    "tslib": "^1.0.0"
   },
   "devDependencies": {
-    "@types/express": "^4.0.0"
+    "@types/express": "^4.0.0",
+    "tsdx": "^0.12.0",
+    "typescript": "^3.0.0"
   },
   "private": true
 }

@@ -2,16 +2,20 @@
   "name": "@serlo/notifications-job",
   "version": "1.0.2",
   "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "cross-env NODE_ENV=production babel src --extensions \".ts,.tsx\" --out-dir dist --root-mode upward --source-maps",
-    "build:dev": "(cd ../../..; npx lerna run --include-filtered-dependencies --scope=$npm_package_name build)",
+    "build": "tsdx build --target node --format cjs --tsconfig tsconfig.prod.json",
     "deploy:image": "ts-node scripts/deploy"
   },
   "dependencies": {
     "axios": "^0.19.0",
     "mysql": "^2.0.0",
-    "promise-mysql": "^4.0.0"
+    "promise-mysql": "^4.0.0",
+    "tslib": "^1.0.0"
+  },
+  "devDependencies": {
+    "tsdx": "^0.12.0",
+    "typescript": "^3.0.0"
   },
   "private": true
 }

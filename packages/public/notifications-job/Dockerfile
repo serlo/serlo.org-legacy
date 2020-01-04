@@ -1,28 +1,26 @@
-FROM node:10-alpine as dependencies
+FROM node:10-alpine as dev-dependencies
 WORKDIR /usr/src/app
 COPY packages/public/notifications-job/package.json packages/public/notifications-job/package.json
 COPY package.json .
 COPY yarn.lock .
 RUN yarn --frozen-lockfile --production=false --silent
 
-FROM dependencies as build
-COPY packages/public/notifications-job packages/public/notifications-job
-COPY babel.config.js .
-COPY lerna.json .
-COPY tsconfig.json .
-RUN yarn build
-
-FROM build as release
-RUN yarn lerna exec "find . -maxdepth 1 -type d ! -name dist ! -name . -exec rm -rf {} +"
-RUN yarn lerna exec "find . -maxdepth 1 -type f ! -name package.json -exec rm -rf {} +"
-RUN yarn lerna clean --yes
+FROM node:10-alpine as prod-dependencies
+WORKDIR /usr/src/app
+ENV NODE_ENV production
+COPY packages/public/notifications-job/package.json packages/public/notifications-job/package.json
+COPY package.json .
+COPY yarn.lock .
 RUN yarn --frozen-lockfile --production=true --silent
 
-FROM node:10-alpine
-ENV NODE_ENV production
-WORKDIR /usr/src/app
-COPY --from=release /usr/src/app/packages/public/notifications-job packages/public/notifications-job
-COPY --from=release /usr/src/app/node_modules node_modules
+FROM dev-dependencies as build
+COPY packages/public/notifications-job packages/public/notifications-job
+COPY lerna.json .
+COPY tsconfig.prod.json .
+RUN yarn lerna run --include-dependencies --scope @serlo/notifications-job build
+
+FROM prod-dependencies as release
+COPY --from=build /usr/src/app/packages/public/notifications-job/dist packages/public/notifications-job/dist
 WORKDIR packages/public/notifications-job
-ENTRYPOINT ["node", "."]
+ENTRYPOINT ["yarn", "start"]
 EXPOSE 3000
