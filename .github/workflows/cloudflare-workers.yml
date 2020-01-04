@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: 10.x
       - run: yarn
-      - run: yarn lerna run deploy:cloudflare--scope=@serlo/cloudflare-workers
+      - run: yarn lerna run deploy:cloudflare --scope=@serlo/cloudflare-workers
         env:
           CF_KEY: ${{ secrets.CF_KEY }}
           CF_EMAIL: ${{ secrets.CF_EMAIL }}
@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 10.x
       - run: yarn
-      - run: yarn lerna run deploy:cloudflare--scope=@serlo/donation-campaign
+      - run: yarn lerna run deploy:cloudflare --scope=@serlo/donation-campaign
         env:
           CF_KEY: ${{ secrets.CF_KEY }}
           CF_EMAIL: ${{ secrets.CF_EMAIL }}
