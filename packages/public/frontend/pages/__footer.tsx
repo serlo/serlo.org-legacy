@@ -38,7 +38,7 @@ export default function Index(props) {
   return (
     <Provider>
       <Normalize />
-      <GlobalStyle assetPrefix={props.assetPrefix} />
+      <GlobalStyle />
       <Footer {...props} />
     </Provider>
   )
