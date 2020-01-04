@@ -29,7 +29,7 @@ import {
   HeaderInput,
   entityType
 } from './common'
-import { Settings } from './helpers/settings'
+import { RevisionHistory, Settings } from './helpers/settings'
 
 export const coursePageTypeState = entityType(
   {
@@ -41,7 +41,10 @@ export const coursePageTypeState = entityType(
   {}
 )
 
-export const coursePageTypePlugin: EditorPlugin<typeof coursePageTypeState, { skipControls: boolean }> = {
+export const coursePageTypePlugin: EditorPlugin<
+  typeof coursePageTypeState,
+  { skipControls: boolean }
+> = {
   Component: CoursePageTypeEditor,
   state: coursePageTypeState,
   config: {
@@ -64,30 +67,35 @@ function CoursePageTypeEditor(
   }, [icon.value])
   return (
     <article>
-      <Settings
-        id={props.state.id.value}
-        currentRevision={props.state.revision.value}
-        onSwitchRevision={props.state.replaceOwnState}
-      >
-        <Settings.Select
-          label="Icon"
-          state={icon}
-          options={[
-            {
-              label: 'Erklärung',
-              value: 'explanation'
-            },
-            {
-              label: 'Video',
-              value: 'play'
-            },
-            {
-              label: 'Aufgabe',
-              value: 'question'
-            }
-          ]}
+      {props.renderIntoToolbar(
+        <RevisionHistory
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
         />
-      </Settings>
+      )}
+      {props.renderIntoSettings(
+        <Settings>
+          <Settings.Select
+            label="Icon"
+            state={icon}
+            options={[
+              {
+                label: 'Erklärung',
+                value: 'explanation'
+              },
+              {
+                label: 'Video',
+                value: 'play'
+              },
+              {
+                label: 'Aufgabe',
+                value: 'question'
+              }
+            ]}
+          />
+        </Settings>
+      )}
       <h1>
         {props.editable ? (
           <HeaderInput
@@ -102,7 +110,9 @@ function CoursePageTypeEditor(
         )}
       </h1>
       {content.render()}
-      {props.config.skipControls ? null : <Controls subscriptions {...props.state} />}
+      {props.config.skipControls ? null : (
+        <Controls subscriptions {...props.state} />
+      )}
     </article>
   )
 }

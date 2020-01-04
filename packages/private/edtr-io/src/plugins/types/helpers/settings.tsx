@@ -22,6 +22,7 @@
 import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory'
 import { StateTypeReturnType, string } from '@edtr-io/plugin'
 import { faCog, Icon, faCheck, styled } from '@edtr-io/ui'
+import { PluginToolbarButton } from '@edtr-io/core'
 import axios from 'axios'
 import moment from 'moment'
 import * as React from 'react'
@@ -52,18 +53,6 @@ const Content = styled.div({
   transition: '250ms all ease-in-out'
 })
 
-const StyledIconContainer = styled.div({
-  marginBottom: '5px',
-  height: '24px',
-  opacity: 0.8,
-  cursor: 'pointer',
-  color: 'rgb(51,51,51,0.95)',
-
-  '&:hover': {
-    color: 'rgb(70,155,255)'
-  }
-})
-
 const StyledTR = styled.tr<{ selected: boolean }>(props => {
   return props.selected
     ? {
@@ -77,9 +66,10 @@ const StyledTR = styled.tr<{ selected: boolean }>(props => {
 function SettingsIcon(props: { open: () => void }) {
   return (
     <span onClick={props.open}>
-      <StyledIconContainer title="Einstellungen">
-        <Icon icon={faCog} size="lg" />
-      </StyledIconContainer>
+      <PluginToolbarButton
+        icon={<Icon icon={faCog} size="lg" />}
+        label="Einstellungen"
+      />
     </span>
   )
 }
@@ -92,17 +82,18 @@ interface RevisionData {
   active: boolean
 }
 
-export function Settings<T>(
+export function RevisionHistory<T>(
   props: React.PropsWithChildren<{
     id: number
     currentRevision: number
     onSwitchRevision: (data: T) => void
   }>
 ) {
-  const [open, setOpen] = React.useState(false)
   const [availableRevisions, setAvailableRevisions] = React.useState<
     RevisionData[]
   >([])
+
+  const [showRevisions, setShowRevisions] = React.useState(false)
   React.useEffect(() => {
     axios
       .get<RevisionData[]>(`/entity/repository/get-revisions/${props.id}`)
@@ -111,49 +102,20 @@ export function Settings<T>(
       })
   }, [])
 
-  const [showRevisions, setShowRevisions] = React.useState(false)
   return (
-    <div style={{ position: 'relative' }}>
-      <StyledSettings>
-        <Content>
-          <SettingsIcon
-            open={() => {
-              setOpen(true)
-            }}
-          />
-          <span
-            onClick={() => {
-              if (availableRevisions.length) {
-                setShowRevisions(true)
-              }
-            }}
-          >
-            <StyledIconContainer title="Andere Version auswählen">
-              <Icon icon={faHistory} size="lg" />
-            </StyledIconContainer>
-          </span>
-        </Content>
-      </StyledSettings>
-      <BSModal
-        show={open}
-        onHide={() => {
-          setOpen(false)
+    <div>
+      <span
+        onClick={() => {
+          if (availableRevisions.length) {
+            setShowRevisions(true)
+          }
         }}
       >
-        <BSModal.Header closeButton>
-          <BSModal.Title>Einstellungen</BSModal.Title>
-        </BSModal.Header>
-        <BSModal.Body>{props.children}</BSModal.Body>
-        <BSModal.Footer>
-          <BSButton
-            onClick={() => {
-              setOpen(false)
-            }}
-          >
-            Schließen
-          </BSButton>
-        </BSModal.Footer>
-      </BSModal>
+        <PluginToolbarButton
+          icon={<Icon icon={faHistory} size="lg" />}
+          label="Andere Version auswählen"
+        />
+      </span>
       <BSModal
         show={showRevisions}
         onHide={() => {
@@ -237,6 +199,10 @@ export function Settings<T>(
       </BSModal>
     </div>
   )
+}
+
+export function Settings(props: React.PropsWithChildren<{}>) {
+  return <React.Fragment>{props.children}</React.Fragment>
 }
 
 Settings.Textarea = function SettingsTextarea({

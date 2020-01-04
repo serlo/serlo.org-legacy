@@ -30,7 +30,7 @@ import {
   HeaderInput,
   entityType
 } from './common'
-import { Settings } from './helpers/settings'
+import { RevisionHistory, Settings } from './helpers/settings'
 
 export const videoTypeState = entityType(
   {
@@ -54,11 +54,13 @@ function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
 
   return (
     <section>
-      <Settings
-        id={props.state.id.value}
-        currentRevision={props.state.revision.value}
-        onSwitchRevision={props.state.replaceOwnState}
-      />
+      {props.renderIntoToolbar(
+        <RevisionHistory
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        />
+      )}
       <div className="page-header">
         <h1>
           {props.editable ? (

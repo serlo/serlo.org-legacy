@@ -31,7 +31,7 @@ import {
   entityType
 } from './common'
 import { AddButton } from '@edtr-io/editor-ui'
-import { Settings } from './helpers/settings'
+import { RevisionHistory, Settings } from './helpers/settings'
 
 export const textExerciseTypeState = entityType(
   {
@@ -69,11 +69,13 @@ export function TextExerciseTypeEditor(
 
   return (
     <article className="text-exercise">
-      <Settings
-        id={props.state.id.value}
-        currentRevision={props.state.revision.value}
-        onSwitchRevision={props.state.replaceOwnState}
-      />
+      {props.renderIntoToolbar(
+        <RevisionHistory
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        />
+      )}
       {content.render()}
       {textHint.id ? (
         <OptionalChild

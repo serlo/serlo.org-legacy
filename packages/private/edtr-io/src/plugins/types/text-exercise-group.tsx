@@ -31,7 +31,7 @@ import {
   OptionalChild,
   entityType
 } from './common'
-import { Settings } from './helpers/settings'
+import { RevisionHistory, Settings } from './helpers/settings'
 
 export const textExerciseGroupTypeState = entityType(
   {
@@ -56,11 +56,13 @@ function TextExerciseGroupTypeEditor(
 
   return (
     <article className="exercisegroup">
-      <Settings
-        id={props.state.id.value}
-        currentRevision={props.state.revision.value}
-        onSwitchRevision={props.state.replaceOwnState}
-      />
+      {props.renderIntoToolbar(
+        <RevisionHistory
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        />
+      )}
       <section className="row">{content.render()}</section>
       {children.map((child, index) => {
         return (

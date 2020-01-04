@@ -183,12 +183,13 @@ export function Editor(props: EditorProps) {
         description: 'Binde einen Inhalt von serlo.org via ID ein.',
         icon: createIcon(faNewspaper)
       },
-      // {
-      //   name: 'multimedia',
-      //   title: 'Erklärung mit Multimedia-Inhalt',
-      //   description: 'Erstelle einen veranschaulichenden oder erklärenden Multimedia-Inhalt mit zugehöriger Erklärung',
-      //   icon: createIcon(faPhotoVideo)
-      // },
+      {
+        name: 'multimedia',
+        title: 'Erklärung mit Multimedia-Inhalt',
+        description:
+          'Erstelle einen veranschaulichenden oder erklärenden Multimedia-Inhalt mit zugehöriger Erklärung',
+        icon: createIcon(faPhotoVideo)
+      },
       ...(isExercise
         ? [
             {

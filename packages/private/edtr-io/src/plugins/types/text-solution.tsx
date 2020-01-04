@@ -24,7 +24,7 @@ import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
-import { Settings } from './helpers/settings'
+import { RevisionHistory, Settings } from './helpers/settings'
 
 export const textSolutionTypeState = entityType(
   {
@@ -58,11 +58,13 @@ function TextSolutionTypeEditor(
   console.log(props.config)
   return (
     <React.Fragment>
-      <Settings
-        id={props.state.id.value}
-        currentRevision={props.state.revision.value}
-        onSwitchRevision={props.state.replaceOwnState}
-      />
+      {props.renderIntoToolbar(
+        <RevisionHistory
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        />
+      )}
       <solutionPlugin.Component {...props} />
       {props.config.skipControls ? null : (
         <Controls subscriptions {...props.state} />

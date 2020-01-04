@@ -71,16 +71,20 @@ export function createPlugins(
     inputExercise: createInputExercisePlugin(),
     layout: layoutPlugin,
     multimedia: createMultimediaExplanationPlugin({
-      plugins: [{
-        name: 'image',
-        title: 'Bild'
-      },{
-        name: 'video',
-        title: 'Video'
-      },{
-        name: 'geogebra',
-        title: 'GeoGebra Applet'
-      }]
+      plugins: [
+        {
+          name: 'image',
+          title: 'Bild'
+        },
+        {
+          name: 'video',
+          title: 'Video'
+        },
+        {
+          name: 'geogebra',
+          title: 'GeoGebra Applet'
+        }
+      ]
     }),
     rows: createRowsPlugin({ plugins: registry }),
     scMcExercise: createScMcExercisePlugin(),

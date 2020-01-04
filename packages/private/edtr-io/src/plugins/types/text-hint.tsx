@@ -24,7 +24,7 @@ import { createHintPlugin } from '@edtr-io/plugin-hint'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
-import { Settings } from './helpers/settings'
+import { RevisionHistory, Settings } from './helpers/settings'
 
 export const textHintTypeState = entityType(
   {
@@ -54,11 +54,13 @@ function TextHintTypeEditor(
 ) {
   return (
     <React.Fragment>
-      <Settings
-        id={props.state.id.value}
-        currentRevision={props.state.revision.value}
-        onSwitchRevision={props.state.replaceOwnState}
-      />
+      {props.renderIntoToolbar(
+        <RevisionHistory
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        />
+      )}
       <hintPlugin.Component {...props} />
       {props.config.skipControls ? null : (
         <Controls subscriptions {...props.state} />

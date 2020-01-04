@@ -443,7 +443,7 @@ export function serializedChild(
   StateTypeValueType<ReturnType<typeof child>>,
   StateTypeReturnType<ReturnType<typeof child>>
 > {
-  const originalChild = child({ plugin, config: { skipControls: true }})
+  const originalChild = child({ plugin, config: { skipControls: true } })
   return {
     ...originalChild,
     serialize(...args: Parameters<typeof originalChild.serialize>) {
