@@ -54,8 +54,16 @@ $featureFlags = [
     'client-frontend' => false,
     'donation-banner' => true,
     'frontend-content' => false,
+    'frontend-diff' => false,
+    'frontend-donation-banner' => false,
+    'frontend-editor' => false,
     'frontend-footer' => false,
     'frontend-legacy-content' => false,
+    'key-value-store' => false,
+];
+
+$keyValueStore = [
+    'hosts' => ['redis'],
 ];
 
 $cronjob_secret = 'secret';

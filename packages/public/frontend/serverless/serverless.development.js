@@ -21,7 +21,7 @@ const map = {
 }
 
 function serveAssets(pathname, req, res, next) {
-  // based on the URL path, extract the file extention. e.g. .js, .doc, ...
+  // based on the URL path, extract the file extension. e.g. .js, .doc, ...
   const ext = path.parse(pathname).ext
 
   const filename =

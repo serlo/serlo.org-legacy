@@ -42,6 +42,9 @@ return [
     // (FeatureFlags Module)
     'feature_flags' => $featureFlags,
 
+    // (KeyValueStore Module)
+    'key_value_store' => $keyValueStore,
+
     // Branding, one entry per instance (Ui Module)
     'brand' => [
         'instances' => [

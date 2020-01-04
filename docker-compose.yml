@@ -8,6 +8,9 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=secret
 
+  redis:
+    image: redis:5.0
+
   hydra:
     image: oryd/hydra:v1.0
     ports:
@@ -25,10 +28,12 @@ services:
       - OIDC_SUBJECT_IDENTIFIERS_ENABLED=public,pairwise
       - OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=youReallyNeedToChangeThis
 
+  #  editor-renderer:
+  #    build:
+  #      context: .
+  #      dockerfile: packages/public/editor-renderer/Dockerfile
   editor-renderer:
-    build:
-      context: .
-      dockerfile: packages/public/editor-renderer/Dockerfile
+    image: eu.gcr.io/serlo-shared/editor-renderer
 
   frontend:
     build:
@@ -46,10 +51,12 @@ services:
       - ./packages/public/frontend/public:/usr/share/nginx/html:delegated
       - ./packages/public/frontend/docker/nginx.conf:/etc/nginx/conf.d/default.conf:delegated
 
+  #  legacy-editor-renderer:
+  #    build:
+  #      context: .
+  #      dockerfile: packages/public/legacy-editor-renderer/Dockerfile
   legacy-editor-renderer:
-    build:
-      context: .
-      dockerfile: packages/public/legacy-editor-renderer/Dockerfile
+    image: eu.gcr.io/serlo-shared/legacy-editor-renderer
 
   server-composer:
     image: composer:1.8

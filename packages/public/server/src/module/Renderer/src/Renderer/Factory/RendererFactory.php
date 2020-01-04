@@ -23,7 +23,7 @@
 namespace Renderer\Factory;
 
 use FeatureFlags\Service as FeatureFlagsService;
-use Frontend\View\Helper\RenderComponentHelper;
+use Frontend\RenderComponentService;
 use Raven_Client;
 use Renderer\Renderer;
 use Renderer\View\Helper\FormatHelper;
@@ -33,31 +33,22 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RendererFactory implements FactoryInterface
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /** @var StorageInterface $storage */
         $storage = $serviceLocator->get('Renderer\Storage\RendererStorage');
-        /**
-         * @var $sentry Raven_Client
-         */
+        /** @var Raven_Client $sentry */
         $sentry = $serviceLocator->get('Log\Sentry');
         $formatHelper = new FormatHelper();
-        /** @var $featureFlags FeatureFlagsService */
+        /** @var featureFlagsService $featureFlags */
         $featureFlags = $serviceLocator->get(FeatureFlagsService::class);
         $config  = $serviceLocator->get('config');
-        $url   = $serviceLocator->get('config')['services']['frontend'];
-        $renderComponentHelper = new RenderComponentHelper($url);
+        $renderComponentService   = $serviceLocator->get(RenderComponentService::class);
         $editorRendererUrl = $config['services']['editor_renderer'];
         $legacyRendererUrl = $config['services']['legacy_editor_renderer'];
         $cacheEnabled = $config['renderer']['cache_enabled'];
 
-        $service = new Renderer($featureFlags, $editorRendererUrl, $legacyRendererUrl, $formatHelper, $renderComponentHelper, $storage, $cacheEnabled, $sentry);
+        $service = new Renderer($featureFlags, $editorRendererUrl, $legacyRendererUrl, $formatHelper, $renderComponentService, $storage, $cacheEnabled, $sentry);
 
         return $service;
     }

@@ -4,6 +4,8 @@ RUN apt-get install -y gettext locales libicu-dev
 RUN docker-php-ext-install pdo_mysql mysqli gettext intl
 RUN pecl channel-update pecl.php.net
 RUN yes no | pecl install apcu_bc
+RUN pecl install redis
+RUN docker-php-ext-enable redis
 RUN sed -ie 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
 RUN sed -ie 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/g' /etc/locale.gen
 RUN sed -ie 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g' /etc/locale.gen

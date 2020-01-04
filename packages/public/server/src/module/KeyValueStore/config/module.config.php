@@ -20,20 +20,15 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Frontend;
 
-use Frontend\Factory\RenderComponentHelperFactory;
-use Frontend\Factory\RenderComponentServiceFactory;
+namespace KeyValueStore;
+
+use KeyValueStore\Factory\KeyValueStoreFactory;
 
 return [
     'service_manager' => [
         'factories' => [
-            RenderComponentService::class => RenderComponentServiceFactory::class,
-        ],
-    ],
-    'view_helpers'    => [
-        'factories' => [
-            'renderComponent' => RenderComponentHelperFactory::class,
+            KeyValueStore::class => KeyValueStoreFactory::class,
         ],
     ],
 ];
