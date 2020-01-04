@@ -4,18 +4,27 @@ on:
     branches:
       - master
 jobs:
-  publish:
+  cloudflare-workers:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        workingDirectory:
-          - packages/public/cloudflare-workers
-          - packages/public/donation-campaign
     steps:
       - uses: actions/checkout@v1
-      - name: Publish
-        uses: cloudflare/wrangler-action@1.1.0
+      - uses: actions/setup-node@v1
         with:
-          apiKey: ${{ secrets.CF_KEY }}
-          email: ${{ secrets.CF_EMAIL }}
-          workingDirectory: ${{ matrix.workingDirectory }}
+          node-version: 10.x
+      - run: yarn
+      - run: yarn lerna run deploy:cloudflare--scope @serlo/cloudflare-workers
+          env:
+            CF_KEY: ${{ secrets.CF_KEY }}
+            CF_EMAIL: ${{ secrets.CF_EMAIL }}
+  donation-campaign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - run: yarn
+      - run: yarn lerna run deploy:cloudflare--scope @serlo/donation-campaign
+          env:
+            CF_KEY: ${{ secrets.CF_KEY }}
+            CF_EMAIL: ${{ secrets.CF_EMAIL }}
