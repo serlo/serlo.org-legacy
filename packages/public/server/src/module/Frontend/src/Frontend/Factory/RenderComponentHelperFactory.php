@@ -22,22 +22,19 @@
  */
 namespace Frontend\Factory;
 
+use Frontend\RenderComponentService;
 use Frontend\View\Helper\RenderComponentHelper;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RenderComponentHelperFactory implements FactoryInterface
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        /* @var ServiceLocatorInterface $serviceLocator */
         $serviceLocator = $serviceLocator->getServiceLocator();
-        $url   = $serviceLocator->get('config')['services']['frontend'];
-        return new RenderComponentHelper($url);
+        /* @var RenderComponentService $service */
+        $service = $serviceLocator->get(RenderComponentService::class);
+        return new RenderComponentHelper($service);
     }
 }

@@ -20,20 +20,42 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Frontend;
 
-use Frontend\Factory\RenderComponentHelperFactory;
-use Frontend\Factory\RenderComponentServiceFactory;
+namespace KeyValueStore;
 
-return [
-    'service_manager' => [
-        'factories' => [
-            RenderComponentService::class => RenderComponentServiceFactory::class,
-        ],
-    ],
-    'view_helpers'    => [
-        'factories' => [
-            'renderComponent' => RenderComponentHelperFactory::class,
-        ],
-    ],
-];
+use RedisCluster;
+
+class KeyValueStore
+{
+    /** @var RedisCluster */
+    private $redis;
+
+    public function __construct($redis)
+    {
+        $this->redis = $redis;
+    }
+
+    public function get(string $key)
+    {
+        if (!isset($this->redis)) {
+            return false;
+        }
+        return $this->redis->get($key);
+    }
+
+    public function exists(string $key)
+    {
+        if (!isset($this->redis)) {
+            return false;
+        }
+        return $this->redis->exists($key);
+    }
+
+    public function set(string $key, $value)
+    {
+        if (!isset($this->redis)) {
+            return;
+        }
+        $this->redis->set($key, $value);
+    }
+}

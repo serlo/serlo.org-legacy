@@ -20,20 +20,24 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Frontend;
+namespace Frontend\Factory;
 
-use Frontend\Factory\RenderComponentHelperFactory;
-use Frontend\Factory\RenderComponentServiceFactory;
+use FeatureFlags\Service as FeatureFlagsService;
+use Frontend\RenderComponentService;
+use KeyValueStore\KeyValueStore;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-return [
-    'service_manager' => [
-        'factories' => [
-            RenderComponentService::class => RenderComponentServiceFactory::class,
-        ],
-    ],
-    'view_helpers'    => [
-        'factories' => [
-            'renderComponent' => RenderComponentHelperFactory::class,
-        ],
-    ],
-];
+class RenderComponentServiceFactory implements FactoryInterface
+{
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        /** @var string $url */
+        $url   = $serviceLocator->get('config')['services']['frontend'];
+        /** @var KeyValueStore $redis */
+        $store = $serviceLocator->get(KeyValueStore::class);
+        /** @var FeatureFlagsService $featureFlags */
+        $featureFlags = $serviceLocator->get(FeatureFlagsService::class);
+        return new RenderComponentService($url, $store, $featureFlags);
+    }
+}
