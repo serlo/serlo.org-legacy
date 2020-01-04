@@ -19,7 +19,14 @@ function getCsrfToken(): string {
 }
 
 export default function Index(props) {
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    setLoading(false)
+  }, [])
+
   if (typeof window === 'undefined') return null
+  if (loading) return null
   // Sentry.setExtra('type', props.type)
   return (
     <Editor
@@ -60,6 +67,7 @@ export default function Index(props) {
     />
   )
 }
+
 Index.getInitialProps = async ({ req, res }) => {
   return await handleBody(req, res, { initialState: '', type: '' })
 }
