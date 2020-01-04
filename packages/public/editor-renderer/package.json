@@ -1,6 +1,6 @@
 {
   "name": "@serlo/editor-renderer",
-  "version": "2.0.9",
+  "version": "3.0.0",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsdx build --target node --format cjs --tsconfig tsconfig.prod.json",
