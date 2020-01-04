@@ -1,5 +1,5 @@
 {
-  "name": "@serlo/serlo-org-client",
+  "name": "@serlo/client",
   "version": "5.8.0",
   "scripts": {
     "prebuild": "rimraf dist",

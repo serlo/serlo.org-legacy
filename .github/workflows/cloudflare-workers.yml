@@ -1,0 +1,21 @@
+name: Cloudflare Workers
+on:
+  push:
+    branches:
+      - master
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workingDirectory:
+          - packages/public/cloudflare-workers
+          - packages/public/donation-campaign
+    steps:
+      - uses: actions/checkout@v1
+      - name: Publish
+        uses: cloudflare/wrangler-action@1.1.0
+        with:
+          apiKey: ${{ secrets.CF_KEY }}
+          email: ${{ secrets.CF_EMAIL }}
+          workingDirectory: ${{ matrix.workingDirectory }}

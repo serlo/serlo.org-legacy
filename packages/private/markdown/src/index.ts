@@ -19,21 +19,35 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+// @ts-ignore
 import Showdown from 'showdown'
 
+// @ts-ignore
 import codePrepare from './extensions/serlo_code_prepare'
+// @ts-ignore
 import injections from './extensions/injections'
+// @ts-ignore
 import table from './extensions/table'
+// @ts-ignore
 import htmlStrip from './extensions/html_strip'
+// @ts-ignore
 import latex from './extensions/latex'
+// @ts-ignore
 import atUsername from './extensions/at_username'
+// @ts-ignore
 import strikeThrough from './extensions/strike_through'
+// @ts-ignore
 import spoiler from './extensions/spoiler'
+// @ts-ignore
 import spoilerPrepare from './extensions/spoiler_prepare'
+// @ts-ignore
 import latexOutput from './extensions/latex_output'
+// @ts-ignore
 import codeOutput from './extensions/serlo_code_output'
 
-export const converter = new Showdown.Converter({
+export const converter: {
+  makeHtml(source: string): string
+} = new Showdown.Converter({
   extensions: [
     codePrepare,
     injections,

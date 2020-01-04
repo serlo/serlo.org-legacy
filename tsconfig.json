@@ -1,25 +1,16 @@
 {
+  "extends": "./tsconfig.prod.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "jsx": "react",
     "module": "commonjs",
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "esnext",
-
-    "baseUrl": "packages",
+    "importHelpers": false,
+    "baseUrl": "packages/private",
     "paths": {
-      "@serlo/editor-helpers": ["private/editor-helpers/src"],
-      "@serlo/edtr-io": ["private/edtr-io/src"],
-      "@serlo/legacy-editor-to-editor": ["private/legacy-editor-to-editor/src"],
-      "@serlo/markdown": ["private/markdown/src"],
-      "@serlo/mathjax": ["private/mathjax/src"]
-    },
-    "lib": ["webworker", "dom"]
+      "@serlo/editor-helpers": ["editor-helpers/src"],
+      "@serlo/edtr-io": ["edtr-io/src"],
+      "@serlo/legacy-editor-to-editor": ["legacy-editor-to-editor/src"],
+      "@serlo/markdown": ["markdown/src"],
+      "@serlo/mathjax": ["mathjax/src"]
+    }
   },
-  "exclude": ["packages/public/server/src/vendor", "packages/public/frontend"]
+  "exclude": ["packages/public/frontend", "packages/public/server/src/vendor"]
 }

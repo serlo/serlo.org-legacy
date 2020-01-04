@@ -2,7 +2,7 @@
 
 # Serlo.org
 
-[![Build status](https://img.shields.io/circleci/project/github/serlo/serlo.org/master.svg)](https://circleci.com/gh/serlo/serlo.org) [![Kanban board](https://img.shields.io/badge/Kanban-board-brightgreen.svg)](https://github.com/orgs/serlo/projects/1)
+[![Kanban board](https://img.shields.io/badge/Kanban-board-brightgreen.svg)](https://github.com/orgs/serlo/projects/1)
 
 ## Setup
 

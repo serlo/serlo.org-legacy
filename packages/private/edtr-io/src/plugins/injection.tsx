@@ -158,6 +158,8 @@ function InjectionEditor(
       )}
       {props.focused && !preview ? (
         <PrimarySettings>
+          {/*
+           // @ts-ignore */}
           <EditorInput
             label="Serlo ID:"
             placeholder="123456"
@@ -174,6 +176,8 @@ function InjectionEditor(
       {props.renderIntoExtendedSettings
         ? props.renderIntoExtendedSettings(
             <React.Fragment>
+              {/*
+               // @ts-ignore */}
               <OverlayInput
                 label="Serlo ID:"
                 placeholder="123456"
