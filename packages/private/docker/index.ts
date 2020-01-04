@@ -33,29 +33,6 @@ export function buildDockerImage({
     return
   }
 
-  spawnSync(
-    'docker',
-    [
-      'build',
-      '-f',
-      Dockerfile,
-      ...R.flatten(getTags(version).map(tag => ['-t', `${name}:${tag}`])),
-      context
-    ],
-    {
-      stdio: 'inherit'
-    }
-  )
-
-  const isCi =
-    process.env.CI &&
-    process.env.CIRCLE_BRANCH &&
-    process.env.CIRCLE_BRANCH === 'master'
-  if (!isCi && process.env.DEPLOY !== 'true') {
-    console.log('Skipping deployment')
-    return
-  }
-
   const remoteName = `eu.gcr.io/serlo-shared/${name}`
   const result = spawnSync(
     'gcloud',
@@ -79,6 +56,20 @@ export function buildDockerImage({
     )
     return
   }
+
+  spawnSync(
+    'docker',
+    [
+      'build',
+      '-f',
+      Dockerfile,
+      ...R.flatten(getTags(version).map(tag => ['-t', `${name}:${tag}`])),
+      context
+    ],
+    {
+      stdio: 'inherit'
+    }
+  )
 
   const remoteTags = R.map(tag => `${remoteName}:${tag}`, getTags(version))
   remoteTags.forEach(remoteTag => {
