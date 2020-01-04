@@ -1,5 +1,5 @@
 {
-  "name": "@serlo/serlo-org-static-assets",
+  "name": "@serlo/static-assets",
   "version": "1.0.0",
   "scripts": {
     "predeploy:package": "find . -name '.DS_Store' -type f -delete",

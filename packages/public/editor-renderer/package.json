@@ -1,5 +1,5 @@
 {
-  "name": "@serlo/serlo-org-editor-renderer",
+  "name": "@serlo/editor-renderer",
   "version": "2.0.9",
   "main": "dist/index.js",
   "scripts": {
