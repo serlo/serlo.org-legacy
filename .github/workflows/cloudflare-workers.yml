@@ -14,7 +14,7 @@ jobs:
       - run: yarn
       - run: yarn lerna run deploy:cloudflare --scope=@serlo/cloudflare-workers
         env:
-          CF_KEY: ${{ secrets.CF_KEY }}
+          CF_API_KEY: ${{ secrets.CF_KEY }}
           CF_EMAIL: ${{ secrets.CF_EMAIL }}
   donation-campaign:
     runs-on: ubuntu-latest
@@ -26,5 +26,5 @@ jobs:
       - run: yarn
       - run: yarn lerna run deploy:cloudflare --scope=@serlo/donation-campaign
         env:
-          CF_KEY: ${{ secrets.CF_KEY }}
+          CF_API_KEY: ${{ secrets.CF_KEY }}
           CF_EMAIL: ${{ secrets.CF_EMAIL }}
