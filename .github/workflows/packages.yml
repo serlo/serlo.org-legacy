@@ -11,6 +11,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10.x
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '274.0.0'
+          service_account_key: ${{ secrets.GCP_KEY }}
       - run: yarn
       - run: yarn lerna run build --include-dependencies --scope=@serlo/client
       - run: yarn lerna run deploy:package --scope=@serlo/client
@@ -25,6 +29,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10.x
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '274.0.0'
+          service_account_key: ${{ secrets.GCP_KEY }}
       - run: yarn
       - run: yarn lerna run build --include-dependencies --scope=@serlo/frontend
       - run: yarn lerna run deploy:package --scope=@serlo/frontend
@@ -39,6 +47,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10.x
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '274.0.0'
+          service_account_key: ${{ secrets.GCP_KEY }}
       - run: yarn
       - run: yarn lerna run build --include-dependencies --scope=@serlo/static-assets
       - run: yarn lerna run deploy:package --scope=@serlo/static-assets
