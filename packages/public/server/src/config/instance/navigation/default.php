@@ -42,7 +42,7 @@ return [
                                 'translate' => true,
                             ],
                             [
-                                'label' => t('Update a page'),
+                                'label' => t('Update page'),
                                 'route' => 'page/update',
                                 'visible' => false,
                                 'translate' => true,
