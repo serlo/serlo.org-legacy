@@ -100,15 +100,21 @@ class EntityController extends AbstractController
         }
 
         $helpLinks = [
-            [ $reviewHelpUrl, "Guideline for reviewing"],
-            [ "/discussions", "List of all discussions"],
             [
-                "https://community.serlo.org/channel/feedback-requests",
-                "Channel #feedback-requests in RocketChat",
+                "url" => $reviewHelpUrl,
+                "title" => "Guideline for reviewing",
             ],
             [
-                "https://docs.google.com/forms/d/e/1FAIpQLSfMjWIZZq2_AoHbqNv3AOEjQRBwA8qEZIMJpk5l0vX7w2nwnQ/viewform",
-                "Questionnaire for reviewers",
+                "url" => "/discussions",
+                "title" => "List of all discussions",
+            ],
+            [
+                "url" => "https://community.serlo.org/channel/feedback-requests",
+                "title" => "Channel #feedback-requests in RocketChat",
+            ],
+            [
+                "url" => "https://docs.google.com/forms/d/e/1FAIpQLSfMjWIZZq2_AoHbqNv3AOEjQRBwA8qEZIMJpk5l0vX7w2nwnQ/viewform",
+                "title" => "Questionnaire for reviewers",
             ],
         ];
 
