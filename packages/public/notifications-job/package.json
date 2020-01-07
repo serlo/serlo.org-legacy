@@ -1,10 +1,11 @@
 {
   "name": "@serlo/notifications-job",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsdx build --target node --format cjs --tsconfig tsconfig.prod.json",
+    "start": "node .",
     "deploy:image": "ts-node scripts/deploy"
   },
   "dependencies": {
