@@ -49,7 +49,6 @@ return [
     ],
     'di' => [
         'allowed_controllers' => [
-            __NAMESPACE__ . '\Controller\EntityController',
             __NAMESPACE__ . '\Controller\RepositoryController',
             __NAMESPACE__ . '\Controller\PageController',
             __NAMESPACE__ . '\Controller\TaxonomyController',
@@ -89,14 +88,6 @@ return [
                         'required' => true,
                     ],
                     'setLicenseManager' => [
-                        'required' => true,
-                    ],
-                ],
-                __NAMESPACE__ . '\Controller\EntityController' => [
-                    'setEntityManager' => [
-                        'required' => true,
-                    ],
-                    'setInstanceManager' => [
                         'required' => true,
                     ],
                 ],
@@ -193,6 +184,7 @@ return [
     'controllers' => [
         'factories' => [
             __NAMESPACE__ . '\Controller\ApiController' => __NAMESPACE__ . '\Factory\ApiControllerFactory',
+            __NAMESPACE__ . '\Controller\EntityController' => __NAMESPACE__ . '\Factory\EntityControllerFactory',
         ],
     ],
     'view_helpers' => [

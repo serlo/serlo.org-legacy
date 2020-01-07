@@ -24,7 +24,7 @@
 <h2>{% trans %} Support links for reviewing {% endtrans %}</h2>
 <ul>
   {% for helpLink in helpLinks %}
-    <li><a href="{{ helpLink['url'] }}">{{ helpLink['title'] | trans }}</a></li>
+    <li><a href="{{ helpLink['url'] }}">{{ helpLink['title'] }}</a></li>
   {% endfor %}
 </ul>
 {% for subject, revisionsByEntity in revisionsBySubject %}

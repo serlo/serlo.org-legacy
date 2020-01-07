@@ -25,11 +25,12 @@ namespace Entity\Controller;
 use Entity\Result;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Zend\EventManager\ResponseCollection;
+use Zend\I18n\Translator\TranslatorAwareTrait;
 use Zend\View\Model\ViewModel;
 
 class EntityController extends AbstractController
 {
-    use InstanceManagerAwareTrait;
+    use InstanceManagerAwareTrait, TranslatorAwareTrait;
 
     public function createAction()
     {
@@ -99,22 +100,23 @@ class EntityController extends AbstractController
             $reviewHelpUrl = "https://docs.google.com/document/d/1p03xx2KJrFw8Mui4-xllvSTHcEPi8G1bdC8rGXcH6f8/edit";
         }
 
+        $translator = $this->getTranslator();
         $helpLinks = [
             [
                 "url" => $reviewHelpUrl,
-                "title" => "Guideline for reviewing",
+                "title" => $translator->translate("Guideline for reviewing"),
             ],
             [
                 "url" => "/discussions",
-                "title" => "List of all discussions",
+                "title" => $translator->translate("List of all discussions"),
             ],
             [
                 "url" => "https://community.serlo.org/channel/feedback-requests",
-                "title" => "Channel #feedback-requests in RocketChat",
+                "title" => $translator->translate("Channel #feedback-requests in RocketChat"),
             ],
             [
                 "url" => "https://docs.google.com/forms/d/e/1FAIpQLSfMjWIZZq2_AoHbqNv3AOEjQRBwA8qEZIMJpk5l0vX7w2nwnQ/viewform",
-                "title" => "Questionnaire for reviewers",
+                "title" => $translator->translate("Questionnaire for reviewers"),
             ],
         ];
 
