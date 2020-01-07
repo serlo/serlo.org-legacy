@@ -19,11 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  string
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import {
@@ -34,7 +30,7 @@ import {
   HeaderInput,
   entityType
 } from './common'
-import { Settings } from './helpers/settings'
+import { Settings, RevisionHistory } from './helpers/settings'
 
 export const appletTypeState = entityType(
   {
@@ -49,30 +45,34 @@ export const appletTypeState = entityType(
   {}
 )
 
-export const appletTypePlugin: StatefulPlugin<typeof appletTypeState> = {
+export const appletTypePlugin: EditorPlugin<typeof appletTypeState> = {
   Component: AppletTypeEditor,
-  state: appletTypeState
+  state: appletTypeState,
+  config: {}
 }
 
-function AppletTypeEditor(
-  props: StatefulPluginEditorProps<typeof appletTypeState>
-) {
+function AppletTypeEditor(props: EditorPluginProps<typeof appletTypeState>) {
   const { title, url, content, meta_title, meta_description } = props.state
 
   return (
     <div>
       <div className="page-header">
-        <Settings
-          id={props.state.id.value}
-          currentRevision={props.state.revision.value}
-          onSwitchRevision={props.state.replaceOwnState}
-        >
-          <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />
-          <Settings.Textarea
-            label="Suchmaschinen-Beschreibung"
-            state={meta_description}
+        {props.renderIntoToolbar(
+          <RevisionHistory
+            id={props.state.id.value}
+            currentRevision={props.state.revision.value}
+            onSwitchRevision={props.state.replaceOwnState}
           />
-        </Settings>
+        )}
+        {props.renderIntoSettings(
+          <Settings>
+            <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />
+            <Settings.Textarea
+              label="Suchmaschinen-Beschreibung"
+              state={meta_description}
+            />
+          </Settings>
+        )}
         <h1>
           {props.editable ? (
             <HeaderInput

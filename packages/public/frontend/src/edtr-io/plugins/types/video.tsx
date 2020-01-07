@@ -19,11 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  string
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import {
@@ -34,7 +30,7 @@ import {
   HeaderInput,
   entityType
 } from './common'
-import { Settings } from './helpers/settings'
+import { RevisionHistory, Settings } from './helpers/settings'
 
 export const videoTypeState = entityType(
   {
@@ -47,23 +43,24 @@ export const videoTypeState = entityType(
   {}
 )
 
-export const videoTypePlugin: StatefulPlugin<typeof videoTypeState> = {
+export const videoTypePlugin: EditorPlugin<typeof videoTypeState> = {
   Component: VideoTypeEditor,
-  state: videoTypeState
+  state: videoTypeState,
+  config: {}
 }
 
-function VideoTypeEditor(
-  props: StatefulPluginEditorProps<typeof videoTypeState>
-) {
+function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
   const { title, content, description } = props.state
 
   return (
     <section>
-      <Settings
-        id={props.state.id.value}
-        currentRevision={props.state.revision.value}
-        onSwitchRevision={props.state.replaceOwnState}
-      />
+      {props.renderIntoToolbar(
+        <RevisionHistory
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        />
+      )}
       <div className="page-header">
         <h1>
           {props.editable ? (
