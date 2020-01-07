@@ -305,7 +305,7 @@ export function deserialize({
         ? deserializeInputExercise()
         : undefined
 
-    const converted = toEdtr(deserialized)
+    const converted = toEdtr(deserialized) as RowsPlugin
 
     return {
       ...state,
@@ -543,14 +543,29 @@ export function deserialize({
     state: TextSolutionSerializedState
   ): StateTypeSerializedType<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-solution' })
+
+    const content: Edtr = toEdtr(deserializeEditorState(state.content))
     return {
       ...state,
       changes: '',
       // FIXME: solutions don't have a title
       title: '',
-      content: serializeEditorState(
-        toEdtr(deserializeEditorState(state.content))
-      )
+      content:
+        isEdtr(content) && content.plugin === 'solutionSteps'
+          ? serializeEditorState(content)
+          : serializeEditorState({
+              plugin: 'solutionSteps',
+              state: {
+                introduction: { plugin: 'text' },
+                solutionSteps: [
+                  {
+                    type: 'step',
+                    isHalf: false,
+                    content: content
+                  }
+                ]
+              }
+            })
     }
   }
 
@@ -703,11 +718,11 @@ export type DeserializeError =
   | { error: 'type-unsupported' }
   | { error: 'failure' }
 
-function toEdtr(content: EditorState): RowsPlugin {
+function toEdtr(content: EditorState): Edtr {
   if (!content)
     return { plugin: 'rows', state: [{ plugin: 'text', state: undefined }] }
-  if (isEdtr(content)) return content as RowsPlugin
-  return convert(content) as RowsPlugin
+  if (isEdtr(content)) return content
+  return convert(content)
 }
 
 function serializeEditorState(content: Legacy): SerializedLegacyEditorState

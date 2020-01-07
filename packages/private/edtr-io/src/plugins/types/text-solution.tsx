@@ -20,11 +20,21 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
-import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
-import { RevisionHistory, Settings } from './helpers/settings'
+import { RevisionHistory } from './helpers/settings'
+import { ThemeProvider, Theme } from '@edtr-io/ui'
+import { ExpandableBox } from '@edtr-io/renderer-ui'
+
+const solutionTheme = {
+  rendererUi: {
+    expandableBox: {
+      toggleBackgroundColor: '#d9edf7',
+      containerBorderColor: '#d9edf7'
+    }
+  }
+}
 
 export const textSolutionTypeState = entityType(
   {
@@ -35,8 +45,6 @@ export const textSolutionTypeState = entityType(
   },
   {}
 )
-
-const solutionPlugin = createSolutionPlugin()
 
 export const textSolutionTypePlugin: EditorPlugin<
   typeof textSolutionTypeState,
@@ -55,7 +63,13 @@ function TextSolutionTypeEditor(
     { skipControls: boolean }
   >
 ) {
-  console.log(props.config)
+  const renderTitle = React.useCallback((collapsed: boolean) => {
+    return (
+      <React.Fragment>
+        Lösung {collapsed ? 'anzeigen' : 'ausblenden'}
+      </React.Fragment>
+    )
+  }, [])
   return (
     <React.Fragment>
       {props.renderIntoToolbar(
@@ -65,7 +79,11 @@ function TextSolutionTypeEditor(
           onSwitchRevision={props.state.replaceOwnState}
         />
       )}
-      <solutionPlugin.Component {...props} />
+      <ThemeProvider theme={solutionTheme}>
+        <ExpandableBox renderTitle={renderTitle} editable={props.editable}>
+          {props.state.content.render()}
+        </ExpandableBox>
+      </ThemeProvider>
       {props.config.skipControls ? null : (
         <Controls subscriptions {...props.state} />
       )}
