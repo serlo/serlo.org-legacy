@@ -20,8 +20,6 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
-import { ExpandableBox } from '@edtr-io/renderer-ui'
-import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
@@ -30,7 +28,7 @@ import { RevisionHistory } from './helpers/settings'
 export const textSolutionTypeState = entityType(
   {
     ...entity,
-    content: editorContent()
+    content: editorContent('solution')
   },
   {}
 )
@@ -61,37 +59,10 @@ function TextSolutionTypeEditor(props: TextSolutionTypeProps) {
           onSwitchRevision={props.state.replaceOwnState}
         />
       )}
-      <SolutionEditor {...props} />
+      {props.state.content.render()}
       {props.config.skipControls ? null : (
         <Controls subscriptions {...props.state} />
       )}
     </React.Fragment>
-  )
-}
-
-const solutionTheme = {
-  rendererUi: {
-    expandableBox: {
-      toggleBackgroundColor: '#d9edf7',
-      containerBorderColor: '#d9edf7'
-    }
-  }
-}
-
-function SolutionEditor({ state, editable }: TextSolutionTypeProps) {
-  const renderTitle = React.useCallback((collapsed: boolean) => {
-    return (
-      <React.Fragment>
-        Lösung {collapsed ? 'anzeigen' : 'ausblenden'}
-      </React.Fragment>
-    )
-  }, [])
-
-  return (
-    <ThemeProvider theme={solutionTheme}>
-      <ExpandableBox renderTitle={renderTitle} editable={editable}>
-        {state.content.render()}
-      </ExpandableBox>
-    </ThemeProvider>
   )
 }

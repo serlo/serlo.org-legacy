@@ -29,7 +29,6 @@ import {
   Legacy,
   Splish
 } from '@serlo/legacy-editor-to-editor'
-import * as React from 'react'
 
 const plugins = createPlugins(() => '', [])
 

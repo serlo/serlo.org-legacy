@@ -78,6 +78,8 @@ export type OtherPlugin = {
     | 'important'
     | 'injection'
     | 'inputExercise'
+    | 'solution'
+    | 'solutionSteps'
     | 'spoiler'
     | 'scMcExercise'
     | 'table'
