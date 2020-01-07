@@ -20,26 +20,28 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { Editor as Core } from '@edtr-io/core'
-import { anchorPlugin } from '@edtr-io/plugin-anchor'
-import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
-import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
-import { highlightPlugin } from '@edtr-io/plugin-highlight'
-import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
-import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
-import { PluginRegistry } from '@edtr-io/plugin-rows'
-import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
-import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
-import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
-import { tablePlugin } from '@edtr-io/plugin-table'
-import { textPlugin } from '@edtr-io/plugin-text'
-import { videoPlugin } from '@edtr-io/plugin-video'
+import { RowsConfig } from '@edtr-io/plugin-rows'
+import {
+  createIcon,
+  faAnchor,
+  faCaretSquareDown,
+  faCode,
+  faCubes,
+  faDotCircle,
+  faFilm,
+  faKeyboard,
+  faImages,
+  faNewspaper,
+  faParagraph,
+  faPhotoVideo,
+  faQuoteRight
+} from '@edtr-io/ui'
 
 import * as React from 'react'
 
 import { CsrfContext } from './csrf-context'
 import { deserialize, isError } from './deserialize'
 import { createPlugins } from './plugins'
-import { createImagePlugin } from './plugins/image'
 
 export interface EditorProps {
   getCsrfToken(): string
@@ -126,7 +128,7 @@ export function Editor(props: EditorProps) {
     </CsrfContext.Provider>
   )
 
-  function getRegistry(): PluginRegistry {
+  function getRegistry(): RowsConfig['plugins'] {
     const isExercise = [
       'grouped-text-exercise',
       'text-exercise',
@@ -134,64 +136,101 @@ export function Editor(props: EditorProps) {
     ].includes(props.type)
     return [
       {
-        ...textPlugin,
-        name: 'text'
+        name: 'text',
+        title: 'Text',
+        description: 'Schreibe Text und Matheformeln und formatiere sie.',
+        icon: createIcon(faParagraph)
       },
       {
-        ...blockquotePlugin,
-        name: 'blockquote'
+        name: 'blockquote',
+        title: 'Zitat',
+        description: 'Erzeuge eingerückten Text für Zitate.',
+        icon: createIcon(faQuoteRight)
       },
       {
-        ...geogebraPlugin,
-        name: 'geogebra'
+        name: 'geogebra',
+        title: 'GeoGebra Applet',
+        description:
+          'Binde Applets von GeoGebra Materials via Link oder ID ein.',
+        icon: createIcon(faCubes)
       },
       {
-        ...highlightPlugin,
-        name: 'highlight'
+        name: 'highlight',
+        title: 'Code',
+        description:
+          'Schreibe Code und hebe ihn je nach Programmiersprache hervor.',
+        icon: createIcon(faCode)
       },
       {
-        ...anchorPlugin,
-        name: 'anchor'
+        name: 'anchor',
+        title: 'Anker',
+        description: 'Füge eine Sprungmarke innerhalb deines Inhalts hinzu.',
+        icon: createIcon(faAnchor)
       },
       {
-        ...createImagePlugin(() => ''),
-        name: 'image'
+        name: 'image',
+        title: 'Bild',
+        description:
+          'Lade Bilder hoch oder verwende Bilder, die bereits online sind.',
+        icon: createIcon(faImages)
       },
       {
-        ...importantStatementPlugin,
-        name: 'important'
+        name: 'important',
+        title: 'Merksatz'
       },
       {
-        ...serloInjectionPlugin,
-        name: 'injection'
+        name: 'injection',
+        title: 'Serlo Inhalt',
+        description: 'Binde einen Inhalt von serlo.org via ID ein.',
+        icon: createIcon(faNewspaper)
+      },
+      {
+        name: 'multimedia',
+        title: 'Erklärung mit Multimedia-Inhalt',
+        description:
+          'Erstelle einen veranschaulichenden oder erklärenden Multimedia-Inhalt mit zugehöriger Erklärung',
+        icon: createIcon(faPhotoVideo)
       },
       ...(isExercise
         ? [
             {
-              ...inputExercisePlugin,
-              name: 'inputExercise'
+              name: 'inputExercise',
+              title: 'Eingabefeld',
+              description:
+                'Füge deiner Aufgabe ein Eingabefeld für die Lernenden hinzu.',
+              icon: createIcon(faKeyboard)
             }
           ]
         : []),
       ...(isExercise
         ? [
             {
-              ...scMcExercisePlugin,
-              name: 'scMcExercise'
+              name: 'scMcExercise',
+              title: 'Auswahlaufgabe',
+              description:
+                'Füge deiner Aufgabe mehrere Single- oder Multiple-Choice-Antworten hinzu.',
+              icon: createIcon(faDotCircle)
             }
           ]
         : []),
       {
-        ...spoilerPlugin,
-        name: 'spoiler'
+        name: 'spoiler',
+        title: 'Spoiler',
+        description:
+          'In diese ausklappbare Box kannst du zum Beispiel Exkurse hinzufügen.',
+        icon: createIcon(faCaretSquareDown)
       },
       {
-        ...tablePlugin,
-        name: 'table'
+        name: 'table',
+        title: 'Tabelle',
+        description: 'Erstelle eine Tabelle mit Markdown.'
       },
       {
-        ...videoPlugin,
-        name: 'video'
+        name: 'video',
+        title: 'Video',
+        description:
+          'Binde Videos von YouTube, Vimeo, Wikimedia Commons und BR ein.',
+        icon: createIcon(faFilm)
       }
     ]
   }

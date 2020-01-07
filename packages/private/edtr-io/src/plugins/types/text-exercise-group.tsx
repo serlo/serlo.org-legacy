@@ -20,11 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { AddButton } from '@edtr-io/editor-ui'
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  list
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import {
@@ -35,7 +31,7 @@ import {
   OptionalChild,
   entityType
 } from './common'
-import { Settings } from './helpers/settings'
+import { RevisionHistory, Settings } from './helpers/settings'
 
 export const textExerciseGroupTypeState = entityType(
   {
@@ -47,23 +43,26 @@ export const textExerciseGroupTypeState = entityType(
   }
 )
 
-export const textExerciseGroupTypePlugin: StatefulPlugin<typeof textExerciseGroupTypeState> = {
+export const textExerciseGroupTypePlugin: EditorPlugin<typeof textExerciseGroupTypeState> = {
   Component: TextExerciseGroupTypeEditor,
-  state: textExerciseGroupTypeState
+  state: textExerciseGroupTypeState,
+  config: {}
 }
 
 function TextExerciseGroupTypeEditor(
-  props: StatefulPluginEditorProps<typeof textExerciseGroupTypeState>
+  props: EditorPluginProps<typeof textExerciseGroupTypeState>
 ) {
   const { content, 'grouped-text-exercise': children } = props.state
 
   return (
     <article className="exercisegroup">
-      <Settings
-        id={props.state.id.value}
-        currentRevision={props.state.revision.value}
-        onSwitchRevision={props.state.replaceOwnState}
-      />
+      {props.renderIntoToolbar(
+        <RevisionHistory
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        />
+      )}
       <section className="row">{content.render()}</section>
       {children.map((child, index) => {
         return (

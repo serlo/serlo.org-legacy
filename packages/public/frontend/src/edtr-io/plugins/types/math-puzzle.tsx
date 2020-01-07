@@ -19,15 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  string
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { entity, Controls, editorContent, entityType } from './common'
-import { Settings } from './helpers/settings'
+import { RevisionHistory, Settings } from './helpers/settings'
 
 export const mathPuzzleTypeState = entityType(
   {
@@ -38,25 +34,31 @@ export const mathPuzzleTypeState = entityType(
   {}
 )
 
-export const mathPuzzleTypePlugin: StatefulPlugin<typeof mathPuzzleTypeState> = {
+export const mathPuzzleTypePlugin: EditorPlugin<typeof mathPuzzleTypeState> = {
   Component: MathPuzzleTypeEditor,
-  state: mathPuzzleTypeState
+  state: mathPuzzleTypeState,
+  config: {}
 }
 
 function MathPuzzleTypeEditor(
-  props: StatefulPluginEditorProps<typeof mathPuzzleTypeState>
+  props: EditorPluginProps<typeof mathPuzzleTypeState>
 ) {
   const { source, content } = props.state
 
   return (
     <React.Fragment>
-      <Settings
-        id={props.state.id.value}
-        currentRevision={props.state.revision.value}
-        onSwitchRevision={props.state.replaceOwnState}
-      >
-        <Settings.Textarea label="Quellcode" state={source} />
-      </Settings>
+      {props.renderIntoToolbar(
+        <RevisionHistory
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        />
+      )}
+      {props.renderIntoSettings(
+        <Settings>
+          <Settings.Textarea label="Quellcode" state={source} />
+        </Settings>
+      )}
       <div className="math-puzzle" data-source={source.value}>
         {content.render()}
       </div>

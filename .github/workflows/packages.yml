@@ -14,7 +14,7 @@ jobs:
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '274.0.0'
-          service_account_key: ${{ secrets.GCP_KEY }}
+          service_account_key: ${{ secrets.GCP_KEY_SERLO_ASSETS }}
       - run: yarn
       - run: yarn lerna run build --include-dependencies --scope=@serlo/client
       - run: yarn lerna run deploy:package --scope=@serlo/client
@@ -32,7 +32,7 @@ jobs:
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '274.0.0'
-          service_account_key: ${{ secrets.GCP_KEY }}
+          service_account_key: ${{ secrets.GCP_KEY_SERLO_ASSETS }}
       - run: yarn
       - run: yarn lerna run build --include-dependencies --scope=@serlo/frontend
       - run: yarn lerna run deploy:package --scope=@serlo/frontend
@@ -50,7 +50,7 @@ jobs:
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '274.0.0'
-          service_account_key: ${{ secrets.GCP_KEY }}
+          service_account_key: ${{ secrets.GCP_KEY_SERLO_ASSETS }}
       - run: yarn
       - run: yarn lerna run build --include-dependencies --scope=@serlo/static-assets
       - run: yarn lerna run deploy:package --scope=@serlo/static-assets

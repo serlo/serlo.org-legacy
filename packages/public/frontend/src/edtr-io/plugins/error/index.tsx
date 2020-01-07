@@ -20,8 +20,8 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
+  EditorPlugin,
+  EditorPluginProps,
   object,
   scalar,
   string
@@ -38,7 +38,7 @@ const Error = styled.div({
   backgroundColor: 'rgb(204,0,0)',
   color: '#fff'
 })
-export const ErrorRenderer: React.FunctionComponent<StatefulPluginEditorProps<
+export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
   typeof errorState
 >> = props => {
   return (
@@ -56,7 +56,8 @@ export const ErrorRenderer: React.FunctionComponent<StatefulPluginEditorProps<
   )
 }
 
-export const errorPlugin: StatefulPlugin<typeof errorState> = {
+export const errorPlugin: EditorPlugin<typeof errorState> = {
   Component: ErrorRenderer,
-  state: errorState
+  state: errorState,
+  config: {}
 }

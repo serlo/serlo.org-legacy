@@ -19,13 +19,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { StatefulPlugin, child, list, number, object } from '@edtr-io/plugin'
+import { EditorPlugin, child, list, number, object } from '@edtr-io/plugin'
 
 import { LayoutRenderer } from './editor'
 
 export const layoutState = list(object({ child: child(), width: number() }))
 
-export const layoutPlugin: StatefulPlugin<typeof layoutState> = {
+export const layoutPlugin: EditorPlugin<typeof layoutState> = {
   Component: LayoutRenderer,
-  state: layoutState
+  state: layoutState,
+  config: {}
 }

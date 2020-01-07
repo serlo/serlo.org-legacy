@@ -19,27 +19,23 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  object
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, object } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { Controls, editorContent } from './common'
+import { videoTypeState } from './video'
 
 export const userTypeState = object({
   description: editorContent()
 })
 
-export const userTypePlugin: StatefulPlugin<typeof userTypeState> = {
+export const userTypePlugin: EditorPlugin<typeof userTypeState> = {
   Component: UserTypeEditor,
-  state: userTypeState
+  state: userTypeState,
+  config: {}
 }
 
-function UserTypeEditor(
-  props: StatefulPluginEditorProps<typeof userTypeState>
-) {
+function UserTypeEditor(props: EditorPluginProps<typeof userTypeState>) {
   const { description } = props.state
 
   return (

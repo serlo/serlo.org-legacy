@@ -24,7 +24,7 @@ import * as React from 'react'
 
 import { createPlugins } from './plugins'
 
-const plugins = createPlugins(() => '')
+const plugins = createPlugins(() => '', [])
 
 export function Renderer({ state }: { state: RendererProps['state'] }) {
   return <Core plugins={plugins} state={state} />

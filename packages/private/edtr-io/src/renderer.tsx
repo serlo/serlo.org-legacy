@@ -24,7 +24,7 @@ import * as React from 'react'
 
 import { createPlugins } from './plugins'
 
-const plugins = createPlugins(() => '')
+const plugins = createPlugins(() => '', [])
 
 export function Renderer(
   props: React.PropsWithChildren<{

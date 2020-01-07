@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { useScopedStore } from '@edtr-io/core'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { EditorPluginProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
 import { DocumentState, serializeDocument } from '@edtr-io/store'
 import * as R from 'ramda'
@@ -60,7 +60,7 @@ const ConvertButton = styled.button({
   '&:hover': { backgroundColor: '#ebccd1' }
 })
 
-export const LayoutRenderer: React.FunctionComponent<StatefulPluginEditorProps<
+export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
   typeof layoutState
 > & {
   insert?: (options?: DocumentState) => void

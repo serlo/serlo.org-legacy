@@ -20,8 +20,8 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
+  EditorPlugin,
+  EditorPluginProps,
   object,
   string
 } from '@edtr-io/plugin'
@@ -36,14 +36,13 @@ export const pageTypeState = object({
   content: editorContent()
 })
 
-export const pageTypePlugin: StatefulPlugin<typeof pageTypeState> = {
+export const pageTypePlugin: EditorPlugin<typeof pageTypeState> = {
   Component: PageTypeEditor,
-  state: pageTypeState
+  state: pageTypeState,
+  config: {}
 }
 
-function PageTypeEditor(
-  props: StatefulPluginEditorProps<typeof pageTypeState>
-) {
+function PageTypeEditor(props: EditorPluginProps<typeof pageTypeState>) {
   const { title, content } = props.state
 
   return (

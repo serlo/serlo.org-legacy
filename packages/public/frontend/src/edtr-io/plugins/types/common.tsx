@@ -421,7 +421,7 @@ export function editorContent(): StateType<
   StateTypeValueType<ReturnType<typeof child>>,
   StateTypeReturnType<ReturnType<typeof child>>
 > {
-  const originalChild = child('rows')
+  const originalChild = child<string>({ plugin: 'rows' })
   return {
     ...originalChild,
     serialize(...args: Parameters<typeof originalChild.serialize>) {
@@ -431,7 +431,6 @@ export function editorContent(): StateType<
       serialized: string,
       helpers: Parameters<typeof originalChild.deserialize>[1]
     ) {
-      console.log('stateType', serialized)
       return originalChild.deserialize(JSON.parse(serialized), helpers)
     }
   }
@@ -444,7 +443,7 @@ export function serializedChild(
   StateTypeValueType<ReturnType<typeof child>>,
   StateTypeReturnType<ReturnType<typeof child>>
 > {
-  const originalChild = child(plugin)
+  const originalChild = child({ plugin, config: { skipControls: true } })
   return {
     ...originalChild,
     serialize(...args: Parameters<typeof originalChild.serialize>) {
@@ -539,11 +538,11 @@ export function OptionalChild(props: {
   state: StateTypeReturnType<ReturnType<typeof serializedChild>>
   onRemove: () => void
 }) {
+  const expectedStateType = object(entity)
   const document = useScopedSelector(getDocument(props.state.id)) as {
-    plugin: 'type-course-page'
-    state: StateTypeValueType<typeof coursePageTypeState>
+    state: StateTypeValueType<typeof expectedStateType>
   }
-
+  const children = props.state.render()
   return (
     <React.Fragment>
       <hr />
@@ -556,7 +555,7 @@ export function OptionalChild(props: {
           x
         </RemoveButton>
       ) : null}
-      {props.state.render({ skipControls: true })}
+      {children}
     </React.Fragment>
   )
 }
