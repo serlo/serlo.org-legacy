@@ -1,7 +1,8 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { AddButton } from '@edtr-io/editor-ui'
 import { getFocusPath } from '@edtr-io/store'
-import { Icon, faTrashAlt, faQuestion } from '@edtr-io/ui'
+import { Icon, faTrashAlt } from '@edtr-io/ui'
+import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 

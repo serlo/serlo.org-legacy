@@ -1,4 +1,5 @@
-import { faLevelUpAlt, Icon } from '@edtr-io/ui'
+import { Icon } from '@edtr-io/ui'
+import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons/faLevelUpAlt'
 import * as React from 'react'
 
 import {

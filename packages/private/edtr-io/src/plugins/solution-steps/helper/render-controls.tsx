@@ -1,15 +1,10 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
 import { getFocusPath } from '@edtr-io/store'
-import {
-  Icon,
-  faTrashAlt,
-  faLevelDownAlt,
-  faLevelUpAlt,
-  faQuestion,
-  EdtrIcon,
-  edtrDragHandle
-} from '@edtr-io/ui'
+import { Icon, faTrashAlt, EdtrIcon, edtrDragHandle } from '@edtr-io/ui'
+import { faLevelDownAlt } from '@fortawesome/free-solid-svg-icons/faLevelDownAlt'
+import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons/faLevelUpAlt'
+import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 import * as React from 'react'
 
 import { explanation } from '../editor'

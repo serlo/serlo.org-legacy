@@ -1,12 +1,10 @@
 import { styled } from '@edtr-io/editor-ui'
-import {
-  Icon,
-  faBookOpen,
-  faChessRook,
-  faCommentDots,
-  faPencilRuler,
-  faSearchPlus
-} from '@edtr-io/ui'
+import { Icon } from '@edtr-io/ui'
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons/faBookOpen'
+import { faChessRook } from '@fortawesome/free-solid-svg-icons/faChessRook'
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots'
+import { faPencilRuler } from '@fortawesome/free-solid-svg-icons/faPencilRuler'
+import { faSearchPlus } from '@fortawesome/free-solid-svg-icons/faSearchPlus'
 import * as React from 'react'
 
 export const Buttoncontainer = styled.div({
