@@ -151,14 +151,14 @@ export function Editor(props: EditorProps) {
         name: 'geogebra',
         title: 'GeoGebra Applet',
         description:
-            'Binde Applets von GeoGebra Materials via Link oder ID ein.',
+          'Binde Applets von GeoGebra Materials via Link oder ID ein.',
         icon: createIcon(faCubes)
       },
       {
         name: 'highlight',
         title: 'Code',
         description:
-            'Schreibe Code und hebe ihn je nach Programmiersprache hervor.',
+          'Schreibe Code und hebe ihn je nach Programmiersprache hervor.',
         icon: createIcon(faCode)
       },
       {
@@ -171,7 +171,7 @@ export function Editor(props: EditorProps) {
         name: 'image',
         title: 'Bild',
         description:
-            'Lade Bilder hoch oder verwende Bilder, die bereits online sind.',
+          'Lade Bilder hoch oder verwende Bilder, die bereits online sind.',
         icon: createIcon(faImages)
       },
       {
@@ -188,36 +188,36 @@ export function Editor(props: EditorProps) {
         name: 'multimedia',
         title: 'Erklärung mit Multimedia-Inhalt',
         description:
-            'Erstelle einen veranschaulichenden oder erklärenden Multimedia-Inhalt mit zugehöriger Erklärung',
+          'Erstelle einen veranschaulichenden oder erklärenden Multimedia-Inhalt mit zugehöriger Erklärung',
         icon: createIcon(faPhotoVideo)
       },
       ...(isExercise
-          ? [
+        ? [
             {
               name: 'inputExercise',
               title: 'Eingabefeld',
               description:
-                  'Füge deiner Aufgabe ein Eingabefeld für die Lernenden hinzu.',
+                'Füge deiner Aufgabe ein Eingabefeld für die Lernenden hinzu.',
               icon: createIcon(faKeyboard)
             }
           ]
-          : []),
+        : []),
       ...(isExercise
-          ? [
+        ? [
             {
               name: 'scMcExercise',
               title: 'Auswahlaufgabe',
               description:
-                  'Füge deiner Aufgabe mehrere Single- oder Multiple-Choice-Antworten hinzu.',
+                'Füge deiner Aufgabe mehrere Single- oder Multiple-Choice-Antworten hinzu.',
               icon: createIcon(faDotCircle)
             }
           ]
-          : []),
+        : []),
       {
         name: 'spoiler',
         title: 'Spoiler',
         description:
-            'In diese ausklappbare Box kannst du zum Beispiel Exkurse hinzufügen.',
+          'In diese ausklappbare Box kannst du zum Beispiel Exkurse hinzufügen.',
         icon: createIcon(faCaretSquareDown)
       },
       {
@@ -229,7 +229,7 @@ export function Editor(props: EditorProps) {
         name: 'video',
         title: 'Video',
         description:
-            'Binde Videos von YouTube, Vimeo, Wikimedia Commons und BR ein.',
+          'Binde Videos von YouTube, Vimeo, Wikimedia Commons und BR ein.',
         icon: createIcon(faFilm)
       }
     ]

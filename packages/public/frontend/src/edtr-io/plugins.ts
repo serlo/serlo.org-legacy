@@ -55,8 +55,8 @@ import { tablePlugin } from './plugins/table'
 import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
 
 export function createPlugins(
-    getCsrfToken: () => string,
-    registry: RowsConfig['plugins']
+  getCsrfToken: () => string,
+  registry: RowsConfig['plugins']
 ): Record<string, EditorPlugin<any, any>> {
   return {
     anchor: createAnchorPlugin(),
