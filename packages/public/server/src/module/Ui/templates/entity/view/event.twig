@@ -22,7 +22,7 @@
 {% set title = 'event' | trans %}
 {% set revision = entity.getCurrentRevision() %}
 {% set content = renderer().toHtml(revision.get('content')) %}
-<article id="description">
+<article itemprop="description" id="description">
     <section class="editable">
         {{ content }}
     </section>
