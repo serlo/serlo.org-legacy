@@ -27,6 +27,7 @@ import {
   isEdtr,
   Edtr,
   Legacy,
+  LayoutPlugin,
   RowsPlugin,
   Splish
 } from '@serlo/legacy-editor-to-editor'
@@ -305,7 +306,7 @@ export function deserialize({
         ? deserializeInputExercise()
         : undefined
 
-    const converted = toEdtr(deserialized)
+    const converted = toEdtr(deserialized) as RowsPlugin
 
     return {
       ...state,
@@ -535,12 +536,30 @@ export function deserialize({
     state: TextSolutionSerializedState
   ): StateTypeSerializedType<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-solution' })
+
+    const content: Edtr = toEdtr(deserializeEditorState(state.content))
     return {
       ...state,
       changes: '',
-      content: serializeEditorState(
-        toEdtr(deserializeEditorState(state.content))
-      )
+      content:
+        isEdtr(content) && content.plugin === 'solution'
+          ? serializeEditorState(content)
+          : serializeEditorState({
+              plugin: 'solution',
+              state: [
+                {
+                  plugin: 'solutionSteps',
+                  state: {
+                    introduction: (content as RowsPlugin).state[0],
+                    strategy: undefined,
+                    solutionSteps: rowsToSolutionSteps(
+                      R.init((content as RowsPlugin).state)
+                    ),
+                    additionals: undefined
+                  }
+                }
+              ]
+            })
     }
   }
 
@@ -693,11 +712,11 @@ export type DeserializeError =
   | { error: 'type-unsupported' }
   | { error: 'failure' }
 
-function toEdtr(content: EditorState): RowsPlugin {
+function toEdtr(content: EditorState): Edtr {
   if (!content)
     return { plugin: 'rows', state: [{ plugin: 'text', state: undefined }] }
-  if (isEdtr(content)) return content as RowsPlugin
-  return convert(content) as RowsPlugin
+  if (isEdtr(content)) return content
+  return convert(content)
 }
 
 function serializeEditorState(content: Legacy): SerializedLegacyEditorState
@@ -724,4 +743,30 @@ type SerializedEditorState = (string | undefined) & {
 }
 type SerializedLegacyEditorState = (string | undefined) & {
   __type: 'serialized-legacy-editor-state'
+}
+
+export function rowsToSolutionSteps(rows: Edtr[]) {
+  const solutionSteps: { type: string; isHalf: boolean; content: Edtr }[] = []
+
+  rows.forEach(row => {
+    if (row.plugin === 'layout' && (row as LayoutPlugin).state.length === 2) {
+      const layoutPlugin = row
+      const leftElement = {
+        type: 'step',
+        isHalf: true,
+        content: (layoutPlugin as LayoutPlugin).state[0].child
+      }
+      const rightElement = {
+        type: 'explanation',
+        isHalf: true,
+        content: (layoutPlugin as LayoutPlugin).state[1].child
+      }
+      solutionSteps.push(leftElement)
+      solutionSteps.push(rightElement)
+    } else {
+      solutionSteps.push({ type: 'step', isHalf: false, content: row })
+    }
+  })
+
+  return solutionSteps
 }
