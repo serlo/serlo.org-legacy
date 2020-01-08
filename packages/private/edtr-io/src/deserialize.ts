@@ -560,13 +560,17 @@ export function deserialize({
                   plugin: 'solutionSteps',
                   state: {
                     introduction: { plugin: 'text' },
+                    hasStrategy: false,
+                    strategy: { plugin: 'rows' },
                     solutionSteps: [
                       {
                         type: 'step',
                         isHalf: false,
                         content: content
                       }
-                    ]
+                    ],
+                    hasAdditionals: false,
+                    additionals: { plugin: 'rows' }
                   }
                 }
               ]
