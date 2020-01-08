@@ -31,7 +31,7 @@
         {% do placeholder('breadcrumbs').set('<li><span>' ~ title ~ '</span></li>') %}
         {% if not layout().usingAPI %}
           <div class="editable">
-              <h1><span itemprop="name">{{ title }}</span></h1>
+              <h1 itemprop="name">{{ title }}</h1>
           </div>
         {% endif %}
         {% include 'entity/view/partials/actions/big' %}
