@@ -35,31 +35,27 @@ describe('Home', () => {
 
   test('de.serlo.localhost has the correct document title', async () => {
     await page.goto('http://de.serlo.localhost:4567/')
-    const title = await getTitle(page)
-    expect(title).toEqual('Serlo – Die freie Lernplattform')
+
+    expect(await page.title()).toEqual('Serlo – Die freie Lernplattform')
   })
 
   test('en.serlo.localhost has the correct document title', async () => {
     await page.goto('http://en.serlo.localhost:4567/')
-    const title = await getTitle(page)
-    expect(title).toEqual('Serlo – The Open Learning Platform')
+
+    expect(await page.title()).toEqual('Serlo – The Open Learning Platform')
   })
 
   test('es.serlo.localhost has the correct document title', async () => {
     await page.goto('http://es.serlo.localhost:4567/')
-    const title = await getTitle(page)
-    expect(title).toEqual('Serlo – La Plataforma para el Aprendizaje Abierto')
+
+    expect(await page.title()).toEqual(
+      'Serlo – La Plataforma para el Aprendizaje Abierto'
+    )
   })
 
   test('hi.serlo.localhost has the correct document title', async () => {
     await page.goto('http://hi.serlo.localhost:4567/')
-    const title = await getTitle(page)
-    expect(title).toEqual('सेर्लो – ओपन लर्निंग प्लेटफॉर्म')
+
+    expect(await page.title()).toEqual('सेर्लो – ओपन लर्निंग प्लेटफॉर्म')
   })
 })
-
-async function getTitle(page: Page): Promise<string> {
-  return await page.evaluate(() => {
-    return document.title
-  })
-}
