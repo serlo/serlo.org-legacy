@@ -19,29 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as assert from 'assert'
-import { getDocument, queries } from 'pptr-testing-library'
-import { Browser, launch, Page, ElementHandle } from 'puppeteer'
+import { getDocument, getBySelector, getByText, getInnerHTML } from '../_utils'
+import { Browser, launch, Page } from 'puppeteer'
 import * as R from 'ramda'
-
-function getBySelector(
-  element: ElementHandle,
-  selector: string
-): Promise<ElementHandle> {
-  return element.$$(selector).then(queryResults => {
-    assert.ok(queryResults.length > 0, `No element for ${selector} found`)
-    assert.ok(
-      queryResults.length < 2,
-      `More than one element for ${selector} found`
-    )
-
-    return queryResults[0]
-  })
-}
-
-function getInnerHTML(element: ElementHandle): Promise<string> {
-  return element.evaluate(e => e.innerHTML)
-}
 
 describe('events', () => {
   let browser: Browser
@@ -68,11 +48,10 @@ describe('events', () => {
   test('view page of an event', async () => {
     await page.goto(eventUrl)
 
-    const doc = await getDocument(page)
     const eventSelector = '[itemtype="http://schema.org/Event"]'
-    const event = await getBySelector(doc, eventSelector)
+    const event = await getBySelector(await getDocument(page), eventSelector)
 
-    await queries.getByText(event, 'Beispielveranstaltung', {
+    await getByText(event, 'Beispielveranstaltung', {
       selector: 'h1[itemprop="name"]'
     })
 

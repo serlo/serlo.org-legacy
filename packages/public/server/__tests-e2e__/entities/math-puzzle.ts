@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getDocument, queries } from 'pptr-testing-library'
+import { getDocument, getByText } from '../_utils'
 import { Browser, launch, Page } from 'puppeteer'
 import * as R from 'ramda'
 
@@ -47,9 +47,7 @@ describe('events', () => {
 
   test('view page of math puzzle', async () => {
     await page.goto(mathPuzzleUrl)
-
-    const document = await getDocument(page)
-    const title = await queries.getByText(document, 'Math puzzle', {
+    await getByText(await getDocument(page), 'Math puzzle', {
       selector: 'h1'
     })
   })

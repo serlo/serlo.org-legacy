@@ -19,13 +19,32 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-const { mergeDeepRight } = require('ramda')
+import * as assert from 'assert'
+import { ElementHandle } from 'puppeteer'
+import { queries } from 'pptr-testing-library'
 
-const puppeteerPreset = require('jest-puppeteer/jest-preset')
-const tsPreset = require('ts-jest/jest-preset')
+export { getDocument } from 'pptr-testing-library'
 
-module.exports = {
-  ...mergeDeepRight(puppeteerPreset, tsPreset),
-  testRegex: '/__tests-e2e__/[^_].*\\.[jt]sx?$',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup-e2e.js']
+export const { getByText } = queries
+
+export function getBySelector(
+  element: ElementHandle,
+  selector: string
+): Promise<ElementHandle> {
+  return element.$$(selector).then(queryResults => {
+    assert.ok(
+      queryResults.length > 0,
+      `No element for selector \`${selector}\` found`
+    )
+    assert.ok(
+      queryResults.length < 2,
+      `More than one element for selector \`${selector}\` found`
+    )
+
+    return queryResults[0]
+  })
+}
+
+export function getInnerHTML(element: ElementHandle): Promise<string> {
+  return element.evaluate(e => e.innerHTML)
 }
