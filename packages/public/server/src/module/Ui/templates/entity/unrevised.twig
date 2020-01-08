@@ -48,7 +48,7 @@
                 {{ normalized.getId() }}
               </a>
             </td>
-            <td>{{ revision.get('changes') }}</td>
+            <th scope="row">{{ revision.get('changes') }}</th>
             <td>{{ normalized.getType() | trans }}</td>
             <td>{{ timeago().render(normalized.getMetadata().getCreationDate()) }}</td>
           </tr>
