@@ -39,6 +39,10 @@ function getBySelector(
   })
 }
 
+function getInnerHTML(element: ElementHandle): Promise<string> {
+  return element.evaluate(e => e.innerHTML)
+}
+
 describe('events', () => {
   let browser: Browser
   let page: Page
@@ -72,12 +76,9 @@ describe('events', () => {
       selector: 'h1[itemprop="name"]'
     })
 
-    const descriptionHTML = await event.$eval(
-      'article[itemprop="description"] p',
-      e => e!.innerHTML
-    )
-    expect(descriptionHTML).toBe(
-      '<strong>Jeden Donnerstag:</strong> Redaktionssitzung in Münster'
-    )
+    const descriptionSelector = 'article[itemprop=description] p'
+    expect(
+      await getBySelector(event, descriptionSelector).then(getInnerHTML)
+    ).toBe('<strong>Jeden Donnerstag:</strong> Redaktionssitzung in Münster')
   })
 })
