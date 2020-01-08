@@ -19,7 +19,6 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as R from 'ramda'
 import { Browser, launch, Page } from 'puppeteer'
 
 describe('videos', () => {

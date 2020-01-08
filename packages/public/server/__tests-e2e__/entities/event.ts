@@ -21,7 +21,6 @@
  */
 import { getDocument, getBySelector, getByText, getInnerHTML } from '../_utils'
 import { Browser, launch, Page } from 'puppeteer'
-import * as R from 'ramda'
 
 describe('events', () => {
   let browser: Browser
