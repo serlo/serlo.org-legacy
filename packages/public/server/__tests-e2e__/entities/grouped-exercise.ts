@@ -20,18 +20,21 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-const pageHeaderSelector = '.page-header'
+import { getByText, getDocument } from '../_utils'
+
 const groupedExerciseUrl = 'http://de.serlo.localhost:4567/12727'
+const headingSelector = '.page-header h1'
 
 test('grouped exercise has page header', async () => {
   await page.goto(groupedExerciseUrl)
-  expect(await page.$$(pageHeaderSelector)).toHaveLength(1)
+
+  await getByText(await getDocument(page), '12727', headingSelector)
 })
 
 test.each(['contentOnly', 'hideBanner', 'fullWidth'])(
-  'grouped exercise has no page header when %p is set (content-api)',
+  'grouped exercise has no heading when %p is set (content-api)',
   async contentApiParam => {
     await page.goto(groupedExerciseUrl + '?' + contentApiParam)
-    expect(await page.$(pageHeaderSelector)).toBeNull()
+    expect(await page.$(headingSelector)).toBeNull()
   }
 )
