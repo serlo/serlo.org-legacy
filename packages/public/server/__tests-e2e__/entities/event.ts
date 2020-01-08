@@ -19,8 +19,25 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import * as assert from 'assert'
+import { getDocument, queries } from 'pptr-testing-library'
+import { Browser, launch, Page, ElementHandle } from 'puppeteer'
 import * as R from 'ramda'
-import { Browser, launch, Page } from 'puppeteer'
+
+function getBySelector(
+  element: ElementHandle,
+  selector: string
+): Promise<ElementHandle> {
+  return element.$$(selector).then(queryResults => {
+    assert.ok(queryResults.length > 0, `No element for ${selector} found`)
+    assert.ok(
+      queryResults.length < 2,
+      `More than one element for ${selector} found`
+    )
+
+    return queryResults[0]
+  })
+}
 
 describe('events', () => {
   let browser: Browser
@@ -47,14 +64,18 @@ describe('events', () => {
   test('view page of an event', async () => {
     await page.goto(eventUrl)
 
-    const title = await page.evaluate(() => {
-      return document.querySelector<HTMLElement>('h1#title')!.innerText
-    })
-    expect(title).toBe('Beispielveranstaltung')
+    const doc = await getDocument(page)
+    const eventSelector = '[itemtype="http://schema.org/Event"]'
+    const event = await getBySelector(doc, eventSelector)
 
-    const descriptionHTML = await page.evaluate(() => {
-      return document.querySelector('article#description p')!.innerHTML
+    await queries.getByText(event, 'Beispielveranstaltung', {
+      selector: 'h1[itemprop="name"]'
     })
+
+    const descriptionHTML = await event.$eval(
+      'article[itemprop="description"] p',
+      e => e!.innerHTML
+    )
     expect(descriptionHTML).toBe(
       '<strong>Jeden Donnerstag:</strong> Redaktionssitzung in Münster'
     )
