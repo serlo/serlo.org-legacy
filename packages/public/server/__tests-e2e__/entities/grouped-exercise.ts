@@ -19,30 +19,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Browser, launch, Page } from 'puppeteer'
 
 describe('videos', () => {
-  let browser: Browser
-  let page: Page
-
   const pageHeaderSelector = '.page-header'
   const groupedExerciseUrl = 'http://de.serlo.localhost:4567/12727'
-
-  beforeAll(async () => {
-    browser = await launch()
-  })
-
-  beforeEach(async () => {
-    page = await browser.newPage()
-  })
-
-  afterEach(async () => {
-    await page.close()
-  })
-
-  afterAll(async () => {
-    await browser.close()
-  })
 
   test('grouped exercise has page header', async () => {
     await page.goto(groupedExerciseUrl)

@@ -20,29 +20,9 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { getDocument, getBySelector, getByText, getInnerHTML } from '../_utils'
-import { Browser, launch, Page } from 'puppeteer'
 
 describe('events', () => {
-  let browser: Browser
-  let page: Page
-
   const eventUrl = 'http://de.serlo.localhost:4567/35554'
-
-  beforeAll(async () => {
-    browser = await launch()
-  })
-
-  beforeEach(async () => {
-    page = await browser.newPage()
-  })
-
-  afterEach(async () => {
-    await page.close()
-  })
-
-  afterAll(async () => {
-    await browser.close()
-  })
 
   test('view page of an event', async () => {
     await page.goto(eventUrl)

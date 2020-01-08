@@ -19,20 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Browser, launch, Page } from 'puppeteer'
 
 describe('Home', () => {
-  let browser: Browser
-  let page: Page
-
-  beforeAll(async () => {
-    browser = await launch()
-  })
-
-  beforeEach(async () => {
-    page = await browser.newPage()
-  })
-
   test('de.serlo.localhost has the correct document title', async () => {
     await page.goto('http://de.serlo.localhost:4567/')
 

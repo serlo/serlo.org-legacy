@@ -21,7 +21,6 @@
  */
 import axios from 'axios'
 import { getDocument, queries } from 'pptr-testing-library'
-import { launch } from 'puppeteer'
 
 const seconds = 1000
 jest.setTimeout(120 * seconds)
@@ -32,8 +31,6 @@ describe('Notification Mails', () => {
     const email = 'admin@localhost'
 
     await axios.get('http://de.serlo.localhost:4567/mails/clear')
-    const browser = await launch()
-    const page = await browser.newPage()
     await page.goto('http://de.serlo.localhost:4567/auth/password/restore')
     const $document = await getDocument(page)
     // FIXME: should work but doesn't. We aren't using the "for" attribute correctly

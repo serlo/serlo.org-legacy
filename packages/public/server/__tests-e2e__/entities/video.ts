@@ -20,29 +20,9 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as R from 'ramda'
-import { Browser, launch, Page } from 'puppeteer'
 
 describe('videos', () => {
-  let browser: Browser
-  let page: Page
-
   const videoEntityUrl = 'http://de.serlo.localhost:4567/32321'
-
-  beforeAll(async () => {
-    browser = await launch()
-  })
-
-  beforeEach(async () => {
-    page = await browser.newPage()
-  })
-
-  afterEach(async () => {
-    await page.close()
-  })
-
-  afterAll(async () => {
-    await browser.close()
-  })
 
   test.each(['#title', '#description'])(
     'video page has element %p',
