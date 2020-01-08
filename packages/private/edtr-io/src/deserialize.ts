@@ -551,20 +551,25 @@ export function deserialize({
       // FIXME: solutions don't have a title
       title: '',
       content:
-        isEdtr(content) && content.plugin === 'solutionSteps'
+        isEdtr(content) && content.plugin === 'solution'
           ? serializeEditorState(content)
           : serializeEditorState({
-              plugin: 'solutionSteps',
-              state: {
-                introduction: { plugin: 'text' },
-                solutionSteps: [
-                  {
-                    type: 'step',
-                    isHalf: false,
-                    content: content
+              plugin: 'solution',
+              state: [
+                {
+                  plugin: 'solutionSteps',
+                  state: {
+                    introduction: { plugin: 'text' },
+                    solutionSteps: [
+                      {
+                        type: 'step',
+                        isHalf: false,
+                        content: content
+                      }
+                    ]
                   }
-                ]
-              }
+                }
+              ]
             })
     }
   }
