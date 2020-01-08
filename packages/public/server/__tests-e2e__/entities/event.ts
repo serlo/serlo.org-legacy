@@ -21,20 +21,18 @@
  */
 import { getDocument, getBySelector, getByText, getInnerHTML } from '../_utils'
 
-describe('events', () => {
-  const eventUrl = 'http://de.serlo.localhost:4567/35554'
+const eventUrl = 'http://de.serlo.localhost:4567/35554'
 
-  test('view page of an event', async () => {
-    await page.goto(eventUrl)
+test('view page of events', async () => {
+  await page.goto(eventUrl)
 
-    const eventSelector = '[itemtype="http://schema.org/Event"]'
-    const event = await getBySelector(await getDocument(page), eventSelector)
+  const eventSelector = '[itemtype="http://schema.org/Event"]'
+  const event = await getBySelector(await getDocument(page), eventSelector)
 
-    await getByText(event, 'Beispielveranstaltung', 'h1[itemprop="name"]')
+  await getByText(event, 'Beispielveranstaltung', 'h1[itemprop=name]')
 
-    const descriptionSelector = 'article[itemprop=description] p'
-    expect(
-      await getBySelector(event, descriptionSelector).then(getInnerHTML)
-    ).toBe('<strong>Jeden Donnerstag:</strong> Redaktionssitzung in Münster')
-  })
+  const descriptionSelector = 'article[itemprop=description] p'
+  expect(
+    await getBySelector(event, descriptionSelector).then(getInnerHTML)
+  ).toBe('<strong>Jeden Donnerstag:</strong> Redaktionssitzung in Münster')
 })

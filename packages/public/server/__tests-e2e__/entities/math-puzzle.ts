@@ -21,11 +21,9 @@
  */
 import { getDocument, getByText } from '../_utils'
 
-describe('events', () => {
-  const mathPuzzleUrl = 'http://de.serlo.localhost:4567/35551'
+const mathPuzzleUrl = 'http://de.serlo.localhost:4567/35551'
 
-  test('view page of math puzzle', async () => {
-    await page.goto(mathPuzzleUrl)
-    await getByText(await getDocument(page), 'Math puzzle', 'h1')
-  })
+test('view page of math puzzle', async () => {
+  await page.goto(mathPuzzleUrl)
+  await getByText(await getDocument(page), 'Math puzzle', 'h1')
 })

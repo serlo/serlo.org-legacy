@@ -20,20 +20,18 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-describe('videos', () => {
-  const pageHeaderSelector = '.page-header'
-  const groupedExerciseUrl = 'http://de.serlo.localhost:4567/12727'
+const pageHeaderSelector = '.page-header'
+const groupedExerciseUrl = 'http://de.serlo.localhost:4567/12727'
 
-  test('grouped exercise has page header', async () => {
-    await page.goto(groupedExerciseUrl)
-    expect(await page.$$(pageHeaderSelector)).toHaveLength(1)
-  })
-
-  test.each(['contentOnly', 'hideBanner', 'fullWidth'])(
-    'grouped exercise has no page header when %p is set (content-api)',
-    async contentApiParam => {
-      await page.goto(groupedExerciseUrl + '?' + contentApiParam)
-      expect(await page.$(pageHeaderSelector)).toBeNull()
-    }
-  )
+test('grouped exercise has page header', async () => {
+  await page.goto(groupedExerciseUrl)
+  expect(await page.$$(pageHeaderSelector)).toHaveLength(1)
 })
+
+test.each(['contentOnly', 'hideBanner', 'fullWidth'])(
+  'grouped exercise has no page header when %p is set (content-api)',
+  async contentApiParam => {
+    await page.goto(groupedExerciseUrl + '?' + contentApiParam)
+    expect(await page.$(pageHeaderSelector)).toBeNull()
+  }
+)

@@ -20,30 +20,28 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-describe('Home', () => {
-  test('de.serlo.localhost has the correct document title', async () => {
-    await page.goto('http://de.serlo.localhost:4567/')
+test('de.serlo.localhost has the correct document title', async () => {
+  await page.goto('http://de.serlo.localhost:4567/')
 
-    expect(await page.title()).toEqual('Serlo – Die freie Lernplattform')
-  })
+  expect(await page.title()).toEqual('Serlo – Die freie Lernplattform')
+})
 
-  test('en.serlo.localhost has the correct document title', async () => {
-    await page.goto('http://en.serlo.localhost:4567/')
+test('en.serlo.localhost has the correct document title', async () => {
+  await page.goto('http://en.serlo.localhost:4567/')
 
-    expect(await page.title()).toEqual('Serlo – The Open Learning Platform')
-  })
+  expect(await page.title()).toEqual('Serlo – The Open Learning Platform')
+})
 
-  test('es.serlo.localhost has the correct document title', async () => {
-    await page.goto('http://es.serlo.localhost:4567/')
+test('es.serlo.localhost has the correct document title', async () => {
+  await page.goto('http://es.serlo.localhost:4567/')
 
-    expect(await page.title()).toEqual(
-      'Serlo – La Plataforma para el Aprendizaje Abierto'
-    )
-  })
+  expect(await page.title()).toEqual(
+    'Serlo – La Plataforma para el Aprendizaje Abierto'
+  )
+})
 
-  test('hi.serlo.localhost has the correct document title', async () => {
-    await page.goto('http://hi.serlo.localhost:4567/')
+test('hi.serlo.localhost has the correct document title', async () => {
+  await page.goto('http://hi.serlo.localhost:4567/')
 
-    expect(await page.title()).toEqual('सेर्लो – ओपन लर्निंग प्लेटफॉर्म')
-  })
+  expect(await page.title()).toEqual('सेर्लो – ओपन लर्निंग प्लेटफॉर्म')
 })
