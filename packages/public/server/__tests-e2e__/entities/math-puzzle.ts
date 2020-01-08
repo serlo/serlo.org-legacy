@@ -26,8 +26,6 @@ describe('events', () => {
 
   test('view page of math puzzle', async () => {
     await page.goto(mathPuzzleUrl)
-    await getByText(await getDocument(page), 'Math puzzle', {
-      selector: 'h1'
-    })
+    await getByText(await getDocument(page), 'Math puzzle', 'h1')
   })
 })

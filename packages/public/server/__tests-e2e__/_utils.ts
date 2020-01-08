@@ -25,7 +25,13 @@ import { queries } from 'pptr-testing-library'
 
 export { getDocument } from 'pptr-testing-library'
 
-export const { getByText } = queries
+export function getByText(
+  element: ElementHandle,
+  text: string,
+  selector?: string
+): Promise<ElementHandle> {
+  return queries.getByText(element, text, { selector })
+}
 
 export function getBySelector(
   element: ElementHandle,

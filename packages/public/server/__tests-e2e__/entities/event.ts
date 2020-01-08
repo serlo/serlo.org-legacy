@@ -30,9 +30,7 @@ describe('events', () => {
     const eventSelector = '[itemtype="http://schema.org/Event"]'
     const event = await getBySelector(await getDocument(page), eventSelector)
 
-    await getByText(event, 'Beispielveranstaltung', {
-      selector: 'h1[itemprop="name"]'
-    })
+    await getByText(event, 'Beispielveranstaltung', 'h1[itemprop="name"]')
 
     const descriptionSelector = 'article[itemprop=description] p'
     expect(

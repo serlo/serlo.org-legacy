@@ -30,14 +30,11 @@ test('Test elements on video page', async () => {
   await page.goto(videoUrl)
   const $document = await getDocument(page)
 
-  await getByText($document, 'Schriftliche Addition', {
-    selector: titleSelector
-  })
-  await getByText(
-    $document,
-    'Dieses Video erklärt die Schriftliche Addition mit Hilfe einer Stellenwerttafel.',
-    { selector: descriptionSelector }
-  )
+  await getByText($document, 'Schriftliche Addition', titleSelector)
+
+  const description =
+    'Dieses Video erklärt die Schriftliche Addition mit Hilfe einer Stellenwerttafel.'
+  await getByText($document, description, descriptionSelector)
 })
 
 test.each(['contentOnly', 'hideBanner', 'fullWidth'])(
