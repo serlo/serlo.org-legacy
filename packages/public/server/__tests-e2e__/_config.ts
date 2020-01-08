@@ -19,23 +19,4 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-
-import { getByText, getDocument } from '../_utils'
-import { exampleApiParameters } from '../_config'
-
-const groupedExerciseUrl = 'http://de.serlo.localhost:4567/12727'
-const headingSelector = '.page-header h1'
-
-test('grouped exercise has page header', async () => {
-  await page.goto(groupedExerciseUrl)
-
-  await getByText(await getDocument(page), '12727', headingSelector)
-})
-
-test.each(exampleApiParameters)(
-  'grouped exercise has no heading when %p is set (content-api)',
-  async contentApiParam => {
-    await page.goto(groupedExerciseUrl + '?' + contentApiParam)
-    expect(await page.$(headingSelector)).toBeNull()
-  }
-)
+export const exampleApiParameters = ['contentOnly', 'hideBanner', 'fullWidth']

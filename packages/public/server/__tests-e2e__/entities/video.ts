@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { getByText, getDocument } from '../_utils'
+import { exampleApiParameters } from '../_config'
 
 const videoUrl = 'http://de.serlo.localhost:4567/32321'
 const videoSelector = '[itemtype="http://schema.org/VideoObject"]'
@@ -37,7 +38,7 @@ test('Test elements on video page', async () => {
   await getByText($document, description, descriptionSelector)
 })
 
-test.each(['contentOnly', 'hideBanner', 'fullWidth'])(
+test.each(exampleApiParameters)(
   `Test elements when %p is set (page for content-api)`,
   async contentApiParam => {
     await page.goto(videoUrl + '?' + contentApiParam)
