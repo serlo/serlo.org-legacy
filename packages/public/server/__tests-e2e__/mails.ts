@@ -30,17 +30,18 @@ test('Reset password mail renders correctly', async () => {
   const email = 'admin@localhost'
 
   await axios.get('http://de.serlo.localhost:4567/mails/clear')
-  await page.goto('http://de.serlo.localhost:4567/auth/password/restore')
-  const $document = await getDocument(page)
+  const mailPage = await browser.newPage()
+  await mailPage.goto('http://de.serlo.localhost:4567/auth/password/restore')
+  const $document = await getDocument(mailPage)
   // FIXME: should work but doesn't. We aren't using the "for" attribute correctly
   // const $email = await queries.getByLabelText($document, 'E-Mail-Adresse:')
   // await $email.type(email)
-  await page.evaluate(email => {
+  await mailPage.evaluate(email => {
     const $email = document.getElementsByName('email')[0] as HTMLInputElement
     $email.value = email
   }, email)
   const $submit = await queries.getByText($document, 'Wiederherstellen')
-  await Promise.all([page.waitForNavigation(), $submit.click()])
+  await Promise.all([mailPage.waitForNavigation(), $submit.click()])
   const { data } = await axios.get('http://de.serlo.localhost:4567/mails/list')
   expect(data.flushed).toHaveLength(1)
   const { to, mail } = data.flushed[0] as {
@@ -60,4 +61,5 @@ test('Reset password mail renders correctly', async () => {
   expect(mail.plain).toMatch(
     /http:\/\/de\.serlo\.(.*?)\/auth\/password\/restore\/(\w*?)/
   )
+  await mailPage.close()
 })
