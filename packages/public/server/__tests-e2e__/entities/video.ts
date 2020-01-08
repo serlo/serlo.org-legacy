@@ -19,29 +19,33 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as R from 'ramda'
+import { getByText, getDocument } from '../_utils'
 
-describe('videos', () => {
-  const videoEntityUrl = 'http://de.serlo.localhost:4567/32321'
+const videoUrl = 'http://de.serlo.localhost:4567/32321'
+const videoSelector = '[itemtype="http://schema.org/VideoObject"]'
+const titleSelector = videoSelector + ' [itemprop=name]'
+const descriptionSelector = videoSelector + ' [itemprop~=description] p'
 
-  test.each(['#title', '#description'])(
-    'video page has element %p',
-    async elementId => {
-      await page.goto(videoEntityUrl)
-      expect(await page.$(elementId)).not.toBeNull()
-    }
-  )
+test('Test elements on video page', async () => {
+  await page.goto(videoUrl)
+  const $document = await getDocument(page)
 
-  test.each(
-    R.xprod(
-      ['#title', '#description'],
-      ['contentOnly', 'hideBanner', 'fullWidth']
-    )
-  )(
-    'video page has no element %p when %p is set (page for content-api)',
-    async (elementId, contentApiParam) => {
-      await page.goto(videoEntityUrl + '?' + contentApiParam)
-      expect(await page.$(elementId)).toBeNull()
-    }
+  await getByText($document, 'Schriftliche Addition', {
+    selector: titleSelector
+  })
+  await getByText(
+    $document,
+    'Dieses Video erklärt die Schriftliche Addition mit Hilfe einer Stellenwerttafel.',
+    { selector: descriptionSelector }
   )
 })
+
+test.each(['contentOnly', 'hideBanner', 'fullWidth'])(
+  `Test elements when %p is set (page for content-api)`,
+  async contentApiParam => {
+    await page.goto(videoUrl + '?' + contentApiParam)
+
+    expect(await page.$(titleSelector)).toBeNull()
+    expect(await page.$(descriptionSelector)).toBeNull()
+  }
+)
