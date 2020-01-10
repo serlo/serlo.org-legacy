@@ -19,12 +19,24 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getDocument, getByText } from '../_utils'
+import * as assert from 'assert'
+import { ElementHandle } from 'puppeteer'
+import { queries } from 'pptr-testing-library'
 
-const mathPuzzleUrl = 'http://de.serlo.localhost:4567/35551'
+export { getDocument } from 'pptr-testing-library'
 
-test('view page of math puzzle', async () => {
-  await page.goto(mathPuzzleUrl)
-  const $document = await getDocument(page)
-  await getByText($document, 'Math puzzle', { selector: 'h1' })
-})
+export const getByText = queries.getByText
+export const queryByText = queries.queryByText
+
+export async function getByItemType(element: ElementHandle, itemType: string) {
+  const queryResults = await element.$$(`[itemtype="${itemType}"]`)
+  assert.ok(
+    queryResults.length > 0,
+    `No element for item type \`${itemType}\` found`
+  )
+  assert.ok(
+    queryResults.length < 2,
+    `More than one element for item type \`${itemType}\` found`
+  )
+  return queryResults[0]
+}

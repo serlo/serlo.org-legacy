@@ -19,44 +19,15 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as R from 'ramda'
-import { Browser, launch, Page } from 'puppeteer'
+import { getDocument, getByText, getByItemType } from '../_utils'
 
-describe('events', () => {
-  let browser: Browser
-  let page: Page
+const eventUrl = 'http://de.serlo.localhost:4567/35554'
+const eventItemType = 'http://schema.org/Event'
 
-  const eventUrl = 'http://de.serlo.localhost:4567/35554'
-
-  beforeAll(async () => {
-    browser = await launch()
-  })
-
-  beforeEach(async () => {
-    page = await browser.newPage()
-  })
-
-  afterEach(async () => {
-    await page.close()
-  })
-
-  afterAll(async () => {
-    await browser.close()
-  })
-
-  test('view page of an event', async () => {
-    await page.goto(eventUrl)
-
-    const title = await page.evaluate(() => {
-      return document.querySelector<HTMLElement>('h1#title')!.innerText
-    })
-    expect(title).toBe('Beispielveranstaltung')
-
-    const descriptionHTML = await page.evaluate(() => {
-      return document.querySelector('article#description p')!.innerHTML
-    })
-    expect(descriptionHTML).toBe(
-      '<strong>Jeden Donnerstag:</strong> Redaktionssitzung in Münster'
-    )
-  })
+test('view page of events', async () => {
+  await page.goto(eventUrl)
+  const $document = await getDocument(page)
+  const event = await getByItemType($document, eventItemType)
+  await getByText(event, 'Beispielveranstaltung', { selector: 'h1' })
+  await getByText(event, 'Redaktionssitzung in Münster')
 })

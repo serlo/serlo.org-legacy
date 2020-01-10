@@ -19,47 +19,16 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Browser, launch, Page } from 'puppeteer'
 
-describe('Home', () => {
-  let browser: Browser
-  let page: Page
-
-  beforeAll(async () => {
-    browser = await launch()
-  })
-
-  beforeEach(async () => {
-    page = await browser.newPage()
-  })
-
-  test('de.serlo.localhost has the correct document title', async () => {
-    await page.goto('http://de.serlo.localhost:4567/')
-    const title = await getTitle(page)
-    expect(title).toEqual('Serlo – Die freie Lernplattform')
-  })
-
-  test('en.serlo.localhost has the correct document title', async () => {
-    await page.goto('http://en.serlo.localhost:4567/')
-    const title = await getTitle(page)
-    expect(title).toEqual('Serlo – The Open Learning Platform')
-  })
-
-  test('es.serlo.localhost has the correct document title', async () => {
-    await page.goto('http://es.serlo.localhost:4567/')
-    const title = await getTitle(page)
-    expect(title).toEqual('Serlo – La Plataforma para el Aprendizaje Abierto')
-  })
-
-  test('hi.serlo.localhost has the correct document title', async () => {
-    await page.goto('http://hi.serlo.localhost:4567/')
-    const title = await getTitle(page)
-    expect(title).toEqual('सेर्लो – ओपन लर्निंग प्लेटफॉर्म')
-  })
-})
-
-async function getTitle(page: Page): Promise<string> {
-  return await page.evaluate(() => {
-    return document.title
-  })
-}
+test.each([
+  ['de', 'Serlo – Die freie Lernplattform'],
+  ['en', 'Serlo – The Open Learning Platform'],
+  ['es', 'Serlo – La Plataforma para el Aprendizaje Abierto'],
+  ['hi', 'सेर्लो – ओपन लर्निंग प्लेटफॉर्म']
+])(
+  'Language version %p has correct document title',
+  async (languageCode, title) => {
+    await page.goto(`http://${languageCode}.serlo.localhost:4567/`)
+    expect(await page.title()).toEqual(title)
+  }
+)

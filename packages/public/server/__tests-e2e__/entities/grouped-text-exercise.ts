@@ -19,32 +19,26 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getByItemType, getByText, getDocument, queryByText } from '../_utils'
+
+import { getByText, getDocument, queryByText } from '../_utils'
 import { exampleApiParameters } from '../_config'
 
-const videoUrl = 'http://de.serlo.localhost:4567/32321'
-const videoItemType = 'http://schema.org/VideoObject'
-const videoTitle = 'Schriftliche Addition'
-const videoDescription =
-  'Dieses Video erklärt die Schriftliche Addition mit Hilfe einer Stellenwerttafel.'
+const groupedTextExerciseUrl = 'http://de.serlo.localhost:4567/12727'
 
-test('Test elements on video page', async () => {
-  const video = await gotoVideo()
-  await getByText(video, videoTitle, { selector: 'h1' })
-  await getByText(video, videoDescription)
+test('grouped exercise has page header', async () => {
+  const $document = await gotoGroupedTextExercise()
+  await getByText($document, '12727', { selector: 'h1' })
 })
 
 test.each(exampleApiParameters)(
-  `Test elements when %p is set (page for content-api)`,
+  'grouped exercise has no heading when %p is set (content-api)',
   async contentApiParam => {
-    const video = await gotoVideo(`?${contentApiParam}`)
-    expect(await queryByText(video, videoTitle, { selector: 'h1' })).toBeNull()
-    expect(await queryByText(video, videoDescription)).toBeNull()
+    const $document = await gotoGroupedTextExercise(`?${contentApiParam}`)
+    expect(await queryByText($document, '12727', { selector: 'h1' })).toBeNull()
   }
 )
 
-async function gotoVideo(postFix = '') {
-  await page.goto(`${videoUrl}${postFix}`)
-  const $document = await getDocument(page)
-  return await getByItemType($document, videoItemType)
+async function gotoGroupedTextExercise(postFix = '') {
+  await page.goto(`${groupedTextExerciseUrl}${postFix}`)
+  return await getDocument(page)
 }

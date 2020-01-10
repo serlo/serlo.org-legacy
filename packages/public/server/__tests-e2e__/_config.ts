@@ -19,12 +19,4 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getDocument, getByText } from '../_utils'
-
-const mathPuzzleUrl = 'http://de.serlo.localhost:4567/35551'
-
-test('view page of math puzzle', async () => {
-  await page.goto(mathPuzzleUrl)
-  const $document = await getDocument(page)
-  await getByText($document, 'Math puzzle', { selector: 'h1' })
-})
+export const exampleApiParameters = ['contentOnly', 'hideBanner', 'fullWidth']
