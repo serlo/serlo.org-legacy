@@ -40,6 +40,9 @@ module.exports = withCSS({
           )
           config.output.filename = () => '[name]'
         }
+        // disable optimizing option to avoid this issue https://github.com/terser/terser/issues/308
+        // (happens in react-mathquill)
+        config.optimization.minimizer[0].options.terserOptions.compress.evaluate = false
         return config
       }
     })
