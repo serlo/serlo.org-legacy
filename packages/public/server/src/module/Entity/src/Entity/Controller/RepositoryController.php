@@ -141,7 +141,7 @@ class RepositoryController extends AbstractController
         $view = new ViewModel([
             'state' => $state,
             'type' => $entity->getType()->getName(),
-            'mayCheckout' => $this->isGranted('entity.revision.checkout', $entity)
+            'mayCheckout' => $this->isGranted('entity.revision.checkout', $entity),
         ]);
         $this->layout('layout/3-col');
         $view->setTemplate('entity/repository/update-revision');

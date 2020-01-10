@@ -200,7 +200,7 @@ const init = $context => {
         {
           initialState: $editor.data('state'),
           type: $editor.data('type'),
-          mayCheckout: $editor.data('may-checkout')
+          mayCheckout: $editor.data('may-checkout') === 1
         },
         $editor.get(0)
       )
