@@ -25,11 +25,12 @@ namespace Entity\Controller;
 use Entity\Result;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Zend\EventManager\ResponseCollection;
+use Zend\I18n\Translator\TranslatorAwareTrait;
 use Zend\View\Model\ViewModel;
 
 class EntityController extends AbstractController
 {
-    use InstanceManagerAwareTrait;
+    use InstanceManagerAwareTrait, TranslatorAwareTrait;
 
     public function createAction()
     {
@@ -65,7 +66,7 @@ class EntityController extends AbstractController
         return true;
     }
 
-    public function unrevisedAction()
+    protected function getUnrevisedRevisionsBySubject()
     {
         $revisions = $this->getEntityManager()->findAllUnrevisedRevisions()->getIterator();
 
@@ -86,7 +87,48 @@ class EntityController extends AbstractController
             }
         }
 
-        $view = new ViewModel(['revisionsBySubject' => $revisionsBySubject]);
+        return $revisionsBySubject;
+    }
+
+    protected function getReviewHelpLinks()
+    {
+        $instance = $this->getInstanceManager()->getInstanceFromRequest();
+
+        if ($instance->getLanguage()->getCode() == "de") {
+            $reviewHelpUrl = "/140479";
+        } else {
+            $reviewHelpUrl = "https://docs.google.com/document/d/1p03xx2KJrFw8Mui4-xllvSTHcEPi8G1bdC8rGXcH6f8/edit";
+        }
+
+        $translator = $this->getTranslator();
+        $helpLinks = [
+            [
+                "url" => $reviewHelpUrl,
+                "title" => $translator->translate("Guideline for reviewing"),
+            ],
+            [
+                "url" => "/discussions",
+                "title" => $translator->translate("List of all discussions"),
+            ],
+            [
+                "url" => "https://community.serlo.org/channel/feedback-requests",
+                "title" => $translator->translate("Channel #feedback-requests in RocketChat"),
+            ],
+            [
+                "url" => "https://docs.google.com/forms/d/e/1FAIpQLSfMjWIZZq2_AoHbqNv3AOEjQRBwA8qEZIMJpk5l0vX7w2nwnQ/viewform",
+                "title" => $translator->translate("Questionnaire for reviewers"),
+            ],
+        ];
+
+        return $helpLinks;
+    }
+
+    public function unrevisedAction()
+    {
+        $view = new ViewModel([
+            'revisionsBySubject' => $this->getUnrevisedRevisionsBySubject(),
+            'helpLinks' => $this->getReviewHelpLinks(),
+        ]);
         $view->setTemplate('entity/unrevised');
 
         return $view;

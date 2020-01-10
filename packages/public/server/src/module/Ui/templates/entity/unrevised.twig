@@ -21,6 +21,12 @@
  #}
 <div class="editor-design">
 {{ pageHeader('Unrevised learning resources').render() }}
+<h2>{% trans %} Support links for reviewing {% endtrans %}</h2>
+<ul>
+  {% for helpLink in helpLinks %}
+    <li><a href="{{ helpLink['url'] }}">{{ helpLink['title'] }}</a></li>
+  {% endfor %}
+</ul>
 {% for subject, revisionsByEntity in revisionsBySubject %}
   <h2>{{ subject }}</h2>
   <table class="table table-striped">
