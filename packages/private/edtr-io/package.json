@@ -33,6 +33,7 @@
     "@edtr-io/store": "^0.13.0",
     "@edtr-io/ui": "^0.13.0",
     "@serlo/legacy-editor-to-editor": "^0.0.0",
+    "@serlo/markdown": "^0.0.0",
     "@serlo/mathjax": "^0.0.0",
     "axios": "^0.19.0",
     "moment": "^2.0.0",
