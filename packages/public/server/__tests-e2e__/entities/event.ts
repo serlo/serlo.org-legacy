@@ -19,20 +19,15 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getDocument, getBySelector, getByText, getInnerHTML } from '../_utils'
+import { getDocument, getByText, getByItemType } from '../_utils'
 
 const eventUrl = 'http://de.serlo.localhost:4567/35554'
+const eventItemType = 'http://schema.org/Event'
 
 test('view page of events', async () => {
   await page.goto(eventUrl)
-
-  const eventSelector = '[itemtype="http://schema.org/Event"]'
-  const event = await getBySelector(await getDocument(page), eventSelector)
-
-  await getByText(event, 'Beispielveranstaltung', 'h1[itemprop=name]')
-
-  const descriptionSelector = 'article[itemprop=description] p'
-  expect(
-    await getBySelector(event, descriptionSelector).then(getInnerHTML)
-  ).toBe('<strong>Jeden Donnerstag:</strong> Redaktionssitzung in Münster')
+  const $document = await getDocument(page)
+  const event = await getByItemType($document, eventItemType)
+  await getByText(event, 'Beispielveranstaltung', { selector: 'h1' })
+  await getByText(event, 'Redaktionssitzung in Münster')
 })

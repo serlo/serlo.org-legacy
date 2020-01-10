@@ -25,32 +25,18 @@ import { queries } from 'pptr-testing-library'
 
 export { getDocument } from 'pptr-testing-library'
 
-export function getByText(
-  element: ElementHandle,
-  text: string,
-  selector?: string
-): Promise<ElementHandle> {
-  return queries.getByText(element, text, { selector })
-}
+export const getByText = queries.getByText
+export const queryByText = queries.queryByText
 
-export function getBySelector(
-  element: ElementHandle,
-  selector: string
-): Promise<ElementHandle> {
-  return element.$$(selector).then(queryResults => {
-    assert.ok(
-      queryResults.length > 0,
-      `No element for selector \`${selector}\` found`
-    )
-    assert.ok(
-      queryResults.length < 2,
-      `More than one element for selector \`${selector}\` found`
-    )
-
-    return queryResults[0]
-  })
-}
-
-export function getInnerHTML(element: ElementHandle): Promise<string> {
-  return element.evaluate(e => e.innerHTML)
+export async function getByItemType(element: ElementHandle, itemType: string) {
+  const queryResults = await element.$$(`[itemtype="${itemType}"]`)
+  assert.ok(
+    queryResults.length > 0,
+    `No element for item type \`${itemType}\` found`
+  )
+  assert.ok(
+    queryResults.length < 2,
+    `More than one element for item type \`${itemType}\` found`
+  )
+  return queryResults[0]
 }

@@ -19,31 +19,32 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getByText, getDocument } from '../_utils'
+import { getByItemType, getByText, getDocument, queryByText } from '../_utils'
 import { exampleApiParameters } from '../_config'
 
 const videoUrl = 'http://de.serlo.localhost:4567/32321'
-const videoSelector = '[itemtype="http://schema.org/VideoObject"]'
-const titleSelector = videoSelector + ' [itemprop=name]'
-const descriptionSelector = videoSelector + ' [itemprop~=description] p'
+const videoItemType = 'http://schema.org/VideoObject'
+const videoTitle = 'Schriftliche Addition'
+const videoDescription =
+  'Dieses Video erklärt die Schriftliche Addition mit Hilfe einer Stellenwerttafel.'
 
 test('Test elements on video page', async () => {
-  await page.goto(videoUrl)
-  const $document = await getDocument(page)
-
-  await getByText($document, 'Schriftliche Addition', titleSelector)
-
-  const description =
-    'Dieses Video erklärt die Schriftliche Addition mit Hilfe einer Stellenwerttafel.'
-  await getByText($document, description, descriptionSelector)
+  const video = await gotoVideo()
+  await getByText(video, videoTitle, { selector: 'h1' })
+  await getByText(video, videoDescription)
 })
 
 test.each(exampleApiParameters)(
   `Test elements when %p is set (page for content-api)`,
   async contentApiParam => {
-    await page.goto(videoUrl + '?' + contentApiParam)
-
-    expect(await page.$(titleSelector)).toBeNull()
-    expect(await page.$(descriptionSelector)).toBeNull()
+    const video = await gotoVideo(`?${contentApiParam}`)
+    expect(await queryByText(video, videoTitle, { selector: 'h1' })).toBeNull()
+    expect(await queryByText(video, videoDescription)).toBeNull()
   }
 )
+
+async function gotoVideo(postFix = '') {
+  await page.goto(`${videoUrl}${postFix}`)
+  const $document = await getDocument(page)
+  return await getByItemType($document, videoItemType)
+}

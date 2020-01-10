@@ -29,7 +29,6 @@ test.each([
   'Language version %p has correct document title',
   async (languageCode, title) => {
     await page.goto(`http://${languageCode}.serlo.localhost:4567/`)
-
     expect(await page.title()).toEqual(title)
   }
 )

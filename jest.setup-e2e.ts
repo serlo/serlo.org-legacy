@@ -1,9 +1,5 @@
 import { Browser, launch, Page } from 'puppeteer'
 
-function setTimeout(seconds: number): void {
-  jest.setTimeout(seconds * 1000)
-}
-
 setTimeout(60)
 
 let browser: Browser
@@ -18,3 +14,7 @@ afterAll(async () => {
   await page.close()
   await browser.close()
 })
+
+function setTimeout(seconds: number) {
+  jest.setTimeout(seconds * 1000)
+}

@@ -22,9 +22,6 @@
 import axios from 'axios'
 import { getDocument, queries } from 'pptr-testing-library'
 
-const seconds = 1000
-jest.setTimeout(120 * seconds)
-
 test('Reset password mail renders correctly', async () => {
   const username = 'admin'
   const email = 'admin@localhost'
