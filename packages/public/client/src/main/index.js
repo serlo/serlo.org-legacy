@@ -199,7 +199,8 @@ const init = $context => {
       initEntityEditor(
         {
           initialState: $editor.data('state'),
-          type: $editor.data('type')
+          type: $editor.data('type'),
+          mayCheckout: $editor.data('may-checkout')
         },
         $editor.get(0)
       )

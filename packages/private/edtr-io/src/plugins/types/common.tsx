@@ -61,7 +61,6 @@ import { createPortal } from 'react-dom'
 
 import { CsrfContext } from '../../csrf-context'
 import { SaveContext, storeState } from '../../editor'
-import { coursePageTypeState } from './course-page'
 
 export const licenseState = object({
   id: number(),
@@ -114,13 +113,14 @@ export function Controls(props: OwnProps) {
   const [pending, setPending] = React.useState(false)
   const [hasError, setHasError] = React.useState(false)
   const [savedToLocalstorage, setSavedToLocalstorage] = React.useState(false)
-  const save = React.useContext(SaveContext)
+  const { onSave, mayCheckout } = React.useContext(SaveContext)
   const [agreement, setAgreement] = React.useState(false)
   const [emailSubscription, setEmailSubscription] = React.useState(true)
   const [
     notificationSubscription,
     setNotificationSubscription
   ] = React.useState(true)
+  const [autoCheckout, setAutoCheckout] = React.useState(false)
 
   React.useEffect(() => {
     if (visible) {
@@ -176,6 +176,7 @@ export function Controls(props: OwnProps) {
           {renderChanges()}
           {renderLicense()}
           {renderSubscription()}
+          {renderCheckout()}
         </BSModal.Body>
         <BSModal.Footer>
           <BSButton
@@ -253,7 +254,7 @@ export function Controls(props: OwnProps) {
       ? (serializedRoot as { state: object }).state
       : null
     setPending(true)
-    save({
+    onSave({
       ...serialized,
       csrf: getCsrfToken(),
       controls: {
@@ -263,6 +264,11 @@ export function Controls(props: OwnProps) {
                 subscribe: notificationSubscription ? 1 : 0,
                 mailman: emailSubscription ? 1 : 0
               }
+            }
+          : {}),
+        ...(mayCheckout
+          ? {
+              checkout: autoCheckout
             }
           : {})
       }
@@ -327,6 +333,21 @@ export function Controls(props: OwnProps) {
           }}
         />
       </BSFormGroup>
+    )
+  }
+
+  function renderCheckout() {
+    if (!mayCheckout) return null
+    return (
+      <BSCheckbox
+        checked={autoCheckout}
+        onChange={e => {
+          const { checked } = e.target as HTMLInputElement
+          setAutoCheckout(checked)
+        }}
+      >
+        Bearbeitung ohne Review freischalten (nicht empfohlen)
+      </BSCheckbox>
     )
   }
 

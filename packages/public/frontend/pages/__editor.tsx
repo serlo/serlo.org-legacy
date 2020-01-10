@@ -53,6 +53,7 @@ export default function Index(props) {
     <Editor
       initialState={JSON.parse(props.initialState)}
       type={props.type}
+      mayCheckout={props.mayCheckout}
       getCsrfToken={getCsrfToken}
       onError={(error, context) => {
         console.log('edtr-io error', error, context)

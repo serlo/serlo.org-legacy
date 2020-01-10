@@ -126,7 +126,7 @@ class RepositoryController extends AbstractController
             if ($validated['valid']) {
                 $redirectUrl = '';
                 foreach ($validated['elements'] as $el) {
-                    $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['data']);
+                    $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['data'], $data['controls']['checkout']);
                 }
                 return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
             } else {
@@ -138,7 +138,11 @@ class RepositoryController extends AbstractController
         $state = $this->featureFlags->isEnabled('frontend-editor')
             ? json_encode($data)
             : htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
-        $view = new ViewModel(['state' => $state, 'type' => $entity->getType()->getName()]);
+        $view = new ViewModel([
+            'state' => $state,
+            'type' => $entity->getType()->getName(),
+            'mayCheckout' => $this->isGranted('entity.revision.checkout', $entity)
+        ]);
         $this->layout('layout/3-col');
         $view->setTemplate('entity/repository/update-revision');
         return $view;
@@ -347,9 +351,9 @@ class RepositoryController extends AbstractController
         }
     }
 
-    protected function handleAddRevisionPost(EntityInterface $entity, $data)
+    protected function handleAddRevisionPost(EntityInterface $entity, $data, $autoCheckout)
     {
-        $mayCheckout = $this->isGranted('entity.revision.checkout', $entity);
+        $mayCheckout = $autoCheckout && $this->isGranted('entity.revision.checkout', $entity) && $data;
         $revision = $this->getRepositoryManager()->commitRevision($entity, $data);
         /** @var Translator $translator */
         $translator = $this->serviceLocator->get('MvcTranslator');
