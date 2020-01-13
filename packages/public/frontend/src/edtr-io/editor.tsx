@@ -47,14 +47,21 @@ export interface EditorProps {
   getCsrfToken(): string
 
   children?: React.ReactNode
+  mayCheckout: boolean
   onSave: (data: unknown) => Promise<void>
   onError?: (error: Error, context: Record<string, string>) => void
   initialState: unknown
   type: string
 }
 
-export const SaveContext = React.createContext<EditorProps['onSave']>(() => {
-  return Promise.reject()
+export const SaveContext = React.createContext<{
+  onSave: EditorProps['onSave']
+  mayCheckout: boolean
+}>({
+  onSave: () => {
+    return Promise.reject()
+  },
+  mayCheckout: false
 })
 
 export function Editor(props: EditorProps) {
@@ -99,7 +106,9 @@ export function Editor(props: EditorProps) {
   }
   return (
     <CsrfContext.Provider value={props.getCsrfToken}>
-      <SaveContext.Provider value={props.onSave}>
+      <SaveContext.Provider
+        value={{ onSave: props.onSave, mayCheckout: props.mayCheckout }}
+      >
         <div className="alert alert-warning" role="alert">
           <strong>Willkommen im neuen Serlo-Editor :)</strong>
           <br />

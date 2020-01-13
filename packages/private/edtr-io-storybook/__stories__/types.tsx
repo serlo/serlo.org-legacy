@@ -245,6 +245,7 @@ function addContentTypeStories(
             type={type}
             initialState={state}
             onSave={mockSave}
+            mayCheckout
           />
         </Container>
       )

@@ -33,7 +33,7 @@ services:
   #      context: .
   #      dockerfile: packages/public/editor-renderer/Dockerfile
   editor-renderer:
-    image: eu.gcr.io/serlo-shared/editor-renderer
+    image: eu.gcr.io/serlo-shared/serlo-org-editor-renderer
 
   frontend:
     build:
@@ -56,7 +56,7 @@ services:
   #      context: .
   #      dockerfile: packages/public/legacy-editor-renderer/Dockerfile
   legacy-editor-renderer:
-    image: eu.gcr.io/serlo-shared/legacy-editor-renderer
+    image: eu.gcr.io/serlo-shared/serlo-org-legacy-editor-renderer
 
   server-composer:
     image: composer:1.8
