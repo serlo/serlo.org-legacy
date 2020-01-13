@@ -12,7 +12,8 @@
     "lint": "yarn tsc --noemit",
     "serverless": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 node serverless/serverless.development.js",
     "start": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3000 next",
-    "start-storybook": "start-storybook -p 9000 -c .storybook -s ./public"
+    "start-storybook": "start-storybook -p 9000 -c .storybook -s ./public",
+    "start-using-asset-server": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3001 next"
   },
   "dependencies": {},
   "devDependencies": {

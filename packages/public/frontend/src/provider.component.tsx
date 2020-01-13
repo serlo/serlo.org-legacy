@@ -25,6 +25,7 @@ import { createGlobalStyle } from 'styled-components'
 import { lighten, transparentize } from 'polished'
 
 import { BreakpointProvider, setDefaultBreakpoints } from 'react-socks'
+import { getPath } from './assets'
 
 export const Provider: React.FunctionComponent = ({ children }) => {
   return (
@@ -249,11 +250,7 @@ setDefaultBreakpoints(
 
 // export function getColor<K extends keyof (typeof theme)["global"]["colors"]>( colorName: K): ((typeof theme)["global"]["colors"][K]) {
 
-interface GlobalStyleProps {
-  assetPrefix?: string
-}
-
-export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
+export const GlobalStyle = createGlobalStyle`
 
   html  {
     font-size: 16px;
@@ -280,21 +277,21 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     font-family: 'Karmilla';
     font-style: normal;
     font-weight: 400;
-    src: url('${getFontPath}/karmilla-regular.woff2') format('woff2'),
-      url('${getFontPath}/karmilla-regular.woff') format('woff');
+    src: url('${getFontPath()}/karmilla-regular.woff2') format('woff2'),
+      url('${getFontPath()}/karmilla-regular.woff') format('woff');
   }
 
   @font-face {
     font-family: 'Karmilla';
     font-style: normal;
     font-weight: 700;
-    src: url('${getFontPath}/karmilla-bold.woff2') format('woff2'),
-      url('${getFontPath}/karmilla-bold.woff') format('woff');
+    src: url('${getFontPath()}/karmilla-bold.woff2') format('woff2'),
+      url('${getFontPath()}/karmilla-bold.woff') format('woff');
   }
 
 }
 `
 
-function getFontPath(props) {
-  return props.assetPrefix
+function getFontPath() {
+  return getPath('')
 }

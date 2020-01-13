@@ -127,7 +127,7 @@ const TopButton = styled(Button)`
   > svg {
     vertical-align: -1.6em;
   }
-` as typeof Button
+`
 
 const LearnMoreButton = styled(Button)`
   :hover {
