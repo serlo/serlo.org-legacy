@@ -124,9 +124,10 @@ class RepositoryController extends AbstractController
             ], $entity->getType()->getName());
 
             if ($validated['valid']) {
+                $autoCheckout = array_key_exists('checkout', $data['controls']) && $data['controls']['checkout'];
                 $redirectUrl = '';
                 foreach ($validated['elements'] as $el) {
-                    $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['data'], $data['controls']['checkout']);
+                    $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['data'], $autoCheckout);
                 }
                 return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
             } else {
