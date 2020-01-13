@@ -20,7 +20,7 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 {% set title = term.getName() %}
-{{ pageHeader(title).setSubTitle('Organize' | trans).setBacklink(normalize().toURL(term)).render() }}
+{{ pageHeader(title).setSubTitle('Organize taxonomy' | trans).setBacklink(normalize().toURL(term)).render() }}
 {% set controls = contexter().renderButton() %}
 {% do placeholder('controls').set(controls) %}
 {% do placeholder('breadcrumbs').set('<li><span>' ~ title ~ '</span></li>') %}
