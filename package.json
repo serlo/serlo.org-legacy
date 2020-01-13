@@ -34,7 +34,7 @@
     "test:js": "npm-run-all test:js:*",
     "test:js:client": "jest",
     "test:js:ssr": "jest --config ./jest.config-ssr.js",
-    "test:php": "docker-compose exec server-php src/vendor/bin/phpunit",
+    "test:php": "docker-compose run --rm server-php src/vendor/bin/phpunit",
     "migration:create": "yarn migration create -ext sql -dir /app/migrations",
     "migration:up": "yarn migration up",
     "migration": "docker-compose run --rm server-migrate m",
