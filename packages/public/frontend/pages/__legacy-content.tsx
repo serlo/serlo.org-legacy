@@ -61,7 +61,9 @@ export default function Index(props) {
 }
 
 Index.getInitialProps = async ({ req, res }) => {
-  return await handleBody(req, res, {
+  const props = await handleBody(req, res, {
     input: ''
   })
+  props.renderAsStaticHtml = true
+  return props
 }

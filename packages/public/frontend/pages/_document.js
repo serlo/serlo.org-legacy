@@ -153,6 +153,8 @@ class MyNextScript extends NextScript {
     const assetPrefix = process.env.NEXT_ASSET_PREFIX
     const { page, buildId, props } = __NEXT_DATA__
 
+    if (props.pageProps.renderAsStaticHtml === true) return null
+
     if (
       !inAmpMode &&
       !staticMarkup &&
