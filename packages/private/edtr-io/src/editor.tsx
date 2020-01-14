@@ -67,18 +67,17 @@ export function Editor(props: EditorProps) {
   let result = deserialize(props)
   const plugins = createPlugins(props.getCsrfToken, getRegistry())
 
+  const legacyUrl = window.location.pathname
+    .replace('add-revision', 'add-revision-old')
+    .replace('create', 'create-old')
   if (isError(result)) {
-    const url = window.location.pathname.replace(
-      'add-revision',
-      'add-revision-old'
-    )
     switch (result.error) {
       case 'type-unsupported':
         return (
           <div className="alert alert-danger" role="alert">
             Dieser Inhaltstyp wird vom neuen Editor noch nicht unterstützt.
             Bitte erstelle eine Bearbeitung mit{' '}
-            <a href={url}>dem alten Editor</a>.
+            <a href={legacyUrl}>dem alten Editor</a>.
           </div>
         )
       case 'failure':
@@ -86,7 +85,7 @@ export function Editor(props: EditorProps) {
           <div className="alert alert-danger" role="alert">
             Leider trat ein Fehler bei der Konvertierung auf. Die Entwickler
             wurden informiert. Bitte benutze in der Zwischenzeit noch{' '}
-            <a href={url}>den alten Editor</a> für diesen Inhalt.
+            <a href={legacyUrl}>den alten Editor</a> für diesen Inhalt.
           </div>
         )
     }
@@ -100,7 +99,8 @@ export function Editor(props: EditorProps) {
   ) {
     result = {
       success: true,
-      initialState: stored
+      initialState: stored,
+      converted: false
     }
   }
   return (
@@ -108,6 +108,13 @@ export function Editor(props: EditorProps) {
       <SaveContext.Provider
         value={{ onSave: props.onSave, mayCheckout: props.mayCheckout }}
       >
+        {result.converted ? (
+          <div className="alert alert-warning" role="alert">
+            Dieser Inhalt wurde noch nicht im neuen Editor bearbeitet. Falls du
+            auf ein Problem stößt, kannst du{' '}
+            <a href={legacyUrl}>zum alten Editor</a> zurück wechseln.
+          </div>
+        ) : null}
         <Core
           onError={props.onError}
           plugins={plugins}

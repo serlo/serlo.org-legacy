@@ -20,8 +20,8 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
+  EditorPlugin,
+  EditorPluginProps,
   object,
   string,
   number
@@ -41,13 +41,14 @@ export const taxonomyTypeState = object({
   description: editorContent()
 })
 
-export const taxonomyTypePlugin: StatefulPlugin<typeof taxonomyTypeState> = {
+export const taxonomyTypePlugin: EditorPlugin<typeof taxonomyTypeState> = {
   Component: TaxonomyTypeEditor,
-  state: taxonomyTypeState
+  state: taxonomyTypeState,
+  config: {}
 }
 
 function TaxonomyTypeEditor(
-  props: StatefulPluginEditorProps<typeof taxonomyTypeState>
+  props: EditorPluginProps<typeof taxonomyTypeState>
 ) {
   const { term, description } = props.state
 
