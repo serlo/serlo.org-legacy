@@ -93,7 +93,7 @@ class RepositoryController extends AbstractController
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                return $this->handleAddRevisionPost($entity, $form->getData());
+                return $this->handleAddRevisionPost($entity, $form->getData(), true);
             }
         }
 
