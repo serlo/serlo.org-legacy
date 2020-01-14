@@ -1,6 +1,6 @@
 {
   "name": "@serlo/editor-renderer",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsdx build --target node --format cjs --tsconfig tsconfig.prod.json",
@@ -18,7 +18,7 @@
     "express": "^4.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "styled-components": "^4.0.0",
+    "styled-components": "^5.0.0",
     "tslib": "^1.0.0"
   },
   "devDependencies": {
