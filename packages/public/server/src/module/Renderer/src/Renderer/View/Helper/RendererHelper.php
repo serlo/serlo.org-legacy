@@ -51,6 +51,6 @@ class RendererHelper extends AbstractHelper
     public function toHtml($content)
     {
         $json = json_decode($content, true);
-        return ($json === null) ? htmlspecialchars($content) : $this->getRenderService()->render($content);
+        return $json === null || !is_array($json) ? htmlspecialchars($content) : $this->getRenderService()->render($content) ;
     }
 }
