@@ -31,17 +31,20 @@ import {
   entityType
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
+import { createVideoPlugin } from '@edtr-io/plugin-video'
 
 export const videoTypeState = entityType(
   {
     ...entity,
-    content: serializedChild('video'),
+    content: string(),
     title: string(),
     description: editorContent(),
     reasoning: editorContent()
   },
   {}
 )
+
+const videoPlugin = createVideoPlugin()
 
 export const videoTypePlugin: EditorPlugin<typeof videoTypeState> = {
   Component: VideoTypeEditor,
@@ -77,7 +80,15 @@ function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
         </h1>
       </div>
       <article>
-        <section>{content.render()}</section>
+        <section>
+          <videoPlugin.Component
+            {...props}
+            state={{
+              src: props.state.content,
+              alt: props.state.title
+            }}
+          />
+        </section>
         <section>{description.render()}</section>
       </article>
       <Controls subscriptions {...props.state} />
