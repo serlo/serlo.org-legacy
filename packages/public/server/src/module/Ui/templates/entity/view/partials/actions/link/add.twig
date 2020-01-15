@@ -59,7 +59,7 @@
                 {% elseif not(allowsManyChildren) and count == 1 and not child.isTrashed() and not child.hasCurrentRevision()
                         and isGranted('entity.revision.create', child) %}
                     <li>
-                        <a rel="nofollow" href="{{  url('entity/repository/add-revision', {'entity': child.getId()}) }}">
+                        <a rel="nofollow" href="{{ url('entity/repository/add-revision', {'entity': child.getId()}) }}">
                             <span class="fa fa-plus"></span>
                             {% trans %}
                             Add {{ type }}
