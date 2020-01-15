@@ -23,14 +23,13 @@
 <article>
     <section>
         {% set url = entity.getCurrentRevision().get('url') %}
-        {% if url matches '{^(https?:\\/\\/)?(.*?(geogebra\\.org\\/m\\/.+|ggbm\\.at\\/.+))}' %}
+        {% if url matches '/^(https:\\/\\/www\\.geogebra\\.org\\/m\\/)?[a-zA-Z1-9]+$/' %}
             {% set id =  url | split('/') | last %}
         {% endif %}
         {% if id is defined %}
             {% set src = 'https://www.geogebra.org/material/iframe/id/' ~ id %}
             <p class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item"
-                        src="{{ src }}"></iframe>
+                <iframe class="embed-responsive-item" src="{{ src }}"></iframe>
             </p>
         {% else %}
             <p class="text-center">
