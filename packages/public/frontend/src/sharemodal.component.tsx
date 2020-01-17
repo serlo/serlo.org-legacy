@@ -23,7 +23,6 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Button } from './button.component'
 import Modal from 'react-modal'
-import ExecutionEnvironment from 'exenv'
 const { forwardRef, useImperativeHandle } = React
 
 import {
@@ -44,7 +43,7 @@ interface Props {
 const ShareModal: any = forwardRef((props: Props, ref) => {
   const [modalIsOpen, setIsOpen] = React.useState(false)
 
-  if (!ExecutionEnvironment.canUseDOM) {
+  if (typeof window === 'undefined') {
     return null
   }
 
@@ -122,7 +121,7 @@ const ShareModal: any = forwardRef((props: Props, ref) => {
       style={ModalStyles}
       contentLabel="Example Modal"
     >
-      <h2>Yeah Teilen!</h2>
+      <StyledH2>Yeah Teilen!</StyledH2>
       {/* TODO: Get int8 string */}
 
       <p>
@@ -197,6 +196,13 @@ const ModalStyles = {
     fontFamily: 'Karmilla'
   }
 }
+
+const StyledH2 = styled.h2`
+  font-family: 'Karmilla';
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+`
 
 const Gray = styled.small`
   opacity: 0.6;

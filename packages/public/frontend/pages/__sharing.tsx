@@ -7,14 +7,16 @@ import { EditBox } from '../src/editbox.component'
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
+import { setAssetPrefix } from '../src/assets'
 // Prevent fontawesome from dynamically adding its css since we did it manually above
 config.autoAddCss = false
 
 export default function Index(props) {
+  setAssetPrefix(props.assetPrefix)
   return (
     <Provider>
       <Normalize />
-      <GlobalStyle assetPrefix={props.assetPrefix} />
+      <GlobalStyle />
       <EditBox contentID={props.contentID} />
     </Provider>
   )

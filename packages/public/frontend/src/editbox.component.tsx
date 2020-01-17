@@ -59,7 +59,7 @@ export const EditBox: React.FunctionComponent<React.HTMLAttributes<
       <Summary isFixed={posIsFixed} minSpaceToBottom={minSpaceToBottom}>
         {/* Bearbeitungen: <b>5</b> */}
         <div>
-          <ShareModal ref={modalRef} contentID={props.contentID}></ShareModal>
+          <ShareModal ref={modalRef} contentID={props.contentID} />
           <SummaryButton
             label="Inhalt bearbeiten"
             iconName="faPencilAlt"

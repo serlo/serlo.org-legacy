@@ -15,9 +15,7 @@
     "start-storybook": "start-storybook -p 9000 -c .storybook -s ./public",
     "start-using-asset-server": "cross-env NEXT_ASSET_PREFIX=http://localhost:3000 ASSET_PREFIX=http://localhost:3001 next"
   },
-  "dependencies": {
-    "exenv": "^1.2.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/runtime": "^7.0.0",
     "@edtr-io/core": "^0.13.0",

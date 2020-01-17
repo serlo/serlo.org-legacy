@@ -39,6 +39,7 @@
         {% include 'entity/view/default' %}
     </div>
 </div>
+{{ renderComponent('sharing', {'contentID': revision.getID()}) }}
 {% set taxonomy = include('entity/page/aggregate/taxonomy', {'terms': entity.getTaxonomyTerms()}) %}
 {% set temp = registry().add('rnav', taxonomy) %}
 {% set temp = registry().add('rnav', related(entity)) %}
