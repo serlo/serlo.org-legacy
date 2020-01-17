@@ -2,7 +2,7 @@
 
 # Serlo.org
 
-[![Build status](https://img.shields.io/circleci/project/github/serlo/serlo.org/master.svg)](https://circleci.com/gh/serlo/serlo.org) [![Kanban board](https://img.shields.io/badge/Kanban-board-brightgreen.svg)](https://github.com/orgs/serlo/projects/1)
+[![Kanban board](https://img.shields.io/badge/Kanban-board-brightgreen.svg)](https://github.com/orgs/serlo/projects/1)
 
 ## Setup
 
@@ -90,10 +90,12 @@ of the following packages:
 
 - `yarn build` builds our packages (only needed for deployment)
 - `yarn build:docker` builds our docker images (only needed for deployment)
+- `yarn dump:sql` to update the docker initialization file of the sql database with the current database state
 - `yarn format:js` formats all non-PHP source code
 - `yarn format:php` formats all PHP source code (requires `yarn start` beforehand)
 - `yarn lint:js` lints all non-PHP source code
 - `yarn lint:php` lints all PHP source code (requires `yarn start` beforehand)
+- `yarn mysql` connects to the running MySQL database (requires `yarn start` beforehand)
 - `yarn test:js` runs all non-PHP unit tests
 - `yarn test:php` runs all PHP unit tests (requires `yarn start` beforehand)
 - `yarn test:e2e` runs all end-to-end tests (requires `yarn start` beforehand)

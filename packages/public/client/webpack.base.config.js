@@ -3,9 +3,9 @@ const path = require('path')
 
 module.exports = {
   entry: {
+    frontend: path.join(__dirname, 'src', 'frontend'),
     main: path.join(__dirname, 'src', 'main'),
-    'legacy-editor': path.join(__dirname, 'src', 'legacy-editor'),
-    'donation-banner-mfnf': path.join(__dirname, 'src', 'donation-banner-mfnf')
+    'legacy-editor': path.join(__dirname, 'src', 'legacy-editor')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

@@ -251,8 +251,11 @@ export default async ({ webpackHMR: passedWebpackHMR } = {}) => {
       Component = await pageLoader.loadPage(page)
     } else {
       for (let id of window.NEXT_ROOTS) {
-        let component = await pageLoader.loadPage(id)
+        const indexOfHashtag = id.indexOf('#')
+        const pageId = id.substring(0, indexOfHashtag)
+        let component = await pageLoader.loadPage(pageId)
         components[id] = component
+        if (!Component) Component = component
       }
     }
 

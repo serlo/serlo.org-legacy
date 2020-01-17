@@ -1,7 +1,7 @@
 /**
  * This file is part of Serlo.org.
  *
- * Copyright (c) 2013-2019 Serlo Education e.V.
+ * Copyright (c) 2013-2020 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
@@ -30,29 +30,6 @@ export function buildDockerImage({
   context
 }: DockerImageOptions) {
   if (!semver.valid(version)) {
-    return
-  }
-
-  spawnSync(
-    'docker',
-    [
-      'build',
-      '-f',
-      Dockerfile,
-      ...R.flatten(getTags(version).map(tag => ['-t', `${name}:${tag}`])),
-      context
-    ],
-    {
-      stdio: 'inherit'
-    }
-  )
-
-  const isCi =
-    process.env.CI &&
-    process.env.CIRCLE_BRANCH &&
-    process.env.CIRCLE_BRANCH === 'master'
-  if (!isCi && process.env.DEPLOY !== 'true') {
-    console.log('Skipping deployment')
     return
   }
 
@@ -79,6 +56,20 @@ export function buildDockerImage({
     )
     return
   }
+
+  spawnSync(
+    'docker',
+    [
+      'build',
+      '-f',
+      Dockerfile,
+      ...R.flatten(getTags(version).map(tag => ['-t', `${name}:${tag}`])),
+      context
+    ],
+    {
+      stdio: 'inherit'
+    }
+  )
 
   const remoteTags = R.map(tag => `${remoteName}:${tag}`, getTags(version))
   remoteTags.forEach(remoteTag => {

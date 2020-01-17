@@ -2,7 +2,7 @@
 /**
  * This file is part of Serlo.org.
  *
- * Copyright (c) 2013-2019 Serlo Education e.V.
+ * Copyright (c) 2013-2020 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -16,20 +16,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
 namespace Entity\Form;
 
+use Entity\Form\Element\Changes;
 use Csrf\Form\Element\CsrfToken;
 use Common\Form\Element\EditorState;
 use Common\Form\Element\Title;
 use License\Entity\LicenseInterface;
 use License\Form\AgreementFieldset;
 use Zend\Form\Element\Textarea;
-use Zend\Form\Element\Url;
+use Zend\Form\Element\Text;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
 use Zend\Validator\Regex;
@@ -45,15 +46,10 @@ class AppletForm extends Form
         $this->setAttribute('class', 'clearfix');
 
         $this->add(new Title());
-        $this->add((new Url('url'))->setAttribute('id', 'url')->setLabel('Applet Url:'));
+        $this->add((new Text('url'))->setAttribute('id', 'url')->setLabel('Applet Url:'));
         $this->add((new EditorState('content'))->setLabel('Description:'));
         $this->add((new EditorState('reasoning'))->setLabel('Reasoning:'));
-        $this->add(
-            (new Textarea('changes'))->setAttribute('id', 'changes')->setLabel('Changes:')->setAttribute(
-                'class',
-                'plain'
-            )
-        );
+        $this->add(new Changes());
         $this->add(new Element\MetaTitle());
         $this->add(new Element\MetaDescription());
         $this->add(new AgreementFieldset($license));
@@ -73,9 +69,9 @@ class AppletForm extends Form
                     [
                         'name'    => 'Regex',
                         'options' => [
-                            'pattern'  => '~^(https?:\/\/)?(.*?(geogebra\.org\/m\/.+|ggbm\.at\/.+))~',
+                            'pattern'  => '/^(https:\/\/www\.geogebra\.org\/m\/)?[a-zA-Z0-9]+$/',
                             'messages' => [
-                                Regex::NOT_MATCH => 'Applet-URL invalid. Use one of the form geogebra.org/m/id or ggbm.at/id',
+                                Regex::NOT_MATCH => 'Applet-URL invalid. Use the form https://www.geogebra.org/m/<id>',
                             ],
                         ],
                     ],
@@ -83,7 +79,6 @@ class AppletForm extends Form
             ]
         );
         $inputFilter->add(['name' => 'content', 'required' => true]);
-        $inputFilter->add(['name' => 'changes', 'required' => false, 'filters' => [['name' => 'StripTags']]]);
         $this->setInputFilter($inputFilter);
     }
 }

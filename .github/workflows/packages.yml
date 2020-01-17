@@ -1,0 +1,60 @@
+name: Packages
+on:
+  push:
+    branches:
+      - master
+jobs:
+  client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '274.0.0'
+          service_account_key: ${{ secrets.GCP_KEY_SERLO_ASSETS }}
+      - run: yarn
+      - run: yarn lerna run build --include-dependencies --scope=@serlo/client
+      - run: yarn lerna run deploy:package --scope=@serlo/client
+        env:
+          DEPLOY: true
+          CF_KEY: ${{ secrets.CF_KEY }}
+          CF_EMAIL: ${{ secrets.CF_EMAIL }}
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '274.0.0'
+          service_account_key: ${{ secrets.GCP_KEY_SERLO_ASSETS }}
+      - run: yarn
+      - run: yarn lerna run build --include-dependencies --scope=@serlo/frontend
+      - run: yarn lerna run deploy:package --scope=@serlo/frontend
+        env:
+          DEPLOY: true
+          CF_KEY: ${{ secrets.CF_KEY }}
+          CF_EMAIL: ${{ secrets.CF_EMAIL }}
+  static-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '274.0.0'
+          service_account_key: ${{ secrets.GCP_KEY_SERLO_ASSETS }}
+      - run: yarn
+      - run: yarn lerna run build --include-dependencies --scope=@serlo/static-assets
+      - run: yarn lerna run deploy:package --scope=@serlo/static-assets
+        env:
+          DEPLOY: true
+          CF_KEY: ${{ secrets.CF_KEY }}
+          CF_EMAIL: ${{ secrets.CF_EMAIL }}

@@ -1,7 +1,26 @@
+/**
+ * This file is part of Serlo.org.
+ *
+ * Copyright (c) 2013-2020 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
+ */
 import Document, { Head, Html, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
-
-import * as bodyParser from 'body-parser'
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -56,7 +75,8 @@ export default class MyDocument extends Document {
 
 export async function handleBody(req, res, defaultProps) {
   const props = defaultProps
-  if (req && res) {
+  if (typeof window === 'undefined' && req && res) {
+    const bodyParser = await import('body-parser')
     await new Promise(resolve => {
       bodyParser.json()(req, res, resolve)
     })
@@ -69,6 +89,8 @@ export async function handleBody(req, res, defaultProps) {
     }
     props.assetPrefix = process.env.ASSET_PREFIX || ''
     props.nextAssetPrefix = process.env.NEXT_ASSET_PREFIX || ''
+    const shortid = await import('shortid')
+    props.componentID = shortid.generate()
   }
   return props
 }
@@ -106,17 +128,13 @@ class MyScripts extends Head {
 
 class MyMain extends Main {
   render() {
-    const { inAmpMode, html } = this.context._documentProps
+    const { inAmpMode, html, __NEXT_DATA__ } = this.context._documentProps
     if (inAmpMode) return '__NEXT_AMP_RENDER_TARGET__'
     // supporting multiroot in production, append page to id of react root
     return (
       <div
         className="__next"
-        id={`__next${
-          process.env.NODE_ENV === 'production'
-            ? this.context._documentProps.__NEXT_DATA__.page
-            : ''
-        }`}
+        id={`__next${__NEXT_DATA__.page}#${__NEXT_DATA__.props.pageProps.componentID}`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     )
@@ -133,13 +151,13 @@ class MyNextScript extends NextScript {
       __NEXT_DATA__
     } = this.context._documentProps
     const assetPrefix = process.env.NEXT_ASSET_PREFIX
-    const { page, buildId } = __NEXT_DATA__
+    const { page, buildId, props } = __NEXT_DATA__
+
+    if (props.pageProps.renderAsStaticHtml === true) return null
 
     if (
       !inAmpMode &&
-      process.env.NODE_ENV === 'production' &&
       !staticMarkup &&
-      (!devFiles || devFiles.length === 0) &&
       page !== '/_error' &&
       this.getDynamicChunks().length === 0 &&
       !(this.props.crossOrigin || process.crossOrigin) &&
@@ -152,7 +170,7 @@ class MyNextScript extends NextScript {
       return (
         <>
           <script
-            id={'__NEXT_DATA__' + page}
+            id={'__NEXT_DATA__' + page + '#' + props.pageProps.componentID}
             type="application/json"
             dangerouslySetInnerHTML={{
               __html: NextScript.getInlineScriptSource(
@@ -161,7 +179,7 @@ class MyNextScript extends NextScript {
             }}
           />
           <script
-            async
+            defer
             key={page}
             src={assetPrefix + `/_next/static/${buildId}/pages${page}.js`}
           />
@@ -170,7 +188,7 @@ class MyNextScript extends NextScript {
             dangerouslySetInnerHTML={{
               __html: `
                 if (!window.NEXT_ROOTS) window.NEXT_ROOTS = []
-                window.NEXT_ROOTS.push("${page}")
+                window.NEXT_ROOTS.push("${page}#${props.pageProps.componentID}")
             `
             }}
           />
@@ -185,6 +203,19 @@ class MyNextScript extends NextScript {
                 return null
               }
               return createDedupScriptTag(`${assetPrefix}/_next/${file}`, file)
+            })}
+          {devFiles &&
+            devFiles.length > 0 &&
+            devFiles.map(file => {
+              if (!/\.js$/.exec(file)) {
+                return null
+              }
+              return (
+                <script
+                  src={`${assetPrefix}/_next/${file}`}
+                  key={file}
+                ></script>
+              )
             })}
         </>
       )
@@ -204,6 +235,7 @@ function createDedupScriptTag(path, key) {
           if (!cache["${key}"]) {
             var script = document.createElement("script");
             script.src ="${path}";
+            script.setAttribute("defer", "");
             document.head.appendChild(script);
             cache["${key}"] = true
           }

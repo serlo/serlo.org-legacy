@@ -1,8 +1,10 @@
 {
   "name": "@serlo/cloudflare",
   "version": "0.0.0",
-  "dependencies": {
-    "cloudflare": "^2.0.0"
+  "dependencies": {},
+  "devDependencies": {
+    "@types/request": "^2.0.0",
+    "request": "^2.0.0"
   },
   "private": true
 }

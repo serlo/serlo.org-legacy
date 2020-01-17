@@ -1,7 +1,7 @@
 /**
  * This file is part of Serlo.org.
  *
- * Copyright (c) 2013-2019 Serlo Education e.V.
+ * Copyright (c) 2013-2020 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
@@ -38,20 +38,20 @@ import { eventTypeState } from './plugins/types/event'
 import { mathPuzzleTypeState } from './plugins/types/math-puzzle'
 import { pageTypeState } from './plugins/types/page'
 import { textExerciseTypeState } from './plugins/types/text-exercise'
-import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
+import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { textExerciseGroupTypeState } from './plugins/types/text-exercise-group'
 import { textSolutionTypeState } from './plugins/types/text-solution'
 import { userTypeState } from './plugins/types/user'
 import { videoTypeState } from './plugins/types/video'
 import { Entity, License, Uuid } from './plugins/types/common'
 import { EditorProps } from './editor'
-import { inputExerciseState } from '@edtr-io/plugin-input-exercise'
+import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
 
 export function deserialize({
   initialState,
   type,
   onError
-}: EditorProps): DeserializeResult {
+}: Pick<EditorProps, 'initialState' | 'type' | 'onError'>): DeserializeResult {
   const stack: { id: number; type: string }[] = []
   try {
     switch (type) {
@@ -120,6 +120,11 @@ export function deserialize({
           state: deserializeTextSolution(
             initialState as TextSolutionSerializedState
           )
+        })
+      case 'text-hint':
+        return succeed({
+          plugin: 'type-text-hint',
+          state: deserializeTextHint(initialState as TextHintSerializedState)
         })
       case 'user':
         return succeed({
@@ -322,7 +327,7 @@ export function deserialize({
     function deserializeScMcExercise():
       | {
           plugin: 'scMcExercise'
-          state: StateTypeSerializedType<typeof scMcExerciseState>
+          state: StateTypeSerializedType<ScMcExerciseState>
         }
       | undefined {
       stack.push({ id: state.id, type: 'sc-mc-exercise' })
@@ -428,7 +433,7 @@ export function deserialize({
     function deserializeInputExercise():
       | {
           plugin: 'inputExercise'
-          state: StateTypeSerializedType<typeof inputExerciseState>
+          state: StateTypeSerializedType<InputExerciseState>
         }
       | undefined {
       if (
@@ -442,38 +447,6 @@ export function deserialize({
           ? 'input-number-exact-match-challenge'
           : 'input-expression-equal-match-challenge'
 
-        function extractInputAnswers(
-          inputExercises: InputType[],
-          isCorrect: boolean
-        ): {
-          value: string
-          isCorrect: boolean
-          feedback: { plugin: string; state?: unknown }
-        }[] {
-          if (inputExercises.length === 0) return []
-
-          const answers = inputExercises.map(exercise => {
-            return {
-              value: exercise.solution,
-              feedback: extractChildFromRows(
-                convert(deserializeEditorState(exercise.feedback))
-              ),
-              isCorrect
-            }
-          })
-
-          const children = R.flatten(
-            inputExercises.map(exercise => {
-              return filterDefined([
-                exercise['input-string-normalized-match-challenge'],
-                exercise['input-number-exact-match-challenge'],
-                exercise['input-expression-equal-match-challenge']
-              ])
-            })
-          )
-
-          return R.concat(answers, extractInputAnswers(children, false))
-        }
         const inputExercises = filterDefined([
           inputStringNormalizedMatchChallenge,
           inputNumberExactMatchChallenge,
@@ -490,10 +463,43 @@ export function deserialize({
             }
           }
         }
+      }
 
-        function filterDefined<T>(array: (T | undefined)[]): T[] {
-          return array.filter(el => typeof el !== 'undefined') as T[]
-        }
+      function extractInputAnswers(
+        inputExercises: InputType[],
+        isCorrect: boolean
+      ): {
+        value: string
+        isCorrect: boolean
+        feedback: { plugin: string; state?: unknown }
+      }[] {
+        if (inputExercises.length === 0) return []
+
+        const answers = inputExercises.map(exercise => {
+          return {
+            value: exercise.solution,
+            feedback: extractChildFromRows(
+              convert(deserializeEditorState(exercise.feedback))
+            ),
+            isCorrect
+          }
+        })
+
+        const children = R.flatten(
+          inputExercises.map(exercise => {
+            return filterDefined([
+              exercise['input-string-normalized-match-challenge'],
+              exercise['input-number-exact-match-challenge'],
+              exercise['input-expression-equal-match-challenge']
+            ])
+          })
+        )
+
+        return R.concat(answers, extractInputAnswers(children, false))
+      }
+
+      function filterDefined<T>(array: (T | undefined)[]): T[] {
+        return array.filter(el => typeof el !== 'undefined') as T[]
       }
     }
   }

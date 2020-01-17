@@ -1,7 +1,7 @@
 /**
  * This file is part of Serlo.org.
  *
- * Copyright (c) 2013-2019 Serlo Education e.V.
+ * Copyright (c) 2013-2020 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
@@ -46,36 +46,36 @@ import { tenant } from '../modules/tenant'
 import t from '../modules/translator'
 import '../thirdparty/jquery.nestable'
 import '../thirdparty/deployggb'
-import './libs/easing'
-import './libs/event_extensions'
-import AjaxOverlay from './modules/ajax_overlay'
-import Breadcrumbs from './modules/breadcrumbs'
-import { initChangeDimensionEvents } from './modules/change-dimension-events'
-import { initContentApi } from './modules/content_api'
-import { initConsentBanner } from './modules/consent-banner'
+import '../frontend/libs/easing'
+import '../frontend/libs/event_extensions'
+import AjaxOverlay from '../frontend/modules/ajax_overlay'
+import Breadcrumbs from '../frontend/modules/breadcrumbs'
+import { initChangeDimensionEvents } from '../frontend/modules/change-dimension-events'
+import { initContentApi } from '../frontend/modules/content_api'
+import { initConsentBanner } from '../frontend/modules/consent-banner'
 import { initDiff } from './modules/diff/diff'
-import './modules/forum_select'
-import './modules/injections'
-import './modules/input_challenge'
-import './modules/math_puzzle'
-import './modules/math_puzzle/algebra'
-import './modules/math_puzzle/touchop'
-import MobileNavigation from './modules/mobile_navigation'
-import './modules/multiple_choice'
-import './modules/profile_birdnest'
-import './modules/recaptcha'
-import './modules/sentry'
-import SideElement from './modules/side_element'
-import SideNavigation from './modules/side_navigation'
-import './modules/single_choice'
-import './modules/slider'
-import './modules/sortable_list'
-import Supporter from './modules/supporter'
-import './modules/timeago'
-import './modules/toggle'
-import initTracking from './modules/tracking'
-import './modules/trigger'
-import './styles/main.scss'
+import '../frontend/modules/forum_select'
+import '../frontend/modules/injections'
+import '../frontend/modules/input_challenge'
+import '../frontend/modules/math_puzzle'
+import '../frontend/modules/math_puzzle/algebra'
+import '../frontend/modules/math_puzzle/touchop'
+import MobileNavigation from '../frontend/modules/mobile_navigation'
+import '../frontend/modules/multiple_choice'
+import '../frontend/modules/profile_birdnest'
+import '../frontend/modules/recaptcha'
+import '../frontend/modules/sentry'
+import SideElement from '../frontend/modules/side_element'
+import SideNavigation from '../frontend/modules/side_navigation'
+import '../frontend/modules/single_choice'
+import '../frontend/modules/slider'
+import '../frontend/modules/sortable_list'
+import Supporter from '../frontend/modules/supporter'
+import '../frontend/modules/timeago'
+import '../frontend/modules/toggle'
+import initTracking from '../frontend/modules/tracking'
+import '../frontend/modules/trigger'
+import '../frontend/styles/main.scss'
 
 window.$ = $
 window.jQuery = $
@@ -199,7 +199,8 @@ const init = $context => {
       initEntityEditor(
         {
           initialState: $editor.data('state'),
-          type: $editor.data('type')
+          type: $editor.data('type'),
+          mayCheckout: $editor.data('may-checkout') === 1
         },
         $editor.get(0)
       )

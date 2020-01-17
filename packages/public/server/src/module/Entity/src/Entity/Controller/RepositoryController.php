@@ -2,7 +2,7 @@
 /**
  * This file is part of Serlo.org.
  *
- * Copyright (c) 2013-2019 Serlo Education e.V.
+ * Copyright (c) 2013-2020 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
@@ -28,14 +28,18 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  * @link        https://github.com/serlo-org/athene2 for the canonical source repository
  */
+
 namespace Entity\Controller;
 
 use Entity\Entity\EntityInterface;
+use Entity\Entity\Revision;
 use Entity\Entity\RevisionField;
 use Entity\Options\LinkOptions;
 use Entity\Options\ModuleOptions;
+use FeatureFlags\Service as FeatureFlagsService;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Renderer\View\Helper\FormatHelperAwareTrait;
+use Ui\View\Helper\Timeago;
 use Uuid\Filter\NotTrashedCollectionFilter;
 use Uuid\Manager\UuidManagerAwareTrait;
 use Versioning\Entity\RevisionInterface;
@@ -61,6 +65,16 @@ class RepositoryController extends AbstractController
      */
     protected $moduleOptions;
 
+    /**
+     * @var FeatureFlagsService
+     */
+    protected $featureFlags;
+
+    public function __construct(FeatureFlagsService $featureFlags)
+    {
+        $this->featureFlags = $featureFlags;
+    }
+
     public function addLegacyRevisionAction()
     {
         $entity = $this->getEntity();
@@ -79,7 +93,7 @@ class RepositoryController extends AbstractController
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                return $this->handleAddRevisionPost($entity, $form->getData());
+                return $this->handleAddRevisionPost($entity, $form->getData(), true);
             }
         }
 
@@ -110,21 +124,60 @@ class RepositoryController extends AbstractController
             ], $entity->getType()->getName());
 
             if ($validated['valid']) {
+                $autoCheckout = array_key_exists('checkout', $data['controls']) && $data['controls']['checkout'];
                 $redirectUrl = '';
                 foreach ($validated['elements'] as $el) {
-                    $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['data']);
+                    $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['data'], $autoCheckout);
                 }
-                return new JsonModel([ 'success' => true, 'redirect' => $redirectUrl]);
+                return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
             } else {
-                return new JsonModel([ 'success' => false, 'errors' => $validated['messages']]);
+                return new JsonModel(['success' => false, 'errors' => $validated['messages']]);
             }
         }
 
-        $state = htmlspecialchars(json_encode($this->getData($entity, $this->params('revision'))), ENT_QUOTES, 'UTF-8');
-        $view = new ViewModel(['state' => $state, 'type' => $entity->getType()->getName()]);
+        $data = $this->getData($entity, $this->params('revision'));
+        $state = $this->featureFlags->isEnabled('frontend-editor')
+            ? json_encode($data)
+            : htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
+        $view = new ViewModel([
+            'state' => $state,
+            'type' => $entity->getType()->getName(),
+            'mayCheckout' => $this->isGranted('entity.revision.checkout', $entity),
+        ]);
         $this->layout('layout/3-col');
         $view->setTemplate('entity/repository/update-revision');
         return $view;
+    }
+
+    protected function getRevisionsAction()
+    {
+        $entity = $this->getEntity();
+        if (!$entity || $entity->isTrashed()) {
+            $this->getResponse()->setStatusCode(404);
+            return false;
+        }
+        $revisions = $entity->getRevisions()->map(function (Revision $revision) use ($entity) {
+            return [
+                'id' => $revision->getId(),
+                'timestamp' => (new Timeago())->format($revision->getTimestamp()),
+                'author' => $revision->getAuthor()->getUsername(),
+                'changes' => $revision->get('changes'),
+                'active' => $revision->getId() === $entity->getCurrentRevision()->getId(),
+            ];
+        });
+        return new JsonModel($revisions);
+    }
+
+    protected function getRevisionDataAction()
+    {
+        $entity = $this->getEntity();
+        if (!$entity || $entity->isTrashed()) {
+            $this->getResponse()->setStatusCode(404);
+            return false;
+        }
+
+        $state = $this->getData($entity, $this->params('revision'));
+        return new JsonModel(['state' => $state, 'type' => $entity->getType()->getName()]);
     }
 
     /**
@@ -186,9 +239,11 @@ class RepositoryController extends AbstractController
 
             $entity = $id ? $this->getEntity($data['id']) : $this->createOrRecycleEntity($type, $parentId);
 
-            if ($entity->hasCurrentRevision()) {
+            if ($entity->hasHead()) {
+                $startedFromHead = $data['revision'] === $entity->getHead()->getId();
+
                 // check for changes with previous revision data, ignoring $merges
-                $revision = $entity->getCurrentRevision();
+                $revision = $startedFromHead || !$entity->hasCurrentRevision() ? $entity->getHead() : $entity->getCurrentRevision();
                 $dataPartPrevious = $this->getRevisionData($revision);
                 // only check equality (==) not identity (===) to ignore different key order
                 if (array_merge($dataPartPrevious, $merges) != array_merge($dataPartNext, $merges)) {
@@ -239,7 +294,7 @@ class RepositoryController extends AbstractController
         }
 
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $entity   = $this->getEntityManager()->createEntity(
+        $entity = $this->getEntityManager()->createEntity(
             $type,
             ['link' => [
                 'type' => 'link',
@@ -297,9 +352,9 @@ class RepositoryController extends AbstractController
         }
     }
 
-    protected function handleAddRevisionPost(EntityInterface $entity, $data)
+    protected function handleAddRevisionPost(EntityInterface $entity, $data, $autoCheckout)
     {
-        $mayCheckout = $this->isGranted('entity.revision.checkout', $entity);
+        $mayCheckout = $autoCheckout && $this->isGranted('entity.revision.checkout', $entity) && $data;
         $revision = $this->getRepositoryManager()->commitRevision($entity, $data);
         /** @var Translator $translator */
         $translator = $this->serviceLocator->get('MvcTranslator');
@@ -361,8 +416,8 @@ class RepositoryController extends AbstractController
         $view = new ViewModel([
             'currentRevision' => $currentRevision,
             'compareRevision' => $previousRevision,
-            'revision'        => $revision,
-            'entity'          => $entity,
+            'revision' => $revision,
+            'entity' => $entity,
         ]);
 
         $view->setTemplate('entity/repository/compare-revision');
@@ -384,8 +439,8 @@ class RepositoryController extends AbstractController
         $this->assertGranted('entity.repository.history', $entity);
 
         $view = new ViewModel([
-            'entity'          => $entity,
-            'revisions'       => $entity->getRevisions(),
+            'entity' => $entity,
+            'revisions' => $entity->getRevisions(),
             'currentRevision' => $currentRevision,
         ]);
 
@@ -437,7 +492,7 @@ class RepositoryController extends AbstractController
             $form->setData($data);
         }
 
-        $license   = $entity->getLicense();
+        $license = $entity->getLicense();
         $agreement = $license->getAgreement() ? $license->getAgreement() : $license->getTitle();
         $form->get('license')->get('agreement')->setLabel($agreement);
         $form->get('changes')->setValue('');
@@ -473,6 +528,7 @@ class RepositoryController extends AbstractController
 
         $data = [
             'id' => $entity->getId(),
+            'revision' => $id ? intval($id) : 0,
             'license' => [
                 'id' => $license->getId(),
                 'title' => $license->getTitle(),
@@ -494,7 +550,7 @@ class RepositoryController extends AbstractController
             /** @var LinkOptions $linkOptions */
             $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
             foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
-                $chain    = new FilterChain();
+                $chain = new FilterChain();
                 $chain->attach(new HasCurrentRevisionCollectionFilter());
                 $chain->attach(new NotTrashedCollectionFilter());
                 $children = $chain->filter($entity->getChildren('link', $allowedChild));
@@ -502,12 +558,28 @@ class RepositoryController extends AbstractController
                 if ($children->count()) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
                         $data[$allowedChild] = [];
+                        /** @var EntityInterface $child */
                         foreach ($children as $child) {
-                            /* TODO: select correct revision id */
-                            $data[$allowedChild][] = $this->getData($child);
+                            // select child revision id by the following heuristic:
+                            //  - If an id of the entity revision was specified, then we take the newest existing revision of the child
+                            //    (Use case: Continue editing when it wasn't reviewed yet)
+                            //  - Otherwise we take the current revision (Use case: Editing the content visible on the website)
+                            if ($id === null) {
+                                $data[$allowedChild][] = $this->getData($child);
+                            } else {
+                                $filter = new NotTrashedCollectionFilter();
+                                $childRevisionId = $filter->filter($child->getRevisions())->first()->getId();
+                                $data[$allowedChild][] = $this->getData($child, $childRevisionId);
+                            }
                         }
                     } else {
-                        $data[$allowedChild] = $this->getData($children->first());
+                        if ($id === null) {
+                            $data[$allowedChild] = $this->getData($children->first());
+                        } else {
+                            $filter = new NotTrashedCollectionFilter();
+                            $childRevisionId = $filter->filter($children->first()->getRevisions())->first()->getId();
+                            $data[$allowedChild] = $this->getData($children->first(), $childRevisionId);
+                        }
                     }
                 }
             }
@@ -517,7 +589,7 @@ class RepositoryController extends AbstractController
 
     /**
      * @param EntityInterface $entity
-     * @param string          $id
+     * @param string $id
      * @return RevisionInterface|null
      */
     protected function getRevision(EntityInterface $entity, $id = null)

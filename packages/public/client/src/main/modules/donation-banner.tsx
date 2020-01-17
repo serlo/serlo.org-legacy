@@ -1,7 +1,7 @@
 /**
  * This file is part of Serlo.org.
  *
- * Copyright (c) 2013-2019 Serlo Education e.V.
+ * Copyright (c) 2013-2020 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
@@ -24,7 +24,8 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
-import { getGa } from './analytics'
+import { getGa } from '../../frontend/modules/analytics'
+import { Sentry } from '../../frontend/modules/sentry'
 
 const breakPoint = 1000
 const smallScreens = `@media screen and (max-width: ${breakPoint}px)`
@@ -239,33 +240,33 @@ function DonationProgress({ data }: DonationBannerProps) {
   const percentage = (data.progress.value / data.progress.max) * 100
   return (
     <>
-      {/*<ProgressContainer mobile>*/}
-      {/*  <BarWrapper percentage={percentage} title={progress}>*/}
-      {/*    <Bar center>{percentage < 25 ? null : progress}</Bar>*/}
-      {/*    <Triangle />*/}
-      {/*  </BarWrapper>*/}
-      {/*  <Remaining title={remainingFull} center>*/}
-      {/*    {percentage > 80 ? null : remaining}*/}
-      {/*  </Remaining>*/}
-      {/*</ProgressContainer>*/}
-      {/*<ProgressContainer desktop>*/}
-      {/*  <BarWrapper percentage={percentage} title={progress}>*/}
-      {/*    <Bar center={percentage > 60 && percentage <= 85}>*/}
-      {/*      {percentage <= 20*/}
-      {/*        ? null*/}
-      {/*        : percentage > 85*/}
-      {/*        ? remainingFull*/}
-      {/*        : progress}*/}
-      {/*    </Bar>*/}
-      {/*    <Triangle />*/}
-      {/*  </BarWrapper>*/}
-      {/*  <Remaining title={remainingFull} center={percentage > 60}>*/}
-      {/*    {percentage > 85 ? null : percentage > 60 ? remaining : remainingFull}*/}
-      {/*  </Remaining>*/}
-      {/*</ProgressContainer>*/}
-      {/*<GoalWrapper>*/}
-      {/*  Spendenziel {data.progress.max.toLocaleString('de-DE')} €*/}
-      {/*</GoalWrapper>*/}
+      <ProgressContainer mobile>
+        <BarWrapper percentage={percentage} title={progress}>
+          <Bar center>{percentage < 25 ? null : progress}</Bar>
+          <Triangle />
+        </BarWrapper>
+        <Remaining title={remainingFull} center>
+          {percentage > 80 ? null : remaining}
+        </Remaining>
+      </ProgressContainer>
+      <ProgressContainer desktop>
+        <BarWrapper percentage={percentage} title={progress}>
+          <Bar center={percentage > 60 && percentage <= 85}>
+            {percentage <= 20
+              ? null
+              : percentage > 85
+              ? remainingFull
+              : progress}
+          </Bar>
+          <Triangle />
+        </BarWrapper>
+        <Remaining title={remainingFull} center={percentage > 60}>
+          {percentage > 85 ? null : percentage > 60 ? remaining : remainingFull}
+        </Remaining>
+      </ProgressContainer>
+      <GoalWrapper>
+        Spendenziel {data.progress.max.toLocaleString('de-DE')} €
+      </GoalWrapper>
       <AccountWrapper>
         Spendenkonto Serlo Education e.V.:{' '}
         <strong>DE98 4306 0967 8204 5906 00</strong>{' '}
@@ -411,26 +412,30 @@ function DonationBanner({ data }: DonationBannerProps) {
 }
 
 export async function initDonationBanner() {
-  const { data } = await axios.get(
-    'https://serlo-donation-campaign.serlo.workers.dev/',
-    {
-      withCredentials: true
-    }
-  )
-  if (!data.enabled) return
-
-  const div = window.document.getElementById('donation-banner')
-  if (div) {
-    render(
-      <DonationBanner
-        data={{
-          ...data,
-          authenticated: div.getAttribute('data-authenticated') !== '',
-          interests: div.getAttribute('data-interests')
-        }}
-      />,
-      div
+  try {
+    const { data } = await axios.get(
+      'https://serlo-donation-campaign.serlo.workers.dev/',
+      {
+        withCredentials: true
+      }
     )
+    if (!data.enabled) return
+
+    const div = window.document.getElementById('donation-banner')
+    if (div) {
+      render(
+        <DonationBanner
+          data={{
+            ...data,
+            authenticated: div.getAttribute('data-authenticated') !== '',
+            interests: div.getAttribute('data-interests')
+          }}
+        />,
+        div
+      )
+    }
+  } catch (e) {
+    Sentry.captureMessage('Fetch of donation banner worker failed', e)
   }
 }
 

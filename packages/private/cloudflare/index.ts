@@ -1,7 +1,7 @@
 /**
  * This file is part of Serlo.org.
  *
- * Copyright (c) 2013-2019 Serlo Education e.V.
+ * Copyright (c) 2013-2020 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -15,18 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 // @ts-ignore
-import createCloudflare from 'cloudflare'
 import * as request from 'request'
 
 export const accountId = '3bfabc4463c2c3c340f7301d22ed18c0'
-export const secret = require('./cloudflare.secret.json')
-
-export const cloudflare = createCloudflare(secret)
 
 export async function uploadWorker({
   name,
@@ -40,8 +36,8 @@ export async function uploadWorker({
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/workers/scripts/${name}`,
       {
         headers: {
-          'X-Auth-Email': secret.email,
-          'X-Auth-Key': secret.key,
+          'X-Auth-Email': process.env.CF_EMAIL,
+          'X-Auth-Key': process.env.CF_KEY,
           'Content-Type': 'application/javascript'
         },
         body
@@ -65,11 +61,7 @@ export async function shouldDeployPackage({
   name: string
   version: string
 }) {
-  const isCi =
-    process.env.CI &&
-    process.env.CIRCLE_BRANCH &&
-    process.env.CIRCLE_BRANCH === 'master'
-  if (!isCi && process.env.DEPLOY !== 'true') {
+  if (process.env.DEPLOY !== 'true') {
     return false
   }
 
@@ -78,8 +70,8 @@ export async function shouldDeployPackage({
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${name}@${version}`,
       {
         headers: {
-          'X-Auth-Email': secret.email,
-          'X-Auth-Key': secret.key
+          'X-Auth-Email': process.env.CF_EMAIL,
+          'X-Auth-Key': process.env.CF_KEY
         },
         body: `${name}@${version}`
       },
@@ -110,8 +102,8 @@ export async function publishPackage({
           `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${name}@${env}`,
           {
             headers: {
-              'X-Auth-Email': secret.email,
-              'X-Auth-Key': secret.key
+              'X-Auth-Email': process.env.CF_EMAIL,
+              'X-Auth-Key': process.env.CF_KEY
             },
             body: `${name}@${version}`
           },
