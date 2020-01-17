@@ -158,6 +158,10 @@ Injections = function() {
                 '</div></div>'
             )
             Common.trigger('new context', $that)
+            // trigger nextjs hydration
+            if (window.__NEXT_ENTRY_) {
+              window.__NEXT_ENTRY_()
+            }
           } else {
             notSupportedYet($that)
           }

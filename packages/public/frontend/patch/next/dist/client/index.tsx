@@ -211,7 +211,11 @@ class Container extends React.Component {
 
 export const emitter = mitt()
 
-export default async ({ webpackHMR: passedWebpackHMR } = {}) => {
+export default async function nextjsEntrypoint({
+  webpackHMR: passedWebpackHMR
+} = {}) {
+  window.__NEXT_ENTRY_ = nextjsEntrypoint
+  console.log('## NEXTJS Hydration ##')
   // This makes sure this specific lines are removed in production
   if (process.env.NODE_ENV === 'development') {
     webpackHMR = passedWebpackHMR

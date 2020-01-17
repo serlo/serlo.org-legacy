@@ -3,9 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = nextjsEntrypoint;
 exports.render = render;
 exports.renderError = renderError;
-exports.default = exports.emitter = exports.ErrorComponent = exports.router = exports.dataManager = exports.version = void 0;
+exports.emitter = exports.ErrorComponent = exports.router = exports.dataManager = exports.version = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -69,6 +70,15 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+// Reason:
+// Adapting paths to the correct context, because this file is loaded
+// from module root and not from within a certain folder
+// ----------------- END MODIFICATION 1 --------------------
+// Polyfill Promise globally
+// This is needed because Webpack's dynamic loading(common chunks) code
+// depends on Promise.
+// So, we need to polyfill it.
+// See: https://webpack.js.org/guides/code-splitting/#dynamic-imports
 if (!window.Promise) {
   window.Promise = Promise;
 } // ----------------- MODIFICATION 2 --------------------
@@ -208,11 +218,13 @@ function (_React$Component) {
 var emitter = (0, _mitt.default)();
 exports.emitter = emitter;
 
-var _default = async function _default() {
+async function nextjsEntrypoint() {
   var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
       passedWebpackHMR = _ref3.webpackHMR;
 
-  // This makes sure this specific lines are removed in production
+  window.__NEXT_ENTRY_ = nextjsEntrypoint;
+  console.log('## NEXTJS Hydration ##'); // This makes sure this specific lines are removed in production
+
   if (process.env.NODE_ENV === 'development') {
     webpackHMR = passedWebpackHMR;
   }
@@ -354,9 +366,7 @@ var _default = async function _default() {
 
 
   return emitter;
-};
-
-exports.default = _default;
+}
 
 async function render(props) {
   if (props.err) {
