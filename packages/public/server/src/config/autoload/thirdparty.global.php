@@ -35,8 +35,7 @@ return [
                     'user' => $db["username"],
                     'password' => $db["password"],
                     'dbname' => $db["database"],
-                    // Yes..this is currently the only way i know of fixing database encoding issues
-                    'charset' => 'latin1',
+                    'charset' => 'utf8mb4',
                 ],
             ],
         ],

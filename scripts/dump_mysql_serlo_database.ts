@@ -14,9 +14,7 @@ import {
   IgnoreInsecurePasswordWarning
 } from './transform'
 
-// Currently we have wrongly encoded characters in the DB and the dump only
-// works when we handle it with a 1 Byte character set (see #166)
-const encoding = 'latin1'
+const encoding = 'utf8'
 const maxInsertCmdLength = 1024 * 1024
 const repositoryBaseDir = path.dirname(__dirname)
 const sqlInitFile = path.join(
@@ -41,7 +39,6 @@ const mysqldumpCommand = [
   '--skip-extended-insert',
   '--comments',
   '--skip-dump-date',
-  '--default-character-set=utf8',
   '--databases',
   'serlo'
 ]
