@@ -19,13 +19,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-const { mergeDeepRight } = require('ramda')
-
 const puppeteerPreset = require('jest-puppeteer/jest-preset')
 const tsPreset = require('ts-jest/jest-preset')
 
 module.exports = {
-  ...mergeDeepRight(puppeteerPreset, tsPreset),
+  ...puppeteerPreset,
+  ...tsPreset,
   testRegex: '/__tests-e2e__/[^_].*\\.[jt]sx?$',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup-e2e.ts']
+  setupFilesAfterEnv: puppeteerPreset.setupFilesAfterEnv.concat([
+    '<rootDir>/jest.setup-e2e.ts'
+  ])
 }
