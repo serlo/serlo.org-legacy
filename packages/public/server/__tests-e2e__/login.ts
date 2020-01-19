@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { baseUrl, login, navigation, viewports } from './_config'
+import { login, navigation, viewports } from './_config'
 import { getByPlaceholderText, getByText, getDocument, goto } from './_utils'
 
 const examplePages = [
@@ -33,17 +33,17 @@ const user = 'admin'
 const selector = '#serlo-menu a'
 
 describe('login process', () => {
-  test.each(examplePages)('start page is %p', async path => {
+  test.each(examplePages)('start page is %p', async startPage => {
     await page.setViewport(viewports.desktop)
-    const firstPage = await goto(path)
+    const firstPage = await goto(startPage)
 
-    expect(page.url()).toBe(baseUrl + path)
+    expect(page).toBePage(startPage)
 
     await expect(firstPage).toClick(selector, { text: navigation.login })
     await page.waitForNavigation()
 
     const loginPage = await getDocument(page)
-    expect(page.url()).toBe(baseUrl + login.route)
+    expect(page).toBePage(login.route)
 
     const { buttonLogin, inputUser, inputPassword } = login.identifier
     await getByPlaceholderText(loginPage, inputUser).then(e => e.type(user))
@@ -58,14 +58,14 @@ describe('login process', () => {
     await expect(page).toClick('.fa.fa-user')
     await page.waitForNavigation()
 
-    expect(page.url()).toBe(baseUrl + '/user/me')
+    expect(page).toBePage('/user/me')
     await expect(page).toMatchElement('h1', { text: user })
 
-    await goto(path)
+    await goto(startPage)
     await expect(page).toClick(selector, { text: navigation.logout })
     await page.waitForNavigation()
 
-    expect(page.url()).toBe(baseUrl + path)
+    expect(page).toBePage(startPage)
     await expect(page).toMatchElement(selector, { text: navigation.login })
   })
 })

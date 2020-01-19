@@ -20,9 +20,11 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as assert from 'assert'
-import { ElementHandle } from 'puppeteer'
+import * as jest from 'jest'
+import { printReceived, printDiffOrStringify } from 'jest-matcher-utils'
+import { Page, ElementHandle } from 'puppeteer'
 import { queries, getDocument } from 'pptr-testing-library'
-import { baseUrl } from './_config'
+import { testingServerUrl } from './_config'
 
 export { getDocument } from 'pptr-testing-library'
 
@@ -43,8 +45,36 @@ export async function getByItemType(element: ElementHandle, itemType: string) {
   return queryResults[0]
 }
 
-export async function goto(path: string): Promise<ElementHandle> {
-  await page.goto(baseUrl + path)
+export async function goto(site: string): Promise<ElementHandle> {
+  await page.goto(testingServerUrl + site)
 
   return getDocument(page)
+}
+
+export function toBePage(
+  this: jest.MatcherUtils,
+  page: Page,
+  expectedPage: string
+): jest.CustomMatcherResult {
+  const expectedUrl = testingServerUrl + expectedPage
+  const currentUrl = page.url()
+
+  if (currentUrl === expectedUrl) {
+    return {
+      pass: true,
+      message: () => `Current URL should not be ${printReceived(currentUrl)}`
+    }
+  } else {
+    return {
+      pass: false,
+      message: () =>
+        printDiffOrStringify(
+          expectedUrl,
+          currentUrl,
+          'Expected URL',
+          'Current URL',
+          this.expand
+        )
+    }
+  }
 }
