@@ -19,4 +19,28 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+export const baseUrl = 'http://de.serlo.localhost:4567'
+
 export const exampleApiParameters = ['contentOnly', 'hideBanner', 'fullWidth']
+
+export const login = {
+  defaultPassword: '123456',
+  route: '/auth/login',
+  identifier: {
+    inputUser: 'E-Mail-Adresse oder Benutzername',
+    inputPassword: 'Passwort',
+    buttonLogin: 'Login'
+  }
+}
+
+export const navigation = {
+  login: 'Anmelden',
+  logout: 'Abmelden'
+}
+
+export const viewports = {
+  desktop: {
+    width: 1920,
+    height: 1080
+  }
+}

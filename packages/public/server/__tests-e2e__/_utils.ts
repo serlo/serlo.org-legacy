@@ -21,12 +21,14 @@
  */
 import * as assert from 'assert'
 import { ElementHandle } from 'puppeteer'
-import { queries } from 'pptr-testing-library'
+import { queries, getDocument } from 'pptr-testing-library'
+import { baseUrl } from './_config'
 
 export { getDocument } from 'pptr-testing-library'
 
 export const getByText = queries.getByText
 export const queryByText = queries.queryByText
+export const getByPlaceholderText = queries.getByPlaceholderText
 
 export async function getByItemType(element: ElementHandle, itemType: string) {
   const queryResults = await element.$$(`[itemtype="${itemType}"]`)
@@ -39,4 +41,10 @@ export async function getByItemType(element: ElementHandle, itemType: string) {
     `More than one element for item type \`${itemType}\` found`
   )
   return queryResults[0]
+}
+
+export async function goto(path: string): Promise<ElementHandle> {
+  await page.goto(baseUrl + path)
+
+  return getDocument(page)
 }
