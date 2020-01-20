@@ -51,7 +51,7 @@ export async function goto(site: string): Promise<ElementHandle> {
   return getDocument(page)
 }
 
-export function toBePage(
+export function toHaveUrlPath(
   this: jest.MatcherUtils,
   page: Page,
   expectedPage: string

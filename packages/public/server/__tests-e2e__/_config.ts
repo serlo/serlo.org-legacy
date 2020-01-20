@@ -23,7 +23,7 @@ export const exampleApiParameters = ['contentOnly', 'hideBanner', 'fullWidth']
 
 export const login = {
   defaultPassword: '123456',
-  route: '/auth/login',
+  path: '/auth/login',
   identifier: {
     inputUser: 'E-Mail-Adresse oder Benutzername',
     inputPassword: 'Passwort',

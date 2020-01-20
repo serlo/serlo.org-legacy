@@ -33,17 +33,17 @@ const user = 'admin'
 const selector = '#serlo-menu a'
 
 describe('login process', () => {
-  test.each(examplePages)('start page is %p', async startPage => {
+  test.each(examplePages)('start page is %p', async startPath => {
     await page.setViewport(viewports.desktop)
-    const firstPage = await goto(startPage)
+    const firstPage = await goto(startPath)
 
-    expect(page).toBePage(startPage)
+    expect(page).toHaveUrlPath(startPath)
 
     await expect(firstPage).toClick(selector, { text: navigation.login })
     await page.waitForNavigation()
 
     const loginPage = await getDocument(page)
-    expect(page).toBePage(login.route)
+    expect(page).toHaveUrlPath(login.path)
 
     const { buttonLogin, inputUser, inputPassword } = login.identifier
     await getByPlaceholderText(loginPage, inputUser).then(e => e.type(user))
@@ -58,14 +58,14 @@ describe('login process', () => {
     await expect(page).toClick('.fa.fa-user')
     await page.waitForNavigation()
 
-    expect(page).toBePage('/user/me')
+    expect(page).toHaveUrlPath('/user/me')
     await expect(page).toMatchElement('h1', { text: user })
 
-    await goto(startPage)
+    await goto(startPath)
     await expect(page).toClick(selector, { text: navigation.logout })
     await page.waitForNavigation()
 
-    expect(page).toBePage(startPage)
+    expect(page).toHaveUrlPath(startPath)
     await expect(page).toMatchElement(selector, { text: navigation.login })
   })
 })
