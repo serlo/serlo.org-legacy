@@ -99,6 +99,8 @@ of the following packages:
 - `yarn test:js` runs all non-PHP unit tests
 - `yarn test:php` runs all PHP unit tests (requires `yarn start` beforehand)
 - `yarn test:e2e` runs all end-to-end tests (requires `yarn start` beforehand)
+    - Use `HEADLESS=false yarn test.e2e` when our e2e tests shall not use a headless browser.
+    - Use `HEADLESS=false SLOWMO=<number> yarn test:e2e` when inside the e2e tests all actions shall be slowed down by `<number>` of milliseconds between them so that we see what happens.
 - `yarn license` updates license headers in source files
 - `yarn c` allows to run composer commands, see `yarn c --help` (requires `yarn start`)
 - `yarn c-dev` allows to run composer commands (only used for dev tools), see `yarn c --help` (requires `yarn start`)
