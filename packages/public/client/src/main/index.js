@@ -159,9 +159,7 @@ const init = $context => {
   setLanguage()
   initChangeDimensionEvents()
   initContentApi()
-  initConsentBanner().then(consent => {
-    initDonationBanner(consent)
-  })
+  initConsentBanner()
   initDiff()
 
   // create an system notification whenever Common.genericError is called
@@ -272,28 +270,3 @@ const init = $context => {
 
 init($('body'))
 Supporter.check()
-
-function initDonationBanner(consent) {
-  if (tenant !== 'de') return
-  if (localStorage.getItem('donation-popup-donated') === '1') return
-
-  const disabledPages = [
-    '/auth/login',
-    '/user/register',
-    '/community',
-    '/spenden',
-    '/eltern',
-    '/lehrkraefte'
-  ]
-  if (
-    disabledPages.indexOf(window.location.pathname) > -1 ||
-    window.location.pathname.startsWith('/page/revision/create/') ||
-    window.location.pathname.startsWith('/page/revision/create-old/')
-  ) {
-    return
-  }
-
-  import('./modules/donation-banner').then(({ initDonationBanner }) => {
-    initDonationBanner()
-  })
-}
