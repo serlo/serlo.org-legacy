@@ -22,7 +22,7 @@
 import * as assert from 'assert'
 import * as jest from 'jest'
 import { printReceived, printDiffOrStringify } from 'jest-matcher-utils'
-import { Page, ElementHandle } from 'puppeteer'
+import { ElementHandle } from 'puppeteer'
 import { queries, getDocument } from 'pptr-testing-library'
 import { testingServerUrl } from './_config'
 
@@ -33,15 +33,21 @@ export const queryByText = queries.queryByText
 export const getByPlaceholderText = queries.getByPlaceholderText
 
 export async function getByItemType(element: ElementHandle, itemType: string) {
-  const queryResults = await element.$$(`[itemtype="${itemType}"]`)
+  return getBySelector(element, `[itemtype="${itemType}"]`)
+}
+
+export async function getBySelector(element: ElementHandle, selector: string) {
+  const queryResults = await element.$$(selector)
+
   assert.ok(
     queryResults.length > 0,
-    `No element for item type \`${itemType}\` found`
+    `No element for selector \`${selector}\` found`
   )
   assert.ok(
     queryResults.length < 2,
-    `More than one element for item type \`${itemType}\` found`
+    `More than one element for selector \`${selector}\` found`
   )
+
   return queryResults[0]
 }
 
@@ -51,13 +57,26 @@ export async function goto(site: string): Promise<ElementHandle> {
   return getDocument(page)
 }
 
+export async function clickForNewPage(
+  element: ElementHandle
+): Promise<ElementHandle> {
+  await element.click()
+  await page.waitForNavigation()
+
+  return getDocument(page)
+}
+
 export function toHaveUrlPath(
   this: jest.MatcherUtils,
-  page: Page,
+  page: ElementHandle,
   expectedPage: string
 ): jest.CustomMatcherResult {
   const expectedUrl = testingServerUrl + expectedPage
-  const currentUrl = page.url()
+  //@ts-ignore
+  const currentUrl = page
+    .executionContext()
+    .frame()!
+    .url()
 
   if (currentUrl === expectedUrl) {
     return {

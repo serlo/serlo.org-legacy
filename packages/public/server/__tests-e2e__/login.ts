@@ -20,7 +20,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { login, navigation, viewports } from './_config'
-import { getByPlaceholderText, getByText, getDocument, goto } from './_utils'
+import {
+  clickForNewPage,
+  getByPlaceholderText,
+  getBySelector,
+  getByText,
+  getDocument,
+  goto
+} from './_utils'
 
 const examplePages = [
   '/',
@@ -37,13 +44,13 @@ describe('login process', () => {
     await page.setViewport(viewports.desktop)
     const firstPage = await goto(startPath)
 
-    expect(page).toHaveUrlPath(startPath)
+    expect(firstPage).toHaveUrlPath(startPath)
 
-    await expect(firstPage).toClick(selector, { text: navigation.login })
-    await page.waitForNavigation()
+    const loginPage = await getByText(firstPage, navigation.login, {
+      selector
+    }).then(clickForNewPage)
 
-    const loginPage = await getDocument(page)
-    expect(page).toHaveUrlPath(login.path)
+    expect(loginPage).toHaveUrlPath(login.path)
 
     const { buttonLogin, inputUser, inputPassword } = login.identifier
     await getByPlaceholderText(loginPage, inputUser).then(e => e.type(user))
@@ -51,21 +58,32 @@ describe('login process', () => {
       e.type(login.defaultPassword)
     )
 
-    await getByText(loginPage, buttonLogin).then(e => e.click())
-    await page.waitForNavigation()
+    const afterLoginPage = await getByText(loginPage, buttonLogin).then(
+      clickForNewPage
+    )
 
-    await expect(page).toMatchElement(selector, { text: navigation.logout })
-    await expect(page).toClick('.fa.fa-user')
-    await page.waitForNavigation()
+    await expect(afterLoginPage).toMatchElement(selector, {
+      text: navigation.logout
+    })
 
-    expect(page).toHaveUrlPath('/user/me')
-    await expect(page).toMatchElement('h1', { text: user })
+    const userPage = await getBySelector(
+      afterLoginPage,
+      selector + ' .fa.fa-user'
+    ).then(clickForNewPage)
 
-    await goto(startPath)
-    await expect(page).toClick(selector, { text: navigation.logout })
-    await page.waitForNavigation()
+    expect(userPage).toHaveUrlPath('/user/me')
+    await expect(userPage).toMatchElement('h1', { text: user })
 
-    expect(page).toHaveUrlPath(startPath)
-    await expect(page).toMatchElement(selector, { text: navigation.login })
+    const pageForCallLogout = await goto(startPath)
+    const afterLogoutPage = await getByText(
+      pageForCallLogout,
+      navigation.logout,
+      { selector }
+    ).then(clickForNewPage)
+
+    expect(afterLogoutPage).toHaveUrlPath(startPath)
+    await expect(afterLogoutPage).toMatchElement(selector, {
+      text: navigation.login
+    })
   })
 })
