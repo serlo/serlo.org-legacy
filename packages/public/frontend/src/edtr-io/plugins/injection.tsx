@@ -61,6 +61,12 @@ export function InjectionRenderer(props: { src: string }) {
         setTimeout(() => {
           if (ref.current) {
             Common.trigger('new context', ref.current)
+            // trigger nextjs hydration
+            // @ts-ignore
+            const nextEntry = window.__NEXT_ENTRY_
+            if (nextEntry) {
+              nextEntry()
+            }
           }
         })
       })
