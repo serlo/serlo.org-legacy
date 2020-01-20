@@ -19,7 +19,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import {
+  EditorPlugin,
+  EditorPluginProps,
+  string,
+  list,
+  migratable
+} from '@edtr-io/plugin'
 import { createSolutionPlugin } from '../solution'
 import * as React from 'react'
 
@@ -31,7 +37,7 @@ export const textSolutionTypeState = entityType(
     ...entity,
     // FIXME: solutions don't have a title
     title: string(''),
-    content: editorContent()
+    content: editorContent('solution')
   },
   {}
 )
@@ -64,7 +70,7 @@ function TextSolutionTypeEditor(
           onSwitchRevision={props.state.replaceOwnState}
         />
       )}
-      <solutionPlugin.Component {...props} />
+      {props.state.content.render()}
       {props.config.skipControls ? null : (
         <Controls subscriptions {...props.state} />
       )}

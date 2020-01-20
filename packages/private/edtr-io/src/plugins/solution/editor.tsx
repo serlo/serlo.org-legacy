@@ -32,19 +32,21 @@ export function SolutionEditor({ state, editable }: SolutionProps) {
     )
   }, [])
 
-  const renderSolutionTitle = (index: number) =>
-    React.useCallback((collapsed: boolean) => {
-      return <React.Fragment>{'Lösung zu Teilaufgabe ' + index}</React.Fragment>
-    }, [])
-
   return (
     <ThemeProvider theme={solutionTheme}>
       <ExpandableBox renderTitle={renderTitle} editable={editable}>
         {state.content.length > 1
           ? state.content.map((solution, index) => {
+              const solutionNumber = index + 1
               return (
                 <ThemeProvider theme={solutionContentTheme}>
-                  <ExpandableBox renderTitle={renderSolutionTitle(index)}>
+                  <ExpandableBox
+                    renderTitle={() => (
+                      <React.Fragment>
+                        {'Lösung zu Teilaufgabe ' + solutionNumber}
+                      </React.Fragment>
+                    )}
+                  >
                     {solution.render()}
                   </ExpandableBox>
                 </ThemeProvider>

@@ -559,7 +559,7 @@ export function deserialize({
                 {
                   plugin: 'solutionSteps',
                   state: {
-                    introduction: { plugin: 'text' },
+                    introduction: content,
                     hasStrategy: false,
                     strategy: { plugin: 'rows' },
                     solutionSteps: [

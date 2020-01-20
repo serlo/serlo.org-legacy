@@ -30,7 +30,6 @@ import { createImportantStatementPlugin } from '@edtr-io/plugin-important-statem
 import { createInputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { createRowsPlugin, RowsConfig } from '@edtr-io/plugin-rows'
 import { createScMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
-import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { createVideoPlugin } from '@edtr-io/plugin-video'
 
@@ -51,6 +50,7 @@ import { errorPlugin } from './plugins/error'
 import { createImagePlugin } from './plugins/image'
 import { injectionPlugin } from './plugins/injection'
 import { layoutPlugin } from './plugins/layout'
+import { createSolutionPlugin } from './plugins/solution'
 import { createSolutionStepsPlugin } from './plugins/solution-steps'
 import { tablePlugin } from './plugins/table'
 import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
@@ -90,7 +90,7 @@ export function createPlugins(
     rows: createRowsPlugin({ plugins: registry }),
     scMcExercise: createScMcExercisePlugin(),
     solution: createSolutionPlugin(),
-    solutionStepsPlugin: createSolutionStepsPlugin(),
+    solutionSteps: createSolutionStepsPlugin(),
     spoiler: createSpoilerPlugin(),
     table: tablePlugin,
     text: createTextPlugin({ registry: registry }),

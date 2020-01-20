@@ -129,6 +129,12 @@ export function Editor(props: EditorProps) {
           defaultPlugin="text"
           initialState={result.initialState}
           editable
+          createStoreEnhancer={enh => {
+            return next => (store, action) => {
+              console.log(action)
+              return enh(next)(store, action)
+            }
+          }}
         >
           {props.children}
         </Core>

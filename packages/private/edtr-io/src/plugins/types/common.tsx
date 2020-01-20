@@ -437,12 +437,14 @@ export function entityType<
   }
 }
 
-export function editorContent(): StateType<
+export function editorContent(
+  plugin: string = 'rows'
+): StateType<
   string,
   StateTypeValueType<ReturnType<typeof child>>,
   StateTypeReturnType<ReturnType<typeof child>>
 > {
-  const originalChild = child<string>({ plugin: 'rows' })
+  const originalChild = child<string>({ plugin: plugin })
   return {
     ...originalChild,
     serialize(...args: Parameters<typeof originalChild.serialize>) {
