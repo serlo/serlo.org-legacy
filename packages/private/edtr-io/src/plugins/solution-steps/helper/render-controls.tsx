@@ -16,25 +16,18 @@ export const RenderControls = ({
   index,
   showHelp,
   provided,
-  ids
+  showButtons
 }: {
   state: StateTypeReturnType<SolutionStepsState>
   index: number
   showHelp: (show: boolean) => void
   provided: any
-  ids: { leftId: string; rightId: string | null }
+  showButtons: boolean
 }) => {
-  const focusPath = useScopedSelector(getFocusPath())
-  const show =
-    (focusPath &&
-      (focusPath.includes(ids.leftId) ||
-        (ids.rightId && focusPath.includes(ids.rightId)))) ||
-    false
-
   const { solutionSteps } = state
   const currentElement = solutionSteps[index]
   return (
-    <Controls show={show}>
+    <Controls show={showButtons}>
       <ControlButton
         onMouseDown={() => {
           solutionSteps.remove(index)

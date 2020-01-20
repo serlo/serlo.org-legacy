@@ -128,6 +128,14 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                     index={index}
                   >
                     {(provided: any) => {
+                      const show =
+                        (focusPath &&
+                          (focusPath.includes(solutionStepLeft.content.id) ||
+                            (solutionStepRight &&
+                              focusPath.includes(
+                                solutionStepRight.content.id
+                              )))) ||
+                        false
                       return (
                         <React.Fragment key={solutionStepLeft.content.id}>
                           <Container {...provided.draggableProps}>
@@ -158,12 +166,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                               index={row.val1.solutionStepIndex}
                               provided={provided}
                               showHelp={setStepHelp}
-                              ids={{
-                                leftId: solutionStepLeft.content.id,
-                                rightId: solutionStepRight
-                                  ? solutionStepRight.content.id
-                                  : ''
-                              }}
+                              showButtons={show}
                             />
                             <Overlay
                               open={stepHelpVisible}
@@ -183,20 +186,22 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                               }
                             ></Overlay>
                           </Container>
-                          <AddButtonsComponent
-                            {...props}
-                            id={solutionStepLeft.content.id}
-                            optionalID={
-                              solutionStepRight
-                                ? solutionStepRight.content.id
-                                : undefined
-                            }
-                            index={
-                              solutionStepRight
-                                ? solutionStepIndexRight
-                                : solutionStepIndexLeft
-                            }
-                          />
+                          {show ? (
+                            <AddButtonsComponent
+                              {...props}
+                              id={solutionStepLeft.content.id}
+                              optionalID={
+                                solutionStepRight
+                                  ? solutionStepRight.content.id
+                                  : undefined
+                              }
+                              index={
+                                solutionStepRight
+                                  ? solutionStepIndexRight
+                                  : solutionStepIndexLeft
+                              }
+                            />
+                          ) : null}
                         </React.Fragment>
                       )
                     }}
