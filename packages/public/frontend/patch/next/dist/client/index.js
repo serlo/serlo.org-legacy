@@ -222,9 +222,8 @@ async function nextjsEntrypoint() {
   var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
       passedWebpackHMR = _ref3.webpackHMR;
 
-  window.__NEXT_ENTRY_ = nextjsEntrypoint;
-  console.log('## NEXTJS Hydration ##'); // This makes sure this specific lines are removed in production
-
+  window.__NEXT_ENTRY__ = nextjsEntrypoint;
+  // This makes sure this specific lines are removed in production
   if (process.env.NODE_ENV === 'development') {
     webpackHMR = passedWebpackHMR;
   }
