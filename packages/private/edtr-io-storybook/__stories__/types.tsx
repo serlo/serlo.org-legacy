@@ -138,7 +138,7 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
       'text-solution': {
         id: 1338,
         license: ccBy,
-        content: ''
+        content: '{"plugin": "solution"}'
       }
     }
   },
@@ -159,7 +159,7 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
         id: 1339,
         license: ccBy,
         changes: '',
-        content: ''
+        content: '{"plugin": "solution"}'
       }
     }
   }
