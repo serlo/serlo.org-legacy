@@ -539,6 +539,9 @@ export function optionalSerializedChild(
     },
     createInitialState() {
       return null
+    },
+    getFocusableChildren(child) {
+      return child ? [{ id: child }] : []
     }
   }
 }
