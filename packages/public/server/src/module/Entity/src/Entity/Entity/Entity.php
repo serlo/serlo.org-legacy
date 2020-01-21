@@ -36,6 +36,7 @@ use Uuid\Filter\NotTrashedCollectionFilter;
 use Versioning\Entity\RevisionInterface;
 use Versioning\Filter\HasCurrentRevisionCollectionFilter;
 use Zend\Filter\FilterChain;
+use Common\Utils;
 
 /**
  * An entity.
@@ -262,15 +263,11 @@ class Entity extends Uuid implements EntityInterface
 
     public function getSubjects()
     {
-        $flatmap = function ($map, $array) {
-            return array_merge(...array_map($map, $array));
-        };
-
         $subjects = !$this->getTaxonomyTerms()->isEmpty()
                     ? $this->getTaxonomyTerms()->map(function ($term) {
                         return $term->getSecondLevelAncestor();
                     })->toArray()
-                    : $flatmap(function ($parent) {
+                    : Utils::array_flatmap(function ($parent) {
                         return $parent->getSubjects();
                     }, $this->getParents('link')->toArray());
 
