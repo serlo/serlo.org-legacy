@@ -62,6 +62,15 @@ Run `yarn` to install the dependencies of all packages.
 Run `yarn start` to start everything needed to run serlo.org locally.
 Now, open [http://de.serlo.localhost:4567](http://de.serlo.localhost:4567). Happy coding!
 
+### Testuser
+
+You can use the following users at [http://de.serlo.localhost:4567](http://de.serlo.localhost:4567). Their names correspondend to the roles they have:
+
+- `login`
+- `german_reviewer`
+- `german_helper`
+- `admin`
+
 ### Stop
 
 Interrupt the `yarn start` command to stop webpack and and run `yarn stop:server` to stop the docker containers.
