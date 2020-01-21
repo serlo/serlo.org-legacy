@@ -96,6 +96,7 @@ of the following packages:
 - `yarn lint:js` lints all non-PHP source code
 - `yarn lint:php` lints all PHP source code (requires `yarn start` beforehand)
 - `yarn mysql` connects to the running MySQL database (requires `yarn start` beforehand)
+- `yarn rollback:sql` to reimport the `.sql` file which inititalizes the database. You can use this command to undo all changes you have done on the database.
 - `yarn test:js` runs all non-PHP unit tests
 - `yarn test:php` runs all PHP unit tests (requires `yarn start` beforehand)
 - `yarn test:e2e` runs all end-to-end tests (requires `yarn start` beforehand)
