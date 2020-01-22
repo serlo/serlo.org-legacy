@@ -22,20 +22,33 @@
  */
 namespace Uuid\Manager;
 
+use Attachment\Entity\ContainerInterface;
 use Authorization\Service\AuthorizationAssertionTrait;
+use Blog\Entity\PostInterface;
 use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
 use Common\Traits\FlushableTrait;
 use Common\Traits\ObjectManagerAwareTrait;
+use Discussion\Entity\CommentInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Query;
+use Entity\Entity\EntityInterface;
+use Entity\Entity\RevisionInterface;
 use Event\Entity\EventLog;
 use Instance\Manager\InstanceAwareEntityManager;
+use Page\Entity\PageRepositoryInterface;
+use Page\Entity\PageRevisionInterface;
+use Taxonomy\Entity\TaxonomyTerm;
+use Taxonomy\Entity\TaxonomyTermInterface;
+use User\Entity\User;
+use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 use Uuid\Exception;
 use Uuid\Exception\NotFoundException;
 use Uuid\Options\ModuleOptions;
+use Zend\Db\Sql\Expression;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
@@ -140,6 +153,39 @@ class UuidManager implements UuidManagerInterface
         $this->assertGranted($permission, $uuid);
         $this->getObjectManager()->remove($uuid);
         $this->getEventManager()->trigger('purge', $this, ['object' => $uuid]);
+    }
+
+    public function clearDeadUuids()
+    {
+        $classes = [
+            "taxonomyTerm" => TaxonomyTermInterface::class,
+            "user" => UserInterface::class,
+            "attachment" => ContainerInterface::class,
+            "blogPost" => PostInterface::class,
+            "entity" => EntityInterface::class,
+            "entityRevision" => RevisionInterface::class,
+            "page" => PageRepositoryInterface::class,
+            "pageRevision" => PageRevisionInterface::class,
+            "comment" => CommentInterface::class,
+        ];
+        $uuidClass = $this->getClassResolver()->resolveClassName(UuidInterface::class);
+
+        foreach ($classes as $discriminator => $className) {
+            $subClass = $this->getClassResolver()->resolveClassName($className);
+            $qb = $this->objectManager->createQueryBuilder();
+            $toDelete = $qb->select('u.id')->from($uuidClass, 'u')->leftJoin($subClass, 's', 'WITH', 's = u')
+                ->where($qb->expr()->isInstanceOf('u', $subClass))
+                ->andWhere($qb->expr()->isNull('s.id'))
+                ->getQuery()->getResult();
+            if (count($toDelete) > 0) {
+                $this->objectManager->createQueryBuilder()
+                    ->delete($uuidClass, 'u')
+                    ->where($qb->expr()->in('u.id', array_map(function ($u) {
+                        return $u['id'];
+                    }, $toDelete)))
+                    ->getQuery()->getResult();
+            }
+        }
     }
 
     /**

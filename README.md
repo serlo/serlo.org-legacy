@@ -62,6 +62,15 @@ Run `yarn` to install the dependencies of all packages.
 Run `yarn start` to start everything needed to run serlo.org locally.
 Now, open [http://de.serlo.localhost:4567](http://de.serlo.localhost:4567). Happy coding!
 
+### Testuser
+
+You can use the following users at [http://de.serlo.localhost:4567](http://de.serlo.localhost:4567). Their names correspondend to the roles they have:
+
+- `login`
+- `german_reviewer`
+- `german_helper`
+- `admin`
+
 ### Stop
 
 Interrupt the `yarn start` command to stop webpack and and run `yarn stop:server` to stop the docker containers.
@@ -96,6 +105,7 @@ of the following packages:
 - `yarn lint:js` lints all non-PHP source code
 - `yarn lint:php` lints all PHP source code (requires `yarn start` beforehand)
 - `yarn mysql` connects to the running MySQL database (requires `yarn start` beforehand)
+- `yarn rollback:sql` to reimport the `.sql` file which inititalizes the database. You can use this command to undo all changes you have done on the database.
 - `yarn test:js` runs all non-PHP unit tests
 - `yarn test:php` runs all PHP unit tests (requires `yarn start` beforehand)
 - `yarn test:e2e` runs all end-to-end tests (requires `yarn start` beforehand)

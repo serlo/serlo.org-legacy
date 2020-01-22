@@ -9,10 +9,6 @@ cloudflare-workers:
   - packages/public/cloudflare-workers/*
   - packages/public/cloudflare-workers/**/*
 
-donation-campaign:
-  - packages/public/donation-campaign/*
-  - packages/public/donation-campaign/**/*
-
 editor-renderer:
   - packages/public/editor-renderer/*
   - packages/public/editor-renderer/**/*

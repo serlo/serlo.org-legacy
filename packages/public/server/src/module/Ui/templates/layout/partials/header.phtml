@@ -110,11 +110,4 @@
         <?php if (!$this->layout()->fullWidth): ?>
     </div>
 <?php endif; ?>
-<?php if ($this->featureFlags()->isEnabled('donation-banner')): ?>
-    <?php if ($this->featureFlags()->isEnabled('frontend-donation-banner')): ?>
-    <?php echo $this->renderComponent('donationbanner', ["authenticated" => $this->user()->getAuthenticatedUserID(), "interests" => $this->user()->getAuthenticatedInterests()]) ?>
-    <?php else: ?>
-    <div id="donation-banner" data-authenticated="<?php echo $this->user()->getAuthenticatedUserID(); ?>" data-interests="<?php echo $this->user()->getAuthenticatedInterests(); ?>"></div>
-    <?php endif; ?>
-<?php endif; ?>
 </header>
