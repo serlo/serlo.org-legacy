@@ -7,8 +7,6 @@ import {
   EditorPluginProps,
   EditorPlugin
 } from '@edtr-io/plugin'
-import { name as rowsPlugin } from '@edtr-io/plugin-rows/__fixtures__'
-import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
 import { SolutionStepsEditor } from './editor'
 import * as Guidelines from './helper/guideline-texts'
@@ -51,27 +49,27 @@ export interface Config {
 
 export function createSolutionStepsPlugin({
   introduction = {
-    options: [{ plugin: textPlugin }],
+    options: [{ plugin: 'text' }],
     guideline: Guidelines.introductionGuideline,
     placeholder: Guidelines.introductionLabel
   },
   strategy = {
-    options: [{ plugin: rowsPlugin }],
+    options: [{ plugin: 'rows' }],
     guideline: Guidelines.strategyGuideline,
     placeholder: Guidelines.strategyLabel
   },
   step = {
-    options: [{ plugin: rowsPlugin }],
+    options: [{ plugin: 'rows' }],
     guideline: Guidelines.stepGuideline,
     placeholder: Guidelines.stepLabel
   },
   explanation = {
-    options: [{ plugin: rowsPlugin }],
+    options: [{ plugin: 'rows' }],
     guideline: Guidelines.explanationGuideline,
     placeholder: Guidelines.explanationLabel
   },
   additionals = {
-    options: [{ plugin: rowsPlugin }],
+    options: [{ plugin: 'rows' }],
     guideline: Guidelines.additionalsGuideline,
     placeholder: Guidelines.additionalsLabel
   }
