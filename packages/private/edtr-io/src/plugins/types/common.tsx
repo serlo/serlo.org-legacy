@@ -546,7 +546,7 @@ export function optionalSerializedChild(
   }
 }
 
-const RemoveButton = styled.button({
+export const RemoveButton = styled.button({
   borderRadius: '50%',
   outline: 'none',
   background: 'white',

@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import { SolutionProps } from '.'
 import { AddButton } from '@edtr-io/editor-ui'
+import { RemoveButton } from '../types/common'
 
 const solutionTheme = {
   rendererUi: {
@@ -22,6 +23,8 @@ const solutionContentTheme = {
     }
   }
 }
+//TODO: replace later
+const removeMessage = 'Entferne die Lösung zu Teilaufgabe '
 
 export function SolutionEditor({ state, editable }: SolutionProps) {
   const renderTitle = React.useCallback((collapsed: boolean) => {
@@ -40,6 +43,14 @@ export function SolutionEditor({ state, editable }: SolutionProps) {
               const solutionNumber = index + 1
               return (
                 <ThemeProvider theme={solutionContentTheme}>
+                  <RemoveButton
+                    onClick={() => {
+                      state.content.remove(index)
+                    }}
+                    title={removeMessage + solutionNumber}
+                  >
+                    x
+                  </RemoveButton>
                   <ExpandableBox
                     renderTitle={() => (
                       <React.Fragment>
