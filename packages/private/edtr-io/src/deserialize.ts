@@ -46,6 +46,10 @@ import { videoTypeState } from './plugins/types/video'
 import { Entity, License, Uuid } from './plugins/types/common'
 import { EditorProps } from './editor'
 import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
+import {
+  SolutionStepsPlugin,
+  LayoutPlugin
+} from 'legacy-editor-to-editor/src/splishToEdtr/types'
 
 export function deserialize({
   initialState,
@@ -559,16 +563,12 @@ export function deserialize({
                 {
                   plugin: 'solutionSteps',
                   state: {
-                    introduction: content,
+                    introduction: (content as RowsPlugin).state[0],
                     hasStrategy: false,
                     strategy: { plugin: 'rows' },
-                    solutionSteps: [
-                      {
-                        type: 'step',
-                        isHalf: false,
-                        content: content
-                      }
-                    ],
+                    solutionSteps: rowToSolutionStepsArray(
+                      content as RowsPlugin
+                    ),
                     hasAdditionals: false,
                     additionals: { plugin: 'rows' }
                   }
@@ -758,4 +758,43 @@ type SerializedEditorState = (string | undefined) & {
 }
 type SerializedLegacyEditorState = (string | undefined) & {
   __type: 'serialized-legacy-editor-state'
+}
+
+export function rowToSolutionStepsArray(content: RowsPlugin) {
+  let solutionSteps: { type: string; isHalf: boolean; content: Edtr }[] = []
+  const rowsArray = content.state
+  // first Element is the introduction of the solution and is already used in deserializeTextSolution
+  let counter = 1
+  while (counter < rowsArray.length) {
+    if (
+      rowsArray[counter].plugin === 'layout' &&
+      (rowsArray[counter] as LayoutPlugin).state.length === 2
+    ) {
+      const layoutPlugin = rowsArray[counter]
+      const leftElement = {
+        type: 'step',
+        isHalf: true,
+        content: (layoutPlugin as LayoutPlugin).state[0].child
+      }
+      const rightElement = {
+        type: 'explanation',
+        isHalf: true,
+        content: (layoutPlugin as LayoutPlugin).state[1].child
+      }
+      solutionSteps = R.insert(solutionSteps.length, leftElement, solutionSteps)
+      solutionSteps = R.insert(
+        solutionSteps.length,
+        rightElement,
+        solutionSteps
+      )
+    } else {
+      solutionSteps = R.insert(
+        solutionSteps.length,
+        { type: 'step', isHalf: false, content: rowsArray[counter] },
+        solutionSteps
+      )
+    }
+    counter++
+  }
+  return solutionSteps
 }

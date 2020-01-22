@@ -11,7 +11,6 @@ describe('text-solution', () => {
     const steps = content.state
     expect(steps).toHaveLength(1)
     const step = steps[0]
-    console.log(step)
     expect(step.plugin).toEqual('solutionSteps')
   })
 
