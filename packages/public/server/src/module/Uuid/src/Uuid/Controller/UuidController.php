@@ -75,6 +75,8 @@ class UuidController extends AbstractActionController
         if ($form->isValid()) {
             $this->getUuidManager()->purgeUuid($this->params('id'));
             $this->getUuidManager()->flush();
+            // cascading deletes might result in dead uuids, so we clear them here
+            $this->getUuidManager()->clearDeadUuids();
             $this->flashMessenger()->addSuccessMessage('The content has been removed.');
         } else {
             $this->flashMessenger()->addErrorMessage('The content could not be removed (validation failed)');

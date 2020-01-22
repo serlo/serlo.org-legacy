@@ -76,6 +76,11 @@ interface UuidManagerInterface extends Flushable
     public function purgeUuid($id);
 
     /**
+     * @return void
+     */
+    public function clearDeadUuids();
+
+    /**
      * @param int $id
      * @return void
      */
