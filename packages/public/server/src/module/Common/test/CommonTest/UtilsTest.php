@@ -33,6 +33,7 @@ class UtilsTest extends TestCase
             return [$x, $x];
         };
 
+        $this->assertEquals(Utils::array_flatmap($double, []), []);
         $this->assertEquals(Utils::array_flatmap($double, [1]), [1, 1]);
         $this->assertEquals(Utils::array_flatmap($double, [1]), [1, 1]);
         $this->assertEquals(Utils::array_flatmap($double, [1, 2]), [1, 1, 2, 2]);

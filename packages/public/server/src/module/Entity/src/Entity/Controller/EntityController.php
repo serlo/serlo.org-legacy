@@ -81,9 +81,16 @@ class EntityController extends AbstractController
 
         foreach ($revisions as $revision) {
             $entity = $revision->getRepository();
+            $subjectNames = array_map(function ($x) {
+                return $x->getName();
+            }, $entity->getSubjects());
 
-            foreach ($entity->getSubjects() as $subject) {
-                $revisionsBySubject[$subject->getName()][$entity->getId()][] = $revision;
+            if (empty($subjectNames)) {
+                $subjectNames = [$this->getTranslator()->translate("Entities without a subject")];
+            }
+
+            foreach ($subjectNames as $subjectName) {
+                $revisionsBySubject[$subjectName][$entity->getId()][] = $revision;
             }
         }
 
