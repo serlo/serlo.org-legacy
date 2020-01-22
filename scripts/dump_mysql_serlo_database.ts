@@ -9,7 +9,10 @@ import { spawn } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
 import * as process from 'process'
-import { Transform } from 'stream'
+import {
+  ConcatenateInsertCommands,
+  IgnoreInsecurePasswordWarning
+} from './transform'
 
 // Currently we have wrongly encoded characters in the DB and the dump only
 // works when we handle it with a 1 Byte character set (see #166)
@@ -43,144 +46,6 @@ const mysqldumpCommand = [
   'serlo'
 ]
 const dockerComposeArgs = ['exec', '-T', 'mysql'].concat(mysqldumpCommand)
-
-abstract class StringTransform extends Transform {
-  protected readonly encoding: string
-
-  constructor(encoding: string) {
-    super()
-    this.encoding = encoding
-  }
-
-  abstract transformString(text: string): void
-
-  _transform(chunk: Buffer, encoding: string, callback: Function) {
-    assert.strictEqual(
-      encoding,
-      'buffer',
-      '`chunk` should always be a Buffer in our implementation.'
-    )
-
-    this.transformString(chunk.toString(this.encoding))
-    callback()
-  }
-
-  push(text: string): boolean {
-    return super.push(text, this.encoding)
-  }
-}
-
-abstract class LineTransform extends StringTransform {
-  private unfinishedLine: string = ''
-
-  abstract transformLine(line: string): void
-
-  transformString(newText: string): void {
-    const text = this.unfinishedLine + newText
-    let start: number = 0
-    let end: number = 0
-
-    while (true) {
-      start = end
-      end = text.indexOf('\n', start) + 1
-
-      if (start < end) {
-        this.transformLine(text.substring(start, end))
-      } else {
-        this.unfinishedLine = text.substring(start)
-        break
-      }
-    }
-  }
-
-  _flush(callback: Function) {
-    if (this.unfinishedLine) {
-      this.transformLine(this.unfinishedLine)
-    }
-
-    callback()
-  }
-}
-
-class ConcatenateInsertCommands extends LineTransform {
-  private lastTable: string = ''
-  private currentCmdLength: number = 0
-  private maxInsertCmdLength: number
-
-  constructor(encoding: string, maxInsertCmdLength: number) {
-    super(encoding)
-    this.maxInsertCmdLength = maxInsertCmdLength
-  }
-
-  transformLine(line: string): void {
-    const insertTerm = 'INSERT INTO `'
-    const tableEndTerm = '` ('
-    const valuesTerm = ') VALUES ('
-
-    if (line.startsWith(insertTerm)) {
-      assert.ok(
-        line.endsWith('\n'),
-        'This implementation asserts that an INSERT command is never the last line.'
-      )
-
-      const tableStart = insertTerm.length + 1
-      const tableEnd = line.indexOf(tableEndTerm)
-      const table = line.substring(tableStart, tableEnd)
-
-      const valuesStart = line.indexOf(valuesTerm) + valuesTerm.length - 1
-      const valuesEnd = line.length - ';\n'.length
-      const values = line.substring(valuesStart, valuesEnd)
-
-      if (table !== this.lastTable) {
-        this.lastTable = table
-
-        const insertCommandPrefix = line.substring(0, valuesStart - 1)
-        this.pushInsertCommand(insertCommandPrefix + '\n')
-      } else {
-        this.continueInsertCommand()
-      }
-
-      this.pushInsertCommand(values)
-
-      if (this.currentCmdLength > this.maxInsertCmdLength) {
-        this.endInsertCommand()
-      }
-    } else {
-      this.endInsertCommand()
-      this.push(line)
-    }
-  }
-
-  private pushInsertCommand(part: string) {
-    this.push(part)
-    this.currentCmdLength += part.length
-  }
-
-  private continueInsertCommand(): void {
-    this.pushInsertCommand(',\n')
-  }
-
-  private endInsertCommand(): void {
-    if (this.lastTable) {
-      this.pushInsertCommand(';\n')
-      this.lastTable = ''
-      this.currentCmdLength = 0
-    }
-  }
-}
-
-class IgnoreInsecurePasswordWarning extends LineTransform {
-  private readonly uneccessaryError =
-    'mysqldump: [Warning] Using a password on the command line ' +
-    'interface can be insecure.\n'
-
-  transformLine(line: string): void {
-    if (line !== this.uneccessaryError) {
-      this.push(line)
-    }
-  }
-}
-
 const mysqldump = spawn('docker-compose', dockerComposeArgs)
 
 mysqldump.stdout
