@@ -9,10 +9,7 @@ import {
 
 import { SolutionEditor } from './editor'
 
-const solutionState = object({
-  title: string(''),
-  content: list(child({ plugin: 'solutionSteps' }), 1)
-})
+const solutionState = list(child({ plugin: 'solutionSteps' }), 1)
 export type SolutionState = typeof solutionState
 export type SolutionProps = EditorPluginProps<SolutionState>
 

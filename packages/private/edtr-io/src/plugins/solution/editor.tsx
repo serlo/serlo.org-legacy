@@ -38,14 +38,14 @@ export function SolutionEditor({ state, editable }: SolutionProps) {
   return (
     <ThemeProvider theme={solutionTheme}>
       <ExpandableBox renderTitle={renderTitle} editable={editable}>
-        {state.content.length > 1
-          ? state.content.map((solution, index) => {
+        {state.length > 1
+          ? state.map((solution, index) => {
               const solutionNumber = index + 1
               return (
                 <ThemeProvider theme={solutionContentTheme}>
                   <RemoveButton
                     onClick={() => {
-                      state.content.remove(index)
+                      state.remove(index)
                     }}
                     title={removeMessage + solutionNumber}
                   >
@@ -63,11 +63,11 @@ export function SolutionEditor({ state, editable }: SolutionProps) {
                 </ThemeProvider>
               )
             })
-          : state.content[0].render()}
+          : state[0].render()}
         {editable ? (
           <AddButton
             onClick={() => {
-              state.content.insert()
+              state.insert()
             }}
           >
             Lösung für weitere Teilaufgabe hinzufügen
