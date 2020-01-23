@@ -263,14 +263,14 @@ class Entity extends Uuid implements EntityInterface
 
     public function getSubjects()
     {
-        if (!$this->getTaxonomyTerms()->isEmpty()) {
-            $subjects = $this->getTaxonomyTerms()->map(function ($term) {
-                return $term->getSecondLevelAncestor();
-            })->toArray();
-        } else {
+        if ($this->getTaxonomyTerms()->isEmpty()) {
             $subjects = Utils::array_flatmap(function ($parent) {
                 return $parent->getSubjects();
             }, $this->getParents('link')->toArray());
+        } else {
+            $subjects = $this->getTaxonomyTerms()->map(function ($term) {
+                return $term->getSecondLevelAncestor();
+            })->toArray();
         }
 
         return array_unique($subjects, SORT_REGULAR);

@@ -1,5 +1,4 @@
-import * as assert from 'assert'
-import { LineTransform } from './LineTransformation'
+import { LineTransform } from './line-transformation'
 
 export class IgnoreInsecurePasswordWarning extends LineTransform {
   private readonly uneccessaryError =
