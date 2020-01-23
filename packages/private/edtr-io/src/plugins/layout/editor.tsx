@@ -67,49 +67,61 @@ const ConvertButton = styled.button({
   '&:hover': { backgroundColor: '#ebccd1' }
 })
 
-export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
-  typeof layoutState
-> & {
-  insert?: (options?: DocumentState) => void
-  remove?: () => void
-}> = props => {
+export const LayoutRenderer: React.FunctionComponent<
+  EditorPluginProps<typeof layoutState> & {
+    insert?: (options?: DocumentState) => void
+    remove?: () => void
+  }
+> = props => {
   const store = useScopedStore()
   const dispatch = useScopedDispatch()
   const content = props.state
   const rightElement = serializeDocument(content[1].child.id)(store.getState())
+  const leftElement = serializeDocument(content[0].child.id)(store.getState())
   const rightPlugins = (rightElement as { state: DocumentState[] }).state.map(
     element => {
       return element.plugin
     }
   )
+  const leftPlugins = (leftElement as { state: DocumentState[] }).state.map(
+    element => {
+      return element.plugin
+    }
+  )
+  const rightIsOneMultimedia =
+    rightPlugins.length === 1 &&
+    (R.contains('video', rightPlugins) ||
+      R.contains('geogebra', rightPlugins) ||
+      R.contains('image'),
+    rightPlugins)
+  const leftIsOneMultimedia =
+    leftPlugins.length === 1 &&
+    (R.contains('video', leftPlugins) ||
+      R.contains('geogebra', leftPlugins) ||
+      R.contains('image'),
+    leftPlugins)
   const isRowsPlusMultimedia = () => {
-    const rightIsOneMultimedia =
-      rightPlugins.length === 1 &&
-      (R.contains('video', rightPlugins) ||
-        R.contains('geogebra', rightPlugins) ||
-        R.contains('image'),
-      rightPlugins)
-    return content.length === 2 && rightIsOneMultimedia
+    return content.length === 2 && (rightIsOneMultimedia || leftIsOneMultimedia)
   }
 
   const convertToRowsAndMultimedia = () => {
-    const newState: {
-      explanation: any
-      multimedia: any
-      illustrating: boolean
-      width: number
-    } = {
+    const newStateLeft = {
       explanation: serializeDocument(content[0].child.id)(store.getState()),
       multimedia: (rightElement as { state: DocumentState[] }).state[0],
       illustrating: true,
       width: 50
     }
-
+    const newStateRight = {
+      explanation: serializeDocument(content[1].child.id)(store.getState()),
+      multimedia: (leftElement as { state: DocumentState[] }).state[0],
+      illustrating: true,
+      width: 50
+    }
     dispatch(
       replace({
         id: props.id,
         plugin: 'multimedia',
-        state: newState
+        state: rightIsOneMultimedia ? newStateRight : newStateLeft
       })
     )
   }
