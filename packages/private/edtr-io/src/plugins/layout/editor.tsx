@@ -19,10 +19,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { useScopedStore } from '@edtr-io/core'
+import { useScopedStore, useScopedDispatch } from '@edtr-io/core'
 import { EditorPluginProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
-import { DocumentState, serializeDocument } from '@edtr-io/store'
+import { DocumentState, serializeDocument, getDocument } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -51,6 +51,8 @@ const ConvertInfo = styled.div({
   textAlign: 'center'
 })
 
+const ButtonContainer = styled.div({ display: 'flex', flexDirection: 'row' })
+
 const ConvertButton = styled.button({
   borderRadius: '5px',
   margin: '5px',
@@ -60,13 +62,47 @@ const ConvertButton = styled.button({
   '&:hover': { backgroundColor: '#ebccd1' }
 })
 
-export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
-  typeof layoutState
-> & {
-  insert?: (options?: DocumentState) => void
-  remove?: () => void
-}> = props => {
+export const LayoutRenderer: React.FunctionComponent<
+  EditorPluginProps<typeof layoutState> & {
+    insert?: (options?: DocumentState) => void
+    remove?: () => void
+  }
+> = props => {
   const store = useScopedStore()
+  const content = props.state
+  const rightElement = serializeDocument(content[1].child.id)(store.getState())
+  const rightPlugins = (rightElement as { state: DocumentState[] }).state.map(
+    element => {
+      return element.plugin
+    }
+  )
+  const isRowsPlusMultimedia = () => {
+    const rightIsOneMultimedia =
+      rightPlugins.length === 1 &&
+      (R.contains('video', rightPlugins) ||
+        R.contains('geogebra', rightPlugins) ||
+        R.contains('image'),
+      rightPlugins)
+    return content.length === 2 && rightIsOneMultimedia
+  }
+
+  const convertToRowsAndMultimedia = () => {
+    const dispatch = useScopedDispatch()
+    const newState: {
+      explanation: any
+      multimedia: any
+      illustrating: boolean
+      width: number
+    } = {
+      explanation: serializeDocument(content[0].child.id)(store.getState()),
+      multimedia: (rightElement as { state: DocumentState[] }).state[0],
+      illustrating: true,
+      width: 50
+    }
+    //TODO: use new replace from edtr-io
+    //dispatch(replace('multimediaExplanation', newState))
+  }
+
   const convertToRow = () => {
     R.reverse(props.state).forEach(item => {
       if (props.insert) {
@@ -94,9 +130,16 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
       {props.editable ? (
         <ConvertInfo>
           Um die Inhalte zu verschieben, konvertiere sie für den neuen Editor:
-          <div>
-            <ConvertButton onClick={convertToRow}>Konvertiere</ConvertButton>
-          </div>
+          <ButtonContainer>
+            <ConvertButton onClick={convertToRow}>
+              Konvertiere zu einspaltigen Inhalten
+            </ConvertButton>
+            {isRowsPlusMultimedia() ? (
+              <ConvertButton onClick={convertToRowsAndMultimedia}>
+                Konvertiere zu Text + Multimedia-Inhalt
+              </ConvertButton>
+            ) : null}
+          </ButtonContainer>
         </ConvertInfo>
       ) : null}
       <LayoutContainer>

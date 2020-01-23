@@ -56,6 +56,42 @@ addContentTypeStories('Article', 'article', {
   meta_title: '',
   meta_description: ''
 })
+addContentTypeStories('Plugins/Layout Plugin', 'article', {
+  id: 1337,
+  license: ccBy,
+  changes: '',
+  title: 'Layout Tests',
+  content: JSON.stringify({
+    plugin: 'layout',
+    state: [
+      {
+        width: 6,
+        child: {
+          plugin: 'rows',
+          state: [
+            JSON.parse(
+              '{"plugin":"text","state":{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","type":"paragraph","data":{},"nodes":[{"object":"text","text":"Dies ist der Text des künftigen Multimedia-Plugins","marks":[]}]}]}}}'
+            )
+          ]
+        }
+      },
+      {
+        width: 6,
+        child: {
+          plugin: 'rows',
+          state: [
+            JSON.parse(
+              '{"plugin":"image","state":{"src":"https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true","href":"","target":"","rel":"","description":"Edtr.io Logo","maxWidth":0}}'
+            )
+          ]
+        }
+      }
+    ]
+  }),
+  reasoning: '',
+  meta_title: '',
+  meta_description: ''
+})
 
 addContentTypeStories('Course', 'course', {
   id: 1337,
