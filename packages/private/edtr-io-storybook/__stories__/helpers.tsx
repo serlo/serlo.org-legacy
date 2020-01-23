@@ -20,6 +20,38 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as React from 'react'
+import { storiesOf } from '@storybook/react'
+import { Editor } from '@serlo/edtr-io'
+
+export function addContentTypeStories(
+  name: string,
+  type: string,
+  initialState: unknown | { name: string; state: unknown }[]
+) {
+  const stories = storiesOf(`Content Types/${name}`, module)
+  const initialStates = (initialState as {
+    name: string
+    state: unknown
+  }[]).length
+    ? (initialState as { name: string; state: unknown }[])
+    : [{ name: '', state: initialState }]
+
+  initialStates.forEach(({ name, state }) => {
+    stories.add(`${name} Editor`, () => {
+      return (
+        <Container>
+          <Editor
+            getCsrfToken={() => ''}
+            type={type}
+            initialState={state}
+            onSave={mockSave}
+            mayCheckout
+          />
+        </Container>
+      )
+    })
+  })
+}
 
 export function Container({ children }: React.PropsWithChildren<{}>) {
   return (
@@ -404,7 +436,7 @@ export function Container({ children }: React.PropsWithChildren<{}>) {
 
 export function mockSave(data: unknown): Promise<void> {
   console.log(data)
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve()
     }, 1000)
