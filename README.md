@@ -89,7 +89,6 @@ of the following packages:
   - `markdown` defines our Serlo-flavored markdown as used in the legacy editor
 - `packages/public` contains packages that are deployed somehow. Specifically:
   - `client` contains our assets used in the client (e.g. JavaScript bundle & stylesheet)
-  - `cloudflare-workers` defines our Cloudflare Worker
   - `editor-renderer` is the server-side renderer for our editor
   - `legacy-editor-renderer` is the server-side-renderer for our legacy editor
   - `server` is the serlo.org backend
