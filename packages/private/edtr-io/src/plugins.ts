@@ -91,7 +91,7 @@ export function createPlugins(
     solution: createSolutionPlugin(),
     spoiler: createSpoilerPlugin(),
     table: tablePlugin,
-    text: createTextPlugin({ registry: registry }),
+    text: createTextPlugin({ registry: registry, blockquote: 'blockquote' }),
     video: createVideoPlugin(),
 
     // Internal plugins for our content types

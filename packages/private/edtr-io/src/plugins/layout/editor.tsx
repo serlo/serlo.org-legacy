@@ -22,7 +22,12 @@
 import { useScopedStore, useScopedDispatch } from '@edtr-io/core'
 import { EditorPluginProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
-import { DocumentState, serializeDocument, getDocument } from '@edtr-io/store'
+import {
+  DocumentState,
+  serializeDocument,
+  getDocument,
+  replace
+} from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -69,6 +74,7 @@ export const LayoutRenderer: React.FunctionComponent<
   }
 > = props => {
   const store = useScopedStore()
+  const dispatch = useScopedDispatch()
   const content = props.state
   const rightElement = serializeDocument(content[1].child.id)(store.getState())
   const rightPlugins = (rightElement as { state: DocumentState[] }).state.map(
@@ -87,7 +93,6 @@ export const LayoutRenderer: React.FunctionComponent<
   }
 
   const convertToRowsAndMultimedia = () => {
-    const dispatch = useScopedDispatch()
     const newState: {
       explanation: any
       multimedia: any
@@ -99,8 +104,14 @@ export const LayoutRenderer: React.FunctionComponent<
       illustrating: true,
       width: 50
     }
-    //TODO: use new replace from edtr-io
-    //dispatch(replace('multimediaExplanation', newState))
+
+    dispatch(
+      replace({
+        id: props.id,
+        plugin: 'multimedia',
+        state: newState
+      })
+    )
   }
 
   const convertToRow = () => {
