@@ -22,8 +22,8 @@
 export const exampleApiParameters = ['contentOnly', 'hideBanner', 'fullWidth']
 
 export const navigation = {
-  login: 'Anmelden',
-  logout: 'Abmelden'
+  login: 'Log in',
+  logout: 'Log out'
 }
 
 export const pages = {
@@ -31,8 +31,8 @@ export const pages = {
     defaultPassword: '123456',
     path: '/auth/login',
     identifier: {
-      inputUser: 'E-Mail-Adresse oder Benutzername',
-      inputPassword: 'Passwort',
+      inputUser: 'Email address or Username',
+      inputPassword: 'Password',
       buttonLogin: 'Login'
     }
   },
@@ -41,7 +41,7 @@ export const pages = {
   }
 }
 
-export const testingServerUrl = 'http://de.serlo.localhost:4567'
+export const testingServerUrl = 'http://en.serlo.localhost:4567'
 
 export const users = [ "login", "german_reviewer", "german_helper", "admin" ]
 

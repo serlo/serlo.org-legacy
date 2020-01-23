@@ -29,13 +29,7 @@ import {
   logout
 } from './_utils'
 
-const examplePages = [
-  '/',
-  '/mathe',
-  '/mathe/beispielinhalte',
-  '/mathe/beispielinhalte/beispielveranstaltung'
-]
-
+const examplePages = ['/', '/math', '/math/geometry/triangles/']
 const mainMenuSelector = '#serlo-menu a'
 
 afterEach(async () => {
