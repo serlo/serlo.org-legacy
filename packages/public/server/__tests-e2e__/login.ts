@@ -19,14 +19,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { login, navigation, viewports } from './_config'
+import { navigation, pages, viewports, users } from './_config'
 import {
   clickForNewPage,
   getByPlaceholderText,
   getBySelector,
   getByText,
-  getDocument,
-  goto
+  goto,
+  logout
 } from './_utils'
 
 const examplePages = [
@@ -36,54 +36,47 @@ const examplePages = [
   '/mathe/beispielinhalte/beispielveranstaltung'
 ]
 
-const user = 'admin'
-const selector = '#serlo-menu a'
+const mainMenuSelector = '#serlo-menu a'
+
+afterEach(async () => {
+  await logout()
+})
 
 describe('login process', () => {
-  test.each(examplePages)('start page is %p', async startPath => {
-    await page.setViewport(viewports.desktop)
-    const firstPage = await goto(startPath)
+  describe.each(users)('user is %p', user => {
+    test.each(examplePages)('start page is %p', async startPath => {
+      await page.setViewport(viewports.desktop)
+      const firstPage = await goto(startPath)
 
-    expect(firstPage).toHaveUrlPath(startPath)
+      expect(firstPage).toHaveUrlPath(startPath)
 
-    const loginPage = await getByText(firstPage, navigation.login, {
-      selector
-    }).then(clickForNewPage)
+      const loginPage = await getByText(firstPage, navigation.login, {
+        selector: mainMenuSelector
+      }).then(clickForNewPage)
 
-    expect(loginPage).toHaveUrlPath(login.path)
+      expect(loginPage).toHaveUrlPath(pages.login.path)
 
-    const { buttonLogin, inputUser, inputPassword } = login.identifier
-    await getByPlaceholderText(loginPage, inputUser).then(e => e.type(user))
-    await getByPlaceholderText(loginPage, inputPassword).then(e =>
-      e.type(login.defaultPassword)
-    )
+      const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
+      await getByPlaceholderText(loginPage, inputUser).then(e => e.type(user))
+      await getByPlaceholderText(loginPage, inputPassword).then(e =>
+        e.type(pages.login.defaultPassword)
+      )
 
-    const afterLoginPage = await getByText(loginPage, buttonLogin).then(
-      clickForNewPage
-    )
+      const afterLoginPage = await getByText(loginPage, buttonLogin).then(
+        clickForNewPage
+      )
 
-    await expect(afterLoginPage).toMatchElement(selector, {
-      text: navigation.logout
-    })
+      await expect(afterLoginPage).toMatchElement(mainMenuSelector, {
+        text: navigation.logout
+      })
 
-    const userPage = await getBySelector(
-      afterLoginPage,
-      selector + ' .fa.fa-user'
-    ).then(clickForNewPage)
+      const userPage = await getBySelector(
+        afterLoginPage,
+        mainMenuSelector + ' .fa.fa-user'
+      ).then(clickForNewPage)
 
-    expect(userPage).toHaveUrlPath('/user/me')
-    await expect(userPage).toMatchElement('h1', { text: user })
-
-    const pageForCallLogout = await goto(startPath)
-    const afterLogoutPage = await getByText(
-      pageForCallLogout,
-      navigation.logout,
-      { selector }
-    ).then(clickForNewPage)
-
-    expect(afterLogoutPage).toHaveUrlPath(startPath)
-    await expect(afterLogoutPage).toMatchElement(selector, {
-      text: navigation.login
+      expect(userPage).toHaveUrlPath('/user/me')
+      await expect(userPage).toMatchElement('h1', { text: user })
     })
   })
 })

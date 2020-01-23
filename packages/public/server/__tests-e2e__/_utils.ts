@@ -20,11 +20,10 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as assert from 'assert'
-import * as jest from 'jest'
 import { printReceived, printDiffOrStringify } from 'jest-matcher-utils'
 import { ElementHandle } from 'puppeteer'
 import { queries, getDocument } from 'pptr-testing-library'
-import { testingServerUrl } from './_config'
+import { testingServerUrl, pages } from './_config'
 
 export { getDocument } from 'pptr-testing-library'
 
@@ -66,19 +65,37 @@ export async function clickForNewPage(
   return getDocument(page)
 }
 
+export async function login(user: string): Promise<void> {
+  await logout()
+
+  const loginPage = await goto(pages.login.path)
+
+  const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
+  await getByPlaceholderText(loginPage, inputUser).then(e => e.type(user))
+  await getByPlaceholderText(loginPage, inputPassword).then(e =>
+    e.type(pages.login.defaultPassword)
+  )
+
+  await getByText(loginPage, buttonLogin).then(clickForNewPage)
+}
+
+export async function logout(): Promise<void> {
+  await goto(pages.logout.path)
+}
+
 export function toHaveUrlPath(
   this: jest.MatcherUtils,
   page: ElementHandle,
   expectedPage: string
 ): jest.CustomMatcherResult {
   const expectedUrl = testingServerUrl + expectedPage
-  //@ts-ignore
   const currentUrl = page
     .executionContext()
+    //@ts-ignore
     .frame()!
     .url()
 
-  if (currentUrl === expectedUrl) {
+  if (expectedUrl === currentUrl) {
     return {
       pass: true,
       message: () => `Current URL should not be ${printReceived(currentUrl)}`
