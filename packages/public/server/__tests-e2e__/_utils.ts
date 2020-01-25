@@ -65,6 +65,16 @@ export async function clickForNewPage(
   return getDocument(page)
 }
 
+function just<T>(x: T): NonNullable<T> {
+  assert.ok(x !== null)
+
+  return x!
+}
+
+export async function getText(element: ElementHandle): Promise<string> {
+  return element.evaluate(e => e.textContent).then(just)
+}
+
 export async function login(user: string): Promise<void> {
   await logout()
 
