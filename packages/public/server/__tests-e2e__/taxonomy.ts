@@ -19,37 +19,36 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { goto, getBySelector, getText } from './_utils'
+import { goto, getText, getMainContent } from './_utils'
 
 test('view topic page with subtopics', async () => {
-  const topicPage = await goto('/math/example-content')
-  const topicPageMainContent = await getBySelector(topicPage, '#page')
+  const topic = await goto('/math/example-content').then(getMainContent)
 
-  await expect(topicPageMainContent).toMatchElement('h1', {
+  await expect(topic).toMatchElement('h1', {
     text: 'Example content'
   })
 
   await expect(
-    topicPageMainContent.$$('h2').then(h => Promise.all(h.map(getText)))
+    topic.$$('h2').then(h => Promise.all(h.map(getText)))
   ).resolves.toEqual(['Example topic 1', 'Example topic 2', 'Example topic 3'])
 
-  await expect(topicPageMainContent).toMatchElement('a', {
+  await expect(topic).toMatchElement('a', {
     text: 'Example article'
   })
-  await expect(topicPageMainContent).toMatchElement('a', {
+  await expect(topic).toMatchElement('a', {
     text: 'Example topic folder'
   })
 })
 
 test('view topic page with entites and topic folders', async () => {
-  const topicPage = await goto('/math/example-content/example-topic-1')
-  const mainContent = await getBySelector(topicPage, '#page')
+  const topicPath = '/math/example-content/example-topic-1'
+  const topic = await goto(topicPath).then(getMainContent)
 
-  await expect(mainContent).toMatchElement('h1', { text: 'Example topic 1' })
-  await expect(mainContent).toMatchElement('div.h2', { text: 'Articles' })
-  await expect(mainContent).toMatchElement('h2', { text: 'Exercises' })
-  await expect(mainContent).toMatchElement('a', { text: 'Example article' })
-  await expect(mainContent).toMatchElement('a', {
+  await expect(topic).toMatchElement('h1', { text: 'Example topic 1' })
+  await expect(topic).toMatchElement('div.h2', { text: 'Articles' })
+  await expect(topic).toMatchElement('h2', { text: 'Exercises' })
+  await expect(topic).toMatchElement('a', { text: 'Example article' })
+  await expect(topic).toMatchElement('a', {
     text: 'Example topic folder'
   })
 })

@@ -75,6 +75,12 @@ export async function getText(element: ElementHandle): Promise<string> {
   return element.evaluate(e => e.textContent).then(just)
 }
 
+export async function getMainContent(
+  element: ElementHandle
+): Promise<ElementHandle> {
+  return getBySelector(element, '#page')
+}
+
 export async function login(user: string): Promise<void> {
   await logout()
 
