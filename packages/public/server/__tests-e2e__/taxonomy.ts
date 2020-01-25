@@ -40,3 +40,16 @@ test('view topic page with subtopics', async () => {
     text: 'Example topic folder'
   })
 })
+
+test('view topic page with entites and topic folders', async () => {
+  const topicPage = await goto('/math/example-content/example-topic-1')
+  const mainContent = await getBySelector(topicPage, '#page')
+
+  await expect(mainContent).toMatchElement('h1', { text: 'Example topic 1' })
+  await expect(mainContent).toMatchElement('div.h2', { text: 'Articles' })
+  await expect(mainContent).toMatchElement('h2', { text: 'Exercises' })
+  await expect(mainContent).toMatchElement('a', { text: 'Example article' })
+  await expect(mainContent).toMatchElement('a', {
+    text: 'Example topic folder'
+  })
+})
