@@ -19,7 +19,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { goto, getText, getMainContent } from './_utils'
+import {
+  goto,
+  getText,
+  getMainContent,
+  getByText,
+  clickForNewPage
+} from './_utils'
 
 test('view topic page with subtopics', async () => {
   const topic = await goto('/math/example-content').then(getMainContent)
@@ -51,4 +57,24 @@ test('view topic page with entites and topic folders', async () => {
   await expect(topic).toMatchElement('a', {
     text: 'Example topic folder'
   })
+})
+
+test('navigating through the taxonomy', async () => {
+  const rootTopic = await goto('/math/example-content').then(getMainContent)
+
+  const topic1 = await getByText(rootTopic, 'Example topic 1').then(
+    clickForNewPage
+  )
+
+  expect(topic1).toHaveUrlPath('/math/example-content/example-topic-1')
+  await expect(topic1).toMatchElement('h1', { text: 'Example topic 1' })
+
+  const article = await getByText(topic1, 'Example article').then(
+    clickForNewPage
+  )
+
+  expect(article).toHaveUrlPath(
+    '/math/example-content/example-topic-1/example-article'
+  )
+  await expect(article).toMatchElement('h1', { text: 'Example article' })
 })
