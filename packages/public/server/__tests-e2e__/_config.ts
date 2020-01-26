@@ -27,6 +27,10 @@ export const navigation = {
 }
 
 export const pages = {
+  e2eTopic: {
+    path: '/math/area-e2e-tests',
+    id: '35566'
+  },
   login: {
     defaultPassword: '123456',
     path: '/auth/login',
@@ -37,13 +41,13 @@ export const pages = {
     }
   },
   logout: {
-    path: "/auth/logout"
+    path: '/auth/logout'
   }
 }
 
 export const testingServerUrl = 'http://en.serlo.localhost:4567'
 
-export const users = [ "login", "german_reviewer", "german_helper", "admin" ]
+export const users = ['login', 'german_reviewer', 'german_helper', 'admin']
 
 export const viewports = {
   desktop: {

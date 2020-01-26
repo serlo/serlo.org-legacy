@@ -27,9 +27,11 @@ import { testingServerUrl, pages } from './_config'
 
 export { getDocument } from 'pptr-testing-library'
 
+export const getByAltText = queries.getByAltText
+export const getByLabelText = queries.getByLabelText
+export const getByPlaceholderText = queries.getByPlaceholderText
 export const getByText = queries.getByText
 export const queryByText = queries.queryByText
-export const getByPlaceholderText = queries.getByPlaceholderText
 
 export async function getByItemType(element: ElementHandle, itemType: string) {
   return getBySelector(element, `[itemtype="${itemType}"]`)
@@ -54,6 +56,10 @@ export async function goto(site: string): Promise<ElementHandle> {
   await page.goto(testingServerUrl + site)
 
   return getDocument(page)
+}
+
+export async function click(element: ElementHandle): Promise<void> {
+  await element.click()
 }
 
 export async function clickForNewPage(

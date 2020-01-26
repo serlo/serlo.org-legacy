@@ -19,13 +19,24 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { pages } from './_config'
 import {
   goto,
   getText,
   getMainContent,
+  getByAltText,
+  getBySelector,
   getByText,
-  clickForNewPage
+  getByPlaceholderText,
+  click,
+  clickForNewPage,
+  login,
+  logout
 } from './_utils'
+
+afterEach(async () => {
+  await logout()
+})
 
 test('view topic page with subtopics', async () => {
   const topic = await goto('/math/example-content').then(getMainContent)
@@ -77,4 +88,43 @@ test('navigating through the taxonomy', async () => {
     '/math/example-content/example-topic-1/example-article'
   )
   await expect(article).toMatchElement('h1', { text: 'Example article' })
+})
+
+test('Creating topic folder', async () => {
+  const user = 'admin'
+  const title = 'Test topic folder ' + String(Math.floor(1e9 * Math.random()))
+  const description = '*Hello World* ' + String(Math.floor(1e9 * Math.random()))
+
+  await login(user)
+  let rootTopic = await goto(pages.e2eTopic.path)
+
+  await getBySelector(rootTopic, 'button.dropdown-toggle').then(click)
+  const organizeRoot = await getByText(rootTopic, 'Organize taxonomy').then(
+    clickForNewPage
+  )
+
+  await getBySelector(
+    organizeRoot,
+    '#content-layout > .pull-right .dropdown-toggle'
+  ).then(click)
+  const createPage = await getByText(organizeRoot, 'topic', {
+    selector: '#content-layout > .pull-right a'
+  }).then(clickForNewPage)
+
+  await getByText(createPage, "Don't show again").then(click)
+  await getByPlaceholderText(createPage, '').then(e => e.type(title))
+  await getByText(createPage, '+').then(click)
+  await getByAltText(createPage, '24').then(click)
+  await getBySelector(createPage, '#main').then(e => e.type(description))
+  const success = await getByText(createPage, 'Save', {
+    selector: '#editor-actions button'
+  }).then(clickForNewPage)
+
+  await expect(success).toMatchElement('p', {
+    text: 'The node has been added successfully!'
+  })
+
+  rootTopic = await goto(pages.e2eTopic.path)
+
+  await expect(rootTopic).toMatchElement('h2', { text: title })
 })
