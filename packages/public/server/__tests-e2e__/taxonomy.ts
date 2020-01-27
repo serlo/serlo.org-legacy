@@ -56,6 +56,7 @@ test('view topic page with subtopics', async () => {
   await expect(topic).toMatchElement('a', {
     text: 'Example topic folder'
   })
+  await expect(topic).toHaveTitle('Example content (topic)')
 })
 
 test('view topic page with entites and topic folders', async () => {
@@ -69,6 +70,7 @@ test('view topic page with entites and topic folders', async () => {
   await expect(topic).toMatchElement('a', {
     text: 'Example topic folder'
   })
+  await expect(topic).toHaveTitle('Example topic 1 (topic)')
 })
 
 test('navigating through the taxonomy', async () => {
