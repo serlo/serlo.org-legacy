@@ -19,32 +19,31 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getByItemType, getByText, getDocument, queryByText } from '../_utils'
+import { getByItemType, goto } from '../_utils'
 import { exampleApiParameters } from '../_config'
 
-const videoUrl = 'http://de.serlo.localhost:4567/32321'
+const videoPath = '/35567'
 const videoItemType = 'http://schema.org/VideoObject'
-const videoTitle = 'Schriftliche Addition'
-const videoDescription =
-  'Dieses Video erklärt die Schriftliche Addition mit Hilfe einer Stellenwerttafel.'
+const videoTitle = 'Example video'
+const videoDescription = 'This is an example video.'
 
 test('Test elements on video page', async () => {
-  const video = await gotoVideo()
-  await getByText(video, videoTitle, { selector: 'h1' })
-  await getByText(video, videoDescription)
+  const videoPage = await goto(videoPath)
+  const video = await getByItemType(videoPage, videoItemType)
+
+  await expect(video).toMatchElement('h1', { text: videoTitle })
+  await expect(video).toMatchElement('*', { text: videoDescription })
+  await expect(video).toHaveTitle(`${videoTitle} (video)`)
 })
 
 test.each(exampleApiParameters)(
   `Test elements when %p is set (page for content-api)`,
   async contentApiParam => {
-    const video = await gotoVideo(`?${contentApiParam}`)
-    expect(await queryByText(video, videoTitle, { selector: 'h1' })).toBeNull()
-    expect(await queryByText(video, videoDescription)).toBeNull()
+    const videoPage = await goto(videoPath + '?' + contentApiParam)
+    const video = await getByItemType(videoPage, videoItemType)
+    
+    await expect(video).not.toMatchElement('h1', { text: videoTitle })
+    await expect(video).not.toMatchElement('*', { text: videoDescription })
+    await expect(video).toHaveTitle(`${videoTitle} (video)`)
   }
 )
-
-async function gotoVideo(postFix = '') {
-  await page.goto(`${videoUrl}${postFix}`)
-  const $document = await getDocument(page)
-  return await getByItemType($document, videoItemType)
-}
