@@ -20,11 +20,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { StateTypeSerializedType } from '@edtr-io/plugin'
+import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
+import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import {
   convert,
   isEdtr,
   Edtr,
   Legacy,
+  LayoutPlugin,
   RowsPlugin,
   Splish
 } from '@serlo/legacy-editor-to-editor'
@@ -38,15 +41,12 @@ import { eventTypeState } from './plugins/types/event'
 import { mathPuzzleTypeState } from './plugins/types/math-puzzle'
 import { pageTypeState } from './plugins/types/page'
 import { textExerciseTypeState } from './plugins/types/text-exercise'
-import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { textExerciseGroupTypeState } from './plugins/types/text-exercise-group'
 import { textSolutionTypeState } from './plugins/types/text-solution'
 import { userTypeState } from './plugins/types/user'
 import { videoTypeState } from './plugins/types/video'
 import { Entity, License, Uuid } from './plugins/types/common'
 import { EditorProps } from './editor'
-import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
-import { LayoutPlugin } from 'legacy-editor-to-editor/src/splishToEdtr/types'
 
 export function deserialize({
   initialState,

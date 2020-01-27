@@ -54,6 +54,7 @@ export function convertSplishToEdtrIO(content: Splish): RowsPlugin {
 
 export {
   RowsPlugin,
+  LayoutPlugin,
   Edtr,
   Legacy,
   Splish,
