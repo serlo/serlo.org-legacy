@@ -64,11 +64,13 @@ Now, open [http://de.serlo.localhost:4567](http://de.serlo.localhost:4567). Happ
 
 ### Testuser
 
-You can use the following users at [http://de.serlo.localhost:4567](http://de.serlo.localhost:4567). Their names correspondend to the roles they have:
+You can use the following users at [http://de.serlo.localhost:4567](http://de.serlo.localhost:4567).
+Their names correspondend to the roles they have:
 
 - `login`
 - `german_reviewer`
 - `german_helper`
+- `english_langhelper`
 - `admin`
 
 ### Stop
