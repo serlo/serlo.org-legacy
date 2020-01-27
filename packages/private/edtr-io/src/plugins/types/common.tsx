@@ -417,8 +417,8 @@ export function entityType<
   )
   return {
     ...objectType,
-    init(state, onChange, pluginProps) {
-      const initialisedObject = objectType.init(state, onChange, pluginProps)
+    init(state, onChange) {
+      const initialisedObject = objectType.init(state, onChange)
       return {
         ...initialisedObject,
         replaceOwnState(newValue) {

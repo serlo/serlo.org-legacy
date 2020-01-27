@@ -19,24 +19,25 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
-import { createSolutionPlugin } from '@edtr-io/plugin-solution'
+import { EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
+import { ExpandableBox } from '@edtr-io/renderer-ui'
+import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
-import { RevisionHistory, Settings } from './helpers/settings'
+import { RevisionHistory } from './helpers/settings'
 
 export const textSolutionTypeState = entityType(
   {
     ...entity,
-    // FIXME: solutions don't have a title
-    title: string(''),
     content: editorContent()
   },
   {}
 )
-
-const solutionPlugin = createSolutionPlugin()
+export type TextSolutionTypeProps = EditorPluginProps<
+  typeof textSolutionTypeState,
+  { skipControls: boolean }
+>
 
 export const textSolutionTypePlugin: EditorPlugin<
   typeof textSolutionTypeState,
@@ -49,13 +50,7 @@ export const textSolutionTypePlugin: EditorPlugin<
   }
 }
 
-function TextSolutionTypeEditor(
-  props: EditorPluginProps<
-    typeof textSolutionTypeState,
-    { skipControls: boolean }
-  >
-) {
-  console.log(props.config)
+function TextSolutionTypeEditor(props: TextSolutionTypeProps) {
   return (
     <React.Fragment>
       {props.renderIntoToolbar(
@@ -65,10 +60,37 @@ function TextSolutionTypeEditor(
           onSwitchRevision={props.state.replaceOwnState}
         />
       )}
-      <solutionPlugin.Component {...props} />
+      <SolutionEditor {...props} />
       {props.config.skipControls ? null : (
         <Controls subscriptions {...props.state} />
       )}
     </React.Fragment>
+  )
+}
+
+const solutionTheme = {
+  rendererUi: {
+    expandableBox: {
+      toggleBackgroundColor: '#d9edf7',
+      containerBorderColor: '#d9edf7'
+    }
+  }
+}
+
+function SolutionEditor({ state, editable }: TextSolutionTypeProps) {
+  const renderTitle = React.useCallback((collapsed: boolean) => {
+    return (
+      <React.Fragment>
+        Lösung {collapsed ? 'anzeigen' : 'ausblenden'}
+      </React.Fragment>
+    )
+  }, [])
+
+  return (
+    <ThemeProvider theme={solutionTheme}>
+      <ExpandableBox renderTitle={renderTitle} editable={editable}>
+        {state.content.render()}
+      </ExpandableBox>
+    </ThemeProvider>
   )
 }

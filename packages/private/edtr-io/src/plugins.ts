@@ -25,12 +25,10 @@ import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
-import { createHintPlugin } from '@edtr-io/plugin-hint'
-import { createImportantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import { createInputExercisePlugin } from '@edtr-io/plugin-input-exercise'
+import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
 import { createRowsPlugin, RowsConfig } from '@edtr-io/plugin-rows'
 import { createScMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
-import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { createVideoPlugin } from '@edtr-io/plugin-video'
 
@@ -49,10 +47,10 @@ import { userTypePlugin } from './plugins/types/user'
 import { videoTypePlugin } from './plugins/types/video'
 import { errorPlugin } from './plugins/error'
 import { createImagePlugin } from './plugins/image'
+import { createImportantPlugin } from './plugins/important'
 import { injectionPlugin } from './plugins/injection'
 import { layoutPlugin } from './plugins/layout'
 import { tablePlugin } from './plugins/table'
-import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
 
 export function createPlugins(
   getCsrfToken: () => string,
@@ -64,9 +62,8 @@ export function createPlugins(
     error: errorPlugin,
     geogebra: createGeogebraPlugin(),
     highlight: createHighlightPlugin(),
-    hint: createHintPlugin(),
     image: createImagePlugin(getCsrfToken),
-    important: createImportantStatementPlugin(),
+    important: createImportantPlugin(),
     injection: injectionPlugin,
     inputExercise: createInputExercisePlugin(),
     layout: layoutPlugin,
@@ -88,7 +85,6 @@ export function createPlugins(
     }),
     rows: createRowsPlugin({ plugins: registry }),
     scMcExercise: createScMcExercisePlugin(),
-    solution: createSolutionPlugin(),
     spoiler: createSpoilerPlugin(),
     table: tablePlugin,
     text: createTextPlugin({ registry: registry }),

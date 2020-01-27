@@ -1212,20 +1212,20 @@
     ramda "^0.26.1"
     shortid "^2.0.0"
 
-"@edtr-io/core@^0.13.0":
-  version "0.13.6"
-  resolved "https://registry.yarnpkg.com/@edtr-io/core/-/core-0.13.6.tgz#7828f55ff08cefb8e99730dec9fe634b1252fd8b"
-  integrity sha512-RduKZV57OAiRd3s84pgJzpHV762GMbYxpb89blqo1x1YvQ+WVXbhyUJVbtQs8/mX9zAGFRi8VMOOq7de6g1gRw==
+"@edtr-io/core@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/core/-/core-0.50.0.tgz#e11fa77c89d0ddcf4ea435c6ef6efb307f38f8ec"
+  integrity sha512-gGO0VIPYZdeN1IW0f8bhHlgjO9BPhf3w/IqB5Is5FXuGTdi6UFaBV3y/N6LIo/N1YSo9XWvYO0hrB8AixAWKag==
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@edtr-io/default-document-editor" "^0.13.6"
-    "@edtr-io/default-plugin-toolbar" "^0.13.5"
-    "@edtr-io/internal__document-editor" "^0.13.5"
-    "@edtr-io/internal__plugin" "^0.13.5"
-    "@edtr-io/internal__plugin-state" "^0.13.5"
-    "@edtr-io/internal__plugin-toolbar" "^0.13.5"
-    "@edtr-io/store" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/default-document-editor" "^0.50.0"
+    "@edtr-io/default-plugin-toolbar" "^0.50.0"
+    "@edtr-io/internal__document-editor" "^0.50.0"
+    "@edtr-io/internal__plugin" "^0.50.0"
+    "@edtr-io/internal__plugin-state" "^0.50.0"
+    "@edtr-io/internal__plugin-toolbar" "^0.50.0"
+    "@edtr-io/store" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/ramda" "^0.26.1"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
@@ -1236,39 +1236,39 @@
     react-redux "^7.1.1"
     shortid "^2.0.0"
 
-"@edtr-io/default-document-editor@^0.13.6":
-  version "0.13.6"
-  resolved "https://registry.yarnpkg.com/@edtr-io/default-document-editor/-/default-document-editor-0.13.6.tgz#3c5ef95ab847fbc3dacf4fb34b2bf9c1c2bb2237"
-  integrity sha512-8c6F3fRAxzuJ42Ze/bzLo7MQ2NcX9G5Tx/UKm9MkBFUgWFEDSs5AtaXWCTtbj2aj6hwWYECtgwZqS2Vozy9eFQ==
+"@edtr-io/default-document-editor@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/default-document-editor/-/default-document-editor-0.50.0.tgz#8c9ff58442c6d625847aa028ab30be4f629706bd"
+  integrity sha512-s4w++YutUGHXaro468BG5gqj1G5mrggsCl9IiGLbRYMwaZNagtgF1Z9mP7G2l/OgSsQD2bmn/mYbvJdrFzMUiA==
   dependencies:
-    "@edtr-io/document-editor" "^0.13.5"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/document-editor" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
 
-"@edtr-io/default-plugin-toolbar@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@edtr-io/default-plugin-toolbar/-/default-plugin-toolbar-0.13.5.tgz#dce65d64e77443550e4805278087359e31b5c313"
-  integrity sha512-+Tq2rlD+ClurTv1Re+XPbdNd600YoLWRJOI7zH0hNO6At050vj19ml0xU2FQ+C0tD6Mror5T+DJS59+VZWUgiQ==
+"@edtr-io/default-plugin-toolbar@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/default-plugin-toolbar/-/default-plugin-toolbar-0.50.0.tgz#057c84e7f58563fc837db33f153b796acd4aa7dc"
+  integrity sha512-UGXBHOZ4IUAlYh+5v8WKReUh1NLdVf+YwvvEi9IhF3Qcxvy16DhGWNmBe7nbZ/KD6lDg/4OKtKvg94v6HbWCCw==
   dependencies:
-    "@edtr-io/plugin-toolbar" "^0.13.5"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/plugin-toolbar" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-modal" "^3.0.0"
     react-modal "^3.0.0"
 
-"@edtr-io/document-editor@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@edtr-io/document-editor/-/document-editor-0.13.5.tgz#a812ae3b9d256e3a70870db93b9a2a18d5df1031"
-  integrity sha512-AbFUU54qhyuHnuR9v6/EQlFUdUGzNJgmQyTIfFTOA2abz91FYplhVwBBh1TOsyc9AmnxG43yz/Yori6OIF5kmA==
+"@edtr-io/document-editor@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/document-editor/-/document-editor-0.50.0.tgz#d64d79084c7bc063fc46a9280088866075f5d1e8"
+  integrity sha512-VYafUKwJW84FD4GzBnqO99UN8QJPRz0ovCm1u8EzNyb4SK4xSDn44zUcK+se1O2sGuj4QU9IwfkyniyGelKjJg==
   dependencies:
-    "@edtr-io/internal__document-editor" "^0.13.5"
+    "@edtr-io/internal__document-editor" "^0.50.0"
 
-"@edtr-io/editor-ui@^0.13.0", "@edtr-io/editor-ui@^0.13.7":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/editor-ui/-/editor-ui-0.13.7.tgz#3d43aa64d60ddcd2b36b9152ae2b77ee432d4647"
-  integrity sha512-DRtOc5mny9lZrh75PWf9xj2ZKRVx5qtRJlZ+b5nRkvn0yI5qpyv+Ppz16GErZsnWN9YjSWwqMRrbigYPCYN+QQ==
+"@edtr-io/editor-ui@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/editor-ui/-/editor-ui-0.50.0.tgz#7dcc086fa46d58fe31be9159af22d1eca1448e74"
+  integrity sha512-AbmCz4KjuPd8dCm/YPLr06IJLOrJAFAeWpabCBXEGZvUtp8u9ZVkqEAai2AZYQj1m6miPeaf2SQx+KSb3oUjPg==
   dependencies:
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/ui" "^0.50.0"
     "@types/ramda" "^0.26.1"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
@@ -1279,35 +1279,43 @@
     react-onclickoutside "^6.0.0"
     react-resizable "^1.0.0"
 
-"@edtr-io/internal__document-editor@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@edtr-io/internal__document-editor/-/internal__document-editor-0.13.5.tgz#74b358d8f98da2aa70f865cef811dd8a0608712a"
-  integrity sha512-QibS/jZMMSxL2bwkILeXQtTajKTG+TQLXS41tEbcK33g9UBUrKoaSl5S619oxe77DJfxCHA9MrZumguNjA9K/w==
+"@edtr-io/internal__dev-expression@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/internal__dev-expression/-/internal__dev-expression-0.50.0.tgz#6a27491dd15fb1ad1fd8082fb13776b8b3340233"
+  integrity sha512-CF2Bar2VMp5SEDK4zWxQdHKRVWQOS39rQZe6W6ABFB2+SUZvHWnHQQBQ3HnfTV3TH4GrFA/AUSrJ/SE0TBg29w==
   dependencies:
-    "@edtr-io/internal__plugin-toolbar" "^0.13.5"
+    tiny-invariant "^1.0.0"
+    tiny-warning "^1.0.0"
+
+"@edtr-io/internal__document-editor@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/internal__document-editor/-/internal__document-editor-0.50.0.tgz#e2b3aa327d0be6879599c48b88a6b4ef98ec30f8"
+  integrity sha512-hzVaE9oakVeMevnGusOk+QebWDbvBuYP9Wn4S6+w6cH1X6O5ne6XWOK9tf5ORgRCRalRa7fWOEU2QPzEhsYZHw==
+  dependencies:
+    "@edtr-io/internal__plugin-toolbar" "^0.50.0"
     "@types/react" "^16.8.0"
 
-"@edtr-io/internal__plugin-state@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@edtr-io/internal__plugin-state/-/internal__plugin-state-0.13.5.tgz#664a7fa8df89098f64f9f18572a0ba9518a836db"
-  integrity sha512-ps6N7w/ZKxANcKe+kwW86tOGXEpwAdMf/xf+Lz6PmSbRa9zyg9QKsSqH86RBFeLsnfjT+1KnLerD6fEcIb6v1g==
+"@edtr-io/internal__plugin-state@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/internal__plugin-state/-/internal__plugin-state-0.50.0.tgz#e0d00b964e9508db632ca266ee3acb893bceb161"
+  integrity sha512-zaRaBPDexjenRBfuKWNL1NLQs0coNNms/+N3KXNgJbRJBeyzF/z/99ASj1ZtKH1jvWngyCCQvWk9oOr5lq9y5Q==
   dependencies:
-    "@edtr-io/internal__document-editor" "^0.13.5"
+    "@edtr-io/internal__document-editor" "^0.50.0"
 
-"@edtr-io/internal__plugin-toolbar@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@edtr-io/internal__plugin-toolbar/-/internal__plugin-toolbar-0.13.5.tgz#f5e2a2654d592736972c420686d4ade848e9e111"
-  integrity sha512-ccvmh4MKUlKxZlUO+KJge4xbUue2mZ3tQxpIVC1rY1rwzO44hWLEj3vUaclV5s8h9LG1nviCYK+O0Y3kTLo+6Q==
+"@edtr-io/internal__plugin-toolbar@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/internal__plugin-toolbar/-/internal__plugin-toolbar-0.50.0.tgz#27df9e0509ffc73d92df623fd1f8c9bdbdabaa93"
+  integrity sha512-z/nHcjsbPByT5Z40uW6xp+dQ/MGjNyceFkvVsZHpJLP6xeTs3LK6l6H+rK+RHMrsYCetRyb5eU5EYRrV51FFGQ==
   dependencies:
     "@types/react" "^16.8.0"
 
-"@edtr-io/internal__plugin@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@edtr-io/internal__plugin/-/internal__plugin-0.13.5.tgz#5d980445fafb4521a8d51abed4168f0c460ed880"
-  integrity sha512-8TdgD4QNiqvj3pOSiZqUiuzoWGZCCQ0N+dtVSKmyMjdW5Vw8+HjGdZae8ROtpnZINYScS6/F7ip6xTtV0FTesQ==
+"@edtr-io/internal__plugin@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/internal__plugin/-/internal__plugin-0.50.0.tgz#19194e14b125d1c30f3bdd4708703330e0cb3d33"
+  integrity sha512-N54WmVNxyMhoNtDxJ3AaZDEyngvw8Gdfa0B2Nfgo+e5RpZ52iNcuqvB6td/B6iCxQ8ZZ4H3qc15bKOeIUTzFSg==
   dependencies:
-    "@edtr-io/internal__plugin-state" "^0.13.5"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/internal__plugin-state" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/ramda" "^0.26.1"
     "@types/react" "^16.8.0"
     ramda "^0.26.1"
@@ -1318,34 +1326,34 @@
   resolved "https://registry.yarnpkg.com/@edtr-io/mathquill/-/mathquill-0.11.0.tgz#b2a741ea21217a8dde552f75c4804f0985c62bdd"
   integrity sha512-jN9ELUxnQAgLG7B2ytL6Ctbtw0wPAfUuKuu/myr0kg9Dc9ZLzEDoueMHrRBH7MvdyYvV2eQz3wzYEGgm5+H0qQ==
 
-"@edtr-io/plugin-anchor@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-anchor/-/plugin-anchor-0.13.7.tgz#85eab14b91c9c589dd3c459334d277fd042e42cf"
-  integrity sha512-7iRKujlwM9uU713TXKBZfJS1E0APaTCHyEN9UfYv6WYPhV0AJGdOXHykDsLP7hmTGMYNct8WkkO0yRSkXHAzVw==
+"@edtr-io/plugin-anchor@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-anchor/-/plugin-anchor-0.50.0.tgz#0cc133553125e61db4d0b02a943a46c822bb3745"
+  integrity sha512-KwqxONETRHfWe6AwsH47PInVsMkvkMz4nCKVoyq62g44wrkPebySbklkeds52vjbvsbzIBJI8nbRAG94fa8hEA==
   dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
 
-"@edtr-io/plugin-blockquote@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-blockquote/-/plugin-blockquote-0.13.7.tgz#c476653bcff4091a026b3191c7d1171f03ebba56"
-  integrity sha512-9kHRPRRwUMIyWz3XUssDzH/0SxEKDNjYl9yWLEa12Z/4X7vWS6aCvH8P2T1GStUOtTOcLUiGFcGJ+ztyEkWqUw==
+"@edtr-io/plugin-blockquote@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-blockquote/-/plugin-blockquote-0.50.0.tgz#f80af0d3c08738906daffbd492814b8df582302a"
+  integrity sha512-XXv6xifeZCNJLMuDymvYi74XKfbRpr2IbSZcjphd70gaUpA/YenEZPH+YO7zMOLhWqETb7bMn5nvqQPyejPaQA==
   dependencies:
-    "@edtr-io/plugin" "^0.13.6"
+    "@edtr-io/plugin" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
 
-"@edtr-io/plugin-geogebra@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-geogebra/-/plugin-geogebra-0.13.7.tgz#b7305fa818af1aa5510bf0ca2f3fa75a9cef701b"
-  integrity sha512-WD2wfHsl7/EhlDShrR5JIbVvbmo2deVBvmK6FrOUeH5QWBEwiY2DS5PVa5AuwkXT2+yL2InlB0aT/3N3ThBeMg==
+"@edtr-io/plugin-geogebra@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-geogebra/-/plugin-geogebra-0.50.0.tgz#55216b03a903fa040a0b72944a8187735dd28c51"
+  integrity sha512-rotIAWLci08h7JhcDb67l54iXJbtE1INKf2wu4lc1hp5Bpl9i3hi3+m/bMtx7Oq02EZw49lR9UgsLSpBe9rNPA==
   dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/lodash" "^4.0.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
@@ -1353,60 +1361,39 @@
     lodash "^4.0.0"
     lodash-es "^4.0.0"
 
-"@edtr-io/plugin-highlight@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-highlight/-/plugin-highlight-0.13.7.tgz#e9aee462a7a88afc40c3311297064e376304baf4"
-  integrity sha512-Mrym4Ysr8oZkke/tLbgnnR4xXKPpMjUiliOHHRgDf+YkjwbnIpj6Muri+tdhA0/ELmqN/T4H9uKqRGxJm0PcLg==
+"@edtr-io/plugin-highlight@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-highlight/-/plugin-highlight-0.50.0.tgz#df23bb129bdc2449586eef82910d284e411de8f4"
+  integrity sha512-xsSuG1Lr9vE6hNEMlD7fX8MdQR8g9M1WOaqjOou/tGcbj8YEd+vYUVAMoOwy4ilOag8hQLm4XLiXY3ekMz+bLw==
   dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
     "@types/react-syntax-highlighter" "^11.0.0"
     react-syntax-highlighter "^12.0.0"
 
-"@edtr-io/plugin-hint@^0.13.0":
-  version "0.13.6"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-hint/-/plugin-hint-0.13.6.tgz#9899ca45e1229fe1363e8efb97e17dbe744f70bb"
-  integrity sha512-lRm3yiN1XwtXF2H42oaFHHIM9eqWAevAo/aAHjPgoNFlmOyqP7eXud5IbTn1UyVlCysgk4YYrH7Urv5Zam3uJQ==
+"@edtr-io/plugin-image@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-image/-/plugin-image-0.50.0.tgz#128604ea283c39cb1b53600945b0c72d8d021a8d"
+  integrity sha512-8Ikb6mJ9mzucLqyobRmm5DsFBcpdBsxpdUy08zXPJmGf+4MCOet6e78OlEe1gruRqcHZy7F+QUlWPbmqtrCF+A==
   dependencies:
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/renderer-ui" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
 
-"@edtr-io/plugin-image@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-image/-/plugin-image-0.13.7.tgz#971a3ba2f9ee42ff6b6a3f018242f4ae5a73e3d6"
-  integrity sha512-Z3Fs/WbCJQazK/mGuhZMpPuWoJnj2D/IrYFByM1D+WjDvOChV1bL8QRTS3qjtBcYUALCX187kzMcXd2w97/SlA==
+"@edtr-io/plugin-input-exercise@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-input-exercise/-/plugin-input-exercise-0.50.0.tgz#dd8e049cc63c3f55539998a5ce43a89a4e17a665"
+  integrity sha512-pygfmhpUzN5cvFS6ZOsDU5us8/QwHqF+Q4wZ3qbBwkZEJ7bDFrJD+pvB4ezDwVSg1sObf4nC5YLCFj3z797qSw==
   dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
-    "@types/react" "^16.8.0"
-    "@types/react-dom" "^16.8.0"
-
-"@edtr-io/plugin-important-statement@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-important-statement/-/plugin-important-statement-0.13.7.tgz#379688b2d67eea5b44261f99c1dc8b0275aa83ea"
-  integrity sha512-MkGEczqmjfbb705tN0oEojnCVzTvVd19b3EEfACcdKUub/owfwTnALIkoWAGR6ppJhcgffYmxAfCzcWEeP9O+g==
-  dependencies:
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/renderer-ui" "^0.13.6"
-    "@types/react" "^16.8.0"
-    "@types/react-dom" "^16.8.0"
-
-"@edtr-io/plugin-input-exercise@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-input-exercise/-/plugin-input-exercise-0.13.7.tgz#a188885d617ca9b2bbdcb9c61e7d53b3fa1257f9"
-  integrity sha512-Jym1480DFfxGOPOF96hIDYW4CJcwZW84UZh+KMSVDpw7KtSVei2FmRlA0JgexCj0kraLy5h72SG1FYgAsEYTMw==
-  dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/renderer-ui" "^0.13.6"
-    "@edtr-io/store" "^0.13.6"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/renderer-ui" "^0.50.0"
+    "@edtr-io/store" "^0.50.0"
     "@types/algebra.js" "^0.2.0"
     "@types/ramda" "^0.26.1"
     "@types/react" "^16.8.0"
@@ -1416,105 +1403,94 @@
     ramda "^0.26.1"
     string "^3.0.0"
 
-"@edtr-io/plugin-multimedia-explanation@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-multimedia-explanation/-/plugin-multimedia-explanation-0.13.7.tgz#e52a1570689b15956d81cb9fe194a31dfea2494a"
-  integrity sha512-7vxMiXb/KHhD5G2EfHK+Nkgb145bYM27broaHCC7ggzxuOCqi3oWIgvzv+DjXzhbn0n4F+7ZSrj6UFz6clO+Ow==
+"@edtr-io/plugin-multimedia-explanation@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-multimedia-explanation/-/plugin-multimedia-explanation-0.50.0.tgz#a54ce04ab3bb72c8f376da5c50cd8c0c5ca25677"
+  integrity sha512-h4DDfk0DZOylt/Asbe6ZjEXnlCbkJYAZXYphiDJ+3tIXT8Eax3UNNoQPUJGgcFXtmXCvn4xC3Z/xkhQ5Svh/Cw==
   dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/store" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/store" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
 
-"@edtr-io/plugin-rows@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-rows/-/plugin-rows-0.13.7.tgz#15b410fca5dad009f0fd18552a808686a67760c6"
-  integrity sha512-EeY4r9HUkVXov1NBlTveATKuPn5fTAxFbNKn0atbEYiSfcXio2ynpKHvIQiiKMQR81tGBsQnsSHFpIyJ+D1jKg==
+"@edtr-io/plugin-rows@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-rows/-/plugin-rows-0.50.0.tgz#34dc8f81651c1b47d54d105d054603638ba9da2c"
+  integrity sha512-rBUfxgu+MpCmbYWHjxG002Oo1tbN0/kyJpnPnfaco+O+8spQ6jCaMoiBxs9iHKiK/015w/aIGLqIB7ky/FTFMA==
   dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/store" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/store" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/ramda" "^0.26.1"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
     ramda "^0.26.1"
 
-"@edtr-io/plugin-sc-mc-exercise@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-sc-mc-exercise/-/plugin-sc-mc-exercise-0.13.7.tgz#2290b08492e4ec6c8aba97da37337e9e3bcac1ce"
-  integrity sha512-EWNKewozOCYuFyqtQgodFNB7sGeZmpNCXyWbK/a+WJkcIQvLGY/HzF/QyteZptMrE5p8yc/Riva5bIlwl6RtyA==
+"@edtr-io/plugin-sc-mc-exercise@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-sc-mc-exercise/-/plugin-sc-mc-exercise-0.50.0.tgz#66d0521a18d63f1c483c826d98929d5d0864f900"
+  integrity sha512-sZeRsrYF56fZUGhNYBqPwAzi3oUSgcOqvwgyIXFRJmkO19IsHY6nlekjUfKPgrVLtlbX38C4gNmhhqsTs+WojQ==
   dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/renderer-ui" "^0.13.6"
-    "@edtr-io/store" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/renderer-ui" "^0.50.0"
+    "@edtr-io/store" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/ramda" "^0.26.1"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
     ramda "^0.26.1"
 
-"@edtr-io/plugin-serlo-injection@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-serlo-injection/-/plugin-serlo-injection-0.13.7.tgz#f19b956488d2cffb2b13665190d957d3b9972c42"
-  integrity sha512-SR/UrulGuTo0ZHLeIoVutVT0K5V4X8k90Ke8zvB7JNWDG4hfiiQKUnpRVzO5fYCgt49ENnxosOMEoYsMgSrxdQ==
+"@edtr-io/plugin-serlo-injection@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-serlo-injection/-/plugin-serlo-injection-0.50.0.tgz#21f1f077f707a1291f5a23c3500f48d5dd19c04b"
+  integrity sha512-z/cV3w26KJJHD2aq4tahNZbEIAI1uNwmjk1Dy282H1Rwuttf+UrzofEcjjDjnUiTGuI3wvewYxrQFHbU8Oy2tw==
   dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
     iframe-resizer-react "^1.0.0"
 
-"@edtr-io/plugin-solution@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-solution/-/plugin-solution-0.13.7.tgz#bd07386844c19f962e706d7ce39ab04341e93a07"
-  integrity sha512-fFokW6SVaNsiOHe/6SUH5MIG3eo3Rxx75/jzAfj1eDSNc1tewCFD6/leyU3WHbjOhoHUf3jv7wyaz/04h6myZA==
+"@edtr-io/plugin-spoiler@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-spoiler/-/plugin-spoiler-0.50.0.tgz#fbbebf0e15fc4492fb6c0395c5f0e2e6b966eb70"
+  integrity sha512-HEqIRbYy3fdK/SP4J6fBDrBPBkweBHQyrvO3efQgNUZUkbTJ4DprudUwz0Ws298UXA45BKnpp+iP00RxkLsL5w==
   dependencies:
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/renderer-ui" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/renderer-ui" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
 
-"@edtr-io/plugin-spoiler@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-spoiler/-/plugin-spoiler-0.13.7.tgz#a7d7e0de06e8ec6341f1ea3e4f5236bc43a465f7"
-  integrity sha512-v9yXy0QMhYnPfj4bpGerOWh469W1d1icGjYMJ38a9kzHQsOmqVPyy5pdMwOL9JQDBzcFVtH8BmmV7PaQnH8A7g==
+"@edtr-io/plugin-table@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-table/-/plugin-table-0.50.0.tgz#acab004a16815473da5a066b9e5de845051bf151"
+  integrity sha512-TcPayTXWHBCkm9tUBZPSpkOt1Izuu1pU6u9bxUic3wfP5NZVXJgfmat7t2sFAV3I20MDsc4xYskN4TsJWzMcDw==
   dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/renderer-ui" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
-    "@types/react" "^16.8.0"
-    "@types/react-dom" "^16.8.0"
-
-"@edtr-io/plugin-table@^0.13.0":
-  version "0.13.6"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-table/-/plugin-table-0.13.6.tgz#de1538d5a651f5b521d61f42494b61b6436ef2d0"
-  integrity sha512-TNs8ziGtUQwOznA2bTGJq6lHwYAQIn3QmoMMEe7QwOJLB+IyLDam6CokY7ASIUuHtrGtHkP4D4T0daNmJq9JSw==
-  dependencies:
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/renderer-ui" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/renderer-ui" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
     react-markdown "^4.0.0"
 
-"@edtr-io/plugin-text@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-text/-/plugin-text-0.13.7.tgz#4655f40106fb915e51fa7d5cd7d74c3e01d80608"
-  integrity sha512-ODQyYqwNGuenjetrJeKZ7Tg7tX9sTua7IOf/SCmmvf6yKqoVr7d7wryw5nEkgZ1iq8gVxsgnhzdZBDvrirIfMw==
+"@edtr-io/plugin-text@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-text/-/plugin-text-0.50.0.tgz#63c8d44f25b6aa6358ed97baf612ab04d9726587"
+  integrity sha512-rD4THk5/YK1S5ijHPB4pPxPXhU2UW7wJdju8Zozf6D22a9TGKBHkoZ99t7VQ6l7fpObSL1uCZHnZdDAMocLLPg==
   dependencies:
     "@convertkit/slate-lists" "^0.2.5"
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/renderer-ui" "^0.13.6"
-    "@edtr-io/store" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/renderer-ui" "^0.50.0"
+    "@edtr-io/store" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/exenv" "^1.0.0"
     "@types/is-hotkey" "^0.1.0"
     "@types/katex" "^0.11.0"
@@ -1536,21 +1512,21 @@
     slate-html-serializer "0.8.6"
     slate-react "0.22.4"
 
-"@edtr-io/plugin-toolbar@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-toolbar/-/plugin-toolbar-0.13.5.tgz#aad058c61f2bbef88e09b584ba70a589192dd2cb"
-  integrity sha512-3HpAC0PJWM5f99CgwbQfTpL3138GPkshDQI3r1NaJbs6Xyn9s6khQV/fUM76u+2CeZkTh4VfeATufK52gjqa9g==
+"@edtr-io/plugin-toolbar@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-toolbar/-/plugin-toolbar-0.50.0.tgz#9e3c6bb3f8974e7323d8c383f5e28c614a3541d2"
+  integrity sha512-I3F1Tz6kIMhQcZgt0EG7FXWQIBG4iNUxqqg1xFWOR3br+UaFzxXoNhHxm2flqe66GlEEDiyp8EFm1Y2R7AgBAQ==
   dependencies:
-    "@edtr-io/internal__plugin-toolbar" "^0.13.5"
+    "@edtr-io/internal__plugin-toolbar" "^0.50.0"
 
-"@edtr-io/plugin-video@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-video/-/plugin-video-0.13.7.tgz#90ba40ecfa0e2b542e3ec1a4794002ac34d1c573"
-  integrity sha512-k84sXXoSVwSgO9Kk1bm/vvFN8t32jhAKT8dcSZt0ytvqB9RXZ/o2sv8K1yGdzhCHylU1mUVn830NcVyMc7nEYQ==
+"@edtr-io/plugin-video@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-video/-/plugin-video-0.50.0.tgz#d07e6c15f5cb803a8e3c7647aeec57afa729b3b5"
+  integrity sha512-iQiLW9MjqPQbax0DbnDE/pi1Mnkh/OcK5sITse2SLItkH6+QYKgiguTww1LgvJLgdz6Ff5R7hXd07vq9WxbaCg==
   dependencies:
-    "@edtr-io/editor-ui" "^0.13.7"
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/editor-ui" "^0.50.0"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
 
@@ -1567,13 +1543,13 @@
     ramda "^0.26.1"
     shortid "^2.0.0"
 
-"@edtr-io/plugin@^0.13.0", "@edtr-io/plugin@^0.13.6":
-  version "0.13.6"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin/-/plugin-0.13.6.tgz#b1b9e276c0594b44c9e541ed66d226d6abcf96f0"
-  integrity sha512-vu1KbAzAij2/E/RlZuqb7fl8BWUgk2s30irJWb5Oyds2ucfNBN/EDY/oTn0tGZR0H2IAJFyt0n9hpmRjptlYHQ==
+"@edtr-io/plugin@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/plugin/-/plugin-0.50.0.tgz#1c2dd1ef4985b05b55613d2bd9f0bfa6fa88b41c"
+  integrity sha512-J8R2LOUrwoo9Z8EmYsKbvxwAzWKQssR4NO0deJm+RY3lYJqafJkssdDwQkariIJGLtsRIN2NvExvEkhXNPU9Tw==
   dependencies:
-    "@edtr-io/internal__plugin" "^0.13.5"
-    "@edtr-io/internal__plugin-state" "^0.13.5"
+    "@edtr-io/internal__plugin" "^0.50.0"
+    "@edtr-io/internal__plugin-state" "^0.50.0"
     "@types/ramda" "^0.26.1"
     "@types/react" "^16.8.0"
     "@types/shortid" "^0.0.29"
@@ -1590,12 +1566,12 @@
     "@types/react-dom" "^16.8.0"
     "@types/styled-components" "^4.0.0"
 
-"@edtr-io/renderer-ui@^0.13.0", "@edtr-io/renderer-ui@^0.13.6":
-  version "0.13.6"
-  resolved "https://registry.yarnpkg.com/@edtr-io/renderer-ui/-/renderer-ui-0.13.6.tgz#e5627c4361c2fbcab174b9c7a4f98dc5301d632a"
-  integrity sha512-xrORz9Com9YGLBNAJD9zmcq0O9VjYhOiBKwz/5bL5iRn4eqtYabAsHVcW31jqci8Bip+Z16xFpK9T84hStfKwg==
+"@edtr-io/renderer-ui@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/renderer-ui/-/renderer-ui-0.50.0.tgz#b79c1f27bf3fac5978827aca8611b82e77939c74"
+  integrity sha512-e3rmiOhuhYaToaK0GZKZLwq8Ll1vT39vAkVPqEQKRJO92eLhDamBZukqw1TK9/S1iVGOTpSF4HLSO+vJPb2iTg==
   dependencies:
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/ui" "^0.50.0"
     "@types/ramda" "^0.26.1"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
@@ -1615,14 +1591,14 @@
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
 
-"@edtr-io/renderer@^0.13.0":
-  version "0.13.6"
-  resolved "https://registry.yarnpkg.com/@edtr-io/renderer/-/renderer-0.13.6.tgz#a418540003a6ab57d97906ea122acb8685f77497"
-  integrity sha512-Jws4go9SYe9DWZndfm/B5gBKC4lMvDkYNjti3BOf4ochwG4RkeZu9vGsvcb+nlMrKbABcrgtdUiY7Le5OCke7w==
+"@edtr-io/renderer@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/renderer/-/renderer-0.50.0.tgz#6267de138ca17cc934776d9fb5458734e216d23b"
+  integrity sha512-rB+KYLtZy20Q7T1jwNMPosr+joBbTYkga3Rpq8B0E+UwlwrKYlejmprWt/b+Btd2qLXG21Cq4KG1yRDX3mi9RQ==
   dependencies:
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/store" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
+    "@edtr-io/plugin" "^0.50.0"
+    "@edtr-io/store" "^0.50.0"
+    "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
 
@@ -1638,19 +1614,22 @@
     redux "^4.0.0"
     redux-saga "^1.0.0"
 
-"@edtr-io/store@^0.13.0", "@edtr-io/store@^0.13.6":
-  version "0.13.6"
-  resolved "https://registry.yarnpkg.com/@edtr-io/store/-/store-0.13.6.tgz#652e3a8864ab16aa56d64f5ab6992acabd0b7f44"
-  integrity sha512-dLuTMkYDJHLLUjPuXc0ezKP1rXDWbWBzeN0bV2aA5rfpWOaVLR9eYoZrhzpcCJY+7txxK4AELAFggo8n4JMqeQ==
+"@edtr-io/store@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/store/-/store-0.50.0.tgz#0f0e2163407bb545764e6c0c1607ed401e6a59c0"
+  integrity sha512-1UnLD6nmBsKb4g3/MQbXCgvzWYXIPNsc/fosQFhXcUmIM9XEtJeQPG5ORa9UU3yxh+AMttmQZeUnC2NHONggQg==
   dependencies:
-    "@edtr-io/internal__plugin" "^0.13.5"
-    "@edtr-io/internal__plugin-state" "^0.13.5"
+    "@edtr-io/internal__dev-expression" "^0.50.0"
+    "@edtr-io/internal__plugin" "^0.50.0"
+    "@edtr-io/internal__plugin-state" "^0.50.0"
     "@types/ramda" "^0.26.1"
+    "@types/shortid" "^0.0.29"
     json-stringify-deterministic "^1.0.0"
     ramda "^0.26.1"
     redux "^4.0.0"
     redux-saga "^1.0.0"
     reselect "^4.0.0"
+    shortid "^2.0.0"
 
 "@edtr-io/ui@^0.12.0":
   version "0.12.0"
@@ -1667,10 +1646,10 @@
     ramda "^0.26.1"
     react-hotkeys "^2.0.0"
 
-"@edtr-io/ui@^0.13.0", "@edtr-io/ui@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@edtr-io/ui/-/ui-0.13.5.tgz#1acb76f3d55ccf91d4171e54b9af7613f9a5054b"
-  integrity sha512-zwwuNEU1j8BHFsZneWsUM51uQlVkOP8HwxE3Qe3EhhnZ7JjMW5oTx7ArxMJlbS49CE5ygbdEK0a7LkIY6Qn7ug==
+"@edtr-io/ui@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/ui/-/ui-0.50.0.tgz#bc1252d64519e8d0cafb639c1d7fcf245a53730c"
+  integrity sha512-G22+cPOHFYEfNDhWcr/uFjKBdYYdjuN0yl3Ys8R9qm+mdYidLQWubT/JeS6awU41F/8P54TiBVIkTp4DZtfw4Q==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.0.0"
     "@fortawesome/free-solid-svg-icons" "^5.0.0"
@@ -18756,7 +18735,7 @@ tiny-glob@^0.2.6:
     globalyzer "^0.1.0"
     globrex "^0.1.1"
 
-tiny-invariant@^1.0.1, tiny-invariant@^1.0.4, tiny-invariant@^1.0.6:
+tiny-invariant@^1.0.0, tiny-invariant@^1.0.1, tiny-invariant@^1.0.4, tiny-invariant@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.0.6.tgz#b3f9b38835e36a41c843a3b0907a5a7b3755de73"
   integrity sha512-FOyLWWVjG+aC0UqG76V53yAWdXfH8bO6FNmyZOuUrzDzK8DI3/JRY25UD7+g49JWM1LXwymsKERB+DzI0dTEQA==
@@ -18765,6 +18744,11 @@ tiny-warning@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-0.0.3.tgz#1807eb4c5f81784a6354d58ea1d5024f18c6c81f"
   integrity sha512-r0SSA5Y5IWERF9Xh++tFPx0jITBgGggOsRLDWWew6YRw/C2dr4uNO1fw1vanrBmHsICmPyMLNBZboTlxUmUuaA==
+
+tiny-warning@^1.0.0:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
+  integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
 
 tinycolor2@^1.4.1:
   version "1.4.1"

@@ -20,6 +20,9 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { StateTypeSerializedType } from '@edtr-io/plugin'
+import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
+import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
+
 import { convert, isEdtr } from '../legacy/legacy-editor-to-editor'
 
 import {
@@ -39,14 +42,12 @@ import { eventTypeState } from './plugins/types/event'
 import { mathPuzzleTypeState } from './plugins/types/math-puzzle'
 import { pageTypeState } from './plugins/types/page'
 import { textExerciseTypeState } from './plugins/types/text-exercise'
-import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { textExerciseGroupTypeState } from './plugins/types/text-exercise-group'
 import { textSolutionTypeState } from './plugins/types/text-solution'
 import { userTypeState } from './plugins/types/user'
 import { videoTypeState } from './plugins/types/video'
 import { Entity, License, Uuid } from './plugins/types/common'
 import { EditorProps } from './editor'
-import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
 
 export function deserialize({
   initialState,
@@ -342,7 +343,7 @@ export function deserialize({
           singleChoiceRightAnswer && singleChoiceRightAnswer.content
             ? [
                 {
-                  id: extractChildFromRows(
+                  content: extractChildFromRows(
                     convert(
                       deserializeEditorState(singleChoiceRightAnswer.content)
                     )
@@ -352,8 +353,7 @@ export function deserialize({
                     convert(
                       deserializeEditorState(singleChoiceRightAnswer.feedback)
                     )
-                  ),
-                  hasFeedback: !!singleChoiceRightAnswer.feedback
+                  )
                 }
               ]
             : []
@@ -364,14 +364,13 @@ export function deserialize({
               })
               .map(answer => {
                 return {
-                  id: extractChildFromRows(
+                  content: extractChildFromRows(
                     convert(deserializeEditorState(answer.content))
                   ),
                   isCorrect: false,
                   feedback: extractChildFromRows(
                     convert(deserializeEditorState(answer.feedback))
-                  ),
-                  hasFeedback: !!answer.feedback
+                  )
                 }
               })
           : []
@@ -383,14 +382,13 @@ export function deserialize({
               })
               .map(answer => {
                 return {
-                  id: extractChildFromRows(
+                  content: extractChildFromRows(
                     convert(deserializeEditorState(answer.content))
                   ),
                   isCorrect: true,
                   feedback: {
                     plugin: 'text'
-                  },
-                  hasFeedback: false
+                  }
                 }
               })
           : []
@@ -402,14 +400,13 @@ export function deserialize({
               })
               .map(answer => {
                 return {
-                  id: extractChildFromRows(
+                  content: extractChildFromRows(
                     convert(deserializeEditorState(answer.content))
                   ),
                   isCorrect: false,
                   feedback: extractChildFromRows(
                     convert(deserializeEditorState(answer.feedback))
-                  ),
-                  hasFeedback: !!answer.feedback
+                  )
                 }
               })
           : []
@@ -489,11 +486,9 @@ export function deserialize({
         return {
           plugin: 'inputExercise',
           state: {
-            __version__: 1,
-            value: {
-              type,
-              answers: extractInputAnswers(inputExercises, true)
-            }
+            type,
+            answers: extractInputAnswers(inputExercises, true),
+            unit: ''
           }
         }
 
@@ -531,8 +526,6 @@ export function deserialize({
     return {
       ...state,
       changes: '',
-      // FIXME: hints don't have a title
-      title: '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
       )
@@ -546,8 +539,6 @@ export function deserialize({
     return {
       ...state,
       changes: '',
-      // FIXME: solutions don't have a title
-      title: '',
       content: serializeEditorState(
         toEdtr(deserializeEditorState(state.content))
       )
