@@ -5,8 +5,12 @@ import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons/faLevelUpAlt'
 import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 import * as React from 'react'
 
+import {
+  Controls,
+  ControlButton,
+  DragHandler
+} from '../../semantic-plugin-helpers'
 import { solutionStepsState } from '..'
-import { ControlButton, Controls, DragHandler } from './styled-elements'
 import { SolutionElementType } from '../types'
 
 export const RenderControls = ({

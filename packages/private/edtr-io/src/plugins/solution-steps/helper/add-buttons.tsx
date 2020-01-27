@@ -3,9 +3,12 @@ import { AddButton, styled } from '@edtr-io/editor-ui'
 import { hasFocusedDescendant } from '@edtr-io/store'
 import * as React from 'react'
 
+import {
+  Buttoncontainer,
+  explanationLabel,
+  stepLabel
+} from '../../semantic-plugin-helpers'
 import { SolutionStepsProps } from '..'
-import { explanationLabel, stepLabel } from './guideline-texts'
-import { Buttoncontainer } from './styled-elements'
 import { SolutionElementType } from '../types'
 
 const OrStatement = styled.div({

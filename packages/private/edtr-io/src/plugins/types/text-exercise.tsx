@@ -25,13 +25,25 @@ import * as React from 'react'
 import {
   editorContent,
   entity,
-  Controls,
   optionalSerializedChild,
   OptionalChild,
-  entityType
+  entityType,
+  Controls
 } from './common'
 import { AddButton } from '@edtr-io/editor-ui'
-import { RevisionHistory, Settings } from './helpers/settings'
+import { RevisionHistory } from './helpers/settings'
+import {
+  Content,
+  SemanticPluginTypes,
+  Controls as GuidelineControls,
+  ControlButton as GuidelineButton,
+  Overlay,
+  exerciseGuideline
+} from '../semantic-plugin-helpers'
+import { useScopedSelector } from '@edtr-io/core'
+import { getFocusPath } from '@edtr-io/store'
+import { Icon } from '@edtr-io/ui'
+import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 
 export const textExerciseTypeState = entityType(
   {
@@ -66,7 +78,8 @@ export function TextExerciseTypeEditor(
     'text-hint': textHint,
     'text-solution': textSolution
   } = props.state
-
+  const [exerciseHelpVisible, setExerciseHelp] = React.useState(false)
+  const focusPath = useScopedSelector(getFocusPath())
   return (
     <article className="text-exercise">
       {props.renderIntoToolbar(
@@ -76,7 +89,27 @@ export function TextExerciseTypeEditor(
           onSwitchRevision={props.state.replaceOwnState}
         />
       )}
-      {content.render()}
+      <div style={{ position: 'relative' }}>
+        <Content type={SemanticPluginTypes.exercise} boxfree>
+          {content.render()}
+        </Content>
+        <GuidelineControls
+          show={(focusPath && focusPath.includes(props.id)) || false}
+        >
+          <GuidelineButton
+            onMouseDown={() => {
+              setExerciseHelp(true)
+            }}
+          >
+            <Icon icon={faQuestion} />
+          </GuidelineButton>
+        </GuidelineControls>
+        <Overlay
+          content={exerciseGuideline}
+          open={exerciseHelpVisible}
+          setOpen={setExerciseHelp}
+        />
+      </div>
       {textHint.id ? (
         <OptionalChild
           state={textHint}

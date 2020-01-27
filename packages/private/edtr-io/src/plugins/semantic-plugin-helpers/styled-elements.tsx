@@ -5,10 +5,8 @@ import { faChessRook } from '@fortawesome/free-solid-svg-icons/faChessRook'
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots'
 import { faPencilRuler } from '@fortawesome/free-solid-svg-icons/faPencilRuler'
 import { faSearchPlus } from '@fortawesome/free-solid-svg-icons/faSearchPlus'
-import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import * as React from 'react'
-
-import { SolutionElementType } from '../types'
+import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 
 export const Buttoncontainer = styled.div({
   display: 'flex',
@@ -44,27 +42,34 @@ export const BackgroundSymbol = styled.div({
   transform: 'translate(-15px, 10px)',
   zIndex: 0
 })
+export enum SemanticPluginTypes {
+  introduction,
+  strategy,
+  explanation,
+  step,
+  additionals,
+  exercise
+}
 
-export function getIcon(
-  type: SolutionElementType,
-  size?: FontAwesomeIconProps['size']
-) {
+export function getIcon(type: SemanticPluginTypes, size: any) {
   switch (type) {
-    case SolutionElementType.introduction:
+    case SemanticPluginTypes.introduction:
       return <Icon icon={faBookOpen} size={size} />
-    case SolutionElementType.strategy:
+    case SemanticPluginTypes.strategy:
       return <Icon icon={faChessRook} size={size} />
-    case SolutionElementType.explanation:
+    case SemanticPluginTypes.explanation:
       return <Icon icon={faCommentDots} size={size} />
-    case SolutionElementType.step:
+    case SemanticPluginTypes.step:
       return <Icon icon={faPencilRuler} size={size} />
-    case SolutionElementType.additionals:
+    case SemanticPluginTypes.additionals:
       return <Icon icon={faSearchPlus} size={size} />
+    case SemanticPluginTypes.exercise:
+      return <Icon icon={faQuestion} size={size} />
   }
 }
 export function Content(
   props: React.PropsWithChildren<{
-    type: SolutionElementType
+    type: SemanticPluginTypes
     isHalf?: boolean
     boxfree?: boolean
   }>

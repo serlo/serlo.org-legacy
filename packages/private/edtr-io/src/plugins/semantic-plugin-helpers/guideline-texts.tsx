@@ -2,8 +2,11 @@ import { Icon } from '@edtr-io/ui'
 import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons/faLevelUpAlt'
 import * as React from 'react'
 
-import { BackgroundSymbol, getIcon } from './styled-elements'
-import { SolutionElementType } from '../types'
+import {
+  BackgroundSymbol,
+  getIcon,
+  SemanticPluginTypes
+} from './styled-elements'
 
 export const stepLabel =
   'Ein Bestandteil der Lösung, der zur Lösung der Aufgabe aufgeschrieben werden muss'
@@ -13,6 +16,36 @@ export const strategyLabel = 'Erkläre dein Vorgehen'
 export const additionalsLabel = 'Ergänze weitere Inhalte zur Lösung'
 export const introductionLabel =
   'Ein einführender Satz, in dem das Thema bzw die wichtigste Methode genannt wird'
+//TODO: refactor Backgroundsymbol -> hand down via config?
+
+export const exerciseGuideline: React.ReactNode = (
+  <div>
+    <h1>Aufgabenstellung</h1>
+    <p>
+      Erstelle hier eine ansprechende, lernerfreundliche Aufgabenstellung. Frage
+      dich, was für eine Aufgabenanforderung du stellst: Reproduzieren,
+      Wissenstransfer, analysieren, Alltags-Check oder Erfahrungsaufgabe,
+      Vertiefungsaufgabe, Aktionsaufgabe,...
+    </p>
+    <h2>allgemeine Richtlinien</h2>
+    <ul>
+      <li>Formuliere eine Aufgabenstellung in der Du-Form/Befehlsform.</li>
+      <li>Benutze keine Überschriften in Aufgabenstellungen.</li>
+      <li>Verlinke keine Lerninhalte und Begriffe in der Aufgabenstellung.</li>
+    </ul>
+    <h2>interaktive Elemente </h2>
+    <p>
+      Wie überall kannst du mit dem &#8853; Dinge hinzufügen. Wann immer es
+      didaktisch wertvoll ist kannst du deiner Aufgabe hier ein Eingabefeld,
+      eine Multiple Choice oder ein anderes interaktives Element hinzufügen. Das
+      ersetzt nicht die Lösung!
+    </p>
+    <BackgroundSymbol>
+      {getIcon(SemanticPluginTypes.exercise, '8x')}
+    </BackgroundSymbol>
+  </div>
+)
+
 export const introductionGuideline: React.ReactNode = (
   <div>
     <h1>Wichtiges Wissen zur Aufgabe</h1>
@@ -24,7 +57,7 @@ export const introductionGuideline: React.ReactNode = (
       <li>Verlinke auf einen Artikel zum Thema bzw. zur wichtigsten Methode</li>
     </ul>
     <BackgroundSymbol>
-      {getIcon(SolutionElementType.introduction, '8x')}
+      {getIcon(SemanticPluginTypes.introduction, '8x')}
     </BackgroundSymbol>
   </div>
 )
@@ -57,7 +90,7 @@ export const strategyGuideline: React.ReactNode = (
       </li>
     </ul>
     <BackgroundSymbol>
-      {getIcon(SolutionElementType.strategy, '8x')}
+      {getIcon(SemanticPluginTypes.strategy, '8x')}
     </BackgroundSymbol>
   </div>
 )
@@ -97,7 +130,7 @@ export const stepGuideline = (
       Gleichungsplugin für Rechnungen.
     </p>
     <BackgroundSymbol>
-      {getIcon(SolutionElementType.step, '8x')}
+      {getIcon(SemanticPluginTypes.step, '8x')}
     </BackgroundSymbol>
   </div>
 )
@@ -129,7 +162,7 @@ export const explanationGuideline = (
       wenn es keine zu langen Erklärungen sind.
     </p>
     <BackgroundSymbol>
-      {getIcon(SolutionElementType.explanation, '8x')}
+      {getIcon(SemanticPluginTypes.explanation, '8x')}
     </BackgroundSymbol>
   </div>
 )
@@ -151,7 +184,7 @@ export const additionalsGuideline = (
       <li>Anregungen und Links zum Weiterlernen.</li>
     </ul>
     <BackgroundSymbol>
-      {getIcon(SolutionElementType.additionals, '8x')}
+      {getIcon(SemanticPluginTypes.additionals, '8x')}
     </BackgroundSymbol>
   </div>
 )

@@ -9,26 +9,32 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { SolutionStepsProps } from '.'
 import {
   AddButtonsComponent,
-  additionalsGuideline,
-  additionalsLabel,
+  dragContent,
+  findPairs,
+  useHasFocusSelector,
+  RenderControls
+} from './helper'
+import { SolutionStepsRenderer } from './renderer'
+
+import {
+  Controls,
+  ControlButton,
   Container,
   Content,
-  ControlButton,
-  Controls,
-  dragContent,
+  SemanticPluginTypes,
+  strategyLabel,
+  strategyGuideline,
   explanationGuideline,
-  findPairs,
   introductionGuideline,
   introductionLabel,
   Overlay,
-  RenderControls,
   stepGuideline,
-  strategyGuideline,
-  strategyLabel,
-  useHasFocusSelector
-} from './helper'
-import { SolutionStepsRenderer } from './renderer'
+  additionalsGuideline,
+  additionalsLabel
+} from '../semantic-plugin-helpers'
 import { SolutionElementType } from './types'
+
+export const explanation = 'explanation'
 
 export function SolutionStepsEditor(props: SolutionStepsProps) {
   const { state, editable } = props
@@ -44,7 +50,8 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
   return editable && pluginFocused ? (
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
-        <Content type={SolutionElementType.introduction} boxfree>
+        {/* TODO: refactor Content-Container -> hand icon down via config? */}
+        <Content type={SemanticPluginTypes.introduction} boxfree>
           {state.introduction.render({
             config: { placeholder: introductionLabel }
           })}
@@ -80,7 +87,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
       </React.Fragment>
       {strategy.defined ? (
         <div style={{ position: 'relative' }}>
-          <Content type={SolutionElementType.strategy}>
+          <Content type={SemanticPluginTypes.strategy}>
             {strategy.render()}
           </Content>
           <Controls
@@ -145,8 +152,9 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                           <Container {...provided.draggableProps}>
                             <Content
                               type={
-                                solutionStepLeft.type
-                                  .value as SolutionElementType
+                                solutionStepLeft.type.value === explanation
+                                  ? SemanticPluginTypes.explanation
+                                  : SemanticPluginTypes.step
                               }
                               isHalf={solutionStepLeft.isHalf.value}
                             >
@@ -155,8 +163,9 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                             {solutionStepRight ? (
                               <Content
                                 type={
-                                  solutionStepRight.type
-                                    .value as SolutionElementType
+                                  solutionStepRight.type.value === explanation
+                                    ? SemanticPluginTypes.explanation
+                                    : SemanticPluginTypes.step
                                 }
                                 isHalf={solutionStepRight.isHalf.value}
                               >
@@ -222,7 +231,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
               )}
               {additionals.defined ? (
                 <div style={{ position: 'relative' }}>
-                  <Content type={SolutionElementType.additionals}>
+                  <Content type={SemanticPluginTypes.additionals}>
                     {additionals.render()}
                   </Content>
                   <Controls>
