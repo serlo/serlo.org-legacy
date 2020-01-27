@@ -9,7 +9,7 @@ import * as React from 'react'
 
 import { explanation } from '../editor'
 import { Controls, ControlButton, DragHandler } from './styled-elements'
-import { SolutionStepsState } from '..'
+import { solutionStepsState } from '..'
 
 export const RenderControls = ({
   state,
@@ -18,7 +18,7 @@ export const RenderControls = ({
   provided,
   showButtons
 }: {
-  state: StateTypeReturnType<SolutionStepsState>
+  state: StateTypeReturnType<typeof solutionStepsState>
   index: number
   showHelp: (show: boolean) => void
   provided: any

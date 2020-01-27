@@ -1,5 +1,5 @@
-import { RowsPlugin } from '../../legacy-editor-to-editor'
 import { rowToSolutionStepsArray } from '../src/deserialize'
+import { RowsPlugin } from '@serlo/legacy-editor-to-editor'
 
 test('rowToSolutionStepsArray: basic example', () => {
   const rowsState: RowsPlugin = {

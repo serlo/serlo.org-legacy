@@ -51,7 +51,7 @@ import { createImagePlugin } from './plugins/image'
 import { injectionPlugin } from './plugins/injection'
 import { layoutPlugin } from './plugins/layout'
 import { createSolutionPlugin } from './plugins/solution'
-import { createSolutionStepsPlugin } from './plugins/solution-steps'
+import { solutionStepsPlugin } from './plugins/solution-steps'
 import { tablePlugin } from './plugins/table'
 import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
 
@@ -90,7 +90,7 @@ export function createPlugins(
     rows: createRowsPlugin({ plugins: registry }),
     scMcExercise: createScMcExercisePlugin(),
     solution: createSolutionPlugin(),
-    solutionSteps: createSolutionStepsPlugin(),
+    solutionSteps: solutionStepsPlugin,
     spoiler: createSpoilerPlugin(),
     table: tablePlugin,
     text: createTextPlugin({ registry: registry }),

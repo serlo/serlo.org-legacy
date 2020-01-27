@@ -42,8 +42,6 @@ export const textSolutionTypeState = entityType(
   {}
 )
 
-const solutionPlugin = createSolutionPlugin()
-
 export const textSolutionTypePlugin: EditorPlugin<
   typeof textSolutionTypeState,
   { skipControls: boolean }

@@ -444,7 +444,7 @@ export function editorContent(
   StateTypeValueType<ReturnType<typeof child>>,
   StateTypeReturnType<ReturnType<typeof child>>
 > {
-  const originalChild = child<string>({ plugin: plugin })
+  const originalChild = child<string>({ plugin })
   return {
     ...originalChild,
     serialize(...args: Parameters<typeof originalChild.serialize>) {

@@ -46,10 +46,7 @@ import { videoTypeState } from './plugins/types/video'
 import { Entity, License, Uuid } from './plugins/types/common'
 import { EditorProps } from './editor'
 import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
-import {
-  SolutionStepsPlugin,
-  LayoutPlugin
-} from 'legacy-editor-to-editor/src/splishToEdtr/types'
+import { LayoutPlugin } from 'legacy-editor-to-editor/src/splishToEdtr/types'
 
 export function deserialize({
   initialState,

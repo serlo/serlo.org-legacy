@@ -6,6 +6,7 @@ import * as React from 'react'
 import { explanation } from '../editor'
 import { Buttoncontainer } from './styled-elements'
 import { SolutionStepsProps } from '..'
+import { explanationLabel, stepLabel } from './guideline-texts'
 
 const OrStatement = styled.div({
   color: 'lightgrey',
@@ -47,14 +48,11 @@ export function AddButtonsComponent(
       props.optionalID === '' ||
       props.id === '' ? (
         <Buttoncontainer>
-          <AddButton title={props.config.step.placeholder} onClick={insertStep}>
+          <AddButton title={stepLabel} onClick={insertStep}>
             Lösungsbestandteil
           </AddButton>
           <OrStatement> oder </OrStatement>
-          <AddButton
-            title={props.config.explanation.placeholder}
-            onClick={insertExplanation}
-          >
+          <AddButton title={explanationLabel} onClick={insertExplanation}>
             zusätzliche Erklärung
           </AddButton>
         </Buttoncontainer>

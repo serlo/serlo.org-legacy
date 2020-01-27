@@ -1,10 +1,10 @@
 import { StateTypeReturnType } from '@edtr-io/plugin'
 
 import { explanation } from '../editor'
-import { SolutionStepsState } from '..'
+import { solutionStepsState } from '..'
 
 export const findPairs = (
-  solutionSteps: StateTypeReturnType<SolutionStepsState>['solutionSteps']
+  solutionSteps: StateTypeReturnType<typeof solutionStepsState>['solutionSteps']
 ) => {
   const pairedList: {
     val1: {

@@ -18,14 +18,22 @@ import {
   Content,
   SolutionPluginTypes,
   RenderControls,
-  Overlay
+  Overlay,
+  introductionLabel,
+  introductionGuideline,
+  strategyLabel,
+  strategyGuideline,
+  explanationGuideline,
+  stepGuideline,
+  additionalsGuideline,
+  additionalsLabel
 } from './helper'
 import { SolutionStepsRenderer } from './renderer'
 
 export const explanation = 'explanation'
 
 export function SolutionStepsEditor(props: SolutionStepsProps) {
-  const { state, editable, config } = props
+  const { state, editable } = props
   const { solutionSteps } = state
   const focusPath = useScopedSelector(getFocusPath())
   const pluginFocused = useHasFocusSelector(props.id)
@@ -41,7 +49,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
         {/* TODO: refactor Content-Container -> hand icon down via config? */}
         <Content type={SolutionPluginTypes.introduction} boxfree>
           {state.introduction.render({
-            config: { placeholder: config.introduction.placeholder }
+            config: { placeholder: introductionLabel }
           })}
         </Content>
         <Controls
@@ -58,13 +66,13 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
           </ControlButton>
         </Controls>
         <Overlay
-          content={config.introduction.guideline}
+          content={introductionGuideline}
           open={introductionHelpVisible}
           setOpen={setIntroductionHelp}
         />
         {!state.hasStrategy.value ? (
           <AddButton
-            title={config.strategy.placeholder}
+            title={strategyLabel}
             onClick={() => {
               state.hasStrategy.set(true)
             }}
@@ -98,7 +106,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
             </ControlButton>
           </Controls>
           <Overlay
-            content={config.strategy.guideline}
+            content={strategyGuideline}
             open={strategyHelpVisible}
             setOpen={setStrategyHelp}
           />
@@ -174,14 +182,14 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                               content={
                                 solutionStepRight ? (
                                   <React.Fragment>
-                                    {config.step.guideline}
-                                    {config.explanation.guideline}
+                                    {stepGuideline}
+                                    {explanationGuideline}
                                   </React.Fragment>
                                 ) : solutionStepLeft.type.value ===
                                   explanation ? (
-                                  config.explanation.guideline
+                                  explanationGuideline
                                 ) : (
-                                  config.step.guideline
+                                  stepGuideline
                                 )
                               }
                             ></Overlay>
@@ -210,7 +218,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
               })}
               {state.hasAdditionals.value ? null : (
                 <AddButton
-                  title={config.additionals.placeholder}
+                  title={additionalsLabel}
                   onClick={() => {
                     state.hasAdditionals.set(true)
                   }}
@@ -234,7 +242,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                     </ControlButton>
                   </Controls>
                   <Overlay
-                    content={config.additionals.guideline}
+                    content={additionalsGuideline}
                     open={additionalsHelpVisible}
                     setOpen={setAdditionalsHelp}
                   />

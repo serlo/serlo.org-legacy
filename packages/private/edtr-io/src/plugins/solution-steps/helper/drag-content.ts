@@ -2,11 +2,11 @@ import { StateTypeReturnType } from '@edtr-io/plugin'
 import { DropResult } from 'react-beautiful-dnd'
 
 import { findPairs } from './find-pairs'
-import { SolutionStepsState } from '..'
+import { solutionStepsState } from '..'
 
 export const dragContent = (
   result: DropResult,
-  state: StateTypeReturnType<SolutionStepsState>
+  state: StateTypeReturnType<typeof solutionStepsState>
 ) => {
   const { solutionSteps } = state
   const { source, destination } = result
