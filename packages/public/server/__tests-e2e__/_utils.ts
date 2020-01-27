@@ -110,7 +110,40 @@ export async function logout(): Promise<void> {
 }
 
 export function randomText(prefix?: string): string {
-  return (prefix ?? 'Text') + ' ' + String(Math.floor(Math.random() * 1e12)) 
+  return (prefix ?? 'Text') + ' ' + String(Math.floor(Math.random() * 1e12))
+}
+
+export async function toHaveTitle(
+  this: jest.MatcherUtils,
+  page: ElementHandle,
+  pageTitle: string
+): Promise<jest.CustomMatcherResult> {
+  const expectedTitle = pageTitle + ' – learn with Serlo!'
+  const currentTitle = await page
+    .executionContext()
+    //@ts-ignore
+    .frame()!
+    .title()
+
+  if (expectedTitle === currentTitle) {
+    return {
+      pass: true,
+      message: () =>
+        `Current Title should not be ${printReceived(currentTitle)}`
+    }
+  } else {
+    return {
+      pass: false,
+      message: () =>
+        printDiffOrStringify(
+          expectedTitle,
+          currentTitle,
+          'Expected title',
+          'Current title',
+          this.expand
+        )
+    }
+  }
 }
 
 export function toHaveUrlPath(

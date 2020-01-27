@@ -19,16 +19,20 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { toHaveUrlPath } from './packages/public/server/__tests-e2e__/_utils'
+import {
+  toHaveUrlPath,
+  toHaveTitle
+} from './packages/public/server/__tests-e2e__/_utils'
 
 setTimeout(60)
 
-expect.extend({ toHaveUrlPath })
+expect.extend({ toHaveUrlPath, toHaveTitle })
 
 declare global {
   namespace jest {
     interface Matchers<R, T> {
-      toHaveUrlPath(expectedPage: string): R
+      toHaveUrlPath(urlPath: string): R
+      toHaveTitle(pageTitle: string): Promise<R>
     }
   }
 }
