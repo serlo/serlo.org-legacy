@@ -19,14 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  EditorPlugin,
-  EditorPluginProps,
-  string,
-  list,
-  migratable
-} from '@edtr-io/plugin'
-import { createSolutionPlugin } from '../solution'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'

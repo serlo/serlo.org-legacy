@@ -31,12 +31,10 @@ export const textSolutionTypeState = entityType(
     ...entity,
     // FIXME: solutions don't have a title
     title: string(''),
-    content: editorContent()
+    content: editorContent('solution')
   },
   {}
 )
-
-const solutionPlugin = createSolutionPlugin()
 
 export const textSolutionTypePlugin: EditorPlugin<
   typeof textSolutionTypeState,
@@ -55,7 +53,6 @@ function TextSolutionTypeEditor(
     { skipControls: boolean }
   >
 ) {
-  console.log(props.config)
   return (
     <React.Fragment>
       {props.renderIntoToolbar(
@@ -65,7 +62,7 @@ function TextSolutionTypeEditor(
           onSwitchRevision={props.state.replaceOwnState}
         />
       )}
-      <solutionPlugin.Component {...props} />
+      {props.state.content.render()}
       {props.config.skipControls ? null : (
         <Controls subscriptions {...props.state} />
       )}

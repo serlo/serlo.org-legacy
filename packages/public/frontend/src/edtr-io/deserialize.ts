@@ -26,7 +26,8 @@ import {
   Edtr,
   Legacy,
   RowsPlugin,
-  Splish
+  Splish,
+  LayoutPlugin
 } from '../legacy/legacy-editor-to-editor/splishToEdtr/types'
 
 import * as R from 'ramda'
@@ -306,7 +307,7 @@ export function deserialize({
         ? deserializeInputExercise()
         : undefined
 
-    const converted = toEdtr(deserialized)
+    const converted = toEdtr(deserialized) as RowsPlugin
 
     return {
       ...state,
@@ -448,38 +449,6 @@ export function deserialize({
           ? 'input-number-exact-match-challenge'
           : 'input-expression-equal-match-challenge'
 
-        function extractInputAnswers(
-          inputExercises: InputType[],
-          isCorrect: boolean
-        ): {
-          value: string
-          isCorrect: boolean
-          feedback: { plugin: string; state?: unknown }
-        }[] {
-          if (inputExercises.length === 0) return []
-
-          const answers = inputExercises.map(exercise => {
-            return {
-              value: exercise.solution,
-              feedback: extractChildFromRows(
-                convert(deserializeEditorState(exercise.feedback))
-              ),
-              isCorrect
-            }
-          })
-
-          const children = R.flatten(
-            inputExercises.map(exercise => {
-              return filterDefined([
-                exercise['input-string-normalized-match-challenge'],
-                exercise['input-number-exact-match-challenge'],
-                exercise['input-expression-equal-match-challenge']
-              ])
-            })
-          )
-
-          return R.concat(answers, extractInputAnswers(children, false))
-        }
         const inputExercises = filterDefined([
           inputStringNormalizedMatchChallenge,
           inputNumberExactMatchChallenge,
@@ -496,10 +465,43 @@ export function deserialize({
             }
           }
         }
+      }
 
-        function filterDefined<T>(array: (T | undefined)[]): T[] {
-          return array.filter(el => typeof el !== 'undefined') as T[]
-        }
+      function extractInputAnswers(
+        inputExercises: InputType[],
+        isCorrect: boolean
+      ): {
+        value: string
+        isCorrect: boolean
+        feedback: { plugin: string; state?: unknown }
+      }[] {
+        if (inputExercises.length === 0) return []
+
+        const answers = inputExercises.map(exercise => {
+          return {
+            value: exercise.solution,
+            feedback: extractChildFromRows(
+              convert(deserializeEditorState(exercise.feedback))
+            ),
+            isCorrect
+          }
+        })
+
+        const children = R.flatten(
+          inputExercises.map(exercise => {
+            return filterDefined([
+              exercise['input-string-normalized-match-challenge'],
+              exercise['input-number-exact-match-challenge'],
+              exercise['input-expression-equal-match-challenge']
+            ])
+          })
+        )
+
+        return R.concat(answers, extractInputAnswers(children, false))
+      }
+
+      function filterDefined<T>(array: (T | undefined)[]): T[] {
+        return array.filter(el => typeof el !== 'undefined') as T[]
       }
     }
   }
@@ -543,14 +545,34 @@ export function deserialize({
     state: TextSolutionSerializedState
   ): StateTypeSerializedType<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-solution' })
+
+    const content: Edtr = toEdtr(deserializeEditorState(state.content))
     return {
       ...state,
       changes: '',
       // FIXME: solutions don't have a title
       title: '',
-      content: serializeEditorState(
-        toEdtr(deserializeEditorState(state.content))
-      )
+      content:
+        isEdtr(content) && content.plugin === 'solution'
+          ? serializeEditorState(content)
+          : serializeEditorState({
+              plugin: 'solution',
+              state: [
+                {
+                  plugin: 'solutionSteps',
+                  state: {
+                    introduction: (content as RowsPlugin).state[0],
+                    hasStrategy: false,
+                    strategy: { plugin: 'rows' },
+                    solutionSteps: rowToSolutionStepsArray(
+                      content as RowsPlugin
+                    ),
+                    hasAdditionals: false,
+                    additionals: { plugin: 'rows' }
+                  }
+                }
+              ]
+            })
     }
   }
 
@@ -703,11 +725,11 @@ export type DeserializeError =
   | { error: 'type-unsupported' }
   | { error: 'failure' }
 
-function toEdtr(content: EditorState): RowsPlugin {
+function toEdtr(content: EditorState): Edtr {
   if (!content)
     return { plugin: 'rows', state: [{ plugin: 'text', state: undefined }] }
-  if (isEdtr(content)) return content as RowsPlugin
-  return convert(content) as RowsPlugin
+  if (isEdtr(content)) return content
+  return convert(content)
 }
 
 function serializeEditorState(content: Legacy): SerializedLegacyEditorState
@@ -734,4 +756,43 @@ type SerializedEditorState = (string | undefined) & {
 }
 type SerializedLegacyEditorState = (string | undefined) & {
   __type: 'serialized-legacy-editor-state'
+}
+
+export function rowToSolutionStepsArray(content: RowsPlugin) {
+  let solutionSteps: { type: string; isHalf: boolean; content: Edtr }[] = []
+  const rowsArray = content.state
+  // first Element is the introduction of the solution and is already used in deserializeTextSolution
+  let counter = 1
+  while (counter < rowsArray.length) {
+    if (
+      rowsArray[counter].plugin === 'layout' &&
+      (rowsArray[counter] as LayoutPlugin).state.length === 2
+    ) {
+      const layoutPlugin = rowsArray[counter]
+      const leftElement = {
+        type: 'step',
+        isHalf: true,
+        content: (layoutPlugin as LayoutPlugin).state[0].child
+      }
+      const rightElement = {
+        type: 'explanation',
+        isHalf: true,
+        content: (layoutPlugin as LayoutPlugin).state[1].child
+      }
+      solutionSteps = R.insert(solutionSteps.length, leftElement, solutionSteps)
+      solutionSteps = R.insert(
+        solutionSteps.length,
+        rightElement,
+        solutionSteps
+      )
+    } else {
+      solutionSteps = R.insert(
+        solutionSteps.length,
+        { type: 'step', isHalf: false, content: rowsArray[counter] },
+        solutionSteps
+      )
+    }
+    counter++
+  }
+  return solutionSteps
 }
