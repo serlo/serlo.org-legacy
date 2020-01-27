@@ -1469,17 +1469,6 @@
     "@types/react-dom" "^16.8.0"
     iframe-resizer-react "^1.0.0"
 
-"@edtr-io/plugin-solution@^0.13.0":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin-solution/-/plugin-solution-0.13.7.tgz#bd07386844c19f962e706d7ce39ab04341e93a07"
-  integrity sha512-fFokW6SVaNsiOHe/6SUH5MIG3eo3Rxx75/jzAfj1eDSNc1tewCFD6/leyU3WHbjOhoHUf3jv7wyaz/04h6myZA==
-  dependencies:
-    "@edtr-io/plugin" "^0.13.6"
-    "@edtr-io/renderer-ui" "^0.13.6"
-    "@edtr-io/ui" "^0.13.5"
-    "@types/react" "^16.8.0"
-    "@types/react-dom" "^16.8.0"
-
 "@edtr-io/plugin-spoiler@^0.13.0":
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/@edtr-io/plugin-spoiler/-/plugin-spoiler-0.13.7.tgz#a7d7e0de06e8ec6341f1ea3e4f5236bc43a465f7"
