@@ -80,6 +80,8 @@ export type OtherPlugin = {
     | 'inputExercise'
     | 'spoiler'
     | 'scMcExercise'
+    | 'solution'
+    | 'solutionSteps'
     | 'table'
     | 'text'
     | 'video'

@@ -20,9 +20,9 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { useScopedStore } from '@edtr-io/core'
-import { EditorPluginProps } from '@edtr-io/plugin'
+import { EditorPluginProps, StateTypeReturnType } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
-import { DocumentState, serializeDocument } from '@edtr-io/store'
+import { DocumentState, replace, serializeDocument } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -51,6 +51,8 @@ const ConvertInfo = styled.div({
   textAlign: 'center'
 })
 
+const ButtonContainer = styled.div({ display: 'flex', flexDirection: 'row' })
+
 const ConvertButton = styled.button({
   borderRadius: '5px',
   margin: '5px',
@@ -67,6 +69,7 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
   remove?: () => void
 }> = props => {
   const store = useScopedStore()
+
   const convertToRow = () => {
     R.reverse(props.state).forEach(item => {
       if (props.insert) {
@@ -94,9 +97,16 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
       {props.editable ? (
         <ConvertInfo>
           Um die Inhalte zu verschieben, konvertiere sie für den neuen Editor:
-          <div>
-            <ConvertButton onClick={convertToRow}>Konvertiere</ConvertButton>
-          </div>
+          <ButtonContainer>
+            <ConvertButton onClick={convertToRow}>
+              Konvertiere zu einspaltigen Inhalten
+            </ConvertButton>
+            {canConvertToMultimediaExplanation() ? (
+              <ConvertButton onClick={convertToMultimediaExplanation}>
+                Konvertiere zu Text + Multimedia-Inhalt
+              </ConvertButton>
+            ) : null}
+          </ButtonContainer>
         </ConvertInfo>
       ) : null}
       <LayoutContainer>
@@ -110,4 +120,71 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
       </LayoutContainer>
     </React.Fragment>
   )
+
+  function canConvertToMultimediaExplanation() {
+    const columns = props.state
+    return (
+      columns.length === 2 &&
+      (isMultimediaColumn(columns[0]) || isMultimediaColumn(columns[1]))
+    )
+  }
+
+  function convertToMultimediaExplanation() {
+    if (!canConvertToMultimediaExplanation()) return
+    const columns = props.state
+    if (isMultimediaColumn(columns[0])) {
+      replaceWithMultimediaExplanation({
+        explanationColumn: columns[1],
+        multimediaColumn: columns[0]
+      })
+    } else {
+      replaceWithMultimediaExplanation({
+        explanationColumn: columns[0],
+        multimediaColumn: columns[1]
+      })
+    }
+
+    function replaceWithMultimediaExplanation({
+      explanationColumn,
+      multimediaColumn
+    }: {
+      explanationColumn: Column
+      multimediaColumn: Column
+    }) {
+      const explanation = serializeDocument(explanationColumn.child.id)(
+        store.getState()
+      )
+      const multimedia = serializeDocument(multimediaColumn.child.id)(
+        store.getState()
+      )
+      if (!explanation || !multimedia) return
+      store.dispatch(
+        replace({
+          id: props.id,
+          plugin: 'multimedia',
+          state: {
+            explanation,
+            multimedia: multimedia.state[0],
+            illustrating: true,
+            width: 50
+          }
+        })
+      )
+    }
+  }
+
+  function isMultimediaColumn(column: Column) {
+    const columnDocument = serializeDocument(column.child.id)(store.getState())
+    if (!columnDocument) return false
+    const children: string[] = columnDocument.state.map(
+      (child: DocumentState) => child.plugin
+    )
+    return children.length === 1 && isMultimediaPlugin(children[0])
+  }
+
+  function isMultimediaPlugin(plugin: string) {
+    return plugin === 'image' || plugin === 'geogebra' || plugin === 'video'
+  }
 }
+
+type Column = StateTypeReturnType<typeof layoutState>[0]
