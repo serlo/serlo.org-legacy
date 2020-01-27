@@ -1196,22 +1196,6 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@edtr-io/abstract-plugin-state@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@edtr-io/abstract-plugin-state/-/abstract-plugin-state-0.12.0.tgz#a1447cba9d9653028f6ad2a610947a2b44d1b8b5"
-  integrity sha512-ZVjksDzzZCJf1NJTUtpbbqwlrhT81KVJmnEXEcsDWn3OrCfrFNgbvSHS7jd6DpKZuZEW5KJolQZTZbDlQc83tA==
-
-"@edtr-io/abstract-plugin@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@edtr-io/abstract-plugin/-/abstract-plugin-0.12.0.tgz#02b264848f8daf99f73b054af14863849497f892"
-  integrity sha512-MmgEFdZtZ5kL/Nb/N+RBswhL6GpqQi/n3z/mrAcoxwLUf3FrMVQpx9h1m7nFbISQmzqlvsIsjtSSRryv1i9GOQ==
-  dependencies:
-    "@edtr-io/abstract-plugin-state" "^0.12.0"
-    "@types/ramda" "^0.26.1"
-    "@types/react" "^16.8.0"
-    ramda "^0.26.1"
-    shortid "^2.0.0"
-
 "@edtr-io/core@^0.50.0":
   version "0.50.0"
   resolved "https://registry.yarnpkg.com/@edtr-io/core/-/core-0.50.0.tgz#e11fa77c89d0ddcf4ea435c6ef6efb307f38f8ec"
@@ -1530,19 +1514,6 @@
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
 
-"@edtr-io/plugin@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@edtr-io/plugin/-/plugin-0.12.0.tgz#597fc6cecad4c9ab29752acf517ce40c1cb7eeda"
-  integrity sha512-eURbnpoD6FqLj9L2XXUHgsggfXiqT6yO7MYfRf3QIrB3lzoQROe7F8jOhefP4lPwpqbMTBsThMGJ0hgKfZDKYg==
-  dependencies:
-    "@edtr-io/abstract-plugin" "^0.12.0"
-    "@edtr-io/abstract-plugin-state" "^0.12.0"
-    "@types/ramda" "^0.26.1"
-    "@types/react" "^16.8.0"
-    "@types/shortid" "^0.0.29"
-    ramda "^0.26.1"
-    shortid "^2.0.0"
-
 "@edtr-io/plugin@^0.50.0":
   version "0.50.0"
   resolved "https://registry.yarnpkg.com/@edtr-io/plugin/-/plugin-0.50.0.tgz#1c2dd1ef4985b05b55613d2bd9f0bfa6fa88b41c"
@@ -1556,12 +1527,12 @@
     ramda "^0.26.1"
     shortid "^2.0.0"
 
-"@edtr-io/renderer-ssr@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@edtr-io/renderer-ssr/-/renderer-ssr-0.12.0.tgz#8eb9c513705c519bd472c3f9fd95065ebcbf6d9e"
-  integrity sha512-NdngktBefeN4KoTxVE4sYwXuKL6A3kZImpF62zHTOX88KRSR+FgO0pAM+4Jcpavz1w335rdKptfo9W1JglI3Fg==
+"@edtr-io/renderer-ssr@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/renderer-ssr/-/renderer-ssr-0.50.0.tgz#a9324c663fc5c5c212e3807b8536b8043b51c52d"
+  integrity sha512-ZiITqLrFUVHwC9rnrcUkeQQrC5AwxsyWinCeYICW+xpKy74bQiIhoeHYXW78fdc4LvPUaf03T8ukRYgG2YpcXA==
   dependencies:
-    "@edtr-io/renderer" "^0.12.0"
+    "@edtr-io/renderer" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
     "@types/styled-components" "^4.0.0"
@@ -1580,17 +1551,6 @@
     ramda "^0.26.1"
     react-textarea-autosize "^7.0.0"
 
-"@edtr-io/renderer@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@edtr-io/renderer/-/renderer-0.12.0.tgz#3bec576de472dc56476e859a505370e2c6423833"
-  integrity sha512-FFggxPECHKr7OjISPT0TRPfdev1UcCkWHOLSsZhJVcRkEtvoDirvSmOECSGHhlEm4rSEg0L0r5ZV3JMv3dXKKQ==
-  dependencies:
-    "@edtr-io/plugin" "^0.12.0"
-    "@edtr-io/store" "^0.12.0"
-    "@edtr-io/ui" "^0.12.0"
-    "@types/react" "^16.8.0"
-    "@types/react-dom" "^16.8.0"
-
 "@edtr-io/renderer@^0.50.0":
   version "0.50.0"
   resolved "https://registry.yarnpkg.com/@edtr-io/renderer/-/renderer-0.50.0.tgz#6267de138ca17cc934776d9fb5458734e216d23b"
@@ -1601,18 +1561,6 @@
     "@edtr-io/ui" "^0.50.0"
     "@types/react" "^16.8.0"
     "@types/react-dom" "^16.8.0"
-
-"@edtr-io/store@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@edtr-io/store/-/store-0.12.0.tgz#517e44886958c0681b22ccff93d41436c33158d3"
-  integrity sha512-vvbswJwxF+/hILuwJbirYdc6QvBqxomQUMqgjyaMraapJisFAgSrG213wlI8kpKoO6e+Pg0Swr0D4eot35L2aA==
-  dependencies:
-    "@edtr-io/abstract-plugin" "^0.12.0"
-    "@edtr-io/abstract-plugin-state" "^0.12.0"
-    "@types/ramda" "^0.26.1"
-    ramda "^0.26.1"
-    redux "^4.0.0"
-    redux-saga "^1.0.0"
 
 "@edtr-io/store@^0.50.0":
   version "0.50.0"
@@ -1630,21 +1578,6 @@
     redux-saga "^1.0.0"
     reselect "^4.0.0"
     shortid "^2.0.0"
-
-"@edtr-io/ui@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@edtr-io/ui/-/ui-0.12.0.tgz#bec7da2606489e6afc60ab87300c8e98c4683621"
-  integrity sha512-vxEPs/oWajjx9o1FXPXHRMj1GagD8qbTFW05WTXjda8n7LgWrRgSxbpKhp2wkbROtXCjnNMOMS5lzk80uIL8Bw==
-  dependencies:
-    "@fortawesome/fontawesome-svg-core" "^1.0.0"
-    "@fortawesome/free-solid-svg-icons" "^5.0.0"
-    "@fortawesome/react-fontawesome" "^0.1.0"
-    "@types/ramda" "^0.26.1"
-    "@types/react" "^16.8.0"
-    "@types/react-dom" "^16.8.0"
-    "@types/styled-components" "^4.0.0"
-    ramda "^0.26.1"
-    react-hotkeys "^2.0.0"
 
 "@edtr-io/ui@^0.50.0":
   version "0.50.0"
