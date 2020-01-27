@@ -24,7 +24,7 @@ import {
   goto,
   getText,
   getMainContent,
-  getByAltText,
+  getByItemProp,
   getBySelector,
   getByText,
   getByPlaceholderText,
@@ -92,8 +92,8 @@ test('navigating through the taxonomy', async () => {
 
 test('Creating topic folder', async () => {
   const user = 'admin'
-  const title = 'Test topic folder ' + String(Math.floor(1e9 * Math.random()))
-  const description = '*Hello World* ' + String(Math.floor(1e9 * Math.random()))
+  const title = 'Test topic ' + String(Math.floor(1e9 * Math.random()))
+  const description = 'Hello World ' + String(Math.floor(1e9 * Math.random()))
 
   await login(user)
   let rootTopic = await goto(pages.e2eTopic.path)
@@ -111,20 +111,28 @@ test('Creating topic folder', async () => {
     selector: '#content-layout > .pull-right a'
   }).then(clickForNewPage)
 
-  await getByText(createPage, "Don't show again").then(click)
-  await getByPlaceholderText(createPage, '').then(e => e.type(title))
-  await getByText(createPage, '+').then(click)
-  await getByAltText(createPage, '24').then(click)
-  await getBySelector(createPage, '#main').then(e => e.type(description))
-  const success = await getByText(createPage, 'Save', {
-    selector: '#editor-actions button'
-  }).then(clickForNewPage)
+  await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+  await getByItemProp(createPage, 'articleBody').then(click)
+  await getByItemProp(createPage, 'articleBody').then(e => e.type(description))
+  const success = await getBySelector(
+    createPage,
+    '#subject-nav-wrapper .fa-save'
+  ).then(clickForNewPage)
 
   await expect(success).toMatchElement('p', {
     text: 'The node has been added successfully!'
   })
 
-  rootTopic = await goto(pages.e2eTopic.path)
+  rootTopic = await getBySelector(
+    success,
+    '.page-header .fa-chevron-left'
+  ).then(clickForNewPage)
 
   await expect(rootTopic).toMatchElement('h2', { text: title })
+  await expect(rootTopic).toMatchElement('*', { text: description })
+
+  const newTopic = await getByText(rootTopic, title).then(clickForNewPage)
+
+  await expect(newTopic).toMatchElement('h1', { text: title })
+  await expect(newTopic).toMatchElement('*', { text: description })
 })

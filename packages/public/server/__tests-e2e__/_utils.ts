@@ -37,6 +37,10 @@ export async function getByItemType(element: ElementHandle, itemType: string) {
   return getBySelector(element, `[itemtype="${itemType}"]`)
 }
 
+export async function getByItemProp(element: ElementHandle, itemProp: string) {
+  return getBySelector(element, `[itemprop="${itemProp}"]`)
+}
+
 export async function getBySelector(element: ElementHandle, selector: string) {
   const queryResults = await element.$$(selector)
 
