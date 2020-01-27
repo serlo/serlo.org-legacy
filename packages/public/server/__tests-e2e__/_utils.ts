@@ -109,6 +109,10 @@ export async function logout(): Promise<void> {
   await goto(pages.logout.path)
 }
 
+export function randomText(prefix?: string): string {
+  return (prefix ?? 'Text') + ' ' + String(Math.floor(Math.random() * 1e12)) 
+}
+
 export function toHaveUrlPath(
   this: jest.MatcherUtils,
   page: ElementHandle,

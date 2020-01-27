@@ -31,7 +31,8 @@ import {
   click,
   clickForNewPage,
   login,
-  logout
+  logout,
+  randomText
 } from './_utils'
 
 afterEach(async () => {
@@ -92,8 +93,8 @@ test('navigating through the taxonomy', async () => {
 
 test('Creating topic folder', async () => {
   const user = 'admin'
-  const title = 'Test topic ' + String(Math.floor(1e9 * Math.random()))
-  const description = 'Hello World ' + String(Math.floor(1e9 * Math.random()))
+  const title = randomText('Test topic')
+  const description = randomText()
 
   await login(user)
   let rootTopic = await goto(pages.e2eTopic.path)
