@@ -20,19 +20,21 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import {
-  toHaveUrlPath,
-  toHaveTitle
+  toHaveAttribute,
+  toHaveTitle,
+  toHaveUrlPath
 } from './packages/public/server/__tests-e2e__/_utils'
 
 setTimeout(60)
 
-expect.extend({ toHaveUrlPath, toHaveTitle })
+expect.extend({ toHaveAttribute, toHaveTitle, toHaveUrlPath })
 
 declare global {
   namespace jest {
     interface Matchers<R, T> {
-      toHaveUrlPath(urlPath: string): R
+      toHaveAttribute(attribute: string, value: any): Promise<R>
       toHaveTitle(pageTitle: string): Promise<R>
+      toHaveUrlPath(urlPath: string): R
     }
   }
 }

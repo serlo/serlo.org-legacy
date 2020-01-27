@@ -19,13 +19,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getByItemType, goto } from '../_utils'
+import { getByItemType, goto, getBySelector } from '../_utils'
 import { exampleApiParameters } from '../_config'
 
 const videoPath = '/35567'
 const videoItemType = 'http://schema.org/VideoObject'
 const videoTitle = 'Example video'
 const videoDescription = 'This is an example video.'
+const youtubeUrl = 'https://www.youtube-nocookie.com/embed/2OjVWmAr5gE?html5=1'
 
 test('Test elements on video page', async () => {
   const videoPage = await goto(videoPath)
@@ -34,6 +35,9 @@ test('Test elements on video page', async () => {
   await expect(video).toMatchElement('h1', { text: videoTitle })
   await expect(video).toMatchElement('*', { text: videoDescription })
   await expect(video).toHaveTitle(`${videoTitle} (video)`)
+
+  const iframe = await getBySelector(video, 'iframe')
+  await expect(iframe).toHaveAttribute('src', youtubeUrl)
 })
 
 test.each(exampleApiParameters)(
@@ -41,9 +45,12 @@ test.each(exampleApiParameters)(
   async contentApiParam => {
     const videoPage = await goto(videoPath + '?' + contentApiParam)
     const video = await getByItemType(videoPage, videoItemType)
-    
+
     await expect(video).not.toMatchElement('h1', { text: videoTitle })
     await expect(video).not.toMatchElement('*', { text: videoDescription })
     await expect(video).toHaveTitle(`${videoTitle} (video)`)
+
+    const iframe = await getBySelector(video, 'iframe')
+    await expect(iframe).toHaveAttribute('src', youtubeUrl)
   }
 )

@@ -113,6 +113,36 @@ export function randomText(prefix?: string): string {
   return (prefix ?? 'Text') + ' ' + String(Math.floor(Math.random() * 1e12))
 }
 
+export async function toHaveAttribute(
+  this: jest.MatcherUtils,
+  element: ElementHandle,
+  attribute: string,
+  value: any
+): Promise<jest.CustomMatcherResult> {
+  const expected = String(value)
+  const received = await element.evaluate((e, x) => e.getAttribute(x), attribute)
+
+  if (expected === received) {
+    return {
+      pass: true,
+      message: () =>
+        `Attribute ${attribute} shall not be ${printReceived(received)}`
+    }
+  } else {
+    return {
+      pass: false,
+      message: () =>
+        printDiffOrStringify(
+          expected,
+          received,
+          `Expected value of ${attribute}`,
+          `Current value of ${attribute}`,
+          this.expand
+        )
+    }
+  }
+}
+
 export async function toHaveTitle(
   this: jest.MatcherUtils,
   page: ElementHandle,
