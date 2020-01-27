@@ -91,49 +91,55 @@ test('navigating through the taxonomy', async () => {
   await expect(article).toMatchElement('h1', { text: 'Example article' })
 })
 
-test('Creating topic folder', async () => {
-  const user = 'admin'
-  const title = randomText('Test topic')
-  const description = randomText()
+describe('Creating topic folder', () => {
+  test.each(['admin', 'english_langhelper'])(
+    'user is %p',
+    async user => {
+      const title = randomText('Test topic')
+      const description = randomText()
 
-  await login(user)
-  let rootTopic = await goto(pages.e2eTopic.path)
+      await login(user)
+      let rootTopic = await goto(pages.e2eTopic.path)
 
-  await getBySelector(rootTopic, 'button.dropdown-toggle').then(click)
-  const organizeRoot = await getByText(rootTopic, 'Organize taxonomy').then(
-    clickForNewPage
+      await getBySelector(rootTopic, 'button.dropdown-toggle').then(click)
+      const organizeRoot = await getByText(rootTopic, 'Organize taxonomy').then(
+        clickForNewPage
+      )
+
+      await getBySelector(
+        organizeRoot,
+        '#content-layout > .pull-right .dropdown-toggle'
+      ).then(click)
+      const createPage = await getByText(organizeRoot, 'topic', {
+        selector: '#content-layout > .pull-right a'
+      }).then(clickForNewPage)
+
+      await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+      await getByItemProp(createPage, 'articleBody').then(click)
+      await getByItemProp(createPage, 'articleBody').then(e =>
+        e.type(description)
+      )
+      const success = await getBySelector(
+        createPage,
+        '#subject-nav-wrapper .fa-save'
+      ).then(clickForNewPage)
+
+      await expect(success).toMatchElement('p', {
+        text: 'The node has been added successfully!'
+      })
+
+      rootTopic = await getBySelector(
+        success,
+        '.page-header .fa-chevron-left'
+      ).then(clickForNewPage)
+
+      await expect(rootTopic).toMatchElement('h2', { text: title })
+      await expect(rootTopic).toMatchElement('*', { text: description })
+
+      const newTopic = await getByText(rootTopic, title).then(clickForNewPage)
+
+      await expect(newTopic).toMatchElement('h1', { text: title })
+      await expect(newTopic).toMatchElement('*', { text: description })
+    }
   )
-
-  await getBySelector(
-    organizeRoot,
-    '#content-layout > .pull-right .dropdown-toggle'
-  ).then(click)
-  const createPage = await getByText(organizeRoot, 'topic', {
-    selector: '#content-layout > .pull-right a'
-  }).then(clickForNewPage)
-
-  await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
-  await getByItemProp(createPage, 'articleBody').then(click)
-  await getByItemProp(createPage, 'articleBody').then(e => e.type(description))
-  const success = await getBySelector(
-    createPage,
-    '#subject-nav-wrapper .fa-save'
-  ).then(clickForNewPage)
-
-  await expect(success).toMatchElement('p', {
-    text: 'The node has been added successfully!'
-  })
-
-  rootTopic = await getBySelector(
-    success,
-    '.page-header .fa-chevron-left'
-  ).then(clickForNewPage)
-
-  await expect(rootTopic).toMatchElement('h2', { text: title })
-  await expect(rootTopic).toMatchElement('*', { text: description })
-
-  const newTopic = await getByText(rootTopic, title).then(clickForNewPage)
-
-  await expect(newTopic).toMatchElement('h1', { text: title })
-  await expect(newTopic).toMatchElement('*', { text: description })
 })
