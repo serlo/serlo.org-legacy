@@ -91,55 +91,67 @@ test('navigating through the taxonomy', async () => {
   await expect(article).toMatchElement('h1', { text: 'Example article' })
 })
 
-describe('Creating topic folder', () => {
-  test.each(['admin', 'english_langhelper'])(
-    'user is %p',
-    async user => {
-      const title = randomText('Test topic')
-      const description = randomText()
+describe('Creating taxonomy element', () => {
+  describe.each(['admin', 'english_langhelper'])('user is %p', user => {
+    test.each(['topic', 'topic-folder'])(
+      'taxonomy type is %p',
+      async taxonomyType => {
+        const title = randomText('Test ' + taxonomyType)
+        const description = randomText()
 
-      await login(user)
-      let rootTopic = await goto(pages.e2eTopic.path)
+        await login(user)
+        let rootTopic = await goto(pages.e2eTopic.path)
 
-      await getBySelector(rootTopic, 'button.dropdown-toggle').then(click)
-      const organizeRoot = await getByText(rootTopic, 'Organize taxonomy').then(
-        clickForNewPage
-      )
+        await getBySelector(rootTopic, 'button.dropdown-toggle').then(click)
+        const organizeRoot = await getByText(
+          rootTopic,
+          'Organize taxonomy'
+        ).then(clickForNewPage)
 
-      await getBySelector(
-        organizeRoot,
-        '#content-layout > .pull-right .dropdown-toggle'
-      ).then(click)
-      const createPage = await getByText(organizeRoot, 'topic', {
-        selector: '#content-layout > .pull-right a'
-      }).then(clickForNewPage)
+        await getBySelector(
+          organizeRoot,
+          '#content-layout > .pull-right .dropdown-toggle'
+        ).then(click)
+        const createPage = await getByText(organizeRoot, taxonomyType, {
+          selector: '#content-layout > .pull-right a'
+        }).then(clickForNewPage)
 
-      await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
-      await getByItemProp(createPage, 'articleBody').then(click)
-      await getByItemProp(createPage, 'articleBody').then(e =>
-        e.type(description)
-      )
-      const success = await getBySelector(
-        createPage,
-        '#subject-nav-wrapper .fa-save'
-      ).then(clickForNewPage)
+        await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+        await getByItemProp(createPage, 'articleBody').then(click)
+        await getByItemProp(createPage, 'articleBody').then(e =>
+          e.type(description)
+        )
+        const success = await getBySelector(
+          createPage,
+          '#subject-nav-wrapper .fa-save'
+        ).then(clickForNewPage)
 
-      await expect(success).toMatchElement('p', {
-        text: 'The node has been added successfully!'
-      })
+        await expect(success).toMatchElement('p', {
+          text: 'The node has been added successfully!'
+        })
 
-      rootTopic = await getBySelector(
-        success,
-        '.page-header .fa-chevron-left'
-      ).then(clickForNewPage)
+        rootTopic = await getBySelector(
+          success,
+          '.page-header .fa-chevron-left'
+        ).then(clickForNewPage)
 
-      await expect(rootTopic).toMatchElement('h2', { text: title })
-      await expect(rootTopic).toMatchElement('*', { text: description })
+        if (taxonomyType == 'topic') {
+          await expect(rootTopic).toMatchElement('h2', { text: title })
+          await expect(rootTopic).toMatchElement('*', { text: description })
+        } else {
+          await expect(rootTopic).toMatchElement('a', { text: title })
+          await expect(rootTopic).not.toMatchElement('*', { text: description })
+        }
 
-      const newTopic = await getByText(rootTopic, title).then(clickForNewPage)
+        const newTopic = await getByText(rootTopic, title).then(clickForNewPage)
 
-      await expect(newTopic).toMatchElement('h1', { text: title })
-      await expect(newTopic).toMatchElement('*', { text: description })
-    }
-  )
+        await expect(newTopic).toMatchElement('h1', { text: title })
+        await expect(newTopic).toMatchElement('*', { text: description })
+
+        await expect(newTopic).toHaveTitle(
+          taxonomyType == 'topic' ? `${title} (${taxonomyType})` : title
+        )
+      }
+    )
+  })
 })
