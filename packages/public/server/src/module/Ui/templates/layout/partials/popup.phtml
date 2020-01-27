@@ -22,10 +22,6 @@
  */
 ?>
 
-<?php
-// To prevent double pop ups, don't load the pop up when donation banner is active
-if (!$this->featureFlags()->isEnabled('donation-banner')):
-?>
 <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js"
         data-dojo-config="usePlainJson: true, isDebug: false"></script>
 <script type="text/javascript">
@@ -77,4 +73,3 @@ if (!$this->featureFlags()->isEnabled('donation-banner')):
         })
     }
 </script>
-<?php endif; ?>

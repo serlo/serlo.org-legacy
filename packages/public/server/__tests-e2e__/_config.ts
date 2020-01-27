@@ -20,3 +20,38 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 export const exampleApiParameters = ['contentOnly', 'hideBanner', 'fullWidth']
+
+export const navigation = {
+  login: 'Log in',
+  logout: 'Log out'
+}
+
+export const pages = {
+  e2eTopic: {
+    path: '/math/area-e2e-tests',
+    id: '35566'
+  },
+  login: {
+    defaultPassword: '123456',
+    path: '/auth/login',
+    identifier: {
+      inputUser: 'Email address or Username',
+      inputPassword: 'Password',
+      buttonLogin: 'Login'
+    }
+  },
+  logout: {
+    path: '/auth/logout'
+  }
+}
+
+export const testingServerUrl = 'http://en.serlo.localhost:4567'
+
+export const users = ['login', 'german_reviewer', 'german_helper', 'admin']
+
+export const viewports = {
+  desktop: {
+    width: 1920,
+    height: 1080
+  }
+}

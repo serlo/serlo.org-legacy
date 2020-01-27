@@ -91,5 +91,9 @@ export default function Index(props) {
 }
 
 Index.getInitialProps = async ({ req, res }) => {
-  return await handleBody(req, res, { initialState: '', type: '' })
+  return await handleBody(req, res, {
+    initialState: '',
+    mayCheckout: false,
+    type: ''
+  })
 }

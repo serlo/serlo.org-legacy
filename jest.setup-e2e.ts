@@ -19,22 +19,19 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Browser, launch, Page } from 'puppeteer'
+import { toHaveUrlPath } from './packages/public/server/__tests-e2e__/_utils'
 
 setTimeout(60)
 
-let browser: Browser
-let page: Page
+expect.extend({ toHaveUrlPath })
 
-beforeAll(async () => {
-  browser = await launch()
-  page = await browser.newPage()
-})
-
-afterAll(async () => {
-  await page.close()
-  await browser.close()
-})
+declare global {
+  namespace jest {
+    interface Matchers<R, T> {
+      toHaveUrlPath(expectedPage: string): R
+    }
+  }
+}
 
 function setTimeout(seconds: number) {
   jest.setTimeout(seconds * 1000)
