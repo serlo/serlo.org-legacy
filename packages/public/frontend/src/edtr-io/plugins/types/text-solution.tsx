@@ -20,11 +20,10 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
-import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
-import { RevisionHistory, Settings } from './helpers/settings'
+import { RevisionHistory } from './helpers/settings'
 
 export const textSolutionTypeState = entityType(
   {
