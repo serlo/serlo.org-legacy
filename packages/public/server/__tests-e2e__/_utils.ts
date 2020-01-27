@@ -119,28 +119,12 @@ export async function toHaveAttribute(
   attribute: string,
   value: any
 ): Promise<jest.CustomMatcherResult> {
-  const expected = String(value)
-  const received = await element.evaluate((e, x) => e.getAttribute(x), attribute)
-
-  if (expected === received) {
-    return {
-      pass: true,
-      message: () =>
-        `Attribute ${attribute} shall not be ${printReceived(received)}`
-    }
-  } else {
-    return {
-      pass: false,
-      message: () =>
-        printDiffOrStringify(
-          expected,
-          received,
-          `Expected value of ${attribute}`,
-          `Current value of ${attribute}`,
-          this.expand
-        )
-    }
-  }
+  return testIsEqual(
+    String(value),
+    await element.evaluate((e, x) => e.getAttribute(x), attribute).then(just),
+    `attribute "${attribute}"`,
+    this.expand
+  )
 }
 
 export async function toHaveTitle(
@@ -148,32 +132,16 @@ export async function toHaveTitle(
   page: ElementHandle,
   pageTitle: string
 ): Promise<jest.CustomMatcherResult> {
-  const expectedTitle = pageTitle + ' – learn with Serlo!'
-  const currentTitle = await page
-    .executionContext()
-    //@ts-ignore
-    .frame()!
-    .title()
-
-  if (expectedTitle === currentTitle) {
-    return {
-      pass: true,
-      message: () =>
-        `Current Title should not be ${printReceived(currentTitle)}`
-    }
-  } else {
-    return {
-      pass: false,
-      message: () =>
-        printDiffOrStringify(
-          expectedTitle,
-          currentTitle,
-          'Expected title',
-          'Current title',
-          this.expand
-        )
-    }
-  }
+  return testIsEqual(
+    pageTitle + ' – learn with Serlo!',
+    await page
+      .executionContext()
+      //@ts-ignore
+      .frame()!
+      .title(),
+    'title',
+    this.expand
+  )
 }
 
 export function toHaveUrlPath(
@@ -181,28 +149,39 @@ export function toHaveUrlPath(
   page: ElementHandle,
   expectedPage: string
 ): jest.CustomMatcherResult {
-  const expectedUrl = testingServerUrl + expectedPage
-  const currentUrl = page
-    .executionContext()
-    //@ts-ignore
-    .frame()!
-    .url()
+  return testIsEqual(
+    testingServerUrl + expectedPage,
+    page
+      .executionContext()
+      //@ts-ignore
+      .frame()!
+      .url(),
+    'URL',
+    this.expand
+  )
+}
 
-  if (expectedUrl === currentUrl) {
+function testIsEqual(
+  expected: string,
+  current: string,
+  label: string,
+  expand: boolean
+): jest.CustomMatcherResult {
+  if (expected === current) {
     return {
       pass: true,
-      message: () => `Current URL should not be ${printReceived(currentUrl)}`
+      message: () => `Current ${label} should not be ${printReceived(current)}`
     }
   } else {
     return {
       pass: false,
       message: () =>
         printDiffOrStringify(
-          expectedUrl,
-          currentUrl,
-          'Expected URL',
-          'Current URL',
-          this.expand
+          expected,
+          current,
+          `Expected ${label}`,
+          `Current ${label}`,
+          expand
         )
     }
   }
