@@ -22,8 +22,11 @@
 export const exampleApiParameters = ['contentOnly', 'hideBanner', 'fullWidth']
 
 export const navigation = {
+  addContent: 'Add content',
+  dropdownToggle: 'button.dropdown-toggle',
   login: 'Log in',
-  logout: 'Log out'
+  logout: 'Log out',
+  saveButton: '#subject-nav-wrapper .fa-save'
 }
 
 export const pages = {

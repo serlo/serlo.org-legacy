@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { pages } from './_config'
+import { pages, navigation } from './_config'
 import {
   goto,
   getText,
@@ -104,7 +104,7 @@ describe('Creating taxonomy element', () => {
         await login(user)
         let rootTopic = await goto(pages.e2eTopic.path)
 
-        await getBySelector(rootTopic, 'button.dropdown-toggle').then(click)
+        await getBySelector(rootTopic, navigation.dropdownToggle).then(click)
         const organizeRoot = await getByText(
           rootTopic,
           'Organize taxonomy'
@@ -125,7 +125,7 @@ describe('Creating taxonomy element', () => {
         )
         const success = await getBySelector(
           createPage,
-          '#subject-nav-wrapper .fa-save'
+          navigation.saveButton
         ).then(clickForNewPage)
 
         await expect(success).toMatchElement('p', {
