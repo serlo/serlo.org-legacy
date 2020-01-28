@@ -127,6 +127,19 @@ export async function toHaveAttribute(
   )
 }
 
+export async function toHaveHTMLContent(
+  this: jest.MatcherUtils,
+  element: ElementHandle,
+  content: string
+): Promise<jest.CustomMatcherResult> {
+  return testIsEqual(
+    content,
+    await element.evaluate(e => e.innerHTML).then(just),
+    "HTML content",
+    this.expand
+  )
+}
+
 export async function toHaveTitle(
   this: jest.MatcherUtils,
   page: ElementHandle,

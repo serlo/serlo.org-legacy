@@ -21,18 +21,25 @@
  */
 import {
   toHaveAttribute,
+  toHaveHTMLContent,
   toHaveTitle,
   toHaveUrlPath
 } from './packages/public/server/__tests-e2e__/_utils'
 
 setTimeout(60)
 
-expect.extend({ toHaveAttribute, toHaveTitle, toHaveUrlPath })
+expect.extend({
+  toHaveAttribute,
+  toHaveHTMLContent,
+  toHaveTitle,
+  toHaveUrlPath
+})
 
 declare global {
   namespace jest {
     interface Matchers<R, T> {
       toHaveAttribute(attribute: string, value: any): Promise<R>
+      toHaveHTMLContent(content: string): Promise<R>
       toHaveTitle(pageTitle: string): Promise<R>
       toHaveUrlPath(urlPath: string): R
     }
