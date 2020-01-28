@@ -26,6 +26,6 @@ abstract class Utils
 {
     public static function array_flatmap($map, $array)
     {
-        return !empty($array) ? array_merge(...array_map($map, $array)) : [];
+        return empty($array) ? [] : array_merge(...array_map($map, $array));
     }
 }
