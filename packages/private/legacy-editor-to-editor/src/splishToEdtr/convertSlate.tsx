@@ -21,6 +21,7 @@
  */
 import * as React from 'react'
 import Html, { Rule } from 'slate-html-serializer'
+import { serializer as slateMigrator } from '@edtr-io/plugin-text'
 // @ts-ignore
 import { parseFragment } from 'parse5'
 import { Block, Data, Inline, Mark, Value, ValueJSON } from 'slate'
@@ -117,7 +118,7 @@ export function htmlToSlate(html: string) {
     }
   })
 
-  return deserializer.deserialize(html, { toJSON: true })
+  return slateMigrator.serialize(deserializer.deserialize(html, { toJSON: true }))
 }
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
