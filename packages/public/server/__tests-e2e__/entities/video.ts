@@ -76,59 +76,59 @@ describe('create/update video pages', () => {
     await logout()
   })
 
-  test('create video page', async () => {
-    const user = 'admin'
+  describe('create video page', () => {
+    test.each(['admin', 'english_langhelper'])('user is %p', async user => {
+      const title = randomText('video')
+      const description = randomText()
+      const youtubeId = '2OjVWmAr5gE'
 
-    const title = randomText('video')
-    const description = randomText()
-    const youtubeId = '2OjVWmAr5gE'
+      await login(user)
+      const topic = await goto(pages.e2eTopic.path)
 
-    await login(user)
-    const topic = await goto(pages.e2eTopic.path)
+      await getBySelector(topic, navigation.dropdownToggle).then(click)
+      await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
+      await getByText(topic, navigation.addContent).then(e => e.hover())
+      const createPage = await getByText(topic, 'video').then(clickForNewPage)
 
-    await getBySelector(topic, navigation.dropdownToggle).then(click)
-    await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
-    await getByText(topic, navigation.addContent).then(e => e.hover())
-    const createPage = await getByText(topic, 'video').then(clickForNewPage)
+      await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 
-    await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+      const videoUrlField = await getBySelector(
+        createPage,
+        '#editor article section:nth-child(1)'
+      )
+      await videoUrlField.click()
+      await videoUrlField.type(`https://www.youtube.com/watch?v=${youtubeId}`)
 
-    const videoUrlField = await getBySelector(
-      createPage,
-      '#editor article section:nth-child(1)'
-    )
-    await videoUrlField.click()
-    await videoUrlField.type(`https://www.youtube.com/watch?v=${youtubeId}`)
+      const descriptionField = await getBySelector(
+        createPage,
+        '#editor article section:nth-child(2)'
+      )
+      await descriptionField.click()
+      await descriptionField.click()
+      await descriptionField.type(description)
 
-    const descriptionField = await getBySelector(
-      createPage,
-      '#editor article section:nth-child(2)'
-    )
-    await descriptionField.click()
-    await descriptionField.click()
-    await descriptionField.type(description)
+      await getBySelector(createPage, navigation.saveButton).then(click)
+      await getByLabelText(createPage, 'Änderungen').then(e =>
+        e.type(randomText())
+      )
+      await createPage.$$('input[type=checkbox]').then(c => c[0].click())
+      await createPage.$$('input[type=checkbox]').then(c => c[3].click())
 
-    await getBySelector(createPage, navigation.saveButton).then(click)
-    await getByLabelText(createPage, 'Änderungen').then(e =>
-      e.type(randomText())
-    )
-    await createPage.$$('input[type=checkbox]').then(c => c[0].click())
-    await createPage.$$('input[type=checkbox]').then(c => c[3].click())
+      const success = await getByText(createPage, 'Speichern', {
+        selector: 'button'
+      }).then(clickForNewPage)
 
-    const success = await getByText(createPage, 'Speichern', {
-      selector: 'button'
-    }).then(clickForNewPage)
+      expect(success).toMatchElement('p', {
+        text: 'Your revision has been saved and is available'
+      })
 
-    expect(success).toMatchElement('p', {
-      text: 'Your revision has been saved and is available'
+      await expect(success).toMatchElement('h1', { text: title })
+      await expect(success).toMatchElement('*', { text: description })
+      await expect(success).toHaveTitle(`${title} (video)`)
+
+      const iframe = await getBySelector(success, 'iframe')
+      const embedUrl = `https://www.youtube-nocookie.com/embed/${youtubeId}?html5=1`
+      await expect(iframe).toHaveAttribute('src', embedUrl)
     })
-
-    await expect(success).toMatchElement('h1', { text: title })
-    await expect(success).toMatchElement('*', { text: description })
-    await expect(success).toHaveTitle(`${title} (video)`)
-
-    const iframe = await getBySelector(success, 'iframe')
-    const embedUrl = `https://www.youtube-nocookie.com/embed/${youtubeId}?html5=1`
-    await expect(iframe).toHaveAttribute('src', embedUrl)
   })
 })
