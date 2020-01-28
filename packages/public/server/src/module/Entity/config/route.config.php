@@ -43,6 +43,15 @@ return [
                             ],
                         ],
                     ],
+                    'edtr-io' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/are-we-edtr-io-yet',
+                            'defaults' => [
+                                'action' => 'edtrIo',
+                            ],
+                        ],
+                    ],
                 ],
             ],
             'entity' => [

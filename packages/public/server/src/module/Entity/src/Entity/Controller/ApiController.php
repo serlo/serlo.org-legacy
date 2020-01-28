@@ -181,6 +181,41 @@ class ApiController extends AbstractController
         return new JsonModel($item);
     }
 
+    public function edtrIoAction()
+    {
+        $data = [];
+        $types = [
+            'applet',
+            'article',
+            'course',
+            'course-page',
+            'event',
+            'math-puzzle',
+            'text-exercise',
+            'text-exercise-group',
+            'video',
+        ];
+        foreach ($types as $type) {
+            $entities = $this->getEntityManager()->findEntitiesByTypeName($type);
+            $chain = new FilterChain();
+            $chain->attach(new HasCurrentRevisionCollectionFilter());
+            $chain->attach(new NotTrashedCollectionFilter());
+            $entities = $chain->filter($entities);
+            $data[$type] = [];
+            /** @var EntityInterface $entity */
+            foreach ($entities as $entity) {
+                $revision = $entity->getCurrentRevision();
+                $serializedContent = $revision->get('content');
+                $content = json_decode($serializedContent, true);
+                $data[$type][] = [
+                    'id' => (string)$entity->getId(),
+                    'converted' => isset($content['plugin']),
+                ];
+            }
+        }
+        return new JsonModel($data);
+    }
+
     protected function normalize(Collection $collection)
     {
         $data = [];
