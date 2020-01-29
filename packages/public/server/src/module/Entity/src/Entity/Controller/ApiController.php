@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Entity\Controller;
 
 use Common\Filter\PreviewFilter;
@@ -28,6 +29,7 @@ use Doctrine\Common\Collections\Collection;
 use Entity\Entity\EntityInterface;
 use Entity\Filter\EntityAgeCollectionFilter;
 use Entity\Manager\EntityManagerInterface;
+use Entity\Options\ModuleOptions;
 use Renderer\Exception\RuntimeException;
 use Renderer\Renderer;
 use Normalizer\NormalizerInterface;
@@ -56,59 +58,67 @@ class ApiController extends AbstractController
     protected $renderService;
 
     /**
+     * @var ModuleOptions
+     */
+    protected $moduleOptions;
+
+    /**
      * @param EntityManagerInterface $entityManager
-     * @param NormalizerInterface    $normalizer
+     * @param NormalizerInterface $normalizer
      * @param Renderer $renderService
+     * @param ModuleOptions $moduleOptions
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         NormalizerInterface $normalizer,
-        Renderer $renderService
+        Renderer $renderService,
+        ModuleOptions $moduleOptions
     ) {
-        $this->normalizer        = $normalizer;
-        $this->entityManager     = $entityManager;
-        $this->renderService     = $renderService;
+        $this->normalizer = $normalizer;
+        $this->entityManager = $entityManager;
+        $this->renderService = $renderService;
         $this->descriptionFilter = new PreviewFilter(300);
+        $this->moduleOptions = $moduleOptions;
     }
 
     public function exportAction()
     {
-        $type     = $this->params('type');
+        $type = $this->params('type');
         $entities = $this->getEntityManager()->findEntitiesByTypeName($type);
-        $chain    = new FilterChain();
+        $chain = new FilterChain();
         $chain->attach(new HasCurrentRevisionCollectionFilter());
         $chain->attach(new NotTrashedCollectionFilter());
         $entities = $chain->filter($entities);
-        $data     = $this->normalize($entities);
+        $data = $this->normalize($entities);
         return new JsonModel($data);
     }
 
     public function latestAction()
     {
-        $type     = $this->params('type');
-        $age      = (int)$this->params('age');
-        $maxAge   = new DateTime($age . ' days ago');
+        $type = $this->params('type');
+        $age = (int)$this->params('age');
+        $maxAge = new DateTime($age . ' days ago');
         $entities = $this->getEntityManager()->findEntitiesByTypeName($type);
-        $chain    = new FilterChain();
+        $chain = new FilterChain();
         $chain->attach(new EntityAgeCollectionFilter($maxAge));
         $chain->attach(new NotTrashedCollectionFilter());
         $entities = $chain->filter($entities);
-        $data     = $this->normalize($entities);
+        $data = $this->normalize($entities);
         return new JsonModel($data);
     }
 
     public function rssAction()
     {
-        $feed     = new Feed();
-        $type     = $this->params('type');
-        $age      = (int)$this->params('age');
-        $maxAge   = new DateTime($age . ' days ago');
+        $feed = new Feed();
+        $type = $this->params('type');
+        $age = (int)$this->params('age');
+        $maxAge = new DateTime($age . ' days ago');
         $entities = $this->getEntityManager()->findEntitiesByTypeName($type);
-        $chain    = new FilterChain();
+        $chain = new FilterChain();
         $chain->attach(new EntityAgeCollectionFilter($maxAge));
         $chain->attach(new NotTrashedCollectionFilter());
         $entities = $chain->filter($entities);
-        $data     = $this->normalize($entities);
+        $data = $this->normalize($entities);
 
         foreach ($data as $item) {
             try {
@@ -155,9 +165,9 @@ class ApiController extends AbstractController
             return $revision->getAuthor()->getId();
         });
 
-        $item   = [
-            'id'      => $entity->getId(),
-            'type'    => $entity->getType()->getName(),
+        $item = [
+            'id' => $entity->getId(),
+            'type' => $entity->getType()->getName(),
             'authorsCount' => count(array_unique($authors->toArray())),
             'revisionsCount' => $entity->getRevisions()->count(),
             'content' => [],
@@ -202,10 +212,11 @@ class ApiController extends AbstractController
             $chain->attach(new NotTrashedCollectionFilter());
             $entities = $chain->filter($entities);
             $data[$type] = [];
+            $contentField = $this->moduleOptions->getType($type)->getContent();
             /** @var EntityInterface $entity */
             foreach ($entities as $entity) {
                 $revision = $entity->getCurrentRevision();
-                $serializedContent = $revision->get('content');
+                $serializedContent = $revision->get($contentField);
                 $content = json_decode($serializedContent, true);
                 $data[$type][] = [
                     'id' => (string)$entity->getId(),
@@ -220,7 +231,7 @@ class ApiController extends AbstractController
     {
         $data = [];
         foreach ($collection as $entity) {
-            $normalized  = $this->normalizer->normalize($entity);
+            $normalized = $this->normalizer->normalize($entity);
             $description = $normalized->getMetadata()->getDescription();
 
             try {
@@ -234,18 +245,18 @@ class ApiController extends AbstractController
             });
 
             $description = $this->descriptionFilter->filter($description);
-            $item        = [
-                'title'        => $normalized->getTitle(),
-                'description'  => $description,
-                'guid'         => (string)$entity->getId(),
-                'keywords'     => $normalized->getMetadata()->getKeywords(),
-                'categories'   => $this->getCategories($entity),
-                'link'         => $this->url()->fromRoute($normalized->getRouteName(), $normalized->getRouteParams()),
+            $item = [
+                'title' => $normalized->getTitle(),
+                'description' => $description,
+                'guid' => (string)$entity->getId(),
+                'keywords' => $normalized->getMetadata()->getKeywords(),
+                'categories' => $this->getCategories($entity),
+                'link' => $this->url()->fromRoute($normalized->getRouteName(), $normalized->getRouteParams()),
                 'lastModified' => $normalized->getMetadata()->getLastModified(),
                 'authorsCount' => count(array_unique($authors->toArray())),
                 'revisionsCount' => $entity->getRevisions()->count(),
             ];
-            $data[]      = $item;
+            $data[] = $item;
         }
         return $data;
     }
@@ -253,12 +264,12 @@ class ApiController extends AbstractController
     protected function getCategories(EntityInterface $entity)
     {
         $categories = [];
-        $i          = 0;
+        $i = 0;
         foreach ($entity->getTaxonomyTerms() as $term) {
             $categories[$i] = '';
             while ($term->hasParent()) {
                 $categories[$i] = $term->getName() . '/' . $categories[$i];
-                $term           = $term->getParent();
+                $term = $term->getParent();
             }
             $categories[$i] = substr($categories[$i], 0, -1);
             $i++;
