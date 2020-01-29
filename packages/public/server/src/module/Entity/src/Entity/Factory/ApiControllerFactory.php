@@ -42,6 +42,7 @@ class ApiControllerFactory implements FactoryInterface
         $entityManager  = $serviceManager->get('Entity\Manager\EntityManager');
         $normalizer     = $serviceManager->get('Normalizer\Normalizer');
         $renderService  = $serviceManager->get('Renderer\Renderer');
-        return new ApiController($entityManager, $normalizer, $renderService);
+        $moduleOptions = $serviceManager->get('Entity\Options\ModuleOptions');
+        return new ApiController($entityManager, $normalizer, $renderService, $moduleOptions);
     }
 }
