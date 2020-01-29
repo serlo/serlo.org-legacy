@@ -212,9 +212,9 @@ class ApiController extends AbstractController
             $chain->attach(new NotTrashedCollectionFilter());
             $entities = $chain->filter($entities);
             $data[$type] = [];
+            $contentField = $this->moduleOptions->getType($type)->getContent();
             /** @var EntityInterface $entity */
             foreach ($entities as $entity) {
-                $contentField = $this->moduleOptions->getType($type)->getContent();
                 $revision = $entity->getCurrentRevision();
                 $serializedContent = $revision->get($contentField);
                 $content = json_decode($serializedContent, true);
