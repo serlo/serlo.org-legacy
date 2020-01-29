@@ -153,7 +153,7 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
   }
 ])
 
-addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
+addContentTypeStories('Text Exercise Group/simple', 'text-exercise-group', {
   id: 1337,
   license,
   changes: '',
@@ -196,6 +196,14 @@ addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
       }
     }
   ]
+})
+
+addContentTypeStories('Text Exercise Group/empty', 'text-exercise-group', {
+  id: 1337,
+  license,
+  changes: '',
+  content: '',
+  'grouped-text-exercise': []
 })
 
 addContentTypeStories('User', 'user', {

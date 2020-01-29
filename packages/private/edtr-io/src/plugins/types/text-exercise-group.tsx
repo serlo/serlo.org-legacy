@@ -55,9 +55,7 @@ export const textExerciseGroupTypeState = entityType(
   }
 )
 
-export const textExerciseGroupTypePlugin: EditorPlugin<
-  typeof textExerciseGroupTypeState
-> = {
+export const textExerciseGroupTypePlugin: EditorPlugin<typeof textExerciseGroupTypeState> = {
   Component: TextExerciseGroupTypeEditor,
   state: textExerciseGroupTypeState,
   config: {}
