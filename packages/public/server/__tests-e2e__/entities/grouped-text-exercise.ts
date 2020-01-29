@@ -20,25 +20,25 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-import { getByText, getDocument, queryByText } from '../_utils'
+import { goto } from '../_utils'
 import { exampleApiParameters } from '../_config'
 
-const groupedTextExerciseUrl = 'http://de.serlo.localhost:4567/12727'
+describe('grouped text exercise', () => {
+  const id = '35581'
+  const path = '/' + id
 
-test('grouped exercise has page header', async () => {
-  const $document = await gotoGroupedTextExercise()
-  await getByText($document, '12727', { selector: 'h1' })
+  test('grouped exercise has page header', async () => {
+    const page = await goto(path)
+    await expect(page).toMatchElement('h1', { text: id })
+  })
+
+  describe('grouped exercise has no heading on content-api requests', () => {
+    test.each(exampleApiParameters)(
+      'parameter %p is set',
+      async contentApiParam => {
+        const page = await goto(`${path}?${contentApiParam}`)
+        await expect(page).not.toMatchElement('h1', { text: id })
+      }
+    )
+  })
 })
-
-test.each(exampleApiParameters)(
-  'grouped exercise has no heading when %p is set (content-api)',
-  async contentApiParam => {
-    const $document = await gotoGroupedTextExercise(`?${contentApiParam}`)
-    expect(await queryByText($document, '12727', { selector: 'h1' })).toBeNull()
-  }
-)
-
-async function gotoGroupedTextExercise(postFix = '') {
-  await page.goto(`${groupedTextExerciseUrl}${postFix}`)
-  return await getDocument(page)
-}

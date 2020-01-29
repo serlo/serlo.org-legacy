@@ -32,7 +32,6 @@ export const getByLabelText = queries.getByLabelText
 export const getByPlaceholderText = queries.getByPlaceholderText
 export const getByRole = queries.getByRole
 export const getByText = queries.getByText
-export const queryByText = queries.queryByText
 
 export async function getByItemType(element: ElementHandle, itemType: string) {
   return getBySelector(element, `[itemtype="${itemType}"]`)
