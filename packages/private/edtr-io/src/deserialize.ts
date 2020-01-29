@@ -89,7 +89,7 @@ export function deserialize({
         return succeed(
           {
             plugin: 'type-course',
-            state: deserialized
+            state: deserialized.state
           },
           deserialized.converted
         )
