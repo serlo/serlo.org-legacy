@@ -31,7 +31,7 @@ import {
   logout,
   randomText
 } from '../_utils'
-import { pages, navigation } from '../_config'
+import { exampleApiParameters, pages, navigation } from '../_config'
 
 afterEach(async () => {
   await logout()
@@ -82,5 +82,25 @@ describe('create text-exercise', () => {
     await expect(success).toMatchElement('*', { text: exercise })
     await expect(success).toMatchElement('*', { text: hint })
     await expect(success).toMatchElement('*', { text: solution })
+  })
+})
+
+describe('grouped text exercise', () => {
+  const id = '35581'
+  const path = '/' + id
+
+  test('grouped exercise has page header', async () => {
+    const page = await goto(path)
+    await expect(page).toMatchElement('h1', { text: id })
+  })
+
+  describe('grouped exercise has no heading on content-api requests', () => {
+    test.each(exampleApiParameters)(
+      'parameter %p is set',
+      async contentApiParam => {
+        const page = await goto(`${path}?${contentApiParam}`)
+        await expect(page).not.toMatchElement('h1', { text: id })
+      }
+    )
   })
 })
