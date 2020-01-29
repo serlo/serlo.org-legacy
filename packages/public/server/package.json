@@ -1,6 +1,6 @@
 {
   "name": "@serlo/server",
-  "version": "6.1.0",
+  "version": "6.1.2",
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
