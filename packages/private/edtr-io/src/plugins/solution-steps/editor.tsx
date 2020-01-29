@@ -45,9 +45,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
         <Content type={SolutionElementType.introduction} boxfree>
-          {state.introduction.render({
-            config: { placeholder: introductionLabel }
-          })}
+          {state.introduction.render()}
         </Content>
         <Controls
           show={

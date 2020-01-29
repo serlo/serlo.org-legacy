@@ -543,14 +543,22 @@ export function deserialize({
       changes: '',
       content:
         isEdtr(content) && content.plugin === 'solution'
-          ? serializeEditorState(content)
+          ? (content as SolutionPlugin).state[0].state.introduction.plugin ===
+            'rows'
+            ? serializeEditorState(content)
+            : serializeEditorState(
+                migrateSolutionStepsState(content as SolutionPlugin)
+              )
           : serializeEditorState({
               plugin: 'solution',
               state: [
                 {
                   plugin: 'solutionSteps',
                   state: {
-                    introduction: (content as RowsPlugin).state[0],
+                    introduction: {
+                      plugin: 'rows',
+                      state: [(content as RowsPlugin).state[0]]
+                    },
                     strategy: undefined,
                     solutionSteps: rowsToSolutionSteps(
                       R.tail((content as RowsPlugin).state)
@@ -737,6 +745,23 @@ function deserializeEditorState(
 
 type EditorState = Legacy | Splish | Edtr | undefined
 
+type SolutionPlugin = {
+  plugin: 'solution'
+  state: {
+    plugin: 'solutionSteps'
+    state: {
+      introduction: Edtr
+      strategy: RowsPlugin | undefined
+      solutionSteps: {
+        type: string
+        isHalf: boolean
+        content: Edtr
+      }[]
+      additionals: RowsPlugin | undefined
+    }
+  }[]
+}
+
 // Fake `__type` property is just here to let TypeScript distinguish between the types
 type SerializedEditorState = (string | undefined) & {
   __type: 'serialized-editor-state'
@@ -744,7 +769,40 @@ type SerializedEditorState = (string | undefined) & {
 type SerializedLegacyEditorState = (string | undefined) & {
   __type: 'serialized-legacy-editor-state'
 }
-
+export function migrateSolutionStepsState(
+  content: SolutionPlugin
+): { plugin: 'solution'; state: unknown } {
+  const solutions = (content as SolutionPlugin).state
+  const newState = solutions.map(solution => {
+    return {
+      plugin: 'solutionSteps',
+      state: {
+        introduction:
+          solution.state.introduction.plugin === 'rows'
+            ? solution.state.introduction
+            : { plugin: 'rows', state: [solution.state.introduction] },
+        strategy: solution.state.strategy,
+        solutionSteps: solution.state.solutionSteps.map(solutionStep => {
+          if (solutionStep.content.plugin !== 'rows') {
+            return {
+              isHalf: solutionStep.isHalf,
+              type: solutionStep.type,
+              content: { plugin: 'rows', state: [solutionStep.content] }
+            }
+          } else {
+            return {
+              isHalf: solutionStep.isHalf,
+              type: solutionStep.type,
+              content: solutionStep.content
+            }
+          }
+        }),
+        additionals: solution.state.additionals
+      }
+    }
+  })
+  return { plugin: 'solution', state: newState }
+}
 export function rowsToSolutionSteps(rows: Edtr[]) {
   const solutionSteps: { type: string; isHalf: boolean; content: Edtr }[] = []
 
@@ -764,7 +822,11 @@ export function rowsToSolutionSteps(rows: Edtr[]) {
       solutionSteps.push(leftElement)
       solutionSteps.push(rightElement)
     } else {
-      solutionSteps.push({ type: 'step', isHalf: false, content: row })
+      solutionSteps.push({
+        type: 'step',
+        isHalf: false,
+        content: { plugin: 'rows', state: [row] }
+      })
     }
   })
 
