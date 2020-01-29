@@ -22,10 +22,10 @@ export const exerciseGuideline: React.ReactNode = (
   <div>
     <h1>Aufgabenstellung</h1>
     <p>
-      Erstelle hier eine ansprechende, lernerfreundliche Aufgabenstellung. Frage
+      Erstelle eine ansprechende, lernerfreundliche Aufgabenstellung. Frage
       dich, was für eine Aufgabenanforderung du stellst: Reproduzieren,
-      Wissenstransfer, analysieren, Alltags-Check oder Erfahrungsaufgabe,
-      Vertiefungsaufgabe, Aktionsaufgabe,...
+      Wissenstransfer, Analysieren, Alltags-Check, Vertiefungsaufgabe,
+      Aktionsaufgabe,...
     </p>
     <h2>allgemeine Richtlinien</h2>
     <ul>
@@ -33,6 +33,26 @@ export const exerciseGuideline: React.ReactNode = (
       <li>Benutze keine Überschriften in Aufgabenstellungen.</li>
       <li>Verlinke keine Lerninhalte und Begriffe in der Aufgabenstellung.</li>
     </ul>
+    <h2>Unterschiedliche Aufgabenarten </h2>
+    <p>
+      Sei dir bewusst, welche Art von Aufgabe du erstellst:
+      <ul>
+        <li>
+          Eine <b>Textaufgabe</b> hat genau eine Aufgabenstellung, einen Hinweis
+          und eine Lösung.
+        </li>
+        <li>
+          Ein <b>Textaufgabenblock</b> ist eine Liste zusammenhängender
+          Aufgabenstellungen. Die Angabe ist in einer Textaufgabe gebündelt, die
+          Nummerierung erfolgt mit 1.,2.,3. usw.
+        </li>
+        <li>
+          Eine <b>Textaufgabengruppe</b> ist eine Liste von Aufgaben, die nicht
+          zusammenhängen. Sie werden als Textaufgabengruppe angelegt und jede
+          Aufgabenstellung ist einzeln.
+        </li>
+      </ul>
+    </p>
     <h2>interaktive Elemente </h2>
     <p>
       Wie überall kannst du mit dem &#8853; Dinge hinzufügen. Wann immer es

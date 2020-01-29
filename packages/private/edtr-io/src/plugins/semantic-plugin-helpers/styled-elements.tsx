@@ -6,7 +6,7 @@ import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots'
 import { faPencilRuler } from '@fortawesome/free-solid-svg-icons/faPencilRuler'
 import { faSearchPlus } from '@fortawesome/free-solid-svg-icons/faSearchPlus'
 import * as React from 'react'
-import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
+import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit'
 
 export const Buttoncontainer = styled.div({
   display: 'flex',
@@ -64,7 +64,7 @@ export function getIcon(type: SemanticPluginTypes, size: any) {
     case SemanticPluginTypes.additionals:
       return <Icon icon={faSearchPlus} size={size} />
     case SemanticPluginTypes.exercise:
-      return <Icon icon={faQuestion} size={size} />
+      return <Icon icon={faEdit} size={size} />
   }
 }
 export function Content(

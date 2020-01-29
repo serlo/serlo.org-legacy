@@ -32,6 +32,18 @@ import {
   entityType
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
+import {
+  Content,
+  SemanticPluginTypes,
+  Controls as GuidelineControls,
+  ControlButton as GuidelineButton,
+  Overlay,
+  exerciseGuideline
+} from '../semantic-plugin-helpers'
+import { Icon } from '@edtr-io/ui'
+import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
+import { useScopedSelector } from '@edtr-io/core'
+import { getFocusPath } from '@edtr-io/store'
 
 export const textExerciseGroupTypeState = entityType(
   {
@@ -43,7 +55,9 @@ export const textExerciseGroupTypeState = entityType(
   }
 )
 
-export const textExerciseGroupTypePlugin: EditorPlugin<typeof textExerciseGroupTypeState> = {
+export const textExerciseGroupTypePlugin: EditorPlugin<
+  typeof textExerciseGroupTypeState
+> = {
   Component: TextExerciseGroupTypeEditor,
   state: textExerciseGroupTypeState,
   config: {}
@@ -53,7 +67,8 @@ function TextExerciseGroupTypeEditor(
   props: EditorPluginProps<typeof textExerciseGroupTypeState>
 ) {
   const { content, 'grouped-text-exercise': children } = props.state
-
+  const [exerciseHelpVisible, setExerciseHelp] = React.useState(false)
+  const focusPath = useScopedSelector(getFocusPath())
   return (
     <article className="exercisegroup">
       {props.renderIntoToolbar(
@@ -63,7 +78,29 @@ function TextExerciseGroupTypeEditor(
           onSwitchRevision={props.state.replaceOwnState}
         />
       )}
-      <section className="row">{content.render()}</section>
+      <section className="row">
+        <div style={{ position: 'relative' }}>
+          <Content type={SemanticPluginTypes.exercise} boxfree>
+            {content.render()}
+          </Content>
+          <GuidelineControls
+            show={(focusPath && focusPath.includes(props.id)) || false}
+          >
+            <GuidelineButton
+              onMouseDown={() => {
+                setExerciseHelp(true)
+              }}
+            >
+              <Icon icon={faQuestion} />
+            </GuidelineButton>
+          </GuidelineControls>
+          <Overlay
+            content={exerciseGuideline}
+            open={exerciseHelpVisible}
+            setOpen={setExerciseHelp}
+          />
+        </div>
+      </section>
       {children.map((child, index) => {
         return (
           <section className="row" key={child.id}>
