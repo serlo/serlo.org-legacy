@@ -95,12 +95,14 @@ export function RevisionHistory<T>(
 
   const [showRevisions, setShowRevisions] = React.useState(false)
   React.useEffect(() => {
-    axios
-      .get<RevisionData[]>(`/entity/repository/get-revisions/${props.id}`)
-      .then(response => {
-        setAvailableRevisions(response.data)
-      })
-  }, [])
+    if (props.id !== 0) {
+      axios
+        .get<RevisionData[]>(`/entity/repository/get-revisions/${props.id}`)
+        .then(response => {
+          setAvailableRevisions(response.data)
+        })
+    }
+  }, [props.id])
 
   return (
     <div>

@@ -62,7 +62,7 @@ test('view article (old editor)', async () => {
 
   const article = await getByItemType(articlePage, articleItemType)
   await expect(article).toMatchElement('h1', { text: title })
-  
+
   const description = await getByItemProp(article, 'articleBody').then(div =>
     getBySelector(div, 'p')
   )

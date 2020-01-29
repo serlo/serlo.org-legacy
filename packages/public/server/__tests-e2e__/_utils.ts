@@ -31,6 +31,7 @@ export const getByAltText = queries.getByAltText
 export const getByLabelText = queries.getByLabelText
 export const getByPlaceholderText = queries.getByPlaceholderText
 export const getByText = queries.getByText
+export const getByRole = queries.getByRole
 export const queryByText = queries.queryByText
 
 export async function getByItemType(element: ElementHandle, itemType: string) {
@@ -135,7 +136,7 @@ export async function toHaveHTMLContent(
   return testIsEqual(
     content,
     await element.evaluate(e => e.innerHTML).then(just),
-    "HTML content",
+    'HTML content',
     this.expand
   )
 }
@@ -145,8 +146,8 @@ export async function toHaveTitle(
   page: ElementHandle,
   pageTitle: string
 ): Promise<jest.CustomMatcherResult> {
-  return testIsEqual(
-    pageTitle + ' – learn with Serlo!',
+  return testStartsWith(
+    pageTitle,
     await page
       .executionContext()
       //@ts-ignore
@@ -172,6 +173,32 @@ export function toHaveUrlPath(
     'URL',
     this.expand
   )
+}
+
+function testStartsWith(
+  expected: string,
+  current: string,
+  label: string,
+  expand: boolean
+): jest.CustomMatcherResult {
+  if (current.startsWith(expected)) {
+    return {
+      pass: true,
+      message: () => `Current ${label} should not be ${printReceived(current)}`
+    }
+  } else {
+    return {
+      pass: false,
+      message: () =>
+        printDiffOrStringify(
+          expected,
+          current,
+          `Expected ${label}`,
+          `Current ${label}`,
+          expand
+        )
+    }
+  }
 }
 
 function testIsEqual(
