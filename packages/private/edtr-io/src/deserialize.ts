@@ -543,8 +543,9 @@ export function deserialize({
       changes: '',
       content:
         isEdtr(content) && content.plugin === 'solution'
-          ? (content as SolutionPlugin).state[0].state.introduction.plugin ===
-            'rows'
+          ? (content as SolutionPlugin).state.length === 0 ||
+            (content as SolutionPlugin).state[0].state.introduction.plugin ===
+              'rows'
             ? serializeEditorState(content)
             : serializeEditorState(
                 migrateSolutionStepsState(content as SolutionPlugin)
