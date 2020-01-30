@@ -32,6 +32,7 @@ export const getByLabelText = queries.getByLabelText
 export const getByPlaceholderText = queries.getByPlaceholderText
 export const getByRole = queries.getByRole
 export const getByText = queries.getByText
+export const getAllByText = queries.getAllByText
 
 export async function getByItemType(element: ElementHandle, itemType: string) {
   return getBySelector(element, `[itemtype="${itemType}"]`)
@@ -75,10 +76,30 @@ export async function clickForNewPage(
   return getDocument(page)
 }
 
+export function isElementVisible(selector: string) {
+  return page.evaluate(selector => {
+    const element = document.querySelector(selector)
+    return !!(
+      element &&
+      (element.offsetWidth ||
+        element.offsetHeight ||
+        element.getClientRects().length)
+    )
+  }, selector)
+}
+
 function just<T>(x: T): NonNullable<T> {
   assert.ok(x !== null)
 
   return x!
+}
+
+export async function isVisible(
+  element: ElementHandle<HTMLElement>
+): Promise<boolean> {
+  return element.evaluate(
+    e => !!(e && (e.offsetWidth || e.offsetHeight || e.getClientRects().length))
+  )
 }
 
 export async function getText(element: ElementHandle): Promise<string> {

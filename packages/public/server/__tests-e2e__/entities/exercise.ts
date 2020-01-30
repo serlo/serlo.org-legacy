@@ -25,19 +25,184 @@ import {
   getByRole,
   getByLabelText,
   getByText,
+  getAllByText,
   goto,
   getBySelector,
   login,
   logout,
-  randomText
+  randomText,
+  isVisible
 } from '../_utils'
-import { exampleApiParameters, pages, navigation } from '../_config'
 
-afterEach(async () => {
-  await logout()
+import { exampleApiParameters, pages, navigation, viewports } from '../_config'
+import { forEach } from 'ramda'
+
+describe('view exercises', () => {
+  const data = {
+    exercise: {
+      id: '35573',
+      content: 'Example test exercise',
+      hintContent: 'Example hint',
+      solutionContent: 'Example solution'
+    },
+    exerciseGroup: {
+      id: '35580',
+      content: 'Example group exercise'
+    },
+    groupedExercise: [
+      {
+        id: '35581',
+        content: 'Subexercise 1',
+        hintContent: 'Hint subexercise 1',
+        solutionContent: 'Solution subexercise 1'
+      },
+      {
+        id: '35584',
+        content: 'Subexercise 2',
+        hintContent: '',
+        solutionContent: 'Solution subexercise 2'
+      },
+      {
+        id: '35586',
+        content: 'Subexercise 3',
+        hintContent: '',
+        solutionContent: 'Solution subexercise 3'
+      }
+    ]
+  }
+  beforeEach(async () => {
+    await page.setViewport(viewports.desktop)
+  })
+
+  describe('view text exercise', () => {
+    const path = '/' + data.exercise.id
+    test('text exercise with hint and solution', async () => {
+      const page = await goto(path)
+      await expect(page).not.toMatchElement('h1')
+      await expect(page).toMatchElement('*', { text: data.exercise.content })
+
+      await getByText(page, 'Show hint').then(click)
+      const hint = await getByText(page, data.exercise.hintContent)
+      const hintVisible = await isVisible(hint)
+      expect(hintVisible).toBe(true)
+
+      await getByText(page, 'Show solution').then(click)
+      const solution = await getByText(page, data.exercise.solutionContent)
+      const solutionVisible = await isVisible(solution)
+      expect(solutionVisible).toBe(true)
+    })
+
+    describe('text exercise has no heading on content-api requests', () => {
+      test.each(exampleApiParameters)(
+        'parameter %p is set',
+        async contentApiParam => {
+          const page = await goto(`${path}?${contentApiParam}`)
+          await expect(page).not.toMatchElement('h1')
+        }
+      )
+    })
+  })
+
+  describe('view text exercise group', () => {
+    const path = '/' + data.exerciseGroup.id
+    test('text exercise group with subexercises', async () => {
+      const page = await goto(path)
+      await expect(page).not.toMatchElement('h1')
+      await expect(page).toMatchElement('*', {
+        text: data.exerciseGroup.content
+      })
+      for (let i = 0; i < data.groupedExercise.length; i++) {
+        await expect(page).toMatchElement('*', {
+          text: data.groupedExercise[i].content
+        })
+      }
+
+      await getByText(page, 'Show hint').then(click)
+      const hint = await getByText(page, data.groupedExercise[0].hintContent)
+      const hintVisible = await isVisible(hint)
+      expect(hintVisible).toBe(true)
+
+      const solutionHandles = await getAllByText(page, 'Show solution')
+      for (const solutionHandle of solutionHandles) {
+        await click(solutionHandle)
+      }
+      for (let i = 0; i < data.groupedExercise.length; i++) {
+        const solution = await getByText(
+          page,
+          data.groupedExercise[i].solutionContent
+        )
+        const solutionVisible = await isVisible(solution)
+        expect(solutionVisible).toBe(true)
+      }
+    })
+
+    describe('text exercise group has no heading on content-api requests', () => {
+      test.each(exampleApiParameters)(
+        'parameter %p is set',
+        async contentApiParam => {
+          const page = await goto(`${path}?${contentApiParam}`)
+          await expect(page).not.toMatchElement('h1')
+        }
+      )
+    })
+  })
+
+  describe('view grouped text exercise', () => {
+    const {
+      id,
+      content,
+      hintContent,
+      solutionContent
+    } = data.groupedExercise[0]
+    const path = '/' + id
+
+    test('grouped exercise with hint and solution', async () => {
+      const page = await goto(path)
+      await expect(page).toMatchElement('*', { text: content })
+
+      await getByText(page, 'Show hint').then(click)
+      const hint = await getByText(page, hintContent)
+      const hintVisible = await isVisible(hint)
+      expect(hintVisible).toBe(true)
+
+      await getByText(page, 'Show solution').then(click)
+      const solution = await getByText(page, solutionContent)
+      const solutionVisible = await isVisible(solution)
+      expect(solutionVisible).toBe(true)
+    })
+
+    test('grouped exercise has page header with backlink', async () => {
+      const page = await goto(path)
+      await expect(page).toMatchElement('h1', { text: id })
+      await expect(page).not.toMatchElement('*', {
+        text: data.exerciseGroup.content
+      })
+
+      const exerciseGroup = await getBySelector(page, '.page-header a').then(
+        clickForNewPage
+      )
+      await expect(exerciseGroup).toMatchElement('*', {
+        text: data.exerciseGroup.content
+      })
+    })
+
+    describe('grouped exercise has no heading on content-api requests', () => {
+      test.each(exampleApiParameters)(
+        'parameter %p is set',
+        async contentApiParam => {
+          const page = await goto(`${path}?${contentApiParam}`)
+          await expect(page).not.toMatchElement('h1', { text: id })
+        }
+      )
+    })
+  })
 })
 
 describe('create text-exercise', () => {
+  afterEach(async () => {
+    await logout()
+  })
+
   test.each(['admin', 'english_langhelper'])('user is %p', async user => {
     const exercise = randomText('exercise content')
     const hint = randomText('hint')
@@ -87,6 +252,9 @@ describe('create text-exercise', () => {
 })
 
 describe('create grouped text-exercise', () => {
+  afterEach(async () => {
+    await logout()
+  })
   test.each(['admin', 'english_langhelper'])('user is %p', async user => {
     const exercise = randomText('exercise content')
     const subexercise1 = randomText('subexercise1')
@@ -147,25 +315,5 @@ describe('create grouped text-exercise', () => {
     await expect(result).toMatchElement('*', { text: subexercise2 })
     await expect(result).toMatchElement('*', { text: hint1 })
     await expect(result).toMatchElement('*', { text: solution1 })
-  })
-})
-
-describe('grouped text exercise', () => {
-  const id = '35581'
-  const path = '/' + id
-
-  test('grouped exercise has page header', async () => {
-    const page = await goto(path)
-    await expect(page).toMatchElement('h1', { text: id })
-  })
-
-  describe('grouped exercise has no heading on content-api requests', () => {
-    test.each(exampleApiParameters)(
-      'parameter %p is set',
-      async contentApiParam => {
-        const page = await goto(`${path}?${contentApiParam}`)
-        await expect(page).not.toMatchElement('h1', { text: id })
-      }
-    )
   })
 })
