@@ -31,8 +31,7 @@ import {
   login,
   logout,
   randomText,
-  getByPlaceholderText,
-  press
+  getByPlaceholderText, saveRevision
 } from '../_utils'
 import { pages, navigation } from '../_config'
 
@@ -117,16 +116,7 @@ describe('create/update articles', () => {
       await contentField.click()
       await contentField.type(content)
 
-      await getBySelector(createPage, navigation.saveButton).then(click)
-      await getByLabelText(createPage, 'Änderungen').then(e =>
-        e.type(randomText())
-      )
-      await createPage.$$('input[type=checkbox]').then(c => c[0].click())
-      await createPage.$$('input[type=checkbox]').then(c => c[3].click())
-
-      const success = await getByText(createPage, 'Speichern', {
-        selector: 'button'
-      }).then(clickForNewPage)
+      const success = await saveRevision(createPage)
 
       expect(success).toMatchElement('p', {
         text: 'Your revision has been saved and is available'

@@ -10,14 +10,14 @@ import {
   login,
   logout,
   randomText,
-  getByItemType
+  getByItemType, saveRevision
 } from '../_utils'
 import { navigation, pages, viewports } from '../_config'
 
 const courseItemType = 'http://schema.org/Article'
 
 test('view course', async () => {
-  const path = '/35598'
+  const path = '/math/example-content/example-topic-1/example-course'
   const title = 'Example Course | Example Course Page 1'
   const heading = 'Example Course Page 1'
   const content = 'This is example course Page 1'
@@ -70,16 +70,7 @@ describe('create/update course', () => {
     await coursePageContentField.click()
     await coursePageContentField.type(coursePageContent)
 
-    await getBySelector(createPage, navigation.saveButton).then(click)
-    await getByLabelText(createPage, 'Änderungen').then(e =>
-      e.type(randomText())
-    )
-    await createPage.$$('input[type=checkbox]').then(c => c[0].click())
-    await createPage.$$('input[type=checkbox]').then(c => c[3].click())
-
-    const success = await getByText(createPage, 'Speichern', {
-      selector: 'button'
-    }).then(clickForNewPage)
+    const success = await saveRevision(createPage)
 
     expect(success).toMatchElement('p', {
       text: 'Your revision has been saved and is available'

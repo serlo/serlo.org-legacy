@@ -30,14 +30,14 @@ import {
   login,
   logout,
   randomText,
-  getByPlaceholderText
+  getByPlaceholderText, saveRevision
 } from '../_utils'
 import { pages, navigation, viewports } from '../_config'
 
 const appletItemType = 'http://schema.org/VideoObject'
 
 test('view example applet page', async () => {
-  const appletPath = '/35596'
+  const appletPath = '/math/example-content/example-topic-1/example-applet'
   const appletTitle = 'Example applet'
   const appletDescription = 'This is an example applet.'
   const geogebraUrl = 'https://www.geogebra.org/material/iframe/id/kWgUBF2y'
@@ -91,16 +91,7 @@ describe('create/update applet pages', () => {
     await descriptionField.click()
     await descriptionField.type(description)
 
-    await getBySelector(createPage, navigation.saveButton).then(click)
-    await getByLabelText(createPage, 'Änderungen').then(e =>
-      e.type(randomText())
-    )
-    await createPage.$$('input[type=checkbox]').then(c => c[0].click())
-    await createPage.$$('input[type=checkbox]').then(c => c[3].click())
-
-    const success = await getByText(createPage, 'Speichern', {
-      selector: 'button'
-    }).then(clickForNewPage)
+    const success = await saveRevision(createPage)
 
     expect(success).toMatchElement('p', {
       text: 'Your revision has been saved and is available'

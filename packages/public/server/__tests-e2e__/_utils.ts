@@ -23,7 +23,7 @@ import * as assert from 'assert'
 import { printReceived, printDiffOrStringify } from 'jest-matcher-utils'
 import { ElementHandle } from 'puppeteer'
 import { queries, getDocument } from 'pptr-testing-library'
-import { testingServerUrl, pages } from './_config'
+import { testingServerUrl, pages, navigation } from './_config'
 
 export { getDocument } from 'pptr-testing-library'
 
@@ -76,10 +76,6 @@ export async function clickForNewPage(
   return getDocument(page)
 }
 
-export async function press(key: string): Promise<void> {
-  await page.keyboard.press(key)
-}
-
 function just<T>(x: T): NonNullable<T> {
   assert.ok(x !== null)
 
@@ -120,6 +116,19 @@ export async function login(user: string): Promise<void> {
 
 export async function logout(): Promise<void> {
   await goto(pages.logout.path)
+}
+
+export async function saveRevision(createPage: ElementHandle) {
+  await getBySelector(createPage, navigation.saveButton).then(click)
+  await getByLabelText(createPage, 'Änderungen').then(e =>
+    e.type(randomText())
+  )
+  await createPage.$$('input[type=checkbox]').then(c => c[0].click())
+  await createPage.$$('input[type=checkbox]').then(c => c[3].click())
+
+  return await getByText(createPage, 'Speichern', {
+    selector: 'button'
+  }).then(clickForNewPage)
 }
 
 export function randomText(prefix?: string): string {

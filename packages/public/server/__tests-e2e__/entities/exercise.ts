@@ -31,7 +31,7 @@ import {
   login,
   logout,
   randomText,
-  isVisible
+  isVisible, saveRevision
 } from '../_utils'
 
 import { exampleApiParameters, pages, navigation, viewports } from '../_config'
@@ -75,7 +75,7 @@ describe('view exercises', () => {
   })
 
   describe('view text exercise', () => {
-    const path = '/' + data.exercise.id
+    const path = `/math/example-content/example-topic-1/example-topic-folder/${data.exercise.id}`
     test('text exercise with hint and solution', async () => {
       const page = await goto(path)
       await expect(page).not.toMatchElement('h1')
@@ -104,7 +104,7 @@ describe('view exercises', () => {
   })
 
   describe('view text exercise group', () => {
-    const path = '/' + data.exerciseGroup.id
+    const path = `/math/example-content/example-topic-1/example-topic-folder/${data.exerciseGroup.id}`
     test('text exercise group with subexercises', async () => {
       const page = await goto(path)
       await expect(page).not.toMatchElement('h1')
@@ -154,7 +154,7 @@ describe('view exercises', () => {
       hintContent,
       solutionContent
     } = data.groupedExercise[0]
-    const path = '/' + id
+    const path = `/math/example-content/example-topic-1/example-topic-folder/${data.exerciseGroup.id}/${id}`
 
     test('grouped exercise with hint and solution', async () => {
       const page = await goto(path)
@@ -228,16 +228,7 @@ describe('create text-exercise', () => {
     await page.waitFor(100)
     await getByRole(createPage, 'textbox').then(t => t.type(solution))
 
-    await getBySelector(createPage, navigation.saveButton).then(click)
-    await getByLabelText(createPage, 'Änderungen').then(e =>
-      e.type(randomText())
-    )
-    await createPage.$$('input[type=checkbox]').then(c => c[0].click())
-    await createPage.$$('input[type=checkbox]').then(c => c[3].click())
-
-    const success = await getByText(createPage, 'Speichern', {
-      selector: 'button'
-    }).then(clickForNewPage)
+    const success = await saveRevision(createPage)
 
     expect(success).toMatchElement('p', {
       text: 'Your revision has been saved and is available'
@@ -290,16 +281,7 @@ describe('create grouped text-exercise', () => {
     await page.waitFor(100)
     await getByRole(createPage, 'textbox').then(t => t.type(subexercise2))
 
-    await getBySelector(createPage, navigation.saveButton).then(click)
-    await getByLabelText(createPage, 'Änderungen').then(e =>
-      e.type(randomText())
-    )
-    await createPage.$$('input[type=checkbox]').then(c => c[0].click())
-    await createPage.$$('input[type=checkbox]').then(c => c[3].click())
-
-    const success = await getByText(createPage, 'Speichern', {
-      selector: 'button'
-    }).then(clickForNewPage)
+    const success = await saveRevision(createPage)
 
     expect(success).toMatchElement('p', {
       text: 'Your revision has been saved and is available'
