@@ -30,9 +30,10 @@ import {
   randomText,
   getByPlaceholderText,
   saveRevision,
-  addContent
+  addContent,
+  openDropdownMenu
 } from '../_utils'
-import { pages, navigation, notifications } from '../_config'
+import { pages, notifications, elements } from '../_config'
 
 const articleItemType = 'http://schema.org/Article'
 
@@ -83,9 +84,7 @@ describe('Convert legacy article', () => {
     const path =
       '/math/example-content/example-topic-1/example-article-(old-editor)'
     const page = await goto(path)
-    const editPage = await getBySelector(page, navigation.editButton).then(
-      clickForNewPage
-    )
+    const editPage = await elements.getEditButton(page).then(clickForNewPage)
     await expect(editPage).toMatchElement('*', { text: 'Hello World! 42' })
     await expect(editPage).toMatchElement('strong', { text: 'World' })
   })
@@ -103,7 +102,9 @@ describe('create/update articles', () => {
 
       await login(user)
       const topic = await goto(pages.e2eTopic.path)
-      const createPage = await addContent(topic, 'article')
+      const createPage = await openDropdownMenu(topic).then(
+        addContent('article')
+      )
 
       await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 

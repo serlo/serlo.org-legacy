@@ -28,7 +28,8 @@ import {
   randomText,
   getByPlaceholderText,
   saveRevision,
-  addContent
+  addContent,
+  openDropdownMenu
 } from '../_utils'
 import { exampleApiParameters, pages, notifications } from '../_config'
 
@@ -82,7 +83,7 @@ describe('create/update video pages', () => {
 
       await login(user)
       const topic = await goto(pages.e2eTopic.path)
-      const createPage = await addContent(topic, 'video')
+      const createPage = await openDropdownMenu(topic).then(addContent('video'))
 
       await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 

@@ -28,7 +28,8 @@ import {
   randomText,
   getByPlaceholderText,
   saveRevision,
-  addContent
+  addContent,
+  openDropdownMenu
 } from '../_utils'
 import { pages, viewports, notifications } from '../_config'
 
@@ -66,7 +67,7 @@ describe('create/update applet pages', () => {
 
     await login(user)
     const topic = await goto(pages.e2eTopic.path)
-    const createPage = await addContent(topic, 'applet')
+    const createPage = await openDropdownMenu(topic).then(addContent('applet'))
 
     await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 

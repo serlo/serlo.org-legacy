@@ -10,7 +10,8 @@ import {
   randomText,
   getByItemType,
   saveRevision,
-  addContent
+  addContent,
+  openDropdownMenu
 } from '../_utils'
 import { notifications, pages, viewports } from '../_config'
 
@@ -48,7 +49,7 @@ describe('create/update course', () => {
 
     await login(user)
     const topic = await goto(pages.e2eTopic.path)
-    const createPage = await addContent(topic, 'course')
+    const createPage = await openDropdownMenu(topic).then(addContent('course'))
 
     await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 

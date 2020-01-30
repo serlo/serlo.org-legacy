@@ -119,14 +119,21 @@ export async function logout(): Promise<void> {
   await goto(pages.logout.path)
 }
 
-export async function addContent(topic: ElementHandle, type: string) {
+export async function openDropdownMenu(topic: ElementHandle) {
   await getBySelector(
     topic,
     '#subject-nav-wrapper button.dropdown-toggle'
   ).then(click)
-  await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
-  await getByText(topic, 'Add content').then(e => e.hover())
-  return await getByText(topic, type).then(clickForNewPage)
+  return await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
+}
+export function addContent(type: string) {
+  return async (topic: ElementHandle) => {
+    await getByText(topic, 'Add content').then(e => e.hover())
+    return await getByText(topic, type).then(clickForNewPage)
+  }
+}
+export async function organizeTaxonomy(topic: ElementHandle) {
+  return await getByText(topic, 'Organize taxonomy').then(clickForNewPage)
 }
 
 export async function saveRevision(createPage: ElementHandle) {

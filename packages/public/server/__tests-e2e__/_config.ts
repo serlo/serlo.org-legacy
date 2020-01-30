@@ -24,14 +24,32 @@ import { ElementHandle } from 'puppeteer'
  */
 export const exampleApiParameters = ['contentOnly', 'hideBanner', 'fullWidth']
 
-export const navigation = {
-  addContent: 'Add content',
-  dropdownToggle: '#subject-nav-wrapper button.dropdown-toggle',
-  login: 'Log in',
-  logout: 'Log out',
-  saveButton: '#subject-nav-wrapper .fa-save',
-  editButton: '#subject-nav-wrapper .fa-pencil',
-  backLink: '.page-header a'
+export const elements = {
+  getDropdownToggle(page: ElementHandle) {
+    return getBySelector(page, '#subject-nav-wrapper button.dropdown-toggle')
+  },
+  getLoginButton(page: ElementHandle) {
+    return getByText(page, 'Log in', {
+      selector: '#serlo-menu a'
+    })
+  },
+  getLogoutButton(page: ElementHandle) {
+    return getByText(page, 'Log out', {
+      selector: '#serlo-menu a'
+    })
+  },
+  getSaveButton(page: ElementHandle) {
+    return getBySelector(page, '#subject-nav-wrapper .fa-save')
+  },
+  getEditButton(page: ElementHandle) {
+    return getBySelector(page, '#subject-nav-wrapper .fa-pencil')
+  },
+  getBackLink(page: ElementHandle) {
+    return getBySelector(page, '.page-header a')
+  },
+  getProfileButton(page: ElementHandle) {
+    return getBySelector(page, '#serlo-menu a .fa-user')
+  }
 }
 
 export const notifications = {

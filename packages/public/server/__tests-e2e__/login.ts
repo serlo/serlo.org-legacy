@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { navigation, pages, viewports, users } from './_config'
+import { pages, viewports, users, elements } from './_config'
 import {
   clickForNewPage,
   getByPlaceholderText,
@@ -30,7 +30,6 @@ import {
 } from './_utils'
 
 const examplePages = ['/', '/math', '/math/geometry/triangles']
-const mainMenuSelector = '#serlo-menu a'
 
 afterEach(async () => {
   await logout()
@@ -44,9 +43,9 @@ describe('login process', () => {
 
       expect(firstPage).toHaveUrlPath(startPath)
 
-      const loginPage = await getByText(firstPage, navigation.login, {
-        selector: mainMenuSelector
-      }).then(clickForNewPage)
+      const loginPage = await elements
+        .getLoginButton(firstPage)
+        .then(clickForNewPage)
 
       expect(loginPage).toHaveUrlPath(pages.login.path)
 
@@ -60,14 +59,11 @@ describe('login process', () => {
         clickForNewPage
       )
 
-      await expect(afterLoginPage).toMatchElement(mainMenuSelector, {
-        text: navigation.logout
-      })
+      await expect(await elements.getLogoutButton(afterLoginPage)).toBeDefined()
 
-      const userPage = await getBySelector(
-        afterLoginPage,
-        mainMenuSelector + ' .fa.fa-user'
-      ).then(clickForNewPage)
+      const userPage = await elements
+        .getProfileButton(afterLoginPage)
+        .then(clickForNewPage)
 
       expect(userPage).toHaveUrlPath('/user/me')
       await expect(userPage).toMatchElement('h1', { text: user })

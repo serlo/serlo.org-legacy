@@ -33,17 +33,17 @@ import {
   randomText,
   isVisible,
   saveRevision,
-  addContent
+  addContent,
+  openDropdownMenu
 } from '../_utils'
 
 import {
   exampleApiParameters,
   pages,
-  navigation,
   viewports,
-  notifications
+  notifications,
+  elements
 } from '../_config'
-import { forEach } from 'ramda'
 
 describe('view exercises', () => {
   const data = {
@@ -186,9 +186,9 @@ describe('view exercises', () => {
         text: data.exerciseGroup.content
       })
 
-      const exerciseGroup = await getBySelector(page, navigation.backLink).then(
-        clickForNewPage
-      )
+      const exerciseGroup = await elements
+        .getBackLink(page)
+        .then(clickForNewPage)
       await expect(exerciseGroup).toMatchElement('*', {
         text: data.exerciseGroup.content
       })
@@ -218,7 +218,9 @@ describe('create text-exercise', () => {
 
     await login(user)
     const topic = await goto(pages.e2eTopic.path)
-    const createPage = await addContent(topic, 'text-exercise')
+    const createPage = await openDropdownMenu(topic).then(
+      addContent('text-exercise')
+    )
 
     await getByRole(createPage, 'textbox').then(e => e.type(exercise))
 
@@ -255,24 +257,22 @@ describe('create grouped text-exercise', () => {
 
     await login(user)
     const topic = await goto(pages.e2eTopic.path)
-    const createPage = await addContent(topic, 'text-exercise-group')
+    const createPage = await openDropdownMenu(topic).then(
+      addContent('text-exercise-group')
+    )
 
     await getByRole(createPage, 'textbox').then(e => e.type(exercise))
 
     await getByText(createPage, 'Teilaufgabe hinzufügen').then(click)
-    await page.waitFor(100)
     await getByRole(createPage, 'textbox').then(t => t.type(subexercise1))
 
     await getByText(createPage, 'Hinweis hinzufügen').then(click)
-    await page.waitFor(100)
     await getByRole(createPage, 'textbox').then(t => t.type(hint1))
 
     await getByText(createPage, 'Lösung hinzufügen').then(click)
-    await page.waitFor(100)
     await getByRole(createPage, 'textbox').then(t => t.type(solution1))
 
     await getByText(createPage, 'Teilaufgabe hinzufügen').then(click)
-    await page.waitFor(100)
     await getByRole(createPage, 'textbox').then(t => t.type(subexercise2))
 
     const success = await saveRevision(createPage)
@@ -280,9 +280,7 @@ describe('create grouped text-exercise', () => {
       text: notifications.savedAndCheckedOut
     })
 
-    const result = await getBySelector(success, navigation.backLink).then(
-      clickForNewPage
-    )
+    const result = await elements.getBackLink(success).then(clickForNewPage)
     await expect(result).toHaveTitle('Math text-exercise-group')
 
     await expect(result).toMatchElement('*', { text: exercise })
