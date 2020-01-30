@@ -35,6 +35,8 @@ return [
         'frontend-footer' => false,
         'frontend-legacy-content' => false,
         'key-value-store' => false,
+        'message-queue' => false,
+        'notifications' => false,
     ],
     'service_manager' => [
         'factories' => [
