@@ -1,0 +1,135 @@
+{
+  "consumer": {
+    "name": "serlo.org"
+  },
+  "provider": {
+    "name": "notifications"
+  },
+  "messages": [
+    {
+      "description": "a `create-event` message",
+      "providerStates": [
+        {
+          "name": "no notifications exist",
+          "params": null
+        }
+      ],
+      "contents": {
+        "type": "create-event",
+        "payload": {
+          "event": {
+            "provider_id": "serlo.org",
+            "id": "123"
+          },
+          "user": {
+            "provider_id": "serlo.org",
+            "id": "234"
+          },
+          "created_at": "2015-08-06T16:53:10+01:00",
+          "source": {
+            "provider_id": "serlo.org"
+          }
+        }
+      },
+      "matchingRules": {
+        "body": {
+          "$.payload.created_at": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d([+-][0-2]\\d:[0-5]\\d|Z)$"
+              }
+            ]
+          }
+        }
+      },
+      "metaData": {
+      }
+    },
+    {
+      "description": "a `create-notification` message",
+      "providerStates": [
+        {
+          "name": "one event with id 123 exists",
+          "params": null
+        }
+      ],
+      "contents": {
+        "type": "create-notification",
+        "payload": {
+          "event": {
+            "provider_id": "serlo.org",
+            "id": "123"
+          },
+          "user": {
+            "provider_id": "serlo.org",
+            "id": "234"
+          },
+          "created_at": "2015-08-06T16:53:10+01:00",
+          "source": {
+            "provider_id": "serlo.org"
+          }
+        }
+      },
+      "matchingRules": {
+        "body": {
+          "$.payload.created_at": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d([+-][0-2]\\d:[0-5]\\d|Z)$"
+              }
+            ]
+          }
+        }
+      },
+      "metaData": {
+      }
+    },
+    {
+      "description": "a `read-notification` message",
+      "providerStates": [
+        {
+          "name": "a notification for user 123 and event 234 exists",
+          "params": null
+        }
+      ],
+      "contents": {
+        "type": "read-notification",
+        "payload": {
+          "event": {
+            "provider_id": "serlo.org",
+            "id": "234"
+          },
+          "user": {
+            "provider_id": "serlo.org",
+            "id": "123"
+          },
+          "created_at": "2015-08-06T16:53:10+01:00",
+          "source": {
+            "provider_id": "serlo.org"
+          }
+        }
+      },
+      "matchingRules": {
+        "body": {
+          "$.payload.created_at": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d([+-][0-2]\\d:[0-5]\\d|Z)$"
+              }
+            ]
+          }
+        }
+      },
+      "metaData": {
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  }
+}
