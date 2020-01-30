@@ -36,23 +36,21 @@ import { pages, navigation, viewports } from '../_config'
 
 const appletItemType = 'http://schema.org/VideoObject'
 
-describe('view applet page', () => {
-  const appletPath = '/35569'
+test('view example applet page', async () => {
+  const appletPath = '/35596'
   const appletTitle = 'Example applet'
   const appletDescription = 'This is an example applet.'
   const geogebraUrl = 'https://www.geogebra.org/material/iframe/id/kWgUBF2y'
 
-  test('view example applet page', async () => {
-    const appletPage = await goto(appletPath)
-    const applet = await getByItemType(appletPage, appletItemType)
+  const appletPage = await goto(appletPath)
+  const applet = await getByItemType(appletPage, appletItemType)
 
-    await expect(applet).toMatchElement('h1', { text: appletTitle })
-    await expect(applet).toMatchElement('*', { text: appletDescription })
-    await expect(applet).toHaveTitle(`${appletTitle} (applet)`)
+  await expect(applet).toMatchElement('h1', { text: appletTitle })
+  await expect(applet).toMatchElement('*', { text: appletDescription })
+  await expect(applet).toHaveTitle(`${appletTitle} (applet)`)
 
-    const iframe = await getBySelector(applet, 'iframe')
-    await expect(iframe).toHaveAttribute('src', geogebraUrl)
-  })
+  const iframe = await getBySelector(applet, 'iframe')
+  await expect(iframe).toHaveAttribute('src', geogebraUrl)
 })
 
 describe('create/update applet pages', () => {

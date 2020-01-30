@@ -9,9 +9,29 @@ import {
   goto,
   login,
   logout,
-  randomText
+  randomText,
+  getByItemType
 } from '../_utils'
 import { navigation, pages, viewports } from '../_config'
+
+const courseItemType = 'http://schema.org/Article'
+
+test('view course', async () => {
+  const path = '/35598'
+  const title = 'Example Course | Example Course Page 1'
+  const heading = 'Example Course Page 1'
+  const content = 'This is example course Page 1'
+  const page2Title = 'Example Course Page 2'
+
+  const coursePage = await goto(path)
+  await expect(coursePage).toHaveTitle(title)
+
+  const course = await getByItemType(coursePage, courseItemType)
+  await expect(course).toMatchElement('h1', { text: heading })
+
+  await expect(course).toMatchElement('*', { text: content })
+  await expect(course).toMatchElement('a', { text: page2Title })
+})
 
 describe('create/update course', () => {
   afterEach(async () => {
