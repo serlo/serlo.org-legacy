@@ -77,11 +77,76 @@ describe('create text-exercise', () => {
     expect(success).toMatchElement('p', {
       text: 'Your revision has been saved and is available'
     })
+
     await expect(success).toHaveTitle('Math text-exercise')
 
     await expect(success).toMatchElement('*', { text: exercise })
     await expect(success).toMatchElement('*', { text: hint })
     await expect(success).toMatchElement('*', { text: solution })
+  })
+})
+
+describe('create grouped text-exercise', () => {
+  test.each(['admin', 'english_langhelper'])('user is %p', async user => {
+    const exercise = randomText('exercise content')
+    const subexercise1 = randomText('subexercise1')
+    const subexercise2 = randomText('subexercise2')
+    const hint1 = randomText('hint1')
+    const solution1 = randomText('solution1')
+
+    await login(user)
+    const topic = await goto(pages.e2eTopic.path)
+
+    await getBySelector(topic, navigation.dropdownToggle).then(click)
+    await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
+    await getByText(topic, navigation.addContent).then(e => e.hover())
+    const createPage = await getByText(topic, 'text-exercise-group').then(
+      clickForNewPage
+    )
+
+    await getByRole(createPage, 'textbox').then(e => e.type(exercise))
+
+    await getByText(createPage, 'Teilaufgabe hinzufügen').then(click)
+    await page.waitFor(100)
+    await getByRole(createPage, 'textbox').then(t => t.type(subexercise1))
+
+    await getByText(createPage, 'Hinweis hinzufügen').then(click)
+    await page.waitFor(100)
+    await getByRole(createPage, 'textbox').then(t => t.type(hint1))
+
+    await getByText(createPage, 'Lösung hinzufügen').then(click)
+    await page.waitFor(100)
+    await getByRole(createPage, 'textbox').then(t => t.type(solution1))
+
+    await getByText(createPage, 'Teilaufgabe hinzufügen').then(click)
+    await page.waitFor(100)
+    await getByRole(createPage, 'textbox').then(t => t.type(subexercise2))
+
+    await getBySelector(createPage, navigation.saveButton).then(click)
+    await getByLabelText(createPage, 'Änderungen').then(e =>
+      e.type(randomText())
+    )
+    await createPage.$$('input[type=checkbox]').then(c => c[0].click())
+    await createPage.$$('input[type=checkbox]').then(c => c[3].click())
+
+    const success = await getByText(createPage, 'Speichern', {
+      selector: 'button'
+    }).then(clickForNewPage)
+
+    expect(success).toMatchElement('p', {
+      text: 'Your revision has been saved and is available'
+    })
+    const result = await getBySelector(
+      success,
+      '.page-header .fa-chevron-left'
+    ).then(clickForNewPage)
+    await expect(result).toHaveTitle('Math text-exercise-group')
+
+    await expect(result).toMatchElement('*', { text: exercise })
+    await expect(result).toMatchElement('*', { text: subexercise1 })
+    await expect(result).toMatchElement('*', { text: subexercise2 })
+    await expect(result).toMatchElement('*', { text: hint1 })
+    await expect(result).toMatchElement('*', { text: solution1 })
   })
 })
 
