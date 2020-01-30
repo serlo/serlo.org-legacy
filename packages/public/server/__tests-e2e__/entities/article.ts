@@ -113,9 +113,9 @@ describe('create/update articles', () => {
       await contentField.type(content)
 
       const success = await saveRevision(createPage)
-      await expect(success).toMatchElement('.flasher p', {
-        text: notifications.savedAndCheckedOut
-      })
+      await expect(success).toHaveSystemNotification(
+        notifications.savedAndCheckedOut
+      )
 
       await expect(success).toHaveTitle(title)
 

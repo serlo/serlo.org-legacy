@@ -103,9 +103,9 @@ describe('create/update video pages', () => {
       await descriptionField.type(description)
 
       const success = await saveRevision(createPage)
-      await expect(success).toMatchElement('.flasher p', {
-        text: notifications.savedAndCheckedOut
-      })
+      await expect(success).toHaveSystemNotification(
+        notifications.savedAndCheckedOut
+      )
 
       await expect(success).toMatchElement('h1', { text: title })
       await expect(success).toMatchElement('*', { text: description })

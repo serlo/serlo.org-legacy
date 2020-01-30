@@ -212,6 +212,48 @@ export function toHaveUrlPath(
   )
 }
 
+export async function toHaveCollapsable(
+  this: jest.MatcherUtils,
+  page: ElementHandle,
+  collapsedContent: string,
+  toggleText: string
+): Promise<jest.CustomMatcherResult> {
+  if (this.isNot) {
+    await expect(page).not.toMatchElement('*', { text: collapsedContent })
+    await expect(page).not.toMatchElement('*', { text: toggleText })
+    return Promise.resolve({
+      pass: true,
+      message: () => `Collapsable with toggle ${toggleText} should not exist`
+    })
+  }
+
+  const element = await getByText(page, collapsedContent)
+  const elementVisibleBeforeClick = await isVisible(element)
+  expect(elementVisibleBeforeClick).toBe(false)
+
+  await getByText(page, toggleText).then(click)
+  const elementVisibleAfterClick = await isVisible(element)
+  expect(elementVisibleAfterClick).toBe(true)
+  return Promise.resolve({
+    pass: true,
+    message: () =>
+      `Collapsable with toggle ${toggleText} should toggle visibility.`
+  })
+}
+
+export async function toHaveSystemNotification(
+  this: jest.MatcherUtils,
+  page: ElementHandle,
+  notification: string
+): Promise<jest.CustomMatcherResult> {
+  const jestExpect = this.isNot ? expect(page).not : expect(page)
+  await jestExpect.toMatchElement('.flasher p', { text: notification })
+  return Promise.resolve({
+    pass: true,
+    message: () => `System notifications should not show ${notification}`
+  })
+}
+
 function testStartsWith(
   expected: string,
   current: string,

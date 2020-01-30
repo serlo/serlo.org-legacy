@@ -23,7 +23,9 @@ import {
   toHaveAttribute,
   toHaveHTMLContent,
   toHaveTitle,
-  toHaveUrlPath
+  toHaveUrlPath,
+  toHaveCollapsable,
+  toHaveSystemNotification
 } from './packages/public/server/__tests-e2e__/_utils'
 
 setTimeout(60)
@@ -32,7 +34,9 @@ expect.extend({
   toHaveAttribute,
   toHaveHTMLContent,
   toHaveTitle,
-  toHaveUrlPath
+  toHaveUrlPath,
+  toHaveCollapsable,
+  toHaveSystemNotification
 })
 
 declare global {
@@ -42,6 +46,11 @@ declare global {
       toHaveHTMLContent(content: string): Promise<R>
       toHaveTitle(pageTitle: string): Promise<R>
       toHaveUrlPath(urlPath: string): R
+      toHaveCollapsable(
+        collapsedContent: string,
+        toggleContent: string
+      ): Promise<R>
+      toHaveSystemNotification(notification: string): Promise<R>
     }
   }
 }

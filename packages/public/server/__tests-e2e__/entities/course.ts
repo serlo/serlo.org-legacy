@@ -68,9 +68,9 @@ describe('create/update course', () => {
     await coursePageContentField.type(coursePageContent)
 
     const success = await saveRevision(createPage)
-    await expect(success).toMatchElement('.flasher p', {
-      text: notifications.savedAndCheckedOut
-    })
+    await expect(success).toHaveSystemNotification(
+      notifications.savedAndCheckedOut
+    )
 
     await expect(success).toMatchElement('h1', { text: coursePageTitle })
     await expect(success).toMatchElement('*', { text: coursePageContent })

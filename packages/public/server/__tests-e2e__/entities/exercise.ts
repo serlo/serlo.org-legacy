@@ -23,11 +23,9 @@ import {
   click,
   clickForNewPage,
   getByRole,
-  getByLabelText,
   getByText,
   getAllByText,
   goto,
-  getBySelector,
   login,
   logout,
   randomText,
@@ -89,15 +87,14 @@ describe('view exercises', () => {
       await expect(page).not.toMatchElement('h1')
       await expect(page).toMatchElement('*', { text: data.exercise.content })
 
-      await getByText(page, 'Show hint').then(click)
-      const hint = await getByText(page, data.exercise.hintContent)
-      const hintVisible = await isVisible(hint)
-      expect(hintVisible).toBe(true)
-
-      await getByText(page, 'Show solution').then(click)
-      const solution = await getByText(page, data.exercise.solutionContent)
-      const solutionVisible = await isVisible(solution)
-      expect(solutionVisible).toBe(true)
+      await expect(page).toHaveCollapsable(
+        data.exercise.hintContent,
+        'Show hint'
+      )
+      await expect(page).toHaveCollapsable(
+        data.exercise.solutionContent,
+        'Show solution'
+      )
     })
 
     describe('text exercise has no heading on content-api requests', () => {
@@ -125,10 +122,10 @@ describe('view exercises', () => {
         })
       }
 
-      await getByText(page, 'Show hint').then(click)
-      const hint = await getByText(page, data.groupedExercise[0].hintContent)
-      const hintVisible = await isVisible(hint)
-      expect(hintVisible).toBe(true)
+      await expect(page).toHaveCollapsable(
+        data.groupedExercise[0].hintContent,
+        'Show hint'
+      )
 
       const solutionHandles = await getAllByText(page, 'Show solution')
       for (const solutionHandle of solutionHandles) {
@@ -168,15 +165,8 @@ describe('view exercises', () => {
       const page = await goto(path)
       await expect(page).toMatchElement('*', { text: content })
 
-      await getByText(page, 'Show hint').then(click)
-      const hint = await getByText(page, hintContent)
-      const hintVisible = await isVisible(hint)
-      expect(hintVisible).toBe(true)
-
-      await getByText(page, 'Show solution').then(click)
-      const solution = await getByText(page, solutionContent)
-      const solutionVisible = await isVisible(solution)
-      expect(solutionVisible).toBe(true)
+      await expect(page).toHaveCollapsable(hintContent, 'Show hint')
+      await expect(page).toHaveCollapsable(solutionContent, 'Show solution')
     })
 
     test('grouped exercise has page header with backlink', async () => {
@@ -276,9 +266,9 @@ describe('create grouped text-exercise', () => {
     await getByRole(createPage, 'textbox').then(t => t.type(subexercise2))
 
     const success = await saveRevision(createPage)
-    await expect(success).toMatchElement('.flasher p', {
-      text: notifications.savedAndCheckedOut
-    })
+    await expect(success).toHaveSystemNotification(
+      notifications.savedAndCheckedOut
+    )
 
     const result = await elements.getBackLink(success).then(clickForNewPage)
     await expect(result).toHaveTitle('Math text-exercise-group')
@@ -286,7 +276,7 @@ describe('create grouped text-exercise', () => {
     await expect(result).toMatchElement('*', { text: exercise })
     await expect(result).toMatchElement('*', { text: subexercise1 })
     await expect(result).toMatchElement('*', { text: subexercise2 })
-    await expect(result).toMatchElement('*', { text: hint1 })
+    await expect(result).toHaveCollapsable(hint1, 'Show hint')
     await expect(result).toMatchElement('*', { text: solution1 })
   })
 })
