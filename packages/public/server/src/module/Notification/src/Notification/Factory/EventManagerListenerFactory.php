@@ -20,34 +20,34 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Notification\Factory;
 
-use ClassResolver\ClassResolverFactoryTrait;
-use Common\Factory\EntityManagerFactoryTrait;
 use FeatureFlags\Service;
 use MessageQueue\Producer;
+use Notification\Listener\EventManagerListener;
 use Notification\NotificationManager;
+use Notification\SubscriptionManagerInterface;
+use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class NotificationManagerFactory implements FactoryInterface
+class EventManagerListenerFactory implements FactoryInterface
 {
-    use EntityManagerFactoryTrait, ClassResolverFactoryTrait;
-
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $classResolver = $this->getClassResolver($serviceLocator);
-        $objectManager = $this->getEntityManager($serviceLocator);
+        /** @var AbstractPluginManager $serviceLocator */
+        $serviceManager = $serviceLocator->getServiceLocator();
+        /** @var NotificationManager $notificationManager */
+        $notificationManager = $serviceManager->get('Notification\NotificationManager');
+        /** @var SubscriptionManagerInterface $subscriptionManager */
+        $subscriptionManager = $serviceManager->get('Notification\SubscriptionManager');
         /** @var Service $featureFlags */
         $featureFlags = $serviceLocator->get(Service::class);
         /** @var Producer $producer */
         $producer = $serviceLocator->get(Producer::class);
-        return new NotificationManager($classResolver, $objectManager, $featureFlags, $producer);
+        $listener = new EventManagerListener($subscriptionManager, $featureFlags, $producer);
+        $listener->setNotificationManager($notificationManager);
+        return $listener;
     }
 }

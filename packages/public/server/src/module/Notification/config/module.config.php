@@ -23,7 +23,9 @@
 
 namespace Notification;
 
+use Event\EventManager;
 use Notification\Controller\WorkerController;
+use Notification\Factory\EventManagerListenerFactory;
 use Notification\Factory\WorkerControllerFactory;
 use Notification\Listener\EventManagerListener;
 
@@ -135,6 +137,7 @@ return [
     ],
     'service_manager' => [
         'factories' => [
+            EventManagerListenerFactory::class => EventManager::class,
             __NAMESPACE__ . '\NotificationManager' => __NAMESPACE__ . '\Factory\NotificationManagerFactory',
             __NAMESPACE__ . '\Storage\Storage' => __NAMESPACE__ . '\Factory\NotificationStorageFactory',
         ],
@@ -156,11 +159,6 @@ return [
         ],
         'definition' => [
             'class' => [
-                EventManagerListener::class => [
-                    'setNotificationManager' => [
-                        'required' => true,
-                    ],
-                ],
                 __NAMESPACE__ . '\Listener\AuthenticationControllerListener' => [],
                 __NAMESPACE__ . '\Listener\DiscussionManagerListener' => [],
                 __NAMESPACE__ . '\Listener\RepositoryManagerListener' => [

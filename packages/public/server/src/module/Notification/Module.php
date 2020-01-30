@@ -32,6 +32,7 @@ class Module
         'Notification\Listener\RepositoryManagerListener',
         'Notification\Listener\DiscussionManagerListener',
         'Notification\Listener\AuthenticationControllerListener',
+        EventManagerListener::class,
     ];
 
     public function getConfig()
@@ -74,9 +75,8 @@ class Module
         $sharedEventManager = $eventManager->getSharedManager();
         foreach (self::$listeners as $listener) {
             $sharedEventManager->attachAggregate(
-                $e->getApplication()->getServiceManager()->get($listener)
+                $serviceManager->get($listener)
             );
         }
-        $sharedEventManager->attachAggregate($serviceManager->get(EventManagerListener::class));
     }
 }

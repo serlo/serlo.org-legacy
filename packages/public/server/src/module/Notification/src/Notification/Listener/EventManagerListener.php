@@ -23,10 +23,14 @@
 
 namespace Notification\Listener;
 
+use DateTime;
 use Event\Entity\EventLogInterface;
 use Event\EventManager;
+use FeatureFlags\Service;
+use MessageQueue\Producer;
 use Notification\Entity\SubscriptionInterface;
 use Notification\NotificationManagerAwareTrait;
+use Notification\SubscriptionManagerInterface;
 use Uuid\Entity\UuidInterface;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
@@ -35,6 +39,18 @@ use User\Entity\UserInterface;
 class EventManagerListener extends AbstractListener
 {
     use NotificationManagerAwareTrait;
+
+    /** @var Service */
+    private $featureFlags;
+    /** @var Producer */
+    private $producer;
+
+    public function __construct(SubscriptionManagerInterface $subscriptionManager, Service $featureFlags, Producer $producer)
+    {
+        parent::__construct($subscriptionManager);
+        $this->featureFlags;
+        $this->producer;
+    }
 
     public function onLog(Event $e)
     {
@@ -45,6 +61,23 @@ class EventManagerListener extends AbstractListener
         $object = $eventLog->getObject();
         $subscriptions = $this->getSubscriptionManager()->findSubscriptionsByUuid($object);
         $subscribed = [];
+
+        if ($this->featureFlags->isEnabled('notifications')) {
+            $this->producer->send('notifications', [
+                'type' => 'create-event',
+                'payload' => [
+                    'event' => [
+                        'provider_id' => 'serlo.org',
+                        'id' => $eventLog->getId(),
+                    ],
+                    'user' => [
+                        'provider_id' => 'serlo.org',
+                        'id' => $eventLog->getActor()->getId(),
+                    ],
+                    'created_at' => $eventLog->getTimestamp()->format(DateTime::ISO8601),
+                ],
+            ]);
+        }
 
         foreach ($subscriptions as $subscription) {
             $subscriber = $subscription->getSubscriber();

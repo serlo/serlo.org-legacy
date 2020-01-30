@@ -123,7 +123,6 @@ describe('Message Contract', () => {
           provider_id: 'serlo.org',
           id: '234'
         },
-        created_at: Matchers.iso8601DateTime(),
         source: {
           provider_id: 'serlo.org'
         }

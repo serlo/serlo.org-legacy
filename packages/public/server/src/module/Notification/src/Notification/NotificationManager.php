@@ -31,6 +31,8 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Event\Entity\EventLogInterface;
+use FeatureFlags\Service;
+use MessageQueue\Producer;
 use Notification\Entity\NotificationInterface;
 use Notification\Filter\PersistentNotificationFilterChain;
 use User\Entity\UserInterface;
@@ -41,39 +43,61 @@ class NotificationManager implements NotificationManagerInterface
     use ClassResolverAwareTrait, ObjectManagerAwareTrait;
     use FlushableTrait;
 
+    /** @var Service */
+    private $featureFlags;
+    /** @var Producer */
+    private $producer;
+
     /**
      * @var PersistentNotificationFilterChain
      */
     protected $persistentNotificationFilterChain;
 
-    public function __construct(ClassResolverInterface $classResolver, ObjectManager $objectManager)
+
+    public function __construct(ClassResolverInterface $classResolver, ObjectManager $objectManager, Service $featureFlags, Producer $producer)
     {
         $this->classResolver = $classResolver;
         $this->objectManager = $objectManager;
         $this->persistentNotificationFilterChain = new PersistentNotificationFilterChain($objectManager);
+        $this->featureFlags = $featureFlags;
+        $this->producer = $producer;
     }
 
     public function createNotification(UserInterface $user, EventLogInterface $log, bool $email)
     {
-        /* @var $notificationLog \Notification\Entity\NotificationEventInterface */
-        $notification = $this->aggregateNotification($user, $log);
-        $class = 'Notification\Entity\NotificationEventInterface';
-        $className = $this->getClassResolver()->resolveClassName($class);
-        $notificationLog = new $className();
+        if ($this->featureFlags->isEnabled('notifications')) {
+            $this->producer->send('notifications', [
+                'type' => 'create-notification',
+                'payload' => [
+                    'event' => [
+                        'provider_id' => 'serlo.org',
+                        'id' => $log->getId(),
+                    ],
+                    'user' => [
+                        'provider_id' => 'serlo.org',
+                        'id' => $user->getId(),
+                    ],
+                ],
+            ]);
+        } else {
+            /* @var $notificationLog \Notification\Entity\NotificationEventInterface */
+            $notification = $this->aggregateNotification($user, $log);
+            $class = 'Notification\Entity\NotificationEventInterface';
+            $className = $this->getClassResolver()->resolveClassName($class);
+            $notificationLog = new $className();
 
-        $notification->setUser($user);
-        $notification->setSeen(false);
-        $notification->setEmail($email);
-        $notification->setEmailSent(false);
-        $notification->setTimestamp(new DateTime());
-        $notification->addEvent($notificationLog);
-        $notificationLog->setEventLog($log);
-        $notificationLog->setNotification($notification);
+            $notification->setUser($user);
+            $notification->setSeen(false);
+            $notification->setEmail($email);
+            $notification->setEmailSent(false);
+            $notification->setTimestamp(new DateTime());
+            $notification->addEvent($notificationLog);
+            $notificationLog->setEventLog($log);
+            $notificationLog->setNotification($notification);
 
-        $this->getObjectManager()->persist($notification);
-        $this->getObjectManager()->persist($notificationLog);
-
-        return $notification;
+            $this->getObjectManager()->persist($notification);
+            $this->getObjectManager()->persist($notificationLog);
+        }
     }
 
     public function findMailmanNotificationsBySubscriber(UserInterface $user)
