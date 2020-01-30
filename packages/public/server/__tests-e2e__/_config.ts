@@ -1,3 +1,6 @@
+import { click, clickForNewPage, getBySelector, getByText } from './_utils'
+import { ElementHandle } from 'puppeteer'
+
 /**
  * This file is part of Serlo.org.
  *
@@ -29,6 +32,10 @@ export const navigation = {
   saveButton: '#subject-nav-wrapper .fa-save',
   editButton: '#subject-nav-wrapper .fa-pencil',
   backLink: '.page-header a'
+}
+
+export const notifications = {
+  savedAndCheckedOut: 'Your revision has been saved and is available'
 }
 
 export const pages = {

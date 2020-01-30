@@ -31,10 +31,18 @@ import {
   login,
   logout,
   randomText,
-  isVisible, saveRevision
+  isVisible,
+  saveRevision,
+  addContent
 } from '../_utils'
 
-import { exampleApiParameters, pages, navigation, viewports } from '../_config'
+import {
+  exampleApiParameters,
+  pages,
+  navigation,
+  viewports,
+  notifications
+} from '../_config'
 import { forEach } from 'ramda'
 
 describe('view exercises', () => {
@@ -210,22 +218,14 @@ describe('create text-exercise', () => {
 
     await login(user)
     const topic = await goto(pages.e2eTopic.path)
-
-    await getBySelector(topic, navigation.dropdownToggle).then(click)
-    await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
-    await getByText(topic, navigation.addContent).then(e => e.hover())
-    const createPage = await getByText(topic, 'text-exercise').then(
-      clickForNewPage
-    )
+    const createPage = await addContent(topic, 'text-exercise')
 
     await getByRole(createPage, 'textbox').then(e => e.type(exercise))
 
     await getByText(createPage, 'Hinweis hinzufügen').then(click)
-    await page.waitFor(100)
     await getByRole(createPage, 'textbox').then(t => t.type(hint))
 
     await getByText(createPage, 'Lösung hinzufügen').then(click)
-    await page.waitFor(100)
     await getByRole(createPage, 'textbox').then(t => t.type(solution))
 
     const success = await saveRevision(createPage)
@@ -255,13 +255,7 @@ describe('create grouped text-exercise', () => {
 
     await login(user)
     const topic = await goto(pages.e2eTopic.path)
-
-    await getBySelector(topic, navigation.dropdownToggle).then(click)
-    await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
-    await getByText(topic, navigation.addContent).then(e => e.hover())
-    const createPage = await getByText(topic, 'text-exercise-group').then(
-      clickForNewPage
-    )
+    const createPage = await addContent(topic, 'text-exercise-group')
 
     await getByRole(createPage, 'textbox').then(e => e.type(exercise))
 
@@ -282,10 +276,10 @@ describe('create grouped text-exercise', () => {
     await getByRole(createPage, 'textbox').then(t => t.type(subexercise2))
 
     const success = await saveRevision(createPage)
-
-    expect(success).toMatchElement('p', {
-      text: 'Your revision has been saved and is available'
+    await expect(success).toMatchElement('.flasher p', {
+      text: notifications.savedAndCheckedOut
     })
+
     const result = await getBySelector(success, navigation.backLink).then(
       clickForNewPage
     )

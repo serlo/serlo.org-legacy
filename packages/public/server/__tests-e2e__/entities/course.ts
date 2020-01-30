@@ -1,7 +1,5 @@
 import {
   click,
-  clickForNewPage,
-  getByLabelText,
   getByPlaceholderText,
   getBySelector,
   getByText,
@@ -10,9 +8,11 @@ import {
   login,
   logout,
   randomText,
-  getByItemType, saveRevision
+  getByItemType,
+  saveRevision,
+  addContent
 } from '../_utils'
-import { navigation, pages, viewports } from '../_config'
+import { notifications, pages, viewports } from '../_config'
 
 const courseItemType = 'http://schema.org/Article'
 
@@ -48,11 +48,7 @@ describe('create/update course', () => {
 
     await login(user)
     const topic = await goto(pages.e2eTopic.path)
-
-    await getBySelector(topic, navigation.dropdownToggle).then(click)
-    await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
-    await getByText(topic, navigation.addContent).then(e => e.hover())
-    const createPage = await getByText(topic, 'course').then(clickForNewPage)
+    const createPage = await addContent(topic, 'course')
 
     await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 
@@ -71,9 +67,8 @@ describe('create/update course', () => {
     await coursePageContentField.type(coursePageContent)
 
     const success = await saveRevision(createPage)
-
-    expect(success).toMatchElement('p', {
-      text: 'Your revision has been saved and is available'
+    await expect(success).toMatchElement('.flasher p', {
+      text: notifications.savedAndCheckedOut
     })
 
     await expect(success).toMatchElement('h1', { text: coursePageTitle })

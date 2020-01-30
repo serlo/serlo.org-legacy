@@ -23,7 +23,7 @@ import * as assert from 'assert'
 import { printReceived, printDiffOrStringify } from 'jest-matcher-utils'
 import { ElementHandle } from 'puppeteer'
 import { queries, getDocument } from 'pptr-testing-library'
-import { testingServerUrl, pages, navigation } from './_config'
+import { testingServerUrl, pages } from './_config'
 
 export { getDocument } from 'pptr-testing-library'
 
@@ -65,6 +65,7 @@ export async function goto(site: string): Promise<ElementHandle> {
 
 export async function click(element: ElementHandle): Promise<void> {
   await element.click()
+  await page.waitFor(100)
 }
 
 export async function clickForNewPage(
@@ -118,11 +119,19 @@ export async function logout(): Promise<void> {
   await goto(pages.logout.path)
 }
 
+export async function addContent(topic: ElementHandle, type: string) {
+  await getBySelector(
+    topic,
+    '#subject-nav-wrapper button.dropdown-toggle'
+  ).then(click)
+  await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
+  await getByText(topic, 'Add content').then(e => e.hover())
+  return await getByText(topic, type).then(clickForNewPage)
+}
+
 export async function saveRevision(createPage: ElementHandle) {
-  await getBySelector(createPage, navigation.saveButton).then(click)
-  await getByLabelText(createPage, 'Änderungen').then(e =>
-    e.type(randomText())
-  )
+  await getBySelector(createPage, '#subject-nav-wrapper .fa-save').then(click)
+  await getByLabelText(createPage, 'Änderungen').then(e => e.type(randomText()))
   await createPage.$$('input[type=checkbox]').then(c => c[0].click())
   await createPage.$$('input[type=checkbox]').then(c => c[3].click())
 

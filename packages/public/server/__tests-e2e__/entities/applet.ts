@@ -20,19 +20,17 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import {
-  click,
-  clickForNewPage,
   getByItemType,
-  getByLabelText,
-  getByText,
   goto,
   getBySelector,
   login,
   logout,
   randomText,
-  getByPlaceholderText, saveRevision
+  getByPlaceholderText,
+  saveRevision,
+  addContent
 } from '../_utils'
-import { pages, navigation, viewports } from '../_config'
+import { pages, viewports, notifications } from '../_config'
 
 const appletItemType = 'http://schema.org/VideoObject'
 
@@ -68,11 +66,7 @@ describe('create/update applet pages', () => {
 
     await login(user)
     const topic = await goto(pages.e2eTopic.path)
-
-    await getBySelector(topic, navigation.dropdownToggle).then(click)
-    await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
-    await getByText(topic, navigation.addContent).then(e => e.hover())
-    const createPage = await getByText(topic, 'applet').then(clickForNewPage)
+    const createPage = await addContent(topic, 'applet')
 
     await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 
@@ -92,9 +86,8 @@ describe('create/update applet pages', () => {
     await descriptionField.type(description)
 
     const success = await saveRevision(createPage)
-
-    expect(success).toMatchElement('p', {
-      text: 'Your revision has been saved and is available'
+    await expect(success).toMatchElement('.flasher p', {
+      text: notifications.savedAndCheckedOut
     })
 
     await expect(success).toMatchElement('h1', { text: title })
