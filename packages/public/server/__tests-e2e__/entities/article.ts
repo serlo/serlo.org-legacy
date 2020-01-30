@@ -31,7 +31,8 @@ import {
   login,
   logout,
   randomText,
-  getByPlaceholderText
+  getByPlaceholderText,
+  press
 } from '../_utils'
 import { pages, navigation } from '../_config'
 
@@ -69,6 +70,29 @@ test('view article (old editor)', async () => {
   await expect(description).toHaveHTMLContent(content)
 })
 
+describe('Convert legacy article', () => {
+  afterEach(async () => {
+    page.on('dialog', dialog => {
+      if (dialog.type() === 'beforeunload') {
+        dialog.accept()
+      }
+    })
+    await logout()
+  })
+
+  test('convert article', async () => {
+    await login('admin')
+    const path =
+      '/math/example-content/example-topic-1/example-article-(old-editor)'
+    const page = await goto(path)
+    const editPage = await getBySelector(page, navigation.editButton).then(
+      clickForNewPage
+    )
+    await expect(editPage).toMatchElement('*', { text: 'Hello World! 42' })
+    await expect(editPage).toMatchElement('strong', { text: 'World' })
+  })
+})
+
 describe('create/update articles', () => {
   afterEach(async () => {
     await logout()
@@ -76,7 +100,7 @@ describe('create/update articles', () => {
 
   describe('create article', () => {
     test.each(['admin', 'english_langhelper'])('user is %p', async user => {
-      const title = randomText('video')
+      const title = randomText('article')
       const content = randomText()
 
       await login(user)

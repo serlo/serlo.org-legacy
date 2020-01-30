@@ -76,16 +76,8 @@ export async function clickForNewPage(
   return getDocument(page)
 }
 
-export function isElementVisible(selector: string) {
-  return page.evaluate(selector => {
-    const element = document.querySelector(selector)
-    return !!(
-      element &&
-      (element.offsetWidth ||
-        element.offsetHeight ||
-        element.getClientRects().length)
-    )
-  }, selector)
+export async function press(key: string): Promise<void> {
+  await page.keyboard.press(key)
 }
 
 function just<T>(x: T): NonNullable<T> {

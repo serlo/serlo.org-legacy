@@ -26,7 +26,9 @@ export const navigation = {
   dropdownToggle: '#subject-nav-wrapper button.dropdown-toggle',
   login: 'Log in',
   logout: 'Log out',
-  saveButton: '#subject-nav-wrapper .fa-save'
+  saveButton: '#subject-nav-wrapper .fa-save',
+  editButton: '#subject-nav-wrapper .fa-pencil',
+  backLink: '.page-header a'
 }
 
 export const pages = {

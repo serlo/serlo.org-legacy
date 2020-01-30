@@ -178,7 +178,7 @@ describe('view exercises', () => {
         text: data.exerciseGroup.content
       })
 
-      const exerciseGroup = await getBySelector(page, '.page-header a').then(
+      const exerciseGroup = await getBySelector(page, navigation.backLink).then(
         clickForNewPage
       )
       await expect(exerciseGroup).toMatchElement('*', {
@@ -304,10 +304,9 @@ describe('create grouped text-exercise', () => {
     expect(success).toMatchElement('p', {
       text: 'Your revision has been saved and is available'
     })
-    const result = await getBySelector(
-      success,
-      '.page-header .fa-chevron-left'
-    ).then(clickForNewPage)
+    const result = await getBySelector(success, navigation.backLink).then(
+      clickForNewPage
+    )
     await expect(result).toHaveTitle('Math text-exercise-group')
 
     await expect(result).toMatchElement('*', { text: exercise })
