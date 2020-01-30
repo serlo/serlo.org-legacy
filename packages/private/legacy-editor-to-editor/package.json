@@ -8,6 +8,7 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
+    "@edtr-io/plugin-text": "^0.50.0",
     "@serlo/editor": "^0.5.0",
     "@serlo/markdown": "^0.0.0",
     "parse5": "^5.0.0",

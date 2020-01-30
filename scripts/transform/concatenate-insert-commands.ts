@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { LineTransform } from './LineTransformation'
+import { LineTransform } from './line-transformation'
 
 export class ConcatenateInsertCommands extends LineTransform {
   private lastTable: string = ''

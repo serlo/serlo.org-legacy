@@ -1,4 +1,4 @@
-import { StringTransform } from './StringTransformation'
+import { StringTransform } from './string-transformation'
 
 export abstract class LineTransform extends StringTransform {
   private unfinishedLine: string = ''

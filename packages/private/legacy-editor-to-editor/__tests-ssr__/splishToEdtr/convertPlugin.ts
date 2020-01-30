@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { serializer } from '@edtr-io/plugin-text'
 import { Plugin } from '@serlo/editor-plugins-registry'
 import { textPlugin as slatePlugin } from '@serlo/editor-plugin-text'
 import { convertPlugin } from '../../src/splishToEdtr/convertPlugins'
@@ -42,7 +43,7 @@ describe('plugin convert works', () => {
     }
     expect(convertPlugin(textPlugin), 'to equal', {
       plugin: 'text',
-      state: htmlToSlate(html)
+      state: serializer.serialize(htmlToSlate(html))
     })
   })
 
@@ -108,9 +109,10 @@ describe('plugin convert works', () => {
             {
               plugin: 'image',
               state: {
-                description: 'Some image description',
+                alt: 'Some image description',
+                link: undefined,
+                maxWidth: undefined,
                 src: 'https://assets.serlo.org/some/asset',
-                title: ''
               }
             }
           ]

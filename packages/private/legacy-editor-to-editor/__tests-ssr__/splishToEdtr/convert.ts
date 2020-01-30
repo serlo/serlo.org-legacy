@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { serializer } from '@edtr-io/plugin-text'
 import { Plugin } from '@serlo/editor-plugins-registry'
 
 import {
@@ -143,7 +144,7 @@ const cases: {
       state: [
         {
           plugin: 'text',
-          state: htmlToSlate('<h2 id="loremipsum">Lorem ipsum</h2>')
+          state: serializer.serialize(htmlToSlate('<h2 id="loremipsum">Lorem ipsum</h2>'))
         },
         {
           plugin: 'layout',
@@ -154,9 +155,9 @@ const cases: {
                 state: [
                   {
                     plugin: 'text',
-                    state: htmlToSlate(
+                    state: serializer.serialize(htmlToSlate(
                       '<p>dolor <strong>sit</strong> amet.</p>'
-                    )
+                    ))
                   }
                 ]
               },
@@ -168,7 +169,7 @@ const cases: {
                 state: [
                   {
                     plugin: 'text',
-                    state: htmlToSlate('<p>consecetur</p>')
+                    state: serializer.serialize(htmlToSlate('<p>consecetur</p>'))
                   }
                 ]
               },
@@ -178,12 +179,12 @@ const cases: {
         },
         {
           plugin: 'text',
-          state: htmlToSlate('<p>markdown with</p>')
+          state: serializer.serialize(htmlToSlate('<p>markdown with</p>'))
         },
         {
           plugin: 'image',
           state: {
-            description: 'image',
+            alt: 'image',
             src: 'url'
           }
         }

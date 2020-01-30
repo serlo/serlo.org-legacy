@@ -3,13 +3,10 @@ import { AddButton, styled } from '@edtr-io/editor-ui'
 import { hasFocusedDescendant } from '@edtr-io/store'
 import * as React from 'react'
 
-import {
-  Buttoncontainer,
-  explanationLabel,
-  stepLabel
-} from '../../semantic-plugin-helpers'
 import { SolutionStepsProps } from '..'
-import { SolutionElementType } from '../types'
+import { explanationLabel, stepLabel } from './guideline-texts'
+import { Buttoncontainer } from './styled-elements'
+import { SemanticPluginTypes } from '../../semantic-plugin-helpers'
 
 const OrStatement = styled.div({
   color: 'lightgrey',
@@ -39,7 +36,7 @@ export function AddButtonsComponent(
   }
   const insertExplanation = () => {
     props.state.solutionSteps.insert(props.index + 1, {
-      type: SolutionElementType.explanation,
+      type: SemanticPluginTypes.explanation,
       content: { plugin: 'rows' },
       isHalf: false
     })

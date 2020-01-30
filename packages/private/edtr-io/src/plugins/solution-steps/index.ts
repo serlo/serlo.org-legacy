@@ -9,12 +9,12 @@ import {
 } from '@edtr-io/plugin'
 
 import { SolutionStepsEditor } from './editor'
-import { SolutionElementType } from './types'
+import { SemanticPluginTypes } from '../semantic-plugin-helpers'
 
 export type SolutionStepsProps = EditorPluginProps<typeof solutionStepsState>
 
 const stepState = object({
-  type: string(SolutionElementType.step),
+  type: string(SemanticPluginTypes.step),
   isHalf: boolean(),
   content: child({ plugin: 'rows' })
 })

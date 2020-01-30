@@ -9,32 +9,26 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { SolutionStepsProps } from '.'
 import {
   AddButtonsComponent,
-  dragContent,
-  findPairs,
-  useHasFocusSelector,
-  RenderControls
-} from './helper'
-import { SolutionStepsRenderer } from './renderer'
-
-import {
-  Controls,
-  ControlButton,
+  additionalsGuideline,
+  additionalsLabel,
   Container,
   Content,
-  SemanticPluginTypes,
-  strategyLabel,
-  strategyGuideline,
+  ControlButton,
+  Controls,
+  dragContent,
   explanationGuideline,
+  findPairs,
   introductionGuideline,
   introductionLabel,
   Overlay,
+  RenderControls,
   stepGuideline,
-  additionalsGuideline,
-  additionalsLabel
-} from '../semantic-plugin-helpers'
-import { SolutionElementType } from './types'
-
-export const explanation = 'explanation'
+  strategyGuideline,
+  strategyLabel,
+  useHasFocusSelector
+} from './helper'
+import { SolutionStepsRenderer } from './renderer'
+import { SemanticPluginTypes } from '../semantic-plugin-helpers'
 
 export function SolutionStepsEditor(props: SolutionStepsProps) {
   const { state, editable } = props
@@ -152,9 +146,8 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                           <Container {...provided.draggableProps}>
                             <Content
                               type={
-                                solutionStepLeft.type.value === explanation
-                                  ? SemanticPluginTypes.explanation
-                                  : SemanticPluginTypes.step
+                                solutionStepLeft.type
+                                  .value as SemanticPluginTypes
                               }
                               isHalf={solutionStepLeft.isHalf.value}
                             >
@@ -163,9 +156,8 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                             {solutionStepRight ? (
                               <Content
                                 type={
-                                  solutionStepRight.type.value === explanation
-                                    ? SemanticPluginTypes.explanation
-                                    : SemanticPluginTypes.step
+                                  solutionStepRight.type
+                                    .value as SemanticPluginTypes
                                 }
                                 isHalf={solutionStepRight.isHalf.value}
                               >
@@ -189,7 +181,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                                     {explanationGuideline}
                                   </React.Fragment>
                                 ) : solutionStepLeft.type.value ===
-                                  SolutionElementType.explanation ? (
+                                  SemanticPluginTypes.explanation ? (
                                   explanationGuideline
                                 ) : (
                                   stepGuideline
