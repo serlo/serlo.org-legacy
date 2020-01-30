@@ -4,9 +4,12 @@ import { hasFocusedDescendant } from '@edtr-io/store'
 import * as React from 'react'
 
 import { SolutionStepsProps } from '..'
-import { explanationLabel, stepLabel } from './guideline-texts'
-import { Buttoncontainer } from './styled-elements'
-import { SemanticPluginTypes } from '../../semantic-plugin-helpers'
+import {
+  SemanticPluginTypes,
+  Buttoncontainer,
+  explanationLabel,
+  stepLabel
+} from '../../semantic-plugin-helpers'
 
 const OrStatement = styled.div({
   color: 'lightgrey',

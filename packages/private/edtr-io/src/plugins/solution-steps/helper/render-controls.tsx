@@ -6,8 +6,12 @@ import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 import * as React from 'react'
 
 import { solutionStepsState } from '..'
-import { ControlButton, Controls, DragHandler } from './styled-elements'
-import { SemanticPluginTypes } from '../../semantic-plugin-helpers'
+import {
+  SemanticPluginTypes,
+  ControlButton,
+  Controls,
+  DragHandler
+} from '../../semantic-plugin-helpers'
 
 export const RenderControls = ({
   state,

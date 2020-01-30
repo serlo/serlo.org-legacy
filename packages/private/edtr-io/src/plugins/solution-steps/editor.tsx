@@ -9,26 +9,28 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { SolutionStepsProps } from '.'
 import {
   AddButtonsComponent,
+  findPairs,
+  useHasFocusSelector,
+  dragContent,
+  RenderControls
+} from './helper'
+import { SolutionStepsRenderer } from './renderer'
+import {
+  SemanticPluginTypes,
   additionalsGuideline,
   additionalsLabel,
   Container,
   Content,
   ControlButton,
   Controls,
-  dragContent,
   explanationGuideline,
-  findPairs,
   introductionGuideline,
   introductionLabel,
   Overlay,
-  RenderControls,
   stepGuideline,
   strategyGuideline,
-  strategyLabel,
-  useHasFocusSelector
-} from './helper'
-import { SolutionStepsRenderer } from './renderer'
-import { SemanticPluginTypes } from '../semantic-plugin-helpers'
+  strategyLabel
+} from '../semantic-plugin-helpers'
 
 export function SolutionStepsEditor(props: SolutionStepsProps) {
   const { state, editable } = props
