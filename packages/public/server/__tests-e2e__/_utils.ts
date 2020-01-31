@@ -21,8 +21,9 @@
  */
 import * as assert from 'assert'
 import { printReceived, printDiffOrStringify } from 'jest-matcher-utils'
-import { ElementHandle } from 'puppeteer'
+import { ElementHandle, Cookie } from 'puppeteer'
 import { queries, getDocument } from 'pptr-testing-library'
+import * as R from 'ramda'
 import { testingServerUrl, pages } from './_config'
 
 export { getDocument } from 'pptr-testing-library'
@@ -116,7 +117,13 @@ export async function login(user: string): Promise<void> {
 }
 
 export async function logout(): Promise<void> {
-  await goto(pages.logout.path)
+  const cookies = await page.cookies(testingServerUrl)
+  const isAuthenticationCookie = (cookie: Cookie) =>
+    cookie['name'] === 'authenticated' && cookie['value'] === '1'
+
+  if (R.any(isAuthenticationCookie, cookies)) {
+    await goto(pages.logout.path)
+  }
 }
 
 export async function openDropdownMenu(topic: ElementHandle) {
