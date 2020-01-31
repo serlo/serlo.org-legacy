@@ -73,6 +73,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
           <AddButton
             title={strategyLabel}
             onClick={() => {
+              //@ts-ignore
               strategy.create()
             }}
           >
@@ -216,6 +217,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                 <AddButton
                   title={additionalsLabel}
                   onClick={() => {
+                    //@ts-ignore
                     additionals.create()
                   }}
                 >
