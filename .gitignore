@@ -84,3 +84,6 @@ docker-compose.override.yml
 
 # asdf-vm configuration file
 .tool-versions
+
+# Generated pact files
+pacts/

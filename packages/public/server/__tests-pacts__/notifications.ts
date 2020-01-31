@@ -11,8 +11,8 @@ const pactDir = path.join(root, 'pacts')
 
 describe('HTTP Contract', () => {
   const httpPact = new Pact({
-    consumer: 'serlo.org',
-    provider: 'notifications',
+    consumer: 'serlo.org:http',
+    provider: 'notifications:http',
     port: 9009,
     log: path.join(root, 'pact-http.log'),
     dir: path.join(pactDir, 'http')
@@ -77,8 +77,8 @@ describe('HTTP Contract', () => {
 
 describe('Message Contract', () => {
   const messagePact = new MessageConsumerPact({
-    consumer: 'serlo.org',
-    provider: 'notifications',
+    consumer: 'serlo.org:messages',
+    provider: 'notifications:messages',
     log: path.join(root, 'pact-message.log'),
     dir: path.join(pactDir, 'message')
   })
