@@ -27,6 +27,7 @@ import { convertPlugin } from './convertPlugins'
 export {
   LayoutPlugin,
   RowsPlugin,
+  SolutionPlugin,
   Edtr,
   Legacy,
   Splish,

@@ -2,7 +2,7 @@ import {
   rowsToSolutionSteps,
   migrateSolutionStepsState
 } from '../../src/deserialize'
-import { Edtr, RowsPlugin } from '@serlo/legacy-editor-to-editor'
+import { Edtr, SolutionPlugin } from '@serlo/legacy-editor-to-editor'
 
 test('basic example', () => {
   const rows: Edtr[] = [
@@ -283,19 +283,3 @@ test('migrate new state: more than one solution', () => {
 
   expect(migrateSolutionStepsState(oldState)).toEqual(newState)
 })
-type SolutionPlugin = {
-  plugin: 'solution'
-  state: {
-    plugin: 'solutionSteps'
-    state: {
-      introduction: Edtr
-      strategy: RowsPlugin | undefined
-      solutionSteps: {
-        type: string
-        isHalf: boolean
-        content: Edtr
-      }[]
-      additionals: RowsPlugin | undefined
-    }
-  }[]
-}

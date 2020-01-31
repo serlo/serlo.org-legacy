@@ -29,6 +29,7 @@ import {
   Legacy,
   LayoutPlugin,
   RowsPlugin,
+  SolutionPlugin,
   Splish
 } from '@serlo/legacy-editor-to-editor'
 import * as R from 'ramda'
@@ -746,23 +747,6 @@ function deserializeEditorState(
 
 type EditorState = Legacy | Splish | Edtr | undefined
 
-type SolutionPlugin = {
-  plugin: 'solution'
-  state: {
-    plugin: 'solutionSteps'
-    state: {
-      introduction: Edtr
-      strategy: RowsPlugin | undefined
-      solutionSteps: {
-        type: string
-        isHalf: boolean
-        content: Edtr
-      }[]
-      additionals: RowsPlugin | undefined
-    }
-  }[]
-}
-
 // Fake `__type` property is just here to let TypeScript distinguish between the types
 type SerializedEditorState = (string | undefined) & {
   __type: 'serialized-editor-state'
@@ -772,8 +756,8 @@ type SerializedLegacyEditorState = (string | undefined) & {
 }
 export function migrateSolutionStepsState(
   content: SolutionPlugin
-): { plugin: 'solution'; state: unknown } {
-  const solutions = (content as SolutionPlugin).state
+): SolutionPlugin {
+  const solutions = content.state
   const newState = solutions.map(solution => {
     return {
       plugin: 'solutionSteps',
@@ -802,7 +786,7 @@ export function migrateSolutionStepsState(
       }
     }
   })
-  return { plugin: 'solution', state: newState }
+  return { plugin: 'solution', state: newState } as SolutionPlugin
 }
 export function rowsToSolutionSteps(rows: Edtr[]) {
   const solutionSteps: { type: string; isHalf: boolean; content: Edtr }[] = []

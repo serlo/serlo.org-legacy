@@ -59,12 +59,29 @@ export function isContentCell(cell: Cell): cell is ContentCell {
 
 type SplishPlugin = { name: Plugin | 'code'; version?: string }
 
-export type Edtr = RowsPlugin | LayoutPlugin | OtherPlugin
+export type Edtr = RowsPlugin | LayoutPlugin | SolutionPlugin | OtherPlugin
 
 export type RowsPlugin = { plugin: 'rows'; state: Edtr[] }
 export type LayoutPlugin = {
   plugin: 'layout'
   state: { child: Edtr; width: number }[]
+}
+
+export type SolutionPlugin = {
+  plugin: 'solution'
+  state: {
+    plugin: 'solutionSteps'
+    state: {
+      introduction: Edtr
+      strategy: RowsPlugin | undefined
+      solutionSteps: {
+        type: string
+        isHalf: boolean
+        content: Edtr
+      }[]
+      additionals: RowsPlugin | undefined
+    }
+  }[]
 }
 
 export type OtherPlugin = {
@@ -80,7 +97,6 @@ export type OtherPlugin = {
     | 'inputExercise'
     | 'spoiler'
     | 'scMcExercise'
-    | 'solution'
     | 'solutionSteps'
     | 'table'
     | 'text'
