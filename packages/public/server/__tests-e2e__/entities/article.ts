@@ -68,24 +68,14 @@ test('view article (old editor)', async () => {
   await expect(description).toHaveHTMLContent(content)
 })
 
-describe('Convert legacy article', () => {
-  afterEach(async () => {
-    page.on('dialog', dialog => {
-      if (dialog.type() === 'beforeunload') {
-        dialog.accept()
-      }
-    })
-  })
-
-  test('convert article', async () => {
-    await login('admin')
-    const path =
-      '/math/example-content/example-topic-1/example-article-(old-editor)'
-    const page = await goto(path)
-    const editPage = await elements.getEditButton(page).then(clickForNewPage)
-    await expect(editPage).toMatchElement('*', { text: 'Hello World! 42' })
-    await expect(editPage).toMatchElement('strong', { text: 'World' })
-  })
+test('convert legacy article', async () => {
+  await login('admin')
+  const path =
+    '/math/example-content/example-topic-1/example-article-(old-editor)'
+  const page = await goto(path)
+  const editPage = await elements.getEditButton(page).then(clickForNewPage)
+  await expect(editPage).toMatchElement('*', { text: 'Hello World! 42' })
+  await expect(editPage).toMatchElement('strong', { text: 'World' })
 })
 
 describe('create article', () => {

@@ -31,6 +31,15 @@ import {
 
 setTimeout(60)
 
+beforeAll(() => {
+  page.on('dialog', dialog => {
+    if (dialog.type() === 'beforeunload') {
+      dialog.accept()
+    }
+  })
+})
+
+
 afterEach(async () => {
   await logout()
 })
