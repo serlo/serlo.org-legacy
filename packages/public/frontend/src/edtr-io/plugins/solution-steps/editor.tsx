@@ -9,26 +9,28 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { SolutionStepsProps } from '.'
 import {
   AddButtonsComponent,
+  dragContent,
+  findPairs,
+  RenderControls,
+  useHasFocusSelector
+} from './helper'
+import { SolutionStepsRenderer } from './renderer'
+import {
   additionalsGuideline,
   additionalsLabel,
   Container,
   Content,
   ControlButton,
   Controls,
-  dragContent,
   explanationGuideline,
-  findPairs,
   introductionGuideline,
   introductionLabel,
   Overlay,
-  RenderControls,
   stepGuideline,
   strategyGuideline,
   strategyLabel,
-  useHasFocusSelector
-} from './helper'
-import { SolutionStepsRenderer } from './renderer'
-import { SolutionElementType } from './types'
+  SemanticPluginTypes
+} from '../semantic-plugin-helpers'
 
 export function SolutionStepsEditor(props: SolutionStepsProps) {
   const { state, editable } = props
@@ -44,7 +46,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
   return editable && pluginFocused ? (
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
-        <Content type={SolutionElementType.introduction} boxfree>
+        <Content type={SemanticPluginTypes.introduction} boxfree>
           {state.introduction.render({
             config: { placeholder: introductionLabel }
           })}
@@ -71,6 +73,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
           <AddButton
             title={strategyLabel}
             onClick={() => {
+              //@ts-ignore
               strategy.create()
             }}
           >
@@ -80,7 +83,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
       </React.Fragment>
       {strategy.defined ? (
         <div style={{ position: 'relative' }}>
-          <Content type={SolutionElementType.strategy}>
+          <Content type={SemanticPluginTypes.strategy}>
             {strategy.render()}
           </Content>
           <Controls
@@ -146,7 +149,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                             <Content
                               type={
                                 solutionStepLeft.type
-                                  .value as SolutionElementType
+                                  .value as SemanticPluginTypes
                               }
                               isHalf={solutionStepLeft.isHalf.value}
                             >
@@ -156,7 +159,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                               <Content
                                 type={
                                   solutionStepRight.type
-                                    .value as SolutionElementType
+                                    .value as SemanticPluginTypes
                                 }
                                 isHalf={solutionStepRight.isHalf.value}
                               >
@@ -180,7 +183,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                                     {explanationGuideline}
                                   </React.Fragment>
                                 ) : solutionStepLeft.type.value ===
-                                  SolutionElementType.explanation ? (
+                                  SemanticPluginTypes.explanation ? (
                                   explanationGuideline
                                 ) : (
                                   stepGuideline
@@ -214,6 +217,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                 <AddButton
                   title={additionalsLabel}
                   onClick={() => {
+                    //@ts-ignore
                     additionals.create()
                   }}
                 >
@@ -222,7 +226,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
               )}
               {additionals.defined ? (
                 <div style={{ position: 'relative' }}>
-                  <Content type={SolutionElementType.additionals}>
+                  <Content type={SemanticPluginTypes.additionals}>
                     {additionals.render()}
                   </Content>
                   <Controls>

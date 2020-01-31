@@ -2,11 +2,8 @@ import { Icon } from '@edtr-io/ui'
 import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons/faLevelUpAlt'
 import * as React from 'react'
 
-import {
-  BackgroundSymbol,
-  getIcon,
-  SemanticPluginTypes
-} from './styled-elements'
+import { BackgroundSymbol, getIcon } from './styled-elements'
+import { SemanticPluginTypes } from './types'
 
 export const stepLabel =
   'Ein Bestandteil der Lösung, der zur Lösung der Aufgabe aufgeschrieben werden muss'

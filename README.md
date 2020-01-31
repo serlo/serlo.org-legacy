@@ -38,7 +38,7 @@ On Windows, please add
 to your `C:\Windows\System32\drivers\etc\hosts.txt` file. Then run `ipconfig /flushdns` in cmd.exe and
 restart your browser.
 
-On macOS:
+On macOS / Unix:
 
 ```sh
 $ sudo nano /etc/hosts
@@ -64,7 +64,9 @@ Now, open [http://de.serlo.localhost:4567](http://de.serlo.localhost:4567). Happ
 
 ### Testuser
 
-You can use the following users at [http://de.serlo.localhost:4567](http://de.serlo.localhost:4567). Their names correspondend to the roles they have:
+You can use the following users at [http://de.serlo.localhost:4567](http://de.serlo.localhost:4567).
+The password for all users is `123456`.
+Their names correspondend to the roles they have:
 
 - `login`
 - `german_reviewer`

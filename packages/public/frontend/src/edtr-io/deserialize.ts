@@ -552,7 +552,7 @@ export function deserialize({
                     introduction: (content as RowsPlugin).state[0],
                     strategy: undefined,
                     solutionSteps: rowsToSolutionSteps(
-                      R.init((content as RowsPlugin).state)
+                      R.tail((content as RowsPlugin).state)
                     ),
                     additionals: undefined
                   }

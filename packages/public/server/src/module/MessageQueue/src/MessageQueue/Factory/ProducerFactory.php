@@ -2,7 +2,7 @@
 /**
  * This file is part of Serlo.org.
  *
- * Copyright (c) 2013-2020 Serlo Education e.V.
+ * Copyright (c) 2013-2019 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -16,33 +16,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2019 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Entity\Factory;
 
-use Entity\Controller\ApiController;
-use Zend\ServiceManager\AbstractPluginManager;
+namespace MessageQueue\Factory;
+
+use FeatureFlags\Service;
+use MessageQueue\Producer;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ApiControllerFactory implements FactoryInterface
+class ProducerFactory implements FactoryInterface
 {
     /**
-     * Create service
-     *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return Producer
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /* @var $serviceLocator AbstractPluginManager */
-        $serviceManager = $serviceLocator->getServiceLocator();
-        $entityManager  = $serviceManager->get('Entity\Manager\EntityManager');
-        $normalizer     = $serviceManager->get('Normalizer\Normalizer');
-        $renderService  = $serviceManager->get('Renderer\Renderer');
-        $moduleOptions = $serviceManager->get('Entity\Options\ModuleOptions');
-        return new ApiController($entityManager, $normalizer, $renderService, $moduleOptions);
+        $config = $serviceLocator->get('Config')['message_queue'];
+        /* @var Service $featureFlags */
+        $featureFlags = $serviceLocator->get(Service::class);
+        if ($featureFlags->isEnabled('message-queue')) {
+            return new Producer($config['host']);
+        } else {
+            return new Producer(null);
+        }
     }
 }

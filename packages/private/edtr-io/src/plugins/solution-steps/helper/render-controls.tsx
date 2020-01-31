@@ -5,13 +5,13 @@ import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons/faLevelUpAlt'
 import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 import * as React from 'react'
 
+import { solutionStepsState } from '..'
 import {
-  Controls,
+  SemanticPluginTypes,
   ControlButton,
+  Controls,
   DragHandler
 } from '../../semantic-plugin-helpers'
-import { solutionStepsState } from '..'
-import { SolutionElementType } from '../types'
 
 export const RenderControls = ({
   state,
@@ -58,9 +58,9 @@ export const RenderControls = ({
       </DragHandler>
       {currentElement.isHalf.value ||
       (index > 0 &&
-        currentElement.type.value === SolutionElementType.explanation &&
+        currentElement.type.value === SemanticPluginTypes.explanation &&
         solutionSteps[index - 1].type.value !==
-          SolutionElementType.explanation) ? (
+          SemanticPluginTypes.explanation) ? (
         <ControlButton
           onMouseDown={() => {
             if (currentElement.isHalf.value) {

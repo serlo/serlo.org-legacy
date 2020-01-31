@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { serializer } from '@edtr-io/plugin-text'
 import { Plugin } from '@serlo/editor-plugins-registry'
 
 import {
@@ -172,7 +173,7 @@ const cases: {
       state: [
         {
           plugin: 'text',
-          state: htmlToSlate('<p>This was created with <strong>Splish</strong> editor.</p><p></p><ul><li><p>foo</p></li><li><p>bar</p></li></ul>')
+          state: serializer.serialize(htmlToSlate('<p>This was created with <strong>Splish</strong> editor.</p><p></p><ul><li><p>foo</p></li><li><p>bar</p></li></ul>'))
         },
       ]
     }

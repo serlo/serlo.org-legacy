@@ -20,32 +20,33 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace CommonTest;
+namespace MessageQueue;
 
-use Common\Utils;
-use PHPUnit\Framework\TestCase;
-
-class UtilsTest extends TestCase
+class Module
 {
-    public function testArrayFlatmap()
+    public function getConfig()
     {
-        $double = function ($x) {
-            return [$x, $x];
-        };
-
-        $this->assertEquals(Utils::array_flatmap($double, []), []);
-        $this->assertEquals(Utils::array_flatmap($double, [1]), [1, 1]);
-        $this->assertEquals(Utils::array_flatmap($double, [1]), [1, 1]);
-        $this->assertEquals(Utils::array_flatmap($double, [1, 2]), [1, 1, 2, 2]);
-        $this->assertEquals(
-            Utils::array_flatmap($double, ["x", true, 42]),
-            ["x", "x", true, true, 42, 42]
-        );
+        return include __DIR__ . '/config/module.config.php';
     }
 
-    public function testArrayFlatmapEmptySet()
+    public function getAutoloaderConfig()
     {
-        $this->assertEquals(Utils::array_flatmap(function () {
-        }, []), []);
+        $autoloader = [];
+
+        $autoloader['Zend\Loader\StandardAutoloader'] = [
+            'namespaces' => [
+                __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+            ],
+        ];
+
+        if (file_exists(__DIR__ . '/autoload_classmap.php')) {
+            return [
+                'Zend\Loader\ClassMapAutoloader' => [
+                    __DIR__ . '/autoload_classmap.php',
+                ],
+            ];
+        }
+
+        return $autoloader;
     }
 }

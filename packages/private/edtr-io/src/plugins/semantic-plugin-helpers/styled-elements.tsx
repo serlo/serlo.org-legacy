@@ -7,6 +7,7 @@ import { faPencilRuler } from '@fortawesome/free-solid-svg-icons/faPencilRuler'
 import { faSearchPlus } from '@fortawesome/free-solid-svg-icons/faSearchPlus'
 import * as React from 'react'
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit'
+import { SemanticPluginTypes } from './types'
 
 export const Buttoncontainer = styled.div({
   display: 'flex',
@@ -42,14 +43,6 @@ export const BackgroundSymbol = styled.div({
   transform: 'translate(-15px, 10px)',
   zIndex: 0
 })
-export enum SemanticPluginTypes {
-  introduction,
-  strategy,
-  explanation,
-  step,
-  additionals,
-  exercise
-}
 
 export function getIcon(type: SemanticPluginTypes, size: any) {
   switch (type) {
