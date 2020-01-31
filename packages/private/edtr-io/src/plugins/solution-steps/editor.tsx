@@ -46,7 +46,6 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
   return editable && pluginFocused ? (
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
-        {/* TODO: refactor Content-Container -> hand icon down via config? */}
         <Content type={SemanticPluginTypes.introduction} boxfree>
           {state.introduction.render({
             config: { placeholder: introductionLabel }

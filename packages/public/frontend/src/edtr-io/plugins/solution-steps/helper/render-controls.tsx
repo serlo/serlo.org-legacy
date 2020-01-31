@@ -6,8 +6,12 @@ import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 import * as React from 'react'
 
 import { solutionStepsState } from '..'
-import { ControlButton, Controls, DragHandler } from './styled-elements'
-import { SolutionElementType } from '../types'
+import {
+  ControlButton,
+  Controls,
+  DragHandler,
+  SemanticPluginTypes
+} from '../../semantic-plugin-helpers'
 
 export const RenderControls = ({
   state,
@@ -54,9 +58,9 @@ export const RenderControls = ({
       </DragHandler>
       {currentElement.isHalf.value ||
       (index > 0 &&
-        currentElement.type.value === SolutionElementType.explanation &&
+        currentElement.type.value === SemanticPluginTypes.explanation &&
         solutionSteps[index - 1].type.value !==
-          SolutionElementType.explanation) ? (
+          SemanticPluginTypes.explanation) ? (
         <ControlButton
           onMouseDown={() => {
             if (currentElement.isHalf.value) {
