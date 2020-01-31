@@ -27,7 +27,6 @@ import {
   getAllByText,
   goto,
   login,
-  logout,
   randomText,
   isVisible,
   saveRevision,
@@ -76,6 +75,7 @@ describe('view exercises', () => {
       }
     ]
   }
+
   beforeEach(async () => {
     await page.setViewport(viewports.desktop)
   })
@@ -197,10 +197,6 @@ describe('view exercises', () => {
 })
 
 describe('create text-exercise', () => {
-  afterEach(async () => {
-    await logout()
-  })
-
   test.each(['admin', 'english_langhelper'])('user is %p', async user => {
     const exercise = randomText('exercise content')
     const hint = randomText('hint')
@@ -235,9 +231,6 @@ describe('create text-exercise', () => {
 })
 
 describe('create grouped text-exercise', () => {
-  afterEach(async () => {
-    await logout()
-  })
   test.each(['admin', 'english_langhelper'])('user is %p', async user => {
     const exercise = randomText('exercise content')
     const subexercise1 = randomText('subexercise1')

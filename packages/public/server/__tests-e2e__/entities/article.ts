@@ -26,7 +26,6 @@ import {
   goto,
   getBySelector,
   login,
-  logout,
   randomText,
   getByPlaceholderText,
   saveRevision,
@@ -76,7 +75,6 @@ describe('Convert legacy article', () => {
         dialog.accept()
       }
     })
-    await logout()
   })
 
   test('convert article', async () => {
@@ -90,37 +88,29 @@ describe('Convert legacy article', () => {
   })
 })
 
-describe('create/update articles', () => {
-  afterEach(async () => {
-    await logout()
-  })
+describe('create article', () => {
+  test.each(['admin', 'english_langhelper'])('user is %p', async user => {
+    const title = randomText('article')
+    const content = randomText()
 
-  describe('create article', () => {
-    test.each(['admin', 'english_langhelper'])('user is %p', async user => {
-      const title = randomText('article')
-      const content = randomText()
+    await login(user)
+    const topic = await goto(pages.e2eTopic.path)
+    const createPage = await openDropdownMenu(topic).then(addContent('article'))
 
-      await login(user)
-      const topic = await goto(pages.e2eTopic.path)
-      const createPage = await openDropdownMenu(topic).then(
-        addContent('article')
-      )
+    await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 
-      await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+    const contentField = await getByItemProp(createPage, 'articleBody')
+    await contentField.click()
+    await contentField.type(content)
 
-      const contentField = await getByItemProp(createPage, 'articleBody')
-      await contentField.click()
-      await contentField.type(content)
+    const success = await saveRevision(createPage)
+    await expect(success).toHaveSystemNotification(
+      notifications.savedAndCheckedOut
+    )
 
-      const success = await saveRevision(createPage)
-      await expect(success).toHaveSystemNotification(
-        notifications.savedAndCheckedOut
-      )
+    await expect(success).toHaveTitle(title)
 
-      await expect(success).toHaveTitle(title)
-
-      await expect(success).toMatchElement('h1', { text: title })
-      await expect(success).toMatchElement('*', { text: content })
-    })
+    await expect(success).toMatchElement('h1', { text: title })
+    await expect(success).toMatchElement('*', { text: content })
   })
 })

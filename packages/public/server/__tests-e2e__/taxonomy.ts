@@ -31,13 +31,8 @@ import {
   click,
   clickForNewPage,
   login,
-  logout,
   randomText
 } from './_utils'
-
-afterEach(async () => {
-  await logout()
-})
 
 test('view topic page with subtopics', async () => {
   const topic = await goto('/math/example-content').then(getMainContent)

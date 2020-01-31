@@ -6,7 +6,6 @@ import {
   getByRole,
   goto,
   login,
-  logout,
   randomText,
   getByItemType,
   saveRevision,
@@ -34,46 +33,37 @@ test('view course', async () => {
   await expect(course).toMatchElement('a', { text: page2Title })
 })
 
-describe('create/update course', () => {
-  afterEach(async () => {
-    await logout()
-  })
+test('create course with course page', async () => {
+  await page.setViewport(viewports.desktop)
+  const user = 'admin'
 
-  test('create course with course page', async () => {
-    await page.setViewport(viewports.desktop)
-    const user = 'admin'
+  const title = randomText('course')
+  const coursePageTitle = randomText('course-page')
+  const coursePageContent = randomText()
 
-    const title = randomText('course')
-    const coursePageTitle = randomText('course-page')
-    const coursePageContent = randomText()
+  await login(user)
+  const topic = await goto(pages.e2eTopic.path)
+  const createPage = await openDropdownMenu(topic).then(addContent('course'))
 
-    await login(user)
-    const topic = await goto(pages.e2eTopic.path)
-    const createPage = await openDropdownMenu(topic).then(addContent('course'))
+  await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 
-    await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+  await getByText(createPage, 'Kursseite hinzufügen').then(click)
 
-    await getByText(createPage, 'Kursseite hinzufügen').then(click)
+  const coursePage = await getBySelector(createPage, '#editor article article')
+  await getByPlaceholderText(coursePage, 'Titel').then(e =>
+    e.type(coursePageTitle)
+  )
 
-    const coursePage = await getBySelector(
-      createPage,
-      '#editor article article'
-    )
-    await getByPlaceholderText(coursePage, 'Titel').then(e =>
-      e.type(coursePageTitle)
-    )
+  const coursePageContentField = await getByRole(coursePage, 'textbox')
+  await coursePageContentField.click()
+  await coursePageContentField.type(coursePageContent)
 
-    const coursePageContentField = await getByRole(coursePage, 'textbox')
-    await coursePageContentField.click()
-    await coursePageContentField.type(coursePageContent)
+  const success = await saveRevision(createPage)
+  await expect(success).toHaveSystemNotification(
+    notifications.savedAndCheckedOut
+  )
 
-    const success = await saveRevision(createPage)
-    await expect(success).toHaveSystemNotification(
-      notifications.savedAndCheckedOut
-    )
-
-    await expect(success).toMatchElement('h1', { text: coursePageTitle })
-    await expect(success).toMatchElement('*', { text: coursePageContent })
-    await expect(success).toHaveTitle(`${title} | ${coursePageTitle} (course)`)
-  })
+  await expect(success).toMatchElement('h1', { text: coursePageTitle })
+  await expect(success).toMatchElement('*', { text: coursePageContent })
+  await expect(success).toHaveTitle(`${title} | ${coursePageTitle} (course)`)
 })

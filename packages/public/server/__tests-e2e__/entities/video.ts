@@ -24,7 +24,6 @@ import {
   goto,
   getBySelector,
   login,
-  logout,
   randomText,
   getByPlaceholderText,
   saveRevision,
@@ -70,50 +69,44 @@ describe('view video page', () => {
   )
 })
 
-describe('create/update video pages', () => {
-  afterEach(async () => {
-    await logout()
-  })
+describe('create video page', () => {
+  test.each(['admin', 'english_langhelper'])('user is %p', async user => {
+    const title = randomText('video')
+    const description = randomText()
+    const youtubeId = '2OjVWmAr5gE'
 
-  describe('create video page', () => {
-    test.each(['admin', 'english_langhelper'])('user is %p', async user => {
-      const title = randomText('video')
-      const description = randomText()
-      const youtubeId = '2OjVWmAr5gE'
+    await login(user)
+    const topic = await goto(pages.e2eTopic.path)
+    const createPage = await openDropdownMenu(topic).then(addContent('video'))
 
-      await login(user)
-      const topic = await goto(pages.e2eTopic.path)
-      const createPage = await openDropdownMenu(topic).then(addContent('video'))
+    await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 
-      await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+    const videoUrlField = await getBySelector(
+      createPage,
+      '#editor article section:nth-child(1)'
+    )
+    await videoUrlField.click()
+    await videoUrlField.type(`https://www.youtube.com/watch?v=${youtubeId}`)
 
-      const videoUrlField = await getBySelector(
-        createPage,
-        '#editor article section:nth-child(1)'
-      )
-      await videoUrlField.click()
-      await videoUrlField.type(`https://www.youtube.com/watch?v=${youtubeId}`)
+    const descriptionField = await getBySelector(
+      createPage,
+      '#editor article section:nth-child(2)'
+    )
+    await descriptionField.click()
+    await descriptionField.click()
+    await descriptionField.type(description)
 
-      const descriptionField = await getBySelector(
-        createPage,
-        '#editor article section:nth-child(2)'
-      )
-      await descriptionField.click()
-      await descriptionField.click()
-      await descriptionField.type(description)
+    const success = await saveRevision(createPage)
+    await expect(success).toHaveSystemNotification(
+      notifications.savedAndCheckedOut
+    )
 
-      const success = await saveRevision(createPage)
-      await expect(success).toHaveSystemNotification(
-        notifications.savedAndCheckedOut
-      )
+    await expect(success).toMatchElement('h1', { text: title })
+    await expect(success).toMatchElement('*', { text: description })
+    await expect(success).toHaveTitle(`${title} (video)`)
 
-      await expect(success).toMatchElement('h1', { text: title })
-      await expect(success).toMatchElement('*', { text: description })
-      await expect(success).toHaveTitle(`${title} (video)`)
-
-      const iframe = await getBySelector(success, 'iframe')
-      const embedUrl = `https://www.youtube-nocookie.com/embed/${youtubeId}?html5=1`
-      await expect(iframe).toHaveAttribute('src', embedUrl)
-    })
+    const iframe = await getBySelector(success, 'iframe')
+    const embedUrl = `https://www.youtube-nocookie.com/embed/${youtubeId}?html5=1`
+    await expect(iframe).toHaveAttribute('src', embedUrl)
   })
 })

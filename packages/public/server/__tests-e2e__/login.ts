@@ -26,14 +26,9 @@ import {
   getBySelector,
   getByText,
   goto,
-  logout
 } from './_utils'
 
 const examplePages = ['/', '/math', '/math/geometry/triangles']
-
-afterEach(async () => {
-  await logout()
-})
 
 describe('login process', () => {
   describe.each(users)('user is %p', user => {

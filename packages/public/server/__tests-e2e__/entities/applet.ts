@@ -24,7 +24,6 @@ import {
   goto,
   getBySelector,
   login,
-  logout,
   randomText,
   getByPlaceholderText,
   saveRevision,
@@ -52,51 +51,45 @@ test('view example applet page', async () => {
   await expect(iframe).toHaveAttribute('src', geogebraUrl)
 })
 
-describe('create/update applet pages', () => {
-  afterEach(async () => {
-    await logout()
-  })
+test('create applet page', async () => {
+  await page.setViewport(viewports.desktop)
+  const user = 'admin'
 
-  test('create applet page', async () => {
-    await page.setViewport(viewports.desktop)
-    const user = 'admin'
+  const title = randomText('applet')
+  const description = randomText()
+  const appletId = 'kWgUBF2y'
 
-    const title = randomText('applet')
-    const description = randomText()
-    const appletId = 'kWgUBF2y'
+  await login(user)
+  const topic = await goto(pages.e2eTopic.path)
+  const createPage = await openDropdownMenu(topic).then(addContent('applet'))
 
-    await login(user)
-    const topic = await goto(pages.e2eTopic.path)
-    const createPage = await openDropdownMenu(topic).then(addContent('applet'))
+  await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
 
-    await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+  const appletUrlField = await getBySelector(
+    createPage,
+    '#editor article > div:nth-child(1) > div > div'
+  )
+  await appletUrlField.click()
+  await appletUrlField.type(`https://www.geogebra.org/m/${appletId}`)
 
-    const appletUrlField = await getBySelector(
-      createPage,
-      '#editor article > div:nth-child(1) > div > div'
-    )
-    await appletUrlField.click()
-    await appletUrlField.type(`https://www.geogebra.org/m/${appletId}`)
+  const descriptionField = await getBySelector(
+    createPage,
+    '#editor article > div:nth-child(2) > div > div'
+  )
+  await descriptionField.click()
+  await descriptionField.click()
+  await descriptionField.type(description)
 
-    const descriptionField = await getBySelector(
-      createPage,
-      '#editor article > div:nth-child(2) > div > div'
-    )
-    await descriptionField.click()
-    await descriptionField.click()
-    await descriptionField.type(description)
+  const success = await saveRevision(createPage)
+  await expect(success).toHaveSystemNotification(
+    notifications.savedAndCheckedOut
+  )
 
-    const success = await saveRevision(createPage)
-    await expect(success).toHaveSystemNotification(
-      notifications.savedAndCheckedOut
-    )
+  await expect(success).toMatchElement('h1', { text: title })
+  await expect(success).toMatchElement('*', { text: description })
+  await expect(success).toHaveTitle(`${title} (applet)`)
 
-    await expect(success).toMatchElement('h1', { text: title })
-    await expect(success).toMatchElement('*', { text: description })
-    await expect(success).toHaveTitle(`${title} (applet)`)
-
-    const iframe = await getBySelector(success, 'iframe')
-    const embedUrl = `https://www.geogebra.org/material/iframe/id/${appletId}`
-    await expect(iframe).toHaveAttribute('src', embedUrl)
-  })
+  const iframe = await getBySelector(success, 'iframe')
+  const embedUrl = `https://www.geogebra.org/material/iframe/id/${appletId}`
+  await expect(iframe).toHaveAttribute('src', embedUrl)
 })

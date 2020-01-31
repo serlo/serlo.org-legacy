@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import {
+  logout,
   toHaveAttribute,
   toHaveHTMLContent,
   toHaveTitle,
@@ -29,6 +30,10 @@ import {
 } from './packages/public/server/__tests-e2e__/_utils'
 
 setTimeout(60)
+
+afterEach(async () => {
+  await logout()
+})
 
 expect.extend({
   toHaveAttribute,
