@@ -9,6 +9,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@pact-foundation/pact": "^9.0.0",
     "@serlo/docker": "^0.0.0",
     "@types/expect-puppeteer": "^3.0.0",
     "@types/jest-environment-puppeteer": "^4.0.0",
