@@ -1,9 +1,0 @@
-name = "serlo"
-type = "webpack"
-account_id = "3bfabc4463c2c3c340f7301d22ed18c0"
-zone_id = "1a4afa776acb2e40c3c8a135248328ae"
-route = "*serlo.org/*"
-webpack_config = "webpack.config.js"
-kv-namespaces = [
-    { binding = "PACKAGES_KV", id = "19f90dc8e6ff49cd8bc42f51346409be" }
-]

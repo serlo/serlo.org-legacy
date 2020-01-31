@@ -32,7 +32,7 @@ return [
     'assets' => array_merge(
         [
             'assets_host' => 'https://packages.serlo.org/serlo-org-static-assets@1/',
-            'bundle_host' => 'https://packages.serlo.org/serlo-org-client@7/',
+            'bundle_host' => 'https://packages.serlo.org/serlo-org-client@8/',
         ],
         $assets
     ),
@@ -44,6 +44,9 @@ return [
 
     // (KeyValueStore Module)
     'key_value_store' => $keyValueStore,
+
+    // (MessageQueue Module)
+    'message_queue' => $messageQueue,
 
     // Branding, one entry per instance (Ui Module)
     'brand' => [

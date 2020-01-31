@@ -19,24 +19,12 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Editor } from '@serlo/edtr-io'
-import { storiesOf } from '@storybook/react'
-import * as React from 'react'
-
-import { Container, mockSave } from './helpers'
-
-const ccBy = {
-  agreement:
-    'Mit dem Speichern dieser Seite versicherst du, dass du deinen Beitrag (damit sind auch Änderungen gemeint) selbst verfasst hast bzw. dass er keine fremden Rechte verletzt. Du willigst ein, deinen Beitrag unter der <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution/Share-Alike Lizenz 4.0</a> (http://creativecommons.org/licenses/by-sa/4.0/) und/oder unter einer gleichwertigen Lizenz zu veröffentlichen, welche die Gesellschaft für freie Bildung e. V. entsprechend der Regelungen in den <a href="/21654">Nutzungsbedingungen</a> (http://de.serlo.org/21654) festlegen darf. Falls du den Beitrag nicht selbst verfasst hast, muss er unter den <a href="/21654">Nutzungsbedingungen</a> (http://de.serlo.org/21654) verfügbar sein und du stimmst zu, notwendigen Lizenzanforderungen zu folgen.',
-  iconHref: 'https://i.creativecommons.org/l/by-sa/4.0/88x31.png',
-  id: 1,
-  title: 'Dieses Werk steht unter der freien Lizenz cc-by-sa-4.0',
-  url: 'https://creativecommons.org/licenses/by-sa/4.0/'
-}
+import { license } from './fixtures'
+import { addContentTypeStories } from './helpers'
 
 addContentTypeStories('Applet', 'applet', {
   id: 1337,
-  license: ccBy,
+  license,
   changes: '',
   title: 'Title',
   url: '',
@@ -48,7 +36,7 @@ addContentTypeStories('Applet', 'applet', {
 
 addContentTypeStories('Article', 'article', {
   id: 1337,
-  license: ccBy,
+  license,
   changes: '',
   title: 'Title',
   content: '',
@@ -59,7 +47,7 @@ addContentTypeStories('Article', 'article', {
 
 addContentTypeStories('Course', 'course', {
   id: 1337,
-  license: ccBy,
+  license,
   changes: '',
   title: 'Title',
   reasoning: '',
@@ -67,7 +55,7 @@ addContentTypeStories('Course', 'course', {
   'course-page': [
     {
       id: 1338,
-      license: ccBy,
+      license,
       changes: '',
       title: 'Page 1',
       icon: 'explanation',
@@ -75,7 +63,7 @@ addContentTypeStories('Course', 'course', {
     },
     {
       id: 1339,
-      license: ccBy,
+      license,
       changes: '',
       title: 'Page 2',
       icon: 'explanation',
@@ -86,7 +74,7 @@ addContentTypeStories('Course', 'course', {
 
 addContentTypeStories('Course Page', 'course-page', {
   id: 1337,
-  license: ccBy,
+  license,
   changes: '',
   title: 'Title',
   icon: 'explanation',
@@ -95,7 +83,7 @@ addContentTypeStories('Course Page', 'course-page', {
 
 addContentTypeStories('Event', 'event', {
   id: 1337,
-  license: ccBy,
+  license,
   changes: '',
   title: 'Title',
   content: '',
@@ -105,7 +93,7 @@ addContentTypeStories('Event', 'event', {
 
 addContentTypeStories('Math Puzzle', 'math-puzzle', {
   id: 1337,
-  license: ccBy,
+  license,
   changes: '',
   content: '',
   source: ''
@@ -113,7 +101,7 @@ addContentTypeStories('Math Puzzle', 'math-puzzle', {
 
 addContentTypeStories('Page', 'page', {
   id: 1337,
-  license: ccBy,
+  license,
   title: 'Title',
   content: ''
 })
@@ -123,7 +111,7 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
     name: 'default',
     state: {
       id: 1337,
-      license: ccBy,
+      license,
       changes: '',
       content: ''
     }
@@ -132,12 +120,12 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
     name: 'w/ solution',
     state: {
       id: 1337,
-      license: ccBy,
+      license,
       changes: '',
       content: '',
       'text-solution': {
         id: 1338,
-        license: ccBy,
+        license,
         content: ''
       }
     }
@@ -146,18 +134,18 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
     name: 'w/ solution and hint',
     state: {
       id: 1337,
-      license: ccBy,
+      license,
       changes: '',
       content: '',
       'text-hint': {
         id: 1338,
-        license: ccBy,
+        license,
         changes: '',
         content: ''
       },
       'text-solution': {
         id: 1339,
-        license: ccBy,
+        license,
         changes: '',
         content: ''
       }
@@ -167,42 +155,42 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
 
 addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
   id: 1337,
-  license: ccBy,
+  license,
   changes: '',
   content: '',
   'grouped-text-exercise': [
     {
       id: 1338,
-      license: ccBy,
+      license,
       changes: '',
       content: ''
     },
     {
       id: 1339,
-      license: ccBy,
+      license,
       changes: '',
       content: '',
       'text-solution': {
         id: 1340,
-        license: ccBy,
+        license,
         changes: '',
         content: ''
       }
     },
     {
       id: 1341,
-      license: ccBy,
+      license,
       changes: '',
       content: '',
       'text-hint': {
         id: 1342,
-        license: ccBy,
+        license,
         changes: '',
         content: ''
       },
       'text-solution': {
         id: 1343,
-        license: ccBy,
+        license,
         changes: '',
         content: ''
       }
@@ -217,7 +205,7 @@ addContentTypeStories('User', 'user', {
 
 addContentTypeStories('Video', 'video', {
   id: 1337,
-  license: ccBy,
+  license,
   title: 'Title',
   description: '',
   content: 'https://www.youtube.com/watch?v=cIzM2XBduuY'
@@ -233,33 +221,3 @@ addContentTypeStories('Taxonomy', 'taxonomy', {
   position: 3,
   description: ''
 })
-
-function addContentTypeStories(
-  name: string,
-  type: string,
-  initialState: unknown | { name: string; state: unknown }[]
-) {
-  const stories = storiesOf(`Content Types/${name}`, module)
-  const initialStates = (initialState as {
-    name: string
-    state: unknown
-  }[]).length
-    ? (initialState as { name: string; state: unknown }[])
-    : [{ name: '', state: initialState }]
-
-  initialStates.forEach(({ name, state }) => {
-    stories.add(`${name} Editor`, () => {
-      return (
-        <Container>
-          <Editor
-            getCsrfToken={() => ''}
-            type={type}
-            initialState={state}
-            onSave={mockSave}
-            mayCheckout
-          />
-        </Container>
-      )
-    })
-  })
-}

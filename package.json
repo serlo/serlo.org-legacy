@@ -9,7 +9,6 @@
   "author": "Serlo Education e.V.",
   "scripts": {
     "build": "lerna run --stream build",
-    "deploy:cloudflare": "lerna run --stream deploy:cloudflare --concurrency 1",
     "deploy:images": "lerna run --stream deploy:image",
     "predeploy:packages": "lerna run --stream build --scope=@serlo/{client,frontend,static-assets} --include-filtered-dependencies",
     "deploy:packages": "lerna run --stream deploy:package",

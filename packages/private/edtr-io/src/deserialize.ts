@@ -20,11 +20,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { StateType, StateTypeSerializedType } from '@edtr-io/plugin'
+import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
+import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import {
   convert,
   isEdtr,
   Edtr,
   Legacy,
+  LayoutPlugin,
   RowsPlugin,
   Splish
 } from '@serlo/legacy-editor-to-editor'
@@ -39,14 +42,12 @@ import { mathPuzzleTypeState } from './plugins/types/math-puzzle'
 import { pageTypeState } from './plugins/types/page'
 import { taxonomyTypeState } from './plugins/types/taxonomy'
 import { textExerciseTypeState } from './plugins/types/text-exercise'
-import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { textExerciseGroupTypeState } from './plugins/types/text-exercise-group'
 import { textSolutionTypeState } from './plugins/types/text-solution'
 import { userTypeState } from './plugins/types/user'
 import { videoTypeState } from './plugins/types/video'
 import { Entity, License, Uuid } from './plugins/types/common'
 import { EditorProps } from './editor'
-import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
 
 const empty: RowsPlugin = { plugin: 'rows', state: [] }
 
@@ -437,7 +438,7 @@ export function deserialize({
         ? deserializeInputExercise()
         : undefined
 
-    const converted = toEdtr(deserialized)
+    const converted = toEdtr(deserialized) as RowsPlugin
 
     return {
       state: {
@@ -476,7 +477,7 @@ export function deserialize({
           singleChoiceRightAnswer && singleChoiceRightAnswer.content
             ? [
                 {
-                  id: extractChildFromRows(
+                  content: extractChildFromRows(
                     convert(
                       deserializeEditorState(singleChoiceRightAnswer.content)
                     )
@@ -486,8 +487,7 @@ export function deserialize({
                     convert(
                       deserializeEditorState(singleChoiceRightAnswer.feedback)
                     )
-                  ),
-                  hasFeedback: !!singleChoiceRightAnswer.feedback
+                  )
                 }
               ]
             : []
@@ -498,14 +498,13 @@ export function deserialize({
               })
               .map(answer => {
                 return {
-                  id: extractChildFromRows(
+                  content: extractChildFromRows(
                     convert(deserializeEditorState(answer.content))
                   ),
                   isCorrect: false,
                   feedback: extractChildFromRows(
                     convert(deserializeEditorState(answer.feedback))
-                  ),
-                  hasFeedback: !!answer.feedback
+                  )
                 }
               })
           : []
@@ -517,14 +516,13 @@ export function deserialize({
               })
               .map(answer => {
                 return {
-                  id: extractChildFromRows(
+                  content: extractChildFromRows(
                     convert(deserializeEditorState(answer.content))
                   ),
                   isCorrect: true,
                   feedback: {
                     plugin: 'text'
-                  },
-                  hasFeedback: false
+                  }
                 }
               })
           : []
@@ -536,14 +534,13 @@ export function deserialize({
               })
               .map(answer => {
                 return {
-                  id: extractChildFromRows(
+                  content: extractChildFromRows(
                     convert(deserializeEditorState(answer.content))
                   ),
                   isCorrect: false,
                   feedback: extractChildFromRows(
                     convert(deserializeEditorState(answer.feedback))
-                  ),
-                  hasFeedback: !!answer.feedback
+                  )
                 }
               })
           : []
@@ -591,11 +588,9 @@ export function deserialize({
         return {
           plugin: 'inputExercise',
           state: {
-            __version__: 1,
-            value: {
-              type,
-              answers: extractInputAnswers(inputExercises, true)
-            }
+            type,
+            answers: extractInputAnswers(inputExercises, true),
+            unit: ''
           }
         }
       }
@@ -670,8 +665,6 @@ export function deserialize({
       state: {
         ...state,
         changes: '',
-        // FIXME: hints don't have a title
-        title: '',
         content: serializeEditorState(
           toEdtr(deserializeEditorState(state.content))
         )
@@ -684,15 +677,31 @@ export function deserialize({
     state: TextSolutionSerializedState
   ): DeserializedState<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-solution' })
+
+    const content: Edtr = toEdtr(deserializeEditorState(state.content))
     return {
       state: {
         ...state,
         changes: '',
-        // FIXME: solutions don't have a title
-        title: '',
-        content: serializeEditorState(
-          toEdtr(deserializeEditorState(state.content))
-        )
+        content:
+          isEdtr(content) && content.plugin === 'solution'
+            ? serializeEditorState(content)
+            : serializeEditorState({
+                plugin: 'solution',
+                state: [
+                  {
+                    plugin: 'solutionSteps',
+                    state: {
+                      introduction: (content as RowsPlugin).state[0],
+                      strategy: undefined,
+                      solutionSteps: rowsToSolutionSteps(
+                        R.tail((content as RowsPlugin).state)
+                      ),
+                      additionals: undefined
+                    }
+                  }
+                ]
+              })
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
     }
@@ -869,11 +878,11 @@ export type DeserializeError =
   | { error: 'type-unsupported' }
   | { error: 'failure' }
 
-function toEdtr(content: EditorState): RowsPlugin {
+function toEdtr(content: EditorState): Edtr {
   if (!content)
     return { plugin: 'rows', state: [{ plugin: 'text', state: undefined }] }
-  if (isEdtr(content)) return content as RowsPlugin
-  return convert(content) as RowsPlugin
+  if (isEdtr(content)) return content
+  return convert(content)
 }
 
 function serializeEditorState(content: Legacy): SerializedLegacyEditorState
@@ -900,4 +909,30 @@ type SerializedEditorState = (string | undefined) & {
 }
 type SerializedLegacyEditorState = (string | undefined) & {
   __type: 'serialized-legacy-editor-state'
+}
+
+export function rowsToSolutionSteps(rows: Edtr[]) {
+  const solutionSteps: { type: string; isHalf: boolean; content: Edtr }[] = []
+
+  rows.forEach(row => {
+    if (row.plugin === 'layout' && (row as LayoutPlugin).state.length === 2) {
+      const layoutPlugin = row
+      const leftElement = {
+        type: 'step',
+        isHalf: true,
+        content: (layoutPlugin as LayoutPlugin).state[0].child
+      }
+      const rightElement = {
+        type: 'explanation',
+        isHalf: true,
+        content: (layoutPlugin as LayoutPlugin).state[1].child
+      }
+      solutionSteps.push(leftElement)
+      solutionSteps.push(rightElement)
+    } else {
+      solutionSteps.push({ type: 'step', isHalf: false, content: row })
+    }
+  })
+
+  return solutionSteps
 }

@@ -418,8 +418,8 @@ export function entityType<
   )
   return {
     ...objectType,
-    init(state, onChange, pluginProps) {
-      const initialisedObject = objectType.init(state, onChange, pluginProps)
+    init(state, onChange) {
+      const initialisedObject = objectType.init(state, onChange)
       return {
         ...initialisedObject,
         replaceOwnState(newValue) {
@@ -438,12 +438,14 @@ export function entityType<
   }
 }
 
-export function editorContent(): StateType<
+export function editorContent(
+  plugin: string = 'rows'
+): StateType<
   string,
   StateTypeValueType<ReturnType<typeof child>>,
   StateTypeReturnType<ReturnType<typeof child>>
 > {
-  const originalChild = child<string>({ plugin: 'rows' })
+  const originalChild = child<string>({ plugin })
   return {
     ...originalChild,
     serialize(...args: Parameters<typeof originalChild.serialize>) {
@@ -538,11 +540,14 @@ export function optionalSerializedChild(
     },
     createInitialState() {
       return null
+    },
+    getFocusableChildren(child) {
+      return child ? [{ id: child }] : []
     }
   }
 }
 
-const RemoveButton = styled.button({
+export const RemoveButton = styled.button({
   borderRadius: '50%',
   outline: 'none',
   background: 'white',

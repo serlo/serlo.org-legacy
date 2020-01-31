@@ -20,13 +20,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Entity;
 
 return [
     'entity' => [
         'types' => [
             'applet' => [
-                'content' => 'description',
+                'description' => 'content',
                 'components' => [
                     'repository' => [
                         'form' => __NAMESPACE__ . '\Form\AppletForm',

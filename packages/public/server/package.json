@@ -1,6 +1,6 @@
 {
   "name": "@serlo/server",
-  "version": "5.2.6",
+  "version": "6.1.2",
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
@@ -9,6 +9,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@pact-foundation/pact": "^9.0.0",
     "@serlo/docker": "^0.0.0",
     "@types/expect-puppeteer": "^3.0.0",
     "@types/jest-environment-puppeteer": "^4.0.0",

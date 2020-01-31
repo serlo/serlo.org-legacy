@@ -20,23 +20,25 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
-import { createHintPlugin } from '@edtr-io/plugin-hint'
+import { ExpandableBox } from '@edtr-io/renderer-ui'
+import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
-import { RevisionHistory, Settings } from './helpers/settings'
+import { RevisionHistory } from './helpers/settings'
 
 export const textHintTypeState = entityType(
   {
     ...entity,
-    // FIXME: hints don't have a title
-    title: string(''),
     content: editorContent()
   },
   {}
 )
 
-const hintPlugin = createHintPlugin()
+export type TextHintTypeProps = EditorPluginProps<
+  typeof textHintTypeState,
+  { skipControls: boolean }
+>
 
 export const textHintTypePlugin: EditorPlugin<
   typeof textHintTypeState,
@@ -49,9 +51,7 @@ export const textHintTypePlugin: EditorPlugin<
   }
 }
 
-function TextHintTypeEditor(
-  props: EditorPluginProps<typeof textHintTypeState, { skipControls: boolean }>
-) {
+function TextHintTypeEditor(props: TextHintTypeProps) {
   return (
     <React.Fragment>
       {props.renderIntoToolbar(
@@ -61,10 +61,36 @@ function TextHintTypeEditor(
           onSwitchRevision={props.state.replaceOwnState}
         />
       )}
-      <hintPlugin.Component {...props} />
+      <HintEditor {...props} />
       {props.config.skipControls ? null : (
         <Controls subscriptions {...props.state} />
       )}
     </React.Fragment>
+  )
+}
+
+const hintTheme = {
+  rendererUi: {
+    expandableBox: {
+      toggleBackgroundColor: '#eee',
+      containerBorderColor: '#333'
+    }
+  }
+}
+
+function HintEditor({ state, editable }: TextHintTypeProps) {
+  const renderTitle = React.useCallback((collapsed: boolean) => {
+    return (
+      <React.Fragment>
+        Tipp {collapsed ? 'anzeigen' : 'ausblenden'}
+      </React.Fragment>
+    )
+  }, [])
+  return (
+    <ThemeProvider theme={hintTheme}>
+      <ExpandableBox renderTitle={renderTitle} editable={editable}>
+        {state.content.render()}
+      </ExpandableBox>
+    </ThemeProvider>
   )
 }

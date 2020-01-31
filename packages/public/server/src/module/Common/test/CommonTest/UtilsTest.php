@@ -42,4 +42,10 @@ class UtilsTest extends TestCase
             ["x", "x", true, true, 42, 42]
         );
     }
+
+    public function testArrayFlatmapEmptySet()
+    {
+        $this->assertEquals(Utils::array_flatmap(function () {
+        }, []), []);
+    }
 }

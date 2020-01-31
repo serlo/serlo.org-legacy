@@ -63,6 +63,9 @@ $featureFlags = [
 $keyValueStore = [
     'hosts' => ['redis'],
 ];
+$messageQueue = [
+    'host' => 'http://kafka-rest-proxy:8082',
+];
 
 $cronjob_secret = 'secret';
 $upload_secret = 'secret';

@@ -19,12 +19,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { serializer } from '@edtr-io/plugin-text'
 import { Plugin } from '@serlo/editor-plugins-registry'
-
 import {
   SplishBlockquoteState,
   SplishCodeState,
   SplishGeogebraState,
+  SplishImageState,
   SplishInjectionState,
   SplishSpoilerState,
   SplishTableState,
@@ -38,15 +39,26 @@ export function convertPlugin(cell: ContentCell): OtherPlugin {
   const { plugin, state } = cell.content
   switch (plugin.name) {
     case Plugin.Blockquote:
-      const bState = state as SplishBlockquoteState
+      const blockquoteState = state as SplishBlockquoteState
       return {
         plugin: 'important',
-        state: convertSplishToEdtrIO(bState.child.state)
+        state: convertSplishToEdtrIO(blockquoteState.child.state)
       }
     case Plugin.Image:
+      const imageState = state as SplishImageState
       return {
         plugin: 'image',
-        state
+        state: {
+          alt: imageState.description,
+          link: imageState.href
+            ? {
+                href: imageState.href,
+                openInNewTab: false
+              }
+            : undefined,
+          src: imageState.src,
+          maxWidth: undefined
+        }
       }
     case Plugin.Injection:
       const injectionState = state as SplishInjectionState
@@ -68,12 +80,14 @@ export function convertPlugin(cell: ContentCell): OtherPlugin {
       if (textState.editorState) {
         return {
           plugin: 'text',
-          state: convertOldSlate(textState.editorState)
+          state: serializer.serialize(convertOldSlate(textState.editorState))
         }
       } else {
         return {
           plugin: 'text',
-          state: htmlToSlate(textState.importFromHtml || '')
+          state: serializer.serialize(
+            htmlToSlate(textState.importFromHtml || '')
+          )
         }
       }
     case Plugin.Table:
@@ -94,7 +108,8 @@ export function convertPlugin(cell: ContentCell): OtherPlugin {
         plugin: 'highlight',
         state: {
           language: code.language,
-          text: code.src
+          code: code.src,
+          showLineNumbers: false
         }
       }
     default:

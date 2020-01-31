@@ -1,2 +1,2 @@
-export { ConcatenateInsertCommands } from './ConcatenateInsertCommands'
-export { IgnoreInsecurePasswordWarning } from './IgnoreInsecurePasswordWarning'
+export { ConcatenateInsertCommands } from './concatenate-insert-commands'
+export { IgnoreInsecurePasswordWarning } from './ignore-insecure-password-warning'
