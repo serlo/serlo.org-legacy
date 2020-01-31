@@ -322,10 +322,9 @@ export function Controls(props: OwnProps) {
     const { changes } = props
     if (!changes) return null
     return (
-      <BSFormGroup>
-        <BSControlLabel htmlFor="changesField">Änderungen</BSControlLabel>
+      <BSFormGroup controlId="changes">
+        <BSControlLabel>Änderungen</BSControlLabel>
         <BSFormControl
-          id="changesField"
           componentClass="textarea"
           value={changes.value}
           onChange={e => {
