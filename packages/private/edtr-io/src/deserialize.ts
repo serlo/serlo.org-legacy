@@ -57,182 +57,34 @@ export function deserialize({
   onError
 }: Pick<EditorProps, 'initialState' | 'type' | 'onError'>): DeserializeResult {
   const stack: { id: number; type: string }[] = []
+  const config: Record<
+    string,
+    { deserialize: (state: any) => DeserializedState<StateType> }
+  > = {
+    applet: { deserialize: deserializeApplet },
+    article: { deserialize: deserializeArticle },
+    course: { deserialize: deserializeCourse },
+    'course-page': { deserialize: deserializeCoursePage },
+    event: { deserialize: deserializeEvent },
+    'math-puzzle': { deserialize: deserializeMathPuzzle },
+    page: { deserialize: deserializePage },
+    'grouped-text-exercise': { deserialize: deserializeTextExercise },
+    'text-exercise': { deserialize: deserializeTextExercise },
+    'text-exercise-group': { deserialize: deserializeTextExerciseGroup },
+    'text-hint': { deserialize: deserializeTextHint },
+    'text-solution': { deserialize: deserializeTextSolution },
+    user: { deserialize: deserializeUser },
+    video: { deserialize: deserializeVideo },
+    taxonomy: { deserialize: deserializeTaxonomy }
+  }
   try {
-    switch (type) {
-      case 'applet': {
-        const deserialized = deserializeApplet(
-          initialState as AppletSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-applet',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
+    if (config[type] === undefined) {
+      return {
+        error: 'type-unsupported'
       }
-      case 'article': {
-        const deserialized = deserializeArticle(
-          initialState as ArticleSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-article',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'course': {
-        const deserialized = deserializeCourse(
-          initialState as CourseSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-course',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'course-page': {
-        const deserialized = deserializeCoursePage(
-          initialState as CoursePageSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-course-page',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'event': {
-        const deserialized = deserializeEvent(
-          initialState as EventSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-event',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'math-puzzle': {
-        const deserialized = deserializeMathPuzzle(
-          initialState as MathPuzzleSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-math-puzzle',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'page': {
-        const deserialized = deserializePage(
-          initialState as PageSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-page',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'grouped-text-exercise':
-      case 'text-exercise': {
-        const deserialized = deserializeTextExercise(
-          initialState as TextExerciseSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-text-exercise',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'text-exercise-group': {
-        const deserialized = deserializeTextExerciseGroup(
-          initialState as TextExerciseGroupSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-text-exercise-group',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'text-solution': {
-        const deserialized = deserializeTextSolution(
-          initialState as TextSolutionSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-text-solution',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'text-hint': {
-        const deserialized = deserializeTextHint(
-          initialState as TextHintSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-text-hint',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'user': {
-        const deserialized = deserializeUser(
-          initialState as UserSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-user',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'video': {
-        const deserialized = deserializeVideo(
-          initialState as VideoSerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-video',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      case 'taxonomy': {
-        const deserialized = deserializeTaxonomy(
-          initialState as TaxonomySerializedState
-        )
-        return succeed(
-          {
-            plugin: 'type-taxonomy',
-            state: deserialized.state
-          },
-          deserialized.converted
-        )
-      }
-      default:
-        return {
-          error: 'type-unsupported'
-        }
     }
+    const { deserialize } = config[type]
+    return succeed(deserialize(initialState))
   } catch (e) {
     if (typeof onError === 'function') {
       onError(e, {
@@ -245,13 +97,11 @@ export function deserialize({
   }
 
   function succeed(
-    initialState: DeserializeSuccess['initialState'],
-    converted: boolean
+    deserialized: DeserializedState<StateType>
   ): DeserializeSuccess {
     return {
       success: true,
-      initialState,
-      converted
+      ...deserialized
     }
   }
 
@@ -260,19 +110,22 @@ export function deserialize({
   ): DeserializedState<typeof appletTypeState> {
     stack.push({ id: state.id, type: 'applet' })
     return {
-      state: {
-        ...state,
-        changes: '',
-        title: state.title || '',
-        url: state.url || '',
-        content: serializeEditorState(
-          toEdtr(deserializeEditorState(state.content))
-        ),
-        reasoning: serializeEditorState(
-          toEdtr(deserializeEditorState(state.reasoning))
-        ),
-        meta_title: state.meta_title || '',
-        meta_description: state.meta_description || ''
+      initialState: {
+        plugin: 'type-applet',
+        state: {
+          ...state,
+          changes: '',
+          title: state.title || '',
+          url: state.url || '',
+          content: serializeEditorState(
+            toEdtr(deserializeEditorState(state.content))
+          ),
+          reasoning: serializeEditorState(
+            toEdtr(deserializeEditorState(state.reasoning))
+          ),
+          meta_title: state.meta_title || '',
+          meta_description: state.meta_description || ''
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
     }
@@ -283,18 +136,21 @@ export function deserialize({
   ): DeserializedState<typeof articleTypeState> {
     stack.push({ id: state.id, type: 'article' })
     return {
-      state: {
-        ...state,
-        changes: '',
-        title: state.title || '',
-        content: serializeEditorState(
-          toEdtr(deserializeEditorState(state.content))
-        ),
-        reasoning: serializeEditorState(
-          toEdtr(deserializeEditorState(state.reasoning))
-        ),
-        meta_title: state.meta_title || '',
-        meta_description: state.meta_description || ''
+      initialState: {
+        plugin: 'type-article',
+        state: {
+          ...state,
+          changes: '',
+          title: state.title || '',
+          content: serializeEditorState(
+            toEdtr(deserializeEditorState(state.content))
+          ),
+          reasoning: serializeEditorState(
+            toEdtr(deserializeEditorState(state.reasoning))
+          ),
+          meta_title: state.meta_title || '',
+          meta_description: state.meta_description || ''
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
     }
@@ -305,20 +161,23 @@ export function deserialize({
   ): DeserializedState<typeof courseTypeState> {
     stack.push({ id: state.id, type: 'course' })
     return {
-      state: {
-        ...state,
-        changes: '',
-        title: state.title || '',
-        description: serializeEditorState(
-          toEdtr(deserializeEditorState(state.description))
-        ),
-        reasoning: serializeEditorState(
-          toEdtr(deserializeEditorState(state.reasoning))
-        ),
-        meta_description: state.meta_description || '',
-        'course-page': (state['course-page'] || []).map(
-          s => deserializeCoursePage(s).state
-        )
+      initialState: {
+        plugin: 'type-course',
+        state: {
+          ...state,
+          changes: '',
+          title: state.title || '',
+          description: serializeEditorState(
+            toEdtr(deserializeEditorState(state.description))
+          ),
+          reasoning: serializeEditorState(
+            toEdtr(deserializeEditorState(state.reasoning))
+          ),
+          meta_description: state.meta_description || '',
+          'course-page': (state['course-page'] || []).map(
+            s => deserializeCoursePage(s).initialState.state
+          )
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.description) || empty)
     }
@@ -329,14 +188,17 @@ export function deserialize({
   ): DeserializedState<typeof coursePageTypeState> {
     stack.push({ id: state.id, type: 'course-page' })
     return {
-      state: {
-        ...state,
-        changes: '',
-        title: state.title || '',
-        icon: state.icon || 'explanation',
-        content: serializeEditorState(
-          toEdtr(deserializeEditorState(state.content))
-        )
+      initialState: {
+        plugin: 'type-course-page',
+        state: {
+          ...state,
+          changes: '',
+          title: state.title || '',
+          icon: state.icon || 'explanation',
+          content: serializeEditorState(
+            toEdtr(deserializeEditorState(state.content))
+          )
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
     }
@@ -347,15 +209,18 @@ export function deserialize({
   ): DeserializedState<typeof eventTypeState> {
     stack.push({ id: state.id, type: 'event' })
     return {
-      state: {
-        ...state,
-        changes: '',
-        title: state.title || '',
-        content: serializeEditorState(
-          toEdtr(deserializeEditorState(state.content))
-        ),
-        meta_title: state.meta_title || '',
-        meta_description: state.meta_description || ''
+      initialState: {
+        plugin: 'type-event',
+        state: {
+          ...state,
+          changes: '',
+          title: state.title || '',
+          content: serializeEditorState(
+            toEdtr(deserializeEditorState(state.content))
+          ),
+          meta_title: state.meta_title || '',
+          meta_description: state.meta_description || ''
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
     }
@@ -366,13 +231,16 @@ export function deserialize({
   ): DeserializedState<typeof mathPuzzleTypeState> {
     stack.push({ id: state.id, type: 'math-puzzle' })
     return {
-      state: {
-        ...state,
-        changes: '',
-        content: serializeEditorState(
-          toEdtr(deserializeEditorState(state.content))
-        ),
-        source: state.source || ''
+      initialState: {
+        plugin: 'type-math-puzzle',
+        state: {
+          ...state,
+          changes: '',
+          content: serializeEditorState(
+            toEdtr(deserializeEditorState(state.content))
+          ),
+          source: state.source || ''
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
     }
@@ -383,12 +251,15 @@ export function deserialize({
   ): DeserializedState<typeof pageTypeState> {
     stack.push({ id: state.id, type: 'page' })
     return {
-      state: {
-        ...state,
-        title: state.title || '',
-        content: serializeEditorState(
-          toEdtr(deserializeEditorState(state.content))
-        )
+      initialState: {
+        plugin: 'type-page',
+        state: {
+          ...state,
+          title: state.title || '',
+          content: serializeEditorState(
+            toEdtr(deserializeEditorState(state.content))
+          )
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
     }
@@ -399,12 +270,15 @@ export function deserialize({
   ): DeserializedState<typeof taxonomyTypeState> {
     stack.push({ id: state.id, type: 'taxonomy' })
     return {
-      state: {
-        ...state,
-        term: state.term,
-        description: serializeEditorState(
-          toEdtr(deserializeEditorState(state.description))
-        )
+      initialState: {
+        plugin: 'type-taxonomy',
+        state: {
+          ...state,
+          term: state.term,
+          description: serializeEditorState(
+            toEdtr(deserializeEditorState(state.description))
+          )
+        }
       },
       converted: false // no legacy editor for taxonomies
     }
@@ -441,21 +315,26 @@ export function deserialize({
     const converted = toEdtr(deserialized) as RowsPlugin
 
     return {
-      state: {
-        ...state,
-        changes: '',
-        'text-hint': textHint ? deserializeTextHint(textHint).state : '',
-        'text-solution': textSolution
-          ? deserializeTextSolution(textSolution).state
-          : '',
-        content: serializeEditorState({
-          plugin: 'rows',
-          state: [
-            ...converted.state,
-            ...(scMcExercise ? [scMcExercise] : []),
-            ...(inputExercise ? [inputExercise] : [])
-          ]
-        })
+      initialState: {
+        plugin: 'type-text-exercise',
+        state: {
+          ...state,
+          changes: '',
+          'text-hint': textHint
+            ? deserializeTextHint(textHint).initialState.state
+            : '',
+          'text-solution': textSolution
+            ? deserializeTextSolution(textSolution).initialState.state
+            : '',
+          content: serializeEditorState({
+            plugin: 'rows',
+            state: [
+              ...converted.state,
+              ...(scMcExercise ? [scMcExercise] : []),
+              ...(inputExercise ? [inputExercise] : [])
+            ]
+          })
+        }
       },
       converted: !isEdtr(deserialized || empty)
     }
@@ -643,15 +522,18 @@ export function deserialize({
   ): DeserializedState<typeof textExerciseGroupTypeState> {
     stack.push({ id: state.id, type: 'text-exercise-group' })
     return {
-      state: {
-        ...state,
-        changes: '',
-        content: serializeEditorState(
-          toEdtr(deserializeEditorState(state.content))
-        ),
-        'grouped-text-exercise': (state['grouped-text-exercise'] || []).map(
-          s => deserializeTextExercise(s).state
-        )
+      initialState: {
+        plugin: 'type-text-exercise-group',
+        state: {
+          ...state,
+          changes: '',
+          content: serializeEditorState(
+            toEdtr(deserializeEditorState(state.content))
+          ),
+          'grouped-text-exercise': (state['grouped-text-exercise'] || []).map(
+            s => deserializeTextExercise(s).initialState.state
+          )
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
     }
@@ -662,12 +544,15 @@ export function deserialize({
   ): DeserializedState<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-hint' })
     return {
-      state: {
-        ...state,
-        changes: '',
-        content: serializeEditorState(
-          toEdtr(deserializeEditorState(state.content))
-        )
+      initialState: {
+        plugin: 'type-text-hint',
+        state: {
+          ...state,
+          changes: '',
+          content: serializeEditorState(
+            toEdtr(deserializeEditorState(state.content))
+          )
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
     }
@@ -680,28 +565,31 @@ export function deserialize({
 
     const content: Edtr = toEdtr(deserializeEditorState(state.content))
     return {
-      state: {
-        ...state,
-        changes: '',
-        content:
-          isEdtr(content) && content.plugin === 'solution'
-            ? serializeEditorState(content)
-            : serializeEditorState({
-                plugin: 'solution',
-                state: [
-                  {
-                    plugin: 'solutionSteps',
-                    state: {
-                      introduction: (content as RowsPlugin).state[0],
-                      strategy: undefined,
-                      solutionSteps: rowsToSolutionSteps(
-                        R.tail((content as RowsPlugin).state)
-                      ),
-                      additionals: undefined
+      initialState: {
+        plugin: 'type-text-solution',
+        state: {
+          ...state,
+          changes: '',
+          content:
+            isEdtr(content) && content.plugin === 'solution'
+              ? serializeEditorState(content)
+              : serializeEditorState({
+                  plugin: 'solution',
+                  state: [
+                    {
+                      plugin: 'solutionSteps',
+                      state: {
+                        introduction: (content as RowsPlugin).state[0],
+                        strategy: undefined,
+                        solutionSteps: rowsToSolutionSteps(
+                          R.tail((content as RowsPlugin).state)
+                        ),
+                        additionals: undefined
+                      }
                     }
-                  }
-                ]
-              })
+                  ]
+                })
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
     }
@@ -712,11 +600,14 @@ export function deserialize({
   ): DeserializedState<typeof userTypeState> {
     stack.push({ id: state.id, type: 'user' })
     return {
-      state: {
-        ...state,
-        description: serializeEditorState(
-          toEdtr(deserializeEditorState(state.description))
-        )
+      initialState: {
+        plugin: 'type-user',
+        state: {
+          ...state,
+          description: serializeEditorState(
+            toEdtr(deserializeEditorState(state.description))
+          )
+        }
       },
       converted: false // no legacy-editor for users
     }
@@ -727,17 +618,20 @@ export function deserialize({
   ): DeserializedState<typeof videoTypeState> {
     stack.push({ id: state.id, type: 'video' })
     return {
-      state: {
-        ...state,
-        changes: '',
-        title: state.title || '',
-        description: serializeEditorState(
-          toEdtr(deserializeEditorState(state.description))
-        ),
-        content: state.content || '',
-        reasoning: serializeEditorState(
-          toEdtr(deserializeEditorState(state.reasoning))
-        )
+      initialState: {
+        plugin: 'type-video',
+        state: {
+          ...state,
+          changes: '',
+          title: state.title || '',
+          description: serializeEditorState(
+            toEdtr(deserializeEditorState(state.description))
+          ),
+          content: state.content || '',
+          reasoning: serializeEditorState(
+            toEdtr(deserializeEditorState(state.reasoning))
+          )
+        }
       },
       converted: !isEdtr(deserializeEditorState(state.description) || empty)
     }
@@ -857,7 +751,10 @@ export function deserialize({
 }
 
 export interface DeserializedState<T extends StateType> {
-  state: StateTypeSerializedType<T>
+  initialState: {
+    plugin: string
+    state?: StateTypeSerializedType<T>
+  }
   converted: boolean
 }
 
@@ -866,13 +763,9 @@ export function isError(result: DeserializeResult): result is DeserializeError {
 }
 
 export type DeserializeResult = DeserializeSuccess | DeserializeError
-export type DeserializeSuccess = {
+export interface DeserializeSuccess
+  extends DeserializedState<StateType<unknown>> {
   success: true
-  initialState: {
-    plugin: string
-    state?: unknown
-  }
-  converted: boolean
 }
 export type DeserializeError =
   | { error: 'type-unsupported' }
