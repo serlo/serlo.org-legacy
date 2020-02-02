@@ -40,9 +40,10 @@ interface UuidManagerInterface extends Flushable
     public function findAll();
 
     /**
-     * Finds trashed Uuids together with the date of the trash event.
+     * Finds trashed Uuids together with the date of the trash event
+     * for a given instance.
      * <code>
-     * $elements = $um->findTrashed($page);
+     * $elements = $um->findTrashed($page, $instance);
      * foreach($elements as $element)
      * {
      *    echo $element["entity"]->getId();
@@ -51,9 +52,10 @@ interface UuidManagerInterface extends Flushable
      * </code>
      *
      * @param int $page
+     * @param int $instance
      * @return Paginator
      */
-    public function findTrashed($page);
+    public function findTrashed($page, $instance);
 
     /**
      * Get an Uuid.
