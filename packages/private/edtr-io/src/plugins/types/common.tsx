@@ -437,6 +437,21 @@ export function entityType<
   }
 }
 
+export function serialized<S extends StateType>(type: S) {
+  return {
+    ...type,
+    serialize(...args: Parameters<typeof type.serialize>) {
+      return JSON.stringify(type.serialize(...args))
+    },
+    deserialize(
+      serialized: string,
+      helpers: Parameters<typeof type.deserialize>[1]
+    ) {
+      return type.deserialize(JSON.parse(serialized), helpers)
+    }
+  }
+}
+
 export function editorContent(
   plugin: string = 'rows'
 ): StateType<
