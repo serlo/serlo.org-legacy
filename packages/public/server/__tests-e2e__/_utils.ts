@@ -82,7 +82,8 @@ export async function clickForNewPage(
   element: ElementHandle
 ): Promise<ElementHandle> {
   await element.click()
-  await page.waitForNavigation({ waitUntil: 'networkidle0' })
+  await page.waitForNavigation()
+  await page.waitFor(200)
 
   return getDocument(page)
 }
