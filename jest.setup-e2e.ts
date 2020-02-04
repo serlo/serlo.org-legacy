@@ -39,7 +39,6 @@ beforeAll(() => {
   })
 })
 
-
 afterEach(async () => {
   await logout()
 })

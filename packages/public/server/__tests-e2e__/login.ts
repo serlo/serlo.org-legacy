@@ -25,7 +25,7 @@ import {
   getByPlaceholderText,
   getBySelector,
   getByText,
-  goto,
+  goto
 } from './_utils'
 
 const examplePages = ['/', '/math', '/math/geometry/triangles']
