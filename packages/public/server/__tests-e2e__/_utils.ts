@@ -196,12 +196,12 @@ export async function toHaveHTMLContent(
 
 export async function toHaveTitle(
   this: jest.MatcherUtils,
-  page: ElementHandle,
+  root: ElementHandle,
   pageTitle: string
 ): Promise<jest.CustomMatcherResult> {
   return testStartsWith(
     pageTitle,
-    await page
+    await root
       .executionContext()
       //@ts-ignore
       .frame()!
@@ -213,12 +213,12 @@ export async function toHaveTitle(
 
 export function toHaveUrlPath(
   this: jest.MatcherUtils,
-  page: ElementHandle,
+  root: ElementHandle,
   expectedPage: string
 ): jest.CustomMatcherResult {
   return testIsEqual(
     testingServerUrl + expectedPage,
-    page
+    root
       .executionContext()
       //@ts-ignore
       .frame()!
@@ -230,24 +230,24 @@ export function toHaveUrlPath(
 
 export async function toHaveCollapsable(
   this: jest.MatcherUtils,
-  page: ElementHandle,
+  root: ElementHandle,
   collapsedContent: string,
   toggleText: string
 ): Promise<jest.CustomMatcherResult> {
   if (this.isNot) {
-    await expect(page).not.toMatchElement('*', { text: collapsedContent })
-    await expect(page).not.toMatchElement('*', { text: toggleText })
+    await expect(root).not.toMatchElement('*', { text: collapsedContent })
+    await expect(root).not.toMatchElement('*', { text: toggleText })
     return Promise.resolve({
       pass: true,
       message: () => `Collapsable with toggle ${toggleText} should not exist`
     })
   }
 
-  const element = await getByText(page, collapsedContent)
+  const element = await getByText(root, collapsedContent)
   const elementVisibleBeforeClick = await isVisible(element)
   expect(elementVisibleBeforeClick).toBe(false)
 
-  await getByText(page, toggleText).then(click)
+  await getByText(root, toggleText).then(click)
   const elementVisibleAfterClick = await isVisible(element)
   expect(elementVisibleAfterClick).toBe(true)
   return Promise.resolve({
@@ -259,10 +259,10 @@ export async function toHaveCollapsable(
 
 export async function toHaveSystemNotification(
   this: jest.MatcherUtils,
-  page: ElementHandle,
+  root: ElementHandle,
   notification: string
 ): Promise<jest.CustomMatcherResult> {
-  const jestExpect = this.isNot ? expect(page).not : expect(page)
+  const jestExpect = this.isNot ? expect(root).not : expect(root)
   await jestExpect.toMatchElement('.flasher p', { text: notification })
   return Promise.resolve({
     pass: true,
