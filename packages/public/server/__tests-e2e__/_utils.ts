@@ -69,6 +69,15 @@ export async function click(element: ElementHandle): Promise<void> {
   await page.waitFor(100)
 }
 
+export async function typeIntoEditor(
+  root: ElementHandle,
+  indexTextfield: number,
+  text: string
+): Promise<void> {
+  await root.$$('[data-slate-editor=true]').then(s => click(s[indexTextfield]))
+  await getByRole(root, 'textbox').then(t => t.type(text))
+}
+
 export async function clickForNewPage(
   element: ElementHandle
 ): Promise<ElementHandle> {

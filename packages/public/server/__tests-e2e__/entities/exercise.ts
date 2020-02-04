@@ -25,6 +25,7 @@ import {
   getByRole,
   getByText,
   getAllByText,
+  typeIntoEditor,
   goto,
   login,
   randomText,
@@ -210,10 +211,10 @@ describe('create text-exercise', () => {
     await getByRole(createPage, 'textbox').then(e => e.type(exercise))
 
     await getByText(createPage, 'Hinweis hinzufügen').then(click)
-    await getByRole(createPage, 'textbox').then(t => t.type(hint))
+    await typeIntoEditor(createPage, 1, hint)
 
     await getByText(createPage, 'Lösung hinzufügen').then(click)
-    await getByRole(createPage, 'textbox').then(t => t.type(solution))
+    await typeIntoEditor(createPage, 2, solution)
 
     const success = await saveRevision(createPage)
 
@@ -222,10 +223,12 @@ describe('create text-exercise', () => {
     })
 
     await expect(success).toHaveTitle('Math text-exercise')
-
     await expect(success).toMatchElement('*', { text: exercise })
-    await expect(success).toMatchElement('*', { text: hint })
-    await expect(success).toMatchElement('*', { text: solution })
+
+    await expect(success).toHaveCollapsable(hint, 'Show hint')
+    // TODO: Test that the solution is collapsable when #288 is fixed
+    // ( https://github.com/serlo/serlo.org/issues/288 )
+    //await expect(success).toHaveCollapsable(solution, 'Show solution')
   })
 })
 
@@ -246,16 +249,16 @@ describe('create grouped text-exercise', () => {
     await getByRole(createPage, 'textbox').then(e => e.type(exercise))
 
     await getByText(createPage, 'Teilaufgabe hinzufügen').then(click)
-    await getByRole(createPage, 'textbox').then(t => t.type(subexercise1))
+    await typeIntoEditor(createPage, 1, subexercise1)
 
     await getByText(createPage, 'Hinweis hinzufügen').then(click)
-    await getByRole(createPage, 'textbox').then(t => t.type(hint1))
+    await typeIntoEditor(createPage, 2, hint1)
 
     await getByText(createPage, 'Lösung hinzufügen').then(click)
-    await getByRole(createPage, 'textbox').then(t => t.type(solution1))
+    await typeIntoEditor(createPage, 3, solution1)
 
     await getByText(createPage, 'Teilaufgabe hinzufügen').then(click)
-    await getByRole(createPage, 'textbox').then(t => t.type(subexercise2))
+    await typeIntoEditor(createPage, 4, subexercise2)
 
     const success = await saveRevision(createPage)
     await expect(success).toHaveSystemNotification(
