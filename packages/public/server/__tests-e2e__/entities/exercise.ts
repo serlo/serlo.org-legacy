@@ -54,7 +54,7 @@ describe('view exercises', () => {
       id: '35580',
       content: 'Example group exercise'
     },
-    groupedExercise: [
+    groupedExercises: [
       {
         id: '35581',
         content: 'Subexercise 1',
@@ -82,6 +82,7 @@ describe('view exercises', () => {
 
   describe('view text exercise', () => {
     const path = `/math/example-content/example-topic-1/example-topic-folder/${data.exercise.id}`
+
     test('text exercise with hint and solution', async () => {
       const page = await goto(path)
       await expect(page).not.toMatchElement('h1')
@@ -110,20 +111,21 @@ describe('view exercises', () => {
 
   describe('view text exercise group', () => {
     const path = `/math/example-content/example-topic-1/example-topic-folder/${data.exerciseGroup.id}`
+
     test('text exercise group with subexercises', async () => {
       const page = await goto(path)
       await expect(page).not.toMatchElement('h1')
       await expect(page).toMatchElement('*', {
         text: data.exerciseGroup.content
       })
-      for (let i = 0; i < data.groupedExercise.length; i++) {
+      for (const groupedExercise of data.groupedExercises) {
         await expect(page).toMatchElement('*', {
-          text: data.groupedExercise[i].content
+          text: groupedExercise.content
         })
       }
 
       await expect(page).toHaveCollapsable(
-        data.groupedExercise[0].hintContent,
+        data.groupedExercises[0].hintContent,
         'Show hint'
       )
 
@@ -131,11 +133,8 @@ describe('view exercises', () => {
       for (const solutionHandle of solutionHandles) {
         await click(solutionHandle)
       }
-      for (let i = 0; i < data.groupedExercise.length; i++) {
-        const solution = await getByText(
-          page,
-          data.groupedExercise[i].solutionContent
-        )
+      for (const groupedExercise of data.groupedExercises) {
+        const solution = await getByText(page, groupedExercise.solutionContent)
         const solutionVisible = await isVisible(solution)
         expect(solutionVisible).toBe(true)
       }
@@ -158,7 +157,7 @@ describe('view exercises', () => {
       content,
       hintContent,
       solutionContent
-    } = data.groupedExercise[0]
+    } = data.groupedExercises[0]
     const path = `/math/example-content/example-topic-1/example-topic-folder/${data.exerciseGroup.id}/${id}`
 
     test('grouped exercise with hint and solution', async () => {
