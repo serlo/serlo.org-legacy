@@ -140,11 +140,13 @@ export async function openDropdownMenu(topic: ElementHandle) {
     topic,
     '#subject-nav-wrapper button.dropdown-toggle'
   ).then(click)
+
   return await page.waitForSelector('#subject-nav-wrapper .dropdown-menu')
 }
 export function addContent(type: string) {
   return async (topic: ElementHandle) => {
     await getByText(topic, 'Add content').then(e => e.hover())
+
     return await getByText(topic, type).then(clickForNewPage)
   }
 }
@@ -237,10 +239,11 @@ export async function toHaveCollapsable(
   if (this.isNot) {
     await expect(root).not.toMatchElement('*', { text: collapsedContent })
     await expect(root).not.toMatchElement('*', { text: toggleText })
-    return Promise.resolve({
+
+    return {
       pass: true,
       message: () => `Collapsable with toggle ${toggleText} should not exist`
-    })
+    }
   }
 
   const element = await getByText(root, collapsedContent)
@@ -250,11 +253,12 @@ export async function toHaveCollapsable(
   await getByText(root, toggleText).then(click)
   const elementVisibleAfterClick = await isVisible(element)
   expect(elementVisibleAfterClick).toBe(true)
-  return Promise.resolve({
+
+  return {
     pass: true,
     message: () =>
       `Collapsable with toggle ${toggleText} should toggle visibility.`
-  })
+  }
 }
 
 export async function toHaveSystemNotification(
@@ -264,10 +268,11 @@ export async function toHaveSystemNotification(
 ): Promise<jest.CustomMatcherResult> {
   const jestExpect = this.isNot ? expect(root).not : expect(root)
   await jestExpect.toMatchElement('.flasher p', { text: notification })
-  return Promise.resolve({
+
+  return {
     pass: true,
     message: () => `System notifications should not show ${notification}`
-  })
+  }
 }
 
 function testStartsWith(
@@ -276,24 +281,12 @@ function testStartsWith(
   label: string,
   expand: boolean
 ): jest.CustomMatcherResult {
-  if (current.startsWith(expected)) {
-    return {
-      pass: true,
-      message: () => `Current ${label} should not be ${printReceived(current)}`
-    }
-  } else {
-    return {
-      pass: false,
-      message: () =>
-        printDiffOrStringify(
-          expected,
-          current,
-          `Expected ${label}`,
-          `Current ${label}`,
-          expand
-        )
-    }
-  }
+  return testIsEqual(
+    current.substring(0, expected.length),
+    expected,
+    'prefix of ' + label,
+    expand
+  )
 }
 
 function testIsEqual(
