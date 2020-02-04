@@ -10,7 +10,8 @@ import {
   getByItemType,
   saveRevision,
   addContent,
-  openDropdownMenu
+  openDropdownMenu,
+  typeIntoEditor
 } from '../_utils'
 import { notifications, pages, viewports } from '../_config'
 
@@ -18,7 +19,7 @@ const courseItemType = 'http://schema.org/Article'
 
 test('view course', async () => {
   const path = '/math/example-content/example-topic-1/example-course'
-  const title = 'Example Course | Example Course Page 1'
+  const title = 'Example Course | Example Course Page 1 (course)'
   const heading = 'Example Course Page 1'
   const content = 'This is example course Page 1'
   const page2Title = 'Example Course Page 2'
@@ -54,9 +55,7 @@ test('create course with course page', async () => {
     e.type(coursePageTitle)
   )
 
-  const coursePageContentField = await getByRole(coursePage, 'textbox')
-  await coursePageContentField.click()
-  await coursePageContentField.type(coursePageContent)
+  await typeIntoEditor(coursePage, 0, coursePageContent)
 
   const success = await saveRevision(createPage)
   await expect(success).toHaveSystemNotification(
