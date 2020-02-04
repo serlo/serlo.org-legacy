@@ -26,8 +26,6 @@ import { queries, getDocument } from 'pptr-testing-library'
 import * as R from 'ramda'
 import { testingServerUrl, pages } from './_config'
 
-export { getDocument } from 'pptr-testing-library'
-
 export const getByAltText = queries.getByAltText
 export const getByLabelText = queries.getByLabelText
 export const getByPlaceholderText = queries.getByPlaceholderText
@@ -59,7 +57,9 @@ export async function getBySelector(element: ElementHandle, selector: string) {
 }
 
 export async function goto(site: string): Promise<ElementHandle> {
-  await page.goto(testingServerUrl + site)
+  const url = site.startsWith('http') ? site : testingServerUrl + site
+
+  await page.goto(url)
 
   return getDocument(page)
 }
