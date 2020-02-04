@@ -19,12 +19,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getDocument } from '../_utils'
-
-const mathPuzzleUrl = 'http://de.serlo.localhost:4567/35551'
+import { goto } from '../_utils'
 
 test('view page of math puzzle', async () => {
-  await page.goto(mathPuzzleUrl)
-  const $document = await getDocument(page)
-  await expect($document).toMatchElement('h1', { text: 'Math puzzle' })
+  const exampleMathPuzzle = '/35605'
+  const mathPuzzle = await goto(exampleMathPuzzle)
+  await expect(mathPuzzle).toMatchElement('h1', { text: 'math-puzzle' })
 })
