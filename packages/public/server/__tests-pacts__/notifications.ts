@@ -50,7 +50,7 @@ describe('HTTP Contract', () => {
 
   test('GETting all notifications (one notification response)', async () => {
     await httpPact.addInteraction({
-      state: 'a notifications for user 123 and event 234 exists',
+      state: 'a notification for user 123 and event 234 exists',
       uponReceiving: 'get all notifications for user 123',
       withRequest: {
         method: 'GET',
@@ -90,10 +90,6 @@ describe('Message Contract', () => {
         event: {
           provider_id: 'serlo.org',
           id: '123'
-        },
-        user: {
-          provider_id: 'serlo.org',
-          id: '234'
         },
         created_at: Matchers.iso8601DateTime(),
         source: {

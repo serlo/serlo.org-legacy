@@ -20,10 +20,12 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Event\Controller;
 
 use Event\EventManagerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use ZfcRbac\Exception\UnauthorizedException;
 
@@ -43,7 +45,7 @@ class EventController extends AbstractActionController
 
     public function historyAction()
     {
-        $id   = $this->params('id');
+        $id = $this->params('id');
         $events = $this->eventManager->findEventsByObject($id);
 
         if (empty($events)) {
@@ -95,5 +97,47 @@ class EventController extends AbstractActionController
         $view = new ViewModel(['userId' => $userId, 'paginator' => $paginator]);
         $view->setTemplate('event/history/user');
         return $view;
+    }
+
+    public function renderAction()
+    {
+        $id = $this->params('id');
+        $format = $this->params('format');
+        $event = $this->eventManager->getEvent($id);
+
+        if ($format === 'html') {
+            $viewRender = $this->getServiceLocator()->get('ZfcTwig\View\TwigRenderer');
+            $view = new ViewModel([
+                'event' => $event,
+            ]);
+            $view->setTemplate('event/helper/event/default');
+            $html = $viewRender->render($view);
+            return new JsonModel([
+                'id' => $event->getId(),
+                'body' => $html,
+            ]);
+        }
+
+        if ($format === 'email') {
+            $viewRender = $this->getServiceLocator()->get('ZfcTwig\View\TwigRenderer');
+            $plainModel = new ViewModel([
+                'event' => $event,
+                'plain' => true,
+            ]);
+            $plainModel->setTemplate('event/render/email');
+            $plain = $viewRender->render($plainModel);
+            $htmlModel = new ViewModel([
+                'event' => $event,
+                'plain' => false,
+            ]);
+            $htmlModel->setTemplate('event/render/email');
+            $html = $viewRender->render($htmlModel);
+            return new JsonModel([
+                'body' => [
+                    'plain' => trim($plain),
+                    'html' => trim($html),
+                ],
+            ]);
+        }
     }
 }
