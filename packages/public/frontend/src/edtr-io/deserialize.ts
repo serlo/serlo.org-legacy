@@ -677,32 +677,77 @@ export function deserialize({
   ): DeserializedState<typeof textSolutionTypeState> {
     stack.push({ id: state.id, type: 'text-solution' })
 
-    const content: Edtr = toEdtr(deserializeEditorState(state.content))
     return {
       state: {
         ...state,
         changes: '',
-        content:
-          isEdtr(content) && content.plugin === 'solution'
-            ? serializeEditorState(content)
-            : serializeEditorState({
-                plugin: 'solution',
-                state: [
-                  {
-                    plugin: 'solutionSteps',
-                    state: {
-                      introduction: (content as RowsPlugin).state[0],
-                      strategy: undefined,
-                      solutionSteps: rowsToSolutionSteps(
-                        R.tail((content as RowsPlugin).state)
-                      ),
-                      additionals: undefined
-                    }
-                  }
-                ]
-              })
+        content: getContent()
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty)
+    }
+
+    function getContent() {
+      const deserializedContent = deserializeEditorState(state.content)
+      if (deserializedContent !== undefined && isEdtr(deserializedContent)) {
+        return serializeEditorState(toEdtr(deserializedContent))
+      }
+
+      const convertedContent = toEdtr(deserializedContent) as RowsPlugin
+
+      return serializeEditorState({
+        plugin: 'rows',
+        state: [
+          {
+            plugin: 'solutionSteps',
+            state: {
+              introduction: {
+                plugin: 'rows',
+                state: [convertedContent.state[0]]
+              },
+              strategy: undefined,
+              solutionSteps: getSolutionSteps(),
+              additionals: undefined
+            }
+          }
+        ]
+      })
+
+      function getSolutionSteps() {
+        const solutionSteps: {
+          type: string
+          isHalf: boolean
+          content: Edtr
+        }[] = []
+
+        R.tail(convertedContent.state).forEach(row => {
+          if (
+            row.plugin === 'layout' &&
+            (row as LayoutPlugin).state.length === 2
+          ) {
+            const layoutPlugin = row
+            const leftElement = {
+              type: 'step',
+              isHalf: true,
+              content: (layoutPlugin as LayoutPlugin).state[0].child
+            }
+            const rightElement = {
+              type: 'explanation',
+              isHalf: true,
+              content: (layoutPlugin as LayoutPlugin).state[1].child
+            }
+            solutionSteps.push(leftElement)
+            solutionSteps.push(rightElement)
+          } else {
+            solutionSteps.push({
+              type: 'step',
+              isHalf: false,
+              content: { plugin: 'rows', state: [row] }
+            })
+          }
+        })
+
+        return solutionSteps
+      }
     }
   }
 
@@ -908,30 +953,4 @@ type SerializedEditorState = (string | undefined) & {
 }
 type SerializedLegacyEditorState = (string | undefined) & {
   __type: 'serialized-legacy-editor-state'
-}
-
-export function rowsToSolutionSteps(rows: Edtr[]) {
-  const solutionSteps: { type: string; isHalf: boolean; content: Edtr }[] = []
-
-  rows.forEach(row => {
-    if (row.plugin === 'layout' && (row as LayoutPlugin).state.length === 2) {
-      const layoutPlugin = row
-      const leftElement = {
-        type: 'step',
-        isHalf: true,
-        content: (layoutPlugin as LayoutPlugin).state[0].child
-      }
-      const rightElement = {
-        type: 'explanation',
-        isHalf: true,
-        content: (layoutPlugin as LayoutPlugin).state[1].child
-      }
-      solutionSteps.push(leftElement)
-      solutionSteps.push(rightElement)
-    } else {
-      solutionSteps.push({ type: 'step', isHalf: false, content: row })
-    }
-  })
-
-  return solutionSteps
 }

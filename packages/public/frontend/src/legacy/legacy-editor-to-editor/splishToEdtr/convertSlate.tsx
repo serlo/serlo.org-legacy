@@ -23,7 +23,7 @@ import * as React from 'react'
 import Html, { Rule } from 'slate-html-serializer'
 // @ts-ignore
 import { parseFragment } from 'parse5'
-import { Block, Data, Inline, Mark, Value, ValueJSON } from 'slate'
+import { Block, Inline, Mark, Value, ValueJSON } from 'slate'
 
 /**
  * This file provides a serializer for the splish slate state to html
@@ -148,9 +148,9 @@ const linkDeserializer: Rule = {
         object: 'inline',
         type: linkNode,
         nodes: next(el.childNodes),
-        data: Data.create({
+        data: {
           href: attr ? attr.value : ''
-        })
+        }
       }
     }
   }
