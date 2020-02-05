@@ -66,7 +66,7 @@ export async function goto(site: string): Promise<ElementHandle> {
 
 export async function click(element: ElementHandle): Promise<void> {
   await element.click()
-  await page.waitFor(100)
+  await page.waitFor(200)
 }
 
 export async function typeIntoEditor(
@@ -83,7 +83,7 @@ export async function clickForNewPage(
 ): Promise<ElementHandle> {
   await element.click()
   await page.waitForNavigation()
-  await page.waitFor(200)
+  await page.waitFor(300)
 
   return getDocument(page)
 }
