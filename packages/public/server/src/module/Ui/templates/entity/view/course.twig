@@ -19,10 +19,4 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{% set name = entity.getType().getName() %}
-{% set template = include('entity/view/' ~ name, ignore_missing = true) %}
-{% if template %}
-  {{ template | raw }}
-{% else %}
-  {% trans %} No view found for {{ name }} {% endtrans %}
-{% endif %}
+{% trans %} Course has no course page. Please add one. {% endtrans %}
