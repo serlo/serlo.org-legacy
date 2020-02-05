@@ -1,6 +1,6 @@
 {
   "name": "@serlo/client",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config --output-public-path=https://packages.serlo.org/serlo-org-client@$npm_package_version/",
@@ -43,7 +43,7 @@
     "lodash.debounce": "^4.0.0",
     "magnific-popup": "^1.0.0",
     "moment": "^2.0.0",
-    "ramda": "^0.26.0",
+    "ramda": "^0.27.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "selection-position": "^1.0.0",
@@ -65,7 +65,7 @@
     "@types/request": "^2.0.0",
     "@types/styled-components": "^4.0.0",
     "babel-loader": "^8.0.0",
-    "cross-env": "^5.0.0",
+    "cross-env": "^7.0.0",
     "css-loader": "^2.0.0",
     "file-loader": "^3.0.0",
     "html-loader": "^0.5.0",
