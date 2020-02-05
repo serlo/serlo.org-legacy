@@ -322,7 +322,7 @@ export function Controls(props: OwnProps) {
     const { changes } = props
     if (!changes) return null
     return (
-      <BSFormGroup>
+      <BSFormGroup controlId="changes">
         <BSControlLabel>Änderungen</BSControlLabel>
         <BSFormControl
           componentClass="textarea"

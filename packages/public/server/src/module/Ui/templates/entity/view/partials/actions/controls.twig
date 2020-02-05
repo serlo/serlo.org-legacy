@@ -28,7 +28,6 @@
     <ul class="dropdown-menu pull-right" role="menu">
         {{ subscribe(entity).subMenuItem() }}
         {% include 'entity/view/partials/actions/versioning/history' %}
-        {% include 'entity/view/partials/actions/versioning/convert' %}
         {% include 'common/share' with {'id': entity.getId()} %}
         {% include 'entity/view/partials/actions/link/add' %}
         {% include 'entity/view/partials/actions/link/update' %}

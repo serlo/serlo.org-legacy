@@ -24,13 +24,17 @@
 {% do normalize().headMeta(entity) %}
 {% do normalize().headTitle(entity) %}
 
-{% set controls = include('entity/view/partials/actions/course/course-controls-wrapper', {'entity': entity, 'parent': parent}) %}
-{% do placeholder('controls').set(controls) %}
-{% do placeholder('isLeaf').set(true) %}
-{% do placeholder('breadcrumbs').set('<li><span>'~normalize().toTitle(parent)~'</span></li>') %}
+<div itemscope itemtype="http://schema.org/Article">
+    {% set controls = include('entity/view/partials/actions/course/course-controls-wrapper', {'entity': entity, 'parent': parent}) %}
+    {% do placeholder('controls').set(controls) %}
+    {% do placeholder('isLeaf').set(true) %}
+    {% do placeholder('breadcrumbs').set('<li><span>'~normalize().toTitle(parent)~'</span></li>') %}
 
-{% include 'entity/page/partials/alerts' %}
-{% include 'entity/view/default' %}
+    <div itemprop="articleBody">
+        {% include 'entity/page/partials/alerts' %}
+        {% include 'entity/view/default' %}
+    </div>
+</div>
 
 {% set courseNav = include('entity/page/course-navigation', {'entity': parent, 'activePage': entity}) %}
 {% set temp = registry().add('rnav', courseNav) %}

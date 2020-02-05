@@ -1,3 +1,6 @@
+import { click, clickForNewPage, getBySelector, getByText } from './_utils'
+import { ElementHandle } from 'puppeteer'
+
 /**
  * This file is part of Serlo.org.
  *
@@ -20,3 +23,65 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 export const exampleApiParameters = ['contentOnly', 'hideBanner', 'fullWidth']
+
+export const elements = {
+  getDropdownToggle(page: ElementHandle) {
+    return getBySelector(page, '#subject-nav-wrapper button.dropdown-toggle')
+  },
+  getLoginButton(page: ElementHandle) {
+    return getByText(page, 'Log in', {
+      selector: '#serlo-menu a'
+    })
+  },
+  getLogoutButton(page: ElementHandle) {
+    return getByText(page, 'Log out', {
+      selector: '#serlo-menu a'
+    })
+  },
+  getSaveButton(page: ElementHandle) {
+    return getBySelector(page, '#subject-nav-wrapper .fa-save')
+  },
+  getEditButton(page: ElementHandle) {
+    return getBySelector(page, '#subject-nav-wrapper .fa-pencil')
+  },
+  getBackLink(page: ElementHandle) {
+    return getBySelector(page, '.page-header a')
+  },
+  getProfileButton(page: ElementHandle) {
+    return getBySelector(page, '#serlo-menu a .fa-user')
+  }
+}
+
+export const notifications = {
+  savedAndCheckedOut: 'Your revision has been saved and is available'
+}
+
+export const pages = {
+  e2eTopic: {
+    path: '/math/area-e2e-tests',
+    id: '35566'
+  },
+  login: {
+    defaultPassword: '123456',
+    path: '/auth/login',
+    identifier: {
+      inputUser: 'Email address or Username',
+      inputPassword: 'Password',
+      buttonLogin: 'Login'
+    }
+  },
+  logout: {
+    path: '/auth/logout'
+  }
+}
+
+export const testingServerUrl = 'http://en.serlo.localhost:4567'
+
+export const users = ['login', 'german_reviewer', 'german_helper', 'admin']
+
+export const viewports = {
+  desktop: {
+    width: 1920,
+    height: 1080
+  }
+}

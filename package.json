@@ -30,7 +30,7 @@
     "oauth:client": "docker-compose run hydra clients create --skip-tls-verify --endpoint http://hydra:4445 --id test_client --secret CHANGEMENOWOMG --grant-types authorization_code --response-types code --scope openid,email --callbacks http://127.0.0.1:4446/callback",
     "oauth:user": "docker-compose run -p 4446:4446 hydra token user --skip-tls-verify --client-id test_client --client-secret CHANGEMENOWOMG --port 4446 --auth-url http://localhost:4444/oauth2/auth --token-url http://hydra:4444/oauth2/token --scope openid,email",
     "rollback:sql": "ts-node scripts/rollback_mysql_serlo_database.ts",
-    "test:e2e": "jest --config ./jest.config-e2e.js",
+    "test:e2e": "jest --config ./jest.config-e2e.js --maxWorkers 1",
     "test:js": "npm-run-all test:js:*",
     "test:js:client": "jest",
     "test:js:ssr": "jest --config ./jest.config-ssr.js",

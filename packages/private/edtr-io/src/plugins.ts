@@ -39,6 +39,7 @@ import { coursePageTypePlugin } from './plugins/types/course-page'
 import { eventTypePlugin } from './plugins/types/event'
 import { mathPuzzleTypePlugin } from './plugins/types/math-puzzle'
 import { pageTypePlugin } from './plugins/types/page'
+import { taxonomyTypePlugin } from './plugins/types/taxonomy'
 import { textExerciseTypePlugin } from './plugins/types/text-exercise'
 import { textExerciseGroupTypePlugin } from './plugins/types/text-exercise-group'
 import { textHintTypePlugin } from './plugins/types/text-hint'
@@ -100,6 +101,7 @@ export function createPlugins(
     'type-event': eventTypePlugin,
     'type-math-puzzle': mathPuzzleTypePlugin,
     'type-page': pageTypePlugin,
+    'type-taxonomy': taxonomyTypePlugin,
     'type-text-exercise': textExerciseTypePlugin,
     'type-text-exercise-group': textExerciseGroupTypePlugin,
     'type-text-hint': textHintTypePlugin,

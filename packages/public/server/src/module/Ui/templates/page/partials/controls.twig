@@ -33,13 +33,13 @@
     <ul class="dropdown-menu pull-right" role="menu">
         {{ subscribe(page).subMenuItem() }}
         {% if isGranted('page.revision.create', page) and isLegacyFormat(revision.getContent()) %}
-        <li>
-            <a href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId() }) }}">
-                <span class="fa fa-pencil"></span>
-                {% trans %} Convert {% endtrans %}
-                <span class="label label-info pull-right">Beta</span>
-            </a>
-        </li>
+            <li>
+                <a href="{{ url('page/revision/create', {'page': page.getId(), 'revision': revision.getId() }) }}">
+                    <span class="fa fa-pencil"></span>
+                    {% trans %} Convert {% endtrans %}
+                    <span class="label label-info pull-right">Beta</span>
+                </a>
+            </li>
         {% endif %}
         <li>
             <a href="{{ url('page/revision/view-all', {'page': page.getId()}) }}">
@@ -49,16 +49,16 @@
         {% if isGranted('event.log.get', page) %}
             <li>
                 <a href="{{ url('event/history/object', {'id': page.getId()}) }}"> <span
-                            class="fa fa-heartbeat"></span> {% trans %} Log {% endtrans %}
+                        class="fa fa-heartbeat"></span> {% trans %} Log {% endtrans %}
                 </a>
             </li>
         {% endif %}
         {% if page.getCurrentRevision() is not same as (revision) %}
             <li>
                 {% set trashbutton %}
-                <button class="btn dropdown-menu-item">
-                    <span class="fa fa-trash"></span> {% trans %} Trash {% endtrans %}
-                </button>
+                    <button class="btn dropdown-menu-item">
+                        <span class="fa fa-trash"></span> {% trans %} Trash {% endtrans %}
+                    </button>
                 {% endset %}
                 {% include 'common/csrfform' with {'form': uuidForm().getTrashForm(revision.getId()), 'sendbutton': trashbutton} %}
             </li>

@@ -19,15 +19,16 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getDocument, getByText, getByItemType } from '../_utils'
+import { goto, getByItemType } from '../_utils'
 
 const eventUrl = 'http://de.serlo.localhost:4567/35554'
 const eventItemType = 'http://schema.org/Event'
 
 test('view page of events', async () => {
-  await page.goto(eventUrl)
-  const $document = await getDocument(page)
-  const event = await getByItemType($document, eventItemType)
-  await getByText(event, 'Beispielveranstaltung', { selector: 'h1' })
-  await getByText(event, 'Redaktionssitzung in Münster')
+  const eventPage = await goto(eventUrl)
+  const event = await getByItemType(eventPage, eventItemType)
+  await expect(event).toMatchElement('h1', { text: 'Beispielveranstaltung' })
+  await expect(event).toMatchElement('*', {
+    text: 'Redaktionssitzung in Münster'
+  })
 })

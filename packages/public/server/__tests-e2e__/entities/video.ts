@@ -19,32 +19,94 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getByItemType, getByText, getDocument, queryByText } from '../_utils'
-import { exampleApiParameters } from '../_config'
+import {
+  getByItemType,
+  goto,
+  getBySelector,
+  login,
+  randomText,
+  getByPlaceholderText,
+  saveRevision,
+  addContent,
+  openDropdownMenu
+} from '../_utils'
+import { exampleApiParameters, pages, notifications } from '../_config'
 
-const videoUrl = 'http://de.serlo.localhost:4567/32321'
 const videoItemType = 'http://schema.org/VideoObject'
-const videoTitle = 'Schriftliche Addition'
-const videoDescription =
-  'Dieses Video erklärt die Schriftliche Addition mit Hilfe einer Stellenwerttafel.'
 
-test('Test elements on video page', async () => {
-  const video = await gotoVideo()
-  await getByText(video, videoTitle, { selector: 'h1' })
-  await getByText(video, videoDescription)
+describe('view video page', () => {
+  const videoPath = '/math/example-content/example-topic-1/example-video'
+  const videoTitle = 'Example video'
+  const videoDescription = 'This is an example video.'
+  const youtubeUrl =
+    'https://www.youtube-nocookie.com/embed/2OjVWmAr5gE?html5=1'
+
+  test('view example video page', async () => {
+    const videoPage = await goto(videoPath)
+    const video = await getByItemType(videoPage, videoItemType)
+
+    await expect(video).toMatchElement('h1', { text: videoTitle })
+    await expect(video).toMatchElement('*', { text: videoDescription })
+    await expect(video).toHaveTitle(`${videoTitle} (video)`)
+
+    const iframe = await getBySelector(video, 'iframe')
+    await expect(iframe).toHaveAttribute('src', youtubeUrl)
+  })
+
+  test.each(exampleApiParameters)(
+    `view example video page when %p is set (content-api)`,
+    async contentApiParam => {
+      const videoPage = await goto(videoPath + '?' + contentApiParam)
+      const video = await getByItemType(videoPage, videoItemType)
+
+      await expect(video).not.toMatchElement('h1', { text: videoTitle })
+      await expect(video).not.toMatchElement('*', { text: videoDescription })
+      await expect(video).toHaveTitle(`${videoTitle} (video)`)
+
+      const iframe = await getBySelector(video, 'iframe')
+      await expect(iframe).toHaveAttribute('src', youtubeUrl)
+    }
+  )
 })
 
-test.each(exampleApiParameters)(
-  `Test elements when %p is set (page for content-api)`,
-  async contentApiParam => {
-    const video = await gotoVideo(`?${contentApiParam}`)
-    expect(await queryByText(video, videoTitle, { selector: 'h1' })).toBeNull()
-    expect(await queryByText(video, videoDescription)).toBeNull()
-  }
-)
+describe('create video page', () => {
+  test.each(['admin', 'english_langhelper'])('user is %p', async user => {
+    const title = randomText('video')
+    const description = randomText()
+    const youtubeId = '2OjVWmAr5gE'
 
-async function gotoVideo(postFix = '') {
-  await page.goto(`${videoUrl}${postFix}`)
-  const $document = await getDocument(page)
-  return await getByItemType($document, videoItemType)
-}
+    await login(user)
+    const topic = await goto(pages.e2eTopic.path)
+    const createPage = await openDropdownMenu(topic).then(addContent('video'))
+
+    await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+
+    const videoUrlField = await getBySelector(
+      createPage,
+      '#editor article section:nth-child(1)'
+    )
+    await videoUrlField.click()
+    await videoUrlField.type(`https://www.youtube.com/watch?v=${youtubeId}`)
+
+    const descriptionField = await getBySelector(
+      createPage,
+      '#editor article section:nth-child(2)'
+    )
+    await descriptionField.click()
+    await descriptionField.click()
+    await descriptionField.type(description)
+
+    const success = await saveRevision(createPage)
+    await expect(success).toHaveSystemNotification(
+      notifications.savedAndCheckedOut
+    )
+
+    await expect(success).toMatchElement('h1', { text: title })
+    await expect(success).toMatchElement('*', { text: description })
+    await expect(success).toHaveTitle(`${title} (video)`)
+
+    const iframe = await getBySelector(success, 'iframe')
+    const embedUrl = `https://www.youtube-nocookie.com/embed/${youtubeId}?html5=1`
+    await expect(iframe).toHaveAttribute('src', embedUrl)
+  })
+})

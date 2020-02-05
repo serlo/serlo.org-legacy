@@ -117,7 +117,7 @@ class IndexController extends AbstractAPIAwareActionController
                 $this->getEventManager()->trigger('page.create', $this, $params);
                 $this->getPageManager()->flush();
                 $this->getEventManager()->trigger('page.create.postFlush', $this, $params);
-                $this->redirect()->toRoute('page/revision/create-old', ['page' => $repository->getId()]);
+                $this->redirect()->toRoute('page/revision/create', ['page' => $repository->getId()]);
             }
         }
 
@@ -196,7 +196,7 @@ class IndexController extends AbstractAPIAwareActionController
             }
         }
 
-        $revision = $this->getPageManager()->getRevision($id);
+        $revision = $id ? $this->getPageManager()->getRevision($id) : null;
         $license = $page->getLicense();
 
 
@@ -209,8 +209,8 @@ class IndexController extends AbstractAPIAwareActionController
                 'url' => $license->getUrl(),
                 'iconHref' => $license->getIconHref(),
             ],
-            'content' => $revision->getContent(),
-            'title' => $revision->getTitle(),
+            'content' => $revision ? $revision->getContent() : '',
+            'title' => $revision ? $revision->getTitle() : '',
         ];
         $state = $this->featureFlags->isEnabled('frontend-editor')
             ? json_encode($data)
