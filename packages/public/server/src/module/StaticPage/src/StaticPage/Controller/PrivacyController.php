@@ -26,9 +26,9 @@ namespace StaticPage\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
-use StaticPage\DatenschutzRevision;
+use StaticPage\PrivacyRevision;
 
-class DatenschutzController extends AbstractActionController
+class PrivacyController extends AbstractActionController
 {
     public function indexAction()
     {
@@ -44,7 +44,7 @@ class DatenschutzController extends AbstractActionController
         ]);
 
         $this->layout('layout/1-col');
-        $view->setTemplate('static/de/datenschutz/archive');
+        $view->setTemplate('static/de/privacy/archive');
 
         return $view;
     }
@@ -67,7 +67,7 @@ class DatenschutzController extends AbstractActionController
             'revision' => $this->hydrateRevision($revision),
         ]);
 
-        $view->setTemplate('static/de/datenschutz/revision-' . $revision);
+        $view->setTemplate('static/de/privacy/revision-' . $revision);
 
         return $view;
     }
@@ -78,7 +78,7 @@ class DatenschutzController extends AbstractActionController
     private function getRevisions()
     {
         $config = $this->getServiceLocator()->get('Config');
-        return $config['datenschutz']['revisions'];
+        return $config['privacy']['revisions'];
     }
 
     /**
@@ -90,7 +90,7 @@ class DatenschutzController extends AbstractActionController
     }
 
     /**
-     * @return DatenschutzRevision[]
+     * @return PrivacyRevision[]
      */
     private function getHydratedRevisions()
     {
@@ -101,10 +101,10 @@ class DatenschutzController extends AbstractActionController
 
     /**
      * @param string $revision
-     * @return DatenschutzRevision
+     * @return PrivacyRevision
      */
     private function hydrateRevision(string $revision)
     {
-        return new DatenschutzRevision($revision, $revision === $this->getCurrentRevision());
+        return new PrivacyRevision($revision, $revision === $this->getCurrentRevision());
     }
 }

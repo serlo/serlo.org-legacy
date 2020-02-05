@@ -24,20 +24,20 @@
 namespace StaticPage;
 
 use StaticPage\Controller\BeitragController;
-use StaticPage\Controller\DatenschutzController;
+use StaticPage\Controller\PrivacyController;
 use StaticPage\Controller\SpendenController;
 
 return [
     'di' => [
         'allowed_controllers' => [
             BeitragController::class,
-            DatenschutzController::class,
+            PrivacyController::class,
             SpendenController::class,
         ],
         'definition' => [
             'class' => [
                 BeitragController::class => [],
-                DatenschutzController::class => [],
+                PrivacyController::class => [],
                 SpendenController::class => [],
             ],
         ],
@@ -55,12 +55,12 @@ return [
                     ],
                 ],
                 'child_routes' => [
-                    'datenschutz' => [
+                    'privacy' => [
                         'type' => 'literal',
                         'options' => [
-                            'route' => '/datenschutz',
+                            'route' => '/privacy',
                             'defaults' => [
-                                'controller' => DatenschutzController::class,
+                                'controller' => PrivacyController::class,
                                 'action' => 'index',
                             ],
                         ],
@@ -124,7 +124,7 @@ return [
             ],
         ],
     ],
-    'datenschutz' => [
+    'privacy' => [
         'revisions' => [
             '20181201',
             '20181017',

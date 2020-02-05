@@ -22,7 +22,7 @@
  */
 namespace StaticPage;
 
-class DatenschutzRevision
+class PrivacyRevision
 {
     /**
      * @var string
@@ -48,7 +48,7 @@ class DatenschutzRevision
 
     public function getUrl()
     {
-        return $this->current ? '/datenschutz' : '/datenschutz/archiv/' . $this->id;
+        return $this->current ? '/privacy' : '/privacy/archiv/' . $this->id;
     }
 
     public function getDate()

@@ -26,7 +26,7 @@
 
 {% if archived %}
     <div class="alert alert-info" style="margin-top: 20px;">
-        Dies ist eine archivierte Version unserer Datenschutzerklärung. Die aktuelle Version findest Du <a href="/datenschutz">hier</a>.
+        Dies ist eine archivierte Version unserer Datenschutzerklärung. Die aktuelle Version findest Du <a href="/privacy">hier</a>.
     </div>
 {% endif %}
 
@@ -34,5 +34,5 @@
 {{ pageHeader('Datenschutzerklärung').setSubtitle(prefix ~ ' ' ~ date).render() }}
 
 {% if not archived %}
-    Vorherige Versionen findest Du <a href="/datenschutz/archiv">hier</a>.
+    Vorherige Versionen findest Du <a href="/privacy/archiv">hier</a>.
 {% endif %}
