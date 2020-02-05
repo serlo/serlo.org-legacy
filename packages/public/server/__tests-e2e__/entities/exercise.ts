@@ -226,9 +226,7 @@ describe('create text-exercise', () => {
     await expect(success).toMatchElement('*', { text: exercise })
 
     await expect(success).toHaveCollapsable(hint, 'Show hint')
-    // TODO: Test that the solution is collapsable when #288 is fixed
-    // ( https://github.com/serlo/serlo.org/issues/288 )
-    //await expect(success).toHaveCollapsable(solution, 'Show solution')
+    await expect(success).toHaveCollapsable(solution, 'Show solution')
   })
 })
 
