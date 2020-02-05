@@ -23,6 +23,8 @@
 {% set template = include('entity/view/' ~ name, ignore_missing = true) %}
 {% if template %}
   {{ template | raw }}
+{% elseif name == "course" %}
+  {% trans %} Course has no course page. Please add one. {% endtrans %}
 {% else %}
   {% trans %} No view found for {{ name }} {% endtrans %}
 {% endif %}
