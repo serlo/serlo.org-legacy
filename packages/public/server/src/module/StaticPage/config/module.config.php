@@ -37,13 +37,60 @@ return [
         'definition' => [
             'class' => [
                 BeitragController::class => [],
-                PrivacyController::class => [],
+                PrivacyController::class => [
+                    'setInstanceManager' => [
+                        'required' => true,
+                    ],
+                ],
                 SpendenController::class => [],
             ],
         ],
     ],
     'router' => [
         'routes' => [
+            'privacy' => [
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/privacy',
+                    'defaults' => [
+                        'controller' => PrivacyController::class,
+                        'action' => 'index',
+                    ],
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'archiv' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/archiv',
+                            'defaults' => [
+                                'action' => 'archiveIndex',
+                            ],
+                        ],
+                        'may_terminate' => true,
+                        'child_routes' => [
+                            'view' => [
+                                'type' => 'segment',
+                                'options' => [
+                                    'route' => '/:revision',
+                                    'defaults' => [
+                                        'action' => 'archiveView',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'json' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/json',
+                            'defaults' => [
+                                'action' => 'json',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
             'deutsch' => [
                 'type' => 'hostname',
                 'options' => [
@@ -55,49 +102,6 @@ return [
                     ],
                 ],
                 'child_routes' => [
-                    'privacy' => [
-                        'type' => 'literal',
-                        'options' => [
-                            'route' => '/privacy',
-                            'defaults' => [
-                                'controller' => PrivacyController::class,
-                                'action' => 'index',
-                            ],
-                        ],
-                        'may_terminate' => true,
-                        'child_routes' => [
-                            'archiv' => [
-                                'type' => 'literal',
-                                'options' => [
-                                    'route' => '/archiv',
-                                    'defaults' => [
-                                        'action' => 'archiveIndex',
-                                    ],
-                                ],
-                                'may_terminate' => true,
-                                'child_routes' => [
-                                    'view' => [
-                                        'type' => 'segment',
-                                        'options' => [
-                                            'route' => '/:revision',
-                                            'defaults' => [
-                                                'action' => 'archiveView',
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                            ],
-                            'json' => [
-                                'type' => 'literal',
-                                'options' => [
-                                    'route' => '/json',
-                                    'defaults' => [
-                                        'action' => 'json',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
                     'spenden' => [
                         'type' => 'literal',
                         'options' => [
@@ -126,8 +130,14 @@ return [
     ],
     'privacy' => [
         'revisions' => [
-            '20181201',
-            '20181017',
+            'en' => [
+                '11111111',
+                '99990101',
+            ],
+            'de' => [
+                '20181201',
+                '20181017',
+            ],
         ],
     ],
 ];

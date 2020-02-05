@@ -23,6 +23,7 @@
 
 namespace StaticPage\Controller;
 
+use Instance\Manager\InstanceManagerAwareTrait;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
@@ -30,6 +31,8 @@ use StaticPage\PrivacyRevision;
 
 class PrivacyController extends AbstractActionController
 {
+    use InstanceManagerAwareTrait;
+
     public function indexAction()
     {
         $this->layout('layout/1-col');
@@ -44,7 +47,7 @@ class PrivacyController extends AbstractActionController
         ]);
 
         $this->layout('layout/1-col');
-        $view->setTemplate('static/de/privacy/archive');
+        $view->setTemplate('static/privacy/archive');
 
         return $view;
     }
@@ -67,9 +70,18 @@ class PrivacyController extends AbstractActionController
             'revision' => $this->hydrateRevision($revision),
         ]);
 
-        $view->setTemplate('static/de/privacy/revision-' . $revision);
+        $view->setTemplate('static/' . $this->getPrivacyLanguageCode() . '/privacy/revision-' . $revision);
 
         return $view;
+    }
+
+    private function getPrivacyLanguageCode()
+    {
+        $allRevisions = $this->getServiceLocator()->get('Config')['privacy']['revisions'];
+        $instance = $this->getInstanceManager()->getInstanceFromRequest();
+        $language = $instance->getLanguage()->getCode();
+
+        return array_key_exists($language, $allRevisions) ? $language : 'en';
     }
 
     /**
@@ -77,8 +89,9 @@ class PrivacyController extends AbstractActionController
      */
     private function getRevisions()
     {
-        $config = $this->getServiceLocator()->get('Config');
-        return $config['privacy']['revisions'];
+        $allRevisions = $this->getServiceLocator()->get('Config')['privacy']['revisions'];
+
+        return $allRevisions[$this->getPrivacyLanguageCode()];
     }
 
     /**
