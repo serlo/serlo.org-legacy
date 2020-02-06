@@ -98,46 +98,4 @@ class EventController extends AbstractActionController
         $view->setTemplate('event/history/user');
         return $view;
     }
-
-    public function renderAction()
-    {
-        $id = $this->params('id');
-        $format = $this->params('format');
-        $event = $this->eventManager->getEvent($id);
-
-        if ($format === 'html') {
-            $viewRender = $this->getServiceLocator()->get('ZfcTwig\View\TwigRenderer');
-            $view = new ViewModel([
-                'event' => $event,
-            ]);
-            $view->setTemplate('event/helper/event/default');
-            $html = $viewRender->render($view);
-            return new JsonModel([
-                'id' => $event->getId(),
-                'body' => $html,
-            ]);
-        }
-
-        if ($format === 'email') {
-            $viewRender = $this->getServiceLocator()->get('ZfcTwig\View\TwigRenderer');
-            $plainModel = new ViewModel([
-                'event' => $event,
-                'plain' => true,
-            ]);
-            $plainModel->setTemplate('event/render/email');
-            $plain = $viewRender->render($plainModel);
-            $htmlModel = new ViewModel([
-                'event' => $event,
-                'plain' => false,
-            ]);
-            $htmlModel->setTemplate('event/render/email');
-            $html = $viewRender->render($htmlModel);
-            return new JsonModel([
-                'body' => [
-                    'plain' => trim($plain),
-                    'html' => trim($html),
-                ],
-            ]);
-        }
-    }
 }

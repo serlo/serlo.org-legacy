@@ -50,7 +50,10 @@ return [
         ],
     ],
     'controllers' => [
-        'invokables' => [__NAMESPACE__ . '\Controller\EventController'],
+        'invokables' => [
+            __NAMESPACE__ . '\Controller\EventController',
+            __NAMESPACE__ . '\Controller\EventsController',
+        ],
     ],
     'service_manager' => [
         'factories' => [
@@ -67,6 +70,7 @@ return [
     'di' => [
         'allowed_controllers' => [
             __NAMESPACE__ . '\Controller\EventController',
+            __NAMESPACE__ . '\Controller\EventsController',
         ],
         'definition' => [
             'class' => [
@@ -209,6 +213,35 @@ return [
                     ],
                 ],
             ],
+            'events' => [
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/events',
+                    'defaults' => [
+                        'controller' => __NAMESPACE__ . '\Controller\EventsController',
+                    ],
+                ],
+                'child_routes' => [
+                    'render' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/render',
+                            'defaults' => [
+                                'action' => 'render',
+                            ],
+                        ],
+                        'child_routes' => [
+                            'format' => [
+                                'type' => 'segment',
+                                'options' => [
+                                    'route' => '/:format',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+
         ],
     ],
 ];

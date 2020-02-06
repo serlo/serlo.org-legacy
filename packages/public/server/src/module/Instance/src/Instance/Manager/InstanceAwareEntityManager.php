@@ -106,6 +106,12 @@ class InstanceAwareEntityManager extends EntityManager
         return $entity;
     }
 
+    public function findOverAllInstances($entityName, $id, $lockMode = null, $lockVersion = null)
+    {
+        $entity = parent::find($entityName, $id, $lockMode, $lockVersion);
+        return $entity;
+    }
+
     /**
      * @return boolean
      */

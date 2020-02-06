@@ -37,7 +37,7 @@ describe('HTTP Contract', () => {
       uponReceiving: 'get all notifications for user 123',
       withRequest: {
         method: 'GET',
-        path: '/notifications/serlo.org/123/html'
+        path: '/en/serlo.org/123/html'
       },
       willRespondWith: {
         status: 200,
@@ -45,7 +45,7 @@ describe('HTTP Contract', () => {
         body: []
       }
     })
-    await axios.get('http://localhost:9009/notifications/serlo.org/123/html')
+    await axios.get('http://localhost:9009/en/serlo.org/123/html')
   })
 
   test('GETting all notifications (one notification response)', async () => {
@@ -54,7 +54,7 @@ describe('HTTP Contract', () => {
       uponReceiving: 'get all notifications for user 123',
       withRequest: {
         method: 'GET',
-        path: '/notifications/serlo.org/123/html'
+        path: '/en/serlo.org/123/html'
       },
       willRespondWith: {
         status: 200,
@@ -71,7 +71,7 @@ describe('HTTP Contract', () => {
         ]
       }
     })
-    await axios.get('http://localhost:9009/notifications/serlo.org/123/html')
+    await axios.get('http://localhost:9009/en/serlo.org/123/html')
   })
 })
 

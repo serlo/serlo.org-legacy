@@ -197,7 +197,7 @@ class EventManager implements EventManagerInterface, \Zend\EventManager\EventMan
     public function getEvent($id)
     {
         $className = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
-        $event = $this->getObjectManager()->find($className, $id);
+        $event = $this->getObjectManager()->findOverAllInstances($className, $id);
         if (!is_object($event)) {
             throw new Exception\EntityNotFoundException(sprintf('Could not find an Entity by the ID of `%d`', $id));
         }
