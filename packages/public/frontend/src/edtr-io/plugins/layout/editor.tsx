@@ -23,9 +23,9 @@ import { useScopedStore } from '@edtr-io/core'
 import { EditorPluginProps, StateTypeReturnType } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
 import { DocumentState, replace, serializeDocument } from '@edtr-io/store'
-import * as R from 'ramda'
 import * as React from 'react'
 
+import { RowsPlugin } from '../../../legacy/legacy-editor-to-editor/splishToEdtr/types'
 import { layoutState } from '.'
 
 const LayoutContainer = styled.div({
@@ -70,28 +70,6 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
 }> = props => {
   const store = useScopedStore()
 
-  const convertToRow = () => {
-    R.reverse(props.state).forEach(item => {
-      if (props.insert) {
-        const element = serializeDocument(item.child.id)(store.getState())
-        if (element) {
-          if (element.plugin === 'rows') {
-            const rowsState = (element as { state: DocumentState[] }).state
-            rowsState.reverse().forEach(rowsItem => {
-              if (props.insert) {
-                props.insert(rowsItem)
-              }
-            })
-          } else {
-            props.insert(element)
-          }
-        }
-      }
-    })
-    if (props.remove) {
-      props.remove()
-    }
-  }
   return (
     <React.Fragment>
       {props.editable ? (
@@ -120,6 +98,31 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
       </LayoutContainer>
     </React.Fragment>
   )
+
+  function convertToRow() {
+    const documents: DocumentState[] = []
+
+    props.state.forEach(item => {
+      const element = serializeDocument(item.child.id)(store.getState())
+
+      if (!element) return
+      if (element.plugin === 'rows') {
+        ;(element as RowsPlugin).state.forEach(rowsItem => {
+          documents.push(rowsItem)
+        })
+      } else {
+        documents.push(element)
+      }
+    })
+
+    store.dispatch(
+      replace({
+        id: props.id,
+        plugin: 'rows',
+        state: documents
+      })
+    )
+  }
 
   function canConvertToMultimediaExplanation() {
     const columns = props.state
