@@ -102,11 +102,18 @@ class UuidManager implements UuidManagerInterface
         $eventLogClassName = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
         $eventTypeClassName = $this->getClassResolver()->resolveClassName('Event\Entity\EventInterface');
         $entityTypeClassName = $this->getClassResolver()->resolveClassName('Entity\Entity\EntityInterface');
+        $taxonomyTypeClassName = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyInterface');
+        $taxonomyTermTypeClassName = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyTermInterface');
         $results = $this->objectManager->createQueryBuilder()->select('u')->addSelect('MAX(e.date) AS date')->from($className, 'u')
             ->leftJoin($eventLogClassName, 'e', 'WITH', 'e.uuid = u')
             ->leftJoin($eventTypeClassName, 't', 'WITH', 'e.event = t')
             ->leftJoin($entityTypeClassName, 'ent', 'WITH', 'u.id = ent.id')
-            ->where('u.trashed = :trashed')->andWhere('t.name = :type')->andwhere('ent.instance = :instance OR ent.instance IS NULL')
+            ->leftJoin($taxonomyTermTypeClassName, 'tt', 'WITH', 'u = tt')
+            ->leftJoin($taxonomyTypeClassName, 'tax', 'WITH', 'tt.taxonomy = tax')
+            ->where('u.trashed = :trashed')
+            ->andWhere('t.name = :type')
+            ->andWhere('ent.instance = :instance OR ent.instance IS NULL')
+            ->andWhere('tax.instance = :instance OR tax.instance IS NULL')
             ->groupBy('u')
             ->orderBy('date', 'DESC')
             ->setParameter('trashed', true)->setParameter('type', 'uuid/trash')->setParameter('instance', $instance)
