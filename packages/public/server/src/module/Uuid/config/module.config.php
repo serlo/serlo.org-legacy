@@ -124,7 +124,7 @@ return [
                     ],
                     'setInstanceManager' => [
                         'required' => true,
-                    ]
+                    ],
                 ],
             ],
         ],
