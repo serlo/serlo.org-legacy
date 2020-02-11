@@ -18,6 +18,7 @@
     "format": "npm-run-all --parallel format:*",
     "format:prettier": "yarn _prettier --write",
     "format:php": "yarn _php-cs-fixer",
+    "i18n:regenerate": "i18next-scanner --config i18next.config.js",
     "lint": "npm-run-all --parallel lint:js lint:php",
     "lint:js": "npm-run-all --parallel lint:js:*",
     "lint:js:tsc": "tsc --noEmit",

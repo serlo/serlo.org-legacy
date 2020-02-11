@@ -30,6 +30,8 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "cross-env": "^7.0.0",
     "glob": "^7.0.0",
+    "i18next-scanner": "^2.0.0",
+    "i18next-scanner-typescript": "^1.0.0",
     "jest": "^25.0.0",
     "nodemon": "^2.0.0",
     "npm-run-all": "^4.0.0",

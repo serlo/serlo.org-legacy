@@ -29,6 +29,7 @@ import 'katex/dist/katex.css'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 
+import i18next from 'i18next'
 import 'magnific-popup'
 import moment from 'moment'
 import 'iframe-resizer/js/iframeResizer.contentWindow'
@@ -42,7 +43,6 @@ import Content from '../modules/content'
 import '../modules/modals'
 import '../modules/spoiler'
 import SystemNotification from '../modules/system_notification'
-import { tenant } from '../modules/tenant'
 import t from '../modules/translator'
 import '../thirdparty/jquery.nestable'
 import '../thirdparty/deployggb'
@@ -91,14 +91,19 @@ console.log('########################')
 console.log(`# serlo-org-client@${version} #`)
 console.log('########################')
 
-const setLanguage = () => {
-  const language = $('html').attr('lang') || 'de'
-
+async function setLanguage() {
+  const language = $('html').attr('lang') || 'en'
   t.config({
     language
   })
-
   moment.locale(language)
+  await i18next.init({
+    debug: process.env.NODE_ENV !== 'production',
+    defaultNS: 'default',
+    fallbackLng: 'en',
+    lng: language,
+    resources: require('i18next-resource-store-loader!../../../../../i18n')
+  })
 }
 
 const initNavigation = () => {
@@ -155,8 +160,7 @@ const initSubjectNav = $context => {
   })
 }
 
-const init = $context => {
-  setLanguage()
+function init($context) {
   initChangeDimensionEvents()
   initContentApi()
   initConsentBanner()
@@ -268,5 +272,7 @@ const init = $context => {
   initTracking($context)
 }
 
-init($('body'))
+setLanguage().then(() => {
+  init($('body'))
+})
 Supporter.check()

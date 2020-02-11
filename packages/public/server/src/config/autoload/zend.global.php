@@ -38,7 +38,7 @@ return [
             [
                 'type' => 'gettext',
                 'base_dir' => __DIR__ . '/../../lang',
-                'pattern' => '%s/LC_MESSAGES/athene2.mo',
+                'pattern' => '%s/LC_MESSAGES/default.mo',
             ],
         ],
     ],

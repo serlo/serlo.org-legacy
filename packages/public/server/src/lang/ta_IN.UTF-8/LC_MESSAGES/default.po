@@ -4,8 +4,8 @@ msgstr ""
 "POT-Creation-Date: 2020-01-10 07:07+0100\n"
 "PO-Revision-Date: 2020-01-13 03:15\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
-"Language-Team: French\n"
-"Language: fr\n"
+"Language-Team: Tamil\n"
+"Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,192 +13,192 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;translate;pageHeader;setSubtitle;addMessage;addSuccessMessage;addErrorMessage;setLabel;setLegend;t\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: ./../module\n"
 "X-Poedit-SearchPath-1: ./../config\n"
 "X-Crowdin-Project: serlo\n"
-"X-Crowdin-Language: fr\n"
+"X-Crowdin-Language: ta\n"
 "X-Crowdin-File: default.po\n"
 
 #: ../config/instance/navigation/default.php:27
 #: ../module/Ui/templates/admin/home/index.phtml:24
 msgid "Backend"
-msgstr "Backend"
+msgstr "பின்தளத்தில்"
 
 #: ../config/instance/navigation/default.php:33
 #: ../module/Ui/templates/navigation/container/get.twig:40
 #: ../module/Ui/templates/page/pages.twig:22
 msgid "Pages"
-msgstr "Pages"
+msgstr "பக்கங்கள்"
 
 #: ../config/instance/navigation/default.php:39
 #: ../module/Ui/templates/page/create.twig:22
 msgid "Create a page"
-msgstr "Créer une page"
+msgstr "ஒரு பக்கத்தை உருவாக்கு"
 
 #: ../config/instance/navigation/default.php:45
 #: ../module/Ui/templates/page/update.twig:22
 msgid "Update page"
-msgstr "Actualiser la page"
+msgstr ""
 
 #: ../config/instance/navigation/default.php:53
 msgid "Taxonomy"
-msgstr "Taxonomie"
+msgstr "வகைப்பாடு"
 
 #: ../config/instance/navigation/default.php:59
 msgid "Organize"
-msgstr "Organiser"
+msgstr "ஒழுங்குபடுத்த"
 
 #: ../config/instance/navigation/default.php:83
 msgid "Authorization"
-msgstr "Autorisation"
+msgstr "அங்கீகரித்தல்"
 
 #: ../config/instance/navigation/default.php:89
 #: ../module/Ui/templates/authorization/role/show.phtml:24
 msgid "Role"
-msgstr "Rôle"
+msgstr "பங்கு"
 
 #: ../config/instance/navigation/default.php:95
 #: ../module/Ui/templates/authorization/role/create.phtml:23
 msgid "Create role"
-msgstr "Créer un rôle"
+msgstr "பங்கு உருவாக்கு"
 
 #: ../config/instance/navigation/default.php:101
 #: ../module/Ui/templates/authorization/role/user/add.phtml:24
 msgid "Add user"
-msgstr "Ajouter un utilisateur"
+msgstr "பயனீட்டாளர் சேர்"
 
 #: ../config/instance/navigation/default.php:107
 #: ../module/Ui/templates/authorization/role/permission/add.phtml:24
 msgid "Add permission"
-msgstr "Ajouter une permission"
+msgstr "அனுமதி சேர்"
 
 #: ../config/instance/navigation/default.php:115
 msgid "Navigation"
-msgstr "Navigation"
+msgstr "வழிசெலுத்தல்"
 
 #: ../config/instance/navigation/default.php:121
 #: ../module/Ui/templates/navigation/containers.phtml:24
 #: ../module/Ui/templates/navigation/container/get.twig:22
 msgid "Manage navigation"
-msgstr "Diriger la navigation"
+msgstr "வழிசெலுத்தல் நிர்வகி"
 
 #: ../config/instance/navigation/default.php:126
 #: ../module/Ui/templates/navigation/container/create.phtml:24
 msgid "Create container"
-msgstr "Créer un container"
+msgstr "உருவாக்கும் பெட்டி"
 
 #: ../config/instance/navigation/default.php:136
 #: ../module/Ui/templates/navigation/parameter/create.phtml:24
 msgid "Create parameter"
-msgstr "Créer paramètre"
+msgstr "அளவுரு உருவாக்கு"
 
 #: ../config/instance/navigation/default.php:142
 #: ../module/Ui/templates/navigation/parameter/key/create.phtml:24
 msgid "Create parameter key"
-msgstr "Créer la clé de paramètre"
+msgstr "அளவுரு விசை உருவாக்கு"
 
 #: ../config/instance/navigation/default.php:148
 #: ../module/Ui/templates/navigation/parameter/update.phtml:24
 msgid "Update parameter"
-msgstr "Actualiser le paramètre"
+msgstr "அளவுரு மேம்படுத்தல்"
 
 #: ../config/instance/navigation/default.php:156
 #: ../module/Ui/templates/authorization/role/show.phtml:32
 #: ../module/Ui/templates/user/users/users.twig:22
 msgid "Users"
-msgstr "Utlisateurs"
+msgstr "பாவனையாளர்கள்"
 
 #: ../config/instance/navigation/default.php:162
 msgid "Recycle bin"
-msgstr "Corbeille"
+msgstr "மறுசுழற்சி தொட்டி"
 
 #: ../config/instance/navigation/default.php:168
 msgid "Flags"
-msgstr "Éléments marqués comme inappropriés"
+msgstr "கொடிகள்"
 
 #: ../config/instance/navigation/default.php:174
 #: ../module/Ui/templates/flag/detail.phtml:28
 msgid "Flag detail"
-msgstr "Description de l'élément marqué comme inapproprié"
+msgstr "கொடி விவரம்"
 
 #: ../config/instance/navigation/default.php:180
 #: ../module/Ui/templates/flag/add.phtml:24
 #: ../module/Ui/templates/entity/view/partials/actions/flag/create.twig:26
 msgid "Flag content"
-msgstr "Marquez cet élément comme inapproprié"
+msgstr "கொடி உள்ளடக்கம்"
 
 #: ../config/instance/navigation/default.php:188
 msgid "Licenses"
-msgstr "Licences"
+msgstr "உரிமங்கள்"
 
 #: ../config/instance/navigation/default.php:194
 #: ../module/Ui/templates/license/add.phtml:24
 msgid "Add license"
-msgstr "Ajouter Licence"
+msgstr "உரிமம் சேர்"
 
 #: ../config/instance/navigation/default.php:200
 #: ../module/Ui/templates/license/detail.phtml:26
 #: ../module/Ui/templates/entity/view/partials/actions/license/show.twig:27
 msgid "License"
-msgstr "Licence"
+msgstr "உரிமம்"
 
 #: ../config/instance/navigation/default.php:212
 msgid "Horizon"
-msgstr "Horizon"
+msgstr "அடிவானம்"
 
 #: ../config/instance/navigation/default.php:217
 #: ../module/Ui/templates/ads/ads.twig:27
 #: ../module/Ui/templates/ads/create.twig:22
 msgid "Create ad"
-msgstr "Créer publicité"
+msgstr "விளம்பரம் உருவாக்கு"
 
 #: ../config/instance/navigation/default.php:223
 #: ../module/Ui/templates/ads/update.twig:22
 msgid "Update ad"
-msgstr "Actualiser publicité"
+msgstr "விளம்பரம் மேம்படுத்தல்"
 
 #: ../config/instance/navigation/default.php:234
 #: ../module/Ui/templates/blog/blog/view.twig:23
 msgid "Blog"
-msgstr "Blog"
+msgstr "வலைப்பதிவு"
 
 #: ../config/instance/navigation/default.php:249
 msgid "Me"
-msgstr "Moi"
+msgstr "நான்"
 
 #: ../config/instance/navigation/default.php:266
 msgid "Public profile"
-msgstr "Profil public"
+msgstr "பொதுவான சுயவிவரம்"
 
 #: ../config/instance/navigation/default.php:271
 msgid "Edit profile"
-msgstr "Éditer profil"
+msgstr "சுயவிவர திருத்தம்"
 
 #: ../config/instance/navigation/default.php:277
 #: ../module/Ui/templates/authentication/change-password.twig:22
 msgid "Update password"
-msgstr "Actualiser le mot de passe"
+msgstr "கடவுச்சொல்லைப் புதுப்பிக்கவும்"
 
 #: ../config/instance/navigation/default.php:283
 msgid "Subscriptions"
-msgstr "Abonnements"
+msgstr "சந்தாக்கள்"
 
 #: ../config/instance/navigation/default.php:289
 #: ../module/Ui/templates/event/history/all.twig:22
 #: ../module/Ui/templates/event/history/object.twig:22
 #: ../module/Ui/templates/event/history/user.twig:22
 msgid "Event log"
-msgstr "Protocole d'activités"
+msgstr "நிகழ்வு பதிவு"
 
 #: ../module/Admin/src/Admin/Form/DebuggerForm.php:40
 msgid "Message:"
-msgstr "Message:"
+msgstr "செய்தி:"
 
 #: ../module/Ads/src/Ads/Controller/AdsController.php:112
 #: ../module/RelatedContent/src/RelatedContent/Controller/RelatedContentController.php:165
 msgid "The element could not be removed (validation failed)"
-msgstr "L’élément n’a pas pu être supprimé (échec de validation)"
+msgstr "நீங்கள் தேர்ந்தெடுத்த விடயத்தை அகற்றமுடியவில்லை (சரிபார்த்தல் தோல்வியடைந்தது)"
 
 #: ../module/Ads/src/Ads/Form/AdForm.php:47
 #: ../module/Blog/src/Blog/Form/CreatePostForm.php:81
@@ -211,13 +211,13 @@ msgstr "L’élément n’a pas pu être supprimé (échec de validation)"
 #: ../module/RelatedContent/src/RelatedContent/Form/InternalForm.php:43
 #: ../module/Ui/templates/page/revisions.twig:29
 msgid "Title:"
-msgstr "Titre :"
+msgstr "தலையங்கம்:"
 
 #: ../module/Ads/src/Ads/Form/AdForm.php:48
 #: ../module/Page/src/Page/Form/RepositoryForm.php:54
 #: ../module/RelatedContent/src/RelatedContent/Form/ExternalForm.php:45
 msgid "Url:"
-msgstr "Url :"
+msgstr "Url:"
 
 #: ../module/Ads/src/Ads/Form/AdForm.php:49
 #: ../module/Blog/src/Blog/Form/CreatePostForm.php:82
@@ -238,101 +238,101 @@ msgstr "Url :"
 #: ../module/License/src/License/Form/LicenseForm.php:49
 #: ../module/Page/src/Page/Form/RevisionForm.php:51
 msgid "Content:"
-msgstr "Contenu :"
+msgstr "உட்பொருள்:"
 
 #: ../module/Ads/src/Ads/Form/AdForm.php:58
 msgid "frequency"
-msgstr "fréquence"
+msgstr "அதிர்வலை"
 
 #: ../module/Ads/src/Ads/Form/AdForm.php:60
 msgid "Banner"
-msgstr "Bannière"
+msgstr "பதாகை"
 
 #: ../module/Ads/src/Ads/Form/AdPageForm.php:41
 msgid "Page ID:"
-msgstr "Page ID :"
+msgstr "பக்க அடையாளம்:"
 
 #: ../module/Attachment/src/Attachment/Form/AttachmentFieldset.php:40
 msgid "Attach file:"
-msgstr "Pièce jointe :"
+msgstr "கோப்பினை இணைக்கவும்:"
 
 #: ../module/Attachment/src/Attachment/Form/AttachmentForm.php:45
 msgid "Set type:"
-msgstr "Type :"
+msgstr "வகை அமைக்க:"
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:73
 msgid "Your account has been activated, you may now log in."
-msgstr "Votre compte a été activé, vous pouvez maintenant vous connecter."
+msgstr "உங்கள் கணக்கு செயல்படுத்தப்பட்டது, நீங்கள் இப்போது உள்நுழையலாம்."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:78
 msgid "I couldn't find an account by that token. You can now try to re-activate your account."
-msgstr "Aucun compte avec ce token n'a pu être trouvé. Vous pouvez maintenant essayer de réactiver votre compte."
+msgstr "இவ்வடையாளத்தின் கீழ் இக் கணக்கை கண்டுபிடிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:96
 msgid "Your have been sent an activation email. Please check your spam folder as well."
-msgstr "Nous vous avons envoyé un e-mail d'activation. Veuillez également vérifier votre dossier de spam."
+msgstr "உங்களின் கணக்கைச் செயற்றப்படுத்துவதற்காக மின்னஞ்சல் அனுப்பியுள்ளோம். தயவு செய்து உங்களுடையspamஐ பார்க்கவும்."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:134
 msgid "Your password has successfully been changed."
-msgstr "Votre mot de passe a été modifié avec succès."
+msgstr "உங்களுடைய கடவுச்சொல் வெற்றிகரமாக மாற்றப்பட்டுவிட்டது."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:239
 msgid "You have been sent an email with instructions on how to restore your password! Please check your spam folder as well."
-msgstr "Nous vous avons envoyé par mail les instructions de réinitialisation de votre mot de passe! Veuillez également vérifier votre dossier de spam."
+msgstr "உங்களுடைய மின்னஞ்சல் மூலம் உங்கள் கடவுச்சொல்லை எவ்வாறு பெற்றுக்கொள்ளலாம் என்று அறிந்துக்கொள்ளலாம். உங்கள் ஸ்பேம் கோப்பை பார்க்கவும்."
 
 #: ../module/Authentication/src/Authentication/Form/ActivateForm.php:43
 #: ../module/User/src/User/Form/Register.php:54
 #: ../module/User/src/User/Form/SelectUserForm.php:43
 #: ../module/User/src/User/Form/SettingsForm.php:44
 msgid "Email:"
-msgstr "E-mail:"
+msgstr "மின்னஞ்சல்:"
 
 #: ../module/Authorization/src/Authorization/Controller/RoleController.php:164
 msgid "Role created."
-msgstr "Rôle crée."
+msgstr "பங்கு உருவாக்கப்பட்டது."
 
 #: ../module/Authorization/src/Authorization/Controller/RoleController.php:189
 msgid "The permission could not be removed (validation failed)"
-msgstr "L’autorisation n’a pas pu être supprimé (échec de validation)"
+msgstr "நீங்கள் தேர்ந்தெடுத்த விடயத்தை அழிக்கமுடியவில்லை (சரிபார்த்தல் தோல்வியடைந்தது)"
 
 #: ../module/Authorization/src/Authorization/Controller/RoleController.php:222
 msgid "The user could not be removed (validation failed)"
-msgstr "L’utilisateur n’a pas pu être supprimé (échec de validation)"
+msgstr "பாவனையாளரை அகற்றமுடியவில்லை (சரிபார்த்தல் தோல்வியடைந்தது)"
 
 #: ../module/Authorization/src/Authorization/Form/PermissionForm.php:45
 msgid "Permission:"
-msgstr "Autorisation:"
+msgstr "அனுமதி:"
 
 #: ../module/Authorization/src/Authorization/Form/PermissionForm.php:54
 msgid "Instance:"
-msgstr "Instance:"
+msgstr "உதாரணம்:"
 
 #: ../module/Authorization/src/Authorization/Form/RoleForm.php:58
 #: ../module/Term/src/Term/Form/TermFieldset.php:37
 msgid "Name:"
-msgstr "Nom :"
+msgstr "பெயர்:"
 
 #: ../module/Authorization/src/Authorization/Form/UserForm.php:40
 #: ../module/User/src/User/Form/Register.php:48
 msgid "Username:"
-msgstr "Nom d'utilisateur :"
+msgstr "பயனர்பெயர்:"
 
 #: ../module/Blog/src/Blog/Form/CreatePostForm.php:87
 #: ../module/Blog/src/Blog/Form/UpdatePostForm.php:68
 msgid "Publish date:"
-msgstr "Date de publication :"
+msgstr "வெளியீட்டு நாள்:"
 
 #: ../module/Contexter/src/Contexter/Form/ContextForm.php:49
 msgid "Select a type:"
-msgstr "Sélectionnez un type :"
+msgstr "ஒரு வகையை தெரிவு செய்யவும்:"
 
 #: ../module/Contexter/src/Contexter/Form/ContextForm.php:51
 msgid "Object-ID:"
-msgstr "ID de l'objet :"
+msgstr "Object-ID:"
 
 #: ../module/Contexter/src/Contexter/Form/ParameterFieldset.php:38
 msgid "Which parameters should be matched?"
-msgstr "Quels paramètres vous souhaitez de combiner?"
+msgstr "எந்த Parameter பொருத்த வேண்டும்?"
 
 #: ../module/Contexter/src/Contexter/Form/ParameterFieldset.php:61
 msgid "<strong>"
@@ -340,120 +340,121 @@ msgstr "<strong>"
 
 #: ../module/Contexter/src/Contexter/Form/UrlForm.php:39
 msgid "Uri:"
-msgstr "Uri :"
+msgstr "Uri:"
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:107
 msgid "Your comment has been saved."
-msgstr "Votre commentaire a été enregistré."
+msgstr "உங்களுடைய கருத்து சேமிக்கப்பட்டுள்ளது."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:162
 msgid "Your discussion has been started."
-msgstr "Votre conversation a demarré."
+msgstr "உங்களுடைய கலந்துரையாடல் ஆரம்பமாகியுள்ளது."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:191
 msgid "You have downvoted this comment."
-msgstr "Vous avez voté contre ce commentaire."
+msgstr "நீங்கள் இந்தக் கருத்துப்பகிர்வை மறுத்துள்ளீர்கள்."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:193
 msgid "You can't downvote this comment."
-msgstr "Vous ne pouvez pas voter contre ce commentaire."
+msgstr "நீங்கள் இந்தக் கருத்துப்பகிர்வை மறுத்துள்ளீர்கள்."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:197
 msgid "You have upvoted this comment."
-msgstr "Vous avez voté pour ce commentaire."
+msgstr "நீங்கள் இந்தக் கருத்துப்பகிர்வை ஏற்றுள்ளீர்கள்."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:199
 msgid "You can't upvote this comment."
-msgstr "Vous ne pouvez pas voter pour ce commentaire."
+msgstr "உங்களால் இந்தக் கருத்துப்பகிர்வை ஏற்கமுடியாது."
 
 #: ../module/Discussion/src/Discussion/Form/CommentForm.php:83
 msgid "Your response"
-msgstr "Votre réponse"
+msgstr "உங்களுடைய பதில்"
 
 #: ../module/Discussion/src/Discussion/Form/CommentForm.php:88
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:139
 msgid "Reply"
-msgstr "Répondre"
+msgstr "மறுமொழி"
 
 #: ../module/Discussion/src/Discussion/Form/DiscussionForm.php:83
 msgid "Ask a question or suggest an improvement"
-msgstr "Posez une question ou suggérez une amélioration"
+msgstr "கேள்வி அல்லது முன்னேற்றத்திற்கான பரிந்துரை"
 
 #: ../module/Discussion/src/Discussion/Form/DiscussionForm.php:88
 msgid "Submit"
-msgstr "Soumettre"
+msgstr "இணைக்க"
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:107
 msgid "Guideline for reviewing"
-msgstr "Guideline pour le reviewing"
+msgstr ""
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:111
 msgid "List of all discussions"
-msgstr "Liste de toutes les discussions"
+msgstr ""
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:115
 msgid "Channel #feedback-requests in RocketChat"
-msgstr "Channel #feedback-requests dans RocketChat"
+msgstr ""
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:119
 msgid "Questionnaire for reviewers"
-msgstr "Questionnaire pour les reviewers"
+msgstr ""
 
 #: ../module/Entity/src/Entity/Controller/LinkController.php:65
 #: ../module/Entity/src/Entity/Controller/LinkController.php:89
 msgid "Your changes have been saved."
-msgstr "Vos modifications ont été enregistrées."
+msgstr "உங்களுடைய மாற்றங்கள் சேமிக்கப்பட்டுள்ளது."
 
 #: ../module/Entity/src/Entity/Controller/RepositoryController.php:358
 msgid "Your revision has been saved and is available"
-msgstr "Votre révision a été enregistrée et est disponible"
+msgstr "நீங்கள் திருத்தியது சேமிக்கப்பட்டு காணக்கூடியதாக்கப்பட்டுள்ளது"
 
 #: ../module/Entity/src/Entity/Controller/RepositoryController.php:361
 msgid "Your revision has been saved, it will be available once it gets approved"
-msgstr "Votre révision a été enregistrée, elle sera disponible une fois qu'elle sera approuvée"
+msgstr "உங்கள் திருத்தம் \n"
+"பதிவடைந்தது.அது அங்கீகரிக்கப்பட்டவுடன் வெளியிடப்படும்"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:49
 msgid "Applet Url:"
-msgstr "Url de l'applet :"
+msgstr "இணையமுகவரியை இணைக்குக:"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:50
 #: ../module/Entity/src/Entity/Form/ModuleForm.php:46
 #: ../module/Entity/src/Entity/Form/VideoForm.php:48
 msgid "Description:"
-msgstr "Description:"
+msgstr "விவரிப்பு:"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:51
 #: ../module/Entity/src/Entity/Form/ArticleForm.php:47
 #: ../module/Entity/src/Entity/Form/ModuleForm.php:48
 #: ../module/Entity/src/Entity/Form/VideoForm.php:51
 msgid "Reasoning:"
-msgstr "Raisonnement:"
+msgstr "காரணம்:"
 
 #: ../module/Entity/src/Entity/Form/Element/Changes.php:35
 msgid "Changes:"
-msgstr "Modifications:"
+msgstr "மாற்றங்கள்:"
 
 #: ../module/Entity/src/Entity/Form/Element/MetaDescription.php:35
 msgid "Search Engine Description:"
-msgstr "Description du moteur de recherche:"
+msgstr "தேடல் விளக்கம்:"
 
 #: ../module/Entity/src/Entity/Form/Element/MetaTitle.php:35
 msgid "Search Engine Title:"
-msgstr "Nom du moteur de recherche:"
+msgstr "தேடல் தலைப்பு:"
 
 #: ../module/Entity/src/Entity/Form/InputChallengeForm.php:45
 msgid "Solution:"
-msgstr "Solution :"
+msgstr "தீர்வு:"
 
 #: ../module/Entity/src/Entity/Form/InputChallengeForm.php:46
 #: ../module/Entity/src/Entity/Form/MultipleChoiceWrongAnswerForm.php:45
 #: ../module/Entity/src/Entity/Form/SingleChoiceAnswerForm.php:45
 msgid "Feedback:"
-msgstr "Commentaires:"
+msgstr "உங்களின் கருத்து:"
 
 #: ../module/Entity/src/Entity/Form/MathPuzzleForm.php:46
 msgid "Source code:"
-msgstr "Code source:"
+msgstr "மூலத்தின் அடையாளம்:"
 
 #: ../module/Entity/src/Entity/Form/ModulePageForm.php:48
 msgid "Select an icon"
@@ -461,432 +462,432 @@ msgstr ""
 
 #: ../module/Entity/src/Entity/Form/VideoForm.php:49
 msgid "Video url:"
-msgstr "Url de la vidéo:"
+msgstr "காணொளி  இணையமுகவரி:"
 
 #: ../module/Flag/src/Flag/Controller/FlagController.php:54
 msgid "The content has been flagged."
-msgstr "Cet élément a été marqué comme inapproprié."
+msgstr "உங்கள் உள்ளடக்கம் அகற்றப்பட்டது."
 
 #: ../module/Flag/src/Flag/Controller/FlagController.php:93
 msgid "Your action was successfull."
-msgstr "Votre action a réussi."
+msgstr "உங்களுடைய செயல் நிறைவுபெற்றுள்ளது."
 
 #: ../module/Flag/src/Flag/Controller/FlagController.php:95
 msgid "The flag could not be removed (validation failed)"
-msgstr "Le marquage de l'élément comme inapproprié n’a pas pu être supprimé (échec de validation)"
+msgstr "உங்களுடைய பக்கத்தை அகற்றமுடியவில்லை"
 
 #: ../module/Flag/src/Flag/Form/FlagForm.php:52
 #: ../module/Navigation/src/Navigation/Form/ContainerForm.php:53
 msgid "Type:"
-msgstr "Type:"
+msgstr "வகை:"
 
 #: ../module/License/src/License/Controller/LicenseController.php:120
 msgid "The license could not be removed (validation failed)"
-msgstr "La licence n’a pas pu être supprimé (échec de validation)"
+msgstr "நீங்கள் தேர்ந்தெடுத்த விடயத்தை அகற்றமுடியவில்லை (சரிபார்ப்பு தோல்வியுற்றது)"
 
 #: ../module/License/src/License/Form/LicenseForm.php:50
 msgid "License url:"
-msgstr "Url de la licence:"
+msgstr "உரிம இணையமுகவரி:"
 
 #: ../module/License/src/License/Form/LicenseForm.php:51
 msgid "Agreement:"
-msgstr "Accord:"
+msgstr "உடன்பாடு:"
 
 #: ../module/License/src/License/Form/LicenseForm.php:55
 msgid "Icon url:"
-msgstr "Url de l’icône:"
+msgstr "அடையாள இணைய முகவரி:"
 
 #: ../module/License/src/License/Form/LicenseForm.php:56
 msgid "This is the default license for this instance."
-msgstr "Ceci est la licence par défaut pour cette instance."
+msgstr "இந்த நிகழ்விற்கான இயல்புநிலை உரிமம்"
 
 #: ../module/License/src/License/Form/UpdateLicenseForm.php:48
 msgid "Select a license:"
-msgstr "Sélectionnez une licence:"
+msgstr "உரிமத்தைத் தேர்ந்தெடுக்குக:"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:96
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:125
 msgid "The container was successfully created"
-msgstr "Le conteneur a été créé avec succès"
+msgstr "உங்களுடைய பெட்டி வெற்றிகரமாக உருவாக்கப்பட்டுள்ளது"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:127
 msgid "The container could not be created (validation failed)"
-msgstr "Le conteneur n’a pas pu être créé (échec de validation)"
+msgstr "உங்களுடைய பெட்டியின் உருவாக்கம் தோல்வியடைந்தது (சரிபார்த்தல் தோல்வியடைந்தது)"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:237
 msgid "The container was successfully removed"
-msgstr "Le conteneur a été supprimé avec succès"
+msgstr "உங்களுடைய பெட்டி வெற்றிகரமாக அகற்றப்பட்டது"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:239
 msgid "The container could not be removed (validation failed)"
-msgstr "Le conteneur n’a pas pu être supprimée (échec de validation)"
+msgstr "உங்களுடைய பெட்டியை அகற்றமுடியவில்லை (சரிபார்த்தல் தோல்வியடைந்தது)"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:255
 msgid "The page was successfully removed"
-msgstr "La page a été supprimée avec succès"
+msgstr "உங்களுடைய பக்கம் வெற்றிகரமாக அகற்றப்பட்டது"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:257
 msgid "The page could not be removed (validation failed)"
-msgstr "La page n’a pas pu être supprimée (échec de validation)"
+msgstr "உங்களுடைய பக்கத்தை அகற்றமுடியவில்லை (சரிபார்த்தல் தோல்வியடைந்தது)"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:273
 msgid "The parameter was successfully removed"
-msgstr "Le paramètre a été supprimé avec succès"
+msgstr "உங்களுடைய அளவுரு வெற்றிகரமாக அழிக்கப்பட்டுள்ளது"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:275
 msgid "The parameter could not be removed (validation failed)"
-msgstr "Le paramètre n’a pas pu être supprimé (échec de validation)"
+msgstr "உங்களுடைய அளவுருவை அகற்றமுடியவில்லை (சரிபார்த்தல் தோல்வியடைந்தது)"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:294
 msgid "The page was successfully updated"
-msgstr "La page a été mise à jour avec succès"
+msgstr "உங்களுடைய பக்கம் வெற்றிகரமாக மாற்றப்பட்டுள்ளது"
 
 #: ../module/Navigation/src/Navigation/Form/PageForm.php:72
 msgid "Position"
-msgstr "Position"
+msgstr "நிலை"
 
 #: ../module/Navigation/src/Navigation/Form/ParameterForm.php:54
 msgid "Key:"
-msgstr "Clé:"
+msgstr "திறப்பு:"
 
 #: ../module/Navigation/src/Navigation/Form/ParameterForm.php:61
 msgid "Value:"
-msgstr "Valeur:"
+msgstr "பெறுமதி:"
 
 #: ../module/Normalizer/src/Normalizer/Adapter/EntityAdapter.php:172
 msgid "applet"
-msgstr "applet"
+msgstr "ஆப்லெட்"
 
 #: ../module/Normalizer/src/Normalizer/Adapter/EntityAdapter.php:176
 msgid "course"
-msgstr "cours"
+msgstr "பாடநெறி"
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:94
 msgid "You are now receiving notifications for this content."
-msgstr "Vous recevez maintenant des notifications pour ce contenu."
+msgstr "இந்த உள்ளடக்கத்திற்கான அறிவிப்புகளை தாம் இன்றிலிருந்து பெறுவீர்கள்."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:112
 msgid "Your subscription has been updated successfully."
-msgstr "Votre abonnement a été mis à jour avec succès."
+msgstr "உங்கள் சந்தா வெற்றிகரமாக புதுப்பிக்கப்பட்டது."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:114
 msgid "The object you are trying to subscribe to does not exist."
-msgstr "L’objet auquel vous vous voulez abonner n’existe pas."
+msgstr "நீங்கள் சந்தவிடவிருக்கும் பொருள் உருவாக்கப்படவேயில்லை."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:117
 msgid "You can't update your subscription because you did not subscribe to this object."
-msgstr "Vous ne pouvez pas mettre à jour votre abonnement parce que vous vous n'êtes pas abonné à cet objet."
+msgstr "இந்த பொருளுக்கு நீங்கள் சந்தாவை பெறவில்லை. அதனால் தாம் சந்தவைப் புதுப்பிக்க இயலாது."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:142
 msgid "You are no longer receiving notifications for this content."
-msgstr "Vous ne recevez plus de notifications pour ce contenu."
+msgstr "இந்த உள்ளடக்கத்திற்கான அறிவிப்புகளை தாம் இன்றிலிருந்து பெறுமாட்டீர்கள்."
 
 #: ../module/Notification/src/Notification/Form/OptInFieldset.php:37
 msgid "Add to watchlist."
-msgstr "Ajouter à votre liste de suivi."
+msgstr "Watchlist- இல் சேர்க்க"
 
 #: ../module/Notification/src/Notification/Form/OptInFieldset.php:44
 msgid "Receive notifications via email."
-msgstr "Recevez des notifications par e-mail."
+msgstr "மின்னஞ்சல் வழியாக அறிவிப்புகளைப் பெறுவீர்கள்."
 
 #: ../module/Page/src/Page/Form/RepositoryForm.php:55
 msgid "Discussions enabled"
-msgstr "Discussions activées"
+msgstr "விவாதங்களை/ கருத்துகளை செயல்படுத்தலாம் கூறலாம்"
 
 #: ../module/RelatedContent/src/RelatedContent/Form/InternalForm.php:44
 msgid "Reference:"
-msgstr "Référence:"
+msgstr "குறிப்பு:"
 
 #: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:80
 msgid "The node has been added successfully!"
-msgstr "Le nœud a été ajouté avec succès!"
+msgstr "உல்குகளுடைய குறிப்பு வெற்றிகரமாக சேர்க்கப்பட்டது!"
 
 #: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:118
 msgid "Items moved successfully!"
-msgstr "Les éléments ont été déplacés avec succès!"
+msgstr "உருப்படிகள் வெற்றிகரமாக நகர்த்தப்பட்டன!"
 
 #: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:155
 msgid "Items copied successfully!"
-msgstr "Les éléments ont été copiés avec succès!"
+msgstr "உருப்படிகளின் பிரதி வெற்றிகரமாக நகர்த்தப்பட்டது!"
 
 #: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:253
 msgid "Your changes have been saved!"
-msgstr "Vos modifications ont été enregistrés!"
+msgstr "உங்களுடைய மாற்றங்கள் சேமிக்கப்பட்டுள்ளது!"
 
 #: ../module/Taxonomy/src/Taxonomy/Form/BatchCopyForm.php:47
 msgid "Copy to:"
-msgstr "Copier vers:"
+msgstr "இங்கே பிரதிசெய்க:"
 
 #: ../module/Taxonomy/src/Taxonomy/Form/BatchCopyForm.php:51
 #: ../module/Taxonomy/src/Taxonomy/Form/BatchMoveForm.php:51
 msgid "Elements"
-msgstr "Éléments"
+msgstr "உறுப்புகள்"
 
 #: ../module/Taxonomy/src/Taxonomy/Form/BatchMoveForm.php:47
 msgid "Move to:"
-msgstr "Déplacer vers:"
+msgstr "நகர்வு:"
 
 #: ../module/Taxonomy/src/Taxonomy/Form/TermForm.php:74
 msgid "description:"
-msgstr "description:"
+msgstr "விளக்கம்:"
 
 #: ../module/User/src/User/Controller/UserController.php:130
 msgid "You have registered successfully and will soon receive an email with instructions on how to activate your account."
-msgstr "Vous vous êtes inscrit avec succès et allez bientôt recevoir un e-mail avec des consignes concernant l'activation de votre compte utilisateur."
+msgstr "நீங்கள் வெற்றிகரமாக பதிவுசெய்துள்ளீர்கள், விரைவில் உங்கள் கணக்கை எவ்வாறு செயல்படுத்துவது என்பதற்கான வழிமுறைகளுடன் ஒரு மின்னஞ்சலைப் பெறுவீர்கள்."
 
 #: ../module/User/src/User/Controller/UserController.php:197
 msgid "Your profile has been saved"
-msgstr "Votre profil a été enregistré"
+msgstr "உங்கள் சுயவிவரம் சேமிக்கப்பட்டது"
 
 #: ../module/User/src/User/Form/ChangePasswordForm.php:44
 msgid "Current password:"
-msgstr "Mot de passe actuel:"
+msgstr "தற்போதைய கடவுச்சொல்:"
 
 #: ../module/User/src/User/Form/ChangePasswordForm.php:45
 #: ../module/User/src/User/Form/LostPassword.php:43
 msgid "New password:"
-msgstr "Nouveau mot de passe:"
+msgstr "புதிய கடவுச்சொல்:"
 
 #: ../module/User/src/User/Form/ChangePasswordForm.php:46
 #: ../module/User/src/User/Form/Register.php:64
 msgid "Confirm password:"
-msgstr "Veuillez confirmer le mot de passe:"
+msgstr "கடவுச்சொல்லை உறுதிசெய்:"
 
 #: ../module/User/src/User/Form/Login.php:48
 msgid "Email address:"
-msgstr "Adresse e-mail:"
+msgstr "மின்னஞ்சல் முகவரி:"
 
 #: ../module/User/src/User/Form/Login.php:50
 msgid "Email address or Username"
-msgstr "Adresse e-mail ou nom d'utilisateur"
+msgstr "மின்னஞ்சல் முகவரி அல்லது பயனர்பெயர்"
 
 #: ../module/User/src/User/Form/Login.php:54
 #: ../module/User/src/User/Form/Register.php:59
 msgid "Password:"
-msgstr "Mot de passe:"
+msgstr "கடவுச்சொல்:"
 
 #: ../module/User/src/User/Form/Login.php:56
 msgid "Password"
-msgstr "Mot de passe"
+msgstr "கடவுச்சொல்"
 
 #: ../module/User/src/User/Form/Login.php:60
 msgid "Remember me"
-msgstr "Se souvenir de moi"
+msgstr "என்னை நினைவில் கொள்ளுங்கள்"
 
 #: ../module/User/src/User/Form/LostPassword.php:44
 msgid "Repeat new password:"
-msgstr "Répétez le nouveau mot de passe:"
+msgstr "மீண்டும் கடவுச்சொல்லை எழுதுங்கள்:"
 
 #: ../module/User/src/User/Form/Register.php:50
 msgid "Enter username"
-msgstr "Saisissez le nom d'utilisateur"
+msgstr "பயனர்பெயரை எழுதுங்கோ"
 
 #: ../module/User/src/User/Form/Register.php:56
 msgid "Enter email address"
-msgstr "Saisissez l'adresse e-mail"
+msgstr "மின்னஞ்சல் முகவரியை எழுதுங்கோ"
 
 #: ../module/User/src/User/Form/Register.php:61
 msgid "Enter password"
-msgstr "Saisissez le mot de passe"
+msgstr "கடவுச்சொல்லை எழுதுங்கோ"
 
 #: ../module/User/src/User/Form/Register.php:66
 msgid "Confirm password"
-msgstr "Confirmez le mot de passe"
+msgstr "கடவுச்சொல்லை உறுதிப்படுத்துங்கள்"
 
 #: ../module/User/src/User/Form/Register.php:69
 msgid "First name (optional):"
-msgstr "Prénom (facultatif):"
+msgstr "முதல் பெயர் (விரும்பினால்):"
 
 #: ../module/User/src/User/Form/Register.php:70
 msgid "Enter first name"
-msgstr "Entrez votre prénom"
+msgstr "முதற் பெயர் எழுதுங்கோ"
 
 #: ../module/User/src/User/Form/Register.php:73
 msgid "Last name (optional):"
-msgstr "Nom de famille (facultatif):"
+msgstr "குடும்பப் பெயர் (விரும்பினால்):"
 
 #: ../module/User/src/User/Form/Register.php:74
 msgid "Enter last name"
-msgstr "Entrez votre nom de famille"
+msgstr "குடும்பப் பெயரை எழுதுங்கோ"
 
 #: ../module/User/src/User/Form/Register.php:77
 msgid "I agree that Serlo Education e.V. may contact me via email."
-msgstr "Je suis d’accord que Serlo Education e.V. puisse me contacter par e-mail."
+msgstr "Serlo Education e. V. என்னை அஞ்சல் மூலமாக தொடர்பு கொள்ள அனுபதிக்கின்றேன்."
 
 #: ../module/User/src/User/Form/Register.php:82
 msgid "Parent"
-msgstr "Parent"
+msgstr "பெற்றோர்"
 
 #: ../module/User/src/User/Form/Register.php:83
 msgid "Teacher"
-msgstr "Enseignant"
+msgstr "ஆசிரியர்கள்"
 
 #: ../module/User/src/User/Form/Register.php:84
 msgid "Pupil"
-msgstr "Élève"
+msgstr "மாணவர்கள்"
 
 #: ../module/User/src/User/Form/Register.php:85
 msgid "University student"
-msgstr "Étudiant universitaire"
+msgstr "பல்கலைக்கழக மாணவர்"
 
 #: ../module/User/src/User/Form/Register.php:86
 msgid "Other"
-msgstr "Autres"
+msgstr "வேறு"
 
 #: ../module/User/src/User/Form/Register.php:89
 msgid "I am here as…"
-msgstr "Je suis ici comme…"
+msgstr "நான் இங்கே ....... செயல்படுகிறேன்."
 
 #: ../module/User/src/User/Form/Register.php:92
 #: ../module/Ui/templates/user/user/register.twig:24
 msgid "Sign up"
-msgstr "Inscrivez-vous"
+msgstr "உள்நுழை"
 
 #: ../module/User/src/User/Form/RegisterFilter.php:57
 msgid "This email address is already in use. Please use a different one."
-msgstr "Cette adresse e-mail est déjà utilisée. Veuillez utiliser une autre."
+msgstr "தேர்ந்தெடுத்த அஞ்சல் முகவரி ஏற்கனவே உபயோகத்தில் உள்ளது. வேறொன்றைத் தேர்ந்தெடக்கவும்."
 
 #: ../module/User/src/User/Form/RegisterFilter.php:78
 msgid "This username is already taken. Please use a different one."
-msgstr "Ce nom d'utilisateur est déjà pris. Veuillez en utiliser un autre."
+msgstr "தேர்ந்தெடுத்த பயனர்பெயர் ஏற்கனவே உபயோகத்தில் உள்ளது. வேறொன்றைத் தேர்ந்தெடக்கவும்."
 
 #: ../module/User/src/User/Form/RegisterFilter.php:89
 msgid "Your username may only contain letters, digits, underscores (_) and hyphens (-). Please use a different one."
-msgstr "Votre nom d'utilisateur ne peut contenir seulement des lettres, chiffres, soulignements (_) et trait d'union (-). Veuillez en utiliser un autre."
+msgstr "உங்களுடைய பெயரில் எழுத்துக்கள், இலக்கங்கள்,  குறியீடுகள்(_) மற்றும் குறியீடுகள் (-) மட்டுமே இருக்கலாம். தயவுசெய்து வேறு ஒன்றைப் பயன்படுத்தவும்"
 
 #: ../module/User/src/User/Form/RegisterFilter.php:109
 msgid "Your password needs to be at least 6 characters long."
-msgstr "Votre mot de passe doit comporter au moins 6 caractères."
+msgstr "உங்கள் கடவுச்சொல் குறைந்தது 6 எழுத்துகள் கொண்டிருக்கவேண்டும்"
 
 #: ../module/User/src/User/Form/RegisterFilter.php:117
 msgid "The password entered does not match the confirmation password. Ensure the passwords entered are identical."
-msgstr "Le mot de passe saisi ne correspond pas à l'adresse de confirmation. Veuillez vous assurer que les mots de passe entrés sont identiques."
+msgstr "கடவுச்சொல் உறுதிப்படுத்தும் கடவுச்சொல்லுடன் பொருந்தவில்லை. கடவுச்சொற்கள் ஒரே மாதிரியானவை என்பதை உறுதிப்படுத்தவும்"
 
 #: ../module/User/src/User/Form/SettingsForm.php:45
 msgid "About me:"
-msgstr "À propos de moi:"
+msgstr "என்னைப் பற்றியது:"
 
 #: ../module/Uuid/src/Uuid/Controller/UuidController.php:53
 msgid "The content has been trashed."
-msgstr "Le contenu a été placé dans la corbeille."
+msgstr "உங்கள் உள்ளடக்கம் அழிக்கப்பட்ட்து."
 
 #: ../module/Uuid/src/Uuid/Controller/UuidController.php:55
 msgid "The content could not be trashed (validation failed)"
-msgstr "Le contenu n'a pas pu être placé dans la corbeille (échec de validation)"
+msgstr "நீங்கள் தேர்ந்தெடுத்த விடயத்தை அகற்றமுடியவில்லை (சரிபார்த்தல் தோல்வியடைந்தது)"
 
 #: ../module/Uuid/src/Uuid/Controller/UuidController.php:65
 msgid "The content has been restored."
-msgstr "Le contenu a été restauré."
+msgstr "உங்கள் உள்ளடக்கம் மீட்டெடுக்கப்பட்டுள்ளது."
 
 #: ../module/Uuid/src/Uuid/Controller/UuidController.php:78
 msgid "The content has been removed."
-msgstr "Le contenu a été supprimé."
+msgstr "உங்கள் உள்ளடக்கம் அகற்றப்பட்டது."
 
 #: ../module/Uuid/src/Uuid/Controller/UuidController.php:80
 msgid "The content could not be removed (validation failed)"
-msgstr "Le contenu n’a pas pu être supprimé (échec de validation)"
+msgstr "நீங்கள் தேர்ந்தெடுத்த விடயத்தை அகற்றமுடியவில்லை (சரிபார்த்தல் தோல்வியடைந்தது)"
 
 #: ../module/Ui/templates/admin/home/index.phtml:27
 msgid "Welcome to the backend. Explore the possiblities on the right!"
-msgstr "Bienvenue dans le Chemin de Traverse, Harry!"
+msgstr "Backendஅடுக்கு வரவேற்கின்றோம்."
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:28
 #: ../module/Ui/templates/user/users/partial/users-table.twig:25
 msgid "Username"
-msgstr "Nom d'utilisateur"
+msgstr "பயனர்பெயர்"
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:29
 #: ../module/Ui/templates/authorization/role/roles.phtml:24
 #: ../module/Ui/templates/user/user/profile.twig:120
 #: ../module/Ui/templates/user/users/partial/users-table.twig:26
 msgid "Roles"
-msgstr "Rôles"
+msgstr "செயல்பங்கு"
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:30
 #: ../module/Ui/templates/user/users/partial/users-table.twig:27
 msgid "Last login"
-msgstr "Dernière connexion"
+msgstr "கடைசி உள்நுழைவு"
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:31
 #: ../module/Ui/templates/user/users/partial/users-table.twig:28
 msgid "Logins"
-msgstr "Logins"
+msgstr "உள்நுழைவுகள்"
 
 #: ../module/Ui/templates/authorization/role/roles.phtml:41
 msgid "role"
-msgstr "rôle"
+msgstr "செயல்பங்கு"
 
 #: ../module/Ui/templates/authorization/role/show.phtml:62
 msgid "Permissions"
-msgstr "Autorisations"
+msgstr "அனுமதிகள்"
 
 #: ../module/Ui/templates/authorization/role/show.phtml:73
 msgid "Global"
-msgstr "Global"
+msgstr "உலகளவு"
 
 #: ../module/Ui/templates/authorization/role/show.phtml:87
 msgid "Inherits from"
-msgstr "Hérite de"
+msgstr "உரிமைகள் இதில் இருந்து ....... "
 
 #: ../module/Ui/templates/authorization/role/user/partial.phtml:26
 #, php-format
 msgid "User %s not found"
-msgstr "L'utilisateur %s n'a pas été trouvé"
+msgstr "பயனர் காணப்படவில்லை"
 
 #: ../module/Ui/templates/authorization/role/user/remove.phtml:24
 msgid "Remove user"
-msgstr "Supprimer l’utilisateur"
+msgstr "பாவனையாளரை அகற்றவும்"
 
 #: ../module/Ui/templates/blog/blog/blogs.phtml:25
 msgid "Blogs"
-msgstr "Blog"
+msgstr "வலைப்பதிவுகள்"
 
 #: ../module/Ui/templates/blog/blog/post/update.phtml:24
 msgid "Update a blog post"
-msgstr "Mettre à jour un article de blog"
+msgstr "வலைப்பதிவுகளை புதுப்பிக்கவும்"
 
 #: ../module/Ui/templates/contexter/add/form.phtml:24
 #: ../module/Ui/templates/contexter/add/url-form.phtml:24
 msgid "Add context"
-msgstr "Ajouter un contexte"
+msgstr "உள்ளடக்கம் சேர்க்கவும்"
 
 #: ../module/Ui/templates/contexter/add/url-form.phtml:24
 msgid "Select uri"
-msgstr "Sélectionnez uri"
+msgstr "Select uri"
 
 #: ../module/Ui/templates/contexter/helper/button.phtml:35
 msgid "There is no help available for this page yet."
-msgstr "Il n'y a encore aucune aide pour cette page."
+msgstr " இந்த பக்கத்திற்கு உதவியை தற்பொழுது பெற மாட்டீர்கள்"
 
 #: ../module/Ui/templates/contexter/helper/button.phtml:61
 #: ../module/Ui/templates/contexter/helper/default.phtml:47
 msgid "Add"
-msgstr "Ajouter"
+msgstr "இணை"
 
 #: ../module/Ui/templates/contexter/manage.phtml:24
 msgid "Manage context links"
-msgstr "Gérer les liens de contexte"
+msgstr "இணைமுகவரியை கையாள்க"
 
 #: ../module/Ui/templates/contexter/manage.phtml:28
 msgid "Link"
-msgstr "Lien"
+msgstr "இணைப்பு"
 
 #: ../module/Ui/templates/contexter/manage.phtml:29
 msgid "Matching"
-msgstr "Correspondant"
+msgstr "தொடர்புபடுத்துக"
 
 #: ../module/Ui/templates/entity/license/update.phtml:24
 #: ../module/Ui/templates/license/update.phtml:24
 msgid "Update license"
-msgstr "Actualiser la licence"
+msgstr "உரிமத்தைப் புதுப்பிக்குக"
 
 #: ../module/Ui/templates/entity/link/move.phtml:25
 msgid "Move resource"
-msgstr "Déplacer la source de référence"
+msgstr "ஆதாரம் அசை"
 
 #: ../module/Ui/templates/entity/repository/update-revision-legacy.phtml:24
 msgid "Update revision"
-msgstr "Actualiser la révision"
+msgstr "மீட்டலை புதுப்பித்தல் "
 
 #: ../module/Ui/templates/error/403.phtml:28
 msgid "You cannot pass!"
@@ -899,63 +900,63 @@ msgstr ""
 #: ../module/Ui/templates/error/403.phtml:36
 #: ../module/Ui/templates/error/404.phtml:33
 msgid "Okay."
-msgstr "D'accord."
+msgstr "சரி."
 
 #: ../module/Ui/templates/error/404.phtml:29
 msgid "That page does not exist!"
-msgstr "Cette page n'existe pas!"
+msgstr "இந்த பக்கம் இல்லை"
 
 #: ../module/Ui/templates/error/404.phtml:31
 msgid "It seems like we can't find the page you were looking for. Try checking the URL for errors, then hit the refresh button on your browser."
-msgstr "Il semble que la page que vous cherchez n'existe pas. Vérifiez que l'url ne contienne pas d'erreurs, puis appuyez sur le bouton d'actualisation de votre navigateur."
+msgstr "நீங்கள் தேடும் பக்கத்தை எங்களால் கண்டுபிடிக்க முடியவில்லை. URLஅலை சரிப்பாக்கவும்.பின்பு புதுபிக்கும் பட்டனை அழுத்தவும்."
 
 #: ../module/Ui/templates/error/404.phtml:50
 msgid "The requested controller was unable to dispatch the request."
-msgstr "Le contrôleur demandé n'a pas pu envoyer la demande."
+msgstr "கோரிக்கையை அனுப்ப முடியவில்லை."
 
 #: ../module/Ui/templates/error/404.phtml:54
 msgid "The requested controller could not be mapped to an existing controller class."
-msgstr "Le contrôleur demandé n'a pas pu être assigné à une classe de contrôleurs existants."
+msgstr "கட்டுப்படுத்தியை ஏற்கனவே இருக்கும் கட்டுப்பாட்டு வகுப்பிற்கு மாற்ற முடியவில்லை"
 
 #: ../module/Ui/templates/error/404.phtml:58
 msgid "The requested controller was not dispatchable."
-msgstr "Le contrôleur demandé n'a pas pu être envoyé."
+msgstr "கோரப்பட்ட கட்டுப்படுத்தி அனுப்பப்படவில்லை"
 
 #: ../module/Ui/templates/error/404.phtml:61
 msgid "The requested URL could not be matched by routing."
-msgstr "L'URL demandée n'a pas pu être trouvée par routage."
+msgstr "URL ஐ ரூட்டிங் மூலம் பொருத்த முடியவில்லை"
 
 #: ../module/Ui/templates/error/404.phtml:64
 msgid "We cannot determine at this time why a 404 was generated."
-msgstr "Pour le moment nous ne pouvons pas déterminer pourquoi une erreur 404 a été générée."
+msgstr "404 ஏன் உருவாக்கப்பட்டது என்பதை இந்த நேரத்தில் எங்களால் தீர்மானிக்க முடியவில்லை."
 
 #: ../module/Ui/templates/error/404.phtml:76
 msgid "Controller"
-msgstr "Contrôleur"
+msgstr "கட்டுப்பாட்டாளர்"
 
 #: ../module/Ui/templates/error/404.phtml:82
 #, php-format
 msgid "resolves to %s"
-msgstr "se résout en %s"
+msgstr "%s இதற்கு தீர்மானம் செய்"
 
 #: ../module/Ui/templates/error/404.phtml:96
 #: ../module/Ui/templates/error/index.phtml:36
 msgid "Additional information"
-msgstr "Informations addionnelles"
+msgstr "மேலதிக தகவல்"
 
 #: ../module/Ui/templates/error/404.phtml:99
 #: ../module/Ui/templates/error/404.phtml:124
 #: ../module/Ui/templates/error/index.phtml:39
 #: ../module/Ui/templates/error/index.phtml:63
 msgid "File"
-msgstr "Fichier"
+msgstr "கோப்பு"
 
 #: ../module/Ui/templates/error/404.phtml:104
 #: ../module/Ui/templates/error/404.phtml:129
 #: ../module/Ui/templates/error/index.phtml:43
 #: ../module/Ui/templates/error/index.phtml:67
 msgid "Message"
-msgstr "Méssage"
+msgstr "செய்தி"
 
 #: ../module/Ui/templates/error/404.phtml:108
 #: ../module/Ui/templates/error/404.phtml:133
@@ -967,29 +968,29 @@ msgstr "Stack trace"
 #: ../module/Ui/templates/error/404.phtml:118
 #: ../module/Ui/templates/error/index.phtml:57
 msgid "Previous exceptions"
-msgstr "Exceptions précédentes"
+msgstr "முந்தின விதிவிளக்கு"
 
 #: ../module/Ui/templates/error/index.phtml:24
 msgid "A fatal error occurred"
-msgstr "Une erreur fatale s'est produite"
+msgstr "ஒரு fatal error ஏற்பட்டது"
 
 #: ../module/Ui/templates/error/index.phtml:26
 msgid "While we're resolving this issue, please enjoy the video."
-msgstr "Pendant que nous résolvons ce problème, profitez de cette vidéo."
+msgstr "இந்த சிக்கலை நாங்கள் தீர்க்கும் நேரத்தில், படத்தை ரசியுங்கள்."
 
 #: ../module/Ui/templates/error/index.phtml:86
 msgid "No Exception available"
-msgstr "Aucune exception est disponible"
+msgstr "எந்த எதிர்பார்ப்பும் இல்லை"
 
 #: ../module/Ui/templates/error/index.phtml:101
 msgid "Read the following, if you're really good with computers:"
-msgstr "Lisez ce qui suit, si vous êtes vraiment bon avec les ordinateurs:"
+msgstr "கணினிகளுடன் நீங்கள் நன்றாக கையாளுவீர்களா? அப்படியென்றால் இந்த வீடியோவைப் பாருங்கள்:"
 
 #: ../module/Ui/templates/flag/detail.phtml:31
 #: ../module/Ui/templates/flag/manage.phtml:29
 #: ../module/Ui/templates/notification/subscription/manage.twig:26
 msgid "Object"
-msgstr "Objet"
+msgstr "பொருள்"
 
 #: ../module/Ui/templates/flag/detail.phtml:40
 #: ../module/Ui/templates/flag/manage.phtml:30
@@ -998,7 +999,7 @@ msgstr "Objet"
 #: ../module/Ui/templates/entity/unrevised.twig:38
 #: ../module/Ui/templates/related-content/manage.twig:31
 msgid "Type"
-msgstr "Type"
+msgstr "வகை"
 
 #: ../module/Ui/templates/flag/detail.phtml:49
 #: ../module/Ui/templates/flag/manage.phtml:31
@@ -1006,20 +1007,20 @@ msgstr "Type"
 #: ../module/Ui/templates/entity/repository/history.twig:36
 #: ../module/Ui/templates/entity/unrevised.twig:39
 msgid "Timestamp"
-msgstr "Horodatage"
+msgstr "நேர முத்திரை"
 
 #: ../module/Ui/templates/flag/detail.phtml:58
 #: ../module/Ui/templates/flag/manage.phtml:32
 msgid "Reporter"
-msgstr "Reporter"
+msgstr "அறிக்கைகள்"
 
 #: ../module/Ui/templates/flag/detail.phtml:67
 msgid "Content"
-msgstr "Contenu"
+msgstr "உட்பொருள்"
 
 #: ../module/Ui/templates/flag/manage.phtml:24
 msgid "Manage flags"
-msgstr "Gérer les éléments marqués comme inappropriés"
+msgstr "கொடிகளை நிர்வகிக்கவும்"
 
 #: ../module/Ui/templates/flag/manage.phtml:28
 #: ../module/Ui/templates/entity/repository/history.twig:32
@@ -1031,49 +1032,43 @@ msgstr "#"
 #: ../module/Ui/templates/layout/en/serlo-home.phtml:39
 #: ../module/Ui/templates/layout/partials/header.phtml:35
 msgid "Toggle navigation"
-msgstr "Activer/désactiver la navigation"
+msgstr "Toggle நிர்வகி"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:93
 msgid "democratically structured"
-msgstr "structure démocratique"
+msgstr "ஜனநாயக ரீதியாக"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:107
 msgid "free of charge"
-msgstr "gratuit"
+msgstr "இலவசம்"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:119
 msgid "ad-free"
-msgstr "sans publicité"
+msgstr "விளம்பரமின்றி"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:131
 msgid "openly licensed"
-msgstr "licence libre"
+msgstr "திறந்த உரிமம்"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:150
 msgid "transparent"
-msgstr "transparent"
+msgstr "ஒளி புகும்"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:162
 msgid "non-profit"
-msgstr "non-lucratif"
+msgstr "இலாப நோக்கற்றது"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:109
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:28
 msgid "The Open Learning Platform"
-msgstr "La plateforme d'apprentissage libre"
+msgstr "அனைவருக்கும் திறந்த உரிமம் உள்ள ஓர் இணையத்தளம்"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:116
 msgid "We are a grassroots non-profit organization supporting personalized learning and working\n"
 "                                towards equal educational opportunities. This learning platform offers thousands of\n"
 "                                instructional articles, learning videos and practice exercises for millions of students\n"
 "                                worldwide - completely free of charge. Now it’s time to join us in your language."
-msgstr "Nous sommes une organisation communautaire à but non-lucratif supportant l'apprentissage personnalisé et travaillant\n"
-"\n"
-"à la réalisation d'opportunités éducatives égales. Cette plateforme propose des milliers\n"
-"\n"
-"d'articles d'instruction, de vidéos pédagogiques et d'exercices pratiques à des millions d'étudiant(e)s\n"
-"\n"
-"dans le monde entier - complètement gratuit. Maintenant, c'est à vous de nous joindre en Français."
+msgstr "நாம் சமமான கல்வி வாய்ப்புகளை நோக்கி இணைந்து பணிபுரியும் ஒரு குழு. இந்த இணையத்தளத்தில் எண்ணற்ற விவரக் கட்டுரைகள், பயிற்சிகள் மற்றும் ஒலிப் பேழைகள் அனைத்துப் பாடங்களுக்கும் வழங்கப்பட்டுவருகின்றன. இவை அனைத்தும் இலவசமாக உலகம் முழுவதும் உள்ள மாணவர்களுக்காக உருவாக்கப்பட்டுவருகின்றன. இனி வரும் காலங்களில், தமிழ்மொழியிலும் இவ்வாறான இலவசப் பாடத்திட்டங்களை உருவாக்க நீங்களும் எம்முடன் இணைந்து பணியாற்றலாம்."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:124
 msgid "/serlo"
@@ -1083,43 +1078,40 @@ msgstr "/serlo"
 #: ../module/Ui/templates/layout/partials/footer.phtml:49
 #: ../module/Ui/templates/layout/partials/footer.phtml:73
 msgid "Learn more"
-msgstr "En savoir plus"
+msgstr "மேலும் அறிக"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:138
 msgid "Serlo is the Wikipedia for Learning"
-msgstr "Serlo est le Wikipédia pour l'apprentissage"
+msgstr "Serlo ஓர் கற்றலுக்கான விக்கிபீடியா"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:144
 msgid "Just like Wikipedia, this platform is created by an engaged community of authors. Serlo Education \n"
 "                                is run and owned by decentralized teams of volunteers and professionals all over the world."
-msgstr "Tout comme Wikipédia, cette plateforme est créée par une communauté d'auteur(e)s engagé(e)s. Serlo Education \n"
-" est gérée et détenue par des équipes décentralisées de bénévoles et de professionnels dans le monde entier."
+msgstr "Serlo.org விக்கிபீடியாபோல திறந்த உரிமம் கொண்ட ஓர் இணையத்தளம்.  இது எம் எழுத்தாளர் குழுவால் உருவாக்கப்படுகின்றது."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:157
 msgid "Become a Part of Our Movement for Open Education"
-msgstr "Rejoignez notre mouvement pour l'éducation libre"
+msgstr "நீங்களும் இதில் பணியாற்றலாம்"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:164
 msgid "We are looking for teachers and enthusiastic educators who are passionate about their subject.\n"
 "                             Become an author on serlo.org! You can create new learning material and help us improve existing content."
-msgstr "Nous cherchons des enseignant(e)s et des éducateur(e)s enthousiastes et passionné(e)s de leur matière.\n"
-"                             Devenez un(e) auteur(e) sur serlo.org ! Vous pouvez créer du nouveau matériel pédagogique et nous aider à améliorer le contenu existant."
+msgstr "ஆசிரியர்களும் ஆர்வமுள்ள எழுத்தாளர்களும் பாடங்களை உருவாக்க பல வழிகளில் உதவலாம். புதுப்  பயிற்சிகளை உருவாக்குவதற்கும் இந்தத் தளத்தின் சில உள்ளடக்கங்களை இன்னும் மேம்படுத்துவதற்கும்  நீங்கள் உதவலாம். அதற்கு கீழுள்ள இணையத்திற்குச் செல்லவும்."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:168
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:190
 msgid "Visit the landing page for authors"
-msgstr "Visitez la page d'accueil d'auteur(e)s"
+msgstr "எழுத்தாளருக்கான பக்கத்தைப் பார்வையிடவும்"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:176
 msgid "We offer a diverse range of jobs and volunteering opportunities in the fields of software development,\n"
 "                                 design, translation, communications, project management and more."
-msgstr "Nous offrons une variété d'emplois et de possibilités de bénévolat dans les domaines du développement de logiciel,\n"
-"  de la conception, la traduction, la communication, la gestion de projet et d'autres."
+msgstr "நாங்கள் பல வகையான வேலைவாய்ப்புகளையும் பொதுச்சேவையாகப் பணியாற்றும் வாய்ப்புகளையும் வழங்குகின்றோம். இந்த இணையத்தளதிற்கு மொழிபெயர்ப்பாளர்கள், வடிவமைப்பாளர்கள், தொலைத்தொடர்பாளர்கள் போன்ற துறை சார்ந்தவர்களை நாங்கள் தேடி நிற்கின்றோம். இணைந்து கொள்ளுங்கள்."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:181
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:196
 msgid "Get involved!"
-msgstr "Participez!"
+msgstr "நீங்களும் ஈடுபடுங்கள்!"
 
 #: ../module/Ui/templates/layout/partials/default-modal.phtml:33
 #: ../module/Ui/templates/layout/partials/noscript.phtml:45
@@ -1127,77 +1119,77 @@ msgstr "Participez!"
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:37
 #: ../module/Ui/templates/legacy-editor/partials/video-modal.twig:34
 msgid "Close"
-msgstr "Fermer"
+msgstr "மூடு"
 
 #: ../module/Ui/templates/layout/partials/default-modal.phtml:34
 msgid "Okay"
-msgstr "D'accord"
+msgstr "சரி"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:46
 #: ../module/Ui/templates/layout/partials/footer.phtml:71
 msgid "Serlo.org is the Wikipedia for learning."
-msgstr "Serlo.org est le Wikipédia pour l'apprentissage."
+msgstr "கற்பதற்கு விக்கிபீடியா போன்றது Serlo.org."
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:47
 #: ../module/Ui/templates/layout/partials/footer.phtml:72
 msgid "We are a community of visionaries working tirelessly to make great education freely available to everyone."
-msgstr "Nous sommes une communauté de visionnaires qui travaille sans relâche pour offrir une éducation gratuite et accessible à tous."
+msgstr "நாங்கள் கல்வியை அனைவருக்கும் இலவசமாகக் கிடைக்கச் செய்ய அயராது உழைக்கிறோம்"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:53
 #: ../module/Ui/templates/layout/partials/footer.phtml:81
 msgid "Join the cause"
-msgstr "Rejoignez-nous"
+msgstr "சேருங்கள்"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:57
 #: ../module/Ui/templates/layout/partials/footer.phtml:87
 msgid "Donate"
-msgstr "Faire un don"
+msgstr "தானம் செய்"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:61
 #: ../module/Ui/templates/layout/partials/footer.phtml:103
 msgid "General"
-msgstr "Général"
+msgstr "பொதுவாக"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:62
 #: ../module/Ui/templates/layout/partials/footer.phtml:111
 msgid "Subjects"
-msgstr "Matières"
+msgstr "படங்கள்"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:63
 #: ../module/Ui/templates/layout/partials/footer.phtml:119
 msgid "Stay in touch"
-msgstr "Restez en contact"
+msgstr "தொடர்பில் இருக்கவும்"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:64
 #: ../module/Ui/templates/layout/partials/footer.phtml:127
 msgid "Legal terms"
-msgstr "Termes juridiques"
+msgstr "சட்ட விதிமுறைகள்"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:148
 msgid "Loading"
-msgstr "Chargement"
+msgstr "ஏற்றுதல்"
 
 #: ../module/Ui/templates/layout/partials/noscript.phtml:32
 msgid "This site makes heavy use of JavaScript!"
-msgstr "Ce site utilise intensivement JavaScript !"
+msgstr "இந்த பக்கம் கூடுதலாக JavaScriptஐ பாவனை செய்கின்றது!"
 
 #: ../module/Ui/templates/layout/partials/noscript.phtml:36
 msgid "Please enable JavaScript to use this site."
-msgstr "Veuillez activer JavaScript pour utiliser ce site."
+msgstr "இந்த தளத்திற்கு JaavaScriptயுத்த  பயன்படுத்தவும்"
 
 #: ../module/Ui/templates/layout/partials/noscript.phtml:40
 msgid "Show me how to enable JavaScript"
-msgstr "Montrez-moi comment activer JavaScript"
+msgstr "JavaScript எப்படி செயல்படுத்த வேண்டும் என கூறுங்கள்"
 
 #: ../module/Ui/templates/layout/partials/search.phtml:29
 #: ../module/Ui/templates/search/form.twig:24
 #: ../module/Ui/templates/search/search.twig:24
 msgid "Search"
-msgstr "Chercher"
+msgstr "தேடுக"
 
 #: ../module/Ui/templates/license/manage.phtml:24
 msgid "Manage licenses"
-msgstr "Gérer les licences"
+msgstr "உரிமத்தைக் கையாள்க"
 
 #: ../module/Ui/templates/license/manage.phtml:28
 #: ../module/Ui/templates/subject/entity/trash-bin.phtml:28
@@ -1209,56 +1201,56 @@ msgstr "Gérer les licences"
 #: ../module/Ui/templates/entity/unrevised.twig:35
 #: ../module/Ui/templates/related-content/manage.twig:28
 msgid "Title"
-msgstr "Titre"
+msgstr "தலைப்பு"
 
 #: ../module/Ui/templates/license/manage.phtml:29
 msgid "Default"
-msgstr "Défaut"
+msgstr "இயல்புநிலை"
 
 #: ../module/Ui/templates/license/manage.phtml:30
 msgid "Url"
-msgstr "Url"
+msgstr "இணைய முகவரி"
 
 #: ../module/Ui/templates/license/manage.phtml:31
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:32
 #: ../module/Ui/templates/related-content/manage.twig:34
 msgid "Actions"
-msgstr "Actions"
+msgstr "செயல்கள்"
 
 #: ../module/Ui/templates/license/manage.phtml:50
 msgid "Caution, deleting a license has serious consequences. You are going to delete a great amount of content, you need to know exactly what you are doing! THIS ACTION CAN NOT BE UNDONE"
-msgstr "Attention, la suppression d'une licence a des conséquences graves. Vous allez supprimer une grande quantité de contenu, vous devez savoir exactement ce que vous faites! CETTE ACTION NE PEUT PAS ÊTRE ANNULÉE"
+msgstr "எச்சரிக்கை! கவனத்தில் கொள்ளுங்கள்!  உரிமத்தை நீக்குவது கடுமையான விளைவுகளை உருவாக்கலாம். . நீங்கள் ஒரு பெரிய அளவிலான உள்ளடக்கத்தை நீக்கப் போகிறீர்கள். நீங்கள் என்ன செய்கிறீர்கள் என்பதைத் தெரிந்து கொள்ள வேண்டும்! இந்த நாக்குகள் மீண்டும் உருவாக்க இயலாது."
 
 #: ../module/Ui/templates/license/manage.phtml:52
 msgid "DANGER: You are going to delete all contents associated with this license!"
-msgstr "DANGER: Vous allez supprimer tous les contenus associés à cette licence!"
+msgstr "கவனம்: நீங்கள் இந்த உரிமத்துடன் தொடர்புடைய எல்லா உள்ளடக்கங்களையும் நீக்கப் போகிறீர்கள்!"
 
 #: ../module/Ui/templates/navigation/containers.phtml:34
 msgid "container"
-msgstr "conteneur"
+msgstr "பெட்டி"
 
 #: ../module/Ui/templates/navigation/parameter/create.phtml:28
 #: ../module/Ui/templates/navigation/parameter/update.phtml:28
 msgid "Key"
-msgstr "Clé"
+msgstr "திறப்பு"
 
 #: ../module/Ui/templates/subject/entity/trash-bin.phtml:24
 msgid "Trashed learning resources"
-msgstr "Contenus d'apprentissage supprimés"
+msgstr "கற்றல் வளங்கள் நீக்கப்பட்டன"
 
 #: ../module/Ui/templates/subject/entity/trash-bin.phtml:30
 msgid "Action"
-msgstr "Action"
+msgstr "செயல்"
 
 #: ../module/Ui/templates/subject/entity/trash-bin.phtml:47
 msgid "Do you really want to purge this item? It and all references to it will be lost forever!"
-msgstr "Voulez-vous vraiment supprimer cet objet? L'objet et toutes les références connectées avec lui seront perdues pour toujours!"
+msgstr "நீங்கள் உண்மையில் உருப்படியை தூய்மைப்படுத்த விரும்புகிறீர்களா? இது மற்றும் அனைத்து குறிப்புகளும் என்றென்றும் இழக்கப்படும்!"
 
 #: ../module/Ui/templates/taxonomy/term/order-associated.phtml:24
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:60
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:43
 msgid "Order content"
-msgstr "Arranger le contenu"
+msgstr "தலைப்புகளை ஒழுங்கு அமைத்தல்"
 
 #: ../module/Ui/templates/taxonomy/term/order-associated.phtml:41
 #: ../module/Ui/templates/entity/link/order.twig:22
@@ -1266,25 +1258,25 @@ msgstr "Arranger le contenu"
 #: ../module/Ui/templates/related-content/manage.twig:84
 #: ../module/Ui/templates/taxonomy/term/organize/partial.twig:67
 msgid "Sort"
-msgstr "Arranger"
+msgstr "வகை"
 
 #: ../module/Ui/templates/taxonomy/term/order-associated.phtml:42
 #: ../module/Ui/templates/taxonomy/term/organize/partial.twig:70
 msgid "Save new order"
-msgstr "Enregistrer un ordre nouveau"
+msgstr "புது ஒழுங்கை சேமிக்கவும்"
 
 #: ../module/Ui/templates/taxonomy/term/order-associated.phtml:43
 #: ../module/Ui/templates/taxonomy/term/organize/partial.twig:73
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "ரத்து செய்"
 
 #: ../module/Ui/templates/upload/form.phtml:25
 msgid "Upload a file"
-msgstr "Télécharger un fichier"
+msgstr "கோப்பை பதிவேற்றவும்"
 
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:24
 msgid "Uuid recycle bin"
-msgstr "Corbeille"
+msgstr "Uuid மறுசுழற்சி தொட்டி"
 
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:24
 #: ../module/Ui/templates/blog/blog/view.twig:23
@@ -1294,7 +1286,7 @@ msgstr "Corbeille"
 #: ../module/Ui/templates/event/history/user.twig:23
 #: ../module/Ui/templates/navigation/container/get.twig:35
 msgid "Page"
-msgstr "Page"
+msgstr "பக்கம்"
 
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:24
 msgid " "
@@ -1302,152 +1294,152 @@ msgstr ""
 
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:28
 msgid "ID"
-msgstr "ID"
+msgstr "அடையாளம்"
 
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:55
 #, php-format
 msgid "Do you really want to purge the item <strong>%s</strong>? It and all references to it will be lost forever!"
-msgstr "Voulez-vous vraiment supprimer l'objet <strong>%s</strong>? L'objet et toutes les références connectées avec lui seront perdues pour toujours!"
+msgstr "நீங்கள் உண்மையில் உருப்படியை வெளியேற்ற விரும்புகின்றீர்களா? அனைத்துக்  குறிப்புகள் அழிந்துவிடும்."
 
 #: ../module/Ui/templates/admin/debugger.twig:22
 msgid "Debugger"
-msgstr "Débogueur"
+msgstr "வழு நீக்கு"
 
 #: ../module/Ui/templates/ads/ads.twig:22
 msgid "Ads"
-msgstr "Publicités"
+msgstr "விளம்பரங்கள்"
 
 #: ../module/Ui/templates/ads/ads.twig:31
 msgid "Edit \"About Horizon\""
-msgstr "Modifier \"À propos de l'horizon\""
+msgstr ""
 
 #: ../module/Ui/templates/ads/ads.twig:62
 msgid "Frequency"
-msgstr "Fréquence"
+msgstr "அதிர்வெண்"
 
 #: ../module/Ui/templates/ads/ads.twig:71
 msgid "Clicks"
-msgstr "Clics"
+msgstr "Clicks"
 
 #: ../module/Ui/templates/ads/setAdPage.twig:22
 msgid "Please enter the id of the adPage"
-msgstr "Veuillez saisir l'id de la adPage"
+msgstr "adPageயின் idயை எழுதுங்கள்"
 
 #: ../module/Ui/templates/authentication/activate.twig:24
 msgid "Activate an account"
-msgstr "Activer un compte"
+msgstr "கணக்கைச் செயற்படுத்தவும்"
 
 #: ../module/Ui/templates/authentication/login.twig:27
 msgid "You must be logged in to access this page."
-msgstr "Vous devez être connecté pour accéder à cette page."
+msgstr "இந்த பக்கத்தை அணுக நீங்கள் உள்நுழைவு செய்திருக்க வேண்டும்."
 
 #: ../module/Ui/templates/authentication/login.twig:34
 msgid "Log in"
-msgstr "Se connecter"
+msgstr "உள்நுழை"
 
 #: ../module/Ui/templates/authentication/login.twig:58
 msgid "Are you new here? %sSign up%s!"
-msgstr "Vous êtes nouveau ici? %sInscrivez-vous%s!"
+msgstr "நீங்கள் இங்கு புதியவரா? %sபதிவு செய்க%s!"
 
 #: ../module/Ui/templates/authentication/login.twig:61
 msgid "Did you forget your %spassword%s?"
-msgstr "Avez vous oublié votre %smot de passe%s ?"
+msgstr "உங்கள் %spassword%s மறந்துவிட்டீர்களா?"
 
 #: ../module/Ui/templates/authentication/login.twig:64
 msgid "Haven't activated your account yet? %sResend activation mail%s!"
-msgstr "Vous n'avez pas encore activé votre compte? %sEnvoyez à nouveau un e-mail d'activation %s!"
+msgstr "உங்கள் கணக்கை இன்னும் செயல்படுத்தவில்லையா? மீண்டும் செயலாக்க மின்னஞ்சலை அனுப்பவும்"
 
 #: ../module/Ui/templates/authentication/logout.twig:23
 msgid "Log out"
-msgstr "Se déconnecter"
+msgstr "வெளியேறு"
 
 #: ../module/Ui/templates/authentication/reset-password/restore.twig:24
 #: ../module/Ui/templates/authentication/reset-password/select.twig:24
 #: ../module/Ui/templates/mailman/messages/restore-password/body.twig:33
 msgid "Restore password"
-msgstr "Restaurer votre mot de passe"
+msgstr "கடவுசீட்டை மீட்டேடு"
 
 #: ../module/Ui/templates/blog/blog/view-all.twig:22
 msgid "Unpublished"
-msgstr "Non publié"
+msgstr "வெளியிடப்படவில்லை"
 
 #: ../module/Ui/templates/blog/blog/view-partial.twig:42
 msgid "unpublished"
-msgstr "non publié"
+msgstr "வெளியிடப்படவில்லை"
 
 #: ../module/Ui/templates/common/share.twig:29
 msgid "On this site:"
-msgstr "Sur ce site:"
+msgstr "இந்த பக்கத்தில்:"
 
 #: ../module/Ui/templates/common/share.twig:33
 msgid "Directly including in a content on this site"
-msgstr "Inclure directement dans un contenu sur ce site"
+msgstr "இந்த தளத்தில் உள்ள உள்ளடக்கத்தை நேரடியாக பதிவு செய்யலாம்"
 
 #: ../module/Ui/templates/common/share.twig:51
 msgid "Share this content"
-msgstr "Partager ce contenu"
+msgstr "இந்தக் குறிப்பைப் பகிரவும்"
 
 #: ../module/Ui/templates/common/share.twig:52
 msgid "Share"
-msgstr "Partager"
+msgstr "பகிர்க"
 
 #: ../module/Ui/templates/discussion/discussion/comment.twig:22
 msgid "Comment on a discussion"
-msgstr "Commenter une discussion"
+msgstr "ஒரு கருத்துப்பரிமாற்றத்தில் உங்களுடைய கருத்தைத் தெரிவியுங்கள்"
 
 #: ../module/Ui/templates/discussion/discussion/select/forum.twig:27
 msgid "Please select an appropriate category for your discussion. Choosing the right category helps others to find your discussion faster and to answer you quicker. Thank you!"
-msgstr "Veuillez sélectionner une catégorie appropriée pour votre discussion. Choisir la bonne catégorie aide les autres utilisateurs à trouver votre discussion plus rapide et à vous répondre plus vite. Merci!"
+msgstr "உங்கள் விவாதத்திற்கு பொருத்தமான பொருத்தமான தலைப்பை தேர்ந்து எடுங்கள். சரியான தலைப்பைத்  தேர்ந்தெடுப்பதன் மூலம் விவாதத்தை விரைவாகக் கண்டறியவும் உங்களுக்கு விரைவாகத்திற்கு பதிலளக்கவும் உதவுகின்றது. நன்றி"
 
 #: ../module/Ui/templates/discussion/discussion/select/forum.twig:37
 msgid "Saving..."
-msgstr "Sauvegarde en cours..."
+msgstr "சேமிக்கிறது..."
 
 #: ../module/Ui/templates/discussion/discussion/select/forum.twig:38
 msgid "Choose"
-msgstr "Choisir"
+msgstr "தேர்வு செய்"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:34
 msgid "archived"
-msgstr "archivé"
+msgstr "காப்பகப்படுத்தியவை"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:38
 msgid "On"
-msgstr "À propos"
+msgstr "மேல்"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:40
 #: ../module/Ui/templates/discussion/discussion/show.twig:98
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:24
 msgid "by"
-msgstr "de"
+msgstr "உடன்"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:83
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:81
 msgid "Do you really want to delete this discussion?"
-msgstr "Souhaitez-vous vraiment supprimer cette discussion?"
+msgstr "நீங்கள் உங்கள் விவாதத்தை நீக்கப்போகின்றீர்களா?"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:115
 #: ../module/Ui/templates/discussion/helper/default/comment.twig:37
 msgid "Do you really want to delete this comment?"
-msgstr "Souhaitez-vous vraiment supprimer ce commentaire?"
+msgstr "நீங்கள் உங்கள் கருத்தை நீக்கப்போகின்றீர்களா?"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:128
 msgid "Answer discussion:"
-msgstr "Répondre à la discussion:"
+msgstr "கருத்துப்பரிமாற்றத்திற்குப் பதில்:"
 
 #: ../module/Ui/templates/discussion/discussion/start.twig:22
 #: ../module/Ui/templates/discussion/discussions.twig:36
 msgid "Start a new discussion"
-msgstr "Commencer une nouvelle discussion"
+msgstr "புதுக் கருத்துப் பரிமாற்றத்தைத் தொடங்கவும்"
 
 #: ../module/Ui/templates/discussion/discussions.twig:26
 #: ../module/Ui/templates/discussion/discussions/index.twig:22
 msgid "Discussions"
-msgstr "Discussions"
+msgstr "கருத்துப்பரிமாற்றங்கள்"
 
 #: ../module/Ui/templates/discussion/discussions.twig:51
 msgid "There are no discussions on this topic yet."
-msgstr "Il n'existe pas encore de discussions concernant ce sujet."
+msgstr "இந்தத் தலைப்பில் எந்தவொரு கருத்துப்பரிமாற்றமும் இல்லை."
 
 #: ../module/Ui/templates/discussion/helper/default/comment.twig:52
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:118
@@ -1457,218 +1449,217 @@ msgstr "%author% %time%"
 #: ../module/Ui/templates/discussion/helper/default/default.twig:28
 #: ../module/Ui/templates/user/user/profile.twig:40
 msgid "Comments"
-msgstr "Commentaires"
+msgstr "கருத்துகள்"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:62
 msgid "Unarchive discussion"
-msgstr "Désarchiver une discussion"
+msgstr "பாதுகாக்கப்படாத விவாதம்"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:64
 msgid "Archive discussion"
-msgstr "Archiver une discussion"
+msgstr "விவாதத்தைப் பாதுகாக்கவும்"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:73
 msgid "Flag discussion"
-msgstr "Marquer la discussion comme inapproprié"
+msgstr "கொடி விவாதம்"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:83
 msgid "Trash discussion"
-msgstr "Supprimer la discussion"
+msgstr "குப்பை விவாதம்"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:113
 msgid "On %type% %object%: %title%"
-msgstr "À propos %type% %object%: %title%"
+msgstr "%type%%object%: %title%"
 
 #: ../module/Ui/templates/discussion/partials/discuss-button.twig:24
 msgid "Comment"
-msgstr "Commentaire"
+msgstr ""
 
 #: ../module/Ui/templates/entity/link/order.twig:33
 #: ../module/Ui/templates/entity/taxonomy/update.twig:50
 #: ../module/Ui/templates/related-content/manage.twig:88
 msgid "Save"
-msgstr "Sauvegarder"
+msgstr "சேமி"
 
 #: ../module/Ui/templates/entity/link/order.twig:36
 #: ../module/Ui/templates/related-content/manage.twig:91
 msgid "Abort"
-msgstr "Abandonner"
+msgstr "நிறுத்துதல்"
 
 #: ../module/Ui/templates/entity/page/aggregate/taxonomy.twig:25
 msgid "Related taxonomies"
-msgstr "Taxonomies liées"
+msgstr "தொடர்புடைய வகைதொகுப்பியல்கள்"
 
 #: ../module/Ui/templates/entity/page/default.twig:29
 #: ../module/Ui/templates/entity/view/default.twig:29
 #: ../module/Ui/templates/entity/view/toc/default.twig:29
 msgid "No view found for %name%"
-msgstr "Aucune vue trouvée pour %name%"
+msgstr "%name%க்கு பார்வை காணவில்லை"
 
 #: ../module/Ui/templates/entity/page/partials/alerts.twig:26
 #: ../module/Ui/templates/entity/page/pending.twig:47
 #: ../module/Ui/templates/entity/repository/partials/alerts.twig:26
 #: ../module/Ui/templates/taxonomy/term/page/partials/alerts.twig:26
 msgid "Warning"
-msgstr "Attention"
+msgstr "எச்சரிக்கை"
 
 #: ../module/Ui/templates/entity/page/partials/alerts.twig:31
 #: ../module/Ui/templates/entity/repository/partials/alerts.twig:31
 #: ../module/Ui/templates/taxonomy/term/page/partials/alerts.twig:31
 msgid "This content is marked for deletion."
-msgstr "Ce contenu est marqué pour être supprimé."
+msgstr "இந்த உள்ளடக்கம் குப்பையாக குறிக்கப்பட்டுள்ளது."
 
 #: ../module/Ui/templates/entity/page/pending.twig:34
 #: ../module/Ui/templates/entity/page/pending.twig:36
 msgid "Pending approval"
-msgstr "En instance d'approbation"
+msgstr "அனுமதிக்காக காத்திருத்தல்"
 
 #: ../module/Ui/templates/entity/page/pending.twig:38
 msgid "Dead node"
-msgstr "Noeud mort"
+msgstr "Dead node"
 
 #: ../module/Ui/templates/entity/page/pending.twig:53
 msgid "This content is pending approval and may therefore not be viewed yet."
-msgstr "Ce contenu est en instance d'approbation et ne peut pas encore être regardé."
+msgstr "இந்த உள்ளடக்கம் நிலுவையில் உள்ளது."
 
 #: ../module/Ui/templates/entity/page/pending.twig:57
 msgid "This content is a dead node and has no content. Please edit or remove it."
-msgstr "Ce contenu est un nœud mort et n'a aucun contenu associé. Veuillez le modifier ou supprimer."
+msgstr "இந்த உள்ளடக்கம்  எந்த கருத்தும் இல்லை. தயவுசெய்து திருத்தவும் அல்லது அகற்றவும்"
 
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:40
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:26
 msgid "Source"
-msgstr "Source"
+msgstr "மூலம்"
 
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:41
 msgid "Old version"
-msgstr "Version ancienne"
+msgstr "பழைய பதிவு"
 
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:42
 msgid "Preview"
-msgstr "Aperçu"
+msgstr "முற்பார்வை"
 
 #: ../module/Ui/templates/entity/repository/history.twig:22
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/history.twig:27
 #: ../module/Ui/templates/page/partials/actions.twig:39
 #: ../module/Ui/templates/page/partials/controls.twig:46
 msgid "History"
-msgstr "Histoire"
+msgstr "வரலாறு"
 
 #: ../module/Ui/templates/entity/repository/history.twig:25
 msgid "There are multiple recent revisions for this object. Please be aware that they may be of very\n"
 "        different nature. Consider reviewing all of them before accepting or merging."
-msgstr "Il y a plusieurs révisions récentes pour cet objet. Soyez s'il vous plaît conscient qu'elles peuvent être différentes\n"
-" . Pensez à examiner toutes les révisions avant d'accepter ou de fusionner."
+msgstr "இந்த பொருளுக்கு பல சமீபத்திய திருத்தங்கள் செயப்பட்டன. ஏற்றுக்கொள்வதற்கு அல்லது ஒன்றிணைப்பதற்கு முன்அவை மிகவும் மாறுபட்ட இயல்புடையவையாக இருக்கலாம் என்பதை நினைவில் கொண்டு செயல்படுக."
 
 #: ../module/Ui/templates/entity/repository/history.twig:33
 msgid "Current"
-msgstr "Actuelle"
+msgstr "தற்போது"
 
 #: ../module/Ui/templates/entity/repository/history.twig:34
 #: ../module/Ui/templates/entity/unrevised.twig:37
 msgid "Changes"
-msgstr "Modifications"
+msgstr "மாற்றங்கள்"
 
 #: ../module/Ui/templates/entity/repository/history.twig:35
 msgid "Author"
-msgstr "Auteur"
+msgstr "ஆசிரியர்"
 
 #: ../module/Ui/templates/entity/repository/history.twig:47
 msgid "show"
-msgstr "annonce"
+msgstr "காட்டு"
 
 #: ../module/Ui/templates/entity/repository/history.twig:56
 msgid "Create a new revision starting from this specific revision"
-msgstr "Créer une nouvelle révision à partir de cette révision spécifique"
+msgstr "இந்த குறிப்பிட்ட திருத்தத்திலிருந்து திருத்தத்தை உருவாக்கவும்"
 
 #: ../module/Ui/templates/entity/repository/modal-accept.twig:27
 msgid "Accept revision"
-msgstr "Accepter la révision"
+msgstr "மீட்டல் ஏற்கப்பட்டுள்ளது"
 
 #: ../module/Ui/templates/entity/repository/modal-accept.twig:32
 msgid "Please give feedback."
-msgstr "S'il vous plaît donner votre avis."
+msgstr "உங்கள் கருத்தைப் பகிரவும்."
 
 #: ../module/Ui/templates/entity/repository/modal-accept.twig:38
 msgid "Accept"
-msgstr "Accpeter"
+msgstr "ஏற்கிறேன்"
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:27
 msgid "Reject revision"
-msgstr "Rejeter la révision"
+msgstr "மீட்டல் மறுதளிக்கப்பட்டுள்ளது"
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:32
 msgid "Please specify why you are rejecting the submission."
-msgstr "Veuillez préciser pourquoi vous rejetez la soumission."
+msgstr "சமர்ப்பிப்பை ஏன் நிராகரிக்கிறீர்கள் என்பதைக் குறிப்பிடவும்."
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:38
 msgid "Reject"
-msgstr "Rejeter"
+msgstr "மறுக்கிறேன்"
 
 #: ../module/Ui/templates/entity/taxonomy/update.twig:23
 msgid "Assign resource"
-msgstr "Assigner la ressouce"
+msgstr "பயிற்சி அசை"
 
 #: ../module/Ui/templates/entity/unrevised.twig:23
 msgid "Unrevised learning resources"
-msgstr "Ressources d'apprentissage non révisées"
+msgstr "மதிப்பிடப்படாத கற்றல் வளங்கள்"
 
 #: ../module/Ui/templates/entity/unrevised.twig:24
 msgid "Support links for reviewing"
-msgstr "Liens de support pour la révision"
+msgstr ""
 
 #: ../module/Ui/templates/entity/unrevised.twig:36
 msgid "Revision"
-msgstr "Révision"
+msgstr "மீட்டல்"
 
 #: ../module/Ui/templates/entity/view/applet.twig:38
 msgid "Could not embed geogebra applet. Unknown url format."
-msgstr "Impossible d'intégrer l'applet géogebra. Format d'url inconnu."
+msgstr "Geogebra Applet ஐ உட்பொதிக்கமுடியவில்லை. அறியப்படாத URL Format."
 
 #: ../module/Ui/templates/entity/view/article.twig:22
 msgid "article"
-msgstr "article"
+msgstr "கட்டுரை"
 
 #: ../module/Ui/templates/entity/view/course-page.twig:22
 msgid "course-page"
-msgstr "page du cours"
+msgstr "வகுப்பு-பக்கம்"
 
 #: ../module/Ui/templates/entity/view/event.twig:22
 msgid "event"
-msgstr "événement"
+msgstr ""
 
 #: ../module/Ui/templates/entity/view/grouped-text-exercise.twig:22
 msgid "grouped-text-exercise"
-msgstr "exercice-standardisé-groupé"
+msgstr "குழு-கட்டுரை-பயிற்சி"
 
 #: ../module/Ui/templates/entity/view/input-expression-equal-match-challenge.twig:22
 msgid "input-expression-equal-match-challenge"
-msgstr "Entrée demandée: expression mathématique"
+msgstr "input-expression-equal-match-challenge"
 
 #: ../module/Ui/templates/entity/view/input-number-exact-match-challenge.twig:22
 msgid "input-number-exact-match-challenge"
-msgstr "Entrée demandée: nombre"
+msgstr "input-number-exact-match-challenge"
 
 #: ../module/Ui/templates/entity/view/input-string-normalized-match-challenge.twig:22
 msgid "input-string-normalized-match-challenge"
-msgstr "Entrée demandée: mot"
+msgstr "input-string-normalized-match-challenge"
 
 #: ../module/Ui/templates/entity/view/math-puzzle.twig:22
 msgid "math-puzzle"
-msgstr "puzzle de math"
+msgstr "math-puzzle"
 
 #: ../module/Ui/templates/entity/view/multiple-choice-right-answer.twig:22
 msgid "multiple-choice-right-answer"
-msgstr "choix-multiple-réponse-correcte"
+msgstr "multiple-choice-சரியான-பதில்"
 
 #: ../module/Ui/templates/entity/view/multiple-choice-wrong-answer.twig:22
 msgid "multiple-choice-wrong-answer"
-msgstr "choix-multiple-réponse-incorrecte"
+msgstr "multiple-choice-பிழையான-பதில்"
 
 #: ../module/Ui/templates/entity/view/partials/actions/big.twig:31
 #: ../module/Ui/templates/page/partials/actions.twig:33
 msgid "More"
-msgstr "Plus"
+msgstr "மேலும்"
 
 #: ../module/Ui/templates/entity/view/partials/actions/controls.twig:26
 #: ../module/Ui/templates/entity/view/partials/actions/course/course-controls-wrapper.twig:26
@@ -1676,15 +1667,15 @@ msgstr "Plus"
 #: ../module/Ui/templates/taxonomy/term/templates/partials/controls.twig:30
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-controls.twig:30
 msgid "Toggle Dropdown"
-msgstr "Basculer le menu déroulant"
+msgstr "மாற்று கீழே போடு"
 
 #: ../module/Ui/templates/entity/view/partials/actions/course/course-controls-wrapper.twig:30
 msgid "This Course-Page"
-msgstr "Cette page du cours"
+msgstr "இந்த பக்கம்"
 
 #: ../module/Ui/templates/entity/view/partials/actions/course/course-controls-wrapper.twig:36
 msgid "Whole Course"
-msgstr "Cours complet"
+msgstr "முழு வகுப்பு"
 
 #: ../module/Ui/templates/entity/view/partials/actions/event/history.twig:26
 #: ../module/Ui/templates/page/partials/actions.twig:45
@@ -1693,63 +1684,63 @@ msgstr "Cours complet"
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:37
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:36
 msgid "Log"
-msgstr "Historique"
+msgstr "பதிவு"
 
 #: ../module/Ui/templates/entity/view/partials/actions/license/update.twig:27
 msgid "Change license"
-msgstr "Changer license"
+msgstr "உத்தரவு மாற்றுதல்"
 
 #: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:44
 #: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:65
 msgid "Add %type%"
-msgstr "Ajouter %type%"
+msgstr "இணைக்குக %type%"
 
 #: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:55
 msgid "Restore %type%"
-msgstr "Restaurer %type%"
+msgstr "%type% நீக்க"
 
 #: ../module/Ui/templates/entity/view/partials/actions/link/sort.twig:29
 msgid "Order children"
-msgstr "Ordonner les sous-éléments"
+msgstr "குழந்தைகளுக்கானவை"
 
 #: ../module/Ui/templates/entity/view/partials/actions/link/update.twig:31
 msgid "Change parent %name%"
-msgstr "Changer page %name%"
+msgstr "பெற்றோர் %name% மாற்று"
 
 #: ../module/Ui/templates/entity/view/partials/actions/related-content/manage.twig:27
 msgid "Manage related items"
-msgstr "Gérer les éléments associées"
+msgstr "ஒத்திய இணைமுகவரியை கையாள்க"
 
 #: ../module/Ui/templates/entity/view/partials/actions/small-essential.twig:30
 msgid "Subitem"
-msgstr "Sous-élément"
+msgstr "துணைஉருப்படி"
 
 #: ../module/Ui/templates/entity/view/partials/actions/taxonomy/update.twig:29
 msgid "Edit topic and curriculum assignments"
-msgstr "Modifier le sujet et le programme d'études"
+msgstr "தலைப்பு மற்றும் பாடத்திட்ட பணிகளை உருவாக்கவும்."
 
 #: ../module/Ui/templates/entity/view/partials/actions/trash.twig:27
 msgid "Move to trash"
-msgstr "Déplacer dans la corbeille"
+msgstr "குப்பைக்கு நகர்த்தவும்"
 
 #: ../module/Ui/templates/entity/view/partials/actions/trash.twig:37
 msgid "Restore"
-msgstr "Rétablir"
+msgstr "மீட்டெடு"
 
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/convert.twig:30
 #: ../module/Ui/templates/page/partials/controls.twig:39
 msgid "Convert"
-msgstr "Convertir"
+msgstr "மாற்று"
 
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/edit-essential.twig:38
 #: ../module/Ui/templates/page/pages.twig:40
 #: ../module/Ui/templates/page/partials/actions.twig:26
 msgid "Edit"
-msgstr "Modifier"
+msgstr "திருத்தம்"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:32
 msgid "Type answer"
-msgstr "Tapez la réponse"
+msgstr "விடையை எழுதுக"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:46
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:56
@@ -1757,7 +1748,7 @@ msgstr "Tapez la réponse"
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:144
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:177
 msgid "Show solution"
-msgstr "Montrer la solution"
+msgstr "விடையைக் காட்டு"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:50
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:57
@@ -1765,179 +1756,179 @@ msgstr "Montrer la solution"
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:145
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:178
 msgid "Hide solution"
-msgstr "Cacher la solution"
+msgstr "விடையை மறைக்கவும்"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:58
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:91
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:151
 msgid "Check"
-msgstr "Vérifier"
+msgstr "சரிபார்க்கவும்"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:62
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:96
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:156
 msgid "Correct!"
-msgstr "Résponse correcte!"
+msgstr "சரி!"
 
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:38
 msgid "Info"
-msgstr "Information"
+msgstr "தகவல்"
 
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:49
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:168
 msgid "Show hint"
-msgstr "Montrer un indice"
+msgstr "உதவிக் குறிப்பைக் காட்டு"
 
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:50
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:169
 msgid "Hide hint"
-msgstr "Cacher l'indice"
+msgstr "உதவிக் குறிப்பை மறைக்க"
 
 #: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:23
 #: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:23
 msgid "Nope. Try again!"
-msgstr "Malheureusemant pas. Réessayez!"
+msgstr "இல்லை. மீண்டும் முயற்சிக்கவும்!"
 
 #: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:25
 #: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:25
 msgid "This answer has been created but no content has been added yet or it is pending approval."
-msgstr "Cette réponse a été créée mais aucun contenu n’a encore été ajouté ou l’approbation du contenu est en attente."
+msgstr "இந்த பதில் உருவாக்கப்பட்டது, ஆனால் இதுவரை எந்த உள்ளடக்கம் இணைக்கப்படவில்லை அல்லது அனுமதி வேண்டிநிற்கிறது."
 
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:30
 msgid "Right!"
-msgstr "Correct!"
+msgstr "சரி!"
 
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:117
 msgid "This solution is not correct."
-msgstr "Cette solution n’est pas correcte."
+msgstr "பிழையான விடை."
 
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:126
 msgid "This solution is correct!"
-msgstr "Cette solution est correcte!"
+msgstr "சரியான விடை!"
 
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:135
 msgid "Not quite. There is something missing!"
-msgstr "Pas tout à fait. Il y a quelque chose qui manque !"
+msgstr "முழுமையில்லை. இதில் ஏதோ குறைகின்றது!"
 
 #: ../module/Ui/templates/entity/view/single-choice-right-answer.twig:22
 msgid "single-choice-right-answer"
-msgstr "choix-unique-réponse-correcte"
+msgstr "ஒரு பதில் மட்டும் சரி"
 
 #: ../module/Ui/templates/entity/view/single-choice-wrong-answer.twig:22
 msgid "single-choice-wrong-answer"
-msgstr "choix-unique-réponse-incorrecte"
+msgstr "ஒரு பதில் மட்டும் பிழை"
 
 #: ../module/Ui/templates/entity/view/text-exercise-group.twig:22
 msgid "text-exercise-group"
-msgstr "groupe-d'exercice-standardisé"
+msgstr "பந்தி-பயிற்சி-குழு"
 
 #: ../module/Ui/templates/entity/view/text-exercise-group.twig:31
 msgid "I want to comment this"
-msgstr "Je veux commenter ceci"
+msgstr "இதற்கு என் கருத்தைப் பகிர விரும்புகின்றேன்"
 
 #: ../module/Ui/templates/entity/view/text-exercise.twig:22
 msgid "text-exercise"
-msgstr "exercise de texte"
+msgstr "பயிற்சி பந்தி"
 
 #: ../module/Ui/templates/entity/view/text-hint.twig:22
 msgid "text-hint"
-msgstr "indice"
+msgstr "பந்தியின் குறிப்பு"
 
 #: ../module/Ui/templates/entity/view/text-hint.twig:33
 msgid "Hint"
-msgstr "Indice"
+msgstr "உதவிக்குறிப்பு"
 
 #: ../module/Ui/templates/entity/view/text-hint.twig:41
 msgid "A hint has been created but no content has been added yet or it is pending approval."
-msgstr "Un indice a été créé mais aucun contenu a été ajouté jusqu'à présent ou l’approbation du contenu est en attente."
+msgstr "ஒரு குறிப்பு இடப்பட்டுள்ளது ஆனால் உள்ளடக்கம் இணைக்கப்படவில்லை அல்லது அனுமதி வேண்டிநிற்கிறது."
 
 #: ../module/Ui/templates/entity/view/text-solution.twig:22
 msgid "text-solution"
-msgstr "solution"
+msgstr "பந்தியின் விடை"
 
 #: ../module/Ui/templates/entity/view/text-solution.twig:39
 msgid "A solution has been created but no content has been added yet or it is pending approval."
-msgstr "Un solution a été créé mais soit aucun contenu n’a encore été ajouté ou l’approbation du contenu est en attende."
+msgstr "இந்த பதில் உருவாக்கப்பட்டது, ஆனால் இதுவரை எந்த உள்ளடக்கம் இணைக்கப்படவில்லை அல்லது அனுமதி வேண்டிநிற்கிறது."
 
 #: ../module/Ui/templates/entity/view/video.twig:22
 msgid "video"
-msgstr "vidéo"
+msgstr "வீடியோ"
 
 #: ../module/Ui/templates/entity/view/video.twig:58
 msgid "Could not embed video - platform unknown"
-msgstr "La vidéo n'a pas pu être intégrée - plate-form inconnue"
+msgstr "வீடியோவை உட்பொதிக்க முடியவில்லை - Platform தெரியவில்லை"
 
 #: ../module/Ui/templates/event/helper/event/default.twig:27
 msgid "No template found for event %s"
-msgstr "Aucun modèle trouvé pour l'événement %s"
+msgstr "நிகழ்வுக்கு எந்த உதாரணமும் கிடைக்கவில்லை"
 
 #: ../module/Ui/templates/event/helper/event/discussion/comment/archive.twig:30
 #: ../module/Ui/templates/notification/type/discussion/comment/archive.twig:27
 #: ../module/Ui/templates/notification/type/discussion/comment/archive.twig:38
 msgid "%user% archived %discussion%"
-msgstr "%user% a archivé %discussion%"
+msgstr "%user% %discussion% ஐ பாதுகாத்துள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/discussion/comment/create.twig:30
 msgid "%user% commented %discussion%: %content%"
-msgstr "%user% a commenté %discussion%: %content%"
+msgstr "%user% %discussion% இற்கு கருத்தைத் தெரிவித்துள்ளார்: %content%"
 
 #: ../module/Ui/templates/event/helper/event/discussion/create.twig:30
 msgid "%user% started a new discussion %discussion% on %on%"
-msgstr "%user% a commencé une nouvelle discussion %discussion% sur %on%"
+msgstr "%user% ஒரு புது விவாதத்தை %discussion% %on% இல் தொடங்கியுள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/entity/create.twig:26
 msgid "%user% created a new %type%: %object%"
-msgstr "%user% a créé un nouveau %type%: %object%"
+msgstr "%user% ஒரு புது %type% ஐ உருவாக்கியுள்ளார்: %object%"
 
 #: ../module/Ui/templates/event/helper/event/entity/link/create.twig:26
 msgid "%user% linked %object% with %parent%"
-msgstr "%user% lié %object% avec %parent%"
+msgstr "%user% %object% ஐ %parent%உடன் இணைத்துள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/add.twig:26
 msgid "%user% created a new version of %repository%"
-msgstr "%user% a créé une nouvelle version de %repository%"
+msgstr "%user% %repository% க்கு ஒரு புது பதிப்பை உருவாக்கியுள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/checkout.twig:28
 msgid "%user% checked out %revision% in %repository%: \"%reason%\""
-msgstr "%user% a controlé %revision% dans %repository%: \"%reason%\""
+msgstr "%user% %revision% ஐ %repository%இல் சரி பார்த்துள்ளார்: \"%reason%\""
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/checkout.twig:32
 msgid "%user% checked out %revision% in %repository%"
-msgstr "%user% a controlé %revision% dans %repository%"
+msgstr "%user% %revision% ஐ %repository%இல் சரி பார்த்துள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:28
 msgid "%user% rejected %revision% in %repository%: \"%reason%\""
-msgstr "%user% a rejeté %revision% de %repository%: \"%reason%\" "
+msgstr "%user% %revision% இல் இருந்து %repository% மறுத்துள்ளார்:\" %reason%\""
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:32
 msgid "%user% rejected %revision% in %repository%"
-msgstr "%user% a rejeté %revision% de %repository%"
+msgstr "%user% %revision% ஐ %repository%இல் மறுத்துள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/license/object/set.twig:26
 msgid "%user% changed the license of %object%"
-msgstr "%user% a changé la licence de %object%"
+msgstr "%user% %object% என்ற உரிமத்தை மாற்றியுள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/taxonomy/term/associate.twig:26
 msgid "%user% associated %object% with %term%"
-msgstr "%user% a lié %object% avec %term%"
+msgstr "%user% %object%ஐ %term% உடன் இணைத்துள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/taxonomy/term/create.twig:25
 msgid "%user% created %term%"
-msgstr "%user% a créé %term%"
+msgstr "%user% %term% ஐ உருவாக்கியுள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/taxonomy/term/dissociate.twig:26
 #: ../module/Ui/templates/notification/type/taxonomy/term/dissociate.twig:28
 #: ../module/Ui/templates/notification/type/taxonomy/term/dissociate.twig:36
 msgid "%user% dissociated %object% from %term%"
-msgstr "%user% a dissocié %object% de %term%"
+msgstr "%user% %object% ஐ %term%இல் இருந்து பிரித்துள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/taxonomy/term/parent/change.twig:27
 msgid "%user% changed %term% parent from %old% to %new%"
-msgstr "%user% a changé %term% de %old% à %new%"
+msgstr "%பயனர்% மாற்றம் %term% இதில் இருந்து%பழைய% இருந்து%புதிய "
 
 #: ../module/Ui/templates/event/helper/event/taxonomy/term/update.twig:25
 msgid "%user% updated %term%"
-msgstr "%user% a actualisé %term%"
+msgstr "%user% %term% ஐ புதுப்பித்துள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/uuid/restore.twig:25
 #: ../module/Ui/templates/notification/type/discussion/restore.twig:27
@@ -1945,50 +1936,50 @@ msgstr "%user% a actualisé %term%"
 #: ../module/Ui/templates/notification/type/uuid/restore.twig:28
 #: ../module/Ui/templates/notification/type/uuid/restore.twig:35
 msgid "%user% restored %object%"
-msgstr "%user% a restauré %object%"
+msgstr "%user%%object% ஐ மீட்டுள்ளார்"
 
 #: ../module/Ui/templates/event/helper/event/uuid/trash.twig:25
 #: ../module/Ui/templates/notification/type/uuid/trash.twig:27
 #: ../module/Ui/templates/notification/type/uuid/trash.twig:34
 msgid "%user% trashed %object%"
-msgstr "%user% a placé %object% dans la corbeille"
+msgstr "%user%%object% ஐ குப்பைக்குள் போட்டுவிட்டார்"
 
 #: ../module/Ui/templates/legacy-editor/partials/video-modal.twig:35
 msgid "Don't show again"
-msgstr "Ne plus afficher"
+msgstr ""
 
 #: ../module/Ui/templates/mailman/messages/notification/body.twig:24
 #: ../module/Ui/templates/mailman/messages/notification/plain.twig:24
 msgid "Hello %user%!"
-msgstr "Bonjour %user%!"
+msgstr "வணக்கம் %user%!"
 
 #: ../module/Ui/templates/mailman/messages/notification/body.twig:32
 msgid "You can <a href=\"%href%\">change the settings</a> for which content you want to receive notifications."
-msgstr "Vous pouvez <a href=\"%href%\"> changez les paramètres</a> pour déterminer le contenu duquel vous voulez recevoir des notifications."
+msgstr "எந்த உள்ளடக்கத்துக்கு உங்களுக்கு அறிவிப்பு வேண்டும் என்னப்பதை நீங்கள் <a href=\"%href%\">அமைத்துக்கொள்ளலாம்</a>."
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/content.twig:25
 msgid "Here's a heads up of what has happened with content you edited or created:"
-msgstr "Voici un apercu de ce qui s'est passé avec le contenu que vous avez édité ou créé :"
+msgstr "நீங்கள் திருத்திய அல்லது உருவாக்கிய உள்ளடக்கத்துடன் என்ன நடந்தது என்பதற்கான தலைப்பை இங்கே காணலாம்:"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/content.twig:29
 msgid "This happened with a content you edited or created:"
-msgstr "Ceci s'est produit avec un contenu que vous avez modifié ou créé :"
+msgstr "நீங்கள் மாற்றம் செய்த அல்லது உருவாக்கிய உள்ளடக்கத்துக்கு இதான் நடக்கவுள்ளது:"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/discussions.twig:26
 msgid "Users on %brand% have messaged you or replied to comments by you:"
-msgstr "Les utilisateurs sur %brand% vous ont envoyé un message ou ont répondu à vos commentaires:"
+msgstr "% பிராண்ட்% இல் உள்ளவர்கள் தங்களுக்கு ஒரு செய்தி அனுப்பியுள்ளனர் அல்லது உங்கள் கருத்துக்களுக்கு பதிலளித்துள்ளார்கள்"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/discussions.twig:30
 msgid "A user on %brand% has messaged you or replied to one of your comments:"
-msgstr "Un utilisateur sur %brand% vous a envoyé un message ou a répondu à un de vos commentaires :"
+msgstr "ஒரு பயனநகர் உங்களுடைய %brand%க்கு தகவல் அனுப்பியுள்ளார் அல்லது கருத்து தெரிவித்துள்ளார்:"
 
 #: ../module/Ui/templates/mailman/messages/notification/plain.twig:32
 msgid "You can change the settings for which content you want to receive notifications here: %href%"
-msgstr "Vous pouvez modifier les paramètres pour définir le contenu pour lequel vous souhaitez recevoir des notifications ici : %href%"
+msgstr "நீங்கள் எந்த உள்ளடக்கத்துக்கு அறிவிப்பு வேண்டும் என்பதை இந்த இணைப்பில் அமைத்துக்கொள்ளலாம்: %href%"
 
 #: ../module/Ui/templates/mailman/messages/notification/subject.twig:24
 msgid "You have unread notifications on %brand%"
-msgstr "Vous avez des notifications non lues sur %brand%"
+msgstr "உங்களிடம் படிக்காத அறிவிப்புகள் %brand%இல் உள்ளன"
 
 #: ../module/Ui/templates/mailman/messages/register/body.twig:25
 #: ../module/Ui/templates/mailman/messages/register/plain.twig:25
@@ -1998,20 +1989,20 @@ msgid "Hello %s,\n\n"
 "        %s\n\n"
 "        We are looking forward to your contribution to %s!\n\n"
 "        Your community support"
-msgstr "Bonjour %s, \n\n"
-"merci pour votre enregistrement sur %s.\n\n"
-"Veuillez confirmer votre compte en cliquant sur le lien suivant: \n"
-"%s\n\n"
-"Nous attendons avec impatience votre contribution à %s! \n\n"
-"Votre soutien communautaire"
+msgstr "வணக்கம் %s,\n\n"
+"  %s இல் ஒரு கணக்கை ஒருவாக்கியத்திற்கு நன்றி.\n\n"
+" தயவு செய்து உங்களுடைய கணக்கை இந்த இணைப்பை அழுத்துவதன் மூலம் உறுதிப்படுத்தவும்:\n"
+"   %s\n\n"
+"    உங்கள் பங்களிப்பை நாங்கள் எதிர்பார்க்கிறோம்! ( %s ) \n\n"
+" உங்களுடைய குழு ஆதரவு"
 
 #: ../module/Ui/templates/mailman/messages/register/body.twig:39
 msgid "Activate account"
-msgstr "Activer votre compte"
+msgstr "கணக்கைச் செயற்படுத்தவும்"
 
 #: ../module/Ui/templates/mailman/messages/register/subject.twig:23
 msgid "Please activate your %s account!"
-msgstr "Veuillez activer votre compte %s!"
+msgstr "உங்கள் கணக்கைச் %s செயல்படுத்துங்கள்!"
 
 #: ../module/Ui/templates/mailman/messages/restore-password/body.twig:24
 #: ../module/Ui/templates/mailman/messages/restore-password/plain.twig:24
@@ -2019,14 +2010,14 @@ msgid "Hi %s,\n"
 "        it seems that you want to restore your password. If not, you can ignore this email.\n"
 "        You can restore your password by clicking the link below:\n\n"
 "        %s"
-msgstr "Bonjour %s,\n"
-"        il semble que vous voulez restaurer votre mot de passe. Si non, vous pouvez ignorer cet e-mail.\n"
-"        Vous pouvez restaurer votre mot de passe en cliquant sur le lien ci-dessous :\n\n"
-"        %s"
+msgstr "வணக்கம் %s,\n"
+" நீங்கள் உங்களுடைய கடவுச்சீட்டைப் புதுப்பிக்கப் போகின்றீர்கள் போல் உள்ளது. இல்லை என்றால் இந்த மின்னஞ்சலை புறக்கணிக்கவும்.\n"
+" நீங்கள் உங்களுடைய கடவுச்சீட்டை இந்த இணைப்பு மூலம் மாற்றலாம்:\n\n"
+"     %s"
 
 #: ../module/Ui/templates/mailman/messages/restore-password/subject.twig:23
 msgid "Restore your password on %s"
-msgstr "Réinitialisez votre mot de passe sur %s"
+msgstr "உங்கள் கடவுச்சீடை %s இதில் மீட்டெடுக்கலாம்"
 
 #: ../module/Ui/templates/mailman/messages/welcome/body.twig:24
 msgid "Dear %s,\n\n"
@@ -2034,11 +2025,9 @@ msgid "Dear %s,\n\n"
 "        To find out how to get started on editing and creating content, please visit the <a href=\"https://de.serlo.org/community\">community homepage</a>.\n\n"
 "        If you have any questions, problems or feedback for us, feel free to get in touch via <a href=\"mailto:de@serlo.org\">de@serlo.org</a>.\n\n"
 "        Enjoy Serlo!"
-msgstr "Chère/cher %s,\n\n"
-" Nous sommes ravis que vous ayez décidé d'écrire un commentaire ou de faire une contribution sur serlo.org.\n\n"
-" Pour savoir comment modifier et créer du contenu, veuillez visiter la page d'accueil de la communauté: <a href=\"https://fr.serlo.org/community\">community homepage</a>.\n\n"
-" Si vous avez des questions, des problèmes ou des commentaires, n'hésitez pas à nous contacter via <a href=\"mailto:fr@serlo.org\">fr@serlo.org</a>.\n\n"
-"  Nous vous souhaitons beaucoup de plaisir avec Serlo!"
+msgstr "<a href=\"mailto:de@serlo.org\"><a href=\"mailto:de@serlo.org\"><a href=\"mailto:de@serlo.org\">அன்புள்ள%s,\n\n"
+" நீங்கள் கருத்தை எழுத அல்லது serlo.org க்கு பங்களிக்க முடிவு செய்துள்ளதில் நாங்கள் மகிழ்ச்சியடைகிறோம்! \\ n\\ n கருத்தை திருத்துவதற்கும் இயற்றுவதற்கும் எவ்வாறு தொடங்குவது என்பதை அறிய, தயவுசெய்து <a href ஐப் பார்வையிடவும்.எங்களிடம் ஏதேனும் கேள்விகள், சிக்கல்கள் அல்லது கருத்துக்கள் இருந்தால்,வழியாக தொடர்பு கொள்ளலாம். <a href = \"mailte:de@serlo.org“>de@serlo.org</a>.n\n"
+"\\ Serlo வுடன் வளருங்கள்."
 
 #: ../module/Ui/templates/mailman/messages/welcome/plain.twig:24
 msgid "Dear %s,\n\n"
@@ -2046,77 +2035,76 @@ msgid "Dear %s,\n\n"
 "        To find out how to get started on editing and creating content, please visit the community homepage: https://de.serlo.org/community.\n\n"
 "        If you have any questions, problems or feedback for us, feel free to get in touch via de@serlo.org.\n\n"
 "        Enjoy Serlo!"
-msgstr "Chère/cher %s,\n\n"
-"Nous sommes ravis que vous ayez décidé d'écrire un commentaire ou de faire une contribution sur serlo.org.\n\n"
-" Pour savoir comment modifier et créer du contenu, veuillez visiter la page d'accueil de la communauté: https://fr.serlo.org/community.\n\n"
-" Si vous avez des questions, des problèmes ou des commentaires pour nous, n'hésitez pas à nous contacter via community-fr@serlo.org.\n\n"
-" Nous vous souhaitons beaucoup de plaisir avec Serlo!"
+msgstr "அன்புள்ள %s,\n\n"
+" நீங்கள் கருத்தை எழுத அல்லது serlo.org க்கு பங்களிக்க முடிவு செய்துள்ளதில் நாங்கள் மகிழ்ச்சியடைகிறோம்!\n\n"
+" கருத்தை திருத்துவதற்கும் இயற்றுவதற்கும் எவ்வாறு தொடங்குவது என்பதை அறிய, தயவுசெய்து <a href ஐப் பார்வையிடவும்.எங்களிடம் ஏதேனும் கேள்விகள், சிக்கல்கள் அல்லது கருத்துக்கள் இருந்தால்,வழியாக தொடர்பு கொள்ளலாம். <a href = \"mailte:de@serlo.org“>de@serlo.org</a>.n\n"
+"\\ Serlo வுடன் வளருங்கள்."
 
 #: ../module/Ui/templates/mailman/messages/welcome/subject.twig:23
 msgid "How to get started on Serlo!"
-msgstr "Comment démarrer sur Serlo!"
+msgstr "Serloவில் இணைவது எப்படி!"
 
 #: ../module/Ui/templates/navigation/container/get.twig:23
 msgid "Information"
-msgstr "Information"
+msgstr "தகவல்"
 
 #: ../module/Ui/templates/navigation/container/get.twig:26
 msgid "Instance: "
-msgstr "Instance: "
+msgstr "உதாரணம்: "
 
 #: ../module/Ui/templates/navigation/container/get.twig:29
 msgid "Name: "
-msgstr "Nom: "
+msgstr "பெயர்: "
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:41
 msgid "Add parameter"
-msgstr "Ajouter un paramètre"
+msgstr "அளவுருவை இணைக்குக"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:45
 msgid "Add page"
-msgstr "Ajouter une page"
+msgstr "பக்கத்தைச் சேர்க்க"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:53
 #: ../module/Ui/templates/page/partials/actions.twig:68
 #: ../module/Ui/templates/page/partials/controls.twig:75
 msgid "Settings"
-msgstr "Réglages"
+msgstr "அமைப்புகள்"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:58
 msgid "Remove page"
-msgstr "Supprimer cette page"
+msgstr "பக்கத்தை அகற்று"
 
 #: ../module/Ui/templates/navigation/page/update.twig:22
 msgid "Page settings"
-msgstr "Paramètres de la page"
+msgstr "பக்க அமைப்புகள்"
 
 #: ../module/Ui/templates/notification/notification.twig:31
 msgid "No template found for notification \"%type%\""
-msgstr "Aucun modèle n'a été trouvé pour la notification «%type% »"
+msgstr "\"% வகை%\" அறிவிப்புக்கு எந்த உதாரணமும் கிடைக்கவில்லை"
 
 #: ../module/Ui/templates/notification/notifications.twig:42
 msgid "You have no notifications."
-msgstr "Vous n'avez aucune notification."
+msgstr "உங்களுக்கு எந்த அறிவிப்பும் இல்லை."
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:22
 msgid "Manage subscriptions"
-msgstr "Gérer votre abonnement"
+msgstr "சந்தாக்களை நிர்வகித்தல்"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:27
 msgid "Emails"
-msgstr "E-mails"
+msgstr "மின்னஞ்சல்கள்"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:28
 msgid "Subscription"
-msgstr "Abonnements"
+msgstr "சந்தா"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:38
 msgid "Deactivate"
-msgstr "Désactiver"
+msgstr "செயற்றப்படுத்துதலை நிறுத்துதல்"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:42
 msgid "Activate"
-msgstr "Activer"
+msgstr "செயல்படுத்துங்கள்"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:45
 #: ../module/Ui/templates/notification/subscription/opt-out/button.twig:26
@@ -2129,46 +2117,46 @@ msgstr "Activer"
 #: ../module/Ui/templates/notification/subscription/opt-out/sub-menu-item.twig:35
 #: ../module/Ui/templates/notification/subscription/opt-out/sub-menu-item.twig:42
 msgid "Unsubscribe"
-msgstr "Désabonner"
+msgstr "சந்தாவை நிறுத்துதல்"
 
 #: ../module/Ui/templates/notification/subscription/opt-in/button.twig:25
 #: ../module/Ui/templates/notification/subscription/opt-in/menu-item.twig:24
 #: ../module/Ui/templates/notification/subscription/opt-in/sub-menu-item.twig:23
 msgid "Subscribe"
-msgstr "S'abonner"
+msgstr "சந்தா"
 
 #: ../module/Ui/templates/notification/subscription/opt-in/button.twig:31
 #: ../module/Ui/templates/notification/subscription/opt-in/menu-item.twig:29
 #: ../module/Ui/templates/notification/subscription/opt-in/sub-menu-item.twig:26
 msgid "Receive notifications"
-msgstr "Recevoir des notifications"
+msgstr "அறிவிப்புகளைப் பெற்றுள்ளீர்கள்"
 
 #: ../module/Ui/templates/notification/subscription/opt-in/button.twig:36
 #: ../module/Ui/templates/notification/subscription/opt-in/menu-item.twig:32
 #: ../module/Ui/templates/notification/subscription/opt-in/sub-menu-item.twig:29
 msgid "Receive notifications and emails"
-msgstr "Recevez des notifications et des e-mails"
+msgstr "அறிவிப்புகளை மற்றும் மின்னஞ்சலை பெற்றுள்ளீர்கள்"
 
 #: ../module/Ui/templates/notification/subscription/opt-out/button.twig:32
 #: ../module/Ui/templates/notification/subscription/opt-out/menu-item.twig:31
 #: ../module/Ui/templates/notification/subscription/opt-out/sub-menu-item.twig:31
 msgid "Stop sending emails"
-msgstr "Arrêtez d'envoyer des e-mails"
+msgstr "மின்னஞ்சல்கள் அனுப்புவதை நிப்பாட்டவும்"
 
 #: ../module/Ui/templates/notification/type/discussion/comment/create.twig:29
 #: ../module/Ui/templates/notification/type/discussion/comment/create.twig:42
 msgid "%user% commented on %discussion%: %content%"
-msgstr "%user% a commenté %discussion%: %content%"
+msgstr "%user% %discussion% இற்கு கருத்தைத் தெரிவித்துள்ளார்: %content%"
 
 #: ../module/Ui/templates/notification/type/discussion/create.twig:29
 #: ../module/Ui/templates/notification/type/discussion/create.twig:42
 msgid "%user% started %discussion% on %object%: %title%"
-msgstr "%user% a commencé %discussion% sur %object%: %title%"
+msgstr "%user% %object% இல் %discussion% தொடங்கியுள்ளார்: %title%"
 
 #: ../module/Ui/templates/notification/type/entity/link/create.twig:30
 #: ../module/Ui/templates/notification/type/entity/link/create.twig:41
 msgid "%user% added %object% to %parent%"
-msgstr "%user% a ajouté %object% à %parent%"
+msgstr "%user% %object%ஐ %parent% இல் இணைத்துள்ளார்"
 
 #: ../module/Ui/templates/notification/type/entity/revision/add.twig:26
 #: ../module/Ui/templates/notification/type/entity/revision/add.twig:34
@@ -2177,299 +2165,299 @@ msgstr "%user% a ajouté %object% à %parent%"
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:28
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:42
 msgid "revision"
-msgstr "révision"
+msgstr "மீட்டல்"
 
 #: ../module/Ui/templates/notification/type/entity/revision/add.twig:28
 #: ../module/Ui/templates/notification/type/entity/revision/add.twig:37
 msgid "%user% created a %revision% in %repository%"
-msgstr "%user% a créé une %revision% dans %repository%"
+msgstr "%user% %revision%ஐ %repository% யில் உருவாக்கியுள்ளார்"
 
 #: ../module/Ui/templates/notification/type/entity/revision/checkout.twig:31
 #: ../module/Ui/templates/notification/type/entity/revision/checkout.twig:46
 msgid "%user% accepted a %revision% of %repository%: %reason%"
-msgstr "%user% a accepté une %revision% de %repository%: %reason%"
+msgstr "%user% %revision% இல் இருந்து %repository% ஏற்றுள்ளார்: %reason%"
 
 #: ../module/Ui/templates/notification/type/entity/revision/checkout.twig:35
 #: ../module/Ui/templates/notification/type/entity/revision/checkout.twig:50
 msgid "%user% accepted a %revision% of %repository%"
-msgstr "%user% a accepté une %revision% de %repository%"
+msgstr "%user% %revision% இன் %repository% ஐ ஏற்றுள்ளார்"
 
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:31
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:46
 msgid "%user% rejected a %revision% of %repository%: %reason%"
-msgstr "%user% a rejeté une %revision% de %repository%: %reason%"
+msgstr "%user% %revision% இல் இருந்து %repository% மறுத்துள்ளார்: %reason%"
 
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:35
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:50
 msgid "%user% rejected a %revision% of %repository%"
-msgstr "%user% a rejeté une %revision% de %repository%"
+msgstr "%user% %revision% இல் இருந்து %repository% மறுத்துள்ளார்"
 
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:28
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:36
 msgid "%user% associated %term% with %object%"
-msgstr "%user% a lié %term% avec %object%"
+msgstr "%user% %term% ஐ %object% யுடன் இணைத்துள்ளார்"
 
 #: ../module/Ui/templates/notification/type/taxonomy/term/parent/change.twig:30
 #: ../module/Ui/templates/notification/type/taxonomy/term/parent/change.twig:41
 msgid "%user% changed %term%'s parent from %old% to %new%"
-msgstr "%user% a changé %term% de %old% à %new%"
+msgstr "%user% %term% ஐ %old%இல் இருந்து %new% ற்கு மாற்றியுள்ளார்"
 
 #: ../module/Ui/templates/notification/type/taxonomy/term/update.twig:27
 #: ../module/Ui/templates/notification/type/taxonomy/term/update.twig:34
 msgid "%user% updated %object%"
-msgstr "%user% a actualisé %object%"
+msgstr "%user%%object% ஐ புதுப்பித்துள்ளார்"
 
 #: ../module/Ui/templates/page/pages.twig:31
 msgid "No revision checked out yet."
-msgstr "Aucune révision n'a été encore vérifiée."
+msgstr "இதுவரையும் எந்த மீட்டலும் பார்வையிடப்படேல."
 
 #: ../module/Ui/templates/page/pages.twig:47
 #: ../module/Ui/templates/page/partials/actions.twig:53
 #: ../module/Ui/templates/page/partials/controls.twig:60
 #: ../module/Ui/templates/page/revisions.twig:59
 msgid "Trash"
-msgstr "Corbeille"
+msgstr "குப்பை"
 
 #: ../module/Ui/templates/page/pages.twig:57
 msgid "Create a new page"
-msgstr "Créer une nouvelle page"
+msgstr "புதுப் பக்கத்தை உருவாக்கவும்"
 
 #: ../module/Ui/templates/page/partials/actions.twig:61
 #: ../module/Ui/templates/page/partials/controls.twig:68
 msgid "Set as base revision"
-msgstr "Définir comme révision de base"
+msgstr "அடிப்படை மீட்டலாக அமைக்கவும்"
 
 #: ../module/Ui/templates/page/revision/create-legacy.twig:22
 #: ../module/Ui/templates/page/revision/create.twig:22
 msgid "Create a revision"
-msgstr "Créer une révision"
+msgstr "மீட்டலைத் தயாரித்தல்"
 
 #: ../module/Ui/templates/page/revisions.twig:22
 msgid "Revisions"
-msgstr "Révisions"
+msgstr "திருத்தங்கள்"
 
 #: ../module/Ui/templates/page/revisions.twig:33
 msgid "Author:"
-msgstr "Auteur:"
+msgstr "ஆசிரியர்:"
 
 #: ../module/Ui/templates/page/revisions.twig:37
 msgid "Time:"
-msgstr "Heure:"
+msgstr "நேரம்:"
 
 #: ../module/Ui/templates/page/revisions.twig:47
 msgid "Use for editing"
-msgstr "Utiliser pour l’édition"
+msgstr "தொகுப்பின் பாவனைக்கு"
 
 #: ../module/Ui/templates/page/revisions.twig:66
 msgid "Set as base"
-msgstr "Définir comme base"
+msgstr "அடிப்படையை அமைத்தல்"
 
 #: ../module/Ui/templates/page/revisions.twig:78
 msgid "Edit page"
-msgstr "Editer la page"
+msgstr "பக்கத்தைத் தொகுக்க"
 
 #: ../module/Ui/templates/related-content/add-category.twig:22
 msgid "Add a category"
-msgstr "Ajouter une catégorie"
+msgstr "வகையை இணைக"
 
 #: ../module/Ui/templates/related-content/add-external.twig:22
 msgid "Add external link"
-msgstr "Ajouter un lien externe"
+msgstr "உட்புற இணையமுகவரியை இணைக்க"
 
 #: ../module/Ui/templates/related-content/add-internal.twig:22
 msgid "Add internal link"
-msgstr "Ajouter un lien interne"
+msgstr "வெளிப்புற இணையமுகவரியை இணைக்க"
 
 #: ../module/Ui/templates/related-content/manage.twig:24
 msgid "Manage related links"
-msgstr "Gérer les liens connexes"
+msgstr "ஒத்திய இணைமுகவரியை கையாள்க"
 
 #: ../module/Ui/templates/related-content/manage.twig:69
 msgid "Category"
-msgstr "Catégorie"
+msgstr "வகை"
 
 #: ../module/Ui/templates/related-content/manage.twig:73
 msgid "Internal"
-msgstr "Interne"
+msgstr "உட்புறம்"
 
 #: ../module/Ui/templates/related-content/manage.twig:77
 msgid "External"
-msgstr "Externe"
+msgstr "வெளிப்புறம்"
 
 #: ../module/Ui/templates/search/results.twig:24
 msgid "Search results"
-msgstr "Résultats de la recherche"
+msgstr "முடிவுகளைத் தேடுக"
 
 #: ../module/Ui/templates/static/de/datenschutz/partials/header.twig:34
 msgid "Datenschutzerklärung"
-msgstr "déclaration de protection de données"
+msgstr ""
 
 #: ../module/Ui/templates/subject/home/index.twig:23
 msgid "Start learning now!"
-msgstr "Commencez à apprendre maintenant !"
+msgstr "கற்றலை ஆரம்பி!"
 
 #: ../module/Ui/templates/taxonomy/term/aggregate/siblings.twig:25
 msgid "Further exercises"
-msgstr "Exercices supplémentaires"
+msgstr "வேறு பயிற்சிகள்"
 
 #: ../module/Ui/templates/taxonomy/term/batch-copy.twig:22
 msgid "Copy associations"
-msgstr "Copier les associations"
+msgstr "இணைப்பைப் பிரதி எடுக்கவும்"
 
 #: ../module/Ui/templates/taxonomy/term/batch-move.twig:22
 msgid "Move associations"
-msgstr "Déplacer les associations"
+msgstr "இணைப்பை நகர்த்தவும்"
 
 #: ../module/Ui/templates/taxonomy/term/create.twig:22
 msgid "Create term"
-msgstr "Créer un terme"
+msgstr "விதிமுறையை அமை"
 
 #: ../module/Ui/templates/taxonomy/term/entity/default.twig:28
 msgid "Template for %name% not found."
-msgstr "Modèle pour %name% non trouvé."
+msgstr "\"% பெயருக்கு%”உதாரணம் கிடைக்கவில்லை"
 
 #: ../module/Ui/templates/taxonomy/term/organize.twig:23
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:30
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:29
 msgid "Organize taxonomy"
-msgstr "Organiser la taxonomie"
+msgstr ""
 
 #: ../module/Ui/templates/taxonomy/term/organize/partial.twig:63
 msgid "Tools"
-msgstr "Outils"
+msgstr "கருவிகள்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/curriculum-topic-folder.twig:22
 msgid "curriculum-topic-folder"
-msgstr "programme d’études-sujet-dossier"
+msgstr "பாடத்திட்ட தலைப்பு அடைவை"
 
 #: ../module/Ui/templates/taxonomy/term/templates/curriculum-topic.twig:22
 msgid "curriculum-topic"
-msgstr "programme d’études-sujet"
+msgstr "பாடத்திட்ட தலைப்பு"
 
 #: ../module/Ui/templates/taxonomy/term/templates/curriculum.twig:22
 msgid "curriculum"
-msgstr "programme d’études"
+msgstr "பாடத்திட்டம்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/locale.twig:22
 msgid "locale"
-msgstr "locale"
+msgstr "இடம்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:44
 msgid "Add content"
-msgstr "Ajouter contenu"
+msgstr "உள்ளடக்கம் சேர்க்கவும்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:67
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:50
 msgid "Batch copy items"
-msgstr "Copier plusieurs éléments"
+msgstr "தொகுதியை பிரதி எடுக்கும் வகைகள்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:74
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:57
 msgid "Batch move items"
-msgstr "Déplacer plusieurs éléments"
+msgstr "தொகுதியை நகர்த்தும் வகைகள்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Courses"
-msgstr "Cours"
+msgstr "வகுப்புப்புகள்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Articles"
-msgstr "Articles"
+msgstr "கட்டுரைகள்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Videos"
-msgstr "Vidéos"
+msgstr "காணொளிகள்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Applets"
-msgstr "Applet"
+msgstr "Applets"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Events"
-msgstr "Évènements"
+msgstr ""
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:49
 #: ../module/Ui/templates/taxonomy/term/templates/partials/groups.twig:34
 msgid "Exercises"
-msgstr "Exercices"
+msgstr "பயிற்சிகள்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subfolders.twig:108
 msgid "Show %ecount% exercises..."
-msgstr "Montrer %ecount% exercices..."
+msgstr "%ecount% பயிற்ச்சியைக் காட்டவும்..."
 
 #: ../module/Ui/templates/taxonomy/term/templates/subject.twig:22
 msgid "subject"
-msgstr "sujet"
+msgstr "பாடம்"
 
 #: ../module/Ui/templates/taxonomy/term/templates/topic-folder.twig:22
 msgid "topic-folder"
-msgstr "sujet-dossier"
+msgstr "தலைப்பு அடைவை"
 
 #: ../module/Ui/templates/taxonomy/term/templates/topic.twig:22
 msgid "topic"
-msgstr "sujet"
+msgstr "தலைப்பு"
 
 #: ../module/Ui/templates/taxonomy/term/update.twig:22
 msgid "Update term"
-msgstr "Actualiser le terme"
+msgstr "விதிமுறையை புதுப்பி"
 
 #: ../module/Ui/templates/user/user/profile.twig:22
 msgid "Profile"
-msgstr "Profil"
+msgstr "விவரம்"
 
 #: ../module/Ui/templates/user/user/profile.twig:29
 msgid "Statistics"
-msgstr "Statistiques"
+msgstr "புள்ளிவிவரங்கள்"
 
 #: ../module/Ui/templates/user/user/profile.twig:51
 msgid "Edits"
-msgstr "Modifications"
+msgstr "கையாளுதல்"
 
 #: ../module/Ui/templates/user/user/profile.twig:62
 msgid "Reviews"
-msgstr "Révisions"
+msgstr "மீளாய்வு"
 
 #: ../module/Ui/templates/user/user/profile.twig:73
 msgid "Taxonomy associations"
-msgstr "Associations de taxonomie"
+msgstr "வகைப்பாடு சங்கங்கள்"
 
 #: ../module/Ui/templates/user/user/profile.twig:84
 msgid "Taxonomy changes"
-msgstr "Changements de taxonomie"
+msgstr "வகைப்பாடு மாற்றங்கள்"
 
 #: ../module/Ui/templates/user/user/profile.twig:95
 msgid "Total deletions"
-msgstr "Toutes les suppressions"
+msgstr "நீக்கப்படடவை"
 
 #: ../module/Ui/templates/user/user/profile.twig:100
 msgid "Recent activities"
-msgstr "Activités récentes"
+msgstr "சமீபத்திய செய்தவை"
 
 #: ../module/Ui/templates/user/user/profile.twig:113
 msgid "Last seen"
-msgstr "Dernière visite"
+msgstr "இறுதியாக பார்க்கப்பட்டது"
 
 #: ../module/Ui/templates/user/user/register.twig:82
 msgid "Stay in touch!"
-msgstr "Restez en contact!"
+msgstr "தொடர்பில் இருக்கவும்!"
 
 #: ../module/Ui/templates/user/user/register.twig:85
 msgid "<strong>Sign up to our newsletter to receive quarterly updates about our work.</strong> Serlo Education e.V. will use the information you provided to send you the newsletter and (optionally) personalise these mailings. We will also supply insights on aspects of Serlo that may be particularly interesting to you, based on the information you provided. To enable us to keep serlo.org free of charge and free of advertising we send out a fundraiser campaign through our newsletter list annually around Christmas. Please confirm below if you would like to give us permission to contact you in this way."
-msgstr "<strong>Inscrivez-vous à notre newsletter pour recevoir les mises à jour trimestrielles sur notre travail.</strong> Serlo Education e.V. utilisera vos données pour vous envoyer la newsletter et (facultativement) personnaliser ces envois. Nous allons vous fournir également avec des idées sur des aspects de Serlo qui pourraient vous intéresser basées sur l’es informations vous avez données. Pour nous permettre de garder serlo.org gratuitement et sans publicité, nous envoyons chaque année autour de Noël une campagne de collecte de fonds. S’il vous plaît confirmer ci-dessous si vous souhaitez nous donnez la permission de vous contacter de cette manière."
+msgstr "<strong> எங்களுடைய செயற்பாடுகளின் தகவலை மூன்று மாதத்திற்கு ஒருமுறை பெறுவதற்கு உள்நுழைதல்.</strong> Serlo Education e.V. உங்களுடைய தகவல்களை, உங்களுக்கு அனுப்பவிருக்கும் மின்னஞ்சல் அறிவிப்புகளுக்குப் பாவிப்பதுடன் (விருப்பப்பட்டால்) தனிப்பயனாக்கவும்படும். நீங்கள் குறிப்பிட்ட தகவலின் அடிப்படையில் உங்களுக்கு விருப்பமான பக்கங்களில் இருந்து Serloவில் ஓர் அறிமுகம் கிடைக்கும். Serlo.orgஐ இலவசமாகவும் விளம்பரமின்றி பாவனை செய்ய ஒவ்வொரு வருடமும் நத்தார் நேரம் ஓர் தகவல்கடித நிரலை அனுப்புவோம். தயவு செய்து இதற்கு சம்மதம் என்றால் கீழ் உள்ளதை அடையாளப்படுத்தவும்."
 
 #: ../module/Ui/templates/user/user/register.twig:114
 msgid "You can revoke your consent to contact you via email at any time by clicking the unsubscribe link in any mailing or send us an email at <a href=\"mailto:de@serlo.org\">de@serlo.org</a>. Your privacy is very important to us. For the processing of our mailing activities we work with MailChimp as a service provider. MailChimp underlies a strict data processing agreement with us that ensures the protection of your data in accordance with the European General Data Protection Regulations. By subscribing to our newsletter you agree with our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and acknowledge that your data will be processed by MailChimp in accordance with their <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">Terms</a>."
-msgstr "Vous pouvez révoquer votre consentement de vous contacter par e-mail à tout moment en cliquant sur le lien de désabonnement présent dans toutes les e-mails que nous vous envoyons ou en nous envoyant un e-mail à <a href=\"mailto:fr@serlo.org\">de@serlo.org</a>. Votre vie privée est très importante à nous. Pour le traitement de nos activités d'e-mails, nous travaillons avec MailChimp comme un fournisseur de services. MailChimp sous-tend un contrat stricte concernant le traitement des donnés avec nous qui assure la protection de vos données en conformité avec le règlement européen sur la protection des données générales. En vous abonnant à notre newsletter, vous acceptez notre <a href=\"/22964\" target=\"_blank\"></a> politique de confidentialité et reconnaissez que vos données seront traitées par MailChimp conformément à leur <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">politique de confidentialité</a> et <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">termes</a>."
+msgstr "குழுவிலக என்ற இணைப்பை அழுத்துவதன் மூலம் அல்லது மின்னஞ்சல் வழியாக <a href=\"mailto:de@serlo.org\"> de@serlo.org</a> உங்களுடைய சந்தாவை எந்த நேரத்திலும் ரத்து செய்யலாம். உங்களுடைய தனியுரிமை எங்களுக்கு மிகவும் முக்கியம். எங்கள் அஞ்சல் நடவடிக்கைகளைச் செயலாக்குவதற்கு நாங்கள் ஒரு சேவை வழங்குநராக MailChimp உடன் இணைந்து பணியாற்றுகிறோம். MailChimp எங்களுடன் கடுமையான தனியுரிமை செயலாக்க ஒப்பந்தத்தை அடிப்படையாகக் கொண்டது. இது ஐரோப்பிய பொதுத் தரவு பாதுகாப்பு விதிமுறைகளுக்கு இணங்க உங்கள் தனியுரிமை பாதுகாப்பை உறுதி செய்கிறது. எங்கள் செய்திமடலுக்கு குழுசேர்வதன் மூலம் எங்கள் <a href=\"/22964\" target=\"_blank\"> தனியுரிமைக் கொள்கை </a> உடன் நீங்கள் உடன்படுகிறீர்கள். மேலும் உங்கள் தரவை MailChimp அவர்களிடம் <a href = \"https: //mailchimp.com/legal/privacy/ \"target =\" _ blank \"> தனியுரிமைக் கொள்கையுடன் </a> மற்றும் <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\"> விதிமுறைகளுடன் </a> அனுப்பிவைக்கப்படும்."
 
 #: ../module/Ui/templates/user/user/register.twig:122
 msgid "By clicking <em>Sign up</em>, you agree to our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and <a href=\"/21654\" target=\"_blank\">Terms</a>. You may receive email notifications from us and can opt out at any time."
-msgstr "En cliquant sur <em>Inscrivez-vous</em>, vous acceptez notre <a href=\"/22964\" target=\"_blank\">termes</a> et <a href=\"/21654\" target=\"_blank\">politique de confidentialité</a>. Vous pouvez recevoir des notifications par email et vous pouvez retirer à tout moment."
+msgstr "<em> உள்நுழைத்தலை </em> அழுத்தும்போது நீங்கள் எங்களுடைய<a href=\"/22964\" target=\"_blank\"> ஒப்பந்தங்களையும்</a> <a href=\"/21654\" target=\"_blank\"> விதிமுறைகளையும்</a> ஏற்றுக்கொள்கின்றீர்கள். உங்களுக்கு மின்னஞ்சல் மூலம் அறிவிப்புத்தரப்படும், அத்துடன் நீங்கள் எக்கணமும் இதனை மறுதளிக்கலாம்."
 
 #: ../module/Ui/templates/user/user/settings.twig:22
 msgid "My settings"
-msgstr "Mes paramètres"
+msgstr "என்னுடைய அமைப்புகள்"
 
 #: ../module/Ui/templates/user/users/partial/users-table.twig:39
 msgid "Never"
-msgstr "Jamais"
+msgstr "ஒருபோதுமில்லை"
 

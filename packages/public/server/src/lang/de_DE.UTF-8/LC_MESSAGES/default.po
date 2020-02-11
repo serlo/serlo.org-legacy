@@ -2,10 +2,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2020-01-10 07:07+0100\n"
-"PO-Revision-Date: 2020-01-13 03:15\n"
+"PO-Revision-Date: 2020-02-11 04:14\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
-"Language-Team: Japanese\n"
-"Language: ja\n"
+"Language-Team: German\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,192 +13,192 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;translate;pageHeader;setSubtitle;addMessage;addSuccessMessage;addErrorMessage;setLabel;setLegend;t\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: ./../module\n"
 "X-Poedit-SearchPath-1: ./../config\n"
 "X-Crowdin-Project: serlo\n"
-"X-Crowdin-Language: ja\n"
+"X-Crowdin-Language: de\n"
 "X-Crowdin-File: default.po\n"
 
 #: ../config/instance/navigation/default.php:27
 #: ../module/Ui/templates/admin/home/index.phtml:24
 msgid "Backend"
-msgstr "バックエンド"
+msgstr "Winkelgasse"
 
 #: ../config/instance/navigation/default.php:33
 #: ../module/Ui/templates/navigation/container/get.twig:40
 #: ../module/Ui/templates/page/pages.twig:22
 msgid "Pages"
-msgstr "ページ"
+msgstr "Statische Seiten"
 
 #: ../config/instance/navigation/default.php:39
 #: ../module/Ui/templates/page/create.twig:22
 msgid "Create a page"
-msgstr "ページを作成"
+msgstr "Neue Seite erstellen"
 
 #: ../config/instance/navigation/default.php:45
 #: ../module/Ui/templates/page/update.twig:22
 msgid "Update page"
-msgstr ""
+msgstr "Seite bearbeiten"
 
 #: ../config/instance/navigation/default.php:53
 msgid "Taxonomy"
-msgstr "分類"
+msgstr "Baumstruktur"
 
 #: ../config/instance/navigation/default.php:59
 msgid "Organize"
-msgstr "整理"
+msgstr "Baumstruktur bearbeiten"
 
 #: ../config/instance/navigation/default.php:83
 msgid "Authorization"
-msgstr "権限"
+msgstr "Rechtevergabe"
 
 #: ../config/instance/navigation/default.php:89
 #: ../module/Ui/templates/authorization/role/show.phtml:24
 msgid "Role"
-msgstr "役割"
+msgstr "Rolle"
 
 #: ../config/instance/navigation/default.php:95
 #: ../module/Ui/templates/authorization/role/create.phtml:23
 msgid "Create role"
-msgstr "役割を作成"
+msgstr "Neue Rolle erstellen"
 
 #: ../config/instance/navigation/default.php:101
 #: ../module/Ui/templates/authorization/role/user/add.phtml:24
 msgid "Add user"
-msgstr "ユーザを追加"
+msgstr "BenutzerIn hinzufügen"
 
 #: ../config/instance/navigation/default.php:107
 #: ../module/Ui/templates/authorization/role/permission/add.phtml:24
 msgid "Add permission"
-msgstr "権限を追加"
+msgstr "Berechtigung hinzufügen"
 
 #: ../config/instance/navigation/default.php:115
 msgid "Navigation"
-msgstr "ナビゲーション"
+msgstr "Navigation"
 
 #: ../config/instance/navigation/default.php:121
 #: ../module/Ui/templates/navigation/containers.phtml:24
 #: ../module/Ui/templates/navigation/container/get.twig:22
 msgid "Manage navigation"
-msgstr "ナビの管理"
+msgstr "Navigation verwalten"
 
 #: ../config/instance/navigation/default.php:126
 #: ../module/Ui/templates/navigation/container/create.phtml:24
 msgid "Create container"
-msgstr "コンテナの作成"
+msgstr "Container erstellen"
 
 #: ../config/instance/navigation/default.php:136
 #: ../module/Ui/templates/navigation/parameter/create.phtml:24
 msgid "Create parameter"
-msgstr "パラメーターを作成"
+msgstr "Parameter erstellen"
 
 #: ../config/instance/navigation/default.php:142
 #: ../module/Ui/templates/navigation/parameter/key/create.phtml:24
 msgid "Create parameter key"
-msgstr "パラメーター キーを作成"
+msgstr "Parameter Schlüssel erstellen"
 
 #: ../config/instance/navigation/default.php:148
 #: ../module/Ui/templates/navigation/parameter/update.phtml:24
 msgid "Update parameter"
-msgstr "パラメーターを更新"
+msgstr "Parameter aktualisieren"
 
 #: ../config/instance/navigation/default.php:156
 #: ../module/Ui/templates/authorization/role/show.phtml:32
 #: ../module/Ui/templates/user/users/users.twig:22
 msgid "Users"
-msgstr "ユーザ"
+msgstr "Benutzer"
 
 #: ../config/instance/navigation/default.php:162
 msgid "Recycle bin"
-msgstr "ごみ箱"
+msgstr "Papierkorb"
 
 #: ../config/instance/navigation/default.php:168
 msgid "Flags"
-msgstr "フラグ"
+msgstr "Gemeldete Inhalte"
 
 #: ../config/instance/navigation/default.php:174
 #: ../module/Ui/templates/flag/detail.phtml:28
 msgid "Flag detail"
-msgstr "フラグの詳細"
+msgstr "Details der Meldung"
 
 #: ../config/instance/navigation/default.php:180
 #: ../module/Ui/templates/flag/add.phtml:24
 #: ../module/Ui/templates/entity/view/partials/actions/flag/create.twig:26
 msgid "Flag content"
-msgstr "フラグの内容"
+msgstr "Inhalt melden"
 
 #: ../config/instance/navigation/default.php:188
 msgid "Licenses"
-msgstr "ライセンス"
+msgstr "Lizenzen"
 
 #: ../config/instance/navigation/default.php:194
 #: ../module/Ui/templates/license/add.phtml:24
 msgid "Add license"
-msgstr "ライセンスを追加"
+msgstr "Lizenz hinzufügen"
 
 #: ../config/instance/navigation/default.php:200
 #: ../module/Ui/templates/license/detail.phtml:26
 #: ../module/Ui/templates/entity/view/partials/actions/license/show.twig:27
 msgid "License"
-msgstr "ライセンス"
+msgstr "Lizenz"
 
 #: ../config/instance/navigation/default.php:212
 msgid "Horizon"
-msgstr "ホライゾン"
+msgstr "Horizont"
 
 #: ../config/instance/navigation/default.php:217
 #: ../module/Ui/templates/ads/ads.twig:27
 #: ../module/Ui/templates/ads/create.twig:22
 msgid "Create ad"
-msgstr "広告を作成"
+msgstr "Anzeige erstellen"
 
 #: ../config/instance/navigation/default.php:223
 #: ../module/Ui/templates/ads/update.twig:22
 msgid "Update ad"
-msgstr "広告を更新"
+msgstr "Anzeige bearbeiten"
 
 #: ../config/instance/navigation/default.php:234
 #: ../module/Ui/templates/blog/blog/view.twig:23
 msgid "Blog"
-msgstr "ブログ"
+msgstr "Blog"
 
 #: ../config/instance/navigation/default.php:249
 msgid "Me"
-msgstr "私"
+msgstr "Ich"
 
 #: ../config/instance/navigation/default.php:266
 msgid "Public profile"
-msgstr ""
+msgstr "Öffentliches Profil"
 
 #: ../config/instance/navigation/default.php:271
 msgid "Edit profile"
-msgstr "プロフィールを編集"
+msgstr "Profil bearbeiten"
 
 #: ../config/instance/navigation/default.php:277
 #: ../module/Ui/templates/authentication/change-password.twig:22
 msgid "Update password"
-msgstr "パスワードの更新"
+msgstr "Passwort aktualisieren"
 
 #: ../config/instance/navigation/default.php:283
 msgid "Subscriptions"
-msgstr "ファロー"
+msgstr "Abonnements"
 
 #: ../config/instance/navigation/default.php:289
 #: ../module/Ui/templates/event/history/all.twig:22
 #: ../module/Ui/templates/event/history/object.twig:22
 #: ../module/Ui/templates/event/history/user.twig:22
 msgid "Event log"
-msgstr "イベントログ"
+msgstr "Aktivitätslog"
 
 #: ../module/Admin/src/Admin/Form/DebuggerForm.php:40
 msgid "Message:"
-msgstr "メッセージ："
+msgstr "Nachricht:"
 
 #: ../module/Ads/src/Ads/Controller/AdsController.php:112
 #: ../module/RelatedContent/src/RelatedContent/Controller/RelatedContentController.php:165
 msgid "The element could not be removed (validation failed)"
-msgstr ""
+msgstr "Das Element konnte nicht entfernt werden. (Validierung fehlgeschlagen)"
 
 #: ../module/Ads/src/Ads/Form/AdForm.php:47
 #: ../module/Blog/src/Blog/Form/CreatePostForm.php:81
@@ -211,13 +211,13 @@ msgstr ""
 #: ../module/RelatedContent/src/RelatedContent/Form/InternalForm.php:43
 #: ../module/Ui/templates/page/revisions.twig:29
 msgid "Title:"
-msgstr "タイトル："
+msgstr "Titel:"
 
 #: ../module/Ads/src/Ads/Form/AdForm.php:48
 #: ../module/Page/src/Page/Form/RepositoryForm.php:54
 #: ../module/RelatedContent/src/RelatedContent/Form/ExternalForm.php:45
 msgid "Url:"
-msgstr "URL："
+msgstr "URL:"
 
 #: ../module/Ads/src/Ads/Form/AdForm.php:49
 #: ../module/Blog/src/Blog/Form/CreatePostForm.php:82
@@ -238,101 +238,101 @@ msgstr "URL："
 #: ../module/License/src/License/Form/LicenseForm.php:49
 #: ../module/Page/src/Page/Form/RevisionForm.php:51
 msgid "Content:"
-msgstr "内容"
+msgstr "Inhalt:"
 
 #: ../module/Ads/src/Ads/Form/AdForm.php:58
 msgid "frequency"
-msgstr "頻度"
+msgstr "Frequenz"
 
 #: ../module/Ads/src/Ads/Form/AdForm.php:60
 msgid "Banner"
-msgstr ""
+msgstr "Banner"
 
 #: ../module/Ads/src/Ads/Form/AdPageForm.php:41
 msgid "Page ID:"
-msgstr "ページ ID:"
+msgstr "Seiten ID:"
 
 #: ../module/Attachment/src/Attachment/Form/AttachmentFieldset.php:40
 msgid "Attach file:"
-msgstr "ファイルを添付"
+msgstr "Datei anhängen:"
 
 #: ../module/Attachment/src/Attachment/Form/AttachmentForm.php:45
 msgid "Set type:"
-msgstr "種類の設定"
+msgstr "Typ wählen:"
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:73
 msgid "Your account has been activated, you may now log in."
-msgstr "アカウントが有効になりました。ログインできます。"
+msgstr "Dein Konto wurde aktiviert. Du kannst dich jetzt anmelden."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:78
 msgid "I couldn't find an account by that token. You can now try to re-activate your account."
-msgstr "ユーザー認証用のトークンによってアカウントを見つけることができませんでした。今あなたのアカウントを再アクティブ化試みることができます。"
+msgstr "Es konnte kein Konto mit diesem Token gefunden werden. Du kannst jetzt versuchen, dein Konto zu reaktivieren."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:96
 msgid "Your have been sent an activation email. Please check your spam folder as well."
-msgstr "アクティブ化のメールを送信しました。受信フォルダーおよび迷惑メールフォルダーを確認ください。"
+msgstr "Wir haben dir eine Aktivierungsmail geschickt. Überprüfe gegebenenfalls deinen Spam-Ordner."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:134
 msgid "Your password has successfully been changed."
-msgstr "新しいパスワードに変更されました。"
+msgstr "Dein Passwort wurde erfolgreich geändert."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:239
 msgid "You have been sent an email with instructions on how to restore your password! Please check your spam folder as well."
-msgstr "パスワードを復元する方法について記載したメールを送信しました。迷惑メール フォルダーも確認ください。"
+msgstr "Wir haben dir eine E-Mail mit Anweisungen geschickt, wie du dein Passwort zurücksetzen kannst! Überprüfe gegebenenfalls deinen Spam-Ordner."
 
 #: ../module/Authentication/src/Authentication/Form/ActivateForm.php:43
 #: ../module/User/src/User/Form/Register.php:54
 #: ../module/User/src/User/Form/SelectUserForm.php:43
 #: ../module/User/src/User/Form/SettingsForm.php:44
 msgid "Email:"
-msgstr "メール："
+msgstr "E-Mail-Adresse:"
 
 #: ../module/Authorization/src/Authorization/Controller/RoleController.php:164
 msgid "Role created."
-msgstr "役割を作成"
+msgstr "Rolle erstellt."
 
 #: ../module/Authorization/src/Authorization/Controller/RoleController.php:189
 msgid "The permission could not be removed (validation failed)"
-msgstr ""
+msgstr "Die Berechtigung konnte nicht entfernt werden. (Validierung fehlgeschlagen)"
 
 #: ../module/Authorization/src/Authorization/Controller/RoleController.php:222
 msgid "The user could not be removed (validation failed)"
-msgstr ""
+msgstr "Der Benutzer konnte nicht entfernt werden. (Validierung fehlgeschlagen)"
 
 #: ../module/Authorization/src/Authorization/Form/PermissionForm.php:45
 msgid "Permission:"
-msgstr "許可"
+msgstr "Berechtigung:"
 
 #: ../module/Authorization/src/Authorization/Form/PermissionForm.php:54
 msgid "Instance:"
-msgstr "実例："
+msgstr "Instanz:"
 
 #: ../module/Authorization/src/Authorization/Form/RoleForm.php:58
 #: ../module/Term/src/Term/Form/TermFieldset.php:37
 msgid "Name:"
-msgstr "名前:"
+msgstr "Name:"
 
 #: ../module/Authorization/src/Authorization/Form/UserForm.php:40
 #: ../module/User/src/User/Form/Register.php:48
 msgid "Username:"
-msgstr "ユーザー名:"
+msgstr "Benutzername:"
 
 #: ../module/Blog/src/Blog/Form/CreatePostForm.php:87
 #: ../module/Blog/src/Blog/Form/UpdatePostForm.php:68
 msgid "Publish date:"
-msgstr "公開日"
+msgstr "Veröffentlicht am:"
 
 #: ../module/Contexter/src/Contexter/Form/ContextForm.php:49
 msgid "Select a type:"
-msgstr "タイプを選択"
+msgstr "Wähle einen Typ:"
 
 #: ../module/Contexter/src/Contexter/Form/ContextForm.php:51
 msgid "Object-ID:"
-msgstr "オブジェクト ID:"
+msgstr "Objekt-ID:"
 
 #: ../module/Contexter/src/Contexter/Form/ParameterFieldset.php:38
 msgid "Which parameters should be matched?"
-msgstr "どのパラメーターが一致するか。"
+msgstr "Welche Parameter sollen beachtet werden?"
 
 #: ../module/Contexter/src/Contexter/Form/ParameterFieldset.php:61
 msgid "<strong>"
@@ -340,656 +340,656 @@ msgstr "<strong>"
 
 #: ../module/Contexter/src/Contexter/Form/UrlForm.php:39
 msgid "Uri:"
-msgstr "URL:"
+msgstr "URI:"
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:107
 msgid "Your comment has been saved."
-msgstr "あなたのコメントが保存されました。"
+msgstr "Dein Kommentar wurde gespeichert."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:162
 msgid "Your discussion has been started."
-msgstr "あなたのディスカッションが開始されました。"
+msgstr "Deine Diskussion wurde begonnen."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:191
 msgid "You have downvoted this comment."
-msgstr "このコメントに反対票を投じました。"
+msgstr "Du hast diesen Kommentar bereits abgewertet."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:193
 msgid "You can't downvote this comment."
-msgstr "このコメントに反対票を投じることはできません。"
+msgstr "Du kannst diesen Kommentar nicht abwerten."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:197
 msgid "You have upvoted this comment."
-msgstr "このコメントに賛成票を投じました。"
+msgstr "Du hast diesen Kommentar bereits aufgewertet."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:199
 msgid "You can't upvote this comment."
-msgstr "このコメントに賛成票を投じることはできません。"
+msgstr "Du kannst diesen Kommentar nicht aufwerten."
 
 #: ../module/Discussion/src/Discussion/Form/CommentForm.php:83
 msgid "Your response"
-msgstr ""
+msgstr "Deine Antwort"
 
 #: ../module/Discussion/src/Discussion/Form/CommentForm.php:88
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:139
 msgid "Reply"
-msgstr "返信"
+msgstr "Antwort abschicken"
 
 #: ../module/Discussion/src/Discussion/Form/DiscussionForm.php:83
 msgid "Ask a question or suggest an improvement"
-msgstr ""
+msgstr "Frage oder Verbesserungsvorschlag"
 
 #: ../module/Discussion/src/Discussion/Form/DiscussionForm.php:88
 msgid "Submit"
-msgstr ""
+msgstr "Kommentar abschicken"
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:107
 msgid "Guideline for reviewing"
-msgstr ""
+msgstr "Leitfaden für das Reviewing"
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:111
 msgid "List of all discussions"
-msgstr ""
+msgstr "Liste aller Kommentare"
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:115
 msgid "Channel #feedback-requests in RocketChat"
-msgstr ""
+msgstr "Channel #feedback-requests in RocketChat"
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:119
 msgid "Questionnaire for reviewers"
-msgstr ""
+msgstr "Fragebogen für Reviewer"
 
 #: ../module/Entity/src/Entity/Controller/LinkController.php:65
 #: ../module/Entity/src/Entity/Controller/LinkController.php:89
 msgid "Your changes have been saved."
-msgstr "変更が保存されました。"
+msgstr "Deine Änderungen wurden gespeichert."
 
 #: ../module/Entity/src/Entity/Controller/RepositoryController.php:358
 msgid "Your revision has been saved and is available"
-msgstr ""
+msgstr "Deine Bearbeitung wurde gespeichert und ist verfügbar"
 
 #: ../module/Entity/src/Entity/Controller/RepositoryController.php:361
 msgid "Your revision has been saved, it will be available once it gets approved"
-msgstr ""
+msgstr "Deine Bearbeitung wurde gespeichert und ist verfügbar, sobald sie überprüft wurde"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:49
 msgid "Applet Url:"
-msgstr ""
+msgstr "Applet URL:"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:50
 #: ../module/Entity/src/Entity/Form/ModuleForm.php:46
 #: ../module/Entity/src/Entity/Form/VideoForm.php:48
 msgid "Description:"
-msgstr "説明"
+msgstr "Beschreibung:"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:51
 #: ../module/Entity/src/Entity/Form/ArticleForm.php:47
 #: ../module/Entity/src/Entity/Form/ModuleForm.php:48
 #: ../module/Entity/src/Entity/Form/VideoForm.php:51
 msgid "Reasoning:"
-msgstr "根拠："
+msgstr "Didaktische Überlegungen:"
 
 #: ../module/Entity/src/Entity/Form/Element/Changes.php:35
 msgid "Changes:"
-msgstr "変更:"
+msgstr "Änderungen:"
 
 #: ../module/Entity/src/Entity/Form/Element/MetaDescription.php:35
 msgid "Search Engine Description:"
-msgstr ""
+msgstr "Suchmaschinen-Beschreibung:"
 
 #: ../module/Entity/src/Entity/Form/Element/MetaTitle.php:35
 msgid "Search Engine Title:"
-msgstr ""
+msgstr "Suchmaschinen-Titel:"
 
 #: ../module/Entity/src/Entity/Form/InputChallengeForm.php:45
 msgid "Solution:"
-msgstr ""
+msgstr "Lösung:"
 
 #: ../module/Entity/src/Entity/Form/InputChallengeForm.php:46
 #: ../module/Entity/src/Entity/Form/MultipleChoiceWrongAnswerForm.php:45
 #: ../module/Entity/src/Entity/Form/SingleChoiceAnswerForm.php:45
 msgid "Feedback:"
-msgstr ""
+msgstr "Feedback:"
 
 #: ../module/Entity/src/Entity/Form/MathPuzzleForm.php:46
 msgid "Source code:"
-msgstr ""
+msgstr "Quellcode:"
 
 #: ../module/Entity/src/Entity/Form/ModulePageForm.php:48
 msgid "Select an icon"
-msgstr ""
+msgstr "Wähle ein Symbol"
 
 #: ../module/Entity/src/Entity/Form/VideoForm.php:49
 msgid "Video url:"
-msgstr "動画のURL："
+msgstr "Video-URL:"
 
 #: ../module/Flag/src/Flag/Controller/FlagController.php:54
 msgid "The content has been flagged."
-msgstr "コンテンツにフラグが立てられました。"
+msgstr "Der Inhalt wurde markiert."
 
 #: ../module/Flag/src/Flag/Controller/FlagController.php:93
 msgid "Your action was successfull."
-msgstr "操作に成功しました。"
+msgstr "Deine Aktion war erfolgreich."
 
 #: ../module/Flag/src/Flag/Controller/FlagController.php:95
 msgid "The flag could not be removed (validation failed)"
-msgstr ""
+msgstr "Die Meldung konnte nicht entfernt werden. (Validierung fehlgeschlagen)"
 
 #: ../module/Flag/src/Flag/Form/FlagForm.php:52
 #: ../module/Navigation/src/Navigation/Form/ContainerForm.php:53
 msgid "Type:"
-msgstr "形式："
+msgstr "Typ:"
 
 #: ../module/License/src/License/Controller/LicenseController.php:120
 msgid "The license could not be removed (validation failed)"
-msgstr ""
+msgstr "Die Lizenz konnte nicht entfernt werden. (Validierung fehlgeschlagen)"
 
 #: ../module/License/src/License/Form/LicenseForm.php:50
 msgid "License url:"
-msgstr "ライセンスのURL:"
+msgstr "Lizenz-URL:"
 
 #: ../module/License/src/License/Form/LicenseForm.php:51
 msgid "Agreement:"
-msgstr "承諾"
+msgstr "Vereinbarung:"
 
 #: ../module/License/src/License/Form/LicenseForm.php:55
 msgid "Icon url:"
-msgstr "アイコンのURL:"
+msgstr "Symbol-URL:"
 
 #: ../module/License/src/License/Form/LicenseForm.php:56
 msgid "This is the default license for this instance."
-msgstr "これは、このインスタンスのデフォルトライセンスです。"
+msgstr "Dies ist die Standard-Lizenz für diese Instanz."
 
 #: ../module/License/src/License/Form/UpdateLicenseForm.php:48
 msgid "Select a license:"
-msgstr "ライセンスの選択:"
+msgstr "Wähle eine Lizenz:"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:96
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:125
 msgid "The container was successfully created"
-msgstr "コンテナーが正常に作成されました。"
+msgstr "Der Container wurde erfolgreich erstellt"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:127
 msgid "The container could not be created (validation failed)"
-msgstr "コンテナーは作成できされませんでした(検証に失敗しました)。"
+msgstr "Der Container konnte nicht erstellt werden"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:237
 msgid "The container was successfully removed"
-msgstr "コンテナーは正常に削除されました。"
+msgstr "Der Container wurde erfolgreich entfernt"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:239
 msgid "The container could not be removed (validation failed)"
-msgstr ""
+msgstr "Der Container konnte nicht entfernt werden. (Validierung fehlgeschlagen)"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:255
 msgid "The page was successfully removed"
-msgstr "ページが正常に削除されました。"
+msgstr "Die Seite wurde erfolgreich entfernt"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:257
 msgid "The page could not be removed (validation failed)"
-msgstr ""
+msgstr "Die Seite konnte nicht entfernt werden. (Validierung fehlgeschlagen)"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:273
 msgid "The parameter was successfully removed"
-msgstr "パラメーターは正常に削除されました。"
+msgstr "Der Parameter wurde erfolgreich gelöscht"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:275
 msgid "The parameter could not be removed (validation failed)"
-msgstr ""
+msgstr "Der Parameter konnte nicht entfernt werden. (Validierung fehlgeschlagen)"
 
 #: ../module/Navigation/src/Navigation/Controller/NavigationController.php:294
 msgid "The page was successfully updated"
-msgstr "ページが正常に更新されました。"
+msgstr "Die Seite wurde erfolgreich geändert"
 
 #: ../module/Navigation/src/Navigation/Form/PageForm.php:72
 msgid "Position"
-msgstr "位置"
+msgstr "Position"
 
 #: ../module/Navigation/src/Navigation/Form/ParameterForm.php:54
 msgid "Key:"
-msgstr "キー:"
+msgstr "Schlüssel:"
 
 #: ../module/Navigation/src/Navigation/Form/ParameterForm.php:61
 msgid "Value:"
-msgstr "値："
+msgstr "Wert:"
 
 #: ../module/Normalizer/src/Normalizer/Adapter/EntityAdapter.php:172
 msgid "applet"
-msgstr ""
+msgstr "GeoGebra Applet"
 
 #: ../module/Normalizer/src/Normalizer/Adapter/EntityAdapter.php:176
 msgid "course"
-msgstr ""
+msgstr "Kurs"
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:94
 msgid "You are now receiving notifications for this content."
-msgstr "あなたは今このコンテンツの通知を受信しています。"
+msgstr "Du erhältst nun Benachrichtigungen für diesen Inhalt."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:112
 msgid "Your subscription has been updated successfully."
-msgstr "購読は正常に更新されました。"
+msgstr "Dein Abonnement wurde erfolgreich aktualisiert."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:114
 msgid "The object you are trying to subscribe to does not exist."
-msgstr "購読しようとしているオブジェクトが存在しません。"
+msgstr "Das Objekt, das du abonnieren möchtest, existiert nicht."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:117
 msgid "You can't update your subscription because you did not subscribe to this object."
-msgstr "このオブジェクトを購読していないので、購読を更新できません。"
+msgstr "Dein Abonnement kann nicht aktualisiert werden, da du dieses Objekt noch nicht abonniert hast."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:142
 msgid "You are no longer receiving notifications for this content."
-msgstr "これ以降はこのコンテンツの通知を受信しません。"
+msgstr "Du erhältst keine Benachrichtigungen für diesen Inhalt mehr."
 
 #: ../module/Notification/src/Notification/Form/OptInFieldset.php:37
 msgid "Add to watchlist."
-msgstr "監視リストに追加"
+msgstr "Benachrichtigungen zu diesem Inhalt bekommen."
 
 #: ../module/Notification/src/Notification/Form/OptInFieldset.php:44
 msgid "Receive notifications via email."
-msgstr "電子メールによる通知を受け取る。"
+msgstr "Benachrichtigungen auch per E-Mail erhalten."
 
 #: ../module/Page/src/Page/Form/RepositoryForm.php:55
 msgid "Discussions enabled"
-msgstr ""
+msgstr "Diskussionen aktivieren"
 
 #: ../module/RelatedContent/src/RelatedContent/Form/InternalForm.php:44
 msgid "Reference:"
-msgstr "参照:"
+msgstr "Referenz:"
 
 #: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:80
 msgid "The node has been added successfully!"
-msgstr "接続ポイントが正常に追加されました！"
+msgstr "Der Knoten wurde erfolgreich hinzugefügt!"
 
 #: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:118
 msgid "Items moved successfully!"
-msgstr "アイテムが正常に移動されました！"
+msgstr "Elemente wurden erfolgreich verschoben!"
 
 #: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:155
 msgid "Items copied successfully!"
-msgstr "アイテムが正常にコピーされました！"
+msgstr "Elemente wurden erfolgreich kopiert!"
 
 #: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:253
 msgid "Your changes have been saved!"
-msgstr "変更が保存されました！"
+msgstr "Deine Änderungen wurden gespeichert!"
 
 #: ../module/Taxonomy/src/Taxonomy/Form/BatchCopyForm.php:47
 msgid "Copy to:"
-msgstr "コピー"
+msgstr "Kopieren nach:"
 
 #: ../module/Taxonomy/src/Taxonomy/Form/BatchCopyForm.php:51
 #: ../module/Taxonomy/src/Taxonomy/Form/BatchMoveForm.php:51
 msgid "Elements"
-msgstr "要素"
+msgstr "Elemente"
 
 #: ../module/Taxonomy/src/Taxonomy/Form/BatchMoveForm.php:47
 msgid "Move to:"
-msgstr "移動："
+msgstr "Verschieben nach:"
 
 #: ../module/Taxonomy/src/Taxonomy/Form/TermForm.php:74
 msgid "description:"
-msgstr "記述："
+msgstr "Beschreibung:"
 
 #: ../module/User/src/User/Controller/UserController.php:130
 msgid "You have registered successfully and will soon receive an email with instructions on how to activate your account."
-msgstr ""
+msgstr "Du hast dich erfolgreich registriert. In Kürze erhältst du eine E-Mail mit Anweisungen, wie du deinen Account aktivieren kannst."
 
 #: ../module/User/src/User/Controller/UserController.php:197
 msgid "Your profile has been saved"
-msgstr "あなたのプロフィールが保存されました。"
+msgstr "Dein Profil wurde gespeichert"
 
 #: ../module/User/src/User/Form/ChangePasswordForm.php:44
 msgid "Current password:"
-msgstr "現在のパスワード:"
+msgstr "Aktuelles Passwort eingeben:"
 
 #: ../module/User/src/User/Form/ChangePasswordForm.php:45
 #: ../module/User/src/User/Form/LostPassword.php:43
 msgid "New password:"
-msgstr "新規パスワード："
+msgstr "Neues Passwort eingeben:"
 
 #: ../module/User/src/User/Form/ChangePasswordForm.php:46
 #: ../module/User/src/User/Form/Register.php:64
 msgid "Confirm password:"
-msgstr "パスワード（確認）"
+msgstr "Passwort wiederholen:"
 
 #: ../module/User/src/User/Form/Login.php:48
 msgid "Email address:"
-msgstr "メールアドレス："
+msgstr "E-Mail-Adresse:"
 
 #: ../module/User/src/User/Form/Login.php:50
 msgid "Email address or Username"
-msgstr "メールアドレスまたはユーザ名"
+msgstr "E-Mail-Adresse oder Benutzername"
 
 #: ../module/User/src/User/Form/Login.php:54
 #: ../module/User/src/User/Form/Register.php:59
 msgid "Password:"
-msgstr "パスワード"
+msgstr "Passwort eingeben:"
 
 #: ../module/User/src/User/Form/Login.php:56
 msgid "Password"
-msgstr "パスワード"
+msgstr "Passwort"
 
 #: ../module/User/src/User/Form/Login.php:60
 msgid "Remember me"
-msgstr "設定を保存します"
+msgstr "Eingeloggt bleiben"
 
 #: ../module/User/src/User/Form/LostPassword.php:44
 msgid "Repeat new password:"
-msgstr "新しいパスワードの再入力"
+msgstr "Neues Passwort wiederholen:"
 
 #: ../module/User/src/User/Form/Register.php:50
 msgid "Enter username"
-msgstr "ユーザー名の入力"
+msgstr "Benutzername eingeben"
 
 #: ../module/User/src/User/Form/Register.php:56
 msgid "Enter email address"
-msgstr "メールアドレスの入力"
+msgstr "E-Mail-Adresse eingeben"
 
 #: ../module/User/src/User/Form/Register.php:61
 msgid "Enter password"
-msgstr "パスワードの入力"
+msgstr "Passwort eingeben"
 
 #: ../module/User/src/User/Form/Register.php:66
 msgid "Confirm password"
-msgstr "パスワード（確認）"
+msgstr "Passwort wiederholen"
 
 #: ../module/User/src/User/Form/Register.php:69
 msgid "First name (optional):"
-msgstr ""
+msgstr "Vorname (optional):"
 
 #: ../module/User/src/User/Form/Register.php:70
 msgid "Enter first name"
-msgstr ""
+msgstr "Vorname eingeben"
 
 #: ../module/User/src/User/Form/Register.php:73
 msgid "Last name (optional):"
-msgstr ""
+msgstr "Nachname (optional):"
 
 #: ../module/User/src/User/Form/Register.php:74
 msgid "Enter last name"
-msgstr ""
+msgstr "Nachname eingeben"
 
 #: ../module/User/src/User/Form/Register.php:77
 msgid "I agree that Serlo Education e.V. may contact me via email."
-msgstr ""
+msgstr "Ja, Serlo Education e.V. darf mich per Email kontaktieren."
 
 #: ../module/User/src/User/Form/Register.php:82
 msgid "Parent"
-msgstr ""
+msgstr "Elternteil"
 
 #: ../module/User/src/User/Form/Register.php:83
 msgid "Teacher"
-msgstr ""
+msgstr "LehrerIn"
 
 #: ../module/User/src/User/Form/Register.php:84
 msgid "Pupil"
-msgstr ""
+msgstr "SchülerIn"
 
 #: ../module/User/src/User/Form/Register.php:85
 msgid "University student"
-msgstr ""
+msgstr "StudentIn"
 
 #: ../module/User/src/User/Form/Register.php:86
 msgid "Other"
-msgstr ""
+msgstr "Sonstige"
 
 #: ../module/User/src/User/Form/Register.php:89
 msgid "I am here as…"
-msgstr ""
+msgstr "Ich bin hier als…"
 
 #: ../module/User/src/User/Form/Register.php:92
 #: ../module/Ui/templates/user/user/register.twig:24
 msgid "Sign up"
-msgstr "登録"
+msgstr "Registrieren"
 
 #: ../module/User/src/User/Form/RegisterFilter.php:57
 msgid "This email address is already in use. Please use a different one."
-msgstr "このメール アドレスは既に使用されています。別のメールアドレスを使用してください。"
+msgstr "Diese E-Mail-Adresse wird bereits verwendet. Bitte wähle eine andere."
 
 #: ../module/User/src/User/Form/RegisterFilter.php:78
 msgid "This username is already taken. Please use a different one."
-msgstr "このユーザー名は既に使用されています。別のユーザー名を使用してください。"
+msgstr "Dieser Benutzername ist leider schon vergeben. Bitte wähle einen anderen."
 
 #: ../module/User/src/User/Form/RegisterFilter.php:89
 msgid "Your username may only contain letters, digits, underscores (_) and hyphens (-). Please use a different one."
-msgstr "ユーザー名には文字、数字、アンダー スコア (_) とハイフン (-) のみを使うことができます。以上に従ったユーザー名を使用してください。"
+msgstr "Der Benutzername darf nur aus Buchstaben, Ziffern, Unterstrichen (_) und Bindestrichen (-) bestehen. Bitte wähle einen anderen."
 
 #: ../module/User/src/User/Form/RegisterFilter.php:109
 msgid "Your password needs to be at least 6 characters long."
-msgstr "パスワードは少なくとも 半角6 文字にする必要があります。"
+msgstr "Dein Passwort muss mindestens 6 Zeichen lang sein."
 
 #: ../module/User/src/User/Form/RegisterFilter.php:117
 msgid "The password entered does not match the confirmation password. Ensure the passwords entered are identical."
-msgstr "入力されたパスワードが確認入力パスワードと一致しません。入力したパスワードが同一であることを確認してください。"
+msgstr "Die beiden angegebenen Passwörter stimmen nicht überein."
 
 #: ../module/User/src/User/Form/SettingsForm.php:45
 msgid "About me:"
-msgstr "私のこと"
+msgstr "Über mich:"
 
 #: ../module/Uuid/src/Uuid/Controller/UuidController.php:53
 msgid "The content has been trashed."
-msgstr "内容は削除されました。"
+msgstr "Der Inhalt wurde in den Papierkorb verschoben."
 
 #: ../module/Uuid/src/Uuid/Controller/UuidController.php:55
 msgid "The content could not be trashed (validation failed)"
-msgstr ""
+msgstr "Der Inhalt konnte nicht in den Papierkorb verschoben werden. (Validierung fehlgeschlagen)"
 
 #: ../module/Uuid/src/Uuid/Controller/UuidController.php:65
 msgid "The content has been restored."
-msgstr "コンテンツが復元されました。"
+msgstr "Der Inhalt wurde wiederhergestellt."
 
 #: ../module/Uuid/src/Uuid/Controller/UuidController.php:78
 msgid "The content has been removed."
-msgstr "コンテンツが削除されました。"
+msgstr "Der Inhalt wurde entfernt."
 
 #: ../module/Uuid/src/Uuid/Controller/UuidController.php:80
 msgid "The content could not be removed (validation failed)"
-msgstr ""
+msgstr "Der Inhalt konnte nicht entfernt werden. (Validierung fehlgeschlagen)"
 
 #: ../module/Ui/templates/admin/home/index.phtml:27
 msgid "Welcome to the backend. Explore the possiblities on the right!"
-msgstr "バックエンドへようこそ。右にある「可能性」をのぞいてみましょう！"
+msgstr "Willkommen in der Winkelgasse, Harry!"
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:28
 #: ../module/Ui/templates/user/users/partial/users-table.twig:25
 msgid "Username"
-msgstr "ユーザー名"
+msgstr "Benutzername"
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:29
 #: ../module/Ui/templates/authorization/role/roles.phtml:24
 #: ../module/Ui/templates/user/user/profile.twig:120
 #: ../module/Ui/templates/user/users/partial/users-table.twig:26
 msgid "Roles"
-msgstr "役割"
+msgstr "Rollen"
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:30
 #: ../module/Ui/templates/user/users/partial/users-table.twig:27
 msgid "Last login"
-msgstr "最終ログイン"
+msgstr "Letzter Login"
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:31
 #: ../module/Ui/templates/user/users/partial/users-table.twig:28
 msgid "Logins"
-msgstr "ログイン"
+msgstr "Anmeldungen"
 
 #: ../module/Ui/templates/authorization/role/roles.phtml:41
 msgid "role"
-msgstr "役割"
+msgstr "Rolle"
 
 #: ../module/Ui/templates/authorization/role/show.phtml:62
 msgid "Permissions"
-msgstr "権限"
+msgstr "Berechtigungen"
 
 #: ../module/Ui/templates/authorization/role/show.phtml:73
 msgid "Global"
-msgstr "グローバル"
+msgstr "Global"
 
 #: ../module/Ui/templates/authorization/role/show.phtml:87
 msgid "Inherits from"
-msgstr "継承"
+msgstr "Erbt von"
 
 #: ../module/Ui/templates/authorization/role/user/partial.phtml:26
 #, php-format
 msgid "User %s not found"
-msgstr "ユーザー %s が見つかりません"
+msgstr "Benutzer %s wurde nicht gefunden"
 
 #: ../module/Ui/templates/authorization/role/user/remove.phtml:24
 msgid "Remove user"
-msgstr "ユーザの削除"
+msgstr "Benutzer entfernen"
 
 #: ../module/Ui/templates/blog/blog/blogs.phtml:25
 msgid "Blogs"
-msgstr "ブログ"
+msgstr "Blogs"
 
 #: ../module/Ui/templates/blog/blog/post/update.phtml:24
 msgid "Update a blog post"
-msgstr "ブログの記事の更新"
+msgstr "Blogeintrag aktualisieren"
 
 #: ../module/Ui/templates/contexter/add/form.phtml:24
 #: ../module/Ui/templates/contexter/add/url-form.phtml:24
 msgid "Add context"
-msgstr "コンテンツの追加"
+msgstr "Kontext hinzufügen"
 
 #: ../module/Ui/templates/contexter/add/url-form.phtml:24
 msgid "Select uri"
-msgstr "URLの選択"
+msgstr "URL auswählen"
 
 #: ../module/Ui/templates/contexter/helper/button.phtml:35
 msgid "There is no help available for this page yet."
-msgstr "まだ、このページではヘルプが利用でいません。"
+msgstr "Für diese Seite gibt es noch keine Hilfe."
 
 #: ../module/Ui/templates/contexter/helper/button.phtml:61
 #: ../module/Ui/templates/contexter/helper/default.phtml:47
 msgid "Add"
-msgstr "追加"
+msgstr "Hinzufügen"
 
 #: ../module/Ui/templates/contexter/manage.phtml:24
 msgid "Manage context links"
-msgstr "文脈のリンクを管理"
+msgstr "Links im Kontext verwalten"
 
 #: ../module/Ui/templates/contexter/manage.phtml:28
 msgid "Link"
-msgstr "リンク:"
+msgstr "Link"
 
 #: ../module/Ui/templates/contexter/manage.phtml:29
 msgid "Matching"
-msgstr "一致"
+msgstr "deckungsgleiche Parameter"
 
 #: ../module/Ui/templates/entity/license/update.phtml:24
 #: ../module/Ui/templates/license/update.phtml:24
 msgid "Update license"
-msgstr "ライセンスを更新"
+msgstr "Lizenz bearbeiten"
 
 #: ../module/Ui/templates/entity/link/move.phtml:25
 msgid "Move resource"
-msgstr "リソースの移動"
+msgstr "Bezugsquelle verschieben"
 
 #: ../module/Ui/templates/entity/repository/update-revision-legacy.phtml:24
 msgid "Update revision"
-msgstr "リビジョンの更新"
+msgstr "Revision bearbeiten"
 
 #: ../module/Ui/templates/error/403.phtml:28
 msgid "You cannot pass!"
-msgstr ""
+msgstr "Zugriff verboten!"
 
 #: ../module/Ui/templates/error/403.phtml:31
 msgid "I am a servant of the Secret Fire, wielder of the Flame of Anor. The dark fire will not avail you, Flame of Udun! Go back to the shadow. <strong>You shall not pass</strong>!"
-msgstr ""
+msgstr "I am a servant of the Secret Fire, wielder of the Flame of Anor. The dark fire will not avail you, Flame of Udun! Go back to the shadow. <strong>You shall not pass</strong>!"
 
 #: ../module/Ui/templates/error/403.phtml:36
 #: ../module/Ui/templates/error/404.phtml:33
 msgid "Okay."
-msgstr "OK"
+msgstr "Okay."
 
 #: ../module/Ui/templates/error/404.phtml:29
 msgid "That page does not exist!"
-msgstr "ページが存在しません！"
+msgstr "Diese Seite existiert nicht!"
 
 #: ../module/Ui/templates/error/404.phtml:31
 msgid "It seems like we can't find the page you were looking for. Try checking the URL for errors, then hit the refresh button on your browser."
-msgstr "あなたを探しているページを見つけることができないようです。エラーの URL をチェックし、お使いのブラウザーの更新ボタンを押してください。"
+msgstr "Es scheint, als könnten wir die Seite, die du gesucht hast, nicht finden. Überprüfe die URL für Fehler und lade die Seite erneut."
 
 #: ../module/Ui/templates/error/404.phtml:50
 msgid "The requested controller was unable to dispatch the request."
-msgstr "要求されたコント ローラーは、要求を送信することができませんでした。"
+msgstr "Der angeforderte Controller konnte die Anforderung nicht bearbeiten."
 
 #: ../module/Ui/templates/error/404.phtml:54
 msgid "The requested controller could not be mapped to an existing controller class."
-msgstr "要求されたコントローラーは既存のコントローラークラスに位置付けできませんでした。"
+msgstr "Der angeforderte Controller konnte nicht zu einer vorhandenen Controller-Klasse zugeordnet werden."
 
 #: ../module/Ui/templates/error/404.phtml:58
 msgid "The requested controller was not dispatchable."
-msgstr "要求されたコント ローラーを送れませんでした。"
+msgstr "Der angeforderte Controller konnte nicht abgesendet werden."
 
 #: ../module/Ui/templates/error/404.phtml:61
 msgid "The requested URL could not be matched by routing."
-msgstr "要求されたURLはルーティングにより一致しませんでした。"
+msgstr "Die angeforderte URL konnte nicht zugeordnet werden."
 
 #: ../module/Ui/templates/error/404.phtml:64
 msgid "We cannot determine at this time why a 404 was generated."
-msgstr "現時点で、404が生成された理由を判断できません。"
+msgstr "Im Moment können wir nicht festellen warum ein 404 Fehler aufgetreten ist."
 
 #: ../module/Ui/templates/error/404.phtml:76
 msgid "Controller"
-msgstr "コントローラー"
+msgstr "Controller"
 
 #: ../module/Ui/templates/error/404.phtml:82
 #, php-format
 msgid "resolves to %s"
-msgstr "%s を解決"
+msgstr "löst sich in %s"
 
 #: ../module/Ui/templates/error/404.phtml:96
 #: ../module/Ui/templates/error/index.phtml:36
 msgid "Additional information"
-msgstr "追加情報"
+msgstr "Zusätzliche Informationen"
 
 #: ../module/Ui/templates/error/404.phtml:99
 #: ../module/Ui/templates/error/404.phtml:124
 #: ../module/Ui/templates/error/index.phtml:39
 #: ../module/Ui/templates/error/index.phtml:63
 msgid "File"
-msgstr "ファイル"
+msgstr "Datei"
 
 #: ../module/Ui/templates/error/404.phtml:104
 #: ../module/Ui/templates/error/404.phtml:129
 #: ../module/Ui/templates/error/index.phtml:43
 #: ../module/Ui/templates/error/index.phtml:67
 msgid "Message"
-msgstr "メッセージ"
+msgstr "Nachricht"
 
 #: ../module/Ui/templates/error/404.phtml:108
 #: ../module/Ui/templates/error/404.phtml:133
 #: ../module/Ui/templates/error/index.phtml:47
 #: ../module/Ui/templates/error/index.phtml:71
 msgid "Stack trace"
-msgstr "スタックトレース"
+msgstr "Stapelüberwachung"
 
 #: ../module/Ui/templates/error/404.phtml:118
 #: ../module/Ui/templates/error/index.phtml:57
 msgid "Previous exceptions"
-msgstr "以前の例外"
+msgstr "Vorherige Ausnahmen"
 
 #: ../module/Ui/templates/error/index.phtml:24
 msgid "A fatal error occurred"
-msgstr "致命的なエラーが発生"
+msgstr "Ein schwerwiegender Fehler ist aufgetreten"
 
 #: ../module/Ui/templates/error/index.phtml:26
 msgid "While we're resolving this issue, please enjoy the video."
-msgstr "この問題を解決している間、ビデオをお楽しみください。"
+msgstr "Während wir dieses Problem lösen, genieße das Video."
 
 #: ../module/Ui/templates/error/index.phtml:86
 msgid "No Exception available"
-msgstr "利用可能な例外はありません。"
+msgstr "Keine Ausnahmen verfügbar"
 
 #: ../module/Ui/templates/error/index.phtml:101
 msgid "Read the following, if you're really good with computers:"
-msgstr "もしコンピュータが得意でしたら、以下をお読みください。"
+msgstr "Lese Folgendes, wenn du wirklich gut mit Computern bist:"
 
 #: ../module/Ui/templates/flag/detail.phtml:31
 #: ../module/Ui/templates/flag/manage.phtml:29
 #: ../module/Ui/templates/notification/subscription/manage.twig:26
 msgid "Object"
-msgstr "オブジェクト："
+msgstr "Objekt"
 
 #: ../module/Ui/templates/flag/detail.phtml:40
 #: ../module/Ui/templates/flag/manage.phtml:30
@@ -998,7 +998,7 @@ msgstr "オブジェクト："
 #: ../module/Ui/templates/entity/unrevised.twig:38
 #: ../module/Ui/templates/related-content/manage.twig:31
 msgid "Type"
-msgstr "タイプ："
+msgstr "Typ"
 
 #: ../module/Ui/templates/flag/detail.phtml:49
 #: ../module/Ui/templates/flag/manage.phtml:31
@@ -1006,20 +1006,20 @@ msgstr "タイプ："
 #: ../module/Ui/templates/entity/repository/history.twig:36
 #: ../module/Ui/templates/entity/unrevised.twig:39
 msgid "Timestamp"
-msgstr "タイムスタンプ"
+msgstr "Zeitstempel"
 
 #: ../module/Ui/templates/flag/detail.phtml:58
 #: ../module/Ui/templates/flag/manage.phtml:32
 msgid "Reporter"
-msgstr "レポーター"
+msgstr "Reporter"
 
 #: ../module/Ui/templates/flag/detail.phtml:67
 msgid "Content"
-msgstr "内容"
+msgstr "Inhalt"
 
 #: ../module/Ui/templates/flag/manage.phtml:24
 msgid "Manage flags"
-msgstr "フラグの管理"
+msgstr "Meldungen verwalten"
 
 #: ../module/Ui/templates/flag/manage.phtml:28
 #: ../module/Ui/templates/entity/repository/history.twig:32
@@ -1031,86 +1031,91 @@ msgstr "#"
 #: ../module/Ui/templates/layout/en/serlo-home.phtml:39
 #: ../module/Ui/templates/layout/partials/header.phtml:35
 msgid "Toggle navigation"
-msgstr "ナビゲーションの切り替え"
+msgstr "Navigation ein-/ausblenden"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:93
 msgid "democratically structured"
-msgstr ""
+msgstr "demokratisch organisiert"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:107
 msgid "free of charge"
-msgstr ""
+msgstr "kostenlos"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:119
 msgid "ad-free"
-msgstr ""
+msgstr "werbefrei"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:131
 msgid "openly licensed"
-msgstr ""
+msgstr "frei lizensiert"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:150
 msgid "transparent"
-msgstr ""
+msgstr "transparent"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:162
 msgid "non-profit"
-msgstr ""
+msgstr "non-profit"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:109
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:28
 msgid "The Open Learning Platform"
-msgstr ""
+msgstr "Die freie Lernplattform"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:116
 msgid "We are a grassroots non-profit organization supporting personalized learning and working\n"
 "                                towards equal educational opportunities. This learning platform offers thousands of\n"
 "                                instructional articles, learning videos and practice exercises for millions of students\n"
 "                                worldwide - completely free of charge. Now it’s time to join us in your language."
-msgstr ""
+msgstr "Wir sind eine gemeinnützige Organisation, die personalisiertes Lernen unterstützt\n"
+" und sich für Bildungsgerechtigkeit einsetzt. Diese Lernplattform bietet tausende Artikel,\n"
+" Lernvideos und Übungsaufgaben für Millionen von Schüler*innen und Studierenden\n"
+" weltweit - komplett kostenlos. Hilf uns jetzt in deiner Sprache!"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:124
 msgid "/serlo"
-msgstr ""
+msgstr "/serlo"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:125
 #: ../module/Ui/templates/layout/partials/footer.phtml:49
 #: ../module/Ui/templates/layout/partials/footer.phtml:73
 msgid "Learn more"
-msgstr ""
+msgstr "Mehr erfahren"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:138
 msgid "Serlo is the Wikipedia for Learning"
-msgstr ""
+msgstr "Serlo.org ist die Wikipedia fürs Lernen"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:144
 msgid "Just like Wikipedia, this platform is created by an engaged community of authors. Serlo Education \n"
 "                                is run and owned by decentralized teams of volunteers and professionals all over the world."
-msgstr ""
+msgstr "Genau die Wikipedia wird diese Plattform von einer engagierten Autor*innen Community erstellt. Serlo Education wird betrieben von einem dezentralisierten Team Ehrenamtlicher und Professioneller überall auf der Welt."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:157
 msgid "Become a Part of Our Movement for Open Education"
-msgstr ""
+msgstr "Werden Sie Teil unserer Bewegung für freie Bildung"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:164
 msgid "We are looking for teachers and enthusiastic educators who are passionate about their subject.\n"
 "                             Become an author on serlo.org! You can create new learning material and help us improve existing content."
-msgstr ""
+msgstr "Wir suchen Lehrer*innen mit Begeisterung für ihr Fach. Werden Sie Autor*in auf serlo.org, erstellen Sie neue Inhalte\n"
+" und helfen Sie uns, die Qualität der Lernplattform zu sichern."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:168
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:190
 msgid "Visit the landing page for authors"
-msgstr ""
+msgstr "Besuche die Startseite für Autor*innen"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:176
 msgid "We offer a diverse range of jobs and volunteering opportunities in the fields of software development,\n"
 "                                 design, translation, communications, project management and more."
-msgstr ""
+msgstr "Wir bieten eine breite Auswahl an Jobs und Möglichkeiten zur Ehrenamtlichen Mitarbeit in den Bereichen Softwareentwicklung,\n"
+"Übersetzung, Kommunikation, Projektmanagement und mehr."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:181
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:196
 msgid "Get involved!"
-msgstr ""
+msgstr "Mach mit!"
 
 #: ../module/Ui/templates/layout/partials/default-modal.phtml:33
 #: ../module/Ui/templates/layout/partials/noscript.phtml:45
@@ -1118,77 +1123,77 @@ msgstr ""
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:37
 #: ../module/Ui/templates/legacy-editor/partials/video-modal.twig:34
 msgid "Close"
-msgstr " 閉じる"
+msgstr "Schließen"
 
 #: ../module/Ui/templates/layout/partials/default-modal.phtml:34
 msgid "Okay"
-msgstr "OK"
+msgstr "Okay"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:46
 #: ../module/Ui/templates/layout/partials/footer.phtml:71
 msgid "Serlo.org is the Wikipedia for learning."
-msgstr ""
+msgstr "Serlo.org ist die Wikipedia fürs Lernen."
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:47
 #: ../module/Ui/templates/layout/partials/footer.phtml:72
 msgid "We are a community of visionaries working tirelessly to make great education freely available to everyone."
-msgstr ""
+msgstr "Wir sind eine engagierte Gemeinschaft, die daran arbeitet, hochwertige Bildung weltweit frei verfügbar zu machen."
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:53
 #: ../module/Ui/templates/layout/partials/footer.phtml:81
 msgid "Join the cause"
-msgstr ""
+msgstr "Mitmachen"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:57
 #: ../module/Ui/templates/layout/partials/footer.phtml:87
 msgid "Donate"
-msgstr ""
+msgstr "Spenden"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:61
 #: ../module/Ui/templates/layout/partials/footer.phtml:103
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:62
 #: ../module/Ui/templates/layout/partials/footer.phtml:111
 msgid "Subjects"
-msgstr ""
+msgstr "Fächer"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:63
 #: ../module/Ui/templates/layout/partials/footer.phtml:119
 msgid "Stay in touch"
-msgstr ""
+msgstr "Dabei bleiben"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:64
 #: ../module/Ui/templates/layout/partials/footer.phtml:127
 msgid "Legal terms"
-msgstr ""
+msgstr "Rechtlich"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:148
 msgid "Loading"
-msgstr ""
+msgstr "Laden"
 
 #: ../module/Ui/templates/layout/partials/noscript.phtml:32
 msgid "This site makes heavy use of JavaScript!"
-msgstr "このサイトはJavaScript を多用します！"
+msgstr "Diese Seite benötigt JavaScript!"
 
 #: ../module/Ui/templates/layout/partials/noscript.phtml:36
 msgid "Please enable JavaScript to use this site."
-msgstr "このサイトを使用するために JavaScript を有効にしてください。"
+msgstr "Bitte aktiviere JavaScript um diese Website zu nutzen."
 
 #: ../module/Ui/templates/layout/partials/noscript.phtml:40
 msgid "Show me how to enable JavaScript"
-msgstr "Java スクリプトの設定を有効にする方法をみる"
+msgstr "Zeig mir, wie ich JavaScript aktiviere"
 
 #: ../module/Ui/templates/layout/partials/search.phtml:29
 #: ../module/Ui/templates/search/form.twig:24
 #: ../module/Ui/templates/search/search.twig:24
 msgid "Search"
-msgstr "検索"
+msgstr "Suchen"
 
 #: ../module/Ui/templates/license/manage.phtml:24
 msgid "Manage licenses"
-msgstr "ライセンスの管理"
+msgstr "Lizenzen verwalten"
 
 #: ../module/Ui/templates/license/manage.phtml:28
 #: ../module/Ui/templates/subject/entity/trash-bin.phtml:28
@@ -1200,11 +1205,11 @@ msgstr "ライセンスの管理"
 #: ../module/Ui/templates/entity/unrevised.twig:35
 #: ../module/Ui/templates/related-content/manage.twig:28
 msgid "Title"
-msgstr "タイトル"
+msgstr "Titel"
 
 #: ../module/Ui/templates/license/manage.phtml:29
 msgid "Default"
-msgstr "初期設定"
+msgstr "Standard"
 
 #: ../module/Ui/templates/license/manage.phtml:30
 msgid "Url"
@@ -1214,43 +1219,42 @@ msgstr "URL"
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:32
 #: ../module/Ui/templates/related-content/manage.twig:34
 msgid "Actions"
-msgstr "アクション"
+msgstr "Aktionen"
 
 #: ../module/Ui/templates/license/manage.phtml:50
 msgid "Caution, deleting a license has serious consequences. You are going to delete a great amount of content, you need to know exactly what you are doing! THIS ACTION CAN NOT BE UNDONE"
-msgstr "注意、ライセンスの削除は深刻な結果を招きます。あなたは大量の内容を削除しようとしていますので、あなたの行おうとすることを正確に知る必要があります。\n"
-"このアクションは元に戻すことができません。"
+msgstr "Achtung! Das Löschen einer Lizenz hat schwerwiegende Folgen. Du bist dabei eine große Menge an Inhalt zu löschen, du solltest genau wissen was du tust. Das Löschen kann nicht rückgängig gemacht werden!"
 
 #: ../module/Ui/templates/license/manage.phtml:52
 msgid "DANGER: You are going to delete all contents associated with this license!"
-msgstr "危険: このライセンスに関連付けられているすべての内容を削除することになります。"
+msgstr "ACHTUNG! Du bist dabei alle Inhalte, die mit der Lizenz verbunden sind zu löschen!"
 
 #: ../module/Ui/templates/navigation/containers.phtml:34
 msgid "container"
-msgstr "コンテナー"
+msgstr "Container"
 
 #: ../module/Ui/templates/navigation/parameter/create.phtml:28
 #: ../module/Ui/templates/navigation/parameter/update.phtml:28
 msgid "Key"
-msgstr "キー"
+msgstr "Schlüssel"
 
 #: ../module/Ui/templates/subject/entity/trash-bin.phtml:24
 msgid "Trashed learning resources"
-msgstr "捨てられたラーニング リソース"
+msgstr "Gelöschte Lerninhalte"
 
 #: ../module/Ui/templates/subject/entity/trash-bin.phtml:30
 msgid "Action"
-msgstr "アクション"
+msgstr "Aktion"
 
 #: ../module/Ui/templates/subject/entity/trash-bin.phtml:47
 msgid "Do you really want to purge this item? It and all references to it will be lost forever!"
-msgstr "このアイテムを削除しますか。これおよびこれに関するすべての参照は永久に失われます！"
+msgstr "Möchtest du wirklich diese Datei löschen? Die Datei und alle Verweise darauf werden unwiderruflich gelöscht."
 
 #: ../module/Ui/templates/taxonomy/term/order-associated.phtml:24
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:60
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:43
 msgid "Order content"
-msgstr "内容の順序"
+msgstr "Inhalt sortieren"
 
 #: ../module/Ui/templates/taxonomy/term/order-associated.phtml:41
 #: ../module/Ui/templates/entity/link/order.twig:22
@@ -1258,25 +1262,25 @@ msgstr "内容の順序"
 #: ../module/Ui/templates/related-content/manage.twig:84
 #: ../module/Ui/templates/taxonomy/term/organize/partial.twig:67
 msgid "Sort"
-msgstr "分類する"
+msgstr "Sortieren"
 
 #: ../module/Ui/templates/taxonomy/term/order-associated.phtml:42
 #: ../module/Ui/templates/taxonomy/term/organize/partial.twig:70
 msgid "Save new order"
-msgstr "新しい順序の保存"
+msgstr "Neue Reihenfolge speichern"
 
 #: ../module/Ui/templates/taxonomy/term/order-associated.phtml:43
 #: ../module/Ui/templates/taxonomy/term/organize/partial.twig:73
 msgid "Cancel"
-msgstr "キャンセル"
+msgstr "Abbrechen"
 
 #: ../module/Ui/templates/upload/form.phtml:25
 msgid "Upload a file"
-msgstr "ファイルのアップロード"
+msgstr "Datei hochladen"
 
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:24
 msgid "Uuid recycle bin"
-msgstr "UUIDのごみ箱"
+msgstr "Papierkorb"
 
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:24
 #: ../module/Ui/templates/blog/blog/view.twig:23
@@ -1286,7 +1290,7 @@ msgstr "UUIDのごみ箱"
 #: ../module/Ui/templates/event/history/user.twig:23
 #: ../module/Ui/templates/navigation/container/get.twig:35
 msgid "Page"
-msgstr "ページ"
+msgstr "Seite"
 
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:24
 msgid " "
@@ -1299,147 +1303,147 @@ msgstr "ID"
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:55
 #, php-format
 msgid "Do you really want to purge the item <strong>%s</strong>? It and all references to it will be lost forever!"
-msgstr "項目 <strong>%s</strong> を削除しますか。この項目およびこれらに関するすべての参照は、永久に失われます！"
+msgstr "Möchtest du wirklich den Inhalt <strong>%s</strong> löschen? Der Inhalt und alle Verweise darauf werden unwiderruflich gelöscht!"
 
 #: ../module/Ui/templates/admin/debugger.twig:22
 msgid "Debugger"
-msgstr "デバッガー"
+msgstr "Debugger"
 
 #: ../module/Ui/templates/ads/ads.twig:22
 msgid "Ads"
-msgstr "広告"
+msgstr "Anzeigen"
 
 #: ../module/Ui/templates/ads/ads.twig:31
 msgid "Edit \"About Horizon\""
-msgstr ""
+msgstr "\"Über Horizont\" bearbeiten"
 
 #: ../module/Ui/templates/ads/ads.twig:62
 msgid "Frequency"
-msgstr "頻度"
+msgstr "Häufigkeit"
 
 #: ../module/Ui/templates/ads/ads.twig:71
 msgid "Clicks"
-msgstr "クリック"
+msgstr "Klicks"
 
 #: ../module/Ui/templates/ads/setAdPage.twig:22
 msgid "Please enter the id of the adPage"
-msgstr "AdPage の id を入力してください。"
+msgstr "Bitte gib die ID der Ad Seite an"
 
 #: ../module/Ui/templates/authentication/activate.twig:24
 msgid "Activate an account"
-msgstr "アカウントの有効化"
+msgstr "Account freischalten"
 
 #: ../module/Ui/templates/authentication/login.twig:27
 msgid "You must be logged in to access this page."
-msgstr "このページにアクセスするには、ログインしなければなりません。"
+msgstr "Du musst angemeldet sein, um auf diese Seite zugreifen zu können."
 
 #: ../module/Ui/templates/authentication/login.twig:34
 msgid "Log in"
-msgstr "ログイン"
+msgstr "Anmelden"
 
 #: ../module/Ui/templates/authentication/login.twig:58
 msgid "Are you new here? %sSign up%s!"
-msgstr "あなたはここに新しいですか。%s登録してください%s!"
+msgstr "Bist du neu hier? %sRegistrier dich%s!"
 
 #: ../module/Ui/templates/authentication/login.twig:61
 msgid "Did you forget your %spassword%s?"
-msgstr "あなたの %sパスワード%s を忘れましたか。"
+msgstr "%sPasswort vergessen%s?"
 
 #: ../module/Ui/templates/authentication/login.twig:64
 msgid "Haven't activated your account yet? %sResend activation mail%s!"
-msgstr "まだ、アカウントを有効化していませんか。%s有効化するためのメールを再送する%s！"
+msgstr "Hast du deinen Account noch nicht aktiviert? %sFordere die Aktivierungs E-Mail an%s!"
 
 #: ../module/Ui/templates/authentication/logout.twig:23
 msgid "Log out"
-msgstr "ログアウト"
+msgstr "Abmelden"
 
 #: ../module/Ui/templates/authentication/reset-password/restore.twig:24
 #: ../module/Ui/templates/authentication/reset-password/select.twig:24
 #: ../module/Ui/templates/mailman/messages/restore-password/body.twig:33
 msgid "Restore password"
-msgstr "パスワードの復元"
+msgstr "Passwort zurücksetzen"
 
 #: ../module/Ui/templates/blog/blog/view-all.twig:22
 msgid "Unpublished"
-msgstr "未公開"
+msgstr "Unveröffentlicht"
 
 #: ../module/Ui/templates/blog/blog/view-partial.twig:42
 msgid "unpublished"
-msgstr "未公開"
+msgstr "Unveröffentlichte Blogeinträge"
 
 #: ../module/Ui/templates/common/share.twig:29
 msgid "On this site:"
-msgstr "このサイトについて："
+msgstr "Auf dieser Seite:"
 
 #: ../module/Ui/templates/common/share.twig:33
 msgid "Directly including in a content on this site"
-msgstr "このサイト上のコンテンツを直接含んでいる"
+msgstr "Direkt in einen Inhalt auf dieser Seite einfügen"
 
 #: ../module/Ui/templates/common/share.twig:51
 msgid "Share this content"
-msgstr "このコンテンツのシェア"
+msgstr "Diesen Inhalt teilen"
 
 #: ../module/Ui/templates/common/share.twig:52
 msgid "Share"
-msgstr "シェア"
+msgstr "Teilen"
 
 #: ../module/Ui/templates/discussion/discussion/comment.twig:22
 msgid "Comment on a discussion"
-msgstr "ディスカッションについてのコメント"
+msgstr "Eine Diskussion kommentieren"
 
 #: ../module/Ui/templates/discussion/discussion/select/forum.twig:27
 msgid "Please select an appropriate category for your discussion. Choosing the right category helps others to find your discussion faster and to answer you quicker. Thank you!"
-msgstr "あなたの議論のための適切なカテゴリを選択してください。適切なカテゴリを選択することで、他利用者がより早くあなたの議論を見つけ、さらに早く解答することができます。ご協力ありがとうございます。"
+msgstr "Bitte wähle eine passende Kategorie für deine Diskussion. Die Auswahl der richtigen Kategorie hilft anderen, deine Diskussion schneller zu finden und zu beantworten. Vielen Dank!"
 
 #: ../module/Ui/templates/discussion/discussion/select/forum.twig:37
 msgid "Saving..."
-msgstr "保存中…"
+msgstr "Speichern..."
 
 #: ../module/Ui/templates/discussion/discussion/select/forum.twig:38
 msgid "Choose"
-msgstr "選択"
+msgstr "Auswählen"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:34
 msgid "archived"
-msgstr "保管"
+msgstr "archiviert"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:38
 msgid "On"
-msgstr "オン"
+msgstr "Zu"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:40
 #: ../module/Ui/templates/discussion/discussion/show.twig:98
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:24
 msgid "by"
-msgstr "より"
+msgstr "von"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:83
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:81
 msgid "Do you really want to delete this discussion?"
-msgstr "このディスカッションを削除してもよろしいですか。"
+msgstr "Möchtest du diese Diskussion wirklich löschen?"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:115
 #: ../module/Ui/templates/discussion/helper/default/comment.twig:37
 msgid "Do you really want to delete this comment?"
-msgstr "このコメントを削除してもよろしいですか。"
+msgstr "Willst du diesen Kommentar wirklich löschen?"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:128
 msgid "Answer discussion:"
-msgstr "ディスカッションへの回答"
+msgstr "Der Diskussion antworten:"
 
 #: ../module/Ui/templates/discussion/discussion/start.twig:22
 #: ../module/Ui/templates/discussion/discussions.twig:36
 msgid "Start a new discussion"
-msgstr "新規議論を開始"
+msgstr "Neue Diskussion starten"
 
 #: ../module/Ui/templates/discussion/discussions.twig:26
 #: ../module/Ui/templates/discussion/discussions/index.twig:22
 msgid "Discussions"
-msgstr "議論"
+msgstr "Diskussionen"
 
 #: ../module/Ui/templates/discussion/discussions.twig:51
 msgid "There are no discussions on this topic yet."
-msgstr "このトピックに関する議論はまだありません。"
+msgstr "Zu diesem Thema gibt es noch keine Diskussionen."
 
 #: ../module/Ui/templates/discussion/helper/default/comment.twig:52
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:118
@@ -1449,217 +1453,218 @@ msgstr "%author% %time%"
 #: ../module/Ui/templates/discussion/helper/default/default.twig:28
 #: ../module/Ui/templates/user/user/profile.twig:40
 msgid "Comments"
-msgstr ""
+msgstr "Kommentare"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:62
 msgid "Unarchive discussion"
-msgstr "議論の破棄"
+msgstr "Diskussion wiederherstellen"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:64
 msgid "Archive discussion"
-msgstr "ディスカッションの保管"
+msgstr "Diskussion archivieren"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:73
 msgid "Flag discussion"
-msgstr "フラグの議論"
+msgstr "Diskussion melden"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:83
 msgid "Trash discussion"
-msgstr "議論の削除"
+msgstr "Diskussion löschen"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:113
 msgid "On %type% %object%: %title%"
-msgstr "%type% %object% 上: %title%"
+msgstr "Zu %type% %object%: %title%"
 
 #: ../module/Ui/templates/discussion/partials/discuss-button.twig:24
 msgid "Comment"
-msgstr ""
+msgstr "Kommentieren"
 
 #: ../module/Ui/templates/entity/link/order.twig:33
 #: ../module/Ui/templates/entity/taxonomy/update.twig:50
 #: ../module/Ui/templates/related-content/manage.twig:88
 msgid "Save"
-msgstr "保存"
+msgstr "Speichern"
 
 #: ../module/Ui/templates/entity/link/order.twig:36
 #: ../module/Ui/templates/related-content/manage.twig:91
 msgid "Abort"
-msgstr "中止"
+msgstr "Abbrechen"
 
 #: ../module/Ui/templates/entity/page/aggregate/taxonomy.twig:25
 msgid "Related taxonomies"
-msgstr "関連分類"
+msgstr "Zugehörige Themen"
 
 #: ../module/Ui/templates/entity/page/default.twig:29
 #: ../module/Ui/templates/entity/view/default.twig:29
 #: ../module/Ui/templates/entity/view/toc/default.twig:29
 msgid "No view found for %name%"
-msgstr "%name%のビューが見つかりません"
+msgstr "Keine Ansicht für %name% gefunden"
 
 #: ../module/Ui/templates/entity/page/partials/alerts.twig:26
 #: ../module/Ui/templates/entity/page/pending.twig:47
 #: ../module/Ui/templates/entity/repository/partials/alerts.twig:26
 #: ../module/Ui/templates/taxonomy/term/page/partials/alerts.twig:26
 msgid "Warning"
-msgstr "警告"
+msgstr "Achtung"
 
 #: ../module/Ui/templates/entity/page/partials/alerts.twig:31
 #: ../module/Ui/templates/entity/repository/partials/alerts.twig:31
 #: ../module/Ui/templates/taxonomy/term/page/partials/alerts.twig:31
 msgid "This content is marked for deletion."
-msgstr "このコンテンツは削除対象としてマークされています。"
+msgstr "Dieser Inhalt wurde zum Löschen markiert."
 
 #: ../module/Ui/templates/entity/page/pending.twig:34
 #: ../module/Ui/templates/entity/page/pending.twig:36
 msgid "Pending approval"
-msgstr "承認待ち"
+msgstr "Ausstehende Bestätigung"
 
 #: ../module/Ui/templates/entity/page/pending.twig:38
 msgid "Dead node"
-msgstr "デッド・ノード"
+msgstr "Toter Datenknoten"
 
 #: ../module/Ui/templates/entity/page/pending.twig:53
 msgid "This content is pending approval and may therefore not be viewed yet."
-msgstr "このコンテンツが承認待ちであり、そのためまだ閲覧することができない可能性があります。"
+msgstr "Dieser Inhalt muss noch bestätigt werden und kann daher noch nicht angezeigt werden."
 
 #: ../module/Ui/templates/entity/page/pending.twig:57
 msgid "This content is a dead node and has no content. Please edit or remove it."
-msgstr "このコンテンツはデッド・ノードであり、コンテンツがありません。編集するか、削除してください。"
+msgstr "Dies ist ein toter Datenknoten ohne Inhalt. Bitte bearbeite oder lösche ihn."
 
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:40
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:26
 msgid "Source"
-msgstr "引用元"
+msgstr "Vergleich"
 
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:41
 msgid "Old version"
-msgstr ""
+msgstr "Vorherige Version"
 
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:42
 msgid "Preview"
-msgstr "プレビュー"
+msgstr "Vorschau"
 
 #: ../module/Ui/templates/entity/repository/history.twig:22
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/history.twig:27
 #: ../module/Ui/templates/page/partials/actions.twig:39
 #: ../module/Ui/templates/page/partials/controls.twig:46
 msgid "History"
-msgstr "履歴"
+msgstr "Bearbeitungsverlauf"
 
 #: ../module/Ui/templates/entity/repository/history.twig:25
 msgid "There are multiple recent revisions for this object. Please be aware that they may be of very\n"
 "        different nature. Consider reviewing all of them before accepting or merging."
-msgstr "この対象に関する複数の最近のリビジョンがあります。それらは全く違う本質のものかもしれないということをご留意ください。すべてを許可または統合する前に再検討してください。"
+msgstr "Es gibt mehrere Bearbeitungen für dieses Objekt. Bitte beachte, dass sich diese groß\n"
+" unterscheiden könnten. Schaue dir daher bitte alle Bearbeitungen an, bevor du sie akzeptierst oder zusammenführst."
 
 #: ../module/Ui/templates/entity/repository/history.twig:33
 msgid "Current"
-msgstr "現在"
+msgstr "Aktuell"
 
 #: ../module/Ui/templates/entity/repository/history.twig:34
 #: ../module/Ui/templates/entity/unrevised.twig:37
 msgid "Changes"
-msgstr "変更"
+msgstr "Änderungen"
 
 #: ../module/Ui/templates/entity/repository/history.twig:35
 msgid "Author"
-msgstr "作成者"
+msgstr "Verfasser"
 
 #: ../module/Ui/templates/entity/repository/history.twig:47
 msgid "show"
-msgstr "表示"
+msgstr "Anzeigen"
 
 #: ../module/Ui/templates/entity/repository/history.twig:56
 msgid "Create a new revision starting from this specific revision"
-msgstr ""
+msgstr "Erstelle eine Bearbeitung von dieser Bearbeitung aus"
 
 #: ../module/Ui/templates/entity/repository/modal-accept.twig:27
 msgid "Accept revision"
-msgstr "変更の承諾"
+msgstr "Bearbeitung akzeptieren"
 
 #: ../module/Ui/templates/entity/repository/modal-accept.twig:32
 msgid "Please give feedback."
-msgstr "フィードバックを行ってください。"
+msgstr "Bitte gib dem Bearbeiter eine Rückmeldung."
 
 #: ../module/Ui/templates/entity/repository/modal-accept.twig:38
 msgid "Accept"
-msgstr "受諾"
+msgstr "Übernehmen"
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:27
 msgid "Reject revision"
-msgstr "リビジョンの拒否"
+msgstr "Bearbeitung ablehnen"
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:32
 msgid "Please specify why you are rejecting the submission."
-msgstr "提出を受け入れない理由を明記してください。"
+msgstr "Bitte teile dem Bearbeiter mit, warum seine Änderung abgelehnt wurde."
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:38
 msgid "Reject"
-msgstr "拒否"
+msgstr "Ablehnen"
 
 #: ../module/Ui/templates/entity/taxonomy/update.twig:23
 msgid "Assign resource"
-msgstr "リソースの割り当て"
+msgstr "Ressource zuordnen"
 
 #: ../module/Ui/templates/entity/unrevised.twig:23
 msgid "Unrevised learning resources"
-msgstr "改訂されていない学習リソース"
+msgstr "Nicht überprüfte Bearbeitungen"
 
 #: ../module/Ui/templates/entity/unrevised.twig:24
 msgid "Support links for reviewing"
-msgstr ""
+msgstr "Unterstützende Links für das Reviewing"
 
 #: ../module/Ui/templates/entity/unrevised.twig:36
 msgid "Revision"
-msgstr ""
+msgstr "Bearbeitung"
 
 #: ../module/Ui/templates/entity/view/applet.twig:38
 msgid "Could not embed geogebra applet. Unknown url format."
-msgstr ""
+msgstr "Leider konnte das GeoGebra Applet nicht eingebunden werden, da die URL in einem unbekannten Format ist."
 
 #: ../module/Ui/templates/entity/view/article.twig:22
 msgid "article"
-msgstr "記事"
+msgstr "Artikel"
 
 #: ../module/Ui/templates/entity/view/course-page.twig:22
 msgid "course-page"
-msgstr "コース のページ"
+msgstr "Kursseite"
 
 #: ../module/Ui/templates/entity/view/event.twig:22
 msgid "event"
-msgstr ""
+msgstr "Veranstaltung"
 
 #: ../module/Ui/templates/entity/view/grouped-text-exercise.twig:22
 msgid "grouped-text-exercise"
-msgstr "グループ化されたテキストの練習"
+msgstr "Gruppierte Textaufgabe"
 
 #: ../module/Ui/templates/entity/view/input-expression-equal-match-challenge.twig:22
 msgid "input-expression-equal-match-challenge"
-msgstr ""
+msgstr "Eingabeaufgabe: mathematischer Ausdruck"
 
 #: ../module/Ui/templates/entity/view/input-number-exact-match-challenge.twig:22
 msgid "input-number-exact-match-challenge"
-msgstr ""
+msgstr "Eingabeaufgabe: Zahl"
 
 #: ../module/Ui/templates/entity/view/input-string-normalized-match-challenge.twig:22
 msgid "input-string-normalized-match-challenge"
-msgstr ""
+msgstr "Eingabeaufgabe: Wort"
 
 #: ../module/Ui/templates/entity/view/math-puzzle.twig:22
 msgid "math-puzzle"
-msgstr ""
+msgstr "Math puzzle"
 
 #: ../module/Ui/templates/entity/view/multiple-choice-right-answer.twig:22
 msgid "multiple-choice-right-answer"
-msgstr ""
+msgstr "richtige Multiple Choice-Antwort"
 
 #: ../module/Ui/templates/entity/view/multiple-choice-wrong-answer.twig:22
 msgid "multiple-choice-wrong-answer"
-msgstr ""
+msgstr "falsche Multiple Choice-Antwort"
 
 #: ../module/Ui/templates/entity/view/partials/actions/big.twig:31
 #: ../module/Ui/templates/page/partials/actions.twig:33
 msgid "More"
-msgstr "さらに"
+msgstr "Mehr"
 
 #: ../module/Ui/templates/entity/view/partials/actions/controls.twig:26
 #: ../module/Ui/templates/entity/view/partials/actions/course/course-controls-wrapper.twig:26
@@ -1667,15 +1672,15 @@ msgstr "さらに"
 #: ../module/Ui/templates/taxonomy/term/templates/partials/controls.twig:30
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-controls.twig:30
 msgid "Toggle Dropdown"
-msgstr "ドロップダウンの切替"
+msgstr "Dropdown ein-/ausklappen"
 
 #: ../module/Ui/templates/entity/view/partials/actions/course/course-controls-wrapper.twig:30
 msgid "This Course-Page"
-msgstr ""
+msgstr "Diese Kursseite"
 
 #: ../module/Ui/templates/entity/view/partials/actions/course/course-controls-wrapper.twig:36
 msgid "Whole Course"
-msgstr ""
+msgstr "Gesamter Kurs"
 
 #: ../module/Ui/templates/entity/view/partials/actions/event/history.twig:26
 #: ../module/Ui/templates/page/partials/actions.twig:45
@@ -1684,63 +1689,63 @@ msgstr ""
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:37
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:36
 msgid "Log"
-msgstr "ログ"
+msgstr "Aktivitätenlog"
 
 #: ../module/Ui/templates/entity/view/partials/actions/license/update.twig:27
 msgid "Change license"
-msgstr "ライセンスの変更"
+msgstr "Lizenz auswählen"
 
 #: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:44
 #: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:65
 msgid "Add %type%"
-msgstr "%type% の追加"
+msgstr "%type% hinzufügen"
 
 #: ../module/Ui/templates/entity/view/partials/actions/link/add.twig:55
 msgid "Restore %type%"
-msgstr ""
+msgstr "%type% wiederherstellen"
 
 #: ../module/Ui/templates/entity/view/partials/actions/link/sort.twig:29
 msgid "Order children"
-msgstr "子の整理"
+msgstr "Unterelemente sortieren"
 
 #: ../module/Ui/templates/entity/view/partials/actions/link/update.twig:31
 msgid "Change parent %name%"
-msgstr "親 %name%の変更"
+msgstr "Diesen Inhalt zu einem anderen Überelement (%name%) verschieben"
 
 #: ../module/Ui/templates/entity/view/partials/actions/related-content/manage.twig:27
 msgid "Manage related items"
-msgstr "関連アイテムの管理"
+msgstr "Zugehörige Inhalte verwalten"
 
 #: ../module/Ui/templates/entity/view/partials/actions/small-essential.twig:30
 msgid "Subitem"
-msgstr ""
+msgstr "Unterinhalt"
 
 #: ../module/Ui/templates/entity/view/partials/actions/taxonomy/update.twig:29
 msgid "Edit topic and curriculum assignments"
-msgstr "トピックとカリキュラムの割り当ての編集"
+msgstr "Zuweisung zu Themen und Lehrplänen bearbeiten"
 
 #: ../module/Ui/templates/entity/view/partials/actions/trash.twig:27
 msgid "Move to trash"
-msgstr "ゴミ箱へ移動"
+msgstr "In den Papierkorb verschieben"
 
 #: ../module/Ui/templates/entity/view/partials/actions/trash.twig:37
 msgid "Restore"
-msgstr ""
+msgstr "Wiederherstellen"
 
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/convert.twig:30
 #: ../module/Ui/templates/page/partials/controls.twig:39
 msgid "Convert"
-msgstr ""
+msgstr "Konvertieren"
 
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/edit-essential.twig:38
 #: ../module/Ui/templates/page/pages.twig:40
 #: ../module/Ui/templates/page/partials/actions.twig:26
 msgid "Edit"
-msgstr "編集"
+msgstr "Bearbeiten"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:32
 msgid "Type answer"
-msgstr ""
+msgstr "Deine Lösung"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:46
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:56
@@ -1748,7 +1753,7 @@ msgstr ""
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:144
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:177
 msgid "Show solution"
-msgstr "ソリューションの表示"
+msgstr "Lösung anzeigen"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:50
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:57
@@ -1756,179 +1761,179 @@ msgstr "ソリューションの表示"
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:145
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:178
 msgid "Hide solution"
-msgstr "ソリューションの非表示"
+msgstr "Lösung ausblenden"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:58
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:91
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:151
 msgid "Check"
-msgstr ""
+msgstr "Stimmt's?"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:62
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:96
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:156
 msgid "Correct!"
-msgstr ""
+msgstr "Stimmt!"
 
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:38
 msgid "Info"
-msgstr "情報"
+msgstr "Information"
 
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:49
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:168
 msgid "Show hint"
-msgstr "ヒントの表示"
+msgstr "Tipp anzeigen"
 
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:50
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:169
 msgid "Hide hint"
-msgstr "ヒントの非表示"
+msgstr "Tipp ausblenden"
 
 #: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:23
 #: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:23
 msgid "Nope. Try again!"
-msgstr ""
+msgstr "Leider nein. Probier's nochmal!"
 
 #: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:25
 #: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:25
 msgid "This answer has been created but no content has been added yet or it is pending approval."
-msgstr ""
+msgstr "Die Antwort wurde erstellt, aber ihr noch kein Inhalt hinzugefügt oder noch nicht akzeptiert."
 
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:30
 msgid "Right!"
-msgstr ""
+msgstr "Richtig!"
 
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:117
 msgid "This solution is not correct."
-msgstr ""
+msgstr "Diese Lösung ist nicht richtig."
 
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:126
 msgid "This solution is correct!"
-msgstr ""
+msgstr "Die Lösung ist richtig!"
 
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:135
 msgid "Not quite. There is something missing!"
-msgstr ""
+msgstr "Fast. Das sind noch nicht alle richtigen Antworten!"
 
 #: ../module/Ui/templates/entity/view/single-choice-right-answer.twig:22
 msgid "single-choice-right-answer"
-msgstr ""
+msgstr "richtige Single Choice-Antwort"
 
 #: ../module/Ui/templates/entity/view/single-choice-wrong-answer.twig:22
 msgid "single-choice-wrong-answer"
-msgstr ""
+msgstr "falsche Single Choice-Antwort"
 
 #: ../module/Ui/templates/entity/view/text-exercise-group.twig:22
 msgid "text-exercise-group"
-msgstr "テキストの練習グループ"
+msgstr "Textaufgabengruppe"
 
 #: ../module/Ui/templates/entity/view/text-exercise-group.twig:31
 msgid "I want to comment this"
-msgstr "ここにコメントしたいです。"
+msgstr "Ich möchte das kommentieren"
 
 #: ../module/Ui/templates/entity/view/text-exercise.twig:22
 msgid "text-exercise"
-msgstr "テキストの演習"
+msgstr "Textaufgabe"
 
 #: ../module/Ui/templates/entity/view/text-hint.twig:22
 msgid "text-hint"
-msgstr "テキストのヒント"
+msgstr "Text-Tipp"
 
 #: ../module/Ui/templates/entity/view/text-hint.twig:33
 msgid "Hint"
-msgstr "ヒント"
+msgstr "Tipp"
 
 #: ../module/Ui/templates/entity/view/text-hint.twig:41
 msgid "A hint has been created but no content has been added yet or it is pending approval."
-msgstr "ヒントが作成されましたが、コンテンツがまだ追加されてないか承認待ちです。"
+msgstr "Ein Tipp wurde erstellt, jedoch noch kein Inhalt hinzugefügt oder noch nicht akzeptiert."
 
 #: ../module/Ui/templates/entity/view/text-solution.twig:22
 msgid "text-solution"
-msgstr "テキストのソリューション"
+msgstr "Textlösung"
 
 #: ../module/Ui/templates/entity/view/text-solution.twig:39
 msgid "A solution has been created but no content has been added yet or it is pending approval."
-msgstr "ソリューションが作成されましたが、コンテンツがまだ追加されてないか承認待ちです。"
+msgstr "Eine Lösung wurde erstellt, aber ihr noch kein Inhalt hinzugefügt oder noch nicht akzeptiert."
 
 #: ../module/Ui/templates/entity/view/video.twig:22
 msgid "video"
-msgstr "動画"
+msgstr "Video"
 
 #: ../module/Ui/templates/entity/view/video.twig:58
 msgid "Could not embed video - platform unknown"
-msgstr "不明なプラットフォームのため、ビデオを埋め込むことができませんでした。"
+msgstr "Leider konnte das Video nicht eingebunden werden, da diese Platform nicht unterstützt wird"
 
 #: ../module/Ui/templates/event/helper/event/default.twig:27
 msgid "No template found for event %s"
-msgstr "イベント %s のテンプレートが見つかりません"
+msgstr "Es wurde kein template für %s gefunden"
 
 #: ../module/Ui/templates/event/helper/event/discussion/comment/archive.twig:30
 #: ../module/Ui/templates/notification/type/discussion/comment/archive.twig:27
 #: ../module/Ui/templates/notification/type/discussion/comment/archive.twig:38
 msgid "%user% archived %discussion%"
-msgstr "%user%は%discussion%を保存しました。"
+msgstr "%user% hat %discussion% archiviert"
 
 #: ../module/Ui/templates/event/helper/event/discussion/comment/create.twig:30
 msgid "%user% commented %discussion%: %content%"
-msgstr "%user%は%discussion%にコメントしました: %content%"
+msgstr "%user% hat %discussion% kommentiert: %content%"
 
 #: ../module/Ui/templates/event/helper/event/discussion/create.twig:30
 msgid "%user% started a new discussion %discussion% on %on%"
-msgstr "%user% は、%on% に新しいディスカッション %discussion% を開始しました"
+msgstr "%user% hat eine neue Diskussion %discussion% zu %on% erstellt"
 
 #: ../module/Ui/templates/event/helper/event/entity/create.twig:26
 msgid "%user% created a new %type%: %object%"
-msgstr "%user% は、新しい %type% を作成しました: %object%"
+msgstr "%user% hat %type% erstellt: %object%"
 
 #: ../module/Ui/templates/event/helper/event/entity/link/create.twig:26
 msgid "%user% linked %object% with %parent%"
-msgstr "%user%は%object%を%parent%にリンクしました。"
+msgstr "%user% hat %object% mit %parent% verknüpft"
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/add.twig:26
 msgid "%user% created a new version of %repository%"
-msgstr "%user% は、%repository% の新しいバージョンを作成しました。"
+msgstr "%user% hat eine neue Version von %repository% erstellt"
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/checkout.twig:28
 msgid "%user% checked out %revision% in %repository%: \"%reason%\""
-msgstr "%user%は%repository%内の%revision%をチェックアウトしました：\"%reason%\""
+msgstr "%user% hat  %revision% in %repository% ausgecheckt: \"%reason%\""
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/checkout.twig:32
 msgid "%user% checked out %revision% in %repository%"
-msgstr "%user%は%repository%内の%revision%をチェックアウトしました。"
+msgstr "%user% hat %revision% in %repository% ausgecheckt"
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:28
 msgid "%user% rejected %revision% in %repository%: \"%reason%\""
-msgstr "%user%は%repository%内の%revision%を拒否しました：　\"%reason%\""
+msgstr "%user% hat %revision% in %repository% abgelehnt: \"%reason%\""
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:32
 msgid "%user% rejected %revision% in %repository%"
-msgstr ""
+msgstr "%user% hat %revision% in %repository% abgelehnt"
 
 #: ../module/Ui/templates/event/helper/event/license/object/set.twig:26
 msgid "%user% changed the license of %object%"
-msgstr "%user% は、%object% のライセンスを変更しました。"
+msgstr "%user% hat die Lizenz von %object% geändert"
 
 #: ../module/Ui/templates/event/helper/event/taxonomy/term/associate.twig:26
 msgid "%user% associated %object% with %term%"
-msgstr "%user% は、%object% と%term% とを関連付けました。"
+msgstr "%user% hat %object% mit %term% assoziiert"
 
 #: ../module/Ui/templates/event/helper/event/taxonomy/term/create.twig:25
 msgid "%user% created %term%"
-msgstr "%user% は作成を %term%"
+msgstr "%user% hat %term% erstellt"
 
 #: ../module/Ui/templates/event/helper/event/taxonomy/term/dissociate.twig:26
 #: ../module/Ui/templates/notification/type/taxonomy/term/dissociate.twig:28
 #: ../module/Ui/templates/notification/type/taxonomy/term/dissociate.twig:36
 msgid "%user% dissociated %object% from %term%"
-msgstr "%user%は%term% から%object%を分離"
+msgstr "%user% hat %object% von %term% entfernt"
 
 #: ../module/Ui/templates/event/helper/event/taxonomy/term/parent/change.twig:27
 msgid "%user% changed %term% parent from %old% to %new%"
-msgstr "%user% は、%old% から %new% に %term% 親を変更"
+msgstr "%user% hat den Elter des Begriffs %term% von %old% zu %new% geändert"
 
 #: ../module/Ui/templates/event/helper/event/taxonomy/term/update.twig:25
 msgid "%user% updated %term%"
-msgstr "%user%は%term%を更新"
+msgstr "%user% hat %term% aktualisiert"
 
 #: ../module/Ui/templates/event/helper/event/uuid/restore.twig:25
 #: ../module/Ui/templates/notification/type/discussion/restore.twig:27
@@ -1936,50 +1941,50 @@ msgstr "%user%は%term%を更新"
 #: ../module/Ui/templates/notification/type/uuid/restore.twig:28
 #: ../module/Ui/templates/notification/type/uuid/restore.twig:35
 msgid "%user% restored %object%"
-msgstr "%user%は%object%を復元"
+msgstr "%user% hat %object% wiederhergestellt"
 
 #: ../module/Ui/templates/event/helper/event/uuid/trash.twig:25
 #: ../module/Ui/templates/notification/type/uuid/trash.twig:27
 #: ../module/Ui/templates/notification/type/uuid/trash.twig:34
 msgid "%user% trashed %object%"
-msgstr "%user%は%object%をゴミ箱に移動"
+msgstr "%user% hat %object% in den Papierkorb verschoben"
 
 #: ../module/Ui/templates/legacy-editor/partials/video-modal.twig:35
 msgid "Don't show again"
-msgstr ""
+msgstr "Nicht erneut anzeigen"
 
 #: ../module/Ui/templates/mailman/messages/notification/body.twig:24
 #: ../module/Ui/templates/mailman/messages/notification/plain.twig:24
 msgid "Hello %user%!"
-msgstr ""
+msgstr "Hallo %user%!"
 
 #: ../module/Ui/templates/mailman/messages/notification/body.twig:32
 msgid "You can <a href=\"%href%\">change the settings</a> for which content you want to receive notifications."
-msgstr ""
+msgstr "Zu welchen Inhalten du Benachrichtigungen erhältst, kannst du in deinen <a href=\"%href%\">Einstellungen ändern</a>."
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/content.twig:25
 msgid "Here's a heads up of what has happened with content you edited or created:"
-msgstr ""
+msgstr "Hier ist eine Übersicht, was mit Inhalten passiert ist, die du erstellt oder bearbeitet hast:"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/content.twig:29
 msgid "This happened with a content you edited or created:"
-msgstr ""
+msgstr "Das ist mit einem Inhalt passiert, den du erstellt oder bearbeitet hast:"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/discussions.twig:26
 msgid "Users on %brand% have messaged you or replied to comments by you:"
-msgstr ""
+msgstr "User auf %brand% haben dir geschrieben oder auf Kommentare von dir reagiert:"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/discussions.twig:30
 msgid "A user on %brand% has messaged you or replied to one of your comments:"
-msgstr ""
+msgstr "Ein User auf %brand% hat dir geschrieben oder auf einen Kommentar von dir reagiert:"
 
 #: ../module/Ui/templates/mailman/messages/notification/plain.twig:32
 msgid "You can change the settings for which content you want to receive notifications here: %href%"
-msgstr ""
+msgstr "Zu welchen Inhalten du Benachrichtigungen erhältst, kannst du in deinen Einstellungen ändern: %href%"
 
 #: ../module/Ui/templates/mailman/messages/notification/subject.twig:24
 msgid "You have unread notifications on %brand%"
-msgstr "あなたは%brand%の通知を未読です。"
+msgstr "Du hast ungelesene Benachrichtigungen auf %brand%"
 
 #: ../module/Ui/templates/mailman/messages/register/body.twig:25
 #: ../module/Ui/templates/mailman/messages/register/plain.twig:25
@@ -1989,15 +1994,20 @@ msgid "Hello %s,\n\n"
 "        %s\n\n"
 "        We are looking forward to your contribution to %s!\n\n"
 "        Your community support"
-msgstr ""
+msgstr "Hallo %s,\n\n"
+" Danke für deine Registrierung auf %s.\n\n"
+" Bitte bestätige deinen Account, indem du auf den folgenden Link klickst:\n"
+" %s\n\n"
+" Wir freuen uns auf deinen Beitrag für %s!\n\n"
+"Dein Community-Support"
 
 #: ../module/Ui/templates/mailman/messages/register/body.twig:39
 msgid "Activate account"
-msgstr ""
+msgstr "Account freischalten"
 
 #: ../module/Ui/templates/mailman/messages/register/subject.twig:23
 msgid "Please activate your %s account!"
-msgstr ""
+msgstr "Bitte aktiviere deinen Account auf %s!"
 
 #: ../module/Ui/templates/mailman/messages/restore-password/body.twig:24
 #: ../module/Ui/templates/mailman/messages/restore-password/plain.twig:24
@@ -2005,11 +2015,14 @@ msgid "Hi %s,\n"
 "        it seems that you want to restore your password. If not, you can ignore this email.\n"
 "        You can restore your password by clicking the link below:\n\n"
 "        %s"
-msgstr ""
+msgstr "Hallo %s,\n\n"
+"es scheint du möchtest dein Passwort zurücksetzen. Wenn nicht, kannst du diese Nachricht ignorieren.\n\n"
+"Du kannst dein Passwort zurücksetzen, indem du auf den Link unten klickst: \n\n"
+"%s"
 
 #: ../module/Ui/templates/mailman/messages/restore-password/subject.twig:23
 msgid "Restore your password on %s"
-msgstr "%s のパスワードに復元します。"
+msgstr "Stelle dein Passwort auf %s wieder her"
 
 #: ../module/Ui/templates/mailman/messages/welcome/body.twig:24
 msgid "Dear %s,\n\n"
@@ -2017,7 +2030,11 @@ msgid "Dear %s,\n\n"
 "        To find out how to get started on editing and creating content, please visit the <a href=\"https://de.serlo.org/community\">community homepage</a>.\n\n"
 "        If you have any questions, problems or feedback for us, feel free to get in touch via <a href=\"mailto:de@serlo.org\">de@serlo.org</a>.\n\n"
 "        Enjoy Serlo!"
-msgstr ""
+msgstr "Hallo %s,\n\n"
+" wir freuen uns, dass du einen Kommentar schreiben oder an serlo.org mitarbeiten möchtest!\n\n"
+" Wo und wie du dich beteiligen kannst, erfährst du auf der <a href=\"https://de.serlo.org/community\">Community-Startseite</a>.\n\n"
+" Bei Fragen oder Problemen, schreib uns einfach an <a href=\"mailto:de@serlo.org\">de@serlo.org</a>.\n\n"
+"Viel Spaß mit Serlo!"
 
 #: ../module/Ui/templates/mailman/messages/welcome/plain.twig:24
 msgid "Dear %s,\n\n"
@@ -2025,73 +2042,77 @@ msgid "Dear %s,\n\n"
 "        To find out how to get started on editing and creating content, please visit the community homepage: https://de.serlo.org/community.\n\n"
 "        If you have any questions, problems or feedback for us, feel free to get in touch via de@serlo.org.\n\n"
 "        Enjoy Serlo!"
-msgstr ""
+msgstr "Hallo %s,\n\n"
+" wir freuen uns, dass du einen Kommentar schreiben oder an serlo.org mitarbeiten möchtest!\n\n"
+" Wo und wie du dich beteiligen kannst, erfährst du auf der Community-Startseite: https://de.serlo.org/community.\n\n"
+" Bei Fragen oder Problemen, schreib uns einfach an de@serlo.org.\n\n"
+"Viel Spaß mit Serlo!"
 
 #: ../module/Ui/templates/mailman/messages/welcome/subject.twig:23
 msgid "How to get started on Serlo!"
-msgstr ""
+msgstr "Loslegen mit Serlo!"
 
 #: ../module/Ui/templates/navigation/container/get.twig:23
 msgid "Information"
-msgstr "情報"
+msgstr "Information"
 
 #: ../module/Ui/templates/navigation/container/get.twig:26
 msgid "Instance: "
-msgstr "実例："
+msgstr "Instanz:"
 
 #: ../module/Ui/templates/navigation/container/get.twig:29
 msgid "Name: "
-msgstr "名前："
+msgstr "Name:"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:41
 msgid "Add parameter"
-msgstr "パラメーターの追加"
+msgstr "Parameter hinzufügen"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:45
 msgid "Add page"
-msgstr "ページの追加"
+msgstr "Seite hinzufügen"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:53
 #: ../module/Ui/templates/page/partials/actions.twig:68
 #: ../module/Ui/templates/page/partials/controls.twig:75
 msgid "Settings"
-msgstr "設定"
+msgstr "Einstellungen"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:58
 msgid "Remove page"
-msgstr "ページの削除"
+msgstr "Seite entfernen"
 
 #: ../module/Ui/templates/navigation/page/update.twig:22
 msgid "Page settings"
-msgstr "ページの設定"
+msgstr "Seiteneinstellungen"
 
 #: ../module/Ui/templates/notification/notification.twig:31
 msgid "No template found for notification \"%type%\""
-msgstr "通知”%type%”のテンプレートが見つかりません"
+msgstr "Keine Ansicht für Benachrichtigung \"%type%\" gefunden"
 
 #: ../module/Ui/templates/notification/notifications.twig:42
 msgid "You have no notifications."
-msgstr "通知がありません。"
+msgstr "Du hast keine Benachrichtigungen."
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:22
 msgid "Manage subscriptions"
-msgstr "サブスクリプションの管理"
+msgstr "Abonnements verwalten"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:27
 msgid "Emails"
-msgstr "メール"
+msgstr "E-Mails"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:28
 msgid "Subscription"
-msgstr "購読"
+msgstr "Abonnement"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:38
 msgid "Deactivate"
-msgstr "無効化"
+msgstr "Deaktivieren"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:42
 msgid "Activate"
-msgstr "有効化"
+msgstr "Aktivieren"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:45
 #: ../module/Ui/templates/notification/subscription/opt-out/button.twig:26
@@ -2104,46 +2125,46 @@ msgstr "有効化"
 #: ../module/Ui/templates/notification/subscription/opt-out/sub-menu-item.twig:35
 #: ../module/Ui/templates/notification/subscription/opt-out/sub-menu-item.twig:42
 msgid "Unsubscribe"
-msgstr "購読の解除"
+msgstr "Abbestellen"
 
 #: ../module/Ui/templates/notification/subscription/opt-in/button.twig:25
 #: ../module/Ui/templates/notification/subscription/opt-in/menu-item.twig:24
 #: ../module/Ui/templates/notification/subscription/opt-in/sub-menu-item.twig:23
 msgid "Subscribe"
-msgstr "購読する"
+msgstr "Abonnieren"
 
 #: ../module/Ui/templates/notification/subscription/opt-in/button.twig:31
 #: ../module/Ui/templates/notification/subscription/opt-in/menu-item.twig:29
 #: ../module/Ui/templates/notification/subscription/opt-in/sub-menu-item.twig:26
 msgid "Receive notifications"
-msgstr "通知の受取り"
+msgstr "Benachrichtigungen empfangen"
 
 #: ../module/Ui/templates/notification/subscription/opt-in/button.twig:36
 #: ../module/Ui/templates/notification/subscription/opt-in/menu-item.twig:32
 #: ../module/Ui/templates/notification/subscription/opt-in/sub-menu-item.twig:29
 msgid "Receive notifications and emails"
-msgstr "通知やメールの受信"
+msgstr "Benachrichtigungen und E-Mails erhalten"
 
 #: ../module/Ui/templates/notification/subscription/opt-out/button.twig:32
 #: ../module/Ui/templates/notification/subscription/opt-out/menu-item.twig:31
 #: ../module/Ui/templates/notification/subscription/opt-out/sub-menu-item.twig:31
 msgid "Stop sending emails"
-msgstr "メールの送信を停止"
+msgstr "Keine E-Mails mehr erhalten"
 
 #: ../module/Ui/templates/notification/type/discussion/comment/create.twig:29
 #: ../module/Ui/templates/notification/type/discussion/comment/create.twig:42
 msgid "%user% commented on %discussion%: %content%"
-msgstr "%user%は%discussion%にコメントしました: %content%"
+msgstr "%user% hat %discussion% kommentiert: %content%"
 
 #: ../module/Ui/templates/notification/type/discussion/create.twig:29
 #: ../module/Ui/templates/notification/type/discussion/create.twig:42
 msgid "%user% started %discussion% on %object%: %title%"
-msgstr "%user%は%object%に%discussion%を始めた:%title%"
+msgstr "%user% hat %discussion% zu %object% gestartet: %title%"
 
 #: ../module/Ui/templates/notification/type/entity/link/create.twig:30
 #: ../module/Ui/templates/notification/type/entity/link/create.twig:41
 msgid "%user% added %object% to %parent%"
-msgstr "%user%は、%parent%に%object%を追加"
+msgstr "%user% hat %object% zu %parent% hinzugefügt"
 
 #: ../module/Ui/templates/notification/type/entity/revision/add.twig:26
 #: ../module/Ui/templates/notification/type/entity/revision/add.twig:34
@@ -2152,299 +2173,299 @@ msgstr "%user%は、%parent%に%object%を追加"
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:28
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:42
 msgid "revision"
-msgstr "リビジョン"
+msgstr "Bearbeitung"
 
 #: ../module/Ui/templates/notification/type/entity/revision/add.twig:28
 #: ../module/Ui/templates/notification/type/entity/revision/add.twig:37
 msgid "%user% created a %revision% in %repository%"
-msgstr "%user% は、%repository%に%revision%を作成"
+msgstr "%user% hat eine %revision% in %repository% erstellt"
 
 #: ../module/Ui/templates/notification/type/entity/revision/checkout.twig:31
 #: ../module/Ui/templates/notification/type/entity/revision/checkout.twig:46
 msgid "%user% accepted a %revision% of %repository%: %reason%"
-msgstr "%user%は%repository%の%revision%を理由なく許可しました：%reason%"
+msgstr "%user% hat eine %revision% von %repository% akzeptiert: %reason%"
 
 #: ../module/Ui/templates/notification/type/entity/revision/checkout.twig:35
 #: ../module/Ui/templates/notification/type/entity/revision/checkout.twig:50
 msgid "%user% accepted a %revision% of %repository%"
-msgstr ""
+msgstr "%user% hat eine %revision% von %repository% akzeptiert"
 
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:31
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:46
 msgid "%user% rejected a %revision% of %repository%: %reason%"
-msgstr "%user%は%repository%の%revision%を拒否：%reason%"
+msgstr "%user% hat eine %revision% von %repository% abgelehnt: \"%reason%\""
 
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:35
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:50
 msgid "%user% rejected a %revision% of %repository%"
-msgstr ""
+msgstr "%user% hat eine %revision% in %repository% abgelehnt"
 
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:28
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:36
 msgid "%user% associated %term% with %object%"
-msgstr "%user% は、%object%に%term%を関連付け"
+msgstr "%user% hat %term% mit %object% verknüpft"
 
 #: ../module/Ui/templates/notification/type/taxonomy/term/parent/change.twig:30
 #: ../module/Ui/templates/notification/type/taxonomy/term/parent/change.twig:41
 msgid "%user% changed %term%'s parent from %old% to %new%"
-msgstr "%user% は、%term%の親を%old%から%new%に変更"
+msgstr "%user% hat den Elter des Begriffs %term% von %old% zu %new% geändert"
 
 #: ../module/Ui/templates/notification/type/taxonomy/term/update.twig:27
 #: ../module/Ui/templates/notification/type/taxonomy/term/update.twig:34
 msgid "%user% updated %object%"
-msgstr "%user%は%object%を更新"
+msgstr "%user% hat %object% aktualisiert"
 
 #: ../module/Ui/templates/page/pages.twig:31
 msgid "No revision checked out yet."
-msgstr "チェック アウトされたリビジョンがありません"
+msgstr "Es ist noch keine Überarbeitung gesetzt."
 
 #: ../module/Ui/templates/page/pages.twig:47
 #: ../module/Ui/templates/page/partials/actions.twig:53
 #: ../module/Ui/templates/page/partials/controls.twig:60
 #: ../module/Ui/templates/page/revisions.twig:59
 msgid "Trash"
-msgstr "ごみ箱"
+msgstr "Papierkorb"
 
 #: ../module/Ui/templates/page/pages.twig:57
 msgid "Create a new page"
-msgstr "新しいページの作成"
+msgstr "Eine neue Seite erstellen"
 
 #: ../module/Ui/templates/page/partials/actions.twig:61
 #: ../module/Ui/templates/page/partials/controls.twig:68
 msgid "Set as base revision"
-msgstr "ベースリビジョンとして設定"
+msgstr "Als aktuelle Version benutzen"
 
 #: ../module/Ui/templates/page/revision/create-legacy.twig:22
 #: ../module/Ui/templates/page/revision/create.twig:22
 msgid "Create a revision"
-msgstr "リビジョンの作成"
+msgstr "Bearbeitung erstellen"
 
 #: ../module/Ui/templates/page/revisions.twig:22
 msgid "Revisions"
-msgstr "リビジョン"
+msgstr "Bearbeitungen"
 
 #: ../module/Ui/templates/page/revisions.twig:33
 msgid "Author:"
-msgstr "作成者："
+msgstr "Autor:"
 
 #: ../module/Ui/templates/page/revisions.twig:37
 msgid "Time:"
-msgstr "時間:"
+msgstr "Zeit:"
 
 #: ../module/Ui/templates/page/revisions.twig:47
 msgid "Use for editing"
-msgstr "編集用"
+msgstr "Zur Bearbeitung benutzen"
 
 #: ../module/Ui/templates/page/revisions.twig:66
 msgid "Set as base"
-msgstr "ベースとして設定"
+msgstr "Als Basis festlegen"
 
 #: ../module/Ui/templates/page/revisions.twig:78
 msgid "Edit page"
-msgstr "ページの編集"
+msgstr "Seite bearbeiten"
 
 #: ../module/Ui/templates/related-content/add-category.twig:22
 msgid "Add a category"
-msgstr "カテゴリの追加"
+msgstr "Kategorie hinzufügen"
 
 #: ../module/Ui/templates/related-content/add-external.twig:22
 msgid "Add external link"
-msgstr "外部リンクの追加"
+msgstr "Externen Link hinzufügen"
 
 #: ../module/Ui/templates/related-content/add-internal.twig:22
 msgid "Add internal link"
-msgstr "内部リンクの追加"
+msgstr "Internen Link hinzufügen"
 
 #: ../module/Ui/templates/related-content/manage.twig:24
 msgid "Manage related links"
-msgstr "関連リンクの管理"
+msgstr "Zugehörige Inhalte verwalten"
 
 #: ../module/Ui/templates/related-content/manage.twig:69
 msgid "Category"
-msgstr "カテゴリ"
+msgstr "Kategorie"
 
 #: ../module/Ui/templates/related-content/manage.twig:73
 msgid "Internal"
-msgstr "内部"
+msgstr "Intern"
 
 #: ../module/Ui/templates/related-content/manage.twig:77
 msgid "External"
-msgstr "外部"
+msgstr "Extern"
 
 #: ../module/Ui/templates/search/results.twig:24
 msgid "Search results"
-msgstr "結果の検索"
+msgstr "Suchergebnisse"
 
 #: ../module/Ui/templates/static/de/datenschutz/partials/header.twig:34
 msgid "Datenschutzerklärung"
-msgstr ""
+msgstr "Datenschutzerklärung"
 
 #: ../module/Ui/templates/subject/home/index.twig:23
 msgid "Start learning now!"
-msgstr "今すぐ学習を開始！"
+msgstr "Lernen starten!"
 
 #: ../module/Ui/templates/taxonomy/term/aggregate/siblings.twig:25
 msgid "Further exercises"
-msgstr "追加演習"
+msgstr "Weitere Aufgaben"
 
 #: ../module/Ui/templates/taxonomy/term/batch-copy.twig:22
 msgid "Copy associations"
-msgstr "関連のコピー"
+msgstr "Zuordnungen kopieren"
 
 #: ../module/Ui/templates/taxonomy/term/batch-move.twig:22
 msgid "Move associations"
-msgstr "関連付けの移動"
+msgstr "Zuordnungen verschieben"
 
 #: ../module/Ui/templates/taxonomy/term/create.twig:22
 msgid "Create term"
-msgstr "用語の作成"
+msgstr "Begriff hinzufügen"
 
 #: ../module/Ui/templates/taxonomy/term/entity/default.twig:28
 msgid "Template for %name% not found."
-msgstr "%name%のテンプレートが見つかりません。"
+msgstr "Template für %name% nicht gefunden."
 
 #: ../module/Ui/templates/taxonomy/term/organize.twig:23
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:30
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:29
 msgid "Organize taxonomy"
-msgstr ""
+msgstr "Baumstruktur bearbeiten"
 
 #: ../module/Ui/templates/taxonomy/term/organize/partial.twig:63
 msgid "Tools"
-msgstr "ツール"
+msgstr "Werkzeuge"
 
 #: ../module/Ui/templates/taxonomy/term/templates/curriculum-topic-folder.twig:22
 msgid "curriculum-topic-folder"
-msgstr "カリキュラム―トピック―フォルダー"
+msgstr "Lehrplan-Themenordner"
 
 #: ../module/Ui/templates/taxonomy/term/templates/curriculum-topic.twig:22
 msgid "curriculum-topic"
-msgstr "カリキュラム―トピック"
+msgstr "Lehrplan-Thema"
 
 #: ../module/Ui/templates/taxonomy/term/templates/curriculum.twig:22
 msgid "curriculum"
-msgstr "カリキュラム"
+msgstr "Lehrplan"
 
 #: ../module/Ui/templates/taxonomy/term/templates/locale.twig:22
 msgid "locale"
-msgstr "設定情報"
+msgstr "Gebietsschema"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:44
 msgid "Add content"
-msgstr "コンテンツの追加"
+msgstr "Neuer Inhalt"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:67
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:50
 msgid "Batch copy items"
-msgstr "アイテムの一括複製"
+msgstr "Elemente kopieren"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:74
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:57
 msgid "Batch move items"
-msgstr "アイテムの一括移動"
+msgstr "Elemente verschieben"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Courses"
-msgstr "コース"
+msgstr "Kurse"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Articles"
-msgstr "記事"
+msgstr "Artikel"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Videos"
-msgstr "ビデオ"
+msgstr "Videos"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Applets"
-msgstr ""
+msgstr "Applets"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Events"
-msgstr ""
+msgstr "Veranstaltungen"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:49
 #: ../module/Ui/templates/taxonomy/term/templates/partials/groups.twig:34
 msgid "Exercises"
-msgstr "演習"
+msgstr "Aufgaben"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subfolders.twig:108
 msgid "Show %ecount% exercises..."
-msgstr "%ecount% 演習の表示"
+msgstr "Zeige %ecount% Aufgaben..."
 
 #: ../module/Ui/templates/taxonomy/term/templates/subject.twig:22
 msgid "subject"
-msgstr "件名"
+msgstr "Fach"
 
 #: ../module/Ui/templates/taxonomy/term/templates/topic-folder.twig:22
 msgid "topic-folder"
-msgstr "トピックフォルダー"
+msgstr "Themenordner"
 
 #: ../module/Ui/templates/taxonomy/term/templates/topic.twig:22
 msgid "topic"
-msgstr "トピック"
+msgstr "Thema"
 
 #: ../module/Ui/templates/taxonomy/term/update.twig:22
 msgid "Update term"
-msgstr "用語の更新"
+msgstr "Begriff aktualisieren"
 
 #: ../module/Ui/templates/user/user/profile.twig:22
 msgid "Profile"
-msgstr "プロファイル"
+msgstr "Profil"
 
 #: ../module/Ui/templates/user/user/profile.twig:29
 msgid "Statistics"
-msgstr "統計学"
+msgstr "Statistiken"
 
 #: ../module/Ui/templates/user/user/profile.twig:51
 msgid "Edits"
-msgstr ""
+msgstr "Bearbeitungen"
 
 #: ../module/Ui/templates/user/user/profile.twig:62
 msgid "Reviews"
-msgstr ""
+msgstr "Überprüfungen"
 
 #: ../module/Ui/templates/user/user/profile.twig:73
 msgid "Taxonomy associations"
-msgstr ""
+msgstr "Taxonomie-Zuordnungen"
 
 #: ../module/Ui/templates/user/user/profile.twig:84
 msgid "Taxonomy changes"
-msgstr ""
+msgstr "Taxonomie-Bearbeitungen"
 
 #: ../module/Ui/templates/user/user/profile.twig:95
 msgid "Total deletions"
-msgstr ""
+msgstr "Löschungen"
 
 #: ../module/Ui/templates/user/user/profile.twig:100
 msgid "Recent activities"
-msgstr "最近のアクティビティ"
+msgstr "Aktuelle Aktivitäten"
 
 #: ../module/Ui/templates/user/user/profile.twig:113
 msgid "Last seen"
-msgstr "閲覧"
+msgstr "Zuletzt gesehen"
 
 #: ../module/Ui/templates/user/user/register.twig:82
 msgid "Stay in touch!"
-msgstr ""
+msgstr "Bleib auf dem Laufenden!"
 
 #: ../module/Ui/templates/user/user/register.twig:85
 msgid "<strong>Sign up to our newsletter to receive quarterly updates about our work.</strong> Serlo Education e.V. will use the information you provided to send you the newsletter and (optionally) personalise these mailings. We will also supply insights on aspects of Serlo that may be particularly interesting to you, based on the information you provided. To enable us to keep serlo.org free of charge and free of advertising we send out a fundraiser campaign through our newsletter list annually around Christmas. Please confirm below if you would like to give us permission to contact you in this way."
-msgstr ""
+msgstr "<strong>In unserem Newsletter informieren wir dich einmal im Quartal kompakt über unsere Aktivitäten.</strong> Serlo Education e.V. nutzt deine Angaben um dir den Newsletter zuzustellen, für eine personalisierte Ansprache in den Mailings (optional), und um dich über für dich besonders interessante Aspekte von Serlo zu informieren. Um unser Angebot dauerhaft kostenlos und werbefrei halten zu können, versenden wir außerdem einmal jährlich um Weihnachten eine Spendenkampagne über unseren Newsletterverteiler. Bitte teile uns mit, ob wir dich auf diese Art per E-Mail kontaktieren dürfen."
 
 #: ../module/Ui/templates/user/user/register.twig:114
 msgid "You can revoke your consent to contact you via email at any time by clicking the unsubscribe link in any mailing or send us an email at <a href=\"mailto:de@serlo.org\">de@serlo.org</a>. Your privacy is very important to us. For the processing of our mailing activities we work with MailChimp as a service provider. MailChimp underlies a strict data processing agreement with us that ensures the protection of your data in accordance with the European General Data Protection Regulations. By subscribing to our newsletter you agree with our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and acknowledge that your data will be processed by MailChimp in accordance with their <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">Terms</a>."
-msgstr ""
+msgstr "Du kannst deine Einwilligung jederzeit zurückziehen, indem du den Abmelden-Link im Footer eines Newsletters klickst, oder per E-Mail an <a href=\"mailto:de@serlo.org\">de@serlo.org</a>. Wir nehmen den Schutz deiner Daten sehr ernst. Für die Abwicklung unserer Emailkommunikation nutzen wir den Drittanbieter MailChimp. Dieser unterliegt einem Auftragsdatenverarbeitungsabkommen mit uns, das den Schutz deiner Daten im Einklang mit der EU-Datenschutzverordnung gewährleistet. Indem du den Newsletter abonnierst, erklärst du dich mit unserer <a href=\"/datenschutz\" target=\"_blank\">Datenschutzerklärung</a> einverstanden, und nimmst zur Kenntnis, dass deine Daten von MailChimp im Einklang mit deren <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">Datenschutzrichtlinen</a> und <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">Nutzungsbedingungen</a> verarbeitet werden."
 
 #: ../module/Ui/templates/user/user/register.twig:122
 msgid "By clicking <em>Sign up</em>, you agree to our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and <a href=\"/21654\" target=\"_blank\">Terms</a>. You may receive email notifications from us and can opt out at any time."
-msgstr ""
+msgstr "Indem du auf <em>Registrieren</em> klickst, erklärst du dich mit unserer <a href=\"/datenschutz\" target=\"_blank\">Datenschutzerklärung</a> und <a href=\"/21654\" target=\"_blank\">Nutzungsbedingungen</a> einverstanden. Wir schicken dir eventuell Benachrichtigungen per Email, die du jederzeit abbestellen kannst."
 
 #: ../module/Ui/templates/user/user/settings.twig:22
 msgid "My settings"
-msgstr "マイセッティング"
+msgstr "Meine Einstellungen"
 
 #: ../module/Ui/templates/user/users/partial/users-table.twig:39
 msgid "Never"
-msgstr "サインインされていません"
+msgstr "Nie"
 
