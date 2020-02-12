@@ -175,12 +175,12 @@ export function SemanticArticleEditor(props: SemanticArticlePorps) {
         </div>
       ) : (
         <AddButton
-          title={'Vertiefungen oder Ergänzungen'}
+          title={'Ergänzendes Video'}
           onClick={() => {
             state.videoUrl.defined ? null : state.videoUrl.create()
           }}
         >
-          Vertiefung hinzufügen
+          Video hinzufügen
         </AddButton>
       )}
     </React.Fragment>
