@@ -20,6 +20,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
+require __DIR__ . '/../../definitions.local.php';
+
 return [
     'navigation' => [
         'default' => [
@@ -249,48 +252,59 @@ return [
                 'label' => t('Me'),
                 'uri' => '#',
                 'translate' => true,
-                'pages' => [
+                'pages' => array_merge(
                     [
-                        'route' => 'user/login',
-                        'visible' => false,
+                        [
+                            'route' => 'user/login',
+                            'visible' => false,
+                        ],
+                        [
+                            'route' => 'user/register',
+                            'visible' => false,
+                        ],
+                        [
+                            'route' => 'user/me',
+                            'visible' => false,
+                        ],
+                        [
+                            'label' => t('Public profile'),
+                            'route' => 'user/public',
+                            'translate' => true,
+                        ],
+                        [
+                            'label' => t('Edit profile'),
+                            'route' => 'user/settings',
+                            'icon' => 'wrench',
+                            'translate' => true,
+                        ],
+                        [
+                            'label' => t('Update password'),
+                            'route' => 'authentication/password/change',
+                            'icon' => 'lock',
+                            'translate' => true,
+                        ],
                     ],
+                    isset($featureFlags['notifications']) && $featureFlags['notifications'] ? [
+                        [
+                            'label' => t('Notifications'),
+                            'route' => 'notification/me',
+                            'translate' => true,
+                        ],
+                    ] : [],
                     [
-                        'route' => 'user/register',
-                        'visible' => false,
-                    ],
-                    [
-                        'route' => 'user/me',
-                        'visible' => false,
-                    ],
-                    [
-                        'label' => t('Public profile'),
-                        'route' => 'user/public',
-                        'translate' => true,
-                    ],
-                    [
-                        'label' => t('Edit profile'),
-                        'route' => 'user/settings',
-                        'icon' => 'wrench',
-                        'translate' => true,
-                    ],
-                    [
-                        'label' => t('Update password'),
-                        'route' => 'authentication/password/change',
-                        'icon' => 'lock',
-                        'translate' => true,
-                    ],
-                    [
-                        'label' => t('Subscriptions'),
-                        'route' => 'subscriptions/manage',
-                        'icon' => 'eye-open',
-                        'translate' => true,
-                    ],
-                    [
-                        'label' => t('Event log'),
-                        'route' => 'event/history/user/me',
-                        'translate' => true,
-                    ],
-                ],
+                        [
+                            'label' => t('Subscriptions'),
+                            'route' => 'subscriptions/manage',
+                            'icon' => 'eye-open',
+                            'translate' => true,
+                        ],
+                        [
+                            'label' => t('Event log'),
+                            'route' => 'event/history/user/me',
+                            'translate' => true,
+                        ],
+                    ]
+                ),
             ],
             'home' => [
                 'route' => 'home',

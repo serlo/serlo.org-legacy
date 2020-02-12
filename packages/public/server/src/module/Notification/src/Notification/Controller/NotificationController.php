@@ -20,29 +20,34 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Notification\Controller;
 
-use Notification\NotificationManagerAwareTrait;
+use FeatureFlags\Service;
 use Notification\NotificationManagerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
+use ZfcRbac\Exception\UnauthorizedException;
 use ZfcRbac\Service\AuthorizationService;
 
 class NotificationController extends AbstractActionController
 {
-    use NotificationManagerAwareTrait;
-
-    /**
-     * @var \ZfcRbac\Service\AuthorizationService
-     */
+    /** @var Service */
+    protected $featureFlags;
+    /** @var NotificationManagerInterface */
+    protected $notificationManager;
+    /** @var AuthorizationService */
     protected $authorizationService;
 
     public function __construct(
         NotificationManagerInterface $notificationManager,
-        AuthorizationService $authorizationService
+        AuthorizationService $authorizationService,
+        Service $featureFlags
     ) {
-        $this->notificationManager  = $notificationManager;
+        $this->notificationManager = $notificationManager;
         $this->authorizationService = $authorizationService;
+        $this->featureFlags = $featureFlags;
     }
 
     public function readAction()
@@ -53,5 +58,22 @@ class NotificationController extends AbstractActionController
             $this->notificationManager->flush();
         }
         return new JsonModel([]);
+    }
+
+    public function meAction()
+    {
+        if (!$this->featureFlags->isEnabled('notifications')) {
+            $this->getResponse()->setStatusCode(404);
+            return false;
+        }
+
+        $user = $this->authorizationService->getIdentity();
+        if (!isset($user)) {
+            throw new UnauthorizedException;
+        }
+
+        $view = new ViewModel([]);
+        $view->setTemplate('notification/me');
+        return $view;
     }
 }

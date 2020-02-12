@@ -52,6 +52,16 @@ return [
                 ],
                 'may_terminate' => false,
                 'child_routes' => [
+                    'me' => [
+                      'type' => 'literal',
+                      'options' => [
+                          'route' => '/me',
+                          'defaults' => [
+                              'controller' => 'Notification\Controller\NotificationController',
+                              'action' => 'me',
+                          ],
+                      ],
+                    ],
                     'read' => [
                         'type' => 'literal',
                         'options' => [

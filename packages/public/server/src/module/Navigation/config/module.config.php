@@ -22,6 +22,9 @@
  */
 namespace Navigation;
 
+use Navigation\Controller\NavigationController;
+use Navigation\Factory\NavigationControllerFactory;
+
 return [
     'navigation'         => [
         'providers' => [
@@ -94,7 +97,7 @@ return [
     ],
     'controllers'        => [
         'factories' => [
-            __NAMESPACE__ . '\Controller\NavigationController' => __NAMESPACE__ . '\Factory\NavigationControllerFactory',
+            NavigationController::class => NavigationControllerFactory::class,
             __NAMESPACE__ . '\Controller\RenderController '    => __NAMESPACE__ . '\Factory\RenderControllerFactory',
         ],
     ],
