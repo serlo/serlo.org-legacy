@@ -7,23 +7,23 @@ import {
   optional
 } from '@edtr-io/plugin'
 
-import { SolutionStepsEditor } from './editor'
+import { SemanticArticleEditor } from './editor'
 
-export type ArticlePorps = EditorPluginProps<typeof articleState>
-
+export type SemanticArticlePorps = EditorPluginProps<typeof articleState>
+//todo: (introduction)switch between text and multimedia plugin, (exercise folder)fixed text plus url,source plugin, related content plugin
 export const articleState = object({
   introduction: child({ plugin: 'text' }),
   explanation: child({ plugin: 'rows' }),
   example: optional(child({ plugin: 'injection' })),
-  exerciseFolder: optional(string()),
-  courseLink: optional(string()),
-  video: optional(child({ plugin: 'injection' })),
+  exerciseFolder: string(),
   extra: optional(child({ plugin: 'spoiler' })),
-  sources: optional(list(string()))
+  sources: list(string()),
+  relatedContent: list(string()),
+  videoUrl: optional(child({ plugin: 'video' }))
 })
 
-export const articlePlugin = {
-  Component: SolutionStepsEditor,
+export const semanticArticlePlugin = {
+  Component: SemanticArticleEditor,
   state: articleState,
   config: {}
 }

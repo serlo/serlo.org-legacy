@@ -5,7 +5,7 @@ import * as React from 'react'
 
 import { SolutionStepsProps } from '..'
 import {
-  SemanticPluginTypes,
+  SemanticSolutionTypes,
   Buttoncontainer,
   explanationLabel,
   stepLabel
@@ -39,7 +39,7 @@ export function AddButtonsComponent(
   }
   const insertExplanation = () => {
     props.state.solutionSteps.insert(props.index + 1, {
-      type: SemanticPluginTypes.explanation,
+      type: SemanticSolutionTypes.explanation,
       content: { plugin: 'rows' },
       isHalf: false
     })

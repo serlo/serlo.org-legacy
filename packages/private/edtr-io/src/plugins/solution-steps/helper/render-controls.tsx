@@ -7,7 +7,7 @@ import * as React from 'react'
 
 import { solutionStepsState } from '..'
 import {
-  SemanticPluginTypes,
+  SemanticSolutionTypes,
   ControlButton,
   Controls,
   DragHandler
@@ -58,9 +58,9 @@ export const RenderControls = ({
       </DragHandler>
       {currentElement.isHalf.value ||
       (index > 0 &&
-        currentElement.type.value === SemanticPluginTypes.explanation &&
+        currentElement.type.value === SemanticSolutionTypes.explanation &&
         solutionSteps[index - 1].type.value !==
-          SemanticPluginTypes.explanation) ? (
+          SemanticSolutionTypes.explanation) ? (
         <ControlButton
           onMouseDown={() => {
             if (currentElement.isHalf.value) {

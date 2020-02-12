@@ -1,261 +1,190 @@
-import { useScopedSelector } from '@edtr-io/core'
-import { AddButton } from '@edtr-io/editor-ui'
-import { getFocusPath } from '@edtr-io/store'
-import { faTrashAlt, Icon } from '@edtr-io/ui'
-import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 import * as React from 'react'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-
-import { SolutionStepsProps } from '.'
+import { SemanticArticlePorps } from '.'
 import {
-  AddButtonsComponent,
-  dragContent,
-  findPairs,
   useHasFocusSelector,
-  RenderControls
-} from './helper'
-import { SolutionStepsRenderer } from './renderer'
-
-import {
+  SemanticArticleTypes,
+  Content,
   Controls,
   ControlButton,
-  Container,
-  Content,
-  SemanticPluginTypes,
-  strategyLabel,
-  strategyGuideline,
-  explanationGuideline,
-  introductionGuideline,
-  introductionLabel,
   Overlay,
-  stepGuideline,
-  additionalsGuideline,
-  additionalsLabel
+  articleIntroductionGuideline,
+  articleExplanationGuideline,
+  articleExampleGuideline,
+  articleExtraGuideline,
+  articleVideoGuideline
 } from '../semantic-plugin-helpers'
-import { SolutionElementType } from './types'
+import { SemanticArticleRenderer } from './renderer'
+import { useScopedSelector } from '@edtr-io/core'
+import { getFocusPath } from '@edtr-io/store'
+import { Icon, faTrashAlt } from '@edtr-io/ui'
+import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
+import { AddButton } from '@edtr-io/editor-ui'
 
-export const explanation = 'explanation'
-
-export function SolutionStepsEditor(props: SolutionStepsProps) {
+export function SemanticArticleEditor(props: SemanticArticlePorps) {
   const { state, editable } = props
-  const { additionals, strategy, solutionSteps } = state
-  const focusPath = useScopedSelector(getFocusPath())
   const pluginFocused = useHasFocusSelector(props.id)
-
+  const focusPath = useScopedSelector(getFocusPath())
   const [introductionHelpVisible, setIntroductionHelp] = React.useState(false)
-  const [strategyHelpVisible, setStrategyHelp] = React.useState(false)
-  const [stepHelpVisible, setStepHelp] = React.useState(false)
-  const [additionalsHelpVisible, setAdditionalsHelp] = React.useState(false)
+  const [explanationHelpVisible, setExplanationHelp] = React.useState(false)
+  const [exampleHelpVisible, setExampleHelp] = React.useState(false)
+  const [extraHelpVisible, setExtraHelp] = React.useState(false)
+  const [videoHelpVisible, setVideoHelp] = React.useState(false)
 
   return editable && pluginFocused ? (
-    <DragDropContext onDragEnd={result => dragContent(result, state)}>
-      <React.Fragment>
-        {/* TODO: refactor Content-Container -> hand icon down via config? */}
-        <Content type={SemanticPluginTypes.introduction} boxfree>
-          {state.introduction.render({
-            config: { placeholder: introductionLabel }
-          })}
-        </Content>
-        <Controls
-          show={
-            (focusPath && focusPath.includes(state.introduction.id)) || false
-          }
+    <React.Fragment>
+      <Content type={SemanticArticleTypes.introduction}>
+        {state.introduction.render()}
+      </Content>
+      <Controls
+        show={(focusPath && focusPath.includes(state.introduction.id)) || false}
+      >
+        <ControlButton
+          onMouseDown={() => {
+            setIntroductionHelp(true)
+          }}
         >
-          <ControlButton
-            onMouseDown={() => {
-              setIntroductionHelp(true)
-            }}
-          >
-            <Icon icon={faQuestion} />
-          </ControlButton>
-        </Controls>
-        <Overlay
-          content={introductionGuideline}
-          open={introductionHelpVisible}
-          setOpen={setIntroductionHelp}
-        />
-        {strategy.defined ? null : (
-          <AddButton
-            title={strategyLabel}
-            onClick={() => {
-              strategy.create()
-            }}
-          >
-            Lösungsstrategie (optional)
-          </AddButton>
-        )}
-      </React.Fragment>
-      {strategy.defined ? (
+          <Icon icon={faQuestion} />
+        </ControlButton>
+      </Controls>
+      <Overlay
+        content={articleIntroductionGuideline}
+        open={introductionHelpVisible}
+        setOpen={setIntroductionHelp}
+      />
+
+      <Content type={SemanticArticleTypes.explanation}>
+        {state.explanation.render()}
+      </Content>
+      <Controls
+        show={(focusPath && focusPath.includes(state.explanation.id)) || false}
+      >
+        <ControlButton
+          onMouseDown={() => {
+            setExplanationHelp(true)
+          }}
+        >
+          <Icon icon={faQuestion} />
+        </ControlButton>
+      </Controls>
+      <Overlay
+        content={articleExplanationGuideline}
+        open={explanationHelpVisible}
+        setOpen={setExplanationHelp}
+      />
+      {state.example.defined ? (
         <div style={{ position: 'relative' }}>
-          <Content type={SemanticPluginTypes.strategy}>
-            {strategy.render()}
-          </Content>
+          {state.example.render()}
           <Controls
-            show={(focusPath && focusPath.includes(strategy.id)) || false}
+            show={(focusPath && focusPath.includes(state.example.id)) || false}
           >
             <ControlButton
               onMouseDown={() => {
-                strategy.remove()
+                state.example.defined ? state.example.remove() : null
               }}
             >
               <Icon icon={faTrashAlt} />
             </ControlButton>
             <ControlButton
               onMouseDown={() => {
-                setStrategyHelp(true)
+                setExampleHelp(true)
               }}
             >
               <Icon icon={faQuestion} />
             </ControlButton>
           </Controls>
           <Overlay
-            content={strategyGuideline}
-            open={strategyHelpVisible}
-            setOpen={setStrategyHelp}
+            content={articleExampleGuideline}
+            open={exampleHelpVisible}
+            setOpen={setExampleHelp}
+          />
+          {/* TODO: Plugin, das einen Text und einen Link akzeptiert? */}
+        </div>
+      ) : (
+        <AddButton
+          title={'Eine repräsentative Aufgabe'}
+          onClick={() => {
+            state.example.defined ? null : state.example.create()
+          }}
+        >
+          Beispielaufgabe hinzufügen
+        </AddButton>
+      )}
+      {state.extra.defined ? (
+        <div style={{ position: 'relative' }}>
+          {state.extra.render()}
+          <Controls
+            show={(focusPath && focusPath.includes(state.extra.id)) || false}
+          >
+            <ControlButton
+              onMouseDown={() => {
+                state.extra.defined ? state.extra.remove() : null
+              }}
+            >
+              <Icon icon={faTrashAlt} />
+            </ControlButton>
+            <ControlButton
+              onMouseDown={() => {
+                setExtraHelp(true)
+              }}
+            >
+              <Icon icon={faQuestion} />
+            </ControlButton>
+          </Controls>
+          <Overlay
+            content={articleExtraGuideline}
+            open={extraHelpVisible}
+            setOpen={setExtraHelp}
           />
         </div>
-      ) : null}
-
-      <AddButtonsComponent {...props} index={-1} id="" />
-
-      <Droppable droppableId="default" direction="vertical">
-        {(provided: any) => {
-          const pairedArray = findPairs(solutionSteps)
-          return (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              {pairedArray.map((row, index) => {
-                const solutionStepLeft = row.val1.content
-                const solutionStepRight = row.val2
-                  ? row.val2.content
-                  : undefined
-                const solutionStepIndexLeft = row.val1.solutionStepIndex
-                const solutionStepIndexRight = row.val2
-                  ? row.val2.solutionStepIndex
-                  : -1
-                return (
-                  <Draggable
-                    key={index}
-                    draggableId={solutionStepLeft.content.id}
-                    index={index}
-                  >
-                    {(provided: any) => {
-                      const show =
-                        (focusPath &&
-                          (focusPath.includes(solutionStepLeft.content.id) ||
-                            (solutionStepRight &&
-                              focusPath.includes(
-                                solutionStepRight.content.id
-                              )))) ||
-                        false
-                      return (
-                        <React.Fragment key={solutionStepLeft.content.id}>
-                          <Container {...provided.draggableProps}>
-                            <Content
-                              type={
-                                solutionStepLeft.type.value === explanation
-                                  ? SemanticPluginTypes.explanation
-                                  : SemanticPluginTypes.step
-                              }
-                              isHalf={solutionStepLeft.isHalf.value}
-                            >
-                              {solutionStepLeft.content.render()}
-                            </Content>
-                            {solutionStepRight ? (
-                              <Content
-                                type={
-                                  solutionStepRight.type.value === explanation
-                                    ? SemanticPluginTypes.explanation
-                                    : SemanticPluginTypes.step
-                                }
-                                isHalf={solutionStepRight.isHalf.value}
-                              >
-                                {solutionStepRight.content.render()}
-                              </Content>
-                            ) : null}
-                            <RenderControls
-                              state={state}
-                              index={row.val1.solutionStepIndex}
-                              provided={provided}
-                              showHelp={setStepHelp}
-                              showButtons={show}
-                            />
-                            <Overlay
-                              open={stepHelpVisible}
-                              setOpen={setStepHelp}
-                              content={
-                                solutionStepRight ? (
-                                  <React.Fragment>
-                                    {stepGuideline}
-                                    {explanationGuideline}
-                                  </React.Fragment>
-                                ) : solutionStepLeft.type.value ===
-                                  SolutionElementType.explanation ? (
-                                  explanationGuideline
-                                ) : (
-                                  stepGuideline
-                                )
-                              }
-                            ></Overlay>
-                          </Container>
-                          {show ? (
-                            <AddButtonsComponent
-                              {...props}
-                              id={solutionStepLeft.content.id}
-                              optionalID={
-                                solutionStepRight
-                                  ? solutionStepRight.content.id
-                                  : undefined
-                              }
-                              index={
-                                solutionStepRight
-                                  ? solutionStepIndexRight
-                                  : solutionStepIndexLeft
-                              }
-                            />
-                          ) : null}
-                        </React.Fragment>
-                      )
-                    }}
-                  </Draggable>
-                )
-              })}
-              {additionals.defined ? null : (
-                <AddButton
-                  title={additionalsLabel}
-                  onClick={() => {
-                    additionals.create()
-                  }}
-                >
-                  Ergänzung (optional)
-                </AddButton>
-              )}
-              {additionals.defined ? (
-                <div style={{ position: 'relative' }}>
-                  <Content type={SemanticPluginTypes.additionals}>
-                    {additionals.render()}
-                  </Content>
-                  <Controls>
-                    <ControlButton
-                      onClick={() => {
-                        additionals.remove()
-                      }}
-                    >
-                      <Icon icon={faTrashAlt} />
-                    </ControlButton>
-                  </Controls>
-                  <Overlay
-                    content={additionalsGuideline}
-                    open={additionalsHelpVisible}
-                    setOpen={setAdditionalsHelp}
-                  />
-                </div>
-              ) : null}
-            </div>
-          )
-        }}
-      </Droppable>
-    </DragDropContext>
+      ) : (
+        <AddButton
+          title={'Vertiefungen oder Ergänzungen'}
+          onClick={() => {
+            state.extra.defined ? null : state.extra.create()
+          }}
+        >
+          Vertiefung hinzufügen
+        </AddButton>
+      )}
+      {state.videoUrl.defined ? (
+        <div style={{ position: 'relative' }}>
+          {state.videoUrl.render()}
+          <Controls
+            show={(focusPath && focusPath.includes(state.videoUrl.id)) || false}
+          >
+            <ControlButton
+              onMouseDown={() => {
+                state.videoUrl.defined ? state.videoUrl.remove() : null
+              }}
+            >
+              <Icon icon={faTrashAlt} />
+            </ControlButton>
+            <ControlButton
+              onMouseDown={() => {
+                setVideoHelp(true)
+              }}
+            >
+              <Icon icon={faQuestion} />
+            </ControlButton>
+          </Controls>
+          <Overlay
+            content={articleVideoGuideline}
+            open={videoHelpVisible}
+            setOpen={setVideoHelp}
+          />
+        </div>
+      ) : (
+        <AddButton
+          title={'Vertiefungen oder Ergänzungen'}
+          onClick={() => {
+            state.videoUrl.defined ? null : state.videoUrl.create()
+          }}
+        >
+          Vertiefung hinzufügen
+        </AddButton>
+      )}
+    </React.Fragment>
   ) : (
-    <SolutionStepsRenderer {...props} />
+    <SemanticArticleRenderer {...props} />
   )
 }

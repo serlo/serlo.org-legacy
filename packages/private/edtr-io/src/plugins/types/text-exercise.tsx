@@ -34,7 +34,7 @@ import { AddButton } from '@edtr-io/editor-ui'
 import { RevisionHistory } from './helpers/settings'
 import {
   Content,
-  SemanticPluginTypes,
+  SemanticExerciseTypes,
   Controls as GuidelineControls,
   ControlButton as GuidelineButton,
   Overlay,
@@ -90,7 +90,7 @@ export function TextExerciseTypeEditor(
         />
       )}
       <div style={{ position: 'relative' }}>
-        <Content type={SemanticPluginTypes.exercise} boxfree>
+        <Content type={SemanticExerciseTypes.exercise} boxfree>
           {content.render()}
         </Content>
         <GuidelineControls

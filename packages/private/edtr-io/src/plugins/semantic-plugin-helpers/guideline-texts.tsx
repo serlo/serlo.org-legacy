@@ -3,7 +3,7 @@ import { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons/faLevelUpAlt'
 import * as React from 'react'
 
 import { BackgroundSymbol, getIcon } from './styled-elements'
-import { SemanticPluginTypes } from './types'
+import { SemanticSolutionTypes, SemanticExerciseTypes } from './types'
 
 export const stepLabel =
   'Ein Bestandteil der Lösung, der zur Lösung der Aufgabe aufgeschrieben werden muss'
@@ -14,6 +14,22 @@ export const additionalsLabel = 'Ergänze weitere Inhalte zur Lösung'
 export const introductionLabel =
   'Ein einführender Satz, in dem das Thema bzw die wichtigste Methode genannt wird'
 //TODO: refactor Backgroundsymbol -> hand down via config?
+
+export const articleIntroductionGuideline: React.ReactNode = (
+  <div>Just a small town girl...</div>
+)
+export const articleExplanationGuideline: React.ReactNode = (
+  <div>Livin in a lonely wooorld...</div>
+)
+export const articleExampleGuideline: React.ReactNode = (
+  <div>She took the midnight train...</div>
+)
+export const articleExtraGuideline: React.ReactNode = (
+  <div>Going aaaanywhere ...</div>
+)
+export const articleVideoGuideline: React.ReactNode = (
+  <div>Don't stop believing!</div>
+)
 
 export const exerciseGuideline: React.ReactNode = (
   <div>
@@ -58,7 +74,7 @@ export const exerciseGuideline: React.ReactNode = (
       ersetzt nicht die Lösung!
     </p>
     <BackgroundSymbol>
-      {getIcon(SemanticPluginTypes.exercise, '8x')}
+      {getIcon(SemanticExerciseTypes.exercise, '8x')}
     </BackgroundSymbol>
   </div>
 )
@@ -74,7 +90,7 @@ export const introductionGuideline: React.ReactNode = (
       <li>Verlinke auf einen Artikel zum Thema bzw. zur wichtigsten Methode</li>
     </ul>
     <BackgroundSymbol>
-      {getIcon(SemanticPluginTypes.introduction, '8x')}
+      {getIcon(SemanticSolutionTypes.introduction, '8x')}
     </BackgroundSymbol>
   </div>
 )
@@ -107,7 +123,7 @@ export const strategyGuideline: React.ReactNode = (
       </li>
     </ul>
     <BackgroundSymbol>
-      {getIcon(SemanticPluginTypes.strategy, '8x')}
+      {getIcon(SemanticSolutionTypes.strategy, '8x')}
     </BackgroundSymbol>
   </div>
 )
@@ -147,7 +163,7 @@ export const stepGuideline = (
       Gleichungsplugin für Rechnungen.
     </p>
     <BackgroundSymbol>
-      {getIcon(SemanticPluginTypes.step, '8x')}
+      {getIcon(SemanticSolutionTypes.step, '8x')}
     </BackgroundSymbol>
   </div>
 )
@@ -179,7 +195,7 @@ export const explanationGuideline = (
       wenn es keine zu langen Erklärungen sind.
     </p>
     <BackgroundSymbol>
-      {getIcon(SemanticPluginTypes.explanation, '8x')}
+      {getIcon(SemanticSolutionTypes.explanation, '8x')}
     </BackgroundSymbol>
   </div>
 )
@@ -201,7 +217,7 @@ export const additionalsGuideline = (
       <li>Anregungen und Links zum Weiterlernen.</li>
     </ul>
     <BackgroundSymbol>
-      {getIcon(SemanticPluginTypes.additionals, '8x')}
+      {getIcon(SemanticSolutionTypes.additionals, '8x')}
     </BackgroundSymbol>
   </div>
 )

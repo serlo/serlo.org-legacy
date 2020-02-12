@@ -31,10 +31,10 @@ import {
   OptionalChild,
   entityType
 } from './common'
-import { RevisionHistory, Settings } from './helpers/settings'
+import { RevisionHistory } from './helpers/settings'
 import {
   Content,
-  SemanticPluginTypes,
+  SemanticExerciseTypes,
   Controls as GuidelineControls,
   ControlButton as GuidelineButton,
   Overlay,
@@ -55,7 +55,9 @@ export const textExerciseGroupTypeState = entityType(
   }
 )
 
-export const textExerciseGroupTypePlugin: EditorPlugin<typeof textExerciseGroupTypeState> = {
+export const textExerciseGroupTypePlugin: EditorPlugin<
+  typeof textExerciseGroupTypeState
+> = {
   Component: TextExerciseGroupTypeEditor,
   state: textExerciseGroupTypeState,
   config: {}
@@ -78,7 +80,7 @@ function TextExerciseGroupTypeEditor(
       )}
       <section className="row">
         <div style={{ position: 'relative' }}>
-          <Content type={SemanticPluginTypes.exercise} boxfree>
+          <Content type={SemanticExerciseTypes.exercise} boxfree>
             {content.render()}
           </Content>
           <GuidelineControls

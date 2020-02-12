@@ -10,13 +10,13 @@ import { SolutionStepsProps } from '.'
 import {
   AddButtonsComponent,
   findPairs,
-  useHasFocusSelector,
   dragContent,
   RenderControls
 } from './helper'
 import { SolutionStepsRenderer } from './renderer'
 import {
-  SemanticPluginTypes,
+  useHasFocusSelector,
+  SemanticSolutionTypes,
   additionalsGuideline,
   additionalsLabel,
   Container,
@@ -46,7 +46,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
   return editable && pluginFocused ? (
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
-        <Content type={SemanticPluginTypes.introduction} boxfree>
+        <Content type={SemanticSolutionTypes.introduction} boxfree>
           {state.introduction.render({
             config: { placeholder: introductionLabel }
           })}
@@ -82,7 +82,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
       </React.Fragment>
       {strategy.defined ? (
         <div style={{ position: 'relative' }}>
-          <Content type={SemanticPluginTypes.strategy}>
+          <Content type={SemanticSolutionTypes.strategy}>
             {strategy.render()}
           </Content>
           <Controls
@@ -148,7 +148,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                             <Content
                               type={
                                 solutionStepLeft.type
-                                  .value as SemanticPluginTypes
+                                  .value as SemanticSolutionTypes
                               }
                               isHalf={solutionStepLeft.isHalf.value}
                             >
@@ -158,7 +158,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                               <Content
                                 type={
                                   solutionStepRight.type
-                                    .value as SemanticPluginTypes
+                                    .value as SemanticSolutionTypes
                                 }
                                 isHalf={solutionStepRight.isHalf.value}
                               >
@@ -182,7 +182,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                                     {explanationGuideline}
                                   </React.Fragment>
                                 ) : solutionStepLeft.type.value ===
-                                  SemanticPluginTypes.explanation ? (
+                                  SemanticSolutionTypes.explanation ? (
                                   explanationGuideline
                                 ) : (
                                   stepGuideline
@@ -224,7 +224,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
               )}
               {additionals.defined ? (
                 <div style={{ position: 'relative' }}>
-                  <Content type={SemanticPluginTypes.additionals}>
+                  <Content type={SemanticSolutionTypes.additionals}>
                     {additionals.render()}
                   </Content>
                   <Controls>

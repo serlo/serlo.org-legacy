@@ -1,7 +1,6 @@
 import { styled } from '@edtr-io/renderer-ui'
 import * as React from 'react'
-
-import { SolutionStepsProps } from '.'
+import { SemanticArticlePorps } from '.'
 
 const BigFlex = styled.div({
   display: 'flex',
@@ -19,28 +18,6 @@ const Container = styled.div(({ isHalf }: { isHalf?: boolean }) => {
   }
 })
 
-export function SolutionStepsRenderer(props: SolutionStepsProps) {
-  const { state } = props
-  const { introduction, strategy, solutionSteps, additionals } = state
-
-  return (
-    <React.Fragment>
-      <Container>{introduction.render()} </Container>
-      {strategy.defined ? <Container>{strategy.render()}</Container> : null}
-      <BigFlex>
-        {solutionSteps.map(solutionStep => {
-          return (
-            <React.Fragment key={solutionStep.content.id}>
-              <Container isHalf={solutionStep.isHalf.value}>
-                {solutionStep.content.render()}
-              </Container>
-            </React.Fragment>
-          )
-        })}
-      </BigFlex>
-      {additionals.defined ? (
-        <Container>{additionals.render()}</Container>
-      ) : null}
-    </React.Fragment>
-  )
+export function SemanticArticleRenderer(props: SemanticArticlePorps) {
+  return null
 }

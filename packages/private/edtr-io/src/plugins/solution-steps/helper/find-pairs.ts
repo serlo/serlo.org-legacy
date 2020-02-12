@@ -1,7 +1,7 @@
 import { StateTypeReturnType } from '@edtr-io/plugin'
 
 import { solutionStepsState } from '..'
-import { SemanticPluginTypes } from '../../semantic-plugin-helpers'
+import { SemanticSolutionTypes } from '../../semantic-plugin-helpers'
 
 export const findPairs = (
   solutionSteps: StateTypeReturnType<typeof solutionStepsState>['solutionSteps']
@@ -21,7 +21,7 @@ export const findPairs = (
       pairedList.push({
         val1: { content: solutionStep, solutionStepIndex: index }
       })
-    } else if (solutionStep.type.value !== SemanticPluginTypes.explanation) {
+    } else if (solutionStep.type.value !== SemanticSolutionTypes.explanation) {
       pairedList.push({
         val1: { content: solutionStep, solutionStepIndex: index },
         val2: {

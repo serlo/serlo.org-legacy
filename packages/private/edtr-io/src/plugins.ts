@@ -53,6 +53,7 @@ import { layoutPlugin } from './plugins/layout'
 import { createSolutionPlugin } from './plugins/solution'
 import { solutionStepsPlugin } from './plugins/solution-steps'
 import { tablePlugin } from './plugins/table'
+import { semanticArticlePlugin } from './plugins/semantic-article'
 
 export function createPlugins(
   getCsrfToken: () => string,
@@ -87,6 +88,7 @@ export function createPlugins(
     }),
     rows: createRowsPlugin({ plugins: registry }),
     scMcExercise: createScMcExercisePlugin(),
+    semanticArticle: semanticArticlePlugin,
     solution: createSolutionPlugin(),
     solutionSteps: solutionStepsPlugin,
     spoiler: createSpoilerPlugin(),

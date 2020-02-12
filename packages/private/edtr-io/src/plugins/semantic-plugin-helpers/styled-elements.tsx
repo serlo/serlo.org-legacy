@@ -7,7 +7,11 @@ import { faPencilRuler } from '@fortawesome/free-solid-svg-icons/faPencilRuler'
 import { faSearchPlus } from '@fortawesome/free-solid-svg-icons/faSearchPlus'
 import * as React from 'react'
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit'
-import { SemanticPluginTypes } from './types'
+import {
+  SemanticSolutionTypes,
+  SemanticExerciseTypes,
+  SemanticArticleTypes
+} from './types'
 
 export const Buttoncontainer = styled.div({
   display: 'flex',
@@ -44,25 +48,28 @@ export const BackgroundSymbol = styled.div({
   zIndex: 0
 })
 
-export function getIcon(type: SemanticPluginTypes, size: any) {
+export function getIcon(
+  type: SemanticExerciseTypes | SemanticArticleTypes | SemanticSolutionTypes,
+  size: any
+) {
   switch (type) {
-    case SemanticPluginTypes.introduction:
+    case SemanticSolutionTypes.introduction:
       return <Icon icon={faBookOpen} size={size} />
-    case SemanticPluginTypes.strategy:
+    case SemanticSolutionTypes.strategy:
       return <Icon icon={faChessRook} size={size} />
-    case SemanticPluginTypes.explanation:
+    case SemanticSolutionTypes.explanation:
       return <Icon icon={faCommentDots} size={size} />
-    case SemanticPluginTypes.step:
+    case SemanticSolutionTypes.step:
       return <Icon icon={faPencilRuler} size={size} />
-    case SemanticPluginTypes.additionals:
+    case SemanticSolutionTypes.additionals:
       return <Icon icon={faSearchPlus} size={size} />
-    case SemanticPluginTypes.exercise:
+    case SemanticExerciseTypes.exercise:
       return <Icon icon={faEdit} size={size} />
   }
 }
 export function Content(
   props: React.PropsWithChildren<{
-    type: SemanticPluginTypes
+    type: SemanticArticleTypes | SemanticExerciseTypes | SemanticSolutionTypes
     isHalf?: boolean
     boxfree?: boolean
   }>

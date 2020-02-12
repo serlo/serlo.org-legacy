@@ -45,6 +45,17 @@ addContentTypeStories('Article', 'article', {
   meta_description: ''
 })
 
+addContentTypeStories('Semantic Article', 'article', {
+  id: 1337,
+  license,
+  changes: '',
+  title: 'Title',
+  content: '{"plugin": "semanticArticle" }',
+  reasoning: '',
+  meta_title: '',
+  meta_description: ''
+})
+
 addContentTypeStories('Course', 'course', {
   id: 1337,
   license,
