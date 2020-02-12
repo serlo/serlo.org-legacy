@@ -229,3 +229,14 @@ addContentTypeStories('Video', 'video', {
   description: '',
   content: 'https://www.youtube.com/watch?v=cIzM2XBduuY'
 })
+
+addContentTypeStories('Taxonomy', 'taxonomy', {
+  id: 1337,
+  term: {
+    name: 'Term name'
+  },
+  taxonomy: 1,
+  parent: 2,
+  position: 3,
+  description: ''
+})

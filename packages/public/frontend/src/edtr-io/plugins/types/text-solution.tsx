@@ -19,20 +19,44 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
+import { AddButton } from '@edtr-io/editor-ui'
+import {
+  EditorPlugin,
+  EditorPluginProps,
+  list,
+  child,
+  object,
+  string
+} from '@edtr-io/plugin'
+import { ExpandableBox } from '@edtr-io/renderer-ui'
+import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { Controls, editorContent, entity, entityType } from './common'
+import {
+  Controls,
+  entity,
+  entityType,
+  RemoveButton,
+  serialized
+} from './common'
 import { RevisionHistory } from './helpers/settings'
+
+const solutionState = list(child({ plugin: 'solutionSteps' }), 1)
+export type SolutionState = typeof solutionState
+export type SolutionProps = EditorPluginProps<SolutionState>
 
 export const textSolutionTypeState = entityType(
   {
     ...entity,
-    content: editorContent('solution')
+    content: serialized(
+      object({
+        plugin: string('rows'),
+        state: solutionState
+      })
+    )
   },
   {}
 )
-
 export type TextSolutionTypeProps = EditorPluginProps<
   typeof textSolutionTypeState,
   { skipControls: boolean }
@@ -59,10 +83,81 @@ function TextSolutionTypeEditor(props: TextSolutionTypeProps) {
           onSwitchRevision={props.state.replaceOwnState}
         />
       )}
-      {props.state.content.render()}
+      <SolutionEditor {...props} state={props.state.content.state} />
       {props.config.skipControls ? null : (
         <Controls subscriptions {...props.state} />
       )}
     </React.Fragment>
+  )
+}
+
+const solutionTheme = {
+  rendererUi: {
+    expandableBox: {
+      toggleBackgroundColor: '#d9edf7',
+      containerBorderColor: '#d9edf7'
+    }
+  }
+}
+
+const solutionContentTheme = {
+  rendererUi: {
+    expandableBox: {
+      toggleBackgroundColor: 'transparent',
+      containerBorderColor: 'transparent'
+    }
+  }
+}
+
+// TODO: replace later
+const removeMessage = 'Entferne die Lösung zu Teilaufgabe '
+
+function SolutionEditor({ state, editable }: SolutionProps) {
+  const renderTitle = React.useCallback((collapsed: boolean) => {
+    return (
+      <React.Fragment>
+        Lösung {collapsed ? 'anzeigen' : 'ausblenden'}
+      </React.Fragment>
+    )
+  }, [])
+
+  return (
+    <ThemeProvider theme={solutionTheme}>
+      <ExpandableBox renderTitle={renderTitle} editable={editable}>
+        {state.length > 1
+          ? state.map((solution, index) => {
+              const solutionNumber = index + 1
+              return (
+                <ThemeProvider key={solution.id} theme={solutionContentTheme}>
+                  <RemoveButton
+                    onClick={() => {
+                      state.remove(index)
+                    }}
+                    title={removeMessage + solutionNumber}
+                  >
+                    x
+                  </RemoveButton>
+                  <ExpandableBox
+                    renderTitle={() => {
+                      return `Lösung zu Teilaufgabe ${solutionNumber}`
+                    }}
+                  >
+                    {solution.render()}
+                  </ExpandableBox>
+                </ThemeProvider>
+              )
+            })
+          : state[0].render()}
+        {editable ? (
+          <AddButton
+            onClick={() => {
+              state.insert()
+            }}
+          >
+            Lösung für weitere Teilaufgabe hinzufügen
+          </AddButton>
+        ) : null}
+      </ExpandableBox>
+    </ThemeProvider>
   )
 }

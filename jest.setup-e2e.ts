@@ -19,22 +19,54 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Browser, launch, Page } from 'puppeteer'
+import {
+  logout,
+  toHaveAttribute,
+  toHaveHTMLContent,
+  toHaveTitle,
+  toHaveUrlPath,
+  toHaveCollapsable,
+  toHaveSystemNotification
+} from './packages/public/server/__tests-e2e__/_utils'
 
 setTimeout(60)
 
-let browser: Browser
-let page: Page
-
-beforeAll(async () => {
-  browser = await launch()
-  page = await browser.newPage()
+beforeAll(() => {
+  page.on('dialog', dialog => {
+    if (dialog.type() === 'beforeunload') {
+      dialog.accept()
+    }
+  })
 })
 
-afterAll(async () => {
-  await page.close()
-  await browser.close()
+afterEach(async () => {
+  await logout()
 })
+
+expect.extend({
+  toHaveAttribute,
+  toHaveHTMLContent,
+  toHaveTitle,
+  toHaveUrlPath,
+  toHaveCollapsable,
+  toHaveSystemNotification
+})
+
+declare global {
+  namespace jest {
+    interface Matchers<R, T> {
+      toHaveAttribute(attribute: string, value: any): Promise<R>
+      toHaveHTMLContent(content: string): Promise<R>
+      toHaveTitle(pageTitle: string): Promise<R>
+      toHaveUrlPath(urlPath: string): R
+      toHaveCollapsable(
+        collapsedContent: string,
+        toggleContent: string
+      ): Promise<R>
+      toHaveSystemNotification(notification: string): Promise<R>
+    }
+  }
+}
 
 function setTimeout(seconds: number) {
   jest.setTimeout(seconds * 1000)

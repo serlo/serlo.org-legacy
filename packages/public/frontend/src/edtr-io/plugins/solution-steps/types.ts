@@ -19,26 +19,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-
-import { getByText, getDocument, queryByText } from '../_utils'
-import { exampleApiParameters } from '../_config'
-
-const groupedTextExerciseUrl = 'http://de.serlo.localhost:4567/12727'
-
-test('grouped exercise has page header', async () => {
-  const $document = await gotoGroupedTextExercise()
-  await getByText($document, '12727', { selector: 'h1' })
-})
-
-test.each(exampleApiParameters)(
-  'grouped exercise has no heading when %p is set (content-api)',
-  async contentApiParam => {
-    const $document = await gotoGroupedTextExercise(`?${contentApiParam}`)
-    expect(await queryByText($document, '12727', { selector: 'h1' })).toBeNull()
-  }
-)
-
-async function gotoGroupedTextExercise(postFix = '') {
-  await page.goto(`${groupedTextExerciseUrl}${postFix}`)
-  return await getDocument(page)
+export enum SolutionElementType {
+  introduction = 'introduction',
+  strategy = 'strategy',
+  explanation = 'explanation',
+  step = 'step',
+  additionals = 'additionals'
 }

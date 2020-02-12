@@ -4,9 +4,9 @@
   "dependencies": {},
   "devDependencies": {
     "@types/ramda": "^0.26.0",
-    "@types/semver": "^6.0.0",
-    "ramda": "^0.26.0",
-    "semver": "^6.0.0"
+    "@types/semver": "^7.0.0",
+    "ramda": "^0.27.0",
+    "semver": "^7.0.0"
   },
   "private": true
 }

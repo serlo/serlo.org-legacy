@@ -39,6 +39,7 @@ import { coursePageTypePlugin } from './plugins/types/course-page'
 import { eventTypePlugin } from './plugins/types/event'
 import { mathPuzzleTypePlugin } from './plugins/types/math-puzzle'
 import { pageTypePlugin } from './plugins/types/page'
+import { taxonomyTypePlugin } from './plugins/types/taxonomy'
 import { textExerciseTypePlugin } from './plugins/types/text-exercise'
 import { textExerciseGroupTypePlugin } from './plugins/types/text-exercise-group'
 import { textHintTypePlugin } from './plugins/types/text-hint'
@@ -50,7 +51,6 @@ import { createImagePlugin } from './plugins/image'
 import { createImportantPlugin } from './plugins/important'
 import { injectionPlugin } from './plugins/injection'
 import { layoutPlugin } from './plugins/layout'
-import { createSolutionPlugin } from './plugins/solution'
 import { solutionStepsPlugin } from './plugins/solution-steps'
 import { tablePlugin } from './plugins/table'
 
@@ -87,11 +87,10 @@ export function createPlugins(
     }),
     rows: createRowsPlugin({ plugins: registry }),
     scMcExercise: createScMcExercisePlugin(),
-    solution: createSolutionPlugin(),
     solutionSteps: solutionStepsPlugin,
     spoiler: createSpoilerPlugin(),
     table: tablePlugin,
-    text: createTextPlugin({ registry: registry, blockquote: 'blockquote' }),
+    text: createTextPlugin({ registry, blockquote: 'blockquote' }),
     video: createVideoPlugin(),
 
     // Internal plugins for our content types
@@ -102,6 +101,7 @@ export function createPlugins(
     'type-event': eventTypePlugin,
     'type-math-puzzle': mathPuzzleTypePlugin,
     'type-page': pageTypePlugin,
+    'type-taxonomy': taxonomyTypePlugin,
     'type-text-exercise': textExerciseTypePlugin,
     'type-text-exercise-group': textExerciseGroupTypePlugin,
     'type-text-hint': textHintTypePlugin,

@@ -19,17 +19,4 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{% set options = entity().getOptions(entity) %}
-{% if options.hasComponent('repository') %}
-    {% if not entity.isUnrevised() and isGranted('entity.revision.create', entity) and isLegacyFormat(entity.getCurrentRevision().get(
-        options.getContent()
-    )) %}
-    <li>
-        <a href="{{ url('entity/repository/add-revision', {'entity': entity.getId()}) }}">
-            <span class="fa fa-pencil"></span>
-            {% trans %} Convert {% endtrans %}
-            <span class="label label-info pull-right">Beta</span>
-        </a>
-    </li>
-    {% endif %}
-{% endif %}
+{% trans %} Course has no course page. Please add one. {% endtrans %}

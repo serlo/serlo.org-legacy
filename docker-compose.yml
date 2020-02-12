@@ -12,7 +12,7 @@ services:
     image: redis:5.0
 
   hydra:
-    image: oryd/hydra:v1.0
+    image: oryd/hydra:v1.2.3
     ports:
       - '4444:4444'
       - '4445:4445'
