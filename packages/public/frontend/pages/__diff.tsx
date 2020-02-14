@@ -189,18 +189,13 @@ function prettify(
     if (isEdtr(parsedNew)) {
       const oldEdtr = isEdtr(parsed) ? parsed : convert(parsed)
       return [
-        JSON.stringify(cleanEdtrState(oldEdtr), null, ' '),
-        JSON.stringify(cleanEdtrState(parsedNew), null, ' ')
+        JSON.stringify(cleanEdtrState(oldEdtr), null, 1),
+        JSON.stringify(cleanEdtrState(parsedNew), null, 1)
       ]
     }
-
-    return [
-      JSON.stringify(parsed, null, ' '),
-      JSON.stringify(parsedNew, null, ' ')
-    ]
+    return [JSON.stringify(parsed, null, 1), JSON.stringify(parsedNew, null, 1)]
   } catch (e) {
     // was no json.
+    return [oldStringified.trim(), newStringified.trim()]
   }
-
-  return [oldStringified.trim(), newStringified.trim()]
 }

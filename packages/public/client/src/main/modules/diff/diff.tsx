@@ -38,7 +38,6 @@ export function initDiff() {
       const title = $(el).data('field-name')
       const $old = $('.revision-compare-old', el)
       const $new = $('.revision-compare-new', el)
-
       const diff = createPatch(title, ...prettify($old.text(), $new.text()))
       const html = Diff2Html.getPrettyHtml(diff, {
         inputFormat: 'diff',
@@ -172,18 +171,13 @@ function prettify(
     if (isEdtr(parsedNew)) {
       const oldEdtr = isEdtr(parsed) ? parsed : convert(parsed)
       return [
-        JSON.stringify(cleanEdtrState(oldEdtr), null, ' '),
-        JSON.stringify(cleanEdtrState(parsedNew), null, ' ')
+        JSON.stringify(cleanEdtrState(oldEdtr), null, 1),
+        JSON.stringify(cleanEdtrState(parsedNew), null, 1)
       ]
     }
-
-    return [
-      JSON.stringify(parsed, null, ' '),
-      JSON.stringify(parsedNew, null, ' ')
-    ]
+    return [JSON.stringify(parsed, null, 2), JSON.stringify(parsedNew, null, 1)]
   } catch (e) {
     // was no json.
+    return [oldStringified.trim(), newStringified.trim()]
   }
-
-  return [oldStringified.trim(), newStringified.trim()]
 }
