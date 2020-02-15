@@ -84,12 +84,7 @@ export function htmlToSlate(html: string) {
           if (el.tagName && el.tagName.toLowerCase() === 'br') {
             return {
               object: 'text',
-              leaves: [
-                {
-                  object: 'leaf',
-                  text: '\n'
-                }
-              ]
+              text: '\n'
             }
           }
 
@@ -99,13 +94,8 @@ export function htmlToSlate(html: string) {
 
             return {
               object: 'text',
-              leaves: [
-                {
-                  object: 'leaf',
-                  // @ts-ignore
-                  text: el.value
-                }
-              ]
+              // @ts-ignore
+              text: el.value
             }
           }
         }

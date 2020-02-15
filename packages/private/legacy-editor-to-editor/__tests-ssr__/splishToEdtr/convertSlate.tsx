@@ -19,54 +19,238 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 import { htmlToSlate } from '../../src/splishToEdtr/convertSlate'
 
 describe('slate serializer and deserializer work', () => {
   it('can handle empty paragraphs', () => {
     const html = '<p></p>'
 
-    expect(htmlToSlate(html)).toEqual(
-      JSON.parse(
-        '{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","type":"paragraph","nodes":[]}]}}'
-      )
-    )
+    expect(htmlToSlate(html)).toEqual({
+      object: 'value',
+      document: {
+        object: 'document',
+        data: {},
+        nodes: [{ object: 'block', type: 'paragraph', data: {}, nodes: [] }]
+      }
+    })
   })
   it('works with normal text.', () => {
     const html = 'This was created with'
 
-    expect(htmlToSlate(html)).toEqual(
-      JSON.parse(
-        '{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","data":{},"type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":"This was created with"}]}]}]}}'
-      )
-    )
+    expect(htmlToSlate(html)).toEqual({
+      object: 'value',
+      document: {
+        object: 'document',
+        data: {},
+        nodes: [
+          {
+            object: 'block',
+            data: {},
+            type: 'paragraph',
+            nodes: [
+              {
+                object: 'text',
+                text: 'This was created with',
+                marks: []
+              }
+            ]
+          }
+        ]
+      }
+    })
   })
 
   it('works with normal paragraphs and marks.', () => {
     const html = '<p>This was created with <strong>Splish</strong> editor.</p>'
-    expect(htmlToSlate(html)).toEqual(
-      JSON.parse(
-        '{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":"This was created with "}]},{"object":"text","leaves":[{"object":"leaf","text":"Splish","marks":[{"type":"@splish-me/strong"}]}]},{"object":"text","leaves":[{"object":"leaf","text":" editor."}]}]}]}}'
-      )
-    )
+    expect(htmlToSlate(html)).toEqual({
+      object: 'value',
+      document: {
+        object: 'document',
+        data: {},
+        nodes: [
+          {
+            object: 'block',
+            type: 'paragraph',
+            data: {},
+            nodes: [
+              {
+                object: 'text',
+                text: 'This was created with ',
+                marks: []
+              },
+              {
+                object: 'text',
+                text: 'Splish',
+                marks: [{ type: '@splish-me/strong' }]
+              },
+              { object: 'text', text: ' editor.', marks: [] }
+            ]
+          }
+        ]
+      }
+    })
   })
 
   it('works with list', () => {
     const html = '<ul><li><p>foo</p></li><li><p>bar</p></li></ul>'
-    expect(htmlToSlate(html)).toEqual(
-      JSON.parse(
-        '{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","type":"unordered-list","nodes":[{"object":"block","type":"list-item","nodes":[{"object":"block","type":"list-item-child","nodes":[{"object":"block","type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":"foo"}]}]}]}]},{"object":"block","type":"list-item","nodes":[{"object":"block","type":"list-item-child","nodes":[{"object":"block","type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":"bar"}]}]}]}]}]}]}}'
-      )
-    )
+    expect(htmlToSlate(html)).toEqual({
+      object: 'value',
+      document: {
+        object: 'document',
+        data: {},
+        nodes: [
+          {
+            object: 'block',
+            type: 'unordered-list',
+            data: {},
+            nodes: [
+              {
+                object: 'block',
+                type: 'list-item',
+                data: {},
+                nodes: [
+                  {
+                    object: 'block',
+                    type: 'list-item-child',
+                    nodes: [
+                      {
+                        object: 'block',
+                        type: 'paragraph',
+                        data: {},
+                        nodes: [
+                          {
+                            object: 'text',
+                            text: 'foo',
+                            marks: []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                object: 'block',
+                type: 'list-item',
+                data: {},
+                nodes: [
+                  {
+                    object: 'block',
+                    type: 'list-item-child',
+                    nodes: [
+                      {
+                        object: 'block',
+                        type: 'paragraph',
+                        data: {},
+                        nodes: [
+                          {
+                            object: 'text',
+                            text: 'bar',
+                            marks: []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    })
   })
 
   it('works with real html from splish slate', () => {
     const html =
       '<p>This was created with <strong>Splish</strong> editor.</p><ul><li><p>foo</p></li><li><p>bar</p></li></ul>'
-    expect(htmlToSlate(html)).toEqual(
-      JSON.parse(
-        '{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":"This was created with "}]},{"object":"text","leaves":[{"object":"leaf","text":"Splish","marks":[{"type":"@splish-me/strong"}]}]},{"object":"text","leaves":[{"object":"leaf","text":" editor."}]}]},{"object":"block","type":"unordered-list","nodes":[{"object":"block","type":"list-item","nodes":[{"object":"block","type":"list-item-child","nodes":[{"object":"block","type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":"foo"}]}]}]}]},{"object":"block","type":"list-item","nodes":[{"object":"block","type":"list-item-child","nodes":[{"object":"block","type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":"bar"}]}]}]}]}]}]}}'
-      )
-    )
+    expect(htmlToSlate(html)).toEqual({
+      object: 'value',
+      document: {
+        object: 'document',
+        data: {},
+        nodes: [
+          {
+            object: 'block',
+            type: 'paragraph',
+            data: {},
+            nodes: [
+              {
+                object: 'text',
+                text: 'This was created with ',
+                marks: []
+              },
+              {
+                object: 'text',
+                text: 'Splish',
+                marks: [{ type: '@splish-me/strong', data: undefined }]
+              },
+              {
+                object: 'text',
+                text: ' editor.',
+                marks: []
+              }
+            ]
+          },
+          {
+            object: 'block',
+            type: 'unordered-list',
+            data: {},
+            nodes: [
+              {
+                object: 'block',
+                type: 'list-item',
+                data: {},
+                nodes: [
+                  {
+                    object: 'block',
+                    type: 'list-item-child',
+                    nodes: [
+                      {
+                        object: 'block',
+                        type: 'paragraph',
+                        data: {},
+                        nodes: [
+                          {
+                            object: 'text',
+                            text: 'foo',
+                            marks: []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                object: 'block',
+                type: 'list-item',
+                data: {},
+                nodes: [
+                  {
+                    object: 'block',
+                    type: 'list-item-child',
+                    nodes: [
+                      {
+                        object: 'block',
+                        type: 'paragraph',
+                        data: {},
+                        nodes: [
+                          {
+                            object: 'text',
+                            text: 'bar',
+                            marks: []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    })
   })
 })

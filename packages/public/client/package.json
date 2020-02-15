@@ -1,6 +1,6 @@
 {
   "name": "@serlo/client",
-  "version": "9.1.4",
+  "version": "9.1.5",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config --output-public-path=https://packages.serlo.org/serlo-org-client@$npm_package_version/",

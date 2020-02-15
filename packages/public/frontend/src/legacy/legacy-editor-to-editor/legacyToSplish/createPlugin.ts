@@ -19,13 +19,34 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Plugin } from '@serlo/editor-plugins-registry'
 import { v4 } from 'uuid'
 
 import markdownToSlate from './markdownToSlate'
 import { Element, LinkedImagesTMP, NormalizedObject } from './normalizeMarkdown'
 import { ValueJSON } from 'slate'
 import { ContentCell, Splish } from '../splishToEdtr/types'
+
+enum Plugin {
+  AlphabetSort = '@serlo-org/alphabet-sort',
+  Anchor = '@serlo-org/anchor',
+  Blockquote = '@serlo-org/blockquote',
+  Equations = '@serlo-org/equations',
+  Geogebra = '@serlo-org/geogebra',
+  H5p = '@serlo-org/h5p',
+  Highlight = '@serlo-org/highlight',
+  Hint = '@serlo-org/hint',
+  Image = '@splish-me/image',
+  Injection = '@serlo-org/injection',
+  InputExercise = '@serlo-org/input-exercise',
+  License = '@serlo-org/license',
+  MatchingExercise = '@serlo-org/matching-exercise',
+  ScMcExercise = '@serlo-org/sc-mc-exercise',
+  Solution = '@serlo-org/solution',
+  Spoiler = '@serlo-org/spoiler',
+  StepByStep = '@serlo-org/step-by-step',
+  Table = '@serlo-org/table',
+  Text = '@splish-me/slate'
+}
 
 const createPlugins = ({ normalized, elements }: NormalizedObject) => {
   const split = normalized
