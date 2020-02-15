@@ -5,35 +5,35 @@ jobs:
   notifications-job:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: docker build -f packages/public/notifications-job/Dockerfile -t serlo-org-notifications-job:latest .
   editor-renderer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: docker build -f packages/public/editor-renderer/Dockerfile -t serlo-org-editor-renderer:latest .
   frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: docker build -f packages/public/frontend/docker/Dockerfile -t serlo-org-frontend:latest .
   legacy-editor-renderer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: docker build -f packages/public/legacy-editor-renderer/Dockerfile -t serlo-org-legacy-editor-renderer:latest .
   httpd:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: docker build -f packages/public/server/docker/httpd/Dockerfile -t serlo-org-httpd:latest packages/public/server
   php:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: docker build -f packages/public/server/docker/php/Dockerfile -t serlo-org-php:latest packages/public/server
   migrate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: docker build -f packages/public/server/docker/migrate/Dockerfile -t serlo-org-migrate:latest packages/public/server

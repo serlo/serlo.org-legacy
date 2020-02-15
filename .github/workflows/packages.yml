@@ -7,7 +7,7 @@ jobs:
   client:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
@@ -25,7 +25,7 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
@@ -43,7 +43,7 @@ jobs:
   static-assets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
