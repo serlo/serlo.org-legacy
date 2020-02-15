@@ -20,10 +20,9 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as R from 'ramda'
-import { Plugin } from '@serlo/editor-plugins-registry'
 //@ts-ignore
 import unexpected from 'unexpected'
-import { ContentCell } from '../src/splishToEdtr/types'
+import { ContentCell, Plugin } from '../src/splishToEdtr/types'
 import { SplishTextState } from '../src/legacyToSplish/createPlugin'
 
 const expectInstance = unexpected.clone()

@@ -20,7 +20,6 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { serializer } from '@edtr-io/plugin-text'
-import { Plugin } from '@serlo/editor-plugins-registry'
 
 import {
   convert,
@@ -29,7 +28,7 @@ import {
 } from '@serlo/legacy-editor-to-editor'
 import { expect, expectSplishSlate } from '../common'
 import { htmlToSlate } from '../../src/splishToEdtr/convertSlate'
-import { Edtr, Legacy, Splish } from '../../src/splishToEdtr'
+import { Edtr, Legacy, Splish, Plugin } from '../../src/splishToEdtr'
 
 const cases: {
   description: string

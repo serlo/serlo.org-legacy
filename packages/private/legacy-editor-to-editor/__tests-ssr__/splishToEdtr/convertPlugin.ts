@@ -19,14 +19,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Plugin } from '@serlo/editor-plugins-registry'
 import { convertPlugin } from '../../src/splishToEdtr/convertPlugins'
 import { expect } from '../common'
 import {
   SplishImageState,
   SplishSpoilerState
 } from '../../src/legacyToSplish/createPlugin'
-import { ContentCell } from '../../src/splishToEdtr/types'
+import { ContentCell, Plugin } from '../../src/splishToEdtr/types'
 
 describe('plugin convert works', () => {
   it('works with Spoiler wrapping an image', () => {

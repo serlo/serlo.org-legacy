@@ -20,7 +20,6 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { serializer } from '@edtr-io/plugin-text'
-import { Plugin } from '@serlo/editor-plugins-registry'
 import {
   SplishBlockquoteState,
   SplishCodeState,
@@ -32,7 +31,7 @@ import {
   SplishTextState
 } from '../legacyToSplish/createPlugin'
 import { convertOldSlate, htmlToSlate } from './convertSlate'
-import { ContentCell, OtherPlugin } from './types'
+import { ContentCell, OtherPlugin, Plugin } from './types'
 import { convertSplishToEdtrIO } from '..'
 
 export function convertPlugin(cell: ContentCell): OtherPlugin {

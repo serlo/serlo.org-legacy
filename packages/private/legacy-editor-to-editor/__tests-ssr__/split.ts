@@ -23,7 +23,7 @@
 import { expect, expectSplishSlate } from './common'
 import split from '../src/legacyToSplish/split'
 
-import { Plugin } from '@serlo/editor-plugins-registry'
+import { Plugin } from '../src/splishToEdtr/types'
 import transform from '../src/legacyToSplish/transform'
 
 const cases: {

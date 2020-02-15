@@ -19,9 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Plugin } from '@serlo/editor-plugins-registry'
-
-import { ContentCell } from '../splishToEdtr/types'
+import { ContentCell, Plugin } from '../splishToEdtr/types'
 import { SplishTextState } from './createPlugin'
 import renderMarkdown from './markdownToHtml'
 

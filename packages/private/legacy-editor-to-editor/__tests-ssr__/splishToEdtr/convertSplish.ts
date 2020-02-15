@@ -20,14 +20,10 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { serializer } from '@edtr-io/plugin-text'
-import { Plugin } from '@serlo/editor-plugins-registry'
-
-import {
-  convertSplishToEdtrIO
-} from '@serlo/legacy-editor-to-editor'
+import { convertSplishToEdtrIO } from '@serlo/legacy-editor-to-editor'
 import { expect } from '../common'
 import { htmlToSlate } from '../../src/splishToEdtr/convertSlate'
-import { Edtr, Legacy, Splish } from '../../src/splishToEdtr'
+import { Edtr, Splish, Plugin } from '../../src/splishToEdtr'
 
 const cases: {
   description: string
@@ -173,8 +169,12 @@ const cases: {
       state: [
         {
           plugin: 'text',
-          state: serializer.serialize(htmlToSlate('<p>This was created with <strong>Splish</strong> editor.</p><p></p><ul><li><p>foo</p></li><li><p>bar</p></li></ul>'))
-        },
+          state: serializer.serialize(
+            htmlToSlate(
+              '<p>This was created with <strong>Splish</strong> editor.</p><p></p><ul><li><p>foo</p></li><li><p>bar</p></li></ul>'
+            )
+          )
+        }
       ]
     }
   }
@@ -183,7 +183,11 @@ const cases: {
 cases.forEach(testcase => {
   describe('Transformes Splish state to editor state', () => {
     it(testcase.description, () => {
-      expect(convertSplishToEdtrIO(testcase.splish), 'to equal', testcase.edtrIO)
+      expect(
+        convertSplishToEdtrIO(testcase.splish),
+        'to equal',
+        testcase.edtrIO
+      )
     })
   })
 })

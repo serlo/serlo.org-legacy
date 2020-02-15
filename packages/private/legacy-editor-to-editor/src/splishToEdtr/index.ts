@@ -25,6 +25,7 @@ import { Cell, isContentCell, LayoutPlugin, OtherPlugin, Row } from './types'
 import { convertPlugin } from './convertPlugins'
 
 export {
+  Plugin,
   LayoutPlugin,
   RowsPlugin,
   Edtr,
