@@ -48,7 +48,6 @@ describe('view exercises', () => {
     exercise: {
       id: '35573',
       content: 'Example test exercise',
-      hintContent: 'Example hint',
       solutionContent: 'Example solution'
     },
     exerciseGroup: {
@@ -59,19 +58,16 @@ describe('view exercises', () => {
       {
         id: '35581',
         content: 'Subexercise 1',
-        hintContent: 'Hint subexercise 1',
         solutionContent: 'Solution subexercise 1'
       },
       {
         id: '35584',
         content: 'Subexercise 2',
-        hintContent: '',
         solutionContent: 'Solution subexercise 2'
       },
       {
         id: '35586',
         content: 'Subexercise 3',
-        hintContent: '',
         solutionContent: 'Solution subexercise 3'
       }
     ]
@@ -84,15 +80,11 @@ describe('view exercises', () => {
   describe('view text exercise', () => {
     const path = `/math/example-content/example-topic-1/example-topic-folder/${data.exercise.id}`
 
-    test('text exercise with hint and solution', async () => {
+    test('text exercise with solution', async () => {
       const page = await goto(path)
       await expect(page).not.toMatchElement('h1')
       await expect(page).toMatchElement('*', { text: data.exercise.content })
 
-      await expect(page).toHaveCollapsable(
-        data.exercise.hintContent,
-        'Show hint'
-      )
       await expect(page).toHaveCollapsable(
         data.exercise.solutionContent,
         'Show solution'
@@ -125,11 +117,6 @@ describe('view exercises', () => {
         })
       }
 
-      await expect(page).toHaveCollapsable(
-        data.groupedExercises[0].hintContent,
-        'Show hint'
-      )
-
       const solutionHandles = await getAllByText(page, 'Show solution')
       for (const solutionHandle of solutionHandles) {
         await click(solutionHandle)
@@ -153,19 +140,13 @@ describe('view exercises', () => {
   })
 
   describe('view grouped text exercise', () => {
-    const {
-      id,
-      content,
-      hintContent,
-      solutionContent
-    } = data.groupedExercises[0]
+    const { id, content, solutionContent } = data.groupedExercises[0]
     const path = `/math/example-content/example-topic-1/example-topic-folder/${data.exerciseGroup.id}/${id}`
 
-    test('grouped exercise with hint and solution', async () => {
+    test('grouped exercise with solution', async () => {
       const page = await goto(path)
       await expect(page).toMatchElement('*', { text: content })
 
-      await expect(page).toHaveCollapsable(hintContent, 'Show hint')
       await expect(page).toHaveCollapsable(solutionContent, 'Show solution')
     })
 
@@ -199,7 +180,6 @@ describe('view exercises', () => {
 describe('create text-exercise', () => {
   test.each(['admin', 'english_langhelper'])('user is %p', async user => {
     const exercise = randomText('exercise content')
-    const hint = randomText('hint')
     const solution = randomText('solution')
 
     await login(user)
@@ -209,9 +189,6 @@ describe('create text-exercise', () => {
     )
 
     await getByRole(createPage, 'textbox').then(e => e.type(exercise))
-
-    await getByText(createPage, 'Hinweis hinzufügen').then(click)
-    await typeIntoEditor(createPage, 1, hint)
 
     await getByText(createPage, 'Lösung hinzufügen').then(click)
     await typeIntoEditor(createPage, 2, solution)
@@ -225,7 +202,6 @@ describe('create text-exercise', () => {
     await expect(success).toHaveTitle('Math text-exercise')
     await expect(success).toMatchElement('*', { text: exercise })
 
-    await expect(success).toHaveCollapsable(hint, 'Show hint')
     await expect(success).toHaveCollapsable(solution, 'Show solution')
   })
 })
@@ -235,7 +211,6 @@ describe('create grouped text-exercise', () => {
     const exercise = randomText('exercise content')
     const subexercise1 = randomText('subexercise1')
     const subexercise2 = randomText('subexercise2')
-    const hint1 = randomText('hint1')
     const solution1 = randomText('solution1')
 
     await login(user)
@@ -248,9 +223,6 @@ describe('create grouped text-exercise', () => {
 
     await getByText(createPage, 'Teilaufgabe hinzufügen').then(click)
     await typeIntoEditor(createPage, 1, subexercise1)
-
-    await getByText(createPage, 'Hinweis hinzufügen').then(click)
-    await typeIntoEditor(createPage, 2, hint1)
 
     await getByText(createPage, 'Lösung hinzufügen').then(click)
     await typeIntoEditor(createPage, 3, solution1)
@@ -269,7 +241,6 @@ describe('create grouped text-exercise', () => {
     await expect(result).toMatchElement('*', { text: exercise })
     await expect(result).toMatchElement('*', { text: subexercise1 })
     await expect(result).toMatchElement('*', { text: subexercise2 })
-    await expect(result).toHaveCollapsable(hint1, 'Show hint')
     await expect(result).toMatchElement('*', { text: solution1 })
   })
 })

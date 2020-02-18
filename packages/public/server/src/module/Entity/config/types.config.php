@@ -64,9 +64,6 @@ return [
                             'text-solution' => [
                                 'multiple' => false,
                             ],
-                            'text-hint' => [
-                                'multiple' => false,
-                            ],
                         ],
                     ],
                     'license' => [],
@@ -88,9 +85,6 @@ return [
                     'link' => [
                         'children' => [
                             'text-solution' => [
-                                'multiple' => false,
-                            ],
-                            'text-hint' => [
                                 'multiple' => false,
                             ],
                             'single-choice-right-answer' => [

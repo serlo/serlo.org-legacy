@@ -71,7 +71,6 @@ export function deserialize({
     'grouped-text-exercise': { deserialize: deserializeTextExercise },
     'text-exercise': { deserialize: deserializeTextExercise },
     'text-exercise-group': { deserialize: deserializeTextExerciseGroup },
-    'text-hint': { deserialize: deserializeTextHint },
     'text-solution': { deserialize: deserializeTextSolution },
     user: { deserialize: deserializeUser },
     video: { deserialize: deserializeVideo },
@@ -286,7 +285,6 @@ export function deserialize({
 
   function deserializeTextExercise({
     content,
-    'text-hint': textHint,
     'text-solution': textSolution,
     'single-choice-right-answer': singleChoiceRightAnswer,
     'single-choice-wrong-answer': singleChoiceWrongAnswer,
@@ -320,9 +318,6 @@ export function deserialize({
         state: {
           ...state,
           changes: '',
-          'text-hint': textHint
-            ? deserializeTextHint(textHint).initialState.state
-            : '',
           'text-solution': textSolution
             ? deserializeTextSolution(textSolution).initialState.state
             : '',
@@ -539,25 +534,6 @@ export function deserialize({
     }
   }
 
-  function deserializeTextHint(
-    state: TextHintSerializedState
-  ): DeserializedState<typeof textSolutionTypeState> {
-    stack.push({ id: state.id, type: 'text-hint' })
-    return {
-      initialState: {
-        plugin: 'type-text-hint',
-        state: {
-          ...state,
-          changes: '',
-          content: serializeEditorState(
-            toEdtr(deserializeEditorState(state.content))
-          )
-        }
-      },
-      converted: !isEdtr(deserializeEditorState(state.content) || empty)
-    }
-  }
-
   function deserializeTextSolution(
     state: TextSolutionSerializedState
   ): DeserializedState<typeof textSolutionTypeState> {
@@ -742,7 +718,6 @@ export function deserialize({
 
   interface TextExerciseSerializedState extends Entity {
     content: SerializedEditorState
-    'text-hint'?: TextHintSerializedState
     'text-solution'?: TextSolutionSerializedState
     'single-choice-right-answer'?: {
       content: SerializedLegacyEditorState
@@ -773,10 +748,6 @@ export function deserialize({
   interface TextExerciseGroupSerializedState extends Entity {
     content: SerializedEditorState
     'grouped-text-exercise'?: TextExerciseSerializedState[]
-  }
-
-  interface TextHintSerializedState extends Entity {
-    content: SerializedEditorState
   }
 
   interface TextSolutionSerializedState extends Entity {
