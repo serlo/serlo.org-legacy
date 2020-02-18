@@ -39,7 +39,6 @@ export const textExerciseTypeState = entityType(
     content: editorContent()
   },
   {
-    'text-hint': optionalSerializedChild('type-text-hint'),
     'text-solution': optionalSerializedChild('type-text-solution')
   }
 )
@@ -61,11 +60,7 @@ export function TextExerciseTypeEditor(
     { skipControls: boolean }
   >
 ) {
-  const {
-    content,
-    'text-hint': textHint,
-    'text-solution': textSolution
-  } = props.state
+  const { content, 'text-solution': textSolution } = props.state
 
   return (
     <article className="text-exercise">
@@ -77,22 +72,6 @@ export function TextExerciseTypeEditor(
         />
       )}
       {content.render()}
-      {textHint.id ? (
-        <OptionalChild
-          state={textHint}
-          onRemove={() => {
-            textHint.remove()
-          }}
-        />
-      ) : (
-        <AddButton
-          onClick={() => {
-            textHint.create()
-          }}
-        >
-          Hinweis hinzufügen
-        </AddButton>
-      )}
       {textSolution.id ? (
         <OptionalChild
           state={textSolution}

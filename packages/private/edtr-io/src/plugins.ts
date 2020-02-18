@@ -42,7 +42,6 @@ import { pageTypePlugin } from './plugins/types/page'
 import { taxonomyTypePlugin } from './plugins/types/taxonomy'
 import { textExerciseTypePlugin } from './plugins/types/text-exercise'
 import { textExerciseGroupTypePlugin } from './plugins/types/text-exercise-group'
-import { textHintTypePlugin } from './plugins/types/text-hint'
 import { textSolutionTypePlugin } from './plugins/types/text-solution'
 import { userTypePlugin } from './plugins/types/user'
 import { videoTypePlugin } from './plugins/types/video'
@@ -104,7 +103,6 @@ export function createPlugins(
     'type-taxonomy': taxonomyTypePlugin,
     'type-text-exercise': textExerciseTypePlugin,
     'type-text-exercise-group': textExerciseGroupTypePlugin,
-    'type-text-hint': textHintTypePlugin,
     'type-text-solution': textSolutionTypePlugin,
     'type-user': userTypePlugin,
     'type-video': videoTypePlugin

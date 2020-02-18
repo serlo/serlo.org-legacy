@@ -107,9 +107,9 @@ services:
       context: packages/public/server
       dockerfile: docker/migrate/Dockerfile
     volumes:
-      - ./packages/public/server/migrations:/app/migrations:delegated
+      - ./packages/public/server/migrations:/usr/src/app/migrations:delegated
     environment:
-      - DATABASE=mysql://root:secret@tcp(mysql:3306)/serlo?query
+      - DATABASE=mysql://root:secret@mysql:3306/serlo?query
 
   static-assets:
     image: nginx

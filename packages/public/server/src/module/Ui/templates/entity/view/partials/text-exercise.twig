@@ -23,8 +23,6 @@
 {% set legacyFormat = isLegacyFormat(revision.get('content')) %}
 {% set solution = entity.getChildren('link', 'text-solution').first() %}
 {% set showSolution = (solution and solution.hasCurrentRevision() and not solution.isTrashed()) %}
-{% set hint = entity.getChildren('link', 'text-hint').first() %}
-{% set showHint = (hint and hint.hasCurrentRevision() and not hint.isTrashed()) %}
 {% set singleChoices = singleChoice().fetchSingleChoice(entity) %}
 {% set multipleChoices = multipleChoice().fetchMultipleChoice(entity) %}
 {% set rightContent = 'Right!' | trans %}
@@ -162,13 +160,6 @@
             </section>
         {% endif %}
     {% endif %}
-    {% if showHint %}
-        <div class="solution collapsed" data-toggle="collapse"
-             data-target="#hint-{{ hint.getId() }}">
-            <a class="collapse-show-label">{% trans %} Show hint {% endtrans %}<span class="caret"></span></a>
-            <a class="collapse-hide-label">{% trans %} Hide hint {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
-        </div>
-    {% endif %}
     {% if showSolution %}
         {# legacy format with interactive elements already display the handle for the solution in different places #}
         {% if not legacyFormat or (singleChoices|length == 0 and multipleChoices|length == 0 and not inputChallenge) %}
@@ -187,11 +178,6 @@
                 'showSolution': showSolution,
                 'collapse': true
             } only %}
-        </section>
-    {% endif %}
-    {% if showHint %}
-        <section>
-            {% include 'entity/view/default' with {'entity': hint, 'collapse': true} only %}
         </section>
     {% endif %}
     {% if showSolution %}

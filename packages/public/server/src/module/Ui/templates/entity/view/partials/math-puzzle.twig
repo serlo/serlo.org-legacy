@@ -23,8 +23,6 @@
 {% set source = revision.get('source') | escape %}
 {% set solution = entity.getChildren('link', 'text-solution').first() %}
 {% set showSolution = (solution and solution.hasCurrentRevision() and not solution.isTrashed()) %}
-{% set hint = entity.getChildren('link', 'text-hint').first() %}
-{% set showHint = (hint and hint.hasCurrentRevision() and not hint.isTrashed()) %}
 
 <article class="text-exercise" itemscope itemtype="http://schema.org/Article">
     <section class="row">
@@ -43,24 +41,12 @@
             </div>
         </div>
     </section>
-    {% if showHint %}
-        <div class="solution collapsed" data-toggle="collapse"
-             data-target="#hint-{{ hint.getId() }}">
-            <a class="collapse-show-label">{% trans %} Show hint {% endtrans %}<span class="caret"></span></a>
-            <a class="collapse-hide-label">{% trans %} Hide hint {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
-        </div>
-    {% endif %}
     {% if showSolution %}
         <div class="solution collapsed" data-toggle="collapse"
              data-target="#solution-{{ solution.getId() }}">
             <a class="collapse-show-label">{% trans %} Show solution {% endtrans %}<span class="caret"></span></a>
             <a class="collapse-hide-label">{% trans %} Hide solution {% endtrans %}<span class="dropup"><span class="caret"></span></span></a>
         </div>
-    {% endif %}
-    {% if showHint %}
-        <section>
-            {% include 'entity/view/default' with {'entity': hint, 'collapse': true} only %}
-        </section>
     {% endif %}
     {% if showSolution %}
         <section>

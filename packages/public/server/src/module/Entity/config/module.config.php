@@ -174,7 +174,6 @@ return [
             __NAMESPACE__ . '\Form\TextExerciseForm' => __NAMESPACE__ . '\Factory\TextExerciseFormFactory',
             __NAMESPACE__ . '\Form\TextExerciseGroupForm' => __NAMESPACE__ . '\Factory\TextExerciseGroupFormFactory',
             __NAMESPACE__ . '\Form\TextSolutionForm' => __NAMESPACE__ . '\Factory\TextSolutionFormFactory',
-            __NAMESPACE__ . '\Form\TextHintForm' => __NAMESPACE__ . '\Factory\TextHintFormFactory',
             __NAMESPACE__ . '\Form\VideoForm' => __NAMESPACE__ . '\Factory\VideoFormFactory',
             __NAMESPACE__ . '\Form\MathPuzzleForm' => __NAMESPACE__ . '\Factory\MathPuzzleFormFactory',
             __NAMESPACE__ . '\Form\InputChallengeForm' => __NAMESPACE__ . '\Factory\InputChallengeFormFactory',
