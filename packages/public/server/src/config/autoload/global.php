@@ -45,9 +45,6 @@ return [
     // (KeyValueStore Module)
     'key_value_store' => $keyValueStore,
 
-    // (MessageQueue Module)
-    'message_queue' => $messageQueue,
-
     // Branding, one entry per instance (Ui Module)
     'brand' => [
         'instances' => [
