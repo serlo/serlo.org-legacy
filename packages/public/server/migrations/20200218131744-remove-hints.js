@@ -5,25 +5,22 @@
 exports.up = function(db, cb) {
   db.all("SELECT id FROM type WHERE name = 'text-hint'", (err, results) => {
     if (err) {
-      console.log(err)
-      return
+      cb(err)
     }
     if (results.length !== 1) {
-      console.log('Expected type `text-hint` to exist')
-      return
+      cb(new Error('Expected type `text-hint` to exist'))
     }
+
     const { id } = results[0]
     db.runSql(
-      `DELETE FROM uuid WHERE id = ANY(SELECT id FROM entity WHERE type_id = ?)`,
+      `DELETE FROM uuid WHERE id = ANY (SELECT id FROM entity WHERE type_id = ?)`,
       id,
       cb
     )
   })
 }
 
-exports.down = function() {
-  return null
-}
+exports.down = function() {}
 
 exports._meta = {
   version: 1
