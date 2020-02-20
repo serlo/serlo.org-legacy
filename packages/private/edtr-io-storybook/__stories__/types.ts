@@ -130,27 +130,6 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
       }
     }
   },
-  {
-    name: 'w/ solution and hint',
-    state: {
-      id: 1337,
-      license,
-      changes: '',
-      content: '',
-      'text-hint': {
-        id: 1338,
-        license,
-        changes: '',
-        content: ''
-      },
-      'text-solution': {
-        id: 1339,
-        license,
-        changes: '',
-        content: ''
-      }
-    }
-  }
 ])
 
 addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
@@ -182,12 +161,6 @@ addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
       license,
       changes: '',
       content: '',
-      'text-hint': {
-        id: 1342,
-        license,
-        changes: '',
-        content: ''
-      },
       'text-solution': {
         id: 1343,
         license,
