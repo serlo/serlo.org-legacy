@@ -1,14 +1,14 @@
 /**
  * Removes all entities of type `text-hint` from the database.
- * THIS IS A DESTRUCTIVE MIGRATION!
+ * THIS IS AN IRREVERSIBLE MIGRATION!
  */
 exports.up = function(db, cb) {
   db.all("SELECT id FROM type WHERE name = 'text-hint'", (err, results) => {
     if (err) {
-      cb(err)
+      return cb(err)
     }
     if (results.length !== 1) {
-      cb(new Error('Expected type `text-hint` to exist'))
+      return cb(new Error('Expected type `text-hint` to exist'))
     }
 
     const { id } = results[0]
@@ -20,7 +20,9 @@ exports.up = function(db, cb) {
   })
 }
 
-exports.down = function() {}
+exports.down = function(db, cb) {
+  cb()
+}
 
 exports._meta = {
   version: 1

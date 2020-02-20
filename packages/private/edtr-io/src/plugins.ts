@@ -50,7 +50,8 @@ import { createImagePlugin } from './plugins/image'
 import { createImportantPlugin } from './plugins/important'
 import { injectionPlugin } from './plugins/injection'
 import { layoutPlugin } from './plugins/layout'
-import { solutionStepsPlugin } from './plugins/solution-steps'
+import { separatorPlugin } from './plugins/separator'
+import { solutionPlugin } from './plugins/solution'
 import { tablePlugin } from './plugins/table'
 
 export function createPlugins(
@@ -86,7 +87,8 @@ export function createPlugins(
     }),
     rows: createRowsPlugin({ plugins: registry }),
     scMcExercise: createScMcExercisePlugin(),
-    solutionSteps: solutionStepsPlugin,
+    separator: separatorPlugin,
+    solution: solutionPlugin,
     spoiler: createSpoilerPlugin(),
     table: tablePlugin,
     text: createTextPlugin({ registry, blockquote: 'blockquote' }),

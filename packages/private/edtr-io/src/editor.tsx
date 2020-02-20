@@ -231,7 +231,16 @@ export function Editor(props: EditorProps) {
         description:
           'Binde Videos von YouTube, Vimeo, Wikimedia Commons und BR ein.',
         icon: createIcon(faFilm)
-      }
+      },
+      ...(isExercise
+        ? [
+            {
+              name: 'separator',
+              title: 'Lösungs-Trenner',
+              description: 'Unterteilt die Lösung in Lösungsschritte.'
+            }
+          ]
+        : [])
     ]
   }
 }

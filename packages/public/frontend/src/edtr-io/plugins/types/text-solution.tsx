@@ -20,40 +20,18 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { AddButton } from '@edtr-io/editor-ui'
-import {
-  EditorPlugin,
-  EditorPluginProps,
-  list,
-  child,
-  object,
-  string
-} from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
-import {
-  Controls,
-  entity,
-  entityType,
-  RemoveButton,
-  serialized
-} from './common'
+import { Controls, editorContent, entity, entityType } from './common'
 import { RevisionHistory } from './helpers/settings'
-
-const solutionState = list(child({ plugin: 'solutionSteps' }), 1)
-export type SolutionState = typeof solutionState
-export type SolutionProps = EditorPluginProps<SolutionState>
 
 export const textSolutionTypeState = entityType(
   {
     ...entity,
-    content: serialized(
-      object({
-        plugin: string('rows'),
-        state: solutionState
-      })
-    )
+    content: editorContent('solution')
   },
   {}
 )
@@ -73,24 +51,6 @@ export const textSolutionTypePlugin: EditorPlugin<
   }
 }
 
-function TextSolutionTypeEditor(props: TextSolutionTypeProps) {
-  return (
-    <React.Fragment>
-      {props.renderIntoToolbar(
-        <RevisionHistory
-          id={props.state.id.value}
-          currentRevision={props.state.revision.value}
-          onSwitchRevision={props.state.replaceOwnState}
-        />
-      )}
-      <SolutionEditor {...props} state={props.state.content.state} />
-      {props.config.skipControls ? null : (
-        <Controls subscriptions {...props.state} />
-      )}
-    </React.Fragment>
-  )
-}
-
 const solutionTheme = {
   rendererUi: {
     expandableBox: {
@@ -100,19 +60,7 @@ const solutionTheme = {
   }
 }
 
-const solutionContentTheme = {
-  rendererUi: {
-    expandableBox: {
-      toggleBackgroundColor: 'transparent',
-      containerBorderColor: 'transparent'
-    }
-  }
-}
-
-// TODO: replace later
-const removeMessage = 'Entferne die Lösung zu Teilaufgabe '
-
-function SolutionEditor({ state, editable }: SolutionProps) {
+function TextSolutionTypeEditor(props: TextSolutionTypeProps) {
   const renderTitle = React.useCallback((collapsed: boolean) => {
     return (
       <React.Fragment>
@@ -122,42 +70,22 @@ function SolutionEditor({ state, editable }: SolutionProps) {
   }, [])
 
   return (
-    <ThemeProvider theme={solutionTheme}>
-      <ExpandableBox renderTitle={renderTitle} editable={editable}>
-        {state.length > 1
-          ? state.map((solution, index) => {
-              const solutionNumber = index + 1
-              return (
-                <ThemeProvider key={solution.id} theme={solutionContentTheme}>
-                  <RemoveButton
-                    onClick={() => {
-                      state.remove(index)
-                    }}
-                    title={removeMessage + solutionNumber}
-                  >
-                    x
-                  </RemoveButton>
-                  <ExpandableBox
-                    renderTitle={() => {
-                      return `Lösung zu Teilaufgabe ${solutionNumber}`
-                    }}
-                  >
-                    {solution.render()}
-                  </ExpandableBox>
-                </ThemeProvider>
-              )
-            })
-          : state[0].render()}
-        {editable ? (
-          <AddButton
-            onClick={() => {
-              state.insert()
-            }}
-          >
-            Lösung für weitere Teilaufgabe hinzufügen
-          </AddButton>
-        ) : null}
-      </ExpandableBox>
-    </ThemeProvider>
+    <React.Fragment>
+      {props.renderIntoToolbar(
+        <RevisionHistory
+          id={props.state.id.value}
+          currentRevision={props.state.revision.value}
+          onSwitchRevision={props.state.replaceOwnState}
+        />
+      )}
+      <ThemeProvider theme={solutionTheme}>
+        <ExpandableBox renderTitle={renderTitle} editable={props.editable}>
+          {props.state.content.render()}
+        </ExpandableBox>
+      </ThemeProvider>
+      {props.config.skipControls ? null : (
+        <Controls subscriptions {...props.state} />
+      )}
+    </React.Fragment>
   )
 }

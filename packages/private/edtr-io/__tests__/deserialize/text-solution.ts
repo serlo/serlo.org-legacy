@@ -25,23 +25,19 @@ test('initial', () => {
   const initialState = assertSuccessfulDeserialize(createTextSolutionState(''))
   expect(initialState.plugin).toEqual('type-text-solution')
   assertContentToMatch(initialState, {
-    plugin: 'rows',
-    state: [
-      {
-        plugin: 'solutionSteps',
-        state: {
-          introduction: {
-            plugin: 'rows',
-            state: [
-              {
-                plugin: 'text'
-              }
-            ]
-          },
-          solutionSteps: []
-        }
+    plugin: 'solution',
+    state: {
+      prerequisite: undefined,
+      strategy: { plugin: 'text' },
+      steps: {
+        plugin: 'rows',
+        state: [
+          {
+            plugin: 'text'
+          }
+        ]
       }
-    ]
+    }
   })
 })
 
