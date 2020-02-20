@@ -36,7 +36,7 @@ import { RevisionHistory, Settings } from './helpers/settings'
 export const textExerciseTypeState = entityType(
   {
     ...entity,
-    content: editorContent()
+    content: editorContent('exercise')
   },
   {
     'text-solution': optionalSerializedChild('type-text-solution')

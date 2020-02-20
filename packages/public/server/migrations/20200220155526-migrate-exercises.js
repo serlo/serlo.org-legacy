@@ -21,7 +21,7 @@
  */
 
 /**
- * Migrates the Edtr.io states of all entities of type `text-solution`.
+ * Migrates the Edtr.io states of all entities of type `text-exercise` and `grouped-text-exercise`.
  * THIS IS AN IRREVERSIBLE MIGRATION!
  */
 exports.up = function(db, cb) {
@@ -33,7 +33,7 @@ exports.up = function(db, cb) {
         LEFT JOIN entity e on er.repository_id = e.id
       WHERE erf.field = 'content'
         AND erf.value LIKE '{"plugin"%'
-        AND e.type_id = (SELECT id FROM type WHERE name = 'text-solution')
+        AND e.type_id = ANY (SELECT id FROM type WHERE name = 'text-exercise' OR name = 'grouped-text-exercise')
     `,
     (err, results) => {
       if (err) {
@@ -72,41 +72,21 @@ exports._meta = {
 }
 
 function migrateState(state) {
-  const stepsState = state.state.map(({ state }) => {
-    const children = []
-    const { introduction, strategy, solutionSteps, additionals } = state
-    if (introduction && introduction.plugin === 'rows') {
-      children.push(...introduction.state)
-    }
-    if (introduction && introduction.plugin === 'text') {
-      children.push(introduction)
-    }
-    if (strategy && strategy.plugin === 'rows') {
-      children.push(...strategy.state)
-    }
-    solutionSteps.forEach(step => {
-      if (step.content && step.content.plugin === 'rows') {
-        children.push(...step.content.state)
-      }
-    })
-    if (additionals && additionals.plugin === 'rows') {
-      children.push(...additionals.state)
-    }
-    return children
-  })
+  const children = state.state || []
 
   return {
-    plugin: 'solution',
+    plugin: 'exercise',
     state: {
-      prerequisite: undefined,
-      strategy: {
-        plugin: 'text'
-      },
-      steps: {
+      content: {
         plugin: 'rows',
-        state: [].concat(...stepsState)
-      }
+        state: children.filter(child => !isInteractive(child))
+      },
+      interactive: children.filter(child => isInteractive(child))[0]
     }
+  }
+
+  function isInteractive(doc) {
+    return doc.plugin === 'scMcExercise' || doc.plugin === 'inputExercise'
   }
 }
 

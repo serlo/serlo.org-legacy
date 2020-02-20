@@ -46,6 +46,7 @@ import { textSolutionTypePlugin } from './plugins/types/text-solution'
 import { userTypePlugin } from './plugins/types/user'
 import { videoTypePlugin } from './plugins/types/video'
 import { errorPlugin } from './plugins/error'
+import { exercisePlugin } from './plugins/exercise'
 import { createImagePlugin } from './plugins/image'
 import { createImportantPlugin } from './plugins/important'
 import { injectionPlugin } from './plugins/injection'
@@ -62,6 +63,7 @@ export function createPlugins(
     anchor: createAnchorPlugin(),
     blockquote: createBlockquotePlugin(),
     error: errorPlugin,
+    exercise: exercisePlugin,
     geogebra: createGeogebraPlugin(),
     highlight: createHighlightPlugin(),
     image: createImagePlugin(getCsrfToken),

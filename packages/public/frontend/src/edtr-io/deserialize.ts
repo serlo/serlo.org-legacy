@@ -28,7 +28,6 @@ import { convert, isEdtr } from '../legacy/legacy-editor-to-editor'
 import {
   Edtr,
   Legacy,
-  LayoutPlugin,
   RowsPlugin,
   Splish
 } from '../legacy/legacy-editor-to-editor/splishToEdtr/types'
@@ -424,8 +423,6 @@ export function deserialize({
         ? deserializeInputExercise()
         : undefined
 
-    const converted = toEdtr(deserialized) as RowsPlugin
-
     return {
       state: {
         ...state,
@@ -433,16 +430,30 @@ export function deserialize({
         'text-solution': textSolution
           ? deserializeTextSolution(textSolution).state
           : '',
-        content: serializeEditorState({
-          plugin: 'rows',
-          state: [
-            ...converted.state,
-            ...(scMcExercise ? [scMcExercise] : []),
-            ...(inputExercise ? [inputExercise] : [])
-          ]
-        })
+        content: getContent()
       },
       converted: !isEdtr(deserialized || empty)
+    }
+
+    function getContent() {
+      const deserializedContent = deserializeEditorState(content)
+      if (deserializedContent !== undefined && isEdtr(deserializedContent)) {
+        return serializeEditorState(toEdtr(deserializedContent))
+      }
+
+      const convertedContent = toEdtr(deserializedContent) as RowsPlugin
+      const interactive = scMcExercise || inputExercise
+
+      return serializeEditorState({
+        plugin: 'exercise',
+        state: {
+          content: {
+            plugin: 'rows',
+            state: convertedContent.state
+          },
+          interactive
+        }
+      })
     }
 
     function deserializeScMcExercise():
