@@ -188,6 +188,7 @@ function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
                 <AddButton
                   key={plugin.name}
                   onClick={() => {
+                    // @ts-ignore
                     interactive.create({
                       plugin: plugin.name
                     })
