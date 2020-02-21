@@ -21,6 +21,7 @@
  */
 import { AddButton } from '@edtr-io/editor-ui'
 import { EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots'
 import * as React from 'react'
 
 import {
@@ -31,7 +32,8 @@ import {
   OptionalChild,
   entityType
 } from './common'
-import { RevisionHistory, Settings } from './helpers/settings'
+import { RevisionHistory } from './helpers/settings'
+import { SemanticSection } from '../helpers/semantic-section'
 
 export const textExerciseGroupTypeState = entityType(
   {
@@ -63,7 +65,11 @@ function TextExerciseGroupTypeEditor(
           onSwitchRevision={props.state.replaceOwnState}
         />
       )}
-      <section className="row">{content.render()}</section>
+      <section className="row">
+        <SemanticSection editable={props.editable} icon={faCommentDots}>
+          {content.render()}
+        </SemanticSection>
+      </section>{' '}
       {children.map((child, index) => {
         return (
           <section className="row" key={child.id}>

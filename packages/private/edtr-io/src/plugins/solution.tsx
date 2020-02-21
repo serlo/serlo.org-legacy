@@ -31,6 +31,11 @@ import * as React from 'react'
 import { OverlayInput, useScopedSelector } from '@edtr-io/core'
 import { PrimarySettings } from '@edtr-io/editor-ui'
 import { isEmpty } from '@edtr-io/store'
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons/faBookOpen'
+import { faChessRook } from '@fortawesome/free-solid-svg-icons/faChessRook'
+import { faPencilRuler } from '@fortawesome/free-solid-svg-icons/faPencilRuler'
+
+import { SemanticSection } from './helpers/semantic-section'
 
 const solutionState = object({
   prerequisite: optional(
@@ -65,17 +70,23 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
   return (
     <React.Fragment>
       {renderPrerequisite()}
-      {hasStrategy || editable ? strategy.render() : null}
-      {state.steps.render()}
+      {hasStrategy || editable ? (
+        <SemanticSection editable={editable} icon={faChessRook}>
+          {strategy.render()}
+        </SemanticSection>
+      ) : null}
+      <SemanticSection editable={editable} icon={faPencilRuler}>
+        {state.steps.render()}
+      </SemanticSection>
     </React.Fragment>
   )
 
   function renderPrerequisite() {
     return (
-      <React.Fragment>
+      <SemanticSection editable={editable} icon={faBookOpen}>
         {renderContent()}
         {renderSettings()}
-      </React.Fragment>
+      </SemanticSection>
     )
 
     function renderContent() {
@@ -85,7 +96,7 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
         prerequisite.title.value
       ) {
         return (
-          <div>
+          <p>
             Für diese Aufgabe benötigst Du folgendes Grundwissen:{' '}
             <a
               href={`/${prerequisite.id.value}`}
@@ -99,18 +110,18 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
             >
               {prerequisite.title.value}
             </a>
-          </div>
+          </p>
         )
       }
 
       if (editable) {
         return (
-          <div>
+          <p>
             <em>
               Füge optional einen Lerninhalt ein, den man für die Bearbeitung
               dieser Aufgabe benötigt:
             </em>
-          </div>
+          </p>
         )
       }
 

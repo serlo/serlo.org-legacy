@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { PluginToolbarButton, useScopedStore } from '@edtr-io/core'
 import { AddButton, styled } from '@edtr-io/editor-ui'
 import {
   EditorPlugin,
@@ -27,7 +28,12 @@ import {
   object,
   optional
 } from '@edtr-io/plugin'
+import { getDocument } from '@edtr-io/store'
+import { Icon, faRandom, faTrashAlt, faCheck } from '@edtr-io/ui'
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots'
 import * as React from 'react'
+
+import { SemanticSection } from './helpers/semantic-section'
 
 const exerciseState = object({
   content: child({ plugin: 'rows' }),
@@ -49,48 +55,159 @@ const ButtonContainer = styled.div({
   display: 'flex'
 })
 
+const interactivePlugins: {
+  name: 'scMcExercise' | 'inputExercise'
+  title: string
+}[] = [
+  {
+    name: 'scMcExercise',
+    title: 'Auswahlaufgabe'
+  },
+  {
+    name: 'inputExercise',
+    title: 'Eingabefeld'
+  }
+]
+
+const InlineOptionsWrapper = styled.div({
+  position: 'absolute',
+  top: '-30px',
+  right: '0',
+  padding: '30px',
+  zIndex: 95,
+  whiteSpace: 'nowrap'
+})
+
+const InlineOptionsContentWrapper = styled.div({
+  boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
+  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+  borderRadius: '4px'
+})
+
+function InlineOptions(props: React.PropsWithChildren<{}>) {
+  return (
+    <InlineOptionsWrapper>
+      <InlineOptionsContentWrapper>
+        {props.children}
+      </InlineOptionsContentWrapper>
+    </InlineOptionsWrapper>
+  )
+}
+const Option = styled.div({
+  padding: '5px 10px',
+  cursor: 'pointer',
+  width: '100%',
+  minWidth: '150px',
+  '&:hover': {
+    color: 'rgb(70, 155, 255)'
+  }
+})
+
 function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
+  const store = useScopedStore()
   const { content, interactive } = state
+  const [showOptions, setShowOptions] = React.useState(false)
 
   return (
     <React.Fragment>
-      {content.render()}
-      {renderInteractive()}
+      <SemanticSection editable={editable} icon={faCommentDots}>
+        {content.render()}
+      </SemanticSection>
+      <SemanticSection editable={editable} icon={faCheck}>
+        {renderInteractive()}
+      </SemanticSection>
     </React.Fragment>
   )
 
   function renderInteractive() {
     if (interactive.defined) {
-      return interactive.render()
+      return interactive.render({
+        renderToolbar(children) {
+          return (
+            <React.Fragment>
+              <div
+                style={{ position: 'relative' }}
+                onMouseLeave={() => {
+                  setShowOptions(false)
+                }}
+              >
+                <PluginToolbarButton
+                  icon={<Icon icon={faRandom} />}
+                  label="Interaktives Element ändern"
+                  onClick={() => {
+                    setShowOptions(true)
+                  }}
+                />
+                <PluginToolbarButton
+                  icon={<Icon icon={faTrashAlt} />}
+                  label="Interaktives Element entfernen"
+                  onClick={() => {
+                    interactive.remove()
+                  }}
+                />
+                {showOptions ? (
+                  <InlineOptions>
+                    {interactivePlugins
+                      .filter(
+                        plugin =>
+                          !interactive ||
+                          plugin.name !== getCurrentInteractivePlugin()
+                      )
+                      .map(plugin => {
+                        return (
+                          <Option
+                            key={plugin.name}
+                            onClick={() => {
+                              interactive.replace(plugin.name)
+                              setShowOptions(false)
+                            }}
+                          >
+                            {plugin.title}
+                          </Option>
+                        )
+                      })}
+                  </InlineOptions>
+                ) : null}
+              </div>
+              {children}
+            </React.Fragment>
+          )
+        }
+      })
     }
 
     if (editable) {
       return (
-        <ButtonContainer>
-          <AddButton
-            onClick={() => {
-              // @ts-ignore
-              interactive.create({
-                plugin: 'scMcExercise'
-              })
-            }}
-          >
-            Auswahlaufgabe hinzufügen
-          </AddButton>
-          <AddButton
-            onClick={() => {
-              // @ts-ignore
-              interactive.create({
-                plugin: 'inputExercise'
-              })
-            }}
-          >
-            Eingabefeld hinzufügen
-          </AddButton>
-        </ButtonContainer>
+        <React.Fragment>
+          <p>
+            <em>Füge optional ein interaktives Element hinzu:</em>
+          </p>
+          <ButtonContainer>
+            {interactivePlugins.map(plugin => {
+              return (
+                <AddButton
+                  key={plugin.name}
+                  onClick={() => {
+                    interactive.create({
+                      plugin: plugin.name
+                    })
+                  }}
+                >
+                  {`${plugin.title} hinzufügen`}
+                </AddButton>
+              )
+            })}
+          </ButtonContainer>
+        </React.Fragment>
       )
     }
 
     return null
+  }
+
+  function getCurrentInteractivePlugin() {
+    if (!interactive.defined) return null
+    const doc = getDocument(interactive.id)(store.getState())
+    return doc && doc.plugin
   }
 }
