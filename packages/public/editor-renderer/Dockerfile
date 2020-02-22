@@ -32,6 +32,7 @@ COPY packages/private/mathjax packages/private/mathjax
 COPY packages/public/editor-renderer packages/public/editor-renderer
 COPY scripts/build.ts scripts/build.ts
 COPY lerna.json .
+COPY tsconfig.json .
 COPY tsconfig.prod.json .
 RUN yarn lerna run --include-dependencies --scope @serlo/editor-renderer build
 

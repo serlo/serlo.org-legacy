@@ -16,6 +16,7 @@ RUN yarn --frozen-lockfile --production=true --silent
 FROM dev-dependencies as build
 COPY packages/public/notifications-job packages/public/notifications-job
 COPY lerna.json .
+COPY tsconfig.json .
 COPY tsconfig.prod.json .
 RUN yarn lerna run --include-dependencies --scope @serlo/notifications-job build
 

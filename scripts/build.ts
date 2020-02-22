@@ -1,7 +1,7 @@
 import { spawnSync } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
-import * as rimraf from 'rimraf'
+import rimraf from 'rimraf'
 import * as util from 'util'
 
 const stat = util.promisify(fs.stat)
