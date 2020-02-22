@@ -28,7 +28,6 @@ import { convert, isEdtr } from '../legacy/legacy-editor-to-editor'
 import {
   Edtr,
   Legacy,
-  LayoutPlugin,
   RowsPlugin,
   Splish
 } from '../legacy/legacy-editor-to-editor/splishToEdtr/types'
@@ -424,8 +423,6 @@ export function deserialize({
         ? deserializeInputExercise()
         : undefined
 
-    const converted = toEdtr(deserialized) as RowsPlugin
-
     return {
       state: {
         ...state,
@@ -433,16 +430,30 @@ export function deserialize({
         'text-solution': textSolution
           ? deserializeTextSolution(textSolution).state
           : '',
-        content: serializeEditorState({
-          plugin: 'rows',
-          state: [
-            ...converted.state,
-            ...(scMcExercise ? [scMcExercise] : []),
-            ...(inputExercise ? [inputExercise] : [])
-          ]
-        })
+        content: getContent()
       },
       converted: !isEdtr(deserialized || empty)
+    }
+
+    function getContent() {
+      const deserializedContent = deserializeEditorState(content)
+      if (deserializedContent !== undefined && isEdtr(deserializedContent)) {
+        return serializeEditorState(toEdtr(deserializedContent))
+      }
+
+      const convertedContent = toEdtr(deserializedContent) as RowsPlugin
+      const interactive = scMcExercise || inputExercise
+
+      return serializeEditorState({
+        plugin: 'exercise',
+        state: {
+          content: {
+            plugin: 'rows',
+            state: convertedContent.state
+          },
+          interactive
+        }
+      })
     }
 
     function deserializeScMcExercise():
@@ -665,59 +676,13 @@ export function deserialize({
       const convertedContent = toEdtr(deserializedContent) as RowsPlugin
 
       return serializeEditorState({
-        plugin: 'rows',
-        state: [
-          {
-            plugin: 'solutionSteps',
-            state: {
-              introduction: {
-                plugin: 'rows',
-                state: [convertedContent.state[0]]
-              },
-              strategy: undefined,
-              solutionSteps: getSolutionSteps(),
-              additionals: undefined
-            }
-          }
-        ]
+        plugin: 'solution',
+        state: {
+          prerequisite: undefined,
+          strategy: { plugin: 'text' },
+          steps: convertedContent
+        }
       })
-
-      function getSolutionSteps() {
-        const solutionSteps: {
-          type: string
-          isHalf: boolean
-          content: Edtr
-        }[] = []
-
-        R.tail(convertedContent.state).forEach(row => {
-          if (
-            row.plugin === 'layout' &&
-            (row as LayoutPlugin).state.length === 2
-          ) {
-            const layoutPlugin = row
-            const leftElement = {
-              type: 'step',
-              isHalf: true,
-              content: (layoutPlugin as LayoutPlugin).state[0].child
-            }
-            const rightElement = {
-              type: 'explanation',
-              isHalf: true,
-              content: (layoutPlugin as LayoutPlugin).state[1].child
-            }
-            solutionSteps.push(leftElement)
-            solutionSteps.push(rightElement)
-          } else {
-            solutionSteps.push({
-              type: 'step',
-              isHalf: false,
-              content: { plugin: 'rows', state: [row] }
-            })
-          }
-        })
-
-        return solutionSteps
-      }
     }
   }
 

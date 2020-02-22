@@ -27,9 +27,7 @@ import {
   faCaretSquareDown,
   faCode,
   faCubes,
-  faDotCircle,
   faFilm,
-  faKeyboard,
   faImages,
   faNewspaper,
   faParagraph,
@@ -191,28 +189,6 @@ export function Editor(props: EditorProps) {
           'Erstelle einen veranschaulichenden oder erklärenden Multimedia-Inhalt mit zugehöriger Erklärung',
         icon: createIcon(faPhotoVideo)
       },
-      ...(isExercise
-        ? [
-            {
-              name: 'inputExercise',
-              title: 'Eingabefeld',
-              description:
-                'Füge deiner Aufgabe ein Eingabefeld für die Lernenden hinzu.',
-              icon: createIcon(faKeyboard)
-            }
-          ]
-        : []),
-      ...(isExercise
-        ? [
-            {
-              name: 'scMcExercise',
-              title: 'Auswahlaufgabe',
-              description:
-                'Füge deiner Aufgabe mehrere Single- oder Multiple-Choice-Antworten hinzu.',
-              icon: createIcon(faDotCircle)
-            }
-          ]
-        : []),
       {
         name: 'spoiler',
         title: 'Spoiler',
@@ -231,7 +207,16 @@ export function Editor(props: EditorProps) {
         description:
           'Binde Videos von YouTube, Vimeo, Wikimedia Commons und BR ein.',
         icon: createIcon(faFilm)
-      }
+      },
+      ...(isExercise
+        ? [
+            {
+              name: 'separator',
+              title: 'Lösungs-Trenner',
+              description: 'Unterteilt die Lösung in Lösungsschritte.'
+            }
+          ]
+        : [])
     ]
   }
 }

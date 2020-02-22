@@ -22,7 +22,8 @@
 import {
   useScopedDispatch,
   useScopedSelector,
-  useScopedStore
+  useScopedStore,
+  PluginToolbarButton
 } from '@edtr-io/core'
 import {
   StateType,
@@ -47,7 +48,7 @@ import {
   serializeRootDocument,
   undo
 } from '@edtr-io/store'
-import { styled } from '@edtr-io/ui'
+import { Icon, faTrashAlt, styled } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
 import BSAlert from 'react-bootstrap/lib/Alert'
@@ -561,20 +562,6 @@ export function optionalSerializedChild(
   }
 }
 
-export const RemoveButton = styled.button({
-  borderRadius: '50%',
-  outline: 'none',
-  background: 'white',
-  zIndex: 20,
-  float: 'right',
-  transform: 'translate(50%, -40%)',
-  border: '2px solid lightgrey',
-  '&:hover': {
-    border: '3px solid #007ec1',
-    color: '#007ec1'
-  }
-})
-
 export function OptionalChild(props: {
   state: StateTypeReturnType<ReturnType<typeof serializedChild>>
   onRemove: () => void
@@ -583,19 +570,27 @@ export function OptionalChild(props: {
   const document = useScopedSelector(getDocument(props.state.id)) as {
     state: StateTypeValueType<typeof expectedStateType>
   }
-  const children = props.state.render()
+  const children = props.state.render({
+    renderToolbar(children) {
+      if (document.state.id !== 0) return children
+
+      return (
+        <React.Fragment>
+          <PluginToolbarButton
+            icon={<Icon icon={faTrashAlt} />}
+            label="Teilaufgabe entfernen"
+            onClick={() => {
+              props.onRemove()
+            }}
+          />
+          {children}
+        </React.Fragment>
+      )
+    }
+  })
   return (
     <React.Fragment>
       <hr />
-      {document.state.id === 0 ? (
-        <RemoveButton
-          onClick={() => {
-            props.onRemove()
-          }}
-        >
-          x
-        </RemoveButton>
-      ) : null}
       {children}
     </React.Fragment>
   )

@@ -5,7 +5,7 @@
   "module": "dist/edtr-io.esm.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
     "@edtr-io/core": "^0.51.0",
@@ -38,7 +38,6 @@
     "axios": "^0.19.0",
     "moment": "^2.0.0",
     "react": "^16.8.0",
-    "react-beautiful-dnd": "^10.0.0",
     "react-bootstrap": "^0.32.0",
     "react-dnd": "^10.0.0",
     "react-dnd-html5-backend": "^10.0.0",
@@ -54,11 +53,11 @@
     "@storybook/react": "^5.0.0",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
-    "@types/react-beautiful-dnd": "^10.0.0",
     "@types/react-bootstrap": "^0.32.0",
     "@types/react-dom": "^16.8.0",
     "@types/react-modal": "^3.0.0",
     "@types/styled-components": "^4.0.0",
+    "ts-node": "^8.0.0",
     "tsdx": "^0.12.0",
     "typescript": "^3.0.0"
   },

@@ -113,7 +113,7 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
       id: 1337,
       license,
       changes: '',
-      content: ''
+      content: '{"plugin":"exercise"}'
     }
   },
   {
@@ -122,32 +122,11 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
       id: 1337,
       license,
       changes: '',
-      content: '',
+      content: '{"plugin":"exercise"}',
       'text-solution': {
         id: 1338,
         license,
-        content: ''
-      }
-    }
-  },
-  {
-    name: 'w/ solution and hint',
-    state: {
-      id: 1337,
-      license,
-      changes: '',
-      content: '',
-      'text-hint': {
-        id: 1338,
-        license,
-        changes: '',
-        content: ''
-      },
-      'text-solution': {
-        id: 1339,
-        license,
-        changes: '',
-        content: ''
+        content: '{"plugin":"solution"}'
       }
     }
   }
@@ -163,36 +142,30 @@ addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
       id: 1338,
       license,
       changes: '',
-      content: ''
+      content: '{"plugin":"exercise"}'
     },
     {
       id: 1339,
       license,
       changes: '',
-      content: '',
+      content: '{"plugin":"exercise"}',
       'text-solution': {
         id: 1340,
         license,
         changes: '',
-        content: ''
+        content: '{"plugin":"solution"}'
       }
     },
     {
       id: 1341,
       license,
       changes: '',
-      content: '',
-      'text-hint': {
-        id: 1342,
-        license,
-        changes: '',
-        content: ''
-      },
+      content: '{"plugin":"exercise"}',
       'text-solution': {
         id: 1343,
         license,
         changes: '',
-        content: ''
+        content: '{"plugin":"solution"}'
       }
     }
   ]
