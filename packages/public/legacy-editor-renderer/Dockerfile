@@ -18,6 +18,7 @@ RUN yarn --frozen-lockfile --production=true --silent
 FROM dev-dependencies as build
 COPY packages/private/markdown packages/private/markdown
 COPY packages/public/legacy-editor-renderer packages/public/legacy-editor-renderer
+COPY scripts/build.ts scripts/build.ts
 COPY lerna.json .
 COPY tsconfig.prod.json .
 RUN yarn lerna run --include-dependencies --scope @serlo/legacy-editor-renderer build
