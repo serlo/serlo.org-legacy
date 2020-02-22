@@ -5,7 +5,7 @@
   "module": "dist/edtr-io.esm.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
     "@edtr-io/core": "^0.51.0",
@@ -56,9 +56,7 @@
     "@types/react-bootstrap": "^0.32.0",
     "@types/react-dom": "^16.8.0",
     "@types/react-modal": "^3.0.0",
-    "@types/styled-components": "^4.0.0",
-    "tsdx": "^0.12.0",
-    "typescript": "^3.0.0"
+    "@types/styled-components": "^4.0.0"
   },
   "private": true
 }

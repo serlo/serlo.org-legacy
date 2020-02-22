@@ -5,14 +5,10 @@
   "module": "dist/mathjax.esm.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
     "tslib": "^1.0.0"
-  },
-  "devDependencies": {
-    "tsdx": "^0.12.0",
-    "typescript": "^3.0.0"
   },
   "private": true
 }
