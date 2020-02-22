@@ -35,7 +35,7 @@ interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
-  const [overlayTarget, overlayTargetRef] = useOverlayTarget()
+  const [overlayTarget, overlayTargetRef] = useOverlayTarget<HTMLDivElement>()
 
   return (
     <React.Fragment>
