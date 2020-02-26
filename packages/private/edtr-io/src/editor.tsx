@@ -166,6 +166,11 @@ export function Editor(props: EditorProps) {
         icon: createIcon(faAnchor)
       },
       {
+        name: 'equations',
+        title: 'Gleichungen',
+        description: 'Füge Gleichungen und Terme hinzu'
+      },
+      {
         name: 'image',
         title: 'Bild',
         description:

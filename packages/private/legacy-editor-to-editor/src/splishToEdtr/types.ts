@@ -91,6 +91,7 @@ export type OtherPlugin = {
     | 'anchor'
     | 'blockquote'
     | 'error'
+    | 'equations'
     | 'exercise'
     | 'geogebra'
     | 'highlight'
