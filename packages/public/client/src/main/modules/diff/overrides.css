@@ -2,3 +2,7 @@
   border: none;
   cursor: auto;
 }
+
+.d2h-code-line-ctn {
+  white-space: pre-wrap;
+}
