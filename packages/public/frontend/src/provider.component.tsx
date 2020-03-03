@@ -277,16 +277,16 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Karmilla';
     font-style: normal;
     font-weight: 400;
-    src: url('${getFontPath()}/karmilla-regular.woff2') format('woff2'),
-      url('${getFontPath()}/karmilla-regular.woff') format('woff');
+    src: url('${() => getFontPath()}/karmilla-regular.woff2') format('woff2'),
+      url('${() => getFontPath()}/karmilla-regular.woff') format('woff');
   }
 
   @font-face {
     font-family: 'Karmilla';
     font-style: normal;
     font-weight: 700;
-    src: url('${getFontPath()}/karmilla-bold.woff2') format('woff2'),
-      url('${getFontPath()}/karmilla-bold.woff') format('woff');
+    src: url('${() => getFontPath()}/karmilla-bold.woff2') format('woff2'),
+      url('${() => getFontPath()}/karmilla-bold.woff') format('woff');
   }
 
 }
