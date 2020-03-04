@@ -2,11 +2,19 @@ const authors = ['26175']
 const reviewers = ['26175']
 const donors = ['26175']
 
-const userIconSpec = [
-  [donors, icon('heart', 'color: #337ab7;')] as const,
-  [reviewers, icon('search')] as const,
-  [authors, icon('pencil')] as const
+const userProfileSpecs: UserProfileSpec[] = [
+  {
+    userList: donors,
+    icon: icon('heart', 'color: #337ab7;')
+  },
+  { userList: reviewers, icon: icon('search') },
+  { userList: authors, icon: icon('pencil') }
 ]
+
+interface UserProfileSpec {
+  userList: string[]
+  icon: string
+}
 
 export function initDonationProfile(): void {
   addBannerToOwnUserProfile()
@@ -39,9 +47,9 @@ function addIconsToUserLinks(): void {
     if (match) {
       const userId = match[1]
 
-      for (const [userList, icon] of userIconSpec) {
-        if (userList.includes(userId)) {
-          $(a).append(icon)
+      for (const spec of userProfileSpecs) {
+        if (spec.userList.includes(userId)) {
+          $(a).append(spec.icon)
         }
       }
     }
@@ -55,9 +63,9 @@ function addIconsToUserProfileHeader() {
   ) {
     const userId = getUserIdFromProfilePage()
 
-    for (const [userList, icon] of userIconSpec.reverse()) {
-      if (userList.includes(userId)) {
-        $('h1 > small').before(icon)
+    for (const spec of userProfileSpecs) {
+      if (spec.userList.includes(userId)) {
+        $('h1 > small').before(spec.icon)
       }
     }
   }
