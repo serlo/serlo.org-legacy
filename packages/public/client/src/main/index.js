@@ -54,6 +54,7 @@ import { initChangeDimensionEvents } from '../frontend/modules/change-dimension-
 import { initContentApi } from '../frontend/modules/content_api'
 import { initConsentBanner } from '../frontend/modules/consent-banner'
 import { initDiff } from './modules/diff/diff'
+import { initNewFeaturePrototypes } from '../feature-prototypes'
 import '../frontend/modules/forum_select'
 import '../frontend/modules/injections'
 import '../frontend/modules/input_challenge'
@@ -266,6 +267,8 @@ const init = $context => {
   SideElement.init()
 
   initTracking($context)
+
+  initNewFeaturePrototypes()
 }
 
 init($('body'))
