@@ -9,8 +9,26 @@ const userIconSpec = [
 ]
 
 export function initDonationProfile(): void {
+  addBannerToOwnUserProfile()
+  addBannerToOtherUserProfile()
   addIconsToUserLinks()
   addIconsToUserProfileHeader()
+}
+
+function addBannerToOwnUserProfile(): void {
+  if (location.pathname.startsWith('/user/me')) {
+    //const userId = getUserIdFromProfilePage()
+
+    $('.page-header').after('<div class="alert alert-info">Hello World</div>')
+  }
+}
+
+function addBannerToOtherUserProfile(): void {
+  if (location.pathname.startsWith('/user/profile/')) {
+    //const userId = getUserIdFromProfilePage()
+
+    $('.page-header').after('<div class="alert alert-info">Hello World 2</div>')
+  }
 }
 
 function addIconsToUserLinks(): void {
@@ -35,16 +53,7 @@ function addIconsToUserProfileHeader() {
     location.pathname.startsWith('/user/profile/') ||
     location.pathname.startsWith('/user/me')
   ) {
-    const links = Array.prototype.slice.call(document.querySelectorAll('a'))
-    const userId = links
-      .map(link => {
-        const href = link.getAttribute('href')
-        const match =
-          href === null ? null : href.match(/\/event\/history\/user\/(\d+)$/)
-
-        return match === null ? null : match[1]
-      })
-      .find(element => element !== null)
+    const userId = getUserIdFromProfilePage()
 
     for (const [userList, icon] of userIconSpec.reverse()) {
       if (userList.includes(userId)) {
@@ -52,6 +61,19 @@ function addIconsToUserProfileHeader() {
       }
     }
   }
+}
+
+function getUserIdFromProfilePage(): string {
+  const links = Array.prototype.slice.call(document.querySelectorAll('a'))
+  return links
+    .map(link => {
+      const href = link.getAttribute('href')
+      const match =
+        href === null ? null : href.match(/\/event\/history\/user\/(\d+)$/)
+
+      return match === null ? null : match[1]
+    })
+    .find(element => element !== null)
 }
 
 function icon(faType: string, style = 'color: black;'): string {
