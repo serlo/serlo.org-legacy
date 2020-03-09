@@ -115,7 +115,13 @@
                         </div>
                         <div>
                             {% trans %}
-                            {{ author }} {{ time }}
+                            {{ author }}
+                            {% endtrans %}
+                            {% if eventLog().countEventsFoundByActorAndNames(discussion.getAuthor(), ['entity/revision/add', 'discussion/comment/create']) <= 5 %}
+                                *
+                            {% endif %}
+                            {% trans %}
+                            {{ time }}
                             {% endtrans %}
                         </div>
                     </div>
