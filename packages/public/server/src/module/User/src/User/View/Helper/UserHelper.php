@@ -22,11 +22,14 @@
  */
 namespace User\View\Helper;
 
+use Event\EventManagerAwareTrait;
+use User\Entity\UserInterface;
 use User\Manager\UserManagerInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class UserHelper extends AbstractHelper
 {
+    use EventManagerAwareTrait;
     /**
      * @var UserManagerInterface
      */
@@ -71,5 +74,14 @@ class UserHelper extends AbstractHelper
             return '';
         }
         return $field->getValue();
+    }
+
+    /**
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function isNewbie(UserInterface $user)
+    {
+        return $this->getEventManager()->findEventsByNamesAndActor($user, ['entity/revision/add', 'discussion/comment/create'])->count() <= 5;
     }
 }

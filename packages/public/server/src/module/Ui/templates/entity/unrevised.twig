@@ -52,7 +52,7 @@
             </td>
             <td>
               {{ normalize().toAnchor(revision.getAuthor()) }}
-              {% if eventLog().countEventsFoundByActorAndNames(revision.getAuthor(), ['entity/revision/add', 'discussion/comment/create']) <= 5 %}
+              {% if user().isNewbie(revision.getAuthor()) %}
                 *
               {% endif %}
             </td>

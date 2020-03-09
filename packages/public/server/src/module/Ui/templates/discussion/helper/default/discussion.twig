@@ -117,7 +117,7 @@
                             {% trans %}
                             {{ author }}
                             {% endtrans %}
-                            {% if eventLog().countEventsFoundByActorAndNames(discussion.getAuthor(), ['entity/revision/add', 'discussion/comment/create']) <= 5 %}
+                            {% if user().isNewbie(discussion.getAuthor()) %}
                                 *
                             {% endif %}
                             {% trans %}
