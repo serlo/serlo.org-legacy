@@ -51,6 +51,12 @@
               {% endif %}
             </td>
             <td>
+              {{ normalize().toAnchor(revision.getAuthor()) }}
+              {% if eventLog().countEventsFoundByActorAndNames(revision.getAuthor(), ['entity/revision/add', 'discussion/comment/create']) <= 5 %}
+                *
+              {% endif %}
+            </td>
+            <td>
               <a href="{{ url(normalized.getRouteName(), normalized.getRouteParams()) }}">
                 {{ normalized.getId() }}
               </a>
