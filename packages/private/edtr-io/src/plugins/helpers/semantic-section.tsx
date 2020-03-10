@@ -20,21 +20,13 @@ const BackgroundIcon = styled.div({
 })
 
 export function SemanticSection(props: SemanticSectionProps) {
-  const { children, editable, icon } = props
+  const { children, editable } = props
   if (!editable) return <React.Fragment>{children}</React.Fragment>
 
-  return (
-    <Container>
-      <BackgroundIcon>
-        <Icon icon={icon} size="3x" />
-      </BackgroundIcon>
-      {props.children}
-    </Container>
-  )
+  return <Container>{props.children}</Container>
 }
 
 export interface SemanticSectionProps {
   children: React.ReactNode
   editable?: boolean
-  icon: FontAwesomeIconProps['icon']
 }

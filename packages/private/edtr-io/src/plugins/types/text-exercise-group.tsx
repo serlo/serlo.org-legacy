@@ -21,7 +21,6 @@
  */
 import { AddButton } from '@edtr-io/editor-ui'
 import { EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
-import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots'
 import * as React from 'react'
 
 import {
@@ -66,7 +65,7 @@ function TextExerciseGroupTypeEditor(
         />
       )}
       <section className="row">
-        <SemanticSection editable={props.editable} icon={faCommentDots}>
+        <SemanticSection editable={props.editable}>
           {content.render()}
         </SemanticSection>
       </section>

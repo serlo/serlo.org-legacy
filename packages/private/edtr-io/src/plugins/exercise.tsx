@@ -29,8 +29,7 @@ import {
   optional
 } from '@edtr-io/plugin'
 import { getDocument } from '@edtr-io/store'
-import { Icon, faRandom, faTrashAlt, faCheck } from '@edtr-io/ui'
-import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots'
+import { Icon, faRandom, faTrashAlt } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SemanticSection } from './helpers/semantic-section'
@@ -110,10 +109,8 @@ function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
 
   return (
     <React.Fragment>
-      <SemanticSection editable={editable} icon={faCommentDots}>
-        {content.render()}
-      </SemanticSection>
-      <SemanticSection editable={editable} icon={faCheck}>
+      <SemanticSection editable={editable}>{content.render()}</SemanticSection>
+      <SemanticSection editable={editable}>
         {renderInteractive()}
       </SemanticSection>
     </React.Fragment>

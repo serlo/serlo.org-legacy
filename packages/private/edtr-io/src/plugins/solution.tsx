@@ -31,9 +31,6 @@ import * as React from 'react'
 import { OverlayInput, useScopedSelector } from '@edtr-io/core'
 import { PrimarySettings } from '@edtr-io/editor-ui'
 import { isEmpty } from '@edtr-io/store'
-import { faBookOpen } from '@fortawesome/free-solid-svg-icons/faBookOpen'
-import { faChessRook } from '@fortawesome/free-solid-svg-icons/faChessRook'
-import { faPencilRuler } from '@fortawesome/free-solid-svg-icons/faPencilRuler'
 
 import { SemanticSection } from './helpers/semantic-section'
 
@@ -71,11 +68,11 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
     <React.Fragment>
       {renderPrerequisite()}
       {hasStrategy || editable ? (
-        <SemanticSection editable={editable} icon={faChessRook}>
+        <SemanticSection editable={editable}>
           {strategy.render()}
         </SemanticSection>
       ) : null}
-      <SemanticSection editable={editable} icon={faPencilRuler}>
+      <SemanticSection editable={editable}>
         {state.steps.render()}
       </SemanticSection>
     </React.Fragment>
@@ -83,7 +80,7 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
 
   function renderPrerequisite() {
     return (
-      <SemanticSection editable={editable} icon={faBookOpen}>
+      <SemanticSection editable={editable}>
         {renderContent()}
         {renderSettings()}
       </SemanticSection>
