@@ -28,14 +28,14 @@ import {
   optional
 } from '@edtr-io/plugin'
 import * as React from 'react'
-import { OverlayInput, useScopedSelector } from '@edtr-io/core'
-import { PrimarySettings } from '@edtr-io/editor-ui'
+import { useScopedSelector } from '@edtr-io/core'
 import { isEmpty } from '@edtr-io/store'
-import { faBookOpen } from '@fortawesome/free-solid-svg-icons/faBookOpen'
-import { faChessRook } from '@fortawesome/free-solid-svg-icons/faChessRook'
-import { faPencilRuler } from '@fortawesome/free-solid-svg-icons/faPencilRuler'
+import { Icon, faExternalLinkAlt, styled } from '@edtr-io/ui'
 
 import { SemanticSection } from './helpers/semantic-section'
+import { InlineInput } from './helpers/inline-input'
+import { InlineSettings } from './helpers/inline-settings'
+import { InlineSettingsInput } from './helpers/inline-settings-input'
 
 const solutionState = object({
   prerequisite: optional(
@@ -62,6 +62,8 @@ export const solutionPlugin: EditorPlugin<SolutionState> = {
   config: {}
 }
 
+const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
+
 function SolutionEditor({ editable, state, focused }: SolutionProps) {
   const { prerequisite, strategy } = state
 
@@ -71,11 +73,11 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
     <React.Fragment>
       {renderPrerequisite()}
       {hasStrategy || editable ? (
-        <SemanticSection editable={editable} icon={faChessRook}>
+        <SemanticSection editable={editable}>
           {strategy.render()}
         </SemanticSection>
       ) : null}
-      <SemanticSection editable={editable} icon={faPencilRuler}>
+      <SemanticSection editable={editable}>
         {state.steps.render()}
       </SemanticSection>
     </React.Fragment>
@@ -83,89 +85,84 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
 
   function renderPrerequisite() {
     return (
-      <SemanticSection editable={editable} icon={faBookOpen}>
-        {renderContent()}
-        {renderSettings()}
-      </SemanticSection>
+      <SemanticSection editable={editable}>{renderContent()}</SemanticSection>
     )
 
     function renderContent() {
-      if (
-        prerequisite.defined &&
-        prerequisite.id.value &&
-        prerequisite.title.value
-      ) {
+      if (editable) {
         return (
-          <p>
-            Für diese Aufgabe benötigst Du folgendes Grundwissen:{' '}
-            <a
-              href={`/${prerequisite.id.value}`}
-              onClick={
-                editable
-                  ? e => {
-                      e.preventDefault()
+          <div>
+            Für diese Aufgabe benötigst Du folgendes Grundwissen:
+            {focused ? (
+              <InlineSettings
+                onDelete={() => {
+                  if (prerequisite.defined) {
+                    prerequisite.remove()
+                  }
+                }}
+                position={'below'}
+              >
+                <InlineSettingsInput
+                  value={
+                    prerequisite.defined && prerequisite.id.value !== ''
+                      ? `/${prerequisite.id.value}`
+                      : ''
+                  }
+                  placeholder="ID des Artikels ein, z.B. 1855"
+                  onChange={event => {
+                    const newValue = event.target.value.replace(/[^0-9]/g, '')
+                    if (prerequisite.defined) {
+                      prerequisite.id.set(newValue)
+                    } else {
+                      prerequisite.create({
+                        id: newValue,
+                        title: ''
+                      })
                     }
-                  : undefined
-              }
-            >
-              {prerequisite.title.value}
+                  }}
+                />
+                <a
+                  target="_blank"
+                  href={
+                    prerequisite.defined && prerequisite.id.value !== ''
+                      ? `/${prerequisite.id.value}`
+                      : ''
+                  }
+                  rel="noopener noreferrer"
+                >
+                  <OpenInNewTab title="Artikel im neuen Tab öffnen">
+                    <Icon icon={faExternalLinkAlt} />
+                  </OpenInNewTab>
+                </a>
+              </InlineSettings>
+            ) : null}
+            <a>
+              <InlineInput
+                value={prerequisite.defined ? prerequisite.title.value : ''}
+                onChange={value => {
+                  if (prerequisite.defined) {
+                    prerequisite.title.set(value)
+                  } else {
+                    prerequisite.create({ id: '', title: value })
+                  }
+                }}
+                placeholder="Titel der Verlinkung"
+              />
             </a>
-          </p>
+          </div>
         )
       }
 
-      if (editable) {
+      if (prerequisite.defined) {
         return (
           <p>
-            <em>
-              Füge optional einen Lerninhalt ein, den man für die Bearbeitung
-              dieser Aufgabe benötigt:
-            </em>
+            Für diese Aufgabe benötigst Du folgendes Grundwissen:
+            <a href={`/${prerequisite.id.value}`}>{prerequisite.title.value}</a>
           </p>
         )
       }
 
       return null
-    }
-
-    function renderSettings() {
-      if (!editable) return null
-      return (
-        <PrimarySettings>
-          <OverlayInput
-            value={prerequisite.defined ? prerequisite.id.value : ''}
-            label="Serlo ID"
-            placeholder="Gebe hier die ID des Artikels ein, z.B. 1855"
-            onChange={e => {
-              const value = e.target.value
-              if (prerequisite.defined) {
-                prerequisite.id.set(value)
-              } else {
-                prerequisite.create({
-                  id: value,
-                  title: ''
-                })
-              }
-            }}
-          />
-          <OverlayInput
-            value={prerequisite.defined ? prerequisite.title.value : ''}
-            label="Titel"
-            placeholder="Gebe hier den Titel ein, z.B. Parabel"
-            onChange={e => {
-              const value = e.target.value
-              if (prerequisite.defined) {
-                prerequisite.title.set(value)
-              } else {
-                prerequisite.create({
-                  id: '',
-                  title: value
-                })
-              }
-            }}
-          />
-        </PrimarySettings>
-      )
     }
   }
 }
