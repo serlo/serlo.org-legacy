@@ -29,12 +29,6 @@ use FeatureFlags\Factory\ServiceFactory;
 return [
     'feature_flags' => [
         'client-frontend' => false,
-        'frontend-content' => false,
-        'frontend-diff' => false,
-        'frontend-editor' => false,
-        'frontend-footer' => false,
-        'frontend-legacy-content' => false,
-        'key-value-store' => false,
     ],
     'service_manager' => [
         'factories' => [

@@ -8,9 +8,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=secret
 
-  redis:
-    image: redis:5.0
-
   hydra:
     image: oryd/hydra:v1.2.3
     ports:
@@ -34,22 +31,6 @@ services:
   #      dockerfile: packages/public/editor-renderer/Dockerfile
   editor-renderer:
     image: eu.gcr.io/serlo-shared/serlo-org-editor-renderer
-
-  frontend:
-    build:
-      context: .
-      dockerfile: packages/public/frontend/docker/Dockerfile
-      target: development
-    ports:
-      - '3000:3000'
-
-  frontend-assets:
-    image: nginx
-    ports:
-      - '3001:80'
-    volumes:
-      - ./packages/public/frontend/public:/usr/share/nginx/html:delegated
-      - ./packages/public/frontend/docker/nginx.conf:/etc/nginx/conf.d/default.conf:delegated
 
   #  legacy-editor-renderer:
   #    build:

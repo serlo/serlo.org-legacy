@@ -20,8 +20,4 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 {% do headTitle('Create a revision' | trans) %}
-{% if featureFlags().isEnabled('frontend-editor') %}
-    {{ renderComponent('editor', {initialState: state, type: 'page' })}}
-{% else %}
-    <div id="editor" data-state="{{ state }}" data-type="page"></div>
-{% endif %}
+<div id="editor" data-state="{{ state }}" data-type="page"></div>

@@ -23,7 +23,6 @@
 namespace Renderer\Factory;
 
 use FeatureFlags\Service as FeatureFlagsService;
-use Frontend\RenderComponentService;
 use Raven_Client;
 use Renderer\Renderer;
 use Renderer\View\Helper\FormatHelper;
@@ -43,12 +42,11 @@ class RendererFactory implements FactoryInterface
         /** @var featureFlagsService $featureFlags */
         $featureFlags = $serviceLocator->get(FeatureFlagsService::class);
         $config  = $serviceLocator->get('config');
-        $renderComponentService   = $serviceLocator->get(RenderComponentService::class);
         $editorRendererUrl = $config['services']['editor_renderer'];
         $legacyRendererUrl = $config['services']['legacy_editor_renderer'];
         $cacheEnabled = $config['renderer']['cache_enabled'];
 
-        $service = new Renderer($featureFlags, $editorRendererUrl, $legacyRendererUrl, $formatHelper, $renderComponentService, $storage, $cacheEnabled, $sentry);
+        $service = new Renderer($featureFlags, $editorRendererUrl, $legacyRendererUrl, $formatHelper, $storage, $cacheEnabled, $sentry);
 
         return $service;
     }

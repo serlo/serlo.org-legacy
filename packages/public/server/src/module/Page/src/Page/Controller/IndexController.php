@@ -212,9 +212,7 @@ class IndexController extends AbstractAPIAwareActionController
             'content' => $revision ? $revision->getContent() : '',
             'title' => $revision ? $revision->getTitle() : '',
         ];
-        $state = $this->featureFlags->isEnabled('frontend-editor')
-            ? json_encode($data)
-            : htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
+        $state = htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
         $view = new ViewModel(['state' => $state]);
         $view->setTemplate('page/revision/create');
         $this->layout('layout/3-col');

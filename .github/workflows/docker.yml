@@ -12,11 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: docker build -f packages/public/editor-renderer/Dockerfile -t serlo-org-editor-renderer:latest .
-  frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: docker build -f packages/public/frontend/docker/Dockerfile -t serlo-org-frontend:latest .
   legacy-editor-renderer:
     runs-on: ubuntu-latest
     steps:

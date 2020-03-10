@@ -30,7 +30,6 @@ $assets = [
 
 $services = [
     'editor_renderer' => 'http://editor-renderer:3000',
-    'frontend' => 'http://frontend:3000',
     'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000',
     'hydra' => 'http://hydra:4445',
 ];
@@ -52,16 +51,6 @@ $smtp_options = [];
 $tracking = [];
 $featureFlags = [
     'client-frontend' => false,
-    'frontend-content' => false,
-    'frontend-diff' => false,
-    'frontend-editor' => false,
-    'frontend-footer' => false,
-    'frontend-legacy-content' => false,
-    'key-value-store' => false,
-];
-
-$keyValueStore = [
-    'hosts' => ['redis'],
 ];
 
 $cronjob_secret = 'secret';

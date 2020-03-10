@@ -19,8 +19,4 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{% if featureFlags().isEnabled('frontend-editor') %}
-    {{ renderComponent('editor', {initialState: state, type: type, mayCheckout: mayCheckout})}}
-{% else %}
-    <div id="editor" data-state="{{ state }}" data-type="{{ type }}" data-may-checkout="{{ mayCheckout }}"></div>
-{% endif %}
+<div id="editor" data-state="{{ state }}" data-type="{{ type }}" data-may-checkout="{{ mayCheckout }}"></div>

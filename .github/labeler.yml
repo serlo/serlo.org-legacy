@@ -9,10 +9,6 @@ editor-renderer:
   - packages/public/editor-renderer/*
   - packages/public/editor-renderer/**/*
 
-frontend:
-  - packages/public/frontend/*
-  - packages/public/frontend/**/*
-
 legacy-editor-renderer:
   - packages/public/legacy-editor-renderer/*
   - packages/public/legacy-editor-renderer/**/*

@@ -20,8 +20,4 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 {{ pageHeader('My settings' | trans) }}
-{% if featureFlags().isEnabled('frontend-editor') %}
-    {{ renderComponent('editor', {initialState: state, type: 'user'})}}
-{% else %}
-    <div id="editor" data-state="{{ state }}" data-type="user"></div>
-{% endif %}
+<div id="editor" data-state="{{ state }}" data-type="user"></div>

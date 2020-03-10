@@ -25,7 +25,6 @@ namespace Renderer;
 
 use Exception;
 use FeatureFlags\Service as FeatureFlagsService;
-use Frontend\RenderComponentService;
 use Raven_Client;
 use Renderer\Exception\RuntimeException;
 use Renderer\View\Helper\FormatHelper;
@@ -76,19 +75,17 @@ class Renderer
      * @param string $editorRendererUrl
      * @param string $legacyRendererUrl
      * @param FormatHelper $formatHelper
-     * @param RenderComponentService $renderComponentService
      * @param StorageInterface $storage
      * @param bool $cacheEnabled
      * @param Raven_Client $sentry
      */
-    public function __construct(FeatureFlagsService $featureFlags, $editorRendererUrl, $legacyRendererUrl, FormatHelper $formatHelper, RenderComponentService $renderComponentService, StorageInterface $storage, $cacheEnabled, Raven_Client $sentry)
+    public function __construct(FeatureFlagsService $featureFlags, $editorRendererUrl, $legacyRendererUrl, FormatHelper $formatHelper, StorageInterface $storage, $cacheEnabled, Raven_Client $sentry)
     {
         $this->featureFlags = $featureFlags;
         $this->editorRendererUrl = $editorRendererUrl;
         $this->legacyRendererUrl = $legacyRendererUrl;
         $this->formatHelper = $formatHelper;
         $this->storage = $storage;
-        $this->renderComponentService = $renderComponentService;
         $this->cacheEnabled = $cacheEnabled;
         $this->sentry = $sentry;
     }
@@ -100,22 +97,6 @@ class Renderer
     public function render($input)
     {
         $key = 'renderer/' . hash('sha512', $input);
-
-        if ($this->featureFlags->isEnabled('frontend-legacy-content') && $this->getFormatHelper()->isLegacyFormat($input)) {
-            return $this->renderComponentService->render(
-                'legacy-content',
-                ['input' => $input],
-                $key
-            );
-        }
-
-        if ($this->featureFlags->isEnabled('frontend-content') && !$this->getFormatHelper()->isLegacyFormat($input)) {
-            return $this->renderComponentService->render(
-                'content',
-                ['input' => $input],
-                $key
-            );
-        }
 
         if ($this->cacheEnabled && $this->storage->hasItem($key)) {
             return $this->storage->getItem($key);

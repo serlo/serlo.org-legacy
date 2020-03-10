@@ -10,7 +10,7 @@
   "scripts": {
     "build": "lerna run --stream build",
     "deploy:images": "lerna run --stream deploy:image",
-    "predeploy:packages": "lerna run --stream build --scope=@serlo/{client,frontend,static-assets} --include-filtered-dependencies",
+    "predeploy:packages": "lerna run --stream build --scope=@serlo/{client,static-assets} --include-filtered-dependencies",
     "deploy:packages": "lerna run --stream deploy:package",
     "deploy": "lerna run deploy",
     "dump:sql": "ts-node scripts/dump_mysql_serlo_database.ts",

@@ -56,17 +56,13 @@
                                     {% endif %}
                                 </div>
                             {% endif %}
-                            {% if featureFlags().isEnabled('frontend-diff') %}
-                                {{ renderComponent('diff', {revisionOld: oldField, revisionNew: field.getValue(), title: field.getName()})}}
-                            {% else %}
-                                <div class="revision-compare-new" style="display:none;">
-                                    {% if compareFieldIsLegacy and fieldIsLegacy %}
-                                        {{ diff().cleanMarkdown(field.getValue()) | escape }}
-                                    {% else %}
-                                        {{ field.getValue() | escape }}
-                                    {% endif %}
-                                </div>
-                            {% endif %}
+                            <div class="revision-compare-new" style="display:none;">
+                                {% if compareFieldIsLegacy and fieldIsLegacy %}
+                                    {{ diff().cleanMarkdown(field.getValue()) | escape }}
+                                {% else %}
+                                    {{ field.getValue() | escape }}
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="old{{ field.getName() }}">
                             {% if compareFieldIsLegacy %}
