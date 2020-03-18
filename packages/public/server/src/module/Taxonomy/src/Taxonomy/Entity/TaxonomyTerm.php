@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Taxonomy\Entity;
 
 use Blog\Entity\PostInterface;
@@ -102,16 +103,16 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
 
     public function __construct()
     {
-        $this->children             = new ArrayCollection();
-        $this->entities             = new ArrayCollection();
-        $this->blogPosts            = new ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->entities = new ArrayCollection();
+        $this->blogPosts = new ArrayCollection();
         $this->termTaxonomyEntities = new ArrayCollection();
-        $this->weight               = 0;
+        $this->weight = 0;
     }
 
     public function associateObject(TaxonomyTermAwareInterface $entity)
     {
-        $field  = $this->getAssociationFieldName($entity);
+        $field = $this->getAssociationFieldName($entity);
         $method = 'add' . ucfirst($field);
         if (!method_exists($this, $method)) {
             $this->getAssociated($field)->add($entity);
@@ -124,7 +125,7 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
     public function countAssociations($field = null, FilterInterface $filter = null)
     {
         if ($field === null) {
-            $count     = 0;
+            $count = 0;
             $relations = [
                 'entities',
                 'blogPosts',
@@ -186,7 +187,7 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
     {
         if ($field === null) {
             $elements = [];
-            $fields   = [
+            $fields = [
                 'entities',
                 'blogPosts',
             ];
@@ -307,7 +308,7 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
 
     public function isAssociated(TaxonomyTermAwareInterface $object)
     {
-        $field        = $this->getAssociationFieldName($object);
+        $field = $this->getAssociationFieldName($object);
         $associations = $this->getAssociated($field);
         return $associations->contains($object);
     }
@@ -344,7 +345,7 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
 
     public function removeAssociation(TaxonomyTermAwareInterface $entity)
     {
-        $field  = $this->getAssociationFieldName($entity);
+        $field = $this->getAssociationFieldName($entity);
         $method = 'remove' . ucfirst($field);
         if (!method_exists($this, $method)) {
             $this->getAssociated($field)->removeElement($entity);

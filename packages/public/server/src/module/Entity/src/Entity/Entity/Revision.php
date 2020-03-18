@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Entity\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -82,8 +83,8 @@ class Revision extends Uuid implements RevisionInterface
     protected function getField($field)
     {
         $expression = Criteria::expr()->eq("name", $field);
-        $criteria   = Criteria::create()->where($expression)->setFirstResult(0)->setMaxResults(1);
-        $data       = $this->fields->matching($criteria);
+        $criteria = Criteria::create()->where($expression)->setFirstResult(0)->setMaxResults(1);
+        $data = $this->fields->matching($criteria);
 
         if (empty($data)) {
             return null;

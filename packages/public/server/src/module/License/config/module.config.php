@@ -20,31 +20,38 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace License;
 
 return [
-    'zfc_rbac'        => [
+    'zfc_rbac' => [
         'assertion_map' => [
             'license.create' => 'Authorization\Assertion\RequestInstanceAssertion',
             'license.update' => 'Authorization\Assertion\InstanceAssertion',
-            'license.purge'  => 'Authorization\Assertion\InstanceAssertion',
-            'license.get'    => 'Authorization\Assertion\InstanceAssertion',
+            'license.purge' => 'Authorization\Assertion\InstanceAssertion',
+            'license.get' => 'Authorization\Assertion\InstanceAssertion',
         ],
     ],
     'service_manager' => [
         'factories' => [],
     ],
-    'class_resolver'  => [
+    'class_resolver' => [
         __NAMESPACE__ . '\Entity\LicenseInterface' => __NAMESPACE__ . '\Entity\License',
     ],
-    'di'              => [
+    'di' => [
         'allowed_controllers' => [
+            __NAMESPACE__ . '\Controller\ApiController',
             __NAMESPACE__ . '\Controller\LicenseController',
         ],
-        'definition'          => [
+        'definition' => [
             'class' => [
-                __NAMESPACE__ . '\Manager\LicenseManager'         => [],
-                __NAMESPACE__ . '\Controller\LicenseController'   => [],
+                __NAMESPACE__ . '\Manager\LicenseManager' => [],
+                __NAMESPACE__ . '\Controller\ApiController' => [
+                    'setLicenseManager' => [
+                        'required' => true,
+                    ],
+                ],
+                __NAMESPACE__ . '\Controller\LicenseController' => [],
                 __NAMESPACE__ . '\Listener\EntityManagerListener' => [
                     'setLicenseManager' => [
                         'required' => true,
@@ -52,14 +59,14 @@ return [
                 ],
             ],
         ],
-        'instance'            => [
+        'instance' => [
             'preferences' => [
                 __NAMESPACE__ . '\Manager\LicenseManagerInterface' => __NAMESPACE__ . '\Manager\LicenseManager',
             ],
         ],
     ],
-    'doctrine'        => [
-        'driver'          => [
+    'doctrine' => [
+        'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
@@ -67,7 +74,7 @@ return [
                     __DIR__ . '/../src/' . __NAMESPACE__ . '/Entity',
                 ],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],
@@ -81,61 +88,71 @@ return [
             ],
         ],
     ],
-    'router'          => [
+    'router' => [
         'routes' => [
             'license' => [
-                'type'    => 'literal',
-                'options'      => [
-                    'route'    => '/license',
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/license',
                     'defaults' => [
                         'controller' => __NAMESPACE__ . '\Controller\LicenseController',
                     ],
                 ],
                 'child_routes' => [
                     'manage' => [
-                        'type'    => 'literal',
+                        'type' => 'literal',
                         'options' => [
-                            'route'    => '/manage',
+                            'route' => '/manage',
                             'defaults' => [
                                 'action' => 'manage',
                             ],
                         ],
                     ],
-                    'add'    => [
-                        'type'    => 'literal',
+                    'add' => [
+                        'type' => 'literal',
                         'options' => [
-                            'route'    => '/add',
+                            'route' => '/add',
                             'defaults' => [
                                 'action' => 'add',
                             ],
                         ],
                     ],
                     'detail' => [
-                        'type'    => 'segment',
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/detail/:id',
+                            'route' => '/detail/:id',
                             'defaults' => [
                                 'action' => 'detail',
                             ],
                         ],
                     ],
                     'update' => [
-                        'type'    => 'segment',
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/update/:id',
+                            'route' => '/update/:id',
                             'defaults' => [
                                 'action' => 'update',
                             ],
                         ],
                     ],
                     'remove' => [
-                        'type'    => 'segment',
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/remove/:id',
+                            'route' => '/remove/:id',
                             'defaults' => [
                                 'action' => 'remove',
                             ],
                         ],
+                    ],
+                ],
+            ],
+            'license_api' => [
+                'type' => 'segment',
+                'options' => [
+                    'route' => '/api/license/:id',
+                    'defaults' => [
+                        'controller' => __NAMESPACE__ . '\Controller\ApiController',
+                        'action' => 'index',
                     ],
                 ],
             ],

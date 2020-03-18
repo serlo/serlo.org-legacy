@@ -1,3 +1,4 @@
+<?php
 /**
  * This file is part of Serlo.org.
  *
@@ -19,33 +20,30 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
-// @ts-ignore
-import Plain from 'slate-plain-serializer'
-// @ts-ignore
-import { Editor } from 'slate-react'
 
-export function InlineInput(props: {
-  onChange: (value: string) => void
-  value: string
-  placeholder: string
-}) {
-  const { onChange, value, placeholder } = props
-  const [state, setState] = React.useState(Plain.deserialize(value))
-  React.useEffect(() => {
-    if (Plain.serialize(state) !== value) {
-      setState(Plain.deserialize(value))
+namespace License\Controller;
+
+use License\Manager\LicenseManagerAwareTrait;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
+
+class ApiController extends AbstractActionController
+{
+    use LicenseManagerAwareTrait;
+
+    public function indexAction()
+    {
+        $id = $this->params('id');
+        $license = $this->getLicenseManager()->getLicense($id);
+        return new JsonModel([
+            'id' => $license->getId(),
+            'instance' => $license->getInstance()->getSubdomain(),
+            'default' => $license->isDefault(),
+            'title' => $license->getTitle(),
+            'url' => $license->getUrl(),
+            'content' => $license->getContent(),
+            'agreement' => $license->getAgreement(),
+            'iconHref' => $license->getIconHref(),
+        ]);
     }
-  }, [value])
-
-  return (
-    <Editor
-      placeholder={placeholder}
-      value={state}
-      onChange={({ value }: any) => {
-        setState(value)
-        onChange(Plain.serialize(value))
-      }}
-    />
-  )
 }

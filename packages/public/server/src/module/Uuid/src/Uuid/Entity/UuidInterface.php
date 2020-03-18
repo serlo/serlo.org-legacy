@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Uuid\Entity;
 
 interface UuidInterface
@@ -46,6 +47,7 @@ interface UuidInterface
      * @return void
      */
     public function setTrashed($trashed);
+
 
     /**
      * @return string
