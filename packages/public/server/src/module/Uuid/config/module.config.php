@@ -122,6 +122,9 @@ return [
                     'setUuidManager' => [
                         'required' => true,
                     ],
+                    'setInstanceManager' => [
+                        'required' => true,
+                    ],
                 ],
             ],
         ],

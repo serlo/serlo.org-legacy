@@ -96,18 +96,27 @@ class UuidManager implements UuidManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function findTrashed($page)
+    public function findTrashed($page, $instance)
     {
         $className = $this->getClassResolver()->resolveClassName('Uuid\Entity\UuidInterface');
         $eventLogClassName = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
         $eventTypeClassName = $this->getClassResolver()->resolveClassName('Event\Entity\EventInterface');
+        $entityTypeClassName = $this->getClassResolver()->resolveClassName('Entity\Entity\EntityInterface');
+        $taxonomyTypeClassName = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyInterface');
+        $taxonomyTermTypeClassName = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyTermInterface');
         $results = $this->objectManager->createQueryBuilder()->select('u')->addSelect('MAX(e.date) AS date')->from($className, 'u')
             ->leftJoin($eventLogClassName, 'e', 'WITH', 'e.uuid = u')
             ->leftJoin($eventTypeClassName, 't', 'WITH', 'e.event = t')
-            ->where('u.trashed = :trashed')->andWhere('t.name = :type')
+            ->leftJoin($entityTypeClassName, 'ent', 'WITH', 'u.id = ent.id')
+            ->leftJoin($taxonomyTermTypeClassName, 'tt', 'WITH', 'u = tt')
+            ->leftJoin($taxonomyTypeClassName, 'tax', 'WITH', 'tt.taxonomy = tax')
+            ->where('u.trashed = :trashed')
+            ->andWhere('t.name = :type')
+            ->andWhere('ent.instance = :instance OR ent.instance IS NULL')
+            ->andWhere('tax.instance = :instance OR tax.instance IS NULL')
             ->groupBy('u')
             ->orderBy('date', 'DESC')
-            ->setParameter('trashed', true)->setParameter('type', 'uuid/trash')
+            ->setParameter('trashed', true)->setParameter('type', 'uuid/trash')->setParameter('instance', $instance)
             ->getQuery()->getResult();
 
         $purified = [];

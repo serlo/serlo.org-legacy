@@ -24,18 +24,20 @@ namespace Uuid\Controller;
 
 use Csrf\Form\CsrfForm;
 use Uuid\Manager\UuidManagerAwareTrait;
+use Instance\Manager\InstanceManagerAwareTrait;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
 
 class UuidController extends AbstractActionController
 {
-    use UuidManagerAwareTrait;
+    use UuidManagerAwareTrait, InstanceManagerAwareTrait;
 
     public function recycleBinAction()
     {
         $page     = $this->params()->fromQuery('page', 1);
-        $elements = $this->getUuidManager()->findTrashed($page);
+        $instance = $this->getInstanceManager()->getInstanceFromRequest();
+        $elements = $this->getUuidManager()->findTrashed($page, $instance);
         $view     = new ViewModel(['elements' => $elements]);
         $view->setTemplate('uuid/recycle-bin');
         return $view;
