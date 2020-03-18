@@ -20,37 +20,38 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Alias;
 
 return [
-    'controllers'      => [
+    'controllers' => [
         'factories' => [
             __NAMESPACE__ . '\Controller\RefreshController' => __NAMESPACE__ . '\Factory\RefreshControllerFactory',
         ],
     ],
-    'console'         => [
+    'console' => [
         'router' => [
             'routes' => [
                 'alias' => [
                     'options' => [
-                        'route'    => 'alias refresh [--percentile=] [--skip-entities] [--skip-terms] ',
+                        'route' => 'alias refresh [--percentile=] [--skip-entities] [--skip-terms] ',
                         'defaults' => [
                             'controller' => __NAMESPACE__ . '\Controller\RefreshController',
-                            'action'     => 'refresh',
+                            'action' => 'refresh',
                         ],
                     ],
                 ],
             ],
         ],
     ],
-    'alias_manager'      => [
+    'alias_manager' => [
         'aliases' => [
-            'blogPost'     => [
+            'blogPost' => [
                 'tokenize' => 'blog/{category}/{title}',
                 'provider' => 'Blog\Provider\TokenizerProvider',
                 'fallback' => 'blog/{category}/{id}-{title}',
             ],
-            'entity'       => [
+            'entity' => [
                 'tokenize' => '{path}/{title}',
                 'fallback' => '{path}/{title}-{id}',
                 'provider' => 'Entity\Provider\TokenProvider',
@@ -67,19 +68,32 @@ return [
             'url' => __NAMESPACE__ . '\Factory\UrlPluginFactory',
         ],
     ],
-    'class_resolver'     => [
+    'class_resolver' => [
         __NAMESPACE__ . '\Entity\AliasInterface' => __NAMESPACE__ . '\Entity\Alias',
     ],
-    'router'             => [
+    'router' => [
         'routes' => [
             'alias' => [
-                'type'     => 'Common\Router\Slashable',
+                'type' => 'Common\Router\Slashable',
                 'priority' => -10000,
-                'options'  => [
-                    'route'       => '/:alias',
-                    'defaults'    => [
+                'options' => [
+                    'route' => '/:alias',
+                    'defaults' => [
                         'controller' => 'Alias\Controller\AliasController',
-                        'action'     => 'forward',
+                        'action' => 'forward',
+                    ],
+                    'constraints' => [
+                        'alias' => '(.)+',
+                    ],
+                ],
+            ],
+            'api' => [
+                'type' => 'Common\Router\Slashable',
+                'options' => [
+                    'route' => '/api/alias/:alias',
+                    'defaults' => [
+                        'controller' => 'Alias\Controller\ApiController',
+                        'action' => 'resolve',
                     ],
                     'constraints' => [
                         'alias' => '(.)+',
@@ -88,26 +102,38 @@ return [
             ],
         ],
     ],
-    'service_manager'    => [
+    'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Options\ManagerOptions'             => __NAMESPACE__ . '\Factory\ManagerOptionsFactory',
-            __NAMESPACE__ . '\AliasManager'                       => __NAMESPACE__ . '\Factory\AliasManagerFactory',
-            __NAMESPACE__ . '\Listener\BlogManagerListener'       => __NAMESPACE__ . '\Factory\BlogManagerListenerFactory',
-            __NAMESPACE__ . '\Listener\BlogManagerListener'       => __NAMESPACE__ . '\Factory\BlogManagerListenerFactory',
+            __NAMESPACE__ . '\Options\ManagerOptions' => __NAMESPACE__ . '\Factory\ManagerOptionsFactory',
+            __NAMESPACE__ . '\AliasManager' => __NAMESPACE__ . '\Factory\AliasManagerFactory',
+            __NAMESPACE__ . '\Listener\BlogManagerListener' => __NAMESPACE__ . '\Factory\BlogManagerListenerFactory',
+            __NAMESPACE__ . '\Listener\BlogManagerListener' => __NAMESPACE__ . '\Factory\BlogManagerListenerFactory',
             __NAMESPACE__ . '\Listener\RepositoryManagerListener' => __NAMESPACE__ . '\Factory\RepositoryManagerListenerFactory',
-            __NAMESPACE__ . '\Listener\PageControllerListener'    => __NAMESPACE__ . '\Factory\PageControllerListenerFactory',
-            __NAMESPACE__ . '\Listener\TaxonomyManagerListener'   => __NAMESPACE__ . '\Factory\TaxonomyManagerListenerFactory',
-            __NAMESPACE__ . '\Storage\AliasStorage'               => __NAMESPACE__ . '\Factory\AliasStorageFactory',
+            __NAMESPACE__ . '\Listener\PageControllerListener' => __NAMESPACE__ . '\Factory\PageControllerListenerFactory',
+            __NAMESPACE__ . '\Listener\TaxonomyManagerListener' => __NAMESPACE__ . '\Factory\TaxonomyManagerListenerFactory',
+            __NAMESPACE__ . '\Storage\AliasStorage' => __NAMESPACE__ . '\Factory\AliasStorageFactory',
         ],
     ],
-    'di'                 => [
+    'di' => [
         'allowed_controllers' => [
             'Alias\Controller\AliasController',
+            'Alias\Controller\ApiController',
         ],
-        'definition'          => [
+        'definition' => [
             'class' => [
                 __NAMESPACE__ . '\Controller\AliasController' => [
-                    'setAliasManager'    => [
+                    'setAliasManager' => [
+                        'required' => true,
+                    ],
+                    'setInstanceManager' => [
+                        'required' => true,
+                    ],
+                ],
+                __NAMESPACE__ . '\Controller\ApiController' => [
+                    'setAliasManager' => [
+                        'required' => true,
+                    ],
+                    'setEntityManager' => [
                         'required' => true,
                     ],
                     'setInstanceManager' => [
@@ -116,13 +142,13 @@ return [
                 ],
             ],
         ],
-        'instance'            => [
+        'instance' => [
             'preferences' => [
                 __NAMESPACE__ . '\AliasManagerInterface' => __NAMESPACE__ . '\AliasManager',
             ],
         ],
     ],
-    'doctrine'           => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
@@ -131,23 +157,23 @@ return [
                     __DIR__ . '/../src/' . __NAMESPACE__ . '/Entity',
                 ],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],
             ],
         ],
     ],
-    'view_helpers'       => [
+    'view_helpers' => [
         'factories' => [
-            'url'   => __NAMESPACE__ . '\Factory\UrlHelperFactory',
+            'url' => __NAMESPACE__ . '\Factory\UrlHelperFactory',
             'alias' => __NAMESPACE__ . '\Factory\AliasHelperFactory',
         ],
     ],
-    'zfctwig'            => [
+    'zfctwig' => [
         'helper_manager' => [
             'factories' => [
-                'url'   => __NAMESPACE__ . '\Factory\UrlHelperFactory',
+                'url' => __NAMESPACE__ . '\Factory\UrlHelperFactory',
                 'alias' => __NAMESPACE__ . '\Factory\AliasHelperFactory',
             ],
         ],
