@@ -34,7 +34,7 @@ class ApiController extends AbstractActionController
     use \Instance\Manager\InstanceManagerAwareTrait;
     use \Entity\Manager\EntityManagerAwareTrait;
 
-    public function resolveAction()
+    public function indexAction()
     {
         $alias = $this->params('alias');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();

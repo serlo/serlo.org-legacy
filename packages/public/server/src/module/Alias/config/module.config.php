@@ -93,7 +93,7 @@ return [
                     'route' => '/api/alias/:alias',
                     'defaults' => [
                         'controller' => 'Alias\Controller\ApiController',
-                        'action' => 'resolve',
+                        'action' => 'index',
                     ],
                     'constraints' => [
                         'alias' => '(.)+',
