@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Entity\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -160,7 +161,7 @@ class Entity extends Uuid implements EntityInterface
     }
 
 
-    public function getValidChildren($linkType, $childType=null)
+    public function getValidChildren($linkType, $childType = null)
     {
         $filterchain = new FilterChain();
         $filterchain->attach(new HasCurrentRevisionCollectionFilter())
@@ -238,8 +239,8 @@ class Entity extends Uuid implements EntityInterface
             return null;
         }
 
-        if ($index-1 >= 0) {
-            return $children->get($index-1);
+        if ($index - 1 >= 0) {
+            return $children->get($index - 1);
         }
 
         return null;

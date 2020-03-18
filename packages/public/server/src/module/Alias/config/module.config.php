@@ -87,7 +87,7 @@ return [
                     ],
                 ],
             ],
-            'api' => [
+            'alias_api' => [
                 'type' => 'Common\Router\Slashable',
                 'options' => [
                     'route' => '/api/alias/:alias',

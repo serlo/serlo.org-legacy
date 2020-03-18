@@ -146,7 +146,7 @@ return [
                     ],
                 ],
             ],
-            'api' => [
+            'license_api' => [
                 'type' => 'segment',
                 'options' => [
                     'route' => '/api/license/:id',
