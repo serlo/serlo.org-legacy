@@ -33,7 +33,7 @@ export async function initConsentBanner(): Promise<boolean> {
     ? JSON.parse(localStorageValue)
     : { showEvent: false, consentEvent: false }
 
-  const [currentRevision]: string[] = await $.get('/datenschutz/json')
+  const [currentRevision]: string[] = await $.get('/privacy/json')
   if (value.revision === currentRevision) return true
 
   if (!value.showEvent) {
@@ -44,8 +44,8 @@ export async function initConsentBanner(): Promise<boolean> {
   const $div = $(`
         <div id="consent-banner">
             Mit der Nutzung dieser Webseite erklärst du dich mit unserer
-            <a href="/datenschutz">Datenschutzerklärung</a> und
-            <a href="/21654">Nutzungsbedingungen</a> einverstanden.
+            <a href="/privacy">Datenschutzerklärung</a> und
+            <a href="/terms">Nutzungsbedingungen</a> einverstanden.
         </div>
        `)
   const $button = $('<button class="btn btn-success">Verstanden</button>')

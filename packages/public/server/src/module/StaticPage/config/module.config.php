@@ -24,20 +24,17 @@
 namespace StaticPage;
 
 use StaticPage\Controller\BeitragController;
-use StaticPage\Controller\DatenschutzController;
 use StaticPage\Controller\SpendenController;
 
 return [
     'di' => [
         'allowed_controllers' => [
             BeitragController::class,
-            DatenschutzController::class,
             SpendenController::class,
         ],
         'definition' => [
             'class' => [
                 BeitragController::class => [],
-                DatenschutzController::class => [],
                 SpendenController::class => [],
             ],
         ],
@@ -55,49 +52,6 @@ return [
                     ],
                 ],
                 'child_routes' => [
-                    'datenschutz' => [
-                        'type' => 'literal',
-                        'options' => [
-                            'route' => '/datenschutz',
-                            'defaults' => [
-                                'controller' => DatenschutzController::class,
-                                'action' => 'index',
-                            ],
-                        ],
-                        'may_terminate' => true,
-                        'child_routes' => [
-                            'archiv' => [
-                                'type' => 'literal',
-                                'options' => [
-                                    'route' => '/archiv',
-                                    'defaults' => [
-                                        'action' => 'archiveIndex',
-                                    ],
-                                ],
-                                'may_terminate' => true,
-                                'child_routes' => [
-                                    'view' => [
-                                        'type' => 'segment',
-                                        'options' => [
-                                            'route' => '/:revision',
-                                            'defaults' => [
-                                                'action' => 'archiveView',
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                            ],
-                            'json' => [
-                                'type' => 'literal',
-                                'options' => [
-                                    'route' => '/json',
-                                    'defaults' => [
-                                        'action' => 'json',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
                     'spenden' => [
                         'type' => 'literal',
                         'options' => [
@@ -122,13 +76,6 @@ return [
                     ],
                 ],
             ],
-        ],
-    ],
-    'datenschutz' => [
-        'revisions' => [
-            '20200210',
-            '20181201',
-            '20181017',
         ],
     ],
 ];
