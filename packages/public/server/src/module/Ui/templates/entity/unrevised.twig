@@ -50,11 +50,8 @@
                 {{ normalized.getTitle() }}
               {% endif %}
             </td>
-            <td>
+            <td {% if user().isNewbie(revision.getAuthor()) %} class="newbie" {% endif %}>
               {{ normalize().toAnchor(revision.getAuthor()) }}
-              {% if user().isNewbie(revision.getAuthor()) %}
-                *
-              {% endif %}
             </td>
             <td>
               <a href="{{ url(normalized.getRouteName(), normalized.getRouteParams()) }}">

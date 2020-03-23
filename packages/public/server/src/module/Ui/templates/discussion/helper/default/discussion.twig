@@ -113,15 +113,9 @@
                             On {{ type }} {{ object }}: {{ title }}
                             {% endtrans %}
                         </div>
-                        <div>
+                        <div {% if user().isNewbie(discussion.getAuthor()) %} class="newbie" {% endif %}>
                             {% trans %}
-                            {{ author }}
-                            {% endtrans %}
-                            {% if user().isNewbie(discussion.getAuthor()) %}
-                                *
-                            {% endif %}
-                            {% trans %}
-                            {{ time }}
+                            {{ author }} {{ time }}
                             {% endtrans %}
                         </div>
                     </div>
