@@ -76,11 +76,7 @@ class UserHelper extends AbstractHelper
         return $field->getValue();
     }
 
-    /**
-     * @param UserInterface $user
-     * @return bool
-     */
-    public function isNewbie(UserInterface $user)
+    public function isNewbie(UserInterface $user): bool
     {
         return $this->getEventManager()->findEventsByNamesAndActor($user, ['entity/revision/add', 'discussion/comment/create'])->count() <= 5;
     }
