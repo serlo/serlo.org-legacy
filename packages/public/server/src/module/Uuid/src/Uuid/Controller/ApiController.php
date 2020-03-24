@@ -7,6 +7,7 @@ use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
 use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
+use User\Entity\UserInterface;
 use Uuid\Manager\UuidManagerAwareTrait;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
@@ -37,6 +38,7 @@ class ApiController extends AbstractActionController
         if ($uuid instanceof RevisionInterface) {
             $data['discriminator'] = 'entityRevision';
             $data['date'] = $uuid->getTimestamp()->format(DateTime::ATOM);
+            $data['authorId'] = $uuid->getAuthor()->getId();
             /** @var EntityInterface $entity */
             $entity = $uuid->getRepository();
             $data['type'] = $entity->getType()->getName();
@@ -57,7 +59,16 @@ class ApiController extends AbstractActionController
             $data['title'] = $uuid->getTitle();
             $data['content'] = $uuid->getContent();
             $data['date'] = $uuid->getTimestamp()->format(DateTime::ATOM);
+            $data['authorId'] = $uuid->getAuthor()->getId();
             $data['repositoryId'] = $uuid->getRepository()->getId();
+        }
+
+        if ($uuid instanceof UserInterface) {
+            $data['discriminator'] = 'user';
+            $data['username'] = $uuid->getUsername();
+            $data['date'] = $uuid->getDate()->format(DateTime::ATOM);
+            $data['lastLogin'] = $uuid->getLastLogin()->format(DateTime::ATOM);
+            $data['description'] = $uuid->getDescription();
         }
 
         return new JsonModel($data);

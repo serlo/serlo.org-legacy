@@ -100,6 +100,9 @@ return [
         'api_key' => $newsletter_key,
     ] : [],
 
+    // ApiCache Module
+    'api_cache_options' => $api_cache_options,
+
     // Sentry (Log Module)
     'sentry_options' => array_merge(
         isset($sentry_dsn) ? ['dsn' => $sentry_dsn] : [],

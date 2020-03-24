@@ -21,39 +21,37 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-$env = 'development';
+namespace ApiCache\Listener;
 
-$assets = [
-    'assets_host' => 'http://localhost:8082/',
-    'bundle_host' => 'http://localhost:8081/',
-];
+use Versioning\Entity\RepositoryInterface;
+use Versioning\RepositoryManager;
+use Zend\EventManager\Event;
+use Zend\EventManager\SharedEventManagerInterface;
 
-$services = [
-    'editor_renderer' => 'http://editor-renderer:3000',
-    'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000',
-    'hydra' => 'http://hydra:4445',
-];
+class RepositoryManagerListener extends AbstractListener
+{
+    public function onCheckoutRevision(Event $e)
+    {
+        /** @var RepositoryInterface $repository */
+        $repository = $e->getParam('repository');
+        $this->cache->purge('de.serlo.org/api/uuid/' . $repository->getId());
+    }
 
-$db = [
-    'host' => 'mysql',
-    'port' => '3306',
-    'username' => 'root',
-    'password' => 'secret',
-    'database' => 'serlo',
-];
+    public function attachShared(SharedEventManagerInterface $events)
+    {
+        $events->attach(
+            $this->getMonitoredClass(),
+            'checkout',
+            [
+                $this,
+                'onCheckoutRevision',
+            ],
+            2
+        );
+    }
 
-$recaptcha = [
-    'key' => '6LfwJFwUAAAAAKHhl-kjPbA6mCPjt_CrkCbn3okr',
-    'secret' => '6LfwJFwUAAAAAPVsTPLe00oAb9oUTewOUe31pXSv',
-];
-
-$api_cache_options = [];
-$smtp_options = [];
-$tracking = [];
-$featureFlags = [
-    'client-frontend' => false,
-];
-
-$cronjob_secret = 'secret';
-$upload_secret = 'secret';
-$mock_email = true;
+    protected function getMonitoredClass()
+    {
+        return RepositoryManager::class;
+    }
+}

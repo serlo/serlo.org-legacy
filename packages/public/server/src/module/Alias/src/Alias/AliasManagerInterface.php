@@ -75,4 +75,11 @@ interface AliasManagerInterface extends Flushable
      * @return string
      */
     public function findSourceByAlias($alias, InstanceInterface $instance, $useCache = false);
+
+    /**
+     * @param $alias,
+     * @param InstanceInterface $instance
+     * @return Entity\AliasInterface[]
+     */
+    public function findAliases($alias, InstanceInterface $instance);
 }

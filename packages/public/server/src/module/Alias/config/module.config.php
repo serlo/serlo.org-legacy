@@ -141,7 +141,7 @@ return [
                     ],
                     'setPageManager' => [
                         'required' => true,
-                    ]
+                    ],
                 ],
             ],
         ],
