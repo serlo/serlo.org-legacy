@@ -25,14 +25,16 @@ namespace Alias\Controller;
 
 use Alias\Exception\AliasNotFoundException;
 use Alias;
+use DateTime;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
 class ApiController extends AbstractActionController
 {
     use Alias\AliasManagerAwareTrait;
-    use \Instance\Manager\InstanceManagerAwareTrait;
     use \Entity\Manager\EntityManagerAwareTrait;
+    use \Instance\Manager\InstanceManagerAwareTrait;
+    use \Page\Manager\PageManagerAwareTrait;
 
     public function indexAction()
     {
@@ -42,9 +44,14 @@ class ApiController extends AbstractActionController
         try {
             $source = $this->aliasManager->findSourceByAlias($alias, $instance, true);
             if (preg_match('/\/page\/view\/(\d+)/', $source, $matches)) {
+                $id = (int)$matches[1];
+                $page = $this->getPageManager()->getPageRepository($id);
+
                 return new JsonModel([
                     'id' => (int)$matches[1],
+                    'trashed' => $page->getTrashed(),
                     'discriminator' => 'page',
+                    'currentRevisionId' => $page->getCurrentRevision()->getId(),
                 ]);
             }
 
@@ -53,9 +60,11 @@ class ApiController extends AbstractActionController
                 $entity = $this->getEntityManager()->getEntity($id);
                 return new JsonModel([
                     'id' => (int)$matches[1],
+                    'trashed' => $entity->getTrashed(),
                     'discriminator' => 'entity',
                     'type' => $entity->getType()->getName(),
                     'instance' => $entity->getInstance()->getSubdomain(),
+                    'date' => $entity->getTimestamp()->format(DateTime::ATOM),
                     'currentRevisionId' => $entity->getCurrentRevision()->getId(),
                     'licenseId' => $entity->getLicense()->getId(),
                 ]);
