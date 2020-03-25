@@ -20,51 +20,51 @@
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
 <div class="editor-design">
-{{ pageHeader('Unrevised learning resources').render() }}
-<h2>{% trans %} Support links for reviewing {% endtrans %}</h2>
-<ul>
-  {% for helpLink in helpLinks %}
-    <li><a href="{{ helpLink['url'] }}">{{ helpLink['title'] }}</a></li>
-  {% endfor %}
-</ul>
-{% for subject, revisionsByEntity in revisionsBySubject %}
-  <h2>{{ subject }}</h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>{% trans %} Title {% endtrans %}</th>
-        <th>{% trans %} Author {% endtrans %}</th>
-        <th>{% trans %} Revision {% endtrans %}</th>
-        <th>{% trans %} Changes {% endtrans %}</th>
-        <th>{% trans %} Type {% endtrans %}</th>
-        <th>{% trans %} Timestamp {% endtrans %}</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for revisions in revisionsByEntity %}
-        {% for revision in revisions %}
-          {% set normalized = normalize(revision) %}
-          <tr>
-            <td style="width:30%">
-              {% if loop.first %}
-                {{ normalized.getTitle() }}
-              {% endif %}
-            </td>
-            <td {% if user().isNewbie(revision.getAuthor()) %} class="newbie" {% endif %}>
-              {{ normalize().toAnchor(revision.getAuthor()) }}
-            </td>
-            <td>
-              <a href="{{ url(normalized.getRouteName(), normalized.getRouteParams()) }}">
-                {{ normalized.getId() }}
-              </a>
-            </td>
-            <th scope="row">{{ revision.get('changes') }}</th>
-            <td>{{ normalized.getType() | trans }}</td>
-            <td>{{ timeago().render(normalized.getMetadata().getCreationDate()) }}</td>
-          </tr>
+    {{ pageHeader('Unrevised learning resources').render() }}
+    <h2>{% trans %} Support links for reviewing {% endtrans %}</h2>
+    <ul>
+        {% for helpLink in helpLinks %}
+            <li><a href="{{ helpLink['url'] }}">{{ helpLink['title'] }}</a></li>
         {% endfor %}
-      {% endfor %}
-    </tbody>
-  </table>
-{% endfor %}
+    </ul>
+    {% for subject, revisionsByEntity in revisionsBySubject %}
+        <h2>{{ subject }}</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{% trans %} Title {% endtrans %}</th>
+                <th>{% trans %} Author {% endtrans %}</th>
+                <th>{% trans %} Revision {% endtrans %}</th>
+                <th>{% trans %} Changes {% endtrans %}</th>
+                <th>{% trans %} Type {% endtrans %}</th>
+                <th>{% trans %} Timestamp {% endtrans %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for revisions in revisionsByEntity %}
+                {% for revision in revisions %}
+                    {% set normalized = normalize(revision) %}
+                    <tr>
+                        <td style="width:30%">
+                            {% if loop.first %}
+                                {{ normalized.getTitle() }}
+                            {% endif %}
+                        </td>
+                        <td{% if user().isNewbie(revision.getAuthor()) %} class="newbie"{% endif %}>
+                            {{ normalize().toAnchor(revision.getAuthor()) }}
+                        </td>
+                        <td>
+                            <a href="{{ url(normalized.getRouteName(), normalized.getRouteParams()) }}">
+                                {{ normalized.getId() }}
+                            </a>
+                        </td>
+                        <th scope="row">{{ revision.get('changes') }}</th>
+                        <td>{{ normalized.getType() | trans }}</td>
+                        <td>{{ timeago().render(normalized.getMetadata().getCreationDate()) }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
 </div>
