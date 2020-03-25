@@ -20,13 +20,17 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace User\View\Helper;
 
+use Event\EventManagerAwareTrait;
+use User\Entity\UserInterface;
 use User\Manager\UserManagerInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class UserHelper extends AbstractHelper
 {
+    use EventManagerAwareTrait;
     /**
      * @var UserManagerInterface
      */
@@ -71,5 +75,10 @@ class UserHelper extends AbstractHelper
             return '';
         }
         return $field->getValue();
+    }
+
+    public function isNewbie(UserInterface $user): bool
+    {
+        return $this->getEventManager()->findEventsByNamesAndActor($user, ['entity/revision/add', 'discussion/comment/create'])->count() <= 5;
     }
 }

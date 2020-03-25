@@ -41,7 +41,8 @@ class UserHelperFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $serviceLocator = $serviceLocator->getServiceLocator();
-        $instance       = new UserHelper($this->getUserManager($serviceLocator));
+        $instance = new UserHelper($this->getUserManager($serviceLocator));
+        $instance->setEventManager($serviceLocator->get('Event\EventManager'));
         return $instance;
     }
 }
