@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Alias;
 
 use Alias\Entity\AliasInterface;
@@ -38,11 +39,13 @@ use Token\TokenizerInterface;
 use Uuid\Entity\UuidInterface;
 use Uuid\Manager\UuidManagerAwareTrait;
 use Zend\Cache\Storage\StorageInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Mvc\Router\RouteInterface;
 
 class AliasManager implements AliasManagerInterface
 {
     use Traits\ObjectManagerAwareTrait, ClassResolverAwareTrait;
+    use EventManagerAwareTrait;
     use TokenizerAwareTrait, Traits\RouterAwareTrait;
 
     const CACHE_NONEXISTENT = '~nonexistent~';
@@ -71,11 +74,11 @@ class AliasManager implements AliasManagerInterface
         TokenizerInterface $tokenizer
     ) {
         $this->classResolver = $classResolver;
-        $this->tokenizer     = $tokenizer;
+        $this->tokenizer = $tokenizer;
         $this->objectManager = $objectManager;
-        $this->router        = $router;
-        $this->storage       = $storage;
-        $this->options       = $options;
+        $this->router = $router;
+        $this->storage = $storage;
+        $this->options = $options;
     }
 
     public function autoAlias($name, $source, UuidInterface $object, InstanceInterface $instance)
@@ -92,12 +95,12 @@ class AliasManager implements AliasManagerInterface
             throw new Exception\RuntimeException(sprintf('No configuration found for "%s"', $name));
         }
 
-        $options        = $this->getOptions()->getAliases()[$name];
-        $provider       = $options['provider'];
-        $tokenString    = $options['tokenize'];
+        $options = $this->getOptions()->getAliases()[$name];
+        $provider = $options['provider'];
+        $tokenString = $options['tokenize'];
         $fallbackString = $options['fallback'];
-        $alias          = $this->getTokenizer()->transliterate($provider, $object, $tokenString);
-        $aliasFallback  = $this->getTokenizer()->transliterate($provider, $object, $fallbackString);
+        $alias = $this->getTokenizer()->transliterate($provider, $object, $tokenString);
+        $aliasFallback = $this->getTokenizer()->transliterate($provider, $object, $fallbackString);
 
         return $this->createAlias($source, $alias, $aliasFallback, $object, $instance);
     }
@@ -144,6 +147,10 @@ class AliasManager implements AliasManagerInterface
         $this->getObjectManager()->persist($class);
         $this->inMemoryAliases[] = $class;
 
+        $this->getEventManager()->trigger('create', [
+            'alias' => $class,
+        ]);
+
         return $class;
     }
 
@@ -151,9 +158,9 @@ class AliasManager implements AliasManagerInterface
     {
         /* @var $entity Entity\AliasInterface */
         $criteria = ['uuid' => $uuid->getId()];
-        $order    = ['timestamp' => 'DESC'];
-        $results  = $this->getAliasRepository()->findBy($criteria, $order, 1);
-        $entity   = current($results);
+        $order = ['timestamp' => 'DESC'];
+        $results = $this->getAliasRepository()->findBy($criteria, $order, 1);
+        $entity = current($results);
 
         if (!is_object($entity)) {
             throw new Exception\AliasNotFoundException();
@@ -182,9 +189,9 @@ class AliasManager implements AliasManagerInterface
         }
 
         $criteria = ['source' => $source, 'instance' => $instance->getId()];
-        $order    = ['timestamp' => 'DESC'];
-        $results  = $this->getAliasRepository()->findBy($criteria, $order, 1);
-        $entity   = current($results);
+        $order = ['timestamp' => 'DESC'];
+        $results = $this->getAliasRepository()->findBy($criteria, $order, 1);
+        $entity = current($results);
 
         if (!is_object($entity)) {
             // Set it to null so we know that this doesn't exist
@@ -193,7 +200,7 @@ class AliasManager implements AliasManagerInterface
         }
 
         $router = $this->getRouter();
-        $alias  = $router->assemble(['alias' => $entity->getAlias()], ['name' => 'alias']);
+        $alias = $router->assemble(['alias' => $entity->getAlias()], ['name' => 'alias']);
         $this->storage->setItem($key, $alias);
 
         return $alias;
@@ -203,9 +210,9 @@ class AliasManager implements AliasManagerInterface
     {
         /* @var $entity Entity\AliasInterface */
         $criteria = ['alias' => $alias, 'instance' => $instance->getId()];
-        $order    = ['timestamp' => 'DESC'];
-        $results  = $this->getAliasRepository()->findBy($criteria, $order, 1);
-        $entity   = current($results);
+        $order = ['timestamp' => 'DESC'];
+        $results = $this->getAliasRepository()->findBy($criteria, $order, 1);
+        $entity = current($results);
 
         if (!is_object($entity)) {
             throw new Exception\CanonicalUrlNotFoundException(sprintf('No canonical url found'));
@@ -215,7 +222,7 @@ class AliasManager implements AliasManagerInterface
 
         if ($canonical !== $entity) {
             $router = $this->getRouter();
-            $url    = $router->assemble(['alias' => $canonical->getAlias()], ['name' => 'alias']);
+            $url = $router->assemble(['alias' => $canonical->getAlias()], ['name' => 'alias']);
             if ($url !== $alias) {
                 return $url;
             }
@@ -245,9 +252,9 @@ class AliasManager implements AliasManagerInterface
 
         /* @var $entity Entity\AliasInterface */
         $criteria = ['alias' => $alias, 'instance' => $instance->getId()];
-        $order    = ['timestamp' => 'DESC'];
-        $results  = $this->getAliasRepository()->findBy($criteria, $order, 1);
-        $entity   = current($results);
+        $order = ['timestamp' => 'DESC'];
+        $results = $this->getAliasRepository()->findBy($criteria, $order, 1);
+        $entity = current($results);
 
         if (!is_object($entity)) {
             $this->storage->setItem($key, self::CACHE_NONEXISTENT);
@@ -288,16 +295,16 @@ class AliasManager implements AliasManagerInterface
     }
 
     /**
-     * @param $alias,
+     * @param $alias ,
      * @param InstanceInterface $instance
      * @return Entity\AliasInterface[]
      */
-    protected function findAliases($alias, InstanceInterface $instance)
+    public function findAliases($alias, InstanceInterface $instance)
     {
         $className = $this->getEntityClassName();
-        $criteria  = ['alias' => $alias, 'instance' => $instance->getId()];
-        $order     = ['timestamp' => 'DESC'];
-        $aliases   = $this->getObjectManager()->getRepository($className)->findBy($criteria, $order);
+        $criteria = ['alias' => $alias, 'instance' => $instance->getId()];
+        $order = ['timestamp' => 'DESC'];
+        $aliases = $this->getObjectManager()->getRepository($className)->findBy($criteria, $order);
         foreach ($this->inMemoryAliases as $memoryAlias) {
             if ($memoryAlias->getAlias() == $alias) {
                 $aliases[] = $memoryAlias;
@@ -309,7 +316,7 @@ class AliasManager implements AliasManagerInterface
 
     protected function findUniqueAlias($alias, $fallback, UuidInterface $object, InstanceInterface $instance)
     {
-        $alias   = $this->slugify($alias);
+        $alias = $this->slugify($alias);
         $aliases = $this->findAliases($alias, $instance);
         foreach ($aliases as $entity) {
             if ($entity->getObject() === $object) {
@@ -335,8 +342,8 @@ class AliasManager implements AliasManagerInterface
 
     protected function slugify($text)
     {
-        $slugify   = new Slugify();
-        $shortify  = new Shortify();
+        $slugify = new Slugify();
+        $shortify = new Shortify();
         $slugified = [];
 
         $text = $shortify->filter($text);

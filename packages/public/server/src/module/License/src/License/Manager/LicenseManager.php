@@ -25,7 +25,6 @@ namespace License\Manager;
 use Authorization\Service\AuthorizationAssertionTrait;
 use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
-use Common\Traits\ConfigAwareTrait;
 use Common\Traits\FlushableTrait;
 use Common\Traits\ObjectManagerAwareTrait;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -141,6 +140,7 @@ class LicenseManager implements LicenseManagerInterface
         $license = $this->getLicense($id);
         $this->assertGranted('license.purge', $license);
         $this->getObjectManager()->remove($license);
+        $this->getEventManager()->trigger('remove', $this, ['license' => $license]);
     }
 
     public function updateLicense(LicenseForm $form)
@@ -152,5 +152,6 @@ class LicenseManager implements LicenseManagerInterface
         $license = $form->getObject();
         $this->assertGranted('license.update', $license);
         $this->getObjectManager()->persist($license);
+        $this->getEventManager()->trigger('update', $this, ['license' => $license]);
     }
 }

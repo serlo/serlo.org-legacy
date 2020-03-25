@@ -139,6 +139,9 @@ return [
                     'setInstanceManager' => [
                         'required' => true,
                     ],
+                    'setPageManager' => [
+                        'required' => true,
+                    ],
                 ],
             ],
         ],

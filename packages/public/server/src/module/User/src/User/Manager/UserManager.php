@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace User\Manager;
 
 use Authorization\Service\AuthorizationAssertionTrait;
@@ -31,11 +32,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use User\Exception\UserNotFoundException;
 use User\Exception;
 use User\Hydrator\UserHydrator;
+use Zend\EventManager\EventManagerAwareTrait;
 
 class UserManager implements UserManagerInterface
 {
     use ClassResolverAwareTrait, ObjectManagerAwareTrait;
     use AuthenticationServiceAwareTrait, AuthorizationAssertionTrait;
+    use EventManagerAwareTrait;
 
     /**
      * @var UserHydrator
@@ -133,7 +136,7 @@ class UserManager implements UserManagerInterface
     public function findAllUsers($page = 0, $limit = 50)
     {
         $className = $this->getClassResolver()->resolveClassName('User\Entity\UserInterface');
-        $dql       = 'SELECT u FROM ' . $className . ' u ' . 'ORDER BY u.id DESC';
+        $dql = 'SELECT u FROM ' . $className . ' u ' . 'ORDER BY u.id DESC';
         $paginator = new DoctrinePaginatorFactory($this->objectManager);
         $paginator = $paginator->createPaginator($dql, $page, $limit);
         return $paginator;
@@ -203,6 +206,10 @@ class UserManager implements UserManagerInterface
     public function persist($object)
     {
         $this->getObjectManager()->persist($object);
+
+        $this->getEventManager()->trigger('persist', [
+            'user' => $object,
+        ]);
 
         return $this;
     }

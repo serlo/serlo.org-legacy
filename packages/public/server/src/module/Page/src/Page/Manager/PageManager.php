@@ -52,9 +52,9 @@ use Page\Exception\RuntimeException;
 use User\Entity\UserInterface;
 use User\Manager\UserManagerAwareTrait;
 use User\Manager\UserManagerInterface;
-use Uuid\Manager\UuidManagerAwareTrait;
 use Versioning\RepositoryManagerAwareTrait;
 use Versioning\RepositoryManagerInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Form\FormInterface;
 use ZfcRbac\Service\AuthorizationService;
 
@@ -65,6 +65,7 @@ class PageManager implements PageManagerInterface
     use LicenseManagerAwareTrait, RepositoryManagerAwareTrait;
     use RoleServiceAwareTrait, UserManagerAwareTrait;
     use FlushableTrait;
+    use EventManagerAwareTrait;
 
     public function __construct(
         AuthorizationService $authorizationService,
@@ -139,6 +140,7 @@ class PageManager implements PageManagerInterface
         $formClone->isValid();
         $this->assertGranted('page.update', $page);
         $this->getObjectManager()->persist($page);
+        $this->getEventManager()->trigger('update', $this, ['page' => $page]);
         return $page;
     }
 

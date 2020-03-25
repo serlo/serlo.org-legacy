@@ -25,14 +25,16 @@ namespace Alias\Controller;
 
 use Alias\Exception\AliasNotFoundException;
 use Alias;
+use DateTime;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
 class ApiController extends AbstractActionController
 {
     use Alias\AliasManagerAwareTrait;
-    use \Instance\Manager\InstanceManagerAwareTrait;
     use \Entity\Manager\EntityManagerAwareTrait;
+    use \Instance\Manager\InstanceManagerAwareTrait;
+    use \Page\Manager\PageManagerAwareTrait;
 
     public function indexAction()
     {
@@ -40,28 +42,13 @@ class ApiController extends AbstractActionController
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
 
         try {
-            $source = $this->aliasManager->findSourceByAlias($alias, $instance, true);
-            if (preg_match('/\/page\/view\/(\d+)/', $source, $matches)) {
-                return new JsonModel([
-                    'id' => (int)$matches[1],
-                    'discriminator' => 'page',
-                ]);
-            }
-
-            if (preg_match('/\/entity\/view\/(\d+)/', $source, $matches)) {
-                $id = (int)$matches[1];
-                $entity = $this->getEntityManager()->getEntity($id);
-                return new JsonModel([
-                    'id' => (int)$matches[1],
-                    'discriminator' => 'entity',
-                    'type' => $entity->getType()->getName(),
-                    'instance' => $entity->getInstance()->getSubdomain(),
-                    'currentRevisionId' => $entity->getCurrentRevision()->getId(),
-                    'licenseId' => $entity->getLicense()->getId(),
-                ]);
-            }
-
-            return new JsonModel(['location' => $source, 'alias' => $alias]);
+            $aliases = $this->aliasManager->findAliases($alias, $instance);
+            $currentAlias = $aliases[0];
+            return new JsonModel([
+                'id' => $currentAlias->getObject()->getId(),
+                'source' => $currentAlias->getSource(),
+                'timestamp' => $currentAlias->getTimestamp()->format(DateTime::ATOM),
+            ]);
         } catch (AliasNotFoundException $e) {
             $this->getResponse()->setStatusCode(404);
             return false;
