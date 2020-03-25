@@ -42,7 +42,7 @@ class Cache
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://api.cloudflare.com/client/v4/accounts/' . $options['account'] . '/storage/kv/namespaces/' . $options['namespace'] . '/values/' . $cacheKey);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization' => 'Bearer ' . $options['token'],
+            'Authorization: Bearer ' . $options['token'],
         ]);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
