@@ -1,10 +1,10 @@
 import { activeAuthors } from './active-authors'
 import { activeReviewers } from './active-reviewers'
-const donors = ['26175']
+import { activeDonors } from './active-donors'
 
 const userProfileSpecs: UserProfileSpec[] = [
   {
-    userList: donors,
+    userList: activeDonors,
     icon: 'heart',
     iconStyle: 'color: #337ab7;',
     otherUserProfileMessage:
