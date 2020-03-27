@@ -1,5 +1,5 @@
-const authors = ['26175']
-const reviewers = ['26175']
+import { activeAuthors } from './active-authors'
+import { activeReviewers } from './active-reviewers'
 const donors = ['26175']
 
 const userProfileSpecs: UserProfileSpec[] = [
@@ -11,14 +11,14 @@ const userProfileSpecs: UserProfileSpec[] = [
       'Spende: Unsere Konkurrenten investieren Millionen in kostenpflichtige Bildung. Mit ihrer/seiner Spende unterstützt Digamma, dass Bildung kostenfrei verfügbar ist.'
   },
   {
-    userList: reviewers,
+    userList: activeReviewers,
     icon: 'search',
     iconStyle: 'color:black;',
     otherUserProfileMessage:
       '%username% sichert mit ihrer/seiner Arbeit als Revierwer*in die Qualität der Plattform und damit für 1Mio user*innen den Zugang zu hochwertiger Bildung'
   },
   {
-    userList: authors,
+    userList: activeAuthors,
     icon: 'pencil',
     iconStyle: 'color: black;',
     otherUserProfileMessage:
