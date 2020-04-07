@@ -22,6 +22,7 @@ const userProfileSpecs: UserProfileSpec[] = [
       '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr fundierte, kreative und begeisternde Lerninhalte auf sero.org zu finden sind. <a href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.'
   }
 ]
+const donorsSpec = userProfileSpecs[0]
 
 interface UserProfileSpec {
   userList: string[]
@@ -34,6 +35,35 @@ export function initDonationProfile(): void {
   addBannerToOtherUserProfile()
   addIconsToUserLinks()
   addIconsToUserProfileHeader()
+  addTwingleFormular()
+}
+
+function addTwingleFormular(): void {
+  if (
+    location.pathname.startsWith('/user/me') &&
+    !donorsSpec.userList.includes(getUserIdFromProfilePage())
+  ) {
+    $('div.h2').before(`
+      <div id="spendenformular" style="display: flex; flex-direction: row; width: 100%;">
+        <div style="flex-grow: 1; flex-basis: 50%; padding-right: 20px;">
+        <p>Hallo ${getUserNameFromProfilePage()},</p>
+
+        <p>wir von Serlo setzen uns dafür ein, dass alle Menschen weltweit freien Zugang zu hochwertiger Bildung haben. Leider sind immer mehr Bildungsangebote bezahlpflichtig oder voller Werbung.    Deshalb ist serlo.org für immer nonprofit, komplett kostenlos und werbefrei. Und wir haben Erfolg damit! Über 1 Mio User sind jeden Monat auf serlo.org.</p>
+
+        <p>Damit wir serlo.org zügig erweitern und verbessern können, sind wir auf Spenden für Softwareentwicklung, Server und Unterstützung der ehrenamtlichen Autorinnen und Autoren angewiesen.</p>
+
+        <p>Falls du dir vorstellen kannst, uns mit einem kleinen regelmäßigen Betrag zu unterstützen, nutze gerne das Formular rechts.</p>
+
+        <p>Vielen Dank :)</p>
+
+        </div>
+        <div style="flex-grow: 1; flex-basis: 50%;">
+          <iframe style="flex-grow: 1; min-height: 500px; flex-basis: 50%; border: none;" src="https://spenden.twingle.de/serlo-education-e-v/crowdbird/tw5e722d17489b0/page"/>
+          <p><a href="https://de.serlo.org/spenden">Ich möchte nicht, dass meine Spende auf dem Profil sichtbar ist oder ich möchte einmalig spenden.</a></p>
+        </div>
+      </div>
+    `)
+  }
 }
 
 function addBannerToOwnUserProfile(): void {
