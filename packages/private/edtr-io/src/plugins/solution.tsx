@@ -153,7 +153,11 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
         )
       }
 
-      if (prerequisite.defined) {
+      if (
+        prerequisite.defined &&
+        prerequisite.id.value &&
+        prerequisite.title.value
+      ) {
         return (
           <p>
             Für diese Aufgabe benötigst Du folgendes Grundwissen:{' '}
