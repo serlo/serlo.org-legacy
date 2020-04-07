@@ -8,21 +8,21 @@ const userProfileSpecs: UserProfileSpec[] = [
     icon: 'heart',
     iconStyle: 'color: #337ab7;',
     otherUserProfileMessage:
-      'Spende: Unsere Konkurrenten investieren Millionen in kostenpflichtige Bildung. Mit ihrer/seiner Spende unterstützt Digamma, dass Bildung kostenfrei verfügbar ist.'
+      '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a href="/user/me/#spendenformular">Kannst du dir auch vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>'
   },
   {
     userList: activeReviewers,
     icon: 'search',
     iconStyle: 'color:black;',
     otherUserProfileMessage:
-      '%username% sichert mit ihrer/seiner Arbeit als Revierwer*in die Qualität der Plattform und damit für 1Mio user*innen den Zugang zu hochwertiger Bildung'
+      'Als Reviewerin bzw. Reviewer sichert %username% die Qualität auf serlo.org und hilft unseren Autorinnen und Autoren.'
   },
   {
     userList: activeAuthors,
     icon: 'pencil',
     iconStyle: 'color: black;',
     otherUserProfileMessage:
-      'Digamma unterstützt zusammen mit hunderten anderer Autor*innen die Erarbeitung freier Lernmaterialien (mit mindestens 10 Bearbeitungen in den letzten 90 Tagen).'
+      '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr fundierte, kreative und begeisternde Lerninhalte auf sero.org zu finden sind. <a href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.'
   }
 ]
 
@@ -64,11 +64,15 @@ function addBannerToOtherUserProfile(): void {
     }
 
     if (message) {
+      const finalMessage = message.replace(
+        /%username%/g,
+        getUserNameFromProfilePage()
+      )
       const box = `<div class="alert alert-info"
                         style="display: grid; grid-template-columns: 2em 1fr 1fr;
                         grid-column-gap: 1em; grid-row-gap: 1em; margin-bottom: 1.5em;
                         font-size: 90%; align-items: center; color: black;">
-                   ${message}
+                   ${finalMessage}
                    </div>`
 
       $('.page-header').after(box)
@@ -106,6 +110,12 @@ function addIconsToUserProfileHeader() {
       }
     }
   }
+}
+
+function getUserNameFromProfilePage(): string {
+  const h1 = document.getElementsByTagName('h1')[0]
+  
+  return h1.childNodes[0].textContent?.trim() ?? ''
 }
 
 function getUserIdFromProfilePage(): string {
