@@ -5,22 +5,19 @@ import { activeDonors } from './active-donors'
 const userProfileSpecs: UserProfileSpec[] = [
   {
     userList: activeDonors,
-    icon: 'heart',
-    iconStyle: 'color: #337ab7;',
+    img: 'donor.png',
     otherUserProfileMessage:
       '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a href="/user/me/#spendenformular">Kannst du dir auch vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>'
   },
   {
     userList: activeReviewers,
-    icon: 'search',
-    iconStyle: 'color:black;',
+    img: 'reviewer.png',
     otherUserProfileMessage:
       'Als Reviewerin bzw. Reviewer sichert %username% die Qualität auf serlo.org und hilft unseren Autorinnen und Autoren.'
   },
   {
     userList: activeAuthors,
-    icon: 'pencil',
-    iconStyle: 'color: black;',
+    img: 'authors.png',
     otherUserProfileMessage:
       '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr fundierte, kreative und begeisternde Lerninhalte auf sero.org zu finden sind. <a href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.'
   }
@@ -28,8 +25,7 @@ const userProfileSpecs: UserProfileSpec[] = [
 
 interface UserProfileSpec {
   userList: string[]
-  icon: string
-  iconStyle: string
+  img: string
   otherUserProfileMessage: string
 }
 
@@ -56,10 +52,8 @@ function addBannerToOtherUserProfile(): void {
 
     for (const spec of userProfileSpecs) {
       if (spec.userList.includes(userId)) {
-        message += `<div class="fa fa-2x fa-${spec.icon}"
-                         style="vertical-align: middle; ${spec.iconStyle}"></div>`
-        message += `<p style="margin: 0; grid-column-start: span 2">
-                    ${spec.otherUserProfileMessage}</p>`
+        message += icon(spec, 60, 'display: block;')
+        message += `<p style="margin: 0;">${spec.otherUserProfileMessage}</p>`
       }
     }
 
@@ -69,7 +63,7 @@ function addBannerToOtherUserProfile(): void {
         getUserNameFromProfilePage()
       )
       const box = `<div class="alert alert-info"
-                        style="display: grid; grid-template-columns: 2em 1fr 1fr;
+                        style="display: grid; grid-template-columns: 60px 1fr;
                         grid-column-gap: 1em; grid-row-gap: 1em; margin-bottom: 1.5em;
                         font-size: 90%; align-items: center; color: black;">
                    ${finalMessage}
@@ -90,7 +84,7 @@ function addIconsToUserLinks(): void {
 
       for (const spec of userProfileSpecs) {
         if (spec.userList.includes(userId)) {
-          $(a).append(icon(spec))
+          $(a).append(icon(spec, 23))
         }
       }
     }
@@ -106,7 +100,7 @@ function addIconsToUserProfileHeader() {
 
     for (const spec of userProfileSpecs) {
       if (spec.userList.includes(userId)) {
-        $('h1 > small').before(icon(spec))
+        $('h1 > small').before(icon(spec, 42))
       }
     }
   }
@@ -114,7 +108,7 @@ function addIconsToUserProfileHeader() {
 
 function getUserNameFromProfilePage(): string {
   const h1 = document.getElementsByTagName('h1')[0]
-  
+
   return h1.childNodes[0].textContent?.trim() ?? ''
 }
 
@@ -131,6 +125,12 @@ function getUserIdFromProfilePage(): string {
     .find(element => element !== null)
 }
 
-function icon(spec: UserProfileSpec): string {
-  return ` <span class="fa fa-${spec.icon}" style="${spec.iconStyle}"></span> `
+function icon(spec: UserProfileSpec, height: number, style = ''): string {
+  return ` <img src="${staticFileUrl(
+    spec.img
+  )}" height="${height}" style="${style}" /> `
+}
+
+function staticFileUrl(relativePath: string): string {
+  return `http://localhost:8082/feature-prototypes/donation-profiles/${relativePath}`
 }
