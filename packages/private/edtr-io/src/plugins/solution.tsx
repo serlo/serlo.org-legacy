@@ -92,7 +92,7 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
       if (editable) {
         return (
           <div>
-            Für diese Aufgabe benötigst Du folgendes Grundwissen:
+            Für diese Aufgabe benötigst Du folgendes Grundwissen:{' '}
             {focused ? (
               <InlineSettings
                 onDelete={() => {
@@ -156,7 +156,7 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
       if (prerequisite.defined) {
         return (
           <p>
-            Für diese Aufgabe benötigst Du folgendes Grundwissen:
+            Für diese Aufgabe benötigst Du folgendes Grundwissen:{' '}
             <a href={`/${prerequisite.id.value}`}>{prerequisite.title.value}</a>
           </p>
         )
