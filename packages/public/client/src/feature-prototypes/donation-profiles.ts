@@ -7,19 +7,22 @@ const userProfileSpecs: UserProfileSpec[] = [
     userList: activeDonors,
     img: 'donor.png',
     otherUserProfileMessage:
-      '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a href="/user/me/#spendenformular">Kannst du dir auch vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>'
+      '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a href="/user/me/#spendenformular">Kannst du dir auch vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
+    ownProfileMessage: 'Danke für deine Mitarbeit als Autorin bzw. Autor!'
   },
   {
     userList: activeReviewers,
     img: 'reviewer.png',
     otherUserProfileMessage:
-      'Als Reviewerin bzw. Reviewer sichert %username% die Qualität auf serlo.org und hilft unseren Autorinnen und Autoren.'
+      'Als Reviewerin bzw. Reviewer sichert %username% die Qualität auf serlo.org und hilft unseren Autorinnen und Autoren.',
+    ownProfileMessage: 'Danke für deine Mitarbeit als Autorin bzw. Autor!'
   },
   {
     userList: activeAuthors,
     img: 'authors.png',
     otherUserProfileMessage:
-      '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr fundierte, kreative und begeisternde Lerninhalte auf sero.org zu finden sind. <a href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.'
+      '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr fundierte, kreative und begeisternde Lerninhalte auf sero.org zu finden sind. <a href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.',
+    ownProfileMessage: 'Danke für deine Mitarbeit als Autorin bzw. Autor!'
   }
 ]
 const donorsSpec = userProfileSpecs[0]
@@ -28,6 +31,7 @@ interface UserProfileSpec {
   userList: string[]
   img: string
   otherUserProfileMessage: string
+  ownProfileMessage: string
 }
 
 export function initDonationProfile(): void {
@@ -68,9 +72,32 @@ function addTwingleFormular(): void {
 
 function addBannerToOwnUserProfile(): void {
   if (location.pathname.startsWith('/user/me')) {
-    //const userId = getUserIdFromProfilePage()
+    const userId = getUserIdFromProfilePage()
 
-    $('.page-header').after('<div class="alert alert-info">Hello World</div>')
+    let message = ''
+
+    for (const spec of userProfileSpecs) {
+      if (spec.userList.includes(userId)) {
+        message += icon(spec, 40, 'display: block;')
+        message += `<p style="margin: 0;">${spec.ownProfileMessage}</p>`
+      }
+    }
+
+    if (message) {
+      const finalMessage = message.replace(
+        /%username%/g,
+        getUserNameFromProfilePage()
+      )
+      const box = `<img src="${staticFileUrl("vogel111.png")}" style="display: block; float: left;" height="200" />
+                   <div class="alert alert-info"
+                        style="display: grid; grid-template-columns: 60px 1fr;
+                        grid-column-gap: 1em; grid-row-gap: 1em; margin-bottom: 1.5em;
+                        font-size: 90%; align-items: center; color: black;">
+                   ${finalMessage}
+                   </div>`
+
+      $('.page-header').after(box)
+    }
   }
 }
 
