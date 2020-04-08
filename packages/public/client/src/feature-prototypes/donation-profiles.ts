@@ -38,7 +38,6 @@ export function initDonationProfile(): void {
   addBannerToOwnUserProfile()
   addBannerToOtherUserProfile()
   addIconsToUserLinks()
-  addIconsToUserProfileHeader()
   addTwingleFormular()
 }
 
@@ -146,21 +145,6 @@ function addIconsToUserLinks(): void {
       }
     }
   })
-}
-
-function addIconsToUserProfileHeader() {
-  if (
-    location.pathname.startsWith('/user/profile/') ||
-    location.pathname.startsWith('/user/me')
-  ) {
-    const userId = getUserIdFromProfilePage()
-
-    for (const spec of userProfileSpecs) {
-      if (spec.userList.includes(userId)) {
-        $('h1 > small').before(icon(spec, 42))
-      }
-    }
-  }
 }
 
 function getUserNameFromProfilePage(): string {
