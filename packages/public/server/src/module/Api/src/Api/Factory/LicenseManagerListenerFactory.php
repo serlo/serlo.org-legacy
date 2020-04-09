@@ -21,14 +21,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Factory;
+namespace Api\Factory;
 
-use ApiCache\Listener\UserManagerListener;
+use Api\Listener\LicenseManagerListener;
 
-class UserManagerListenerFactory extends AbstractListenerFactory
+class LicenseManagerListenerFactory extends AbstractListenerFactory
 {
     protected function getClassName()
     {
-        return UserManagerListener::class;
+        return LicenseManagerListener::class;
     }
 }

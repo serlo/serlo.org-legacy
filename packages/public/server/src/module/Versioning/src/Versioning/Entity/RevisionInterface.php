@@ -20,12 +20,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Versioning\Entity;
 
 use User\Entity\UserInterface;
 use DateTime;
+use Uuid\Entity\UuidInterface;
 
-interface RevisionInterface
+interface RevisionInterface extends UuidInterface
 {
     /**
      * @return int
@@ -70,4 +72,10 @@ interface RevisionInterface
      * @return DateTime
      */
     public function getTimestamp();
+
+    /**
+     * @param DateTime $timestamp
+     * @return DateTime
+     */
+    public function setTimestamp(DateTime $timestamp);
 }

@@ -21,10 +21,11 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Listener;
+namespace Api\Listener;
 
-use License\Entity\LicenseAwareInterface;
+use License\Entity\LicenseInterface;
 use License\Manager\LicenseManager;
+use Uuid\Entity\UuidInterface;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 
@@ -32,15 +33,23 @@ class LicenseManagerListener extends AbstractListener
 {
     public function onInjectLicense(Event $e)
     {
-        /** @var LicenseAwareInterface $repository */
+        /** @var UuidInterface $uuid */
         $uuid = $e->getParam('object');
-        $this->cache->purge('de.serlo.org/api/uuid/' . $uuid->getId());
+        $this->getApiManager()->setUuid($uuid);
     }
 
     public function onChange(Event $e)
     {
+        /** @var LicenseInterface $license */
         $license = $e->getParam('license');
-        $this->cache->purge('de.serlo.org/license/' . $license->getId());
+        $this->getApiManager()->setLicense($license);
+    }
+
+    public function onRemove(Event $e)
+    {
+        /** @var LicenseInterface $license */
+        $license = $e->getParam('license');
+        $this->getApiManager()->removeLicense($license->getId());
     }
 
     public function attachShared(SharedEventManagerInterface $events)
@@ -56,10 +65,19 @@ class LicenseManagerListener extends AbstractListener
         );
         $events->attach(
             $this->getMonitoredClass(),
-            'remove',
+            'create',
             [
                 $this,
                 'onChange',
+            ],
+            2
+        );
+        $events->attach(
+            $this->getMonitoredClass(),
+            'remove',
+            [
+                $this,
+                'onRemove',
             ],
             2
         );

@@ -3,10 +3,13 @@ Header set Access-Control-Allow-Origin "http://localhost:9000"
 
 RewriteEngine On
 
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
 # Redirect index.php Requests
 # ------------------------------
 RewriteCond %{THE_REQUEST} ^[^/]*/index\.php [NC]
 RewriteCond %{THE_REQUEST} ^GET
+
 RewriteRule ^index\.php(.+) $1 [R=301,L]
 
 RewriteRule ^ggt/(.*) https://www.geogebra.org/m/$1 [R=302,L]

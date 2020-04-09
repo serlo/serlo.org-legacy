@@ -56,11 +56,13 @@ class EntityManager implements EntityManagerInterface
 
         $entity->setInstance($instance);
         $entity->setType($type);
+        $entity->setTimestamp(new \DateTime());
+        $this->getObjectManager()->persist($entity);
+
         $this->getEventManager()->trigger('create', $this, [
             'entity' => $entity,
             'data' => $data,
         ]);
-        $this->getObjectManager()->persist($entity);
 
         return $entity;
     }

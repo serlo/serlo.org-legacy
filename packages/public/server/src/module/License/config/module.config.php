@@ -40,17 +40,11 @@ return [
     ],
     'di' => [
         'allowed_controllers' => [
-            __NAMESPACE__ . '\Controller\ApiController',
             __NAMESPACE__ . '\Controller\LicenseController',
         ],
         'definition' => [
             'class' => [
                 __NAMESPACE__ . '\Manager\LicenseManager' => [],
-                __NAMESPACE__ . '\Controller\ApiController' => [
-                    'setLicenseManager' => [
-                        'required' => true,
-                    ],
-                ],
                 __NAMESPACE__ . '\Controller\LicenseController' => [],
                 __NAMESPACE__ . '\Listener\EntityManagerListener' => [
                     'setLicenseManager' => [
@@ -143,16 +137,6 @@ return [
                                 'action' => 'remove',
                             ],
                         ],
-                    ],
-                ],
-            ],
-            'license_api' => [
-                'type' => 'segment',
-                'options' => [
-                    'route' => '/api/license/:id',
-                    'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\ApiController',
-                        'action' => 'index',
                     ],
                 ],
             ],

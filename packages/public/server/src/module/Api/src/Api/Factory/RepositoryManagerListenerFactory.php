@@ -21,19 +21,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Factory;
+namespace Api\Factory;
 
-use ApiCache\Cache;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Api\Listener\RepositoryManagerListener;
 
-class CacheFactory implements FactoryInterface
+class RepositoryManagerListenerFactory extends AbstractListenerFactory
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    protected function getClassName()
     {
-        $config = $serviceLocator->get('Config');
-        $options = $config['api_cache_options'];
-
-        return new Cache($options);
+        return RepositoryManagerListener::class;
     }
 }

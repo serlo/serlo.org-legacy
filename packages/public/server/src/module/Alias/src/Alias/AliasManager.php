@@ -41,6 +41,7 @@ use Uuid\Manager\UuidManagerAwareTrait;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Mvc\Router\RouteInterface;
+use Zend\Validator\Date;
 
 class AliasManager implements AliasManagerInterface
 {
@@ -144,11 +145,14 @@ class AliasManager implements AliasManagerInterface
         $class->setInstance($instance);
         $class->setObject($object);
         $class->setAlias($alias);
+        $class->setTimestamp(new DateTime());
         $this->getObjectManager()->persist($class);
+        $this->getObjectManager()->flush($class);
         $this->inMemoryAliases[] = $class;
 
-        $this->getEventManager()->trigger('create', [
+        $this->getEventManager()->trigger('create', $this, [
             'alias' => $class,
+            'object' => $object,
         ]);
 
         return $class;

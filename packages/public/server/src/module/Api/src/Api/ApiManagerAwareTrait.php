@@ -20,15 +20,27 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+namespace Api;
 
-namespace ApiCache\Factory;
-
-use ApiCache\Listener\LicenseManagerListener;
-
-class LicenseManagerListenerFactory extends AbstractListenerFactory
+trait ApiManagerAwareTrait
 {
-    protected function getClassName()
+
+    /**
+     * @var ApiManager
+     */
+    protected $apiManager;
+
+    /**
+     * @return ApiManager $aliasManager
+     */
+    public function getApiManager()
     {
-        return LicenseManagerListener::class;
+        return $this->apiManager;
+    }
+
+    public function setApiManager(ApiManager $aliasManager)
+    {
+        $this->apiManager = $aliasManager;
+        return $this;
     }
 }

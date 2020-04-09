@@ -21,27 +21,27 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Listener;
+namespace Api\Listener;
 
-use Uuid\Entity\UuidInterface;
-use Uuid\Manager\UuidManager;
+use User\Entity\UserInterface;
+use User\Manager\UserManager;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 
-class UuidManagerListener extends AbstractListener
+class UserManagerListener extends AbstractListener
 {
     public function onChange(Event $e)
     {
-        /** @var UuidInterface $uuid */
-        $uuid = $e->getParam('object');
-        $this->cache->purge('de.serlo.org/api/uuid/' . $uuid->getId());
+        /** @var UserInterface $user */
+        $user = $e->getParam('user');
+        $this->getApiManager()->setUser($user);
     }
 
     public function attachShared(SharedEventManagerInterface $events)
     {
         $events->attach(
             $this->getMonitoredClass(),
-            'purge',
+            'create',
             [
                 $this,
                 'onChange',
@@ -50,16 +50,7 @@ class UuidManagerListener extends AbstractListener
         );
         $events->attach(
             $this->getMonitoredClass(),
-            'restore',
-            [
-                $this,
-                'onChange',
-            ],
-            2
-        );
-        $events->attach(
-            $this->getMonitoredClass(),
-            'trash',
+            'update',
             [
                 $this,
                 'onChange',
@@ -70,6 +61,6 @@ class UuidManagerListener extends AbstractListener
 
     protected function getMonitoredClass()
     {
-        return UuidManager::class;
+        return UserManager::class;
     }
 }

@@ -94,30 +94,14 @@ return [
                     ],
                 ],
             ],
-            'uuid_api' => [
-                'type' => 'segment',
-                'options' => [
-                    'route' => '/api/uuid/:id',
-                    'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\ApiController',
-                        'action' => 'index',
-                    ],
-                ],
-            ],
         ],
     ],
     'di' => [
         'allowed_controllers' => [
-            __NAMESPACE__ . '\Controller\ApiController',
             __NAMESPACE__ . '\Controller\UuidController',
         ],
         'definition' => [
             'class' => [
-                __NAMESPACE__ . '\Controller\ApiController' => [
-                    'setUuidManager' => [
-                        'required' => true,
-                    ],
-                ],
                 __NAMESPACE__ . '\Controller\UuidController' => [
                     'setUuidManager' => [
                         'required' => true,
