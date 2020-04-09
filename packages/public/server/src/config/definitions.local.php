@@ -47,7 +47,7 @@ $recaptcha = [
     'secret' => '6LfwJFwUAAAAAPVsTPLe00oAb9oUTewOUe31pXSv',
 ];
 
-$api_cache_options = [];
+$api_options = [];
 $smtp_options = [];
 $tracking = [];
 $featureFlags = [

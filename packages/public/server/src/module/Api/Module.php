@@ -20,10 +20,15 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace ApiCache;
+namespace Api;
 
-use ApiCache\Listener\RepositoryManagerListener;
-use Notification\Listener\EventManagerListener;
+use Api\Listener\AliasManagerListener;
+use Api\Listener\LicenseManagerListener;
+use Api\Listener\PageManagerListener;
+use Api\Listener\RepositoryManagerListener;
+use Api\Listener\TaxonomyManagerListener;
+use Api\Listener\UserManagerListener;
+use Api\Listener\UuidManagerListener;
 use Zend\Mvc\MvcEvent;
 
 class Module
@@ -66,6 +71,13 @@ class Module
         $serviceManager = $application->getServiceManager();
         $eventManager = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
+        $sharedEventManager->attachAggregate($serviceManager->get(AliasManagerListener::class));
         $sharedEventManager->attachAggregate($serviceManager->get(RepositoryManagerListener::class));
+        $sharedEventManager->attachAggregate($serviceManager->get(LicenseManagerListener::class));
+        $sharedEventManager->attachAggregate($serviceManager->get(PageManagerListener::class));
+        $sharedEventManager->attachAggregate($serviceManager->get(RepositoryManagerListener::class));
+        $sharedEventManager->attachAggregate($serviceManager->get(TaxonomyManagerListener::class));
+        $sharedEventManager->attachAggregate($serviceManager->get(UserManagerListener::class));
+        $sharedEventManager->attachAggregate($serviceManager->get(UuidManagerListener::class));
     }
 }

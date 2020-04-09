@@ -21,17 +21,25 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Listener;
+namespace Api\Factory;
 
-use ApiCache\Cache;
-use Common\Listener\AbstractSharedListenerAggregate;
+use Alias\AliasManager;
+use Api\ApiManager;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-abstract class AbstractListener extends AbstractSharedListenerAggregate
+class ApiManagerFactory implements FactoryInterface
 {
-    protected $cache;
-
-    public function __construct(Cache $cache)
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $this->cache = $cache;
+        $config = $serviceLocator->get('Config');
+        $options = $config['api_options'];
+
+        $manager = new ApiManager($options);
+        /** @var AliasManager $aliasManager */
+        $aliasManager = $serviceLocator->get(AliasManager::class);
+        $manager->setAliasManager($aliasManager);
+
+        return $manager;
     }
 }

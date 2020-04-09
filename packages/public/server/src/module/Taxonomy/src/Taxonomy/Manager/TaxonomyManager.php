@@ -332,6 +332,7 @@ class TaxonomyManager implements TaxonomyManagerInterface
             }
         }
 
+        $this->getEventManager()->trigger('update', $this, ['term' => $term]);
         return $term;
     }
 
@@ -357,6 +358,9 @@ class TaxonomyManager implements TaxonomyManagerInterface
         $processingForm->setData($data);
         $processingForm->isValid();
         $this->objectManager->persist($object);
+        if (!$object->getId()) {
+            $this->getObjectManager()->flush($object);
+        }
         return $object;
     }
 }

@@ -21,14 +21,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Factory;
+namespace Api\Factory;
 
-use ApiCache\Listener\PageManagerListener;
+use Api\Listener\UserManagerListener;
 
-class PageManagerListenerFactory extends AbstractListenerFactory
+class UserManagerListenerFactory extends AbstractListenerFactory
 {
     protected function getClassName()
     {
-        return PageManagerListener::class;
+        return UserManagerListener::class;
     }
 }

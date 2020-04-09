@@ -29,6 +29,7 @@ use Common\Paginator\DoctrinePaginatorFactory;
 use Common\Traits\AuthenticationServiceAwareTrait;
 use Common\Traits\ObjectManagerAwareTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use User\Entity\UserInterface;
 use User\Exception\UserNotFoundException;
 use User\Exception;
 use User\Hydrator\UserHydrator;
@@ -126,9 +127,19 @@ class UserManager implements UserManagerInterface
     {
         $this->assertGranted('user.create');
 
+        /** @var UserInterface $user */
         $user = $this->getClassResolver()->resolve('User\Entity\UserInterface');
+        $user->setDate(new \DateTime());
         $this->getHydrator()->hydrate($data, $user);
         $this->getObjectManager()->persist($user);
+
+        if (!$user->getId()) {
+            $this->getObjectManager()->flush($user);
+        }
+
+        $this->getEventManager()->trigger('create', $this, [
+            'user' => $user,
+        ]);
 
         return $user;
     }
@@ -166,14 +177,13 @@ class UserManager implements UserManagerInterface
                 $user->setField($key, $value);
             }
         }
-        $this->getObjectManager()->persist($user);
+        $this->persist($user);
     }
 
 
     public function flush()
     {
         $this->getObjectManager()->flush();
-
         return $this;
     }
 
@@ -206,11 +216,9 @@ class UserManager implements UserManagerInterface
     public function persist($object)
     {
         $this->getObjectManager()->persist($object);
-
-        $this->getEventManager()->trigger('persist', [
+        $this->getEventManager()->trigger('update', $this, [
             'user' => $object,
         ]);
-
         return $this;
     }
 }

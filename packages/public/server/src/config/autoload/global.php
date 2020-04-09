@@ -100,8 +100,8 @@ return [
         'api_key' => $newsletter_key,
     ] : [],
 
-    // ApiCache Module
-    'api_cache_options' => $api_cache_options,
+    // Api Module
+    'api_options' => $api_options,
 
     // Sentry (Log Module)
     'sentry_options' => array_merge(

@@ -87,19 +87,6 @@ return [
                     ],
                 ],
             ],
-            'alias_api' => [
-                'type' => 'Common\Router\Slashable',
-                'options' => [
-                    'route' => '/api/alias/:alias',
-                    'defaults' => [
-                        'controller' => 'Alias\Controller\ApiController',
-                        'action' => 'index',
-                    ],
-                    'constraints' => [
-                        'alias' => '(.)+',
-                    ],
-                ],
-            ],
         ],
     ],
     'service_manager' => [
@@ -117,7 +104,6 @@ return [
     'di' => [
         'allowed_controllers' => [
             'Alias\Controller\AliasController',
-            'Alias\Controller\ApiController',
         ],
         'definition' => [
             'class' => [
@@ -126,20 +112,6 @@ return [
                         'required' => true,
                     ],
                     'setInstanceManager' => [
-                        'required' => true,
-                    ],
-                ],
-                __NAMESPACE__ . '\Controller\ApiController' => [
-                    'setAliasManager' => [
-                        'required' => true,
-                    ],
-                    'setEntityManager' => [
-                        'required' => true,
-                    ],
-                    'setInstanceManager' => [
-                        'required' => true,
-                    ],
-                    'setPageManager' => [
                         'required' => true,
                     ],
                 ],

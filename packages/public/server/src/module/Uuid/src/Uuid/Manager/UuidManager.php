@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Uuid\Manager;
 
 use Attachment\Entity\ContainerInterface;
@@ -66,9 +67,9 @@ class UuidManager implements UuidManagerInterface
     protected $moduleOptions;
 
     /**
-     * @param AuthorizationService       $authorizationService
-     * @param ClassResolverInterface     $classResolver
-     * @param ModuleOptions              $moduleOptions
+     * @param AuthorizationService $authorizationService
+     * @param ClassResolverInterface $classResolver
+     * @param ModuleOptions $moduleOptions
      * @param InstanceAwareEntityManager $objectManager
      */
     public function __construct(
@@ -78,9 +79,9 @@ class UuidManager implements UuidManagerInterface
         InstanceAwareEntityManager $objectManager
     ) {
         $this->authorizationService = $authorizationService;
-        $this->classResolver        = $classResolver;
-        $this->objectManager        = $objectManager;
-        $this->moduleOptions        = $moduleOptions;
+        $this->classResolver = $classResolver;
+        $this->objectManager = $objectManager;
+        $this->moduleOptions = $moduleOptions;
     }
 
     /**
@@ -89,7 +90,7 @@ class UuidManager implements UuidManagerInterface
     public function findAll()
     {
         $className = $this->getClassResolver()->resolveClassName('Uuid\Entity\UuidInterface');
-        $entities  = $this->getObjectManager()->getRepository($className)->findAll();
+        $entities = $this->getObjectManager()->getRepository($className)->findAll();
         return new ArrayCollection($entities);
     }
 
@@ -123,7 +124,7 @@ class UuidManager implements UuidManagerInterface
         foreach ($results as $result) {
             $purified[] = [
                 "entity" => $result[0],
-                "date"   => new \DateTime($result["date"]),
+                "date" => new \DateTime($result["date"]),
             ];
         }
         $paginator = new Paginator(new ArrayAdapter($purified));
@@ -141,7 +142,7 @@ class UuidManager implements UuidManagerInterface
         $this->objectManager->setBypassIsolation($bypassIsolation);
 
         $className = $this->getClassResolver()->resolveClassName('Uuid\Entity\UuidInterface');
-        $entity    = $this->getObjectManager()->find($className, $key);
+        $entity = $this->getObjectManager()->find($className, $key);
         $this->objectManager->setBypassIsolation($previous);
 
         if (!is_object($entity)) {
@@ -156,8 +157,8 @@ class UuidManager implements UuidManagerInterface
      */
     public function purgeUuid($id)
     {
-        $uuid       = $this->getUuid($id);
-        $class      = ClassUtils::getClass($uuid);
+        $uuid = $this->getUuid($id);
+        $class = ClassUtils::getClass($uuid);
         $permission = $this->moduleOptions->getPermission($class, 'purge');
         $this->assertGranted($permission, $uuid);
         $this->getObjectManager()->remove($uuid);
@@ -187,6 +188,9 @@ class UuidManager implements UuidManagerInterface
                 ->andWhere($qb->expr()->isNull('s.id'))
                 ->getQuery()->getResult();
             if (count($toDelete) > 0) {
+                foreach ($toDelete as $u) {
+                    $this->getEventManager()->trigger('remove', $this, ['id' => $u['id']]);
+                }
                 $this->objectManager->createQueryBuilder()
                     ->delete($uuidClass, 'u')
                     ->where($qb->expr()->in('u.id', array_map(function ($u) {
@@ -202,8 +206,8 @@ class UuidManager implements UuidManagerInterface
      */
     public function restoreUuid($id)
     {
-        $uuid       = $this->getUuid($id);
-        $class      = ClassUtils::getClass($uuid);
+        $uuid = $this->getUuid($id);
+        $class = ClassUtils::getClass($uuid);
         $permission = $this->moduleOptions->getPermission($class, 'restore');
         $this->assertGranted($permission, $uuid);
 
@@ -222,8 +226,8 @@ class UuidManager implements UuidManagerInterface
      */
     public function trashUuid($id)
     {
-        $uuid       = $this->getUuid($id);
-        $class      = ClassUtils::getClass($uuid);
+        $uuid = $this->getUuid($id);
+        $class = ClassUtils::getClass($uuid);
         $permission = $this->moduleOptions->getPermission($class, 'trash');
         $this->assertGranted($permission, $uuid);
 

@@ -64,13 +64,16 @@ class LicenseManager implements LicenseManagerInterface
             throw new Exception\RuntimeException(print_r($form->getMessages(), true));
         }
 
-        /* @var $entity \License\Entity\LicenseInterface */
-        $entity = $form->getObject();
-        $entity->setInstance($instance);
-        $form->bind($entity);
-        $this->getObjectManager()->persist($entity);
-
-        return $entity;
+        /* @var $license LicenseInterface */
+        $license = $form->getObject();
+        $license->setInstance($instance);
+        $form->bind($license);
+        $this->getObjectManager()->persist($license);
+        if (!$license->getId()) {
+            $this->getObjectManager()->flush($license);
+        }
+        $this->getEventManager()->trigger('create', $this, ['license' => $license]);
+        return $license;
     }
 
     public function findAllLicenses()
@@ -132,6 +135,9 @@ class LicenseManager implements LicenseManagerInterface
         }
         $object->setLicense($license);
         $this->getObjectManager()->persist($object);
+        if (!$object->getId()) {
+            $this->getObjectManager()->flush($object);
+        }
         $this->getEventManager()->trigger('inject', $this, ['object' => $object, 'license' => $license]);
     }
 

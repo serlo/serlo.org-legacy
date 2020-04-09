@@ -21,37 +21,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Listener;
+namespace Api\Factory;
 
-use User\Entity\UserInterface;
-use User\Manager\UserManager;
-use Zend\EventManager\Event;
-use Zend\EventManager\SharedEventManagerInterface;
+use Api\Listener\AliasManagerListener;
 
-class UserManagerListener extends AbstractListener
+class AliasManagerListenerFactory extends AbstractListenerFactory
 {
-    public function onPersist(Event $e)
+    protected function getClassName()
     {
-        /** @var UserInterface $user */
-        $user = $e->getParam('user');
-        $this->cache->purge('de.serlo.org/api/uuid/' . $user->getId());
-    }
-
-    public function attachShared(SharedEventManagerInterface $events)
-    {
-        $events->attach(
-            $this->getMonitoredClass(),
-            'persist',
-            [
-                $this,
-                'onPersist',
-            ],
-            2
-        );
-    }
-
-    protected function getMonitoredClass()
-    {
-        return UserManager::class;
+        return AliasManagerListener::class;
     }
 }

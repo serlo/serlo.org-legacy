@@ -21,14 +21,34 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Factory;
+namespace Api\Factory;
 
-use ApiCache\Listener\RepositoryManagerListener;
+use Api\Listener\AbstractListener;
+use Api\ApiManager;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class RepositoryManagerListenerFactory extends AbstractListenerFactory
+abstract class AbstractListenerFactory implements FactoryInterface
 {
-    protected function getClassName()
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return AbstractListener
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return RepositoryManagerListener::class;
+        $className = $this->getClassName();
+        /** @var AbstractListener $listener */
+        $listener = new $className();
+
+        /** @var ApiManager $apiManager */
+        $apiManager = $serviceLocator->get(ApiManager::class);
+        $listener->setApiManager($apiManager);
+
+        return $listener;
     }
+
+    /**
+     * @return string
+     */
+    abstract protected function getClassName();
 }

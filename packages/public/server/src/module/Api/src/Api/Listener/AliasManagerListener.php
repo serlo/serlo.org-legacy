@@ -21,10 +21,11 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Listener;
+namespace Api\Listener;
 
 use Alias\AliasManager;
 use Alias\Entity\AliasInterface;
+use Uuid\Entity\UuidInterface;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 
@@ -34,7 +35,11 @@ class AliasManagerListener extends AbstractListener
     {
         /** @var AliasInterface $alias */
         $alias = $e->getParam('alias');
-        $this->cache->purge($alias->getInstance()->getSubdomain() . '.serlo.org/api/alias/' . $alias->getAlias());
+        $this->getApiManager()->setAlias($alias);
+
+        /** @var UuidInterface $object */
+        $object = $e->getParam('object');
+        $this->getApiManager()->setUuid($object);
     }
 
     public function attachShared(SharedEventManagerInterface $events)

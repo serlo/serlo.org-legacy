@@ -21,14 +21,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Factory;
+namespace Api\Factory;
 
-use ApiCache\Listener\UuidManagerListener;
+use Api\Listener\TaxonomyManagerListener;
 
-class UuidManagerListenerFactory extends AbstractListenerFactory
+class TaxonomyManagerListenerFactory extends AbstractListenerFactory
 {
     protected function getClassName()
     {
-        return UuidManagerListener::class;
+        return TaxonomyManagerListener::class;
     }
 }

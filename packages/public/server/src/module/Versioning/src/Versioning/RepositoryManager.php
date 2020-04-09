@@ -24,6 +24,7 @@ namespace Versioning;
 
 use Authorization\Service\AuthorizationAssertionTrait;
 use Common\Traits\InstanceManagerTrait;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Versioning\Entity\RepositoryInterface;
 use Versioning\Entity\RevisionInterface;
@@ -113,6 +114,13 @@ class RepositoryManager implements RepositoryManagerInterface
             }
         }
 
+        $revision->setTimestamp(new DateTime());
+        $this->objectManager->persist($repository);
+        $this->objectManager->persist($revision);
+        if (!$revision->getId()) {
+            $this->objectManager->flush($revision);
+        }
+
         $this->getEventManager()->trigger(
             'commit',
             $this,
@@ -124,7 +132,6 @@ class RepositoryManager implements RepositoryManagerInterface
             ]
         );
 
-        $this->objectManager->persist($revision);
 
         return $revision;
     }

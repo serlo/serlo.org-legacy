@@ -21,37 +21,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Listener;
+namespace Api\Factory;
 
-use Versioning\Entity\RepositoryInterface;
-use Versioning\RepositoryManager;
-use Zend\EventManager\Event;
-use Zend\EventManager\SharedEventManagerInterface;
+use Api\Listener\UuidManagerListener;
 
-class RepositoryManagerListener extends AbstractListener
+class UuidManagerListenerFactory extends AbstractListenerFactory
 {
-    public function onCheckoutRevision(Event $e)
+    protected function getClassName()
     {
-        /** @var RepositoryInterface $repository */
-        $repository = $e->getParam('repository');
-        $this->cache->purge('de.serlo.org/api/uuid/' . $repository->getId());
-    }
-
-    public function attachShared(SharedEventManagerInterface $events)
-    {
-        $events->attach(
-            $this->getMonitoredClass(),
-            'checkout',
-            [
-                $this,
-                'onCheckoutRevision',
-            ],
-            2
-        );
-    }
-
-    protected function getMonitoredClass()
-    {
-        return RepositoryManager::class;
+        return UuidManagerListener::class;
     }
 }

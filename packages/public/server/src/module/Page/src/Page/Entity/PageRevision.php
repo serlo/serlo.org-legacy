@@ -85,6 +85,11 @@ class PageRevision extends Uuid implements PageRevisionInterface
         return $this->date;
     }
 
+    public function setTimestamp(DateTime $timestamp)
+    {
+        $this->setDate($timestamp);
+    }
+
     public function getDate()
     {
         return $this->date;

@@ -21,37 +21,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace ApiCache\Listener;
+namespace Api\Factory;
 
-use Page\Manager\PageManager;
-use Versioning\Entity\RepositoryInterface;
-use Zend\EventManager\Event;
-use Zend\EventManager\SharedEventManagerInterface;
+use Api\Listener\PageManagerListener;
 
-class PageManagerListener extends AbstractListener
+class PageManagerListenerFactory extends AbstractListenerFactory
 {
-    public function onChange(Event $e)
+    protected function getClassName()
     {
-        /** @var RepositoryInterface $page */
-        $page = $e->getParam('page');
-        $this->cache->purge('de.serlo.org/api/uuid/' . $page->getId());
-    }
-
-    public function attachShared(SharedEventManagerInterface $events)
-    {
-        $events->attach(
-            $this->getMonitoredClass(),
-            'update',
-            [
-                $this,
-                'onChange',
-            ],
-            2
-        );
-    }
-
-    protected function getMonitoredClass()
-    {
-        return PageManager::class;
+        return PageManagerListener::class;
     }
 }

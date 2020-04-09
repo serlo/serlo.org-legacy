@@ -98,12 +98,16 @@ class PageManager implements PageManagerInterface
             throw new RuntimeException(print_r($formClone->getMessages(), true));
         }
         $data   = $formClone->getData(FormInterface::VALUES_AS_ARRAY);
-        $entity = $formClone->getObject();
+        $page = $formClone->getObject();
         $formClone->setData($data);
         $formClone->isValid();
-        $this->assertGranted('page.create', $entity);
-        $this->getObjectManager()->persist($entity);
-        return $entity;
+        $this->assertGranted('page.create', $page);
+        $this->getObjectManager()->persist($page);
+        if (!$page->getId()) {
+            $this->getObjectManager()->flush($page);
+        }
+        $this->getEventManager()->trigger('create', $this, ['page' => $page]);
+        return $page;
     }
 
     /**
