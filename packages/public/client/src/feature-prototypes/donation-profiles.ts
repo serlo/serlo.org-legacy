@@ -6,8 +6,9 @@ const donorsSpec = {
   userList: activeDonors,
   img: 'donor.png',
   otherUserProfileMessage:
-    '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a href="/user/me/#spendenformular">Kannst du dir auch vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
-  ownProfileMessage: 'Danke für deine Mitarbeit als Autorin bzw. Autor!'
+    '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a style="text-decoration: underline;" href="/user/me/#spendenformular">Kannst auch du dir vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
+  ownProfileMessage:
+    'Wir sind die ersten %no-donors% Pioniere beim Aufbau einer langfristigen und unabhängigen Finanzierung für serlo.org.'
 }
 
 const userProfileSpecs: UserProfileSpec[] = [
@@ -16,14 +17,16 @@ const userProfileSpecs: UserProfileSpec[] = [
     img: 'reviewer.png',
     otherUserProfileMessage:
       'Als Reviewerin bzw. Reviewer sichert %username% die Qualität auf serlo.org und hilft unseren Autorinnen und Autoren.',
-    ownProfileMessage: 'Danke für deine Mitarbeit als Autorin bzw. Autor!'
+    ownProfileMessage:
+      'Als Team von %no-reviewers% Reviewerinnen und Reviewern sorgen wir für die Qualität unserer Lernplattform.'
   },
   {
     userList: activeAuthors,
     img: 'authors.png',
     otherUserProfileMessage:
-      '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr fundierte, kreative und begeisternde Lerninhalte auf sero.org zu finden sind. <a href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.',
-    ownProfileMessage: 'Danke für deine Mitarbeit als Autorin bzw. Autor!'
+      '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr großartige Lerninhalte auf serlo.org zu finden sind. <a style="text-decoration: underline;" href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.',
+    ownProfileMessage:
+      'Zusammen mit dir sind wir schon %no-authors% Autorinnen und Autoren, die aktiv an serlo.org mitarbeiten.'
   },
   donorsSpec
 ]
