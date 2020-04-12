@@ -8,7 +8,7 @@ const donorsSpec = {
   otherUserProfileMessage:
     '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a style="text-decoration: underline;" href="/user/me#spenden">Kannst auch du dir vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
   ownProfileMessage:
-    'Wir sind die ersten %no-donors% Pioniere beim Aufbau einer langfristigen und unabhängigen Finanzierung für serlo.org.'
+    'Wir sind die ersten %no% Pioniere beim Aufbau einer langfristigen und unabhängigen Finanzierung für serlo.org.'
 }
 
 const userProfileSpecs: UserProfileSpec[] = [
@@ -18,7 +18,7 @@ const userProfileSpecs: UserProfileSpec[] = [
     otherUserProfileMessage:
       'Als Reviewerin bzw. Reviewer sichert %username% die Qualität auf serlo.org und hilft unseren Autorinnen und Autoren.',
     ownProfileMessage:
-      'Als Team von %no-reviewers% Reviewerinnen und Reviewern sorgen wir für die Qualität unserer Lernplattform.'
+      'Als Team von %no% Reviewerinnen und Reviewern sorgen wir für die Qualität unserer Lernplattform.'
   },
   {
     userList: activeAuthors,
@@ -26,7 +26,7 @@ const userProfileSpecs: UserProfileSpec[] = [
     otherUserProfileMessage:
       '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr großartige Lerninhalte auf serlo.org zu finden sind. <a style="text-decoration: underline;" href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.',
     ownProfileMessage:
-      'Zusammen mit dir sind wir schon %no-authors% Autorinnen und Autoren, die aktiv an serlo.org mitarbeiten.'
+      'Zusammen mit dir sind wir schon %no% Autorinnen und Autoren, die aktiv an serlo.org mitarbeiten.'
   },
   donorsSpec
 ]
@@ -101,7 +101,9 @@ function addBannerToProfile(): void {
         const specMessage = ownProfile
           ? spec.ownProfileMessage
           : spec.otherUserProfileMessage
-        message += `<p style="margin: 0;">${specMessage}</p>`
+        const no = spec.userList.length.toString()
+        const editedMessage = specMessage.replace(/%no%/g, no)
+        message += `<p style="margin: 0;">${editedMessage}</p>`
       }
     }
 
