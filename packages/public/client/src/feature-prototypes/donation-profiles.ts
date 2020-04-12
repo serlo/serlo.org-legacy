@@ -43,9 +43,11 @@ interface UserProfileSpec {
 }
 
 export function initDonationProfile(): void {
-  addBannerToProfile()
-  addIconsToUserLinks()
-  addTwingleFormular()
+  if (window.location.hostname.startsWith('de')) {
+    addBannerToProfile()
+    addIconsToUserLinks()
+    addTwingleFormular()
+  }
 }
 
 function addTwingleFormular(): void {
