@@ -46,12 +46,18 @@ function addTwingleFormular(): void {
     location.pathname.startsWith('/user/me') &&
     !donorsSpec.userList.includes(getUserIdFromProfilePage())
   ) {
+    const userName = getUserNameFromProfilePage()
+    const userId = getUserIdFromProfilePage()
+    const donorPicture = staticFileUrl(donorsSpec.img)
+    const campaignId = `Spendenprofil { userId: ${userId}, userName: ${userName} }`
+    const encodedCampaignId = encodeURIComponent(campaignId)
+
     $('div.h2').before(`
       <h2 class="heading-content">Spenden</h2>
       <div id="spendenformular" style="display: flex; flex-direction: row; width: 100%; margin-bottom: 15px;">
         <style type="text/css">.no-show { display: none; }</style>
         <div style="flex-grow: 1; flex-basis: 50%; padding-right: 20px;">
-        <p>Hallo ${getUserNameFromProfilePage()},</p>
+        <p>Hallo ${userName},</p>
 
         <p>wir von Serlo setzen uns dafür ein, dass alle Menschen weltweit freien Zugang zu hochwertiger Bildung haben. Leider sind immer mehr digitale Bildungsangebote <a id="mehr-anzeigen-a" onclick="$('#mehr-anzeigen-a').css('display','none'); $('#mehr-anzeigen-span').css('display','inline'); $('.mehr-anzeigen-p').css('display', 'block');" style="cursor:pointer;">(mehr anzeigen)</a>
         <span id="mehr-anzeigen-span" style="display: none;">bezahlpflichtig oder voller Werbung. Da gehen wir einen anderen Weg. Unsere Lernplattform ist <strong>für immer</strong> komplett kostenlos, werbefrei und nonprofit. Und wir haben Erfolg damit! Über 1 Mio User sind jeden Monat auf serlo.org.</span></p>
@@ -62,11 +68,11 @@ function addTwingleFormular(): void {
 
         <p class="mehr-anzeigen-p" style="display:none;">Vielen Dank :)</p>
 
-        <img style="display: block; width: 70%; margin: 30px auto 0 auto" src="${staticFileUrl("donor.png")}" />
+        <img style="display: block; width: 70%; margin: 30px auto 0 auto" src="${donorPicture}" />
 
         </div>
         <div style="flex-grow: 1; flex-basis: 50%;">
-          <iframe style="flex-grow: 1; min-height: 390px; flex-basis: 50%; border: none;" src="https://spenden.twingle.de/serlo-education-e-v/spendenprofil/tw5e8dbb1390e8b/page"/>
+          <iframe style="flex-grow: 1; min-height: 390px; flex-basis: 50%; border: none;" src="https://spenden.twingle.de/serlo-education-e-v/spendenprofil/tw5e8dbb1390e8b/page?tw_cid=${encodedCampaignId}"/>
           <p style="color: #999;">Du möchtest nicht, dass deine Spende auf deinem Profil sichtbar ist oder du möchtest einmalig spenden: <a href="https://de.serlo.org/spenden" style="text-decoration: underline;">Klicke hier</a></p>
         </div>
       </div>
