@@ -36,8 +36,7 @@ interface UserProfileSpec {
 }
 
 export function initDonationProfile(): void {
-  addBannerToOwnUserProfile()
-  addBannerToOtherUserProfile()
+  addBannerToProfile()
   addIconsToUserLinks()
   addTwingleFormular()
 }
@@ -81,60 +80,42 @@ function addTwingleFormular(): void {
   }
 }
 
-function addBannerToOwnUserProfile(): void {
-  if (location.pathname.startsWith('/user/me')) {
+function addBannerToProfile(): void {
+  if (
+    location.pathname.startsWith('/user/me') ||
+    location.pathname.startsWith('/user/profile')
+  ) {
+    const ownProfile = location.pathname.startsWith('/user/me')
     const userId = getUserIdFromProfilePage()
+    const userName = getUserNameFromProfilePage()
 
     let message = ''
 
     for (const spec of userProfileSpecs) {
       if (spec.userList.includes(userId)) {
         message += icon(spec, 40, 'display: block;')
-        message += `<p style="margin: 0;">${spec.ownProfileMessage}</p>`
+
+        const specMessage = ownProfile
+          ? spec.ownProfileMessage
+          : spec.otherUserProfileMessage
+        message += `<p style="margin: 0;">${specMessage}</p>`
       }
     }
 
     if (message) {
-      const finalMessage = message.replace(
-        /%username%/g,
-        getUserNameFromProfilePage()
-      )
-      const box = `<img src="${staticFileUrl("vogel111.png")}" style="display: block; float: left;" height="200" />
-                   <div class="alert alert-info"
+      const finalMessage = message.replace(/%username%/g, userName)
+      const additionOwnProfile =
+        '<p style="grid-column: span 2;">Gemeinsam helfen wir jeden Monat über 1 Mio jungen Menschen beim Lernen – unabhängig vom Geldbeutel ihrer Eltern. Schön, dass du dabei bist!</p>'
+      const image = staticFileUrl('vogel111.png')
+
+      const box = `<img src="${image}" style="display: block; float: left;" height="200" />
+                   <div class=""
                         style="display: grid; grid-template-columns: 60px 1fr;
                         grid-column-gap: 1em; grid-row-gap: 1em; margin-bottom: 1.5em;
                         font-size: 90%; align-items: center; color: black;">
                    ${finalMessage}
-                   </div>`
 
-      $('.page-header').after(box)
-    }
-  }
-}
-
-function addBannerToOtherUserProfile(): void {
-  if (location.pathname.startsWith('/user/profile/')) {
-    const userId = getUserIdFromProfilePage()
-
-    let message = ''
-
-    for (const spec of userProfileSpecs) {
-      if (spec.userList.includes(userId)) {
-        message += icon(spec, 60, 'display: block;')
-        message += `<p style="margin: 0;">${spec.otherUserProfileMessage}</p>`
-      }
-    }
-
-    if (message) {
-      const finalMessage = message.replace(
-        /%username%/g,
-        getUserNameFromProfilePage()
-      )
-      const box = `<div class="alert alert-info"
-                        style="display: grid; grid-template-columns: 60px 1fr;
-                        grid-column-gap: 1em; grid-row-gap: 1em; margin-bottom: 1.5em;
-                        font-size: 90%; align-items: center; color: black;">
-                   ${finalMessage}
+                   ${ownProfile ? additionOwnProfile : ''}
                    </div>`
 
       $('.page-header').after(box)
