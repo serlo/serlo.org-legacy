@@ -2,14 +2,15 @@ import { activeAuthors } from './active-authors'
 import { activeReviewers } from './active-reviewers'
 import { activeDonors } from './active-donors'
 
+const donorsSpec = {
+  userList: activeDonors,
+  img: 'donor.png',
+  otherUserProfileMessage:
+    '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a href="/user/me/#spendenformular">Kannst du dir auch vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
+  ownProfileMessage: 'Danke für deine Mitarbeit als Autorin bzw. Autor!'
+}
+
 const userProfileSpecs: UserProfileSpec[] = [
-  {
-    userList: activeDonors,
-    img: 'donor.png',
-    otherUserProfileMessage:
-      '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a href="/user/me/#spendenformular">Kannst du dir auch vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
-    ownProfileMessage: 'Danke für deine Mitarbeit als Autorin bzw. Autor!'
-  },
   {
     userList: activeReviewers,
     img: 'reviewer.png',
@@ -23,9 +24,9 @@ const userProfileSpecs: UserProfileSpec[] = [
     otherUserProfileMessage:
       '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr fundierte, kreative und begeisternde Lerninhalte auf sero.org zu finden sind. <a href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.',
     ownProfileMessage: 'Danke für deine Mitarbeit als Autorin bzw. Autor!'
-  }
+  },
+  donorsSpec
 ]
-const donorsSpec = userProfileSpecs[0]
 
 interface UserProfileSpec {
   userList: string[]
