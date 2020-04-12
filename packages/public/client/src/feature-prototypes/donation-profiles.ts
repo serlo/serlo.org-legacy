@@ -182,5 +182,9 @@ function icon(spec: UserProfileSpec, height: number, style = ''): string {
 }
 
 function staticFileUrl(relativePath: string): string {
-  return `http://localhost:8082/feature-prototypes/donation-profiles/${relativePath}`
+  if (window.location.hostname.endsWith('serlo.localhost')) {
+    return `http://localhost:8082/feature-prototypes/donation-profiles/${relativePath}`
+  } else {
+    return `https://packages.serlo.org/serlo-org-static-assets@1/feature-prototypes/donation-profiles/${relativePath}`
+  }
 }
