@@ -47,22 +47,27 @@ function addTwingleFormular(): void {
     !donorsSpec.userList.includes(getUserIdFromProfilePage())
   ) {
     $('div.h2').before(`
-      <div id="spendenformular" style="display: flex; flex-direction: row; width: 100%;">
+      <h2 class="heading-content">Spenden</h2>
+      <div id="spendenformular" style="display: flex; flex-direction: row; width: 100%; margin-bottom: 15px;">
+        <style type="text/css">.no-show { display: none; }</style>
         <div style="flex-grow: 1; flex-basis: 50%; padding-right: 20px;">
         <p>Hallo ${getUserNameFromProfilePage()},</p>
 
-        <p>wir von Serlo setzen uns dafür ein, dass alle Menschen weltweit freien Zugang zu hochwertiger Bildung haben. Leider sind immer mehr Bildungsangebote bezahlpflichtig oder voller Werbung.    Deshalb ist serlo.org für immer nonprofit, komplett kostenlos und werbefrei. Und wir haben Erfolg damit! Über 1 Mio User sind jeden Monat auf serlo.org.</p>
+        <p>wir von Serlo setzen uns dafür ein, dass alle Menschen weltweit freien Zugang zu hochwertiger Bildung haben. Leider sind immer mehr digitale Bildungsangebote <a id="mehr-anzeigen-a" onclick="$('#mehr-anzeigen-a').css('display','none'); $('#mehr-anzeigen-span').css('display','inline'); $('.mehr-anzeigen-p').css('display', 'block');" style="cursor:pointer;">(mehr anzeigen)</a>
+        <span id="mehr-anzeigen-span" style="display: none;">bezahlpflichtig oder voller Werbung. Da gehen wir einen anderen Weg. Unsere Lernplattform ist <strong>für immer</strong> komplett kostenlos, werbefrei und nonprofit. Und wir haben Erfolg damit! Über 1 Mio User sind jeden Monat auf serlo.org.</span></p>
 
-        <p>Damit wir serlo.org zügig erweitern und verbessern können, sind wir auf Spenden für Softwareentwicklung, Server und Unterstützung der ehrenamtlichen Autorinnen und Autoren angewiesen.</p>
+        <p class="mehr-anzeigen-p" style="display:none;">Damit wir serlo.org zügig erweitern und verbessern können, sind wir auf Spenden für Softwareentwicklung, Server und Unterstützung der ehrenamtlichen Autorinnen und Autoren angewiesen.</p>
 
-        <p>Falls du dir vorstellen kannst, uns mit einem kleinen regelmäßigen Betrag zu unterstützen, nutze gerne das Formular rechts.</p>
+        <p class="mehr-anzeigen-p" style="display:none;">Dafür brauchen wir dich! Falls du dir vorstellen kannst, uns mit einem kleinen regelmäßigen Betrag zu unterstützen, dann klicke rechts.</p>
 
-        <p>Vielen Dank :)</p>
+        <p class="mehr-anzeigen-p" style="display:none;">Vielen Dank :)</p>
+
+        <img style="display: block; width: 70%; margin: 30px auto 0 auto" src="${staticFileUrl("donor.png")}" />
 
         </div>
         <div style="flex-grow: 1; flex-basis: 50%;">
-          <iframe style="flex-grow: 1; min-height: 500px; flex-basis: 50%; border: none;" src="https://spenden.twingle.de/serlo-education-e-v/crowdbird/tw5e722d17489b0/page"/>
-          <p><a href="https://de.serlo.org/spenden">Ich möchte nicht, dass meine Spende auf dem Profil sichtbar ist oder ich möchte einmalig spenden.</a></p>
+          <iframe style="flex-grow: 1; min-height: 390px; flex-basis: 50%; border: none;" src="https://spenden.twingle.de/serlo-education-e-v/spendenprofil/tw5e8dbb1390e8b/page"/>
+          <p style="color: #999;">Du möchtest nicht, dass deine Spende auf deinem Profil sichtbar ist oder du möchtest einmalig spenden: <a href="https://de.serlo.org/spenden" style="text-decoration: underline;">Klicke hier</a></p>
         </div>
       </div>
     `)
