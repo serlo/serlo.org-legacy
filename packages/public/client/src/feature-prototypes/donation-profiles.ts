@@ -91,12 +91,13 @@ function addBannerToProfile(): void {
     const ownProfile = location.pathname.startsWith('/user/me')
     const userId = getUserIdFromProfilePage()
     const userName = getUserNameFromProfilePage()
+    const imgWidth = 40
 
     let message = ''
 
     for (const spec of userProfileSpecs) {
       if (spec.userList.includes(userId)) {
-        message += icon(spec, 40, 'display: block;')
+        message += icon(spec, imgWidth, 'display: block;')
 
         const specMessage = ownProfile
           ? spec.ownProfileMessage
@@ -115,7 +116,7 @@ function addBannerToProfile(): void {
 
       const box = `<img src="${image}" style="display: block; float: left;" height="200" />
                    <div class=""
-                        style="display: grid; grid-template-columns: 60px 1fr;
+                        style="display: grid; grid-template-columns: ${imgWidth}px 1fr;
                         grid-column-gap: 1em; grid-row-gap: 1em; margin-bottom: 1.5em;
                         font-size: 90%; align-items: center; color: black;">
                    ${finalMessage}
