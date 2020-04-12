@@ -25,10 +25,12 @@ namespace Admin\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class HomeController extends AbstractActionController
+class BackendController extends AbstractActionController
 {
-    public function actionIndex()
+    public function indexAction()
     {
-        return new ViewModel();
+        $view = new ViewModel();
+        $view->setTemplate('admin/backend');
+        return $view;
     }
 }

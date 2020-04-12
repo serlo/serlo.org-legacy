@@ -20,41 +20,39 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Admin;
 
+use Admin\Controller\DebuggerController;
+use Admin\Controller\BackendController;
+
 return [
+    'controllers' => [
+        'invokables' => [
+            DebuggerController::class => DebuggerController::class,
+            BackendController::class => BackendController::class,
+        ],
+    ],
     'router' => [
         'routes' => [
-            'backend'  => [
-                'type'    => 'literal',
+            'backend' => [
+                'type' => 'literal',
                 'options' => [
-                    'route'    => '/backend',
+                    'route' => '/backend',
                     'defaults' => [
-                        'controller' => 'Admin\Controller\HomeController',
-                        'action'     => 'index',
+                        'controller' => BackendController::class,
+                        'action' => 'index',
                     ],
                 ],
             ],
             'debugger' => [
-                'type'    => 'literal',
+                'type' => 'literal',
                 'options' => [
-                    'route'    => '/debugger',
+                    'route' => '/debugger',
                     'defaults' => [
-                        'controller' => 'Admin\Controller\DebuggerController',
-                        'action'     => 'index',
+                        'controller' => DebuggerController::class,
+                        'action' => 'index',
                     ],
-                ],
-            ],
-        ],
-    ],
-    'di'     => [
-        'allowed_controllers' => [
-            'Admin\Controller\HomeController',
-            'Admin\Controller\DebuggerController',
-        ],
-        'definition'          => [
-            'class' => [
-                'Admin\Controller\HomeController' => [
                 ],
             ],
         ],

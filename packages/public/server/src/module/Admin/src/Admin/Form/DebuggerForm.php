@@ -31,7 +31,7 @@ class DebuggerForm extends Form
 {
     public function __construct()
     {
-        parent::__construct('article');
+        parent::__construct('debugger');
         $this->add(new CsrfToken());
 
         $this->setAttribute('method', 'post');
