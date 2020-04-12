@@ -5,6 +5,7 @@ import { activeDonors } from './active-donors'
 const donorsSpec = {
   userList: activeDonors,
   img: 'donor.png',
+  imgBig: 'big-donor.png',
   otherUserProfileMessage:
     '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a style="text-decoration: underline;" href="/user/me#spenden">Kannst auch du dir vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
   ownProfileMessage:
@@ -15,6 +16,7 @@ const userProfileSpecs: UserProfileSpec[] = [
   {
     userList: activeReviewers,
     img: 'reviewer.png',
+    imgBig: 'big-reviewer.png',
     otherUserProfileMessage:
       'Als Reviewerin bzw. Reviewer sichert %username% die Qualität auf serlo.org und hilft unseren Autorinnen und Autoren.',
     ownProfileMessage:
@@ -23,6 +25,7 @@ const userProfileSpecs: UserProfileSpec[] = [
   {
     userList: activeAuthors,
     img: 'authors.png',
+    imgBig: 'big-author.png',
     otherUserProfileMessage:
       '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr großartige Lerninhalte auf serlo.org zu finden sind. <a style="text-decoration: underline;" href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.',
     ownProfileMessage:
@@ -34,6 +37,7 @@ const userProfileSpecs: UserProfileSpec[] = [
 interface UserProfileSpec {
   userList: string[]
   img: string
+  imgBig: string
   otherUserProfileMessage: string
   ownProfileMessage: string
 }
@@ -93,6 +97,7 @@ function addBannerToProfile(): void {
     const userName = getUserNameFromProfilePage()
     const imgWidth = 40
 
+    let imgBig = ''
     let message = ''
 
     for (const spec of userProfileSpecs) {
@@ -105,6 +110,10 @@ function addBannerToProfile(): void {
         const no = spec.userList.length.toString()
         const editedMessage = specMessage.replace(/%no%/g, no)
         message += `<p style="margin: 0;">${editedMessage}</p>`
+
+        if (imgBig === '') {
+          imgBig = staticFileUrl(spec.imgBig)
+        }
       }
     }
 
@@ -112,9 +121,8 @@ function addBannerToProfile(): void {
       const finalMessage = message.replace(/%username%/g, userName)
       const additionOwnProfile =
         '<p style="grid-column: span 2;">Gemeinsam helfen wir jeden Monat über 1 Mio jungen Menschen beim Lernen – unabhängig vom Geldbeutel ihrer Eltern. Schön, dass du dabei bist!</p>'
-      const image = staticFileUrl('vogel111.png')
 
-      const box = `<img src="${image}" style="display: block; float: left;" height="200" />
+      const box = `<img src="${imgBig}" style="display: block; float: left;" height="200" />
                    <div class=""
                         style="display: grid; grid-template-columns: ${imgWidth}px 1fr;
                         grid-column-gap: 1em; grid-row-gap: 1em; margin-bottom: 1.5em;
