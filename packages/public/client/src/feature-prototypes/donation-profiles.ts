@@ -6,7 +6,7 @@ const donorsSpec = {
   userList: activeDonors,
   img: 'donor.png',
   otherUserProfileMessage:
-    '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a style="text-decoration: underline;" href="/user/me/#spendenformular">Kannst auch du dir vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
+    '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a style="text-decoration: underline;" href="/user/me#spenden">Kannst auch du dir vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
   ownProfileMessage:
     'Wir sind die ersten %no-donors% Pioniere beim Aufbau einer langfristigen und unabhängigen Finanzierung für serlo.org.'
 }
@@ -56,8 +56,8 @@ function addTwingleFormular(): void {
     const encodedCampaignId = encodeURIComponent(campaignId)
 
     $('div.h2').before(`
-      <h2 class="heading-content">Spenden</h2>
-      <div id="spendenformular" style="display: flex; flex-direction: row; width: 100%; margin-bottom: 15px;">
+      <h2 id="spenden" class="heading-content">Spenden</h2>
+      <div style="display: flex; flex-direction: row; width: 100%; margin-bottom: 15px;">
         <style type="text/css">.no-show { display: none; }</style>
         <div style="flex-grow: 1; flex-basis: 50%; padding-right: 20px;">
         <p>Hallo ${userName},</p>
