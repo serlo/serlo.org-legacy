@@ -34,10 +34,12 @@ class ApiManagerFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Config');
         $options = $config['api_options'];
+        $sentry = $serviceLocator->get('Log\Sentry');
 
-        $manager = new ApiManager($options);
+        $manager = new ApiManager($options, $sentry);
         /** @var AliasManager $aliasManager */
         $aliasManager = $serviceLocator->get(AliasManager::class);
+
         $manager->setAliasManager($aliasManager);
 
         return $manager;

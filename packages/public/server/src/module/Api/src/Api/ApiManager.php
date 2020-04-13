@@ -28,6 +28,8 @@ use Alias\Entity\AliasInterface;
 use DateTime;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
+use Exception;
+use FeatureFlags\ServiceLoggerInterface;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key;
@@ -45,9 +47,15 @@ class ApiManager
 
     private $options;
 
-    public function __construct(array $options)
+    /**
+     * @var ServiceLoggerInterface
+     */
+    private $sentry;
+
+    public function __construct(array $options, $sentry)
     {
         $this->options = $options;
+        $this->sentry = $sentry;
     }
 
     public function getAliasData(AliasInterface $alias)
@@ -504,7 +512,8 @@ MUTATION;
                 'variables' => $variables,
                 'errors' => $response['errors'],
             ], true);
-            throw new \Exception($errors);
+            $exception = new Exception($errors);
+            $this->sentry->captureException($exception, ['tags' => ['api' => true]]);
         }
     }
 

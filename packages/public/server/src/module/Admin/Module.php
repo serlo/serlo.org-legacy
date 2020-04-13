@@ -48,7 +48,7 @@ class Module
                 'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ],
-            ]
+            ],
         ];
     }
 }
