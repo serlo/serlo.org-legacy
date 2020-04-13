@@ -210,7 +210,7 @@ MUTATION;
 
         if ($uuid instanceof TaxonomyTermInterface) {
             $data['discriminator'] = 'taxonomyTerm';
-            $data['type'] = $uuid->getType()->getName();
+            $data['type'] = $this->toCamelCase($uuid->getType()->getName());
             $data['instance'] = $uuid->getInstance()->getSubdomain();
             $data['name'] = $uuid->getName();
             $data['description'] = $uuid->getDescription();
@@ -506,5 +506,21 @@ MUTATION;
             ], true);
             throw new \Exception($errors);
         }
+    }
+
+    private function toCamelCase($value)
+    {
+        $segments = explode('-', $value);
+        $firstSegment = $segments[0];
+        $remainingSegments = array_slice($segments, 1);
+        return implode(
+            '',
+            array_merge(
+                [$firstSegment],
+                array_map(function ($segment) {
+                    return strtoupper($segment[0]) . substr($segment, 1);
+                }, $remainingSegments)
+            )
+        );
     }
 }
