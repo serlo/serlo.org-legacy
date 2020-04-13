@@ -25,6 +25,8 @@ namespace AdminTest\Controller;
 
 use Admin\Controller\DebuggerController;
 use Authorization\Service\AssertGrantedServiceInterface;
+use Csrf\CsrfTokenContainer;
+use Ui\View\Helper\Encrypt;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 class DebuggerControllerTest extends AbstractHttpControllerTestCase
@@ -34,15 +36,16 @@ class DebuggerControllerTest extends AbstractHttpControllerTestCase
         $config = include __DIR__ . '/../../../../../config/application.config.php';
         $config['modules'] = ['Admin', 'Ui'];
         $this->setApplicationConfig($config);
-        parent::setUp();
-    }
 
-    public function testIndexAction()
-    {
+        parent::setUp();
+
         $serviceManager = $this->getApplicationServiceLocator();
         $serviceManager->setAllowOverride(true);
+
+        // Ui module depends on default_navigation
         $serviceManager->setService('default_navigation', []);
 
+        // Verify that we check permission `debugger.use`
         $assertGrantedService = $this
             ->getMockBuilder(AssertGrantedServiceInterface::class)
             ->setMethods(['assert'])
@@ -53,12 +56,41 @@ class DebuggerControllerTest extends AbstractHttpControllerTestCase
             ->with($this->equalTo('debugger.use'));
         $serviceManager->setService(AssertGrantedServiceInterface::class, $assertGrantedService);
 
+        // Override layout so we can test the template in isolation
         $view = $serviceManager->get('ViewRenderer');
         $view->layout('layout/partials/main');
+    }
 
+    public function testIndexActionGet()
+    {
         $this->dispatch('/debugger');
         $this->assertControllerName(DebuggerController::class);
         $this->assertQueryContentRegex('h1', '/Debugger/');
+        $this->assertResponseStatusCode(200);
+    }
+
+    public function testIndexActionPost()
+    {
+        $helper = new Encrypt();
+        $this->dispatch('/debugger', 'POST', [
+            'message' => $helper('message'),
+            'csrf' => CsrfTokenContainer::getToken(),
+        ]);
+        $this->assertControllerName(DebuggerController::class);
+        $this->assertQueryContentRegex('html', '/message/');
+        $this->assertResponseStatusCode(200);
+    }
+
+    public function testIndexActionPostCsrfValidation()
+    {
+        $helper = new Encrypt();
+        $message = $helper('message');
+        $this->dispatch('/debugger', 'POST', [
+            'message' => $message,
+            'csrf' => 'wrong csrf',
+        ]);
+        $this->assertControllerName(DebuggerController::class);
+        $this->assertQueryContentContains('textarea', $message);
         $this->assertResponseStatusCode(200);
     }
 }
