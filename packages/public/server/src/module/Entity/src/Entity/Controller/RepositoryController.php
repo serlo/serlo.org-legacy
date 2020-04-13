@@ -160,7 +160,7 @@ class RepositoryController extends AbstractController
                 'timestamp' => (new Timeago())->format($revision->getTimestamp()),
                 'author' => $revision->getAuthor()->getUsername(),
                 'changes' => $revision->get('changes'),
-                'active' => $revision->getId() === $entity->getCurrentRevision()->getId(),
+                'active' => $entity->getCurrentRevision() ? $revision->getId() === $entity->getCurrentRevision()->getId() : false,
             ];
         });
         return new JsonModel($revisions);
