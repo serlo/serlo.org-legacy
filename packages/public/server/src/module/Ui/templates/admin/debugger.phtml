@@ -21,9 +21,9 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 ?>
-<?= $this->pageHeader($this->translate('Backend'))->render(); ?>
-<div class="jumbotron">
-    <div class="container">
-        <p><?= $this->translate('Welcome to the backend. Explore the possiblities on the right!'); ?></p>
-    </div>
-</div>
+<?= $this->pageHeader($this->translate('Debugger'))->render(); ?>
+<?php if ($this->message): ?>
+    <?= $this->message; ?>
+<?php else: ?>
+    <?= $this->form()->render($this->form); ?>
+<?php endif; ?>

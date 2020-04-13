@@ -32,7 +32,7 @@ class DebuggerControllerTest extends AbstractHttpControllerTestCase
     public function setUp()
     {
         $config = include __DIR__ . '/../../../../../config/application.config.php';
-        $config['modules'] = ['Admin', 'Ui', 'ZfcTwig'];
+        $config['modules'] = ['Admin', 'Ui'];
         $this->setApplicationConfig($config);
         parent::setUp();
     }
