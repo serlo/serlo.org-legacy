@@ -24,23 +24,15 @@
 namespace AdminTest\Controller;
 
 use Admin\Controller\DebuggerController;
+use Authorization\Service\AssertGrantedServiceInterface;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use ZfcRbac\Service\AuthorizationServiceInterface;
-
-class AuthorizationService implements AuthorizationServiceInterface
-{
-    public function isGranted($permission, $context = null)
-    {
-        return true;
-    }
-}
 
 class DebuggerControllerTest extends AbstractHttpControllerTestCase
 {
     public function setUp()
     {
         $config = include __DIR__ . '/../../../../../config/application.config.php';
-        $config['modules'] = ['Admin', 'Ui', 'Authorization', 'ZfcRbac', 'ZfcTwig'];
+        $config['modules'] = ['Admin', 'Ui', 'ZfcTwig'];
         $this->setApplicationConfig($config);
         parent::setUp();
     }
@@ -51,7 +43,15 @@ class DebuggerControllerTest extends AbstractHttpControllerTestCase
         $serviceManager->setAllowOverride(true);
         $serviceManager->setService('default_navigation', []);
 
-        $serviceManager->setService('ZfcRbac\Service\AuthorizationService', new AuthorizationService());
+        $assertGrantedService = $this
+            ->getMockBuilder(AssertGrantedServiceInterface::class)
+            ->setMethods(['assert'])
+            ->getMock();
+        $assertGrantedService
+            ->expects($this->once())
+            ->method('assert')
+            ->with($this->equalTo('debugger.use'));
+        $serviceManager->setService(AssertGrantedServiceInterface::class, $assertGrantedService);
 
         $view = $serviceManager->get('ViewRenderer');
         $view->layout('layout/partials/main');

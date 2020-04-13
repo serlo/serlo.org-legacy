@@ -20,26 +20,30 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Admin\Controller;
 
 use Admin\Form\DebuggerForm;
+use Authorization\Service\AssertGrantedServiceAwareTrait;
 use Ui\View\Helper\Encrypt;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class DebuggerController extends AbstractActionController
 {
+    use AssertGrantedServiceAwareTrait;
+
     public function indexAction()
     {
-        $this->assertGranted('debugger.use');
+        $this->getAssertGrantedService()->assert('debugger.use');
 
-        $form    = new DebuggerForm();
+        $form = new DebuggerForm();
         $message = false;
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $helper  = new Encrypt();
+                $helper = new Encrypt();
                 $message = $helper->decrypt($form->get('message')->getValue());
             }
         }

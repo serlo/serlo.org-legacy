@@ -25,11 +25,14 @@ namespace Admin;
 
 use Admin\Controller\DebuggerController;
 use Admin\Controller\BackendController;
+use Admin\Factory\DebuggerControllerFactory;
 
 return [
     'controllers' => [
+        'factories' => [
+            DebuggerController::class => DebuggerControllerFactory::class,
+        ],
         'invokables' => [
-            DebuggerController::class => DebuggerController::class,
             BackendController::class => BackendController::class,
         ],
     ],
