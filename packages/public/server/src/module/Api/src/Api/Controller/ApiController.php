@@ -24,13 +24,13 @@
 namespace Api\Controller;
 
 use Alias\AliasManagerAwareTrait;
-use Alias\Exception\AliasNotFoundException;
 use Api\ApiManagerAwareTrait;
 use Exception;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\ValidationData;
+use License\Exception\LicenseNotFoundException;
 use License\Manager\LicenseManagerAwareTrait;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerAwareTrait;
@@ -63,14 +63,15 @@ class ApiController extends AbstractActionController
         $alias = $this->params('alias');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
 
-        try {
-            $aliases = $this->getAliasManager()->findAliases($alias, $instance);
-            $currentAlias = $aliases[0];
-            return new JsonModel($this->getApiManager()->getAliasData($currentAlias));
-        } catch (AliasNotFoundException $e) {
-            $this->getResponse()->setStatusCode(404);
-            return false;
+        $aliases = $this->getAliasManager()->findAliases($alias, $instance);
+        if (count($aliases) === 0) {
+            $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+            $this->response->setContent('null');
+            return $this->response;
         }
+
+        $currentAlias = $aliases[0];
+        return new JsonModel($this->getApiManager()->getAliasData($currentAlias));
     }
 
     public function licenseAction()
@@ -81,8 +82,15 @@ class ApiController extends AbstractActionController
         }
 
         $id = $this->params('id');
-        $license = $this->getLicenseManager()->getLicense($id);
-        return new JsonModel($this->getApiManager()->getLicenseData($license));
+
+        try {
+            $license = $this->getLicenseManager()->getLicense($id);
+            return new JsonModel($this->getApiManager()->getLicenseData($license));
+        } catch (LicenseNotFoundException $exception) {
+            $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+            $this->response->setContent('null');
+            return $this->response;
+        }
     }
 
     public function uuidAction()
