@@ -4,7 +4,7 @@ import { activeDonors } from './active-donors'
 
 const donorsSpec = {
   userList: activeDonors,
-  img: 'donor.png',
+  img: 'donors.png',
   imgBig: 'big-donor.png',
   otherUserProfileMessage:
     '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a style="text-decoration: underline;" href="/user/me#spenden">Kannst auch du dir vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
@@ -15,7 +15,7 @@ const donorsSpec = {
 const userProfileSpecs: UserProfileSpec[] = [
   {
     userList: activeReviewers,
-    img: 'reviewer.png',
+    img: 'reviewers.png',
     imgBig: 'big-reviewer.png',
     otherUserProfileMessage:
       'Als Reviewerin bzw. Reviewer sichert %username% die Qualität auf serlo.org und hilft unseren Autorinnen und Autoren.',
