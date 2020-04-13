@@ -25,14 +25,11 @@ namespace Admin;
 
 use Zend\Loader\ClassMapAutoloader;
 use Zend\Loader\StandardAutoloader;
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
-class Module
+class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
-    public function getConfig()
-    {
-        return include __DIR__ . '/config/module.config.php';
-    }
-
     public function getAutoloaderConfig()
     {
         if (file_exists(__DIR__ . '/autoload_classmap.php')) {
@@ -50,5 +47,10 @@ class Module
                 ],
             ],
         ];
+    }
+
+    public function getConfig()
+    {
+        return include __DIR__ . '/config/module.config.php';
     }
 }
