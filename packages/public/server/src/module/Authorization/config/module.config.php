@@ -24,7 +24,6 @@
 namespace Authorization;
 
 use Authorization\Factory\AssertGrantedServiceFactory;
-use Authorization\Service\AssertGrantedService;
 use Authorization\Service\AssertGrantedServiceInterface;
 
 return [
@@ -47,16 +46,13 @@ return [
         ],
     ],
     'service_manager' => [
-        'aliases' => [
-            AssertGrantedServiceInterface::class => AssertGrantedService::class,
-        ],
         'factories' => [
             'Authorization\Service\RoleService' => __NAMESPACE__ . '\Factory\RoleServiceFactory',
             'Authorization\Service\PermissionService' => __NAMESPACE__ . '\Factory\PermissionServiceFactory',
             'ZfcRbac\Service\AuthorizationService' => __NAMESPACE__ . '\Factory\AuthorizationServiceFactory',
             'ZfcRbac\Assertion\AssertionPluginManager' => __NAMESPACE__ . '\Factory\AssertionPluginManagerFactory',
             'Authorization\Form\RoleForm' => __NAMESPACE__ . '\Factory\RoleFormFactory',
-            AssertGrantedService::class => AssertGrantedServiceFactory::class,
+            AssertGrantedServiceInterface::class => AssertGrantedServiceFactory::class,
         ],
     ],
     'controller_plugins' => [
