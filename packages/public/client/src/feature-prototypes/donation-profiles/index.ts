@@ -69,20 +69,21 @@ function addTwingleFormular(): void {
         <p>Hallo ${userName},</p>
 
         <p>wir von Serlo setzen uns dafür ein, dass alle Menschen weltweit freien Zugang zu hochwertiger Bildung haben. Leider sind immer mehr digitale Bildungsangebote <a class="mehr-anzeigen-none" onclick="$('.mehr-anzeigen-none').css('display','none'); $('#mehr-anzeigen-span').css('display','inline'); $('.mehr-anzeigen-p').css('display', 'block');" style="cursor:pointer;">(mehr anzeigen)</a>
-        <span id="mehr-anzeigen-span" style="display: none;">bezahlpflichtig oder voller Werbung. Da gehen wir einen anderen Weg. Unsere Lernplattform ist <strong>für immer</strong> komplett kostenlos, werbefrei und nonprofit. Und wir haben Erfolg damit! Über 1 Mio User sind jeden Monat auf serlo.org.</span></p>
+        <span id="mehr-anzeigen-span" style="display: none;">bezahlpflichtig oder voller Werbung. Da gehen wir einen anderen Weg. Unsere Lernplattform ist <strong>für immer</strong> komplett kostenlos, werbefrei und nonprofit. Und wir haben Erfolg damit! Über 1 Mio Menschen nutzen serlo.org jeden Monat.
+</span></p>
 
-        <p class="mehr-anzeigen-p" style="display:none;">Damit wir serlo.org zügig erweitern und verbessern können, sind wir auf Spenden für Softwareentwicklung, Server und Unterstützung der ehrenamtlichen Autorinnen und Autoren angewiesen.</p>
+        <p class="mehr-anzeigen-p" style="display:none;">Unsere nächsten Schritte sind: Tausende neue Übungsaufgaben und Erklärungen, neue interaktive Aufgabenformate, weitere Fächer und die Übersetzung in andere Sprachen. Um das zu schaffen setzen wir auf die Power der Community. Wenn viele mitschreiben, Feedback geben oder nur einen kleinen monatlichen Betrag spenden, kann unsere Vision Realität werden.</p>
 
-        <p class="mehr-anzeigen-p" style="display:none;">Dafür brauchen wir dich! Falls du dir vorstellen kannst, uns mit einem kleinen regelmäßigen Betrag zu unterstützen, dann klicke rechts.</p>
+        <p class="mehr-anzeigen-p" style="display:none;">Kannst du dir vorstellen, als Spenderin bzw. Spender Teil der Community zu werden? Dann nutze bitte das Formular rechts.</p>
 
-        <p class="mehr-anzeigen-p" style="display:none;">Vielen Dank :)</p>
+        <p class="mehr-anzeigen-p" style="display:none;">Vielen Dank <img src="${donorPicture}" width="23"></p>
 
-        <img class="mehr-anzeigen-none" style="display: block; width: 50%; margin: 60px auto 0 auto" src="${donorPicture}" />
+        <img class="mehr-anzeigen-none" style="display: block; width: 30%; margin: 60px auto 0 auto" src="${donorPicture}" />
 
         </div>
         <div style="flex-grow: 1; flex-basis: 50%;">
           <iframe style="flex-grow: 1; min-height: 390px; flex-basis: 50%; border: none;" src="https://spenden.twingle.de/serlo-education-e-v/spendenprofil/tw5e8dbb1390e8b/page?tw_cid=${encodedCampaignId}"/>
-          <p style="color: #999;">Du möchtest nicht, dass deine Spende auf deinem Profil sichtbar ist oder du möchtest einmalig spenden: <a href="https://de.serlo.org/spenden" style="text-decoration: underline;">Klicke hier</a></p>
+          <p class="mehr-anzeigen-p" style="color: #999; display: none;">Du möchtest nicht, dass deine Spende auf deinem Profil sichtbar ist oder du möchtest einmalig spenden: <a href="https://de.serlo.org/spenden" style="text-decoration: underline;">Dann klicke hier</a></p>
         </div>
       </div>
     `)
