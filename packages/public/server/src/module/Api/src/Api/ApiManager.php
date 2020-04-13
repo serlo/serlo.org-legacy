@@ -512,7 +512,7 @@ MUTATION;
                 'extra' => [
                     'query' => print_r($query, true),
                     'variables' => print_r($variables, true),
-                    'errors' => print_r($response['errors']),
+                    'errors' => print_r($response['errors'], true),
                 ],
             ]);
         }
