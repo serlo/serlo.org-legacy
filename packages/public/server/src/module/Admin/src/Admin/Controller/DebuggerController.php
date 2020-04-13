@@ -26,7 +26,6 @@ namespace Admin\Controller;
 use Admin\Form\DebuggerForm;
 use Authorization\Service\AssertGrantedServiceAwareTrait;
 use Ui\View\Helper\Encrypt;
-use Zend\EventManager\EventManagerAwareInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
