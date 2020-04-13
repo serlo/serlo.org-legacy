@@ -29,13 +29,13 @@ use DateTime;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
 use Exception;
-use FeatureFlags\ServiceLoggerInterface;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key;
 use License\Entity\LicenseInterface;
 use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
+use Raven_Client;
 use Taxonomy\Entity\TaxonomyTermAwareInterface;
 use Taxonomy\Entity\TaxonomyTermInterface;
 use User\Entity\UserInterface;
@@ -48,7 +48,7 @@ class ApiManager
     private $options;
 
     /**
-     * @var ServiceLoggerInterface
+     * @var Raven_Client
      */
     private $sentry;
 
@@ -172,7 +172,7 @@ MUTATION;
             $data['instance'] = $uuid->getInstance()->getSubdomain();
             $data['date'] = $uuid->getTimestamp()->format(DateTime::ATOM);
             $data['currentRevisionId'] = $uuid->getCurrentRevision() ? $uuid->getCurrentRevision()->getId() : null;
-            $data['licenseId'] = $uuid->getLicense()->getId();
+            $data['licenseId'] = $uuid->getLicense() ? $uuid->getLicense()->getId() : null;
             $data['taxonomyTermIds'] = $uuid->getTaxonomyTerms()->map(function (TaxonomyTermInterface $term) {
                 return $term->getId();
             })->toArray();
@@ -507,13 +507,14 @@ MUTATION;
         $response = json_decode(curl_exec($ch), true);
 
         if (isset($response['errors'])) {
-            $errors = print_r([
-                'query' => $query,
-                'variables' => $variables,
-                'errors' => $response['errors'],
-            ], true);
-            $exception = new Exception($errors);
-            $this->sentry->captureException($exception, ['tags' => ['api' => true]]);
+            $this->sentry->captureMessage('GraphQL Mutation failed', [], [
+                'tags' => ['api' => true],
+                'extra' => [
+                    'query' => print_r($query, true),
+                    'variables' => print_r($variables, true),
+                    'errors' => print_r($response['errors']),
+                ],
+            ]);
         }
     }
 
