@@ -62,13 +62,13 @@ function addTwingleFormular(): void {
     const encodedCampaignId = encodeURIComponent(campaignId)
 
     $('div.h2').before(`
-      <h2 id="spenden" class="heading-content">Spenden</h2>
+      <h2 id="spenden" class="heading-content">Serlo für alle</h2>
       <div style="display: flex; flex-direction: row; width: 100%; margin-bottom: 15px;">
         <style type="text/css">.no-show { display: none; }</style>
         <div style="flex-grow: 1; flex-basis: 50%; padding-right: 20px;">
         <p>Hallo ${userName},</p>
 
-        <p>wir von Serlo setzen uns dafür ein, dass alle Menschen weltweit freien Zugang zu hochwertiger Bildung haben. Leider sind immer mehr digitale Bildungsangebote <a id="mehr-anzeigen-a" onclick="$('#mehr-anzeigen-a').css('display','none'); $('#mehr-anzeigen-span').css('display','inline'); $('.mehr-anzeigen-p').css('display', 'block');" style="cursor:pointer;">(mehr anzeigen)</a>
+        <p>wir von Serlo setzen uns dafür ein, dass alle Menschen weltweit freien Zugang zu hochwertiger Bildung haben. Leider sind immer mehr digitale Bildungsangebote <a class="mehr-anzeigen-none" onclick="$('.mehr-anzeigen-none').css('display','none'); $('#mehr-anzeigen-span').css('display','inline'); $('.mehr-anzeigen-p').css('display', 'block');" style="cursor:pointer;">(mehr anzeigen)</a>
         <span id="mehr-anzeigen-span" style="display: none;">bezahlpflichtig oder voller Werbung. Da gehen wir einen anderen Weg. Unsere Lernplattform ist <strong>für immer</strong> komplett kostenlos, werbefrei und nonprofit. Und wir haben Erfolg damit! Über 1 Mio User sind jeden Monat auf serlo.org.</span></p>
 
         <p class="mehr-anzeigen-p" style="display:none;">Damit wir serlo.org zügig erweitern und verbessern können, sind wir auf Spenden für Softwareentwicklung, Server und Unterstützung der ehrenamtlichen Autorinnen und Autoren angewiesen.</p>
@@ -77,7 +77,7 @@ function addTwingleFormular(): void {
 
         <p class="mehr-anzeigen-p" style="display:none;">Vielen Dank :)</p>
 
-        <img style="display: block; width: 70%; margin: 30px auto 0 auto" src="${donorPicture}" />
+        <img class="mehr-anzeigen-none" style="display: block; width: 50%; margin: 60px auto 0 auto" src="${donorPicture}" />
 
         </div>
         <div style="flex-grow: 1; flex-basis: 50%;">
@@ -122,7 +122,7 @@ function addBannerToProfile(): void {
     if (message) {
       const finalMessage = message.replace(/%username%/g, userName)
       const additionOwnProfile =
-        '<p style="grid-column: span 2;">Gemeinsam helfen wir jeden Monat über 1 Mio jungen Menschen beim Lernen – unabhängig vom Geldbeutel ihrer Eltern. Schön, dass du dabei bist!</p>'
+        '<p style="grid-column-start: 2;">Gemeinsam helfen wir jeden Monat über 1 Mio jungen Menschen beim Lernen – unabhängig vom Geldbeutel ihrer Eltern. Schön, dass du dabei bist!</p>'
 
       const box = `<img src="${imgBig}" style="display: block; float: left;" height="200" />
                    <div class=""
