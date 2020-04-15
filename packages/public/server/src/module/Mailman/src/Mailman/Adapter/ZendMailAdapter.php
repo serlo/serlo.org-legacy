@@ -79,6 +79,7 @@ class ZendMailAdapter implements AdapterInterface
 
         $bodyPart->setParts([$bodyHtmlMessage, $bodyTextMessage]);
         $message->setFrom($from);
+        $message->setSender($from);
         $message->addTo($to);
         $message->setEncoding("UTF-8");
         $message->setSubject($mail->getSubject());
