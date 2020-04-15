@@ -201,7 +201,7 @@ MUTATION;
                 })->map(function (EntityInterface $child) {
                     return $child->getId();
                 })->toArray();
-                $data['solutionId'] = count($solutionIds) > 0 ? $solutionIds[0] : null;
+                $data['solutionId'] = count($solutionIds) > 0 ? array_values($solutionIds)[0] : null;
             }
         }
 
