@@ -21,8 +21,10 @@
  */
 import { Verifier } from '@pact-foundation/pact'
 
+const timeout = 60000
+
 test('Pacts', async () => {
-  jest.setTimeout(60000)
+  jest.setTimeout(timeout)
   const handler = {
     get() {
       return () => {
@@ -36,6 +38,7 @@ test('Pacts', async () => {
     providerBaseUrl: 'http://de.serlo.localhost:4567',
     pactBrokerUrl: 'https://pacts.serlo.org',
     validateSSL: false,
-    stateHandlers
+    stateHandlers,
+    timeout
   }).verifyProvider()
 })

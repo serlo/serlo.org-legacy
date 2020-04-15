@@ -214,14 +214,43 @@ MUTATION;
             $data['type'] = $this->normalizeType($entity->getType()->getName());
             $data['repositoryId'] = $entity->getId();
 
-            foreach ($uuid->getFields() as $field) {
-                $fieldName = $field->getName();
-                if ($data['type'] === 'course' && $fieldName === 'description') {
-                    $fieldName = 'content';
-                } elseif ($data['type'] === 'video' && $fieldName === 'content') {
-                    $fieldName = 'url';
-                }
-                $data[$fieldName] = $field->getValue();
+            if ($data['type'] === 'applet') {
+                $data['url'] = $uuid->get('url', '');
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'article') {
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'course') {
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'coursePage') {
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'event') {
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'exercise') {
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'exerciseGroup') {
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'groupedExercise') {
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'solution') {
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'video') {
+                $data['title'] = $uuid->get('title', '');
+                $data['url'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
             }
         }
 
