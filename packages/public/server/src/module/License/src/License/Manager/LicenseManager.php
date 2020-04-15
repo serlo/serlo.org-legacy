@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace License\Manager;
 
 use Authorization\Service\AuthorizationAssertionTrait;
@@ -28,6 +29,7 @@ use ClassResolver\ClassResolverInterface;
 use Common\Traits\FlushableTrait;
 use Common\Traits\ObjectManagerAwareTrait;
 use Doctrine\Common\Persistence\ObjectManager;
+use Instance\Manager\InstanceAwareObjectManagerAwareTrait;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Instance\Manager\InstanceManagerInterface;
 use License\Entity\LicenseAwareInterface;
@@ -39,7 +41,7 @@ use ZfcRbac\Service\AuthorizationService;
 
 class LicenseManager implements LicenseManagerInterface
 {
-    use ClassResolverAwareTrait, ObjectManagerAwareTrait;
+    use ClassResolverAwareTrait, InstanceAwareObjectManagerAwareTrait;
     use InstanceManagerAwareTrait, EventManagerAwareTrait;
     use AuthorizationAssertionTrait, FlushableTrait;
 
@@ -50,9 +52,9 @@ class LicenseManager implements LicenseManagerInterface
         ObjectManager $objectManager
     ) {
         $this->setAuthorizationService($authorizationService);
-        $this->classResolver   = $classResolver;
+        $this->classResolver = $classResolver;
         $this->instanceManager = $instanceManager;
-        $this->objectManager   = $objectManager;
+        $this->objectManager = $objectManager;
     }
 
     public function createLicense(LicenseForm $form)
@@ -79,7 +81,7 @@ class LicenseManager implements LicenseManagerInterface
     public function findAllLicenses()
     {
         $className = $this->getClassResolver()->resolveClassName('License\Entity\LicenseInterface');
-        $licenses  = $this->getObjectManager()->getRepository($className)->findAll();
+        $licenses = $this->getObjectManager()->getRepository($className)->findAll();
         foreach ($licenses as $license) {
             $this->assertGranted('license.get', $license);
         }
@@ -89,7 +91,7 @@ class LicenseManager implements LicenseManagerInterface
     public function getDefaultLicense()
     {
         $className = $this->getClassResolver()->resolveClassName('License\Entity\LicenseInterface');
-        $license   = $this->getObjectManager()->getRepository($className)->findOneBy(
+        $license = $this->getObjectManager()->getRepository($className)->findOneBy(
             [
                 'default' => true,
             ]
@@ -102,10 +104,10 @@ class LicenseManager implements LicenseManagerInterface
         return $license;
     }
 
-    public function getLicense($id)
+    public function getLicense($id, $instanceAware = true)
     {
         $className = $this->getClassResolver()->resolveClassName('License\Entity\LicenseInterface');
-        $license   = $this->getObjectManager()->find($className, $id);
+        $license = $this->getObjectManager()->find($className, $id, $instanceAware);
 
         if (!is_object($license)) {
             throw new Exception\LicenseNotFoundException(sprintf('License not found by id `%s`.', $id));
@@ -135,10 +137,16 @@ class LicenseManager implements LicenseManagerInterface
         }
         $object->setLicense($license);
         $this->getObjectManager()->persist($object);
-        if (!$object->getId()) {
+
+        $newlyCreated = !$object->getId();
+        if ($newlyCreated) {
             $this->getObjectManager()->flush($object);
         }
-        $this->getEventManager()->trigger('inject', $this, ['object' => $object, 'license' => $license]);
+        $this->getEventManager()->trigger('inject', $this, [
+            'object' => $object,
+            'license' => $license,
+            'newlyCreated' => $newlyCreated,
+        ]);
     }
 
     public function removeLicense($id)

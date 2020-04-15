@@ -29,27 +29,21 @@ use Blog\Entity\PostInterface;
 use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
 use Common\Traits\FlushableTrait;
-use Common\Traits\ObjectManagerAwareTrait;
 use Discussion\Entity\CommentInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\Query;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
-use Event\Entity\EventLog;
 use Instance\Manager\InstanceAwareEntityManager;
+use Instance\Manager\InstanceAwareObjectManagerAwareTrait;
 use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
-use Taxonomy\Entity\TaxonomyTerm;
 use Taxonomy\Entity\TaxonomyTermInterface;
-use User\Entity\User;
 use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 use Uuid\Exception;
 use Uuid\Exception\NotFoundException;
 use Uuid\Options\ModuleOptions;
-use Zend\Db\Sql\Expression;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
@@ -57,7 +51,7 @@ use ZfcRbac\Service\AuthorizationService;
 
 class UuidManager implements UuidManagerInterface
 {
-    use ObjectManagerAwareTrait, ClassResolverAwareTrait;
+    use InstanceAwareObjectManagerAwareTrait, ClassResolverAwareTrait;
     use EventManagerAwareTrait, FlushableTrait;
     use AuthorizationAssertionTrait;
 
@@ -136,13 +130,13 @@ class UuidManager implements UuidManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function getUuid($key, $bypassIsolation = false)
+    public function getUuid($key, $bypassIsolation = false, $instanceAware = true)
     {
         $previous = $this->objectManager->getBypassIsolation();
         $this->objectManager->setBypassIsolation($bypassIsolation);
 
         $className = $this->getClassResolver()->resolveClassName('Uuid\Entity\UuidInterface');
-        $entity = $this->getObjectManager()->find($className, $key);
+        $entity = $this->getObjectManager()->find($className, $key, $instanceAware);
         $this->objectManager->setBypassIsolation($previous);
 
         if (!is_object($entity)) {

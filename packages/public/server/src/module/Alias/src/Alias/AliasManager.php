@@ -34,18 +34,18 @@ use Common\Traits;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Instance\Entity\InstanceInterface;
+use Instance\Manager\InstanceAwareObjectManagerAwareTrait;
+use Instance\Repository\InstanceAwareRepository;
 use Token\TokenizerAwareTrait;
 use Token\TokenizerInterface;
 use Uuid\Entity\UuidInterface;
-use Uuid\Manager\UuidManagerAwareTrait;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Mvc\Router\RouteInterface;
-use Zend\Validator\Date;
 
 class AliasManager implements AliasManagerInterface
 {
-    use Traits\ObjectManagerAwareTrait, ClassResolverAwareTrait;
+    use InstanceAwareObjectManagerAwareTrait, ClassResolverAwareTrait;
     use EventManagerAwareTrait;
     use TokenizerAwareTrait, Traits\RouterAwareTrait;
 
@@ -158,12 +158,12 @@ class AliasManager implements AliasManagerInterface
         return $class;
     }
 
-    public function findAliasByObject(UuidInterface $uuid)
+    public function findAliasByObject(UuidInterface $uuid, $instanceAware = true)
     {
         /* @var $entity Entity\AliasInterface */
         $criteria = ['uuid' => $uuid->getId()];
         $order = ['timestamp' => 'DESC'];
-        $results = $this->getAliasRepository()->findBy($criteria, $order, 1);
+        $results = $this->getAliasRepository()->findBy($criteria, $order, 1, null, $instanceAware);
         $entity = current($results);
 
         if (!is_object($entity)) {
@@ -334,6 +334,9 @@ class AliasManager implements AliasManagerInterface
         return $alias;
     }
 
+    /**
+     * @return InstanceAwareRepository
+     */
     protected function getAliasRepository()
     {
         return $this->getObjectManager()->getRepository($this->getEntityClassName());

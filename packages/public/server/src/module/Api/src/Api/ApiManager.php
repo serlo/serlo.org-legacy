@@ -26,9 +26,9 @@ namespace Api;
 use Alias\AliasManagerAwareTrait;
 use Alias\Entity\AliasInterface;
 use DateTime;
+use DateTimeZone;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
-use Exception;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key;
@@ -65,7 +65,7 @@ class ApiManager
             'instance' => $alias->getInstance()->getSubdomain(),
             'path' => '/' . $alias->getAlias(),
             'source' => $alias->getSource(),
-            'timestamp' => $alias->getTimestamp()->format(DateTime::ATOM),
+            'timestamp' => $this->normalizeDate($alias->getTimestamp()),
         ];
     }
 
@@ -155,7 +155,7 @@ MUTATION;
     public function getUuidData(UuidInterface $uuid)
     {
         try {
-            $alias = '/' . $this->getAliasManager()->findAliasByObject($uuid)->getAlias();
+            $alias = '/' . $this->getAliasManager()->findAliasByObject($uuid, false)->getAlias();
         } catch (\Exception $e) {
             $alias = null;
         }
@@ -168,27 +168,60 @@ MUTATION;
 
         if ($uuid instanceof EntityInterface) {
             $data['discriminator'] = 'entity';
-            $data['type'] = $uuid->getType()->getName();
+            $data['type'] = $this->normalizeType($uuid->getType()->getName());
             $data['instance'] = $uuid->getInstance()->getSubdomain();
-            $data['date'] = $uuid->getTimestamp()->format(DateTime::ATOM);
+            $data['date'] = $this->normalizeDate($uuid->getTimestamp());
             $data['currentRevisionId'] = $uuid->getCurrentRevision() ? $uuid->getCurrentRevision()->getId() : null;
             $data['licenseId'] = $uuid->getLicense() ? $uuid->getLicense()->getId() : null;
             $data['taxonomyTermIds'] = $uuid->getTaxonomyTerms()->map(function (TaxonomyTermInterface $term) {
                 return $term->getId();
             })->toArray();
+
+            $parentIds = $uuid->getParents('link')->map(function (EntityInterface $parent) {
+                return $parent->getId();
+            })->toArray();
+            if (count($parentIds) > 0) {
+                $data['parentId'] = $parentIds[0];
+            }
+
+            if ($data['type'] === 'course') {
+                $data['pageIds'] = $uuid->getChildren('link')->map(function (EntityInterface $child) {
+                    return $child->getId();
+                })->toArray();
+            }
+            if ($data['type'] === 'exerciseGroup') {
+                $data['exerciseIds'] = $uuid->getChildren('link')->map(function (EntityInterface $child) {
+                    return $child->getId();
+                })->toArray();
+            }
+
+            if ($data['type'] === 'exercise' || $data['type'] === 'groupedExercise') {
+                $solutionIds = $uuid->getChildren('link')->filter(function (EntityInterface $child) {
+                    return $child->getType()->getName() === 'text-solution';
+                })->map(function (EntityInterface $child) {
+                    return $child->getId();
+                })->toArray();
+                $data['solutionId'] = count($solutionIds) > 0 ? $solutionIds[0] : null;
+            }
         }
 
         if ($uuid instanceof RevisionInterface) {
             $data['discriminator'] = 'entityRevision';
-            $data['date'] = $uuid->getTimestamp()->format(DateTime::ATOM);
+            $data['date'] = $this->normalizeDate($uuid->getTimestamp());
             $data['authorId'] = $uuid->getAuthor()->getId();
             /** @var EntityInterface $entity */
             $entity = $uuid->getRepository();
-            $data['type'] = $entity->getType()->getName();
+            $data['type'] = $this->normalizeType($entity->getType()->getName());
             $data['repositoryId'] = $entity->getId();
-            $data['fields'] = [];
+
             foreach ($uuid->getFields() as $field) {
-                $data[$field->getName()] = $field->getValue();
+                $fieldName = $field->getName();
+                if ($data['type'] === 'course' && $fieldName === 'description') {
+                    $fieldName = 'content';
+                } elseif ($data['type'] === 'video' && $fieldName === 'content') {
+                    $fieldName = 'url';
+                }
+                $data[$fieldName] = $field->getValue();
             }
         }
 
@@ -203,7 +236,7 @@ MUTATION;
             $data['discriminator'] = 'pageRevision';
             $data['title'] = $uuid->getTitle();
             $data['content'] = $uuid->getContent();
-            $data['date'] = $uuid->getTimestamp()->format(DateTime::ATOM);
+            $data['date'] = $this->normalizeDate($uuid->getTimestamp());
             $data['authorId'] = $uuid->getAuthor()->getId();
             $data['repositoryId'] = $uuid->getRepository()->getId();
         }
@@ -211,8 +244,8 @@ MUTATION;
         if ($uuid instanceof UserInterface) {
             $data['discriminator'] = 'user';
             $data['username'] = $uuid->getUsername();
-            $data['date'] = $uuid->getDate()->format(DateTime::ATOM);
-            $data['lastLogin'] = $uuid->getLastLogin() ? $uuid->getLastLogin()->format(DateTime::ATOM) : null;
+            $data['date'] = $this->normalizeDate($uuid->getDate());
+            $data['lastLogin'] = $uuid->getLastLogin() ? $this->normalizeDate($uuid->getLastLogin()) : null;
             $data['description'] = $uuid->getDescription();
         }
 
@@ -229,7 +262,7 @@ MUTATION;
             $parent = $uuid->getParent();
             $data['parentId'] = isset($parent) ? $parent->getId() : null;
 
-            $associated = $uuid->getAssociated('entities')->map(function (TaxonomyTermAwareInterface $uuid) {
+            $associated = $uuid->getAssociated('entities')->map(function (UuidInterface $uuid) {
                 return $uuid->getId();
             })->toArray();
             $children = $uuid->getChildren()->map(function (TaxonomyTermInterface $uuid) {
@@ -516,6 +549,21 @@ MUTATION;
                 ],
             ]);
         }
+    }
+
+    private function normalizeDate(DateTime $date)
+    {
+        // Needed because date-times of the initial Athene2 import are set to "0000-00-00 00:00:00"
+        if ($date->getTimestamp() < 0) {
+            $date->setTimestamp(0);
+        }
+        return $date->format(DateTime::ATOM);
+    }
+
+    private function normalizeType($type)
+    {
+        $type = str_replace('text-', '', $type);
+        return $this->toCamelCase($type);
     }
 
     private function toCamelCase($value)

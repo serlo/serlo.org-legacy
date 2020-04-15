@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Instance\Manager;
 
 use Doctrine\Common\EventManager;
@@ -74,7 +75,7 @@ class InstanceAwareEntityManager extends EntityManager
         }
 
         if (is_array($conn)) {
-            $conn = DriverManager::getConnection($conn, $config, ($eventManager ? : new EventManager()));
+            $conn = DriverManager::getConnection($conn, $config, ($eventManager ?: new EventManager()));
         } else {
             if ($conn instanceof Connection) {
                 if ($eventManager !== null && $conn->getEventManager() !== $eventManager) {
@@ -91,10 +92,10 @@ class InstanceAwareEntityManager extends EntityManager
     /**
      * {@inheritDoc}
      */
-    public function find($entityName, $id, $lockMode = null, $lockVersion = null)
+    public function find($entityName, $id, $instanceAware = true, $lockMode = null, $lockVersion = null)
     {
         $entity = parent::find($entityName, $id, $lockMode, $lockVersion);
-        if ($entity instanceof InstanceProviderInterface) {
+        if ($instanceAware && $entity instanceof InstanceProviderInterface) {
             if ($entity->getInstance() === $this->getInstance()) {
                 return $entity;
             }
@@ -195,7 +196,7 @@ class InstanceAwareEntityManager extends EntityManager
     /**
      * Sets the default  multi tenant repo class
      *
-     * @param    string        Classname to use
+     * @param string        Classname to use
      */
     public function setInstanceAwareRepositoryClassName($class)
     {
@@ -213,7 +214,7 @@ class InstanceAwareEntityManager extends EntityManager
      * identifiers, in addition to any string or array of strings set to the
      * $this->eventIdentifier property.
      *
-     * @param  EventManagerInterface $events
+     * @param EventManagerInterface $events
      * @return mixed
      */
     public function setZendEventManager(EventManagerInterface $events)

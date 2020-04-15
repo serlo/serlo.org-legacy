@@ -50,9 +50,10 @@ interface AliasManagerInterface extends Flushable
 
     /**
      * @param UuidInterface $uuid
+     * @param bool $instanceAware
      * @return AliasInterface
      */
-    public function findAliasByObject(UuidInterface $uuid);
+    public function findAliasByObject(UuidInterface $uuid, $instanceAware = true);
 
     /**
      * @param string            $source

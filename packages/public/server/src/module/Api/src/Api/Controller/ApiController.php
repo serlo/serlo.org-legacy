@@ -84,7 +84,7 @@ class ApiController extends AbstractActionController
         $id = $this->params('id');
 
         try {
-            $license = $this->getLicenseManager()->getLicense($id);
+            $license = $this->getLicenseManager()->getLicense($id, false);
             return new JsonModel($this->getApiManager()->getLicenseData($license));
         } catch (LicenseNotFoundException $exception) {
             $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
@@ -102,7 +102,7 @@ class ApiController extends AbstractActionController
 
         $id = $this->params('id');
         try {
-            $uuid = $this->getUuidManager()->getUuid($id);
+            $uuid = $this->getUuidManager()->getUuid($id, false, false);
             return new JsonModel($this->getApiManager()->getUuidData($uuid));
         } catch (NotFoundException $exception) {
             $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');

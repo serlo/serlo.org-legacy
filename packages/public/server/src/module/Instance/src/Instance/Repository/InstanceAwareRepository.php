@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Instance\Repository;
 
 use Doctrine\DBAL\LockMode;
@@ -77,7 +78,7 @@ class InstanceAwareRepository extends EntityRepository
         if (!is_array($id) || count($id) <= 1) {
             // @todo FIXME: Not correct. Relies on specific order.
             $value = is_array($id) ? array_values($id) : array($id);
-            $id    = array_combine($this->_class->identifier, $value);
+            $id = array_combine($this->_class->identifier, $value);
         }
 
         $id = $this->addInstanceFilter($id);
@@ -113,10 +114,10 @@ class InstanceAwareRepository extends EntityRepository
     /**
      * {@inheritDoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null, $instanceAware = true)
     {
         return parent::findBy(
-            $this->addInstanceFilter($criteria),
+            $instanceAware ? $this->addInstanceFilter($criteria) : $criteria,
             $orderBy,
             $limit,
             $offset

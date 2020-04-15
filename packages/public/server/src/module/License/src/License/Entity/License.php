@@ -167,7 +167,7 @@ class License implements LicenseInterface
      */
     public function isDefault()
     {
-        return $this->default;
+        return $this->default || false;
     }
 
     /**

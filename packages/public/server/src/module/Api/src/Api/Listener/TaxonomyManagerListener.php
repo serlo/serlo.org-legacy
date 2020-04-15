@@ -33,9 +33,17 @@ class TaxonomyManagerListener extends AbstractListener
 {
     public function onAssociationChange(Event $e)
     {
-        /** @var UuidInterface $object */
-        $object = $e->getParam('object');
-        $this->getApiManager()->setUuid($object);
+        /** @var UuidInterface $uuid */
+        $uuid = $e->getParam('object');
+
+        // `setUuid` and `setTaxonomyTerm` don't work for newly created entities. Instead, this update logic is
+        // handled in `LicenseManagerListener#onInject`
+        $newlyCreated = !$uuid->getId();
+        if ($newlyCreated) {
+            return;
+        }
+
+        $this->getApiManager()->setUuid($uuid);
 
         /** @var TaxonomyTermInterface $term */
         $term = $e->getParam('term');

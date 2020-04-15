@@ -25,6 +25,7 @@ namespace Api\Listener;
 
 use License\Entity\LicenseInterface;
 use License\Manager\LicenseManager;
+use Taxonomy\Entity\TaxonomyTermAwareInterface;
 use Uuid\Entity\UuidInterface;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
@@ -36,6 +37,14 @@ class LicenseManagerListener extends AbstractListener
         /** @var UuidInterface $uuid */
         $uuid = $e->getParam('object');
         $this->getApiManager()->setUuid($uuid);
+
+        $newlyCreated = $e->getParam('newlyCreated');
+        if ($newlyCreated) {
+            $taxonomyTerms = $uuid->getTaxonomyTerms()->toArray();
+            foreach ($taxonomyTerms as $term) {
+                $this->getApiManager()->setTaxonomyTerm($term);
+            }
+        }
     }
 
     public function onChange(Event $e)
