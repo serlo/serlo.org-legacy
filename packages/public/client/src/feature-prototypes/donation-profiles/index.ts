@@ -51,15 +51,21 @@ export function initDonationProfile(): void {
 }
 
 function addTwingleFormular(): void {
+  const userId = getUserIdFromProfilePage()
+
   if (
     location.pathname.startsWith('/user/me') &&
-    !donorsSpec.userList.includes(getUserIdFromProfilePage())
+    !donorsSpec.userList.includes(userId)
   ) {
     const userName = getUserNameFromProfilePage()
     const userId = getUserIdFromProfilePage()
     const donorPicture = staticFileUrl(donorsSpec.img)
     const campaignId = `Spendenprofil { userId: ${userId}, userName: ${userName} }`
     const encodedCampaignId = encodeURIComponent(campaignId)
+    const isCommunity = userProfileSpecs.some(x => x.userList.includes(userId))
+    const callToAction = isCommunity
+      ? 'Du bist schon Teil dieser Community. Kannst du dir dennoch vorstellen, auch einen kleinen finanziellen Beitrag zu leisten? Dann nutze bitte das Formular rechts.'
+      : 'Kannst du dir vorstellen, unsere Arbeit als Spenderin bzw. Spender zu fördern und Teil der Community zu werden? Dann nutze bitte das Formular rechts.'
 
     $('div.h2').before(`
       <h2 id="spenden" class="heading-content">Serlo für alle</h2>
@@ -69,12 +75,12 @@ function addTwingleFormular(): void {
         <p>Hallo ${userName},</p>
 
         <p>wir von Serlo setzen uns dafür ein, dass alle Menschen weltweit freien Zugang zu hochwertiger Bildung haben. Leider sind immer mehr digitale Bildungsangebote <a class="mehr-anzeigen-none" onclick="$('.mehr-anzeigen-none').css('display','none'); $('#mehr-anzeigen-span').css('display','inline'); $('.mehr-anzeigen-p').css('display', 'block');" style="cursor:pointer;">(mehr anzeigen)</a>
-        <span id="mehr-anzeigen-span" style="display: none;">bezahlpflichtig oder voller Werbung. Da gehen wir einen anderen Weg. Unsere Lernplattform ist <strong>für immer</strong> komplett kostenlos, werbefrei und nonprofit. Und wir haben Erfolg damit! Über 1 Mio Menschen nutzen serlo.org jeden Monat.
+        <span id="mehr-anzeigen-span" style="display: none;">bezahlpflichtig oder voller Werbung. Da gehen wir einen anderen Weg. Unsere Lernplattform gehört einem gemeinnützigen Verein. Serlo bleibt <strong>für immer</strong> komplett kostenlos und werbefrei. Und wir haben Erfolg damit! Über 1 Mio Menschen nutzen serlo.org jeden Monat.
 </span></p>
 
-        <p class="mehr-anzeigen-p" style="display:none;">Unsere nächsten Schritte sind: Tausende neue Übungsaufgaben und Erklärungen, neue interaktive Aufgabenformate, weitere Fächer und die Übersetzung in andere Sprachen. Um das zu schaffen setzen wir auf die Power der Community. Wenn viele mitschreiben, Feedback geben oder nur einen kleinen monatlichen Betrag spenden, kann unsere Vision Realität werden.</p>
+        <p class="mehr-anzeigen-p" style="display:none;">Dieses Jahr planen wir tausende neue Übungsaufgaben und Erklärungen, entwickeln neue, interaktive Aufgabenformate und starten weitere Fächer. Um das alles zu schaffen, bauen wir eine große Community auf. Wenn viele mitschreiben, Feedback geben oder nur einen kleinen monatlichen Betrag spenden, kann unsere Vision Realität werden.</p>
 
-        <p class="mehr-anzeigen-p" style="display:none;">Kannst du dir vorstellen, als Spenderin bzw. Spender Teil der Community zu werden? Dann nutze bitte das Formular rechts.</p>
+        <p class="mehr-anzeigen-p" style="display:none;">${callToAction}</p>
 
         <p class="mehr-anzeigen-p" style="display:none;">Vielen Dank <img src="${donorPicture}" width="23"></p>
 
@@ -125,7 +131,16 @@ function addBannerToProfile(): void {
       const additionOwnProfile =
         '<p style="grid-column-start: 2;">Gemeinsam helfen wir jeden Monat über 1 Mio jungen Menschen beim Lernen – unabhängig vom Geldbeutel ihrer Eltern. Schön, dass du dabei bist!</p>'
 
-      const box = `<img src="${imgBig}" style="display: block; float: left;" height="200" />
+      const hasProfileText =
+        $('.page-header')
+          .next()
+          .text()
+          .trim().length > 0
+      const newHeader = hasProfileText
+        ? '<h1 class="heading-content">Über mich</h1>'
+        : ''
+
+      const box = `<div><img src="${imgBig}" style="display: block; float: left; margin: 0 20px;" height="200" />
                    <div class=""
                         style="display: grid; grid-template-columns: ${imgWidth}px 1fr;
                         grid-column-gap: 1em; grid-row-gap: 1em; margin-bottom: 1.5em;
@@ -133,7 +148,9 @@ function addBannerToProfile(): void {
                    ${finalMessage}
 
                    ${ownProfile ? additionOwnProfile : ''}
-                   </div>`
+                   </div>
+                   <div style="clear: both;"></div></div>
+                   ${newHeader}`
 
       $('.page-header').after(box)
     }
