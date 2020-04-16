@@ -43,31 +43,30 @@ interface UserProfileSpec {
 }
 
 export function initDonationProfile(): void {
-  if (window.location.hostname.startsWith('de')) {
-    addBannerToProfile()
-    addIconsToUserLinks()
-    addTwingleFormular()
-  }
+  if (!window.location.hostname.startsWith('de')) return
+  addBannerToProfile()
+  addIconsToUserLinks()
+  addTwingleFormular()
 }
 
 function addTwingleFormular(): void {
   const userId = getUserIdFromProfilePage()
-
   if (
-    location.pathname.startsWith('/user/me') &&
-    !donorsSpec.userList.includes(userId)
+    !location.pathname.startsWith('/user/me') ||
+    donorsSpec.userList.includes(userId)
   ) {
-    const userName = getUserNameFromProfilePage()
-    const userId = getUserIdFromProfilePage()
-    const donorPicture = staticFileUrl(donorsSpec.img)
-    const campaignId = `Spendenprofil { userId: ${userId}, userName: ${userName} }`
-    const encodedCampaignId = encodeURIComponent(campaignId)
-    const isCommunity = userProfileSpecs.some(x => x.userList.includes(userId))
-    const callToAction = isCommunity
-      ? 'Du bist schon Teil dieser Community. Kannst du dir dennoch vorstellen, auch einen kleinen finanziellen Beitrag zu leisten? Dann nutze bitte das Formular rechts.'
-      : 'Kannst du dir vorstellen, unsere Arbeit als Spenderin bzw. Spender zu fördern und Teil der Community zu werden? Dann nutze bitte das Formular rechts.'
+    return
+  }
+  const userName = getUserNameFromProfilePage()
+  const donorPicture = staticFileUrl(donorsSpec.img)
+  const campaignId = `Spendenprofil { userId: ${userId}, userName: ${userName} }`
+  const encodedCampaignId = encodeURIComponent(campaignId)
+  const isCommunity = userProfileSpecs.some(x => x.userList.includes(userId))
+  const callToAction = isCommunity
+    ? 'Du bist schon Teil dieser Community. Kannst du dir dennoch vorstellen, auch einen kleinen finanziellen Beitrag zu leisten? Dann nutze bitte das Formular rechts.'
+    : 'Kannst du dir vorstellen, unsere Arbeit als Spenderin bzw. Spender zu fördern und Teil der Community zu werden? Dann nutze bitte das Formular rechts.'
 
-    $('div.h2').before(`
+  $('div.h2').before(`
       <h2 id="spenden" class="heading-content">Serlo für alle</h2>
       <div style="display: flex; flex-direction: row; width: 100%; margin-bottom: 15px;">
         <style type="text/css">.no-show { display: none; }</style>
@@ -93,54 +92,55 @@ function addTwingleFormular(): void {
         </div>
       </div>
     `)
-  }
 }
 
 function addBannerToProfile(): void {
   if (
-    location.pathname.startsWith('/user/me') ||
-    location.pathname.startsWith('/user/profile')
+    !location.pathname.startsWith('/user/me') &&
+    !location.pathname.startsWith('/user/profile')
   ) {
-    const ownProfile = location.pathname.startsWith('/user/me')
-    const userId = getUserIdFromProfilePage()
-    const userName = getUserNameFromProfilePage()
-    const imgWidth = 40
+    return
+  }
+  const ownProfile = location.pathname.startsWith('/user/me')
+  const userId = getUserIdFromProfilePage()
+  const userName = getUserNameFromProfilePage()
+  const imgWidth = 40
 
-    let imgBig = ''
-    let message = ''
+  let imgBig = ''
+  let message = ''
 
-    for (const spec of userProfileSpecs) {
-      if (spec.userList.includes(userId)) {
-        message += icon(spec, imgWidth, 'display: block;')
+  for (const spec of userProfileSpecs) {
+    if (spec.userList.includes(userId)) {
+      message += icon(spec, imgWidth, 'display: block;')
 
-        const specMessage = ownProfile
-          ? spec.ownProfileMessage
-          : spec.otherUserProfileMessage
-        const no = spec.userList.length.toString()
-        const editedMessage = specMessage.replace(/%no%/g, no)
-        message += `<p style="margin: 0;">${editedMessage}</p>`
+      const specMessage = ownProfile
+        ? spec.ownProfileMessage
+        : spec.otherUserProfileMessage
+      const no = spec.userList.length.toString()
+      const editedMessage = specMessage.replace(/%no%/g, no)
+      message += `<p style="margin: 0;">${editedMessage}</p>`
 
-        if (imgBig === '') {
-          imgBig = staticFileUrl(spec.imgBig)
-        }
+      if (imgBig === '') {
+        imgBig = staticFileUrl(spec.imgBig)
       }
     }
+  }
 
-    if (message) {
-      const finalMessage = message.replace(/%username%/g, userName)
-      const additionOwnProfile =
-        '<p style="grid-column-start: 2;">Gemeinsam helfen wir jeden Monat über 1 Mio jungen Menschen beim Lernen – unabhängig vom Geldbeutel ihrer Eltern. Schön, dass du dabei bist!</p>'
+  if (message) {
+    const finalMessage = message.replace(/%username%/g, userName)
+    const additionOwnProfile =
+      '<p style="grid-column-start: 2;">Gemeinsam helfen wir jeden Monat über 1 Mio jungen Menschen beim Lernen – unabhängig vom Geldbeutel ihrer Eltern. Schön, dass du dabei bist!</p>'
 
-      const hasProfileText =
-        $('.page-header')
-          .next()
-          .text()
-          .trim().length > 0
-      const newHeader = hasProfileText
-        ? '<h1 class="heading-content">Über mich</h1>'
-        : ''
+    const hasProfileText =
+      $('.page-header')
+        .next()
+        .text()
+        .trim().length > 0
+    const newHeader = hasProfileText
+      ? '<h1 class="heading-content">Über mich</h1>'
+      : ''
 
-      const box = `<div><img src="${imgBig}" style="display: block; float: left; margin: 0 20px;" height="200" />
+    const box = `<div><img src="${imgBig}" style="display: block; float: left; margin: 0 20px;" height="200" />
                    <div class=""
                         style="display: grid; grid-template-columns: ${imgWidth}px 1fr;
                         grid-column-gap: 1em; grid-row-gap: 1em; margin-bottom: 1.5em;
@@ -152,8 +152,7 @@ function addBannerToProfile(): void {
                    <div style="clear: both;"></div></div>
                    ${newHeader}`
 
-      $('.page-header').after(box)
-    }
+    $('.page-header').after(box)
   }
 }
 
