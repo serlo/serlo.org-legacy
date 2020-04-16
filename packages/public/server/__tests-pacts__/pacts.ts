@@ -20,11 +20,23 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { Verifier } from '@pact-foundation/pact'
+import { spawnSync } from 'child_process'
 
-const timeout = 60000
+// eslint-disable-next-line @typescript-eslint/no-var-requires,import/no-commonjs
+const { version } = require('../package.json')
+
+const timeout = 120 * 1000
 
 test('Pacts', async () => {
   jest.setTimeout(timeout)
+
+  const result = spawnSync('git', ['rev-parse', '--short', 'HEAD'], {
+    stdio: 'pipe'
+  })
+  const hash = String(result.stdout).trim()
+
+  const providerVersion = `${version}-${hash}`
+
   const handler = {
     get() {
       return () => {
@@ -35,8 +47,13 @@ test('Pacts', async () => {
   const stateHandlers = new Proxy({}, handler)
   await new Verifier({
     provider: 'serlo.org',
+    providerVersion,
     providerBaseUrl: 'http://de.serlo.localhost:4567',
     pactBrokerUrl: 'https://pacts.serlo.org',
+    pactBrokerUsername: process.env.PACT_BROKER_USERNAME,
+    pactBrokerPassword: process.env.PACT_BROKER_PASSWORD,
+    publishVerificationResult:
+      process.env.PUBLISH_VERIFICATION_RESULT === 'true',
     validateSSL: false,
     stateHandlers,
     timeout
