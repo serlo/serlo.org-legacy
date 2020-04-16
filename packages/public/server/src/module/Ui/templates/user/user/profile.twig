@@ -19,7 +19,7 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{{ pageHeader(user.getUsername()).setSubtitle('Profile'|trans).append('<div class="pull-right">' ~ subscribe(user).button() ~ '</div>') }}
+{{ pageHeader(user.getUsername()).append('<div class="pull-right">' ~ subscribe(user).button() ~ '</div>') }}
 {% do normalize().headMeta(user) %}
 <div class="row">
     <div class="col-xs-12">
