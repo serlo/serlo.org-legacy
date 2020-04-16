@@ -46,10 +46,10 @@ export function initDonationProfile(): void {
   if (!window.location.hostname.startsWith('de')) return
   addBannerToProfile()
   addIconsToUserLinks()
-  addTwingleFormular()
+  addTwingleForm()
 }
 
-function addTwingleFormular(): void {
+function addTwingleForm(): void {
   const userId = getUserIdFromProfilePage()
   if (
     !location.pathname.startsWith('/user/me') ||
