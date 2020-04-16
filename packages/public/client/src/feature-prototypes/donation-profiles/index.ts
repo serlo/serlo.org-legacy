@@ -1,6 +1,8 @@
+import { getAsset } from '../../frontend/modules/assets'
+import { getAuthenticatedUserID } from '../../frontend/modules/user'
 import { activeAuthors } from './active-authors'
-import { activeReviewers } from './active-reviewers'
 import { activeDonors } from './active-donors'
+import { activeReviewers } from './active-reviewers'
 
 const donorsSpec = {
   userList: activeDonors,
@@ -50,7 +52,7 @@ export function initDonationProfile(): void {
 }
 
 function addTwingleForm(): void {
-  const userId = getUserIdFromProfilePage()
+  const userId = getAuthenticatedUserID()
   if (
     !location.pathname.startsWith('/user/me') ||
     donorsSpec.userList.includes(userId)
@@ -199,9 +201,5 @@ function icon(spec: UserProfileSpec, height: number, style = ''): string {
 }
 
 function staticFileUrl(relativePath: string): string {
-  if (window.location.hostname.endsWith('serlo.localhost')) {
-    return `http://localhost:8082/feature-prototypes/donation-profiles/${relativePath}`
-  } else {
-    return `https://packages.serlo.org/serlo-org-static-assets@1/feature-prototypes/donation-profiles/${relativePath}`
-  }
+  return getAsset(`feature-prototypes/donation-profiles/${relativePath}`)
 }
