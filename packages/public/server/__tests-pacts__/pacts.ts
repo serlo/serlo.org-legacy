@@ -49,7 +49,7 @@ test('Pacts', async () => {
     provider: 'serlo.org',
     providerVersion,
     providerBaseUrl: 'http://de.serlo.localhost:4567',
-    pactBrokerUrl: 'https://pacts.serlo.org',
+    pactBrokerUrl: 'https://pact.serlo.org',
     pactBrokerUsername: process.env.PACT_BROKER_USERNAME,
     pactBrokerPassword: process.env.PACT_BROKER_PASSWORD,
     publishVerificationResult:
