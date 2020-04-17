@@ -31,30 +31,6 @@ return [
     'doctrine_factories' => [
         'entitymanager' => __NAMESPACE__ . '\Factory\InstanceAwareEntityManagerFactory',
     ],
-    'router'             => [
-        'routes' => [
-            'instance' => [
-                'type'         => 'literal',
-                'options'      => [
-                    'route'    => '/instance',
-                    'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\InstanceController',
-                    ],
-                ],
-                'child_routes' => [
-                    'switch' => [
-                        'type'    => 'segment',
-                        'options' => [
-                            'route'    => '/switch/:instance',
-                            'defaults' => [
-                                'action' => 'switch',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ],
-    ],
     'doctrine'           => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
@@ -73,13 +49,7 @@ return [
     ],
     'view_helpers'       => [
         'factories' => [
-            'instance' => __NAMESPACE__ . '\Factory\InstanceHelperFactory',
             'currentLanguage' => __NAMESPACE__ . '\Factory\LanguageHelperFactory',
-        ],
-    ],
-    'controllers'        => [
-        'factories' => [
-            __NAMESPACE__ . '\Controller\InstanceController' => __NAMESPACE__ . '\Factory\InstanceControllerFactory',
         ],
     ],
     'service_manager'    => [
