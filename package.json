@@ -55,6 +55,10 @@
     "lerna": "^3.0.0"
   },
   "private": true,
+  "resolutions": {
+    "jquery": "3.4.1",
+    "react-mathquill": "0.2.4"
+  },
   "workspaces": [
     "packages/private/*",
     "packages/public/*"

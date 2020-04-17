@@ -9,7 +9,9 @@ const donorsSpec = {
   img: 'donors.png',
   imgBig: 'big-donor.png',
   otherUserProfileMessage:
-    '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist. <a style="text-decoration: underline;" href="/user/me#spenden">Kannst auch du dir vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
+    '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist.',
+  callToAction:
+    '<a style="text-decoration: underline;" href="/user/me#spenden">Kannst auch du dir vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
   ownProfileMessage:
     'Wir sind die ersten %no% Pioniere beim Aufbau einer langfristigen und unabhängigen Finanzierung für serlo.org.'
 }
@@ -29,7 +31,9 @@ const userProfileSpecs: UserProfileSpec[] = [
     img: 'authors.png',
     imgBig: 'big-author.png',
     otherUserProfileMessage:
-      '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr großartige Lerninhalte auf serlo.org zu finden sind. <a style="text-decoration: underline;" href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.',
+      '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr großartige Lerninhalte auf serlo.org zu finden sind.',
+    callToAction:
+      '<a style="text-decoration: underline;" href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.',
     ownProfileMessage:
       'Zusammen mit dir sind wir schon %no% Autorinnen und Autoren, die aktiv an serlo.org mitarbeiten.'
   },
@@ -40,6 +44,7 @@ interface UserProfileSpec {
   userList: string[]
   img: string
   imgBig: string
+  callToAction?: string
   otherUserProfileMessage: string
   ownProfileMessage: string
 }
@@ -115,9 +120,18 @@ function addBannerToProfile(): void {
     if (spec.userList.includes(userId)) {
       message += icon(spec, imgWidth, 'display: block;')
 
-      const specMessage = ownProfile
+      let specMessage = ownProfile
         ? spec.ownProfileMessage
         : spec.otherUserProfileMessage
+
+      if (
+        !ownProfile &&
+        spec.callToAction &&
+        !spec.userList.includes(getAuthenticatedUserID())
+      ) {
+        specMessage += ' ' + spec.callToAction
+      }
+
       const no = spec.userList.length.toString()
       const editedMessage = specMessage.replace(/%no%/g, no)
       message += `<p style="margin: 0;">${editedMessage}</p>`
@@ -161,7 +175,7 @@ function addBannerToProfile(): void {
 function addIconsToUserLinks(): void {
   $('a').each((_, a) => {
     const href = a.getAttribute('href')
-    const match = href === null ? null : href.match(/\/user\/profile\/(\d+)$/)
+    const match = href === null ? null : href.match(/^\/user\/profile\/(\d+)$/)
 
     if (match) {
       const userId = match[1]
