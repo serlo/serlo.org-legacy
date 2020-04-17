@@ -1,6 +1,6 @@
 {
   "name": "@serlo/client",
-  "version": "12.0.0",
+  "version": "12.0.1",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config --output-public-path=https://packages.serlo.org/serlo-org-client@$npm_package_version/",
@@ -34,7 +34,7 @@
     "howler": "^2.0.0",
     "iframe-resizer": "^4.0.0",
     "jasny-bootstrap": "^3.0.0",
-    "jquery": "^3.0.0",
+    "jquery": "~3.4.0",
     "jquery-sticky": "^1.0.0",
     "jquery-ui": "^1.0.0",
     "jquery.redirect": "^1.0.0",
