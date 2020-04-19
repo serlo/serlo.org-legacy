@@ -25,6 +25,7 @@ namespace Admin\Factory;
 
 use Admin\Controller\DebuggerController;
 use Authorization\Service\AssertGrantedServiceInterface;
+use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -32,6 +33,7 @@ class DebuggerControllerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        /** @var AbstractPluginManager $serviceLocator */
         /** @var ServiceLocatorInterface $serviceManager */
         $serviceManager = $serviceLocator->getServiceLocator();
         $controller = new DebuggerController();
