@@ -74,43 +74,6 @@ class ApiController extends AbstractActionController
         return new JsonModel($this->getApiManager()->getAliasData($currentAlias));
     }
 
-    public function licenseAction()
-    {
-        $authorizationResponse = $this->assertAuthorization();
-        if ($authorizationResponse) {
-            return $authorizationResponse;
-        }
-
-        $id = $this->params('id');
-
-        try {
-            $license = $this->getLicenseManager()->getLicense($id, false);
-            return new JsonModel($this->getApiManager()->getLicenseData($license));
-        } catch (LicenseNotFoundException $exception) {
-            $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
-        }
-    }
-
-    public function uuidAction()
-    {
-        $authorizationResponse = $this->assertAuthorization();
-        if ($authorizationResponse) {
-            return $authorizationResponse;
-        }
-
-        $id = $this->params('id');
-        try {
-            $uuid = $this->getUuidManager()->getUuid($id, false, false);
-            return new JsonModel($this->getApiManager()->getUuidData($uuid));
-        } catch (NotFoundException $exception) {
-            $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
-        }
-    }
-
     private function assertAuthorization()
     {
         $options = $this->options;
@@ -162,6 +125,43 @@ class ApiController extends AbstractActionController
             return $token->verify(new Sha256(), $this->options['secret']);
         } catch (Exception $e) {
             return false;
+        }
+    }
+
+    public function licenseAction()
+    {
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
+        $id = $this->params('id');
+
+        try {
+            $license = $this->getLicenseManager()->getLicense($id, false);
+            return new JsonModel($this->getApiManager()->getLicenseData($license));
+        } catch (LicenseNotFoundException $exception) {
+            $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+            $this->response->setContent('null');
+            return $this->response;
+        }
+    }
+
+    public function uuidAction()
+    {
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
+        $id = $this->params('id');
+        try {
+            $uuid = $this->getUuidManager()->getUuid($id, false, false);
+            return new JsonModel($this->getApiManager()->getUuidData($uuid));
+        } catch (NotFoundException $exception) {
+            $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+            $this->response->setContent('null');
+            return $this->response;
         }
     }
 }

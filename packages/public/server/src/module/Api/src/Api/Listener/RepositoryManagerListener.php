@@ -24,7 +24,6 @@
 namespace Api\Listener;
 
 use Uuid\Entity\UuidInterface;
-use Versioning\Entity\RepositoryInterface;
 use Versioning\RepositoryManager;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;

@@ -25,7 +25,6 @@ namespace Api\Listener;
 
 use License\Entity\LicenseInterface;
 use License\Manager\LicenseManager;
-use Taxonomy\Entity\TaxonomyTermAwareInterface;
 use Uuid\Entity\UuidInterface;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;

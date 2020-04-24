@@ -23,7 +23,6 @@
 
 namespace Api\Listener;
 
-use Api\ApiManager;
 use Api\ApiManagerAwareTrait;
 use Common\Listener\AbstractSharedListenerAggregate;
 

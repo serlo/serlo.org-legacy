@@ -26,9 +26,9 @@ namespace Api;
 use Alias\AliasManagerAwareTrait;
 use Alias\Entity\AliasInterface;
 use DateTime;
-use DateTimeZone;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
+use Exception;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key;
@@ -36,7 +36,6 @@ use License\Entity\LicenseInterface;
 use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
 use Raven_Client;
-use Taxonomy\Entity\TaxonomyTermAwareInterface;
 use Taxonomy\Entity\TaxonomyTermInterface;
 use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
@@ -56,17 +55,6 @@ class ApiManager
     {
         $this->options = $options;
         $this->sentry = $sentry;
-    }
-
-    public function getAliasData(AliasInterface $alias)
-    {
-        return [
-            'id' => $alias->getObject()->getId(),
-            'instance' => $alias->getInstance()->getSubdomain(),
-            'path' => '/' . $alias->getAlias(),
-            'source' => $alias->getSource(),
-            'timestamp' => $this->normalizeDate($alias->getTimestamp()),
-        ];
     }
 
     public function setAlias(AliasInterface $alias)
@@ -94,18 +82,66 @@ MUTATION;
         );
     }
 
-    public function getLicenseData(LicenseInterface $license)
+    private function executeQuery(string $query, array $variables)
+    {
+        $options = $this->options;
+        if (!isset($options['host']) || !isset($options['secret'])) {
+            return null;
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $options['host']);
+
+        $token = (new Builder())
+            ->issuedBy('serlo.org')
+            ->permittedFor('api.serlo.org')
+            ->issuedAt(time())
+            ->expiresAt(time() + 60)
+            ->getToken(new Sha256(), new Key($options['secret']));
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Serlo Service=' . $token,
+            'Content-Type: application/json',
+        ]);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+            'query' => $query,
+            'variables' => $variables,
+        ]));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = json_decode(curl_exec($ch), true);
+
+        if (isset($response['errors'])) {
+            $this->sentry->captureMessage('GraphQL Mutation failed', [], [
+                'tags' => ['api' => true],
+                'extra' => [
+                    'query' => print_r($query, true),
+                    'variables' => print_r($variables, true),
+                    'errors' => print_r($response['errors'], true),
+                ],
+            ]);
+        }
+    }
+
+    public function getAliasData(AliasInterface $alias)
     {
         return [
-            'id' => $license->getId(),
-            'instance' => $license->getInstance()->getSubdomain(),
-            'default' => $license->isDefault(),
-            'title' => $license->getTitle(),
-            'url' => $license->getUrl(),
-            'content' => $license->getContent(),
-            'agreement' => $license->getAgreement(),
-            'iconHref' => $license->getIconHref(),
+            'id' => $alias->getObject()->getId(),
+            'instance' => $alias->getInstance()->getSubdomain(),
+            'path' => '/' . $alias->getAlias(),
+            'source' => $alias->getSource(),
+            'timestamp' => $this->normalizeDate($alias->getTimestamp()),
         ];
+    }
+
+    private function normalizeDate(DateTime $date)
+    {
+        // Needed because date-times of the initial Athene2 import are set to "0000-00-00 00:00:00"
+        if ($date->getTimestamp() < 0) {
+            $date->setTimestamp(0);
+        }
+        return $date->format(DateTime::ATOM);
     }
 
     public function removeLicense($id)
@@ -152,11 +188,104 @@ MUTATION;
         );
     }
 
+    public function getLicenseData(LicenseInterface $license)
+    {
+        return [
+            'id' => $license->getId(),
+            'instance' => $license->getInstance()->getSubdomain(),
+            'default' => $license->isDefault(),
+            'title' => $license->getTitle(),
+            'url' => $license->getUrl(),
+            'content' => $license->getContent(),
+            'agreement' => $license->getAgreement(),
+            'iconHref' => $license->getIconHref(),
+        ];
+    }
+
+    public function removeUuid($id)
+    {
+        $query = <<<MUTATION
+            mutation removeUuid(\$id: Int!) {
+                _removeUuid(id: \$id)
+            }
+MUTATION;
+        $this->executeQuery(
+            $query,
+            ['id' => $id]
+        );
+    }
+
+    public function setUuid(UuidInterface $uuid)
+    {
+        if ($uuid instanceof EntityInterface) {
+            if ($uuid->getType()->getName() === 'article') {
+                $this->setArticle($uuid);
+            }
+        }
+
+        if ($uuid instanceof RevisionInterface) {
+            /** @var EntityInterface $entity */
+            $entity = $uuid->getRepository();
+
+            if ($entity->getType()->getName() === 'article') {
+                $this->setArticleRevision($uuid);
+            }
+        }
+
+        if ($uuid instanceof PageRepositoryInterface) {
+            $this->setPage($uuid);
+        }
+
+        if ($uuid instanceof PageRevisionInterface) {
+            $this->setPageRevision($uuid);
+        }
+
+        if ($uuid instanceof UserInterface) {
+            $this->setUser($uuid);
+        }
+
+        if ($uuid instanceof TaxonomyTermInterface) {
+            $this->setTaxonomyTerm($uuid);
+        }
+    }
+
+    public function setArticle(EntityInterface $entity)
+    {
+        $query = <<<MUTATION
+            mutation setArticle(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$alias: String
+                \$instance: Instance!
+                \$date: DateTime!
+                \$currentRevisionId: Int
+                \$licenseId: Int!
+                \$taxonomyTermIds: [Int!]!
+            ) {
+                _setArticle(
+                    id: \$id
+                    trashed: \$trashed
+                    alias: \$alias
+                    instance: \$instance
+                    date: \$date
+                    currentRevisionId: \$currentRevisionId
+                    licenseId: \$licenseId
+                    taxonomyTermIds: \$taxonomyTermIds
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($entity)
+        );
+    }
+
     public function getUuidData(UuidInterface $uuid)
     {
         try {
             $alias = '/' . $this->getAliasManager()->findAliasByObject($uuid, false)->getAlias();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $alias = null;
         }
 
@@ -303,82 +432,25 @@ MUTATION;
         return $data;
     }
 
-    public function removeUuid($id)
+    private function normalizeType($type)
     {
-        $query = <<<MUTATION
-            mutation removeUuid(\$id: Int!) {
-                _removeUuid(id: \$id)
-            }
-MUTATION;
-        $this->executeQuery(
-            $query,
-            ['id' => $id]
-        );
+        $type = str_replace('text-', '', $type);
+        return $this->toCamelCase($type);
     }
 
-    public function setUuid(UuidInterface $uuid)
+    private function toCamelCase($value)
     {
-        if ($uuid instanceof EntityInterface) {
-            if ($uuid->getType()->getName() === 'article') {
-                $this->setArticle($uuid);
-            }
-        }
-
-        if ($uuid instanceof RevisionInterface) {
-            /** @var EntityInterface $entity */
-            $entity = $uuid->getRepository();
-
-            if ($entity->getType()->getName() === 'article') {
-                $this->setArticleRevision($uuid);
-            }
-        }
-
-        if ($uuid instanceof PageRepositoryInterface) {
-            $this->setPage($uuid);
-        }
-
-        if ($uuid instanceof PageRevisionInterface) {
-            $this->setPageRevision($uuid);
-        }
-
-        if ($uuid instanceof UserInterface) {
-            $this->setUser($uuid);
-        }
-
-        if ($uuid instanceof TaxonomyTermInterface) {
-            $this->setTaxonomyTerm($uuid);
-        }
-    }
-
-    public function setArticle(EntityInterface $entity)
-    {
-        $query = <<<MUTATION
-            mutation setArticle(
-                \$id: Int!
-                \$trashed: Boolean!
-                \$alias: String
-                \$instance: Instance!
-                \$date: DateTime!
-                \$currentRevisionId: Int
-                \$licenseId: Int!
-                \$taxonomyTermIds: [Int!]!
-            ) {
-                _setArticle(
-                    id: \$id
-                    trashed: \$trashed
-                    alias: \$alias
-                    instance: \$instance
-                    date: \$date
-                    currentRevisionId: \$currentRevisionId
-                    licenseId: \$licenseId
-                    taxonomyTermIds: \$taxonomyTermIds
-                )
-            }
-MUTATION;
-
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
+        $segments = explode('-', $value);
+        $firstSegment = $segments[0];
+        $remainingSegments = array_slice($segments, 1);
+        return implode(
+            '',
+            array_merge(
+                [$firstSegment],
+                array_map(function ($segment) {
+                    return strtoupper($segment[0]) . substr($segment, 1);
+                }, $remainingSegments)
+            )
         );
     }
 
@@ -472,6 +544,33 @@ MUTATION;
         );
     }
 
+    public function setUser(UserInterface $user)
+    {
+        $query = <<<MUTATION
+            mutation setUser(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$username: String!
+                \$date: DateTime!
+                \$lastLogin: DateTime
+                \$description: String
+            ) {
+              _setUser(
+                id: \$id
+                trashed: \$trashed
+                username: \$username
+                date: \$date
+                lastLogin: \$lastLogin
+                description: \$description
+              )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($user)
+        );
+    }
 
     public function setTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm)
     {
@@ -506,108 +605,6 @@ MUTATION;
         $this->executeQuery(
             $query,
             $this->getUuidData($taxonomyTerm)
-        );
-    }
-
-    public function setUser(UserInterface $user)
-    {
-        $query = <<<MUTATION
-            mutation setUser(
-                \$id: Int!
-                \$trashed: Boolean!
-                \$username: String!
-                \$date: DateTime!
-                \$lastLogin: DateTime
-                \$description: String
-            ) {
-              _setUser(
-                id: \$id
-                trashed: \$trashed
-                username: \$username
-                date: \$date
-                lastLogin: \$lastLogin
-                description: \$description
-              )
-            }
-MUTATION;
-
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($user)
-        );
-    }
-
-
-    private function executeQuery(string $query, array $variables)
-    {
-        $options = $this->options;
-        if (!isset($options['host']) || !isset($options['secret'])) {
-            return null;
-        }
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $options['host']);
-
-        $token = (new Builder())
-            ->issuedBy('serlo.org')
-            ->permittedFor('api.serlo.org')
-            ->issuedAt(time())
-            ->expiresAt(time() + 60)
-            ->getToken(new Sha256(), new Key($options['secret']));
-
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Serlo Service=' . $token,
-            'Content-Type: application/json',
-        ]);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-            'query' => $query,
-            'variables' => $variables,
-        ]));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = json_decode(curl_exec($ch), true);
-
-        if (isset($response['errors'])) {
-            $this->sentry->captureMessage('GraphQL Mutation failed', [], [
-                'tags' => ['api' => true],
-                'extra' => [
-                    'query' => print_r($query, true),
-                    'variables' => print_r($variables, true),
-                    'errors' => print_r($response['errors'], true),
-                ],
-            ]);
-        }
-    }
-
-    private function normalizeDate(DateTime $date)
-    {
-        // Needed because date-times of the initial Athene2 import are set to "0000-00-00 00:00:00"
-        if ($date->getTimestamp() < 0) {
-            $date->setTimestamp(0);
-        }
-        return $date->format(DateTime::ATOM);
-    }
-
-    private function normalizeType($type)
-    {
-        $type = str_replace('text-', '', $type);
-        return $this->toCamelCase($type);
-    }
-
-    private function toCamelCase($value)
-    {
-        $segments = explode('-', $value);
-        $firstSegment = $segments[0];
-        $remainingSegments = array_slice($segments, 1);
-        return implode(
-            '',
-            array_merge(
-                [$firstSegment],
-                array_map(function ($segment) {
-                    return strtoupper($segment[0]) . substr($segment, 1);
-                }, $remainingSegments)
-            )
         );
     }
 }

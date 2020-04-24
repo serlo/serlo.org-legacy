@@ -23,8 +23,8 @@
 
 namespace Api\Factory;
 
-use Api\Listener\AbstractListener;
 use Api\ApiManager;
+use Api\Listener\AbstractListener;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
