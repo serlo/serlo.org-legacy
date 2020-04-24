@@ -218,17 +218,56 @@ MUTATION;
     public function setUuid(UuidInterface $uuid)
     {
         if ($uuid instanceof EntityInterface) {
-            if ($uuid->getType()->getName() === 'article') {
+            $type = $this->normalizeType($uuid->getType()->getName());
+
+            if ($type === 'applet') {
+                $this->setApplet($uuid);
+            } elseif ($type === 'article') {
                 $this->setArticle($uuid);
+            } elseif ($type === 'course') {
+                $this->setCourse($uuid);
+            } elseif ($type === 'coursePage') {
+                $this->setCoursePage($uuid);
+            } elseif ($type === 'event') {
+                $this->setEvent($uuid);
+            } elseif ($type === 'exercise') {
+                $this->setExercise($uuid);
+            } elseif ($type === 'exerciseGroup') {
+                $this->setExerciseGroup($uuid);
+            } elseif ($type === 'groupedExercise') {
+                $this->setGroupedExercise($uuid);
+            } elseif ($type === 'solution') {
+                $this->setSolution($uuid);
+            } elseif ($type === 'video') {
+                $this->setVideo($uuid);
             }
         }
 
         if ($uuid instanceof RevisionInterface) {
             /** @var EntityInterface $entity */
             $entity = $uuid->getRepository();
+            $type = $this->normalizeType($entity->getType()->getName());
 
-            if ($entity->getType()->getName() === 'article') {
+            if ($type === 'applet') {
+                $this->setAppletRevision($uuid);
+            } elseif ($type === 'article') {
                 $this->setArticleRevision($uuid);
+            } elseif ($type === 'course') {
+                $this->setCourseRevision($uuid);
+            } elseif ($type === 'coursePage') {
+                $this->setCoursePageRevision($uuid);
+            } elseif ($type === 'event') {
+                $this->setEventRevision($uuid);
+            } elseif ($type === 'exercise') {
+                $this->setExerciseRevision($uuid);
+            } elseif ($type === 'exerciseGroup') {
+                $this->setExerciseGroupRevision($uuid);
+            } elseif ($type === 'groupedExercise') {
+                $this->setGroupedExerciseRevision($uuid);
+            } elseif ($type === 'solution') {
+                $this->setSolutionRevision($uuid);
+            } elseif ($type === 'video') {
+                $this->setVideoRevision($uuid);
             }
         }
 
@@ -247,6 +286,44 @@ MUTATION;
         if ($uuid instanceof TaxonomyTermInterface) {
             $this->setTaxonomyTerm($uuid);
         }
+    }
+
+    private function normalizeType($type)
+    {
+        $type = str_replace('text-', '', $type);
+        return $this->toCamelCase($type);
+    }
+
+    public function setApplet(EntityInterface $entity)
+    {
+        $query = <<<MUTATION
+            mutation setApplet(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$alias: String
+                \$instance: Instance!
+                \$date: DateTime!
+                \$currentRevisionId: Int
+                \$licenseId: Int!
+                \$taxonomyTermIds: [Int!]!
+            ) {
+                _setApplet(
+                    id: \$id
+                    trashed: \$trashed
+                    alias: \$alias
+                    instance: \$instance
+                    date: \$date
+                    currentRevisionId: \$currentRevisionId
+                    licenseId: \$licenseId
+                    taxonomyTermIds: \$taxonomyTermIds
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($entity)
+        );
     }
 
     public function setArticle(EntityInterface $entity)
@@ -281,176 +358,305 @@ MUTATION;
         );
     }
 
-    public function getUuidData(UuidInterface $uuid)
+    public function setCourse(EntityInterface $entity)
     {
-        try {
-            $alias = '/' . $this->getAliasManager()->findAliasByObject($uuid, false)->getAlias();
-        } catch (Exception $e) {
-            $alias = null;
-        }
-
-        $data = [
-            'id' => $uuid->getId(),
-            'trashed' => $uuid->getTrashed(),
-            'alias' => $alias,
-        ];
-
-        if ($uuid instanceof EntityInterface) {
-            $data['discriminator'] = 'entity';
-            $data['type'] = $this->normalizeType($uuid->getType()->getName());
-            $data['instance'] = $uuid->getInstance()->getSubdomain();
-            $data['date'] = $this->normalizeDate($uuid->getTimestamp());
-            $data['currentRevisionId'] = $uuid->getCurrentRevision() ? $uuid->getCurrentRevision()->getId() : null;
-            $data['licenseId'] = $uuid->getLicense() ? $uuid->getLicense()->getId() : null;
-            $data['taxonomyTermIds'] = $uuid->getTaxonomyTerms()->map(function (TaxonomyTermInterface $term) {
-                return $term->getId();
-            })->toArray();
-
-            $parentIds = $uuid->getParents('link')->map(function (EntityInterface $parent) {
-                return $parent->getId();
-            })->toArray();
-            if (count($parentIds) > 0) {
-                $data['parentId'] = $parentIds[0];
+        $query = <<<MUTATION
+            mutation setCourse(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$alias: String
+                \$instance: Instance!
+                \$date: DateTime!
+                \$currentRevisionId: Int
+                \$licenseId: Int!
+                \$taxonomyTermIds: [Int!]!
+                \$pageIds: [Int!]!
+            ) {
+                _setCourse(
+                    id: \$id
+                    trashed: \$trashed
+                    alias: \$alias
+                    instance: \$instance
+                    date: \$date
+                    currentRevisionId: \$currentRevisionId
+                    licenseId: \$licenseId
+                    taxonomyTermIds: \$taxonomyTermIds
+                    pageIds: \$pageIds
+                )
             }
+MUTATION;
 
-            if ($data['type'] === 'course') {
-                $data['pageIds'] = $uuid->getChildren('link')->map(function (EntityInterface $child) {
-                    return $child->getId();
-                })->toArray();
-            }
-            if ($data['type'] === 'exerciseGroup') {
-                $data['exerciseIds'] = $uuid->getChildren('link')->map(function (EntityInterface $child) {
-                    return $child->getId();
-                })->toArray();
-            }
-
-            if ($data['type'] === 'exercise' || $data['type'] === 'groupedExercise') {
-                $solutionIds = $uuid->getChildren('link')->filter(function (EntityInterface $child) {
-                    return $child->getType()->getName() === 'text-solution';
-                })->map(function (EntityInterface $child) {
-                    return $child->getId();
-                })->toArray();
-                $data['solutionId'] = count($solutionIds) > 0 ? array_values($solutionIds)[0] : null;
-            }
-        }
-
-        if ($uuid instanceof RevisionInterface) {
-            $data['discriminator'] = 'entityRevision';
-            $data['date'] = $this->normalizeDate($uuid->getTimestamp());
-            $data['authorId'] = $uuid->getAuthor()->getId();
-            /** @var EntityInterface $entity */
-            $entity = $uuid->getRepository();
-            $data['type'] = $this->normalizeType($entity->getType()->getName());
-            $data['repositoryId'] = $entity->getId();
-
-            if ($data['type'] === 'applet') {
-                $data['url'] = $uuid->get('url', '');
-                $data['title'] = $uuid->get('title', '');
-                $data['content'] = $uuid->get('content', '');
-                $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'article') {
-                $data['title'] = $uuid->get('title', '');
-                $data['content'] = $uuid->get('content', '');
-                $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'course') {
-                $data['title'] = $uuid->get('title', '');
-                $data['content'] = $uuid->get('content', '');
-                $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'coursePage') {
-                $data['title'] = $uuid->get('title', '');
-                $data['content'] = $uuid->get('content', '');
-                $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'event') {
-                $data['title'] = $uuid->get('title', '');
-                $data['content'] = $uuid->get('content', '');
-                $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'exercise') {
-                $data['content'] = $uuid->get('content', '');
-                $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'exerciseGroup') {
-                $data['content'] = $uuid->get('content', '');
-                $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'groupedExercise') {
-                $data['content'] = $uuid->get('content', '');
-                $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'solution') {
-                $data['content'] = $uuid->get('content', '');
-                $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'video') {
-                $data['title'] = $uuid->get('title', '');
-                $data['url'] = $uuid->get('content', '');
-                $data['changes'] = $uuid->get('changes', '');
-            }
-        }
-
-        if ($uuid instanceof PageRepositoryInterface) {
-            $data['discriminator'] = 'page';
-            $data['instance'] = $uuid->getInstance()->getSubdomain();
-            $data['currentRevisionId'] = $uuid->getCurrentRevision() ? $uuid->getCurrentRevision()->getId() : null;
-            $data['licenseId'] = $uuid->getLicense()->getId();
-        }
-
-        if ($uuid instanceof PageRevisionInterface) {
-            $data['discriminator'] = 'pageRevision';
-            $data['title'] = $uuid->getTitle();
-            $data['content'] = $uuid->getContent();
-            $data['date'] = $this->normalizeDate($uuid->getTimestamp());
-            $data['authorId'] = $uuid->getAuthor()->getId();
-            $data['repositoryId'] = $uuid->getRepository()->getId();
-        }
-
-        if ($uuid instanceof UserInterface) {
-            $data['discriminator'] = 'user';
-            $data['username'] = $uuid->getUsername();
-            $data['date'] = $this->normalizeDate($uuid->getDate());
-            $data['lastLogin'] = $uuid->getLastLogin() ? $this->normalizeDate($uuid->getLastLogin()) : null;
-            $data['description'] = $uuid->getDescription();
-        }
-
-        if ($uuid instanceof TaxonomyTermInterface) {
-            $data['discriminator'] = 'taxonomyTerm';
-            $data['type'] = $this->toCamelCase($uuid->getType()->getName());
-            $data['instance'] = $uuid->getInstance()->getSubdomain();
-            $data['name'] = $uuid->getName();
-            $data['description'] = $uuid->getDescription();
-
-            $weight = $uuid->getPosition();
-            $data['weight'] = isset($weight) ? $weight : 0;
-
-            $parent = $uuid->getParent();
-            $data['parentId'] = isset($parent) ? $parent->getId() : null;
-
-            $associated = $uuid->getAssociated('entities')->map(function (UuidInterface $uuid) {
-                return $uuid->getId();
-            })->toArray();
-            $children = $uuid->getChildren()->map(function (TaxonomyTermInterface $uuid) {
-                return $uuid->getId();
-            })->toArray();
-            $data['childrenIds'] = array_merge($associated, $children);
-        }
-
-        return $data;
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($entity)
+        );
     }
 
-    private function normalizeType($type)
+    public function setCoursePage(EntityInterface $entity)
     {
-        $type = str_replace('text-', '', $type);
-        return $this->toCamelCase($type);
+        $query = <<<MUTATION
+            mutation setCoursePage(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$alias: String
+                \$instance: Instance!
+                \$date: DateTime!
+                \$currentRevisionId: Int
+                \$licenseId: Int!
+                \$parentId: Int!
+            ) {
+                _setCoursePage(
+                    id: \$id
+                    trashed: \$trashed
+                    alias: \$alias
+                    instance: \$instance
+                    date: \$date
+                    currentRevisionId: \$currentRevisionId
+                    licenseId: \$licenseId
+                    parentId: \$parentId
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($entity)
+        );
     }
 
-    private function toCamelCase($value)
+    public function setEvent(EntityInterface $entity)
     {
-        $segments = explode('-', $value);
-        $firstSegment = $segments[0];
-        $remainingSegments = array_slice($segments, 1);
-        return implode(
-            '',
-            array_merge(
-                [$firstSegment],
-                array_map(function ($segment) {
-                    return strtoupper($segment[0]) . substr($segment, 1);
-                }, $remainingSegments)
-            )
+        $query = <<<MUTATION
+            mutation setEvent(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$alias: String
+                \$instance: Instance!
+                \$date: DateTime!
+                \$currentRevisionId: Int
+                \$licenseId: Int!
+                \$taxonomyTermIds: [Int!]!
+            ) {
+                _setEvent(
+                    id: \$id
+                    trashed: \$trashed
+                    alias: \$alias
+                    instance: \$instance
+                    date: \$date
+                    currentRevisionId: \$currentRevisionId
+                    licenseId: \$licenseId
+                    taxonomyTermIds: \$taxonomyTermIds
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($entity)
+        );
+    }
+
+    public function setExercise(EntityInterface $entity)
+    {
+        $query = <<<MUTATION
+            mutation setExercise(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$alias: String
+                \$instance: Instance!
+                \$date: DateTime!
+                \$currentRevisionId: Int
+                \$licenseId: Int!
+                \$solutionId: Int!
+                \$taxonomyTermIds: [Int!]!
+            ) {
+                _setExercise(
+                    id: \$id
+                    trashed: \$trashed
+                    alias: \$alias
+                    instance: \$instance
+                    date: \$date
+                    currentRevisionId: \$currentRevisionId
+                    licenseId: \$licenseId
+                    solutionId: \$solutionId
+                    taxonomyTermIds: \$taxonomyTermIds
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($entity)
+        );
+    }
+
+    public function setExerciseGroup(EntityInterface $entity)
+    {
+        $query = <<<MUTATION
+            mutation setExerciseGroup(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$alias: String
+                \$instance: Instance!
+                \$date: DateTime!
+                \$currentRevisionId: Int
+                \$licenseId: Int!
+                \$exerciseIds: [Int!]!
+                \$taxonomyTermIds: [Int!]!
+            ) {
+                _setExerciseGroup(
+                    id: \$id
+                    trashed: \$trashed
+                    alias: \$alias
+                    instance: \$instance
+                    date: \$date
+                    currentRevisionId: \$currentRevisionId
+                    licenseId: \$licenseId
+                    exerciseIds: \$exerciseIds
+                    taxonomyTermIds: \$taxonomyTermIds
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($entity)
+        );
+    }
+
+    public function setGroupedExercise(EntityInterface $entity)
+    {
+        $query = <<<MUTATION
+            mutation setGroupedExercise(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$alias: String
+                \$instance: Instance!
+                \$date: DateTime!
+                \$currentRevisionId: Int
+                \$licenseId: Int!
+                \$solutionId: Int!
+                \$parentId: Int!
+            ) {
+                _setGroupedExercise(
+                    id: \$id
+                    trashed: \$trashed
+                    alias: \$alias
+                    instance: \$instance
+                    date: \$date
+                    currentRevisionId: \$currentRevisionId
+                    licenseId: \$licenseId
+                    solutionId: \$solutionId
+                    parentId: \$parentId
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($entity)
+        );
+    }
+
+    public function setSolution(EntityInterface $entity)
+    {
+        $query = <<<MUTATION
+            mutation setSolution(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$alias: String
+                \$instance: Instance!
+                \$date: DateTime!
+                \$currentRevisionId: Int
+                \$licenseId: Int!
+                \$parentId: Int!
+            ) {
+                _setSolution(
+                    id: \$id
+                    trashed: \$trashed
+                    alias: \$alias
+                    instance: \$instance
+                    date: \$date
+                    currentRevisionId: \$currentRevisionId
+                    licenseId: \$licenseId
+                    parentId: \$parentId
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($entity)
+        );
+    }
+
+    public function setVideo(EntityInterface $entity)
+    {
+        $query = <<<MUTATION
+            mutation setVideo(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$alias: String
+                \$instance: Instance!
+                \$date: DateTime!
+                \$currentRevisionId: Int
+                \$licenseId: Int!
+                \$taxonomyTermIds: [Int!]!
+            ) {
+                _setVideo(
+                    id: \$id
+                    trashed: \$trashed
+                    alias: \$alias
+                    instance: \$instance
+                    date: \$date
+                    currentRevisionId: \$currentRevisionId
+                    licenseId: \$licenseId
+                    taxonomyTermIds: \$taxonomyTermIds
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($entity)
+        );
+    }
+
+    public function setAppletRevision(RevisionInterface $revision)
+    {
+        $query = <<<MUTATION
+            mutation setAppletRevision(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$date: DateTime!
+                \$authorId: Int!
+                \$repositoryId: Int!
+                \$url: String!
+                \$title: String!
+                \$content: String!
+                \$changes: String!
+                \$metaTitle: String!
+                \$metaDescription: String!
+            ) {
+                _setAppletRevision(
+                    id: \$id
+                    trashed: \$trashed
+                    date: \$date
+                    authorId: \$authorId
+                    repositoryId: \$repositoryId
+                    url: \$url
+                    title: \$title
+                    content: \$content
+                    changes: \$changes
+                    metaTitle: \$metaTitle
+                    metaDescription: \$metaDescription
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($revision)
         );
     }
 
@@ -466,6 +672,8 @@ MUTATION;
                 \$title: String!
                 \$content: String!
                 \$changes: String!
+                \$metaTitle: String!
+                \$metaDescription: String!
             ) {
                 _setArticleRevision(
                     id: \$id
@@ -475,6 +683,264 @@ MUTATION;
                     repositoryId: \$repositoryId
                     title: \$title
                     content: \$content
+                    changes: \$changes
+                    metaTitle: \$metaTitle
+                    metaDescription: \$metaDescription
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($revision)
+        );
+    }
+
+    public function setCourseRevision(RevisionInterface $revision)
+    {
+        $query = <<<MUTATION
+            mutation setCourseRevision(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$date: DateTime!
+                \$authorId: Int!
+                \$repositoryId: Int!
+                \$title: String!
+                \$content: String!
+                \$changes: String!
+                \$metaDescription: String!
+            ) {
+                _setCourseRevision(
+                    id: \$id
+                    trashed: \$trashed
+                    date: \$date
+                    authorId: \$authorId
+                    repositoryId: \$repositoryId
+                    title: \$title
+                    content: \$content
+                    changes: \$changes
+                    metaDescription: \$metaDescription
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($revision)
+        );
+    }
+
+    public function setCoursePageRevision(RevisionInterface $revision)
+    {
+        $query = <<<MUTATION
+            mutation setCoursePageRevision(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$date: DateTime!
+                \$authorId: Int!
+                \$repositoryId: Int!
+                \$title: String!
+                \$content: String!
+                \$changes: String!
+            ) {
+                _setCoursePageRevision(
+                    id: \$id
+                    trashed: \$trashed
+                    date: \$date
+                    authorId: \$authorId
+                    repositoryId: \$repositoryId
+                    title: \$title
+                    content: \$content
+                    changes: \$changes
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($revision)
+        );
+    }
+
+    public function setEventRevision(RevisionInterface $revision)
+    {
+        $query = <<<MUTATION
+            mutation setEventRevision(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$date: DateTime!
+                \$authorId: Int!
+                \$repositoryId: Int!
+                \$title: String!
+                \$content: String!
+                \$changes: String!
+                \$metaTitle: String!
+                \$metaDescription: String!
+            ) {
+                _setEventRevision(
+                    id: \$id
+                    trashed: \$trashed
+                    date: \$date
+                    authorId: \$authorId
+                    repositoryId: \$repositoryId
+                    title: \$title
+                    content: \$content
+                    changes: \$changes
+                    metaTitle: \$metaTitle
+                    metaDescription: \$metaDescription
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($revision)
+        );
+    }
+
+    public function setExerciseRevision(RevisionInterface $revision)
+    {
+        $query = <<<MUTATION
+            mutation setExerciseRevision(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$date: DateTime!
+                \$authorId: Int!
+                \$repositoryId: Int!
+                \$content: String!
+                \$changes: String!
+            ) {
+                _setExerciseRevision(
+                    id: \$id
+                    trashed: \$trashed
+                    date: \$date
+                    authorId: \$authorId
+                    repositoryId: \$repositoryId
+                    content: \$content
+                    changes: \$changes
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($revision)
+        );
+    }
+
+    public function setExerciseGroupRevision(RevisionInterface $revision)
+    {
+        $query = <<<MUTATION
+            mutation setExerciseGroupRevision(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$date: DateTime!
+                \$authorId: Int!
+                \$repositoryId: Int!
+                \$content: String!
+                \$changes: String!
+            ) {
+                _setExerciseGroupRevision(
+                    id: \$id
+                    trashed: \$trashed
+                    date: \$date
+                    authorId: \$authorId
+                    repositoryId: \$repositoryId
+                    content: \$content
+                    changes: \$changes
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($revision)
+        );
+    }
+
+    public function setGroupedExerciseRevision(RevisionInterface $revision)
+    {
+        $query = <<<MUTATION
+            mutation setGroupedExerciseRevision(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$date: DateTime!
+                \$authorId: Int!
+                \$repositoryId: Int!
+                \$content: String!
+                \$changes: String!
+            ) {
+                _setGroupedExerciseRevision(
+                    id: \$id
+                    trashed: \$trashed
+                    date: \$date
+                    authorId: \$authorId
+                    repositoryId: \$repositoryId
+                    content: \$content
+                    changes: \$changes
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($revision)
+        );
+    }
+
+    public function setSolutionRevision(RevisionInterface $revision)
+    {
+        $query = <<<MUTATION
+            mutation setSolutionRevision(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$date: DateTime!
+                \$authorId: Int!
+                \$repositoryId: Int!
+                \$content: String!
+                \$changes: String!
+            ) {
+                _setSolutionRevision(
+                    id: \$id
+                    trashed: \$trashed
+                    date: \$date
+                    authorId: \$authorId
+                    repositoryId: \$repositoryId
+                    content: \$content
+                    changes: \$changes
+                )
+            }
+MUTATION;
+
+        $this->executeQuery(
+            $query,
+            $this->getUuidData($revision)
+        );
+    }
+
+    public function setVideoRevision(RevisionInterface $revision)
+    {
+        $query = <<<MUTATION
+            mutation setVideoRevision(
+                \$id: Int!
+                \$trashed: Boolean!
+                \$date: DateTime!
+                \$authorId: Int!
+                \$repositoryId: Int!
+                \$title: String!
+                \$content: String!
+                \$url: String!
+                \$changes: String!
+            ) {
+                _setVideoRevision(
+                    id: \$id
+                    trashed: \$trashed
+                    date: \$date
+                    authorId: \$authorId
+                    repositoryId: \$repositoryId
+                    title: \$title
+                    content: \$content
+                    url: \$url
                     changes: \$changes
                 )
             }
@@ -606,5 +1072,180 @@ MUTATION;
             $query,
             $this->getUuidData($taxonomyTerm)
         );
+    }
+
+    private function toCamelCase($value)
+    {
+        $segments = explode('-', $value);
+        $firstSegment = $segments[0];
+        $remainingSegments = array_slice($segments, 1);
+        return implode(
+            '',
+            array_merge(
+                [$firstSegment],
+                array_map(function ($segment) {
+                    return strtoupper($segment[0]) . substr($segment, 1);
+                }, $remainingSegments)
+            )
+        );
+    }
+
+    public function getUuidData(UuidInterface $uuid)
+    {
+        try {
+            $alias = '/' . $this->getAliasManager()->findAliasByObject($uuid, false)->getAlias();
+        } catch (Exception $e) {
+            $alias = null;
+        }
+
+        $data = [
+            'id' => $uuid->getId(),
+            'trashed' => $uuid->getTrashed(),
+            'alias' => $alias,
+        ];
+
+        if ($uuid instanceof EntityInterface) {
+            $data['discriminator'] = 'entity';
+            $data['type'] = $this->normalizeType($uuid->getType()->getName());
+            $data['instance'] = $uuid->getInstance()->getSubdomain();
+            $data['date'] = $this->normalizeDate($uuid->getTimestamp());
+            $data['currentRevisionId'] = $uuid->getCurrentRevision() ? $uuid->getCurrentRevision()->getId() : null;
+            $data['licenseId'] = $uuid->getLicense() ? $uuid->getLicense()->getId() : null;
+            $data['taxonomyTermIds'] = $uuid->getTaxonomyTerms()->map(function (TaxonomyTermInterface $term) {
+                return $term->getId();
+            })->toArray();
+
+            $parentIds = $uuid->getParents('link')->map(function (EntityInterface $parent) {
+                return $parent->getId();
+            })->toArray();
+            if (count($parentIds) > 0) {
+                $data['parentId'] = $parentIds[0];
+            }
+
+            if ($data['type'] === 'course') {
+                $data['pageIds'] = $uuid->getChildren('link')->map(function (EntityInterface $child) {
+                    return $child->getId();
+                })->toArray();
+            }
+            if ($data['type'] === 'exerciseGroup') {
+                $data['exerciseIds'] = $uuid->getChildren('link')->map(function (EntityInterface $child) {
+                    return $child->getId();
+                })->toArray();
+            }
+
+            if ($data['type'] === 'exercise' || $data['type'] === 'groupedExercise') {
+                $solutionIds = $uuid->getChildren('link')->filter(function (EntityInterface $child) {
+                    return $child->getType()->getName() === 'text-solution';
+                })->map(function (EntityInterface $child) {
+                    return $child->getId();
+                })->toArray();
+                $data['solutionId'] = count($solutionIds) > 0 ? array_values($solutionIds)[0] : null;
+            }
+        }
+
+        if ($uuid instanceof RevisionInterface) {
+            $data['discriminator'] = 'entityRevision';
+            $data['date'] = $this->normalizeDate($uuid->getTimestamp());
+            $data['authorId'] = $uuid->getAuthor()->getId();
+            /** @var EntityInterface $entity */
+            $entity = $uuid->getRepository();
+            $data['type'] = $this->normalizeType($entity->getType()->getName());
+            $data['repositoryId'] = $entity->getId();
+
+            if ($data['type'] === 'applet') {
+                $data['url'] = $uuid->get('url', '');
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+                $data['metaTitle'] = $uuid->get('meta_title', '');
+                $data['metaDescription'] = $uuid->get('meta_description', '');
+            } elseif ($data['type'] === 'article') {
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+                $data['metaTitle'] = $uuid->get('meta_title', '');
+                $data['metaDescription'] = $uuid->get('meta_description', '');
+            } elseif ($data['type'] === 'course') {
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+                $data['metaDescription'] = $uuid->get('meta_description', '');
+            } elseif ($data['type'] === 'coursePage') {
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'event') {
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+                $data['metaTitle'] = $uuid->get('meta_title', '');
+                $data['metaDescription'] = $uuid->get('meta_description', '');
+            } elseif ($data['type'] === 'exercise') {
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'exerciseGroup') {
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'groupedExercise') {
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'solution') {
+                $data['content'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            } elseif ($data['type'] === 'video') {
+                $data['title'] = $uuid->get('title', '');
+                $data['content'] = $uuid->get('description', '');
+                $data['url'] = $uuid->get('content', '');
+                $data['changes'] = $uuid->get('changes', '');
+            }
+        }
+
+        if ($uuid instanceof PageRepositoryInterface) {
+            $data['discriminator'] = 'page';
+            $data['instance'] = $uuid->getInstance()->getSubdomain();
+            $data['currentRevisionId'] = $uuid->getCurrentRevision() ? $uuid->getCurrentRevision()->getId() : null;
+            $data['licenseId'] = $uuid->getLicense()->getId();
+        }
+
+        if ($uuid instanceof PageRevisionInterface) {
+            $data['discriminator'] = 'pageRevision';
+            $data['title'] = $uuid->getTitle();
+            $data['content'] = $uuid->getContent();
+            $data['date'] = $this->normalizeDate($uuid->getTimestamp());
+            $data['authorId'] = $uuid->getAuthor()->getId();
+            $data['repositoryId'] = $uuid->getRepository()->getId();
+        }
+
+        if ($uuid instanceof UserInterface) {
+            $data['discriminator'] = 'user';
+            $data['username'] = $uuid->getUsername();
+            $data['date'] = $this->normalizeDate($uuid->getDate());
+            $data['lastLogin'] = $uuid->getLastLogin() ? $this->normalizeDate($uuid->getLastLogin()) : null;
+            $data['description'] = $uuid->getDescription();
+        }
+
+        if ($uuid instanceof TaxonomyTermInterface) {
+            $data['discriminator'] = 'taxonomyTerm';
+            $data['type'] = $this->toCamelCase($uuid->getType()->getName());
+            $data['instance'] = $uuid->getInstance()->getSubdomain();
+            $data['name'] = $uuid->getName();
+            $data['description'] = $uuid->getDescription();
+
+            $weight = $uuid->getPosition();
+            $data['weight'] = isset($weight) ? $weight : 0;
+
+            $parent = $uuid->getParent();
+            $data['parentId'] = isset($parent) ? $parent->getId() : null;
+
+            $associated = $uuid->getAssociated('entities')->map(function (UuidInterface $uuid) {
+                return $uuid->getId();
+            })->toArray();
+            $children = $uuid->getChildren()->map(function (TaxonomyTermInterface $uuid) {
+                return $uuid->getId();
+            })->toArray();
+            $data['childrenIds'] = array_merge($associated, $children);
+        }
+
+        return $data;
     }
 }
