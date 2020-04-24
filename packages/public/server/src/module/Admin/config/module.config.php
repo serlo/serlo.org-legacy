@@ -23,8 +23,8 @@
 
 namespace Admin;
 
-use Admin\Controller\DebuggerController;
 use Admin\Controller\BackendController;
+use Admin\Controller\DebuggerController;
 use Admin\Factory\DebuggerControllerFactory;
 
 return [
