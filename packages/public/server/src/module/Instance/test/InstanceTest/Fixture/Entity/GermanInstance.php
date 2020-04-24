@@ -21,22 +21,18 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Navigation\Factory;
+namespace InstanceTest\Fixture\Entity;
 
-use Navigation\Manager\NavigationManager;
-use Navigation\Manager\NavigationManagerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Instance\Entity\Instance;
 
-trait NavigationManagerFactoryTrait
+class GermanInstance extends Instance
 {
-    /**
-     * @param ServiceLocatorInterface $serviceManager
-     * @return NavigationManagerInterface
-     */
-    protected function getNavigationManager(ServiceLocatorInterface $serviceManager)
+    protected $id = 1;
+    protected $name = 'Deutsch';
+    protected $subdomain = 'de';
+
+    public function __construct()
     {
-        /** @var NavigationManagerInterface $notificationManager */
-        $notificationManager = $serviceManager->get(NavigationManager::class);
-        return $notificationManager;
+        $this->language = new GermanLanguage();
     }
 }

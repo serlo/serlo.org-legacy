@@ -87,6 +87,6 @@ class Container implements ContainerInterface
     {
         return $this->pages->matching(
             Criteria::create()->where(Criteria::expr()->isNull('parent'))->orderBy(['position' => 'asc'])
-        );
+        )->toArray();
     }
 }

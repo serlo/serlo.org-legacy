@@ -21,22 +21,15 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Navigation\Factory;
+namespace Navigation\Service;
 
-use Navigation\Manager\NavigationManager;
-use Navigation\Manager\NavigationManagerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-trait NavigationManagerFactoryTrait
+trait NavigationServiceAwareTrait
 {
-    /**
-     * @param ServiceLocatorInterface $serviceManager
-     * @return NavigationManagerInterface
-     */
-    protected function getNavigationManager(ServiceLocatorInterface $serviceManager)
+    /** @var NavigationService */
+    protected $navigationService;
+
+    public function setNavigationService(NavigationService $navigationService)
     {
-        /** @var NavigationManagerInterface $notificationManager */
-        $notificationManager = $serviceManager->get(NavigationManager::class);
-        return $notificationManager;
+        $this->navigationService = $navigationService;
     }
 }

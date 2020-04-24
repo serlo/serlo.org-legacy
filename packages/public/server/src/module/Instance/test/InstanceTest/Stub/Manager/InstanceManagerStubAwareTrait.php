@@ -21,22 +21,17 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Navigation\Factory;
+namespace InstanceTest\Stub\Manager;
 
-use Navigation\Manager\NavigationManager;
-use Navigation\Manager\NavigationManagerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-trait NavigationManagerFactoryTrait
+trait InstanceManagerStubAwareTrait
 {
-    /**
-     * @param ServiceLocatorInterface $serviceManager
-     * @return NavigationManagerInterface
-     */
-    protected function getNavigationManager(ServiceLocatorInterface $serviceManager)
+    /** @var InstanceManagerStub */
+    protected $instanceManager;
+
+    public function setUpInstanceManager()
     {
-        /** @var NavigationManagerInterface $notificationManager */
-        $notificationManager = $serviceManager->get(NavigationManager::class);
-        return $notificationManager;
+        $serviceManager = $this->getApplicationServiceLocator();
+        $this->instanceManager = new InstanceManagerStub();
+        $serviceManager->setService('Instance\Manager\InstanceManager', $this->instanceManager);
     }
 }

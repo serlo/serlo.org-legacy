@@ -23,20 +23,21 @@
 
 namespace Navigation\Factory;
 
-use Navigation\Manager\NavigationManager;
-use Navigation\Manager\NavigationManagerInterface;
+use Instance\Factory\InstanceManagerFactoryTrait;
+use Navigation\Service\NavigationService;
+use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-trait NavigationManagerFactoryTrait
+class NavigationServiceFactory implements FactoryInterface
 {
-    /**
-     * @param ServiceLocatorInterface $serviceManager
-     * @return NavigationManagerInterface
-     */
-    protected function getNavigationManager(ServiceLocatorInterface $serviceManager)
+    use InstanceManagerFactoryTrait;
+    use NavigationManagerFactoryTrait;
+
+    public function createService(ServiceLocatorInterface $serviceManager)
     {
-        /** @var NavigationManagerInterface $notificationManager */
-        $notificationManager = $serviceManager->get(NavigationManager::class);
-        return $notificationManager;
+        $service = new NavigationService();
+        $service->setInstanceManager($this->getInstanceManager($serviceManager));
+        $service->setNavigationManager($this->getNavigationManager($serviceManager));
+        return $service;
     }
 }

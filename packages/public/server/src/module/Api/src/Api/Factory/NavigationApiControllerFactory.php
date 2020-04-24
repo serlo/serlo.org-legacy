@@ -21,22 +21,28 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Navigation\Factory;
+namespace Api\Factory;
 
-use Navigation\Manager\NavigationManager;
-use Navigation\Manager\NavigationManagerInterface;
+use Api\Controller\NavigationApiController;
+use Instance\Factory\InstanceManagerFactoryTrait;
+use Navigation\Factory\NavigationServiceFactoryTrait;
+use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-trait NavigationManagerFactoryTrait
+class NavigationApiControllerFactory implements FactoryInterface
 {
-    /**
-     * @param ServiceLocatorInterface $serviceManager
-     * @return NavigationManagerInterface
-     */
-    protected function getNavigationManager(ServiceLocatorInterface $serviceManager)
+    use InstanceManagerFactoryTrait;
+    use NavigationServiceFactoryTrait;
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var NavigationManagerInterface $notificationManager */
-        $notificationManager = $serviceManager->get(NavigationManager::class);
-        return $notificationManager;
+        /* @var $serviceLocator AbstractPluginManager */
+        $serviceManager = $serviceLocator->getServiceLocator();
+        $router = $serviceManager->get('Router');
+        $controller = new NavigationApiController($router);
+        $controller->setInstanceManager($this->getInstanceManager($serviceManager));
+        $controller->setNavigationService($this->getNavigationService($serviceManager));
+        return $controller;
     }
 }

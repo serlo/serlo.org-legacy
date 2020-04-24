@@ -20,15 +20,19 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Navigation;
 
+use Navigation\Factory\NavigationServiceFactory;
+use Navigation\Service\NavigationService;
+
 return [
-    'navigation'         => [
+    'navigation' => [
         'providers' => [
             'Navigation\Provider\ContainerRepositoryProvider',
         ],
     ],
-    'doctrine'           => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
@@ -37,14 +41,14 @@ return [
                     __DIR__ . '/../src/' . __NAMESPACE__ . '/Entity',
                 ],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],
             ],
         ],
     ],
-    'zfc_rbac'           => [
+    'zfc_rbac' => [
         'assertion_map' => [
             'navigation.manage' => 'Authorization\Assertion\InstanceAssertion',
         ],
@@ -53,125 +57,126 @@ return [
         'invokables' => [
             'json' => __NAMESPACE__ . '\View\Helper\Json',
         ],
-        'factories'  => [
+        'factories' => [
             'menu' => __NAMESPACE__ . '\Factory\NavigationMenuHelperFactory',
         ],
     ],
-    'service_manager'    => [
+    'service_manager' => [
         'factories' => [
-            'Zend\View\Helper\Navigation\PluginManager'             => __NAMESPACE__ . '\Factory\NavigationHelperPluginManagerFactory',
-            __NAMESPACE__ . '\View\Helper\Menu'                     => __NAMESPACE__ . '\Factory\NavigationMenuHelperFactory',
-            __NAMESPACE__ . '\Storage\Storage'                      => __NAMESPACE__ . '\Factory\NavigationStorageFactory',
-            __NAMESPACE__ . '\Storage\NavigationHelperStorage'      => __NAMESPACE__ . '\Factory\NavigationHelperStorageFactory',
-            __NAMESPACE__ . '\Manager\NavigationManager'            => __NAMESPACE__ . '\Factory\NavigationManagerFactory',
+            NavigationService::class => NavigationServiceFactory::class,
+            'Zend\View\Helper\Navigation\PluginManager' => __NAMESPACE__ . '\Factory\NavigationHelperPluginManagerFactory',
+            __NAMESPACE__ . '\View\Helper\Menu' => __NAMESPACE__ . '\Factory\NavigationMenuHelperFactory',
+            __NAMESPACE__ . '\Storage\Storage' => __NAMESPACE__ . '\Factory\NavigationStorageFactory',
+            __NAMESPACE__ . '\Storage\NavigationHelperStorage' => __NAMESPACE__ . '\Factory\NavigationHelperStorageFactory',
+            __NAMESPACE__ . '\Manager\NavigationManager' => __NAMESPACE__ . '\Factory\NavigationManagerFactory',
             __NAMESPACE__ . '\Provider\ContainerRepositoryProvider' => __NAMESPACE__ . '\Factory\ContainerRepositoryProviderFactory',
-            __NAMESPACE__ . '\Form\ContainerForm'                   => __NAMESPACE__ . '\Factory\ContainerFormFactory',
-            __NAMESPACE__ . '\Form\PageForm'                        => __NAMESPACE__ . '\Factory\PageFormFactory',
-            __NAMESPACE__ . '\Form\ParameterForm'                   => __NAMESPACE__ . '\Factory\ParameterFormFactory',
-            __NAMESPACE__ . '\Form\ParameterKeyForm'                => __NAMESPACE__ . '\Factory\ParameterKeyFormFactory',
-            __NAMESPACE__ . '\Form\PositionPageForm'                => __NAMESPACE__ . '\Factory\PositionPageFormFactory',
-            'top_left_navigation'                                   => __NAMESPACE__ . '\Factory\TopLeftNavigationFactory',
-            'top_right_navigation'                                  => __NAMESPACE__ . '\Factory\TopRightNavigationFactory',
-            'top_auth_navigation'                                   => __NAMESPACE__ . '\Factory\TopAuthNavigationFactory',
-            'footer_left_navigation'                                => __NAMESPACE__ . '\Factory\FooterLeftNavigationFactory',
-            'footer_right_navigation'                               => __NAMESPACE__ . '\Factory\FooterRightNavigationFactory',
-            'subject_navigation'                                    => __NAMESPACE__ . '\Factory\SubjectNavigationFactory',
-            'default_navigation'                                    => __NAMESPACE__ . '\Factory\UniqueDefaultNavigationFactory',
-            'social_navigation'                                     => __NAMESPACE__ . '\Factory\SocialNavigationFactory',
+            __NAMESPACE__ . '\Form\ContainerForm' => __NAMESPACE__ . '\Factory\ContainerFormFactory',
+            __NAMESPACE__ . '\Form\PageForm' => __NAMESPACE__ . '\Factory\PageFormFactory',
+            __NAMESPACE__ . '\Form\ParameterForm' => __NAMESPACE__ . '\Factory\ParameterFormFactory',
+            __NAMESPACE__ . '\Form\ParameterKeyForm' => __NAMESPACE__ . '\Factory\ParameterKeyFormFactory',
+            __NAMESPACE__ . '\Form\PositionPageForm' => __NAMESPACE__ . '\Factory\PositionPageFormFactory',
+            'top_left_navigation' => __NAMESPACE__ . '\Factory\TopLeftNavigationFactory',
+            'top_right_navigation' => __NAMESPACE__ . '\Factory\TopRightNavigationFactory',
+            'top_auth_navigation' => __NAMESPACE__ . '\Factory\TopAuthNavigationFactory',
+            'footer_left_navigation' => __NAMESPACE__ . '\Factory\FooterLeftNavigationFactory',
+            'footer_right_navigation' => __NAMESPACE__ . '\Factory\FooterRightNavigationFactory',
+            'subject_navigation' => __NAMESPACE__ . '\Factory\SubjectNavigationFactory',
+            'default_navigation' => __NAMESPACE__ . '\Factory\UniqueDefaultNavigationFactory',
+            'social_navigation' => __NAMESPACE__ . '\Factory\SocialNavigationFactory',
         ],
     ],
-    'view_helpers'       => [
+    'view_helpers' => [
         'factories' => [
             'navigation' => __NAMESPACE__ . '\Factory\NavigationHelperFactory',
         ],
     ],
-    'zfctwig'            => [
+    'zfctwig' => [
         'helper_manager' => [
             'factories' => [
                 'navigation' => __NAMESPACE__ . '\Factory\TwigNavigationHelperFactory',
             ],
         ],
     ],
-    'controllers'        => [
+    'controllers' => [
         'factories' => [
             __NAMESPACE__ . '\Controller\NavigationController' => __NAMESPACE__ . '\Factory\NavigationControllerFactory',
-            __NAMESPACE__ . '\Controller\RenderController '    => __NAMESPACE__ . '\Factory\RenderControllerFactory',
+            __NAMESPACE__ . '\Controller\RenderController ' => __NAMESPACE__ . '\Factory\RenderControllerFactory',
         ],
     ],
-    'di'                 => [
+    'di' => [
         'instance' => [
             'preferences' => [
                 __NAMESPACE__ . '\Manager\NavigationManagerInterface' => __NAMESPACE__ . '\Manager\NavigationManager',
             ],
         ],
     ],
-    'class_resolver'     => [
-        __NAMESPACE__ . '\Entity\ContainerInterface'    => __NAMESPACE__ . '\Entity\Container',
-        __NAMESPACE__ . '\Entity\PageInterface'         => __NAMESPACE__ . '\Entity\Page',
-        __NAMESPACE__ . '\Entity\ParameterInterface'    => __NAMESPACE__ . '\Entity\Parameter',
+    'class_resolver' => [
+        __NAMESPACE__ . '\Entity\ContainerInterface' => __NAMESPACE__ . '\Entity\Container',
+        __NAMESPACE__ . '\Entity\PageInterface' => __NAMESPACE__ . '\Entity\Page',
+        __NAMESPACE__ . '\Entity\ParameterInterface' => __NAMESPACE__ . '\Entity\Parameter',
         __NAMESPACE__ . '\Entity\ParameterKeyInterface' => __NAMESPACE__ . '\Entity\ParameterKey',
     ],
-    'router'             => [
+    'router' => [
         'routes' => [
             'navigation' => [
-                'type'         => 'literal',
-                'options'      => [
-                    'route'    => '/navigation',
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/navigation',
                     'defaults' => [
                         'controller' => __NAMESPACE__ . '\Controller\NavigationController',
                     ],
                 ],
                 'child_routes' => [
-                    'render'    => [
-                        'type'    => 'Common\Router\Slashable',
+                    'render' => [
+                        'type' => 'Common\Router\Slashable',
                         'options' => [
-                            'route'       => '/render/:action/:navigation/:current/:depth/:branch',
+                            'route' => '/render/:action/:navigation/:current/:depth/:branch',
                             'constraints' => [
                                 'branch' => '(.)+',
                                 'action' => 'json',
                             ],
-                            'defaults'    => [
+                            'defaults' => [
                                 'controller' => __NAMESPACE__ . '\Controller\RenderController',
                             ],
                         ],
                     ],
-                    'manage'    => [
-                        'type'    => 'literal',
+                    'manage' => [
+                        'type' => 'literal',
                         'options' => [
-                            'route'    => '/manage',
+                            'route' => '/manage',
                             'defaults' => [
                                 'action' => 'index',
                             ],
                         ],
                     ],
                     'container' => [
-                        'type'         => 'literal',
-                        'options'      => [
+                        'type' => 'literal',
+                        'options' => [
                             'route' => '/container',
                         ],
                         'child_routes' => [
-                            'get'    => [
-                                'type'    => 'segment',
+                            'get' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/get/:container',
+                                    'route' => '/get/:container',
                                     'defaults' => [
                                         'action' => 'getContainer',
                                     ],
                                 ],
                             ],
                             'create' => [
-                                'type'    => 'literal',
+                                'type' => 'literal',
                                 'options' => [
-                                    'route'    => '/create',
+                                    'route' => '/create',
                                     'defaults' => [
                                         'action' => 'createContainer',
                                     ],
                                 ],
                             ],
                             'remove' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/remove/:container',
+                                    'route' => '/remove/:container',
                                     'defaults' => [
                                         'action' => 'removeContainer',
                                     ],
@@ -179,43 +184,43 @@ return [
                             ],
                         ],
                     ],
-                    'page'      => [
-                        'type'         => 'literal',
-                        'options'      => [
+                    'page' => [
+                        'type' => 'literal',
+                        'options' => [
                             'route' => '/page',
                         ],
                         'child_routes' => [
-                            'get'    => [
-                                'type'    => 'segment',
+                            'get' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/get/:container',
+                                    'route' => '/get/:container',
                                     'defaults' => [
                                         'action' => 'getPage',
                                     ],
                                 ],
                             ],
                             'create' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/create/:container[/:parent]',
+                                    'route' => '/create/:container[/:parent]',
                                     'defaults' => [
                                         'action' => 'createPage',
                                     ],
                                 ],
                             ],
                             'update' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/update/:page',
+                                    'route' => '/update/:page',
                                     'defaults' => [
                                         'action' => 'updatePage',
                                     ],
                                 ],
                             ],
                             'remove' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/remove/:page',
+                                    'route' => '/remove/:page',
                                     'defaults' => [
                                         'action' => 'removePage',
                                     ],
@@ -224,48 +229,48 @@ return [
                         ],
                     ],
                     'parameter' => [
-                        'type'         => 'segment',
-                        'options'      => [
+                        'type' => 'segment',
+                        'options' => [
                             'route' => '/parameter',
                         ],
                         'child_routes' => [
                             'create' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/create/:page[/:parent]',
+                                    'route' => '/create/:page[/:parent]',
                                     'defaults' => [
                                         'action' => 'createParameter',
                                     ],
                                 ],
                             ],
                             'remove' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/remove/:parameter',
+                                    'route' => '/remove/:parameter',
                                     'defaults' => [
                                         'action' => 'removeParameter',
                                     ],
                                 ],
                             ],
                             'update' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/update/:parameter',
+                                    'route' => '/update/:parameter',
                                     'defaults' => [
                                         'action' => 'updateParameter',
                                     ],
                                 ],
                             ],
-                            'key'    => [
-                                'type'         => 'segment',
-                                'options'      => [
+                            'key' => [
+                                'type' => 'segment',
+                                'options' => [
                                     'route' => '/key',
                                 ],
                                 'child_routes' => [
                                     'create' => [
-                                        'type'    => 'segment',
+                                        'type' => 'segment',
                                         'options' => [
-                                            'route'    => '/create',
+                                            'route' => '/create',
                                             'defaults' => [
                                                 'action' => 'createParameterKey',
                                             ],

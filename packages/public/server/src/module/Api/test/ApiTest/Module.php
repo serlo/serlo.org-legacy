@@ -21,22 +21,13 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Navigation\Factory;
+namespace ApiTest;
 
-use Navigation\Manager\NavigationManager;
-use Navigation\Manager\NavigationManagerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Mvc\MvcEvent;
 
-trait NavigationManagerFactoryTrait
+class Module extends \Api\Module
 {
-    /**
-     * @param ServiceLocatorInterface $serviceManager
-     * @return NavigationManagerInterface
-     */
-    protected function getNavigationManager(ServiceLocatorInterface $serviceManager)
+    public function onBootstrap(MvcEvent $e)
     {
-        /** @var NavigationManagerInterface $notificationManager */
-        $notificationManager = $serviceManager->get(NavigationManager::class);
-        return $notificationManager;
     }
 }

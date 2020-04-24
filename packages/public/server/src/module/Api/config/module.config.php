@@ -24,10 +24,12 @@
 namespace Api;
 
 use Api\Controller\ApiController;
+use Api\Controller\NavigationApiController;
 use Api\Factory\AliasManagerListenerFactory;
 use Api\Factory\ApiControllerFactory;
 use Api\Factory\ApiManagerFactory;
 use Api\Factory\LicenseManagerListenerFactory;
+use Api\Factory\NavigationApiControllerFactory;
 use Api\Factory\PageManagerListenerFactory;
 use Api\Factory\RepositoryManagerListenerFactory;
 use Api\Factory\TaxonomyManagerListenerFactory;
@@ -42,6 +44,12 @@ use Api\Listener\UserManagerListener;
 use Api\Listener\UuidManagerListener;
 
 return [
+    'controllers' => [
+        'factories' => [
+            ApiController::class => ApiControllerFactory::class,
+            NavigationApiController::class => NavigationApiControllerFactory::class,
+        ],
+    ],
     'router' => [
         'routes' => [
             'api' => [
@@ -74,6 +82,16 @@ return [
                             ],
                         ],
                     ],
+                    'navigation' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/navigation',
+                            'defaults' => [
+                                'controller' => NavigationApiController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
                     'uuid' => [
                         'type' => 'segment',
                         'options' => [
@@ -85,11 +103,6 @@ return [
                     ],
                 ],
             ],
-        ],
-    ],
-    'controllers' => [
-        'factories' => [
-            ApiController::class => ApiControllerFactory::class,
         ],
     ],
     'service_manager' => [

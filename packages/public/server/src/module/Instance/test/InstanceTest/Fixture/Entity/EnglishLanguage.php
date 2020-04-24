@@ -21,22 +21,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Navigation\Factory;
+namespace InstanceTest\Fixture\Entity;
 
-use Navigation\Manager\NavigationManager;
-use Navigation\Manager\NavigationManagerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Instance\Entity\Language;
 
-trait NavigationManagerFactoryTrait
+class EnglishLanguage extends Language
 {
-    /**
-     * @param ServiceLocatorInterface $serviceManager
-     * @return NavigationManagerInterface
-     */
-    protected function getNavigationManager(ServiceLocatorInterface $serviceManager)
-    {
-        /** @var NavigationManagerInterface $notificationManager */
-        $notificationManager = $serviceManager->get(NavigationManager::class);
-        return $notificationManager;
-    }
+    protected $id = 2;
+    protected $name = 'English';
+    protected $code = 'en';
+    protected $locale = 'en_GB';
 }
