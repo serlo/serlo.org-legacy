@@ -399,7 +399,6 @@ return [
                         'video',
                         'course',
                         'text-exercise-group',
-                        'math-puzzle',
                         'applet',
                     ],
                 ],
