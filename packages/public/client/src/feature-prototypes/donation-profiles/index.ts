@@ -85,6 +85,20 @@ function addTwingleForm(): void {
   ) {
     return
   }
+
+  function donationFormListener(event: any) {
+    if (event.data.type === 'size') {
+      $('#iframe-donation-form').height(event.data.value)
+    }
+  }
+
+  if (window.addEventListener) {
+    window.addEventListener('message', donationFormListener, false)
+  } else {
+    //@ts-ignore
+    window.attachEvent('onmessage', donationFormListener)
+  }
+
   const userName = getUserNameFromProfilePage()
   const donorPicture = staticFileUrl(donorsSpec.img)
   const campaignId = `Spendenprofil { userId: ${userId}, userName: ${userName} }`
@@ -115,11 +129,11 @@ function addTwingleForm(): void {
 
         </div>
         <div style="flex-grow: 1; flex-basis: 50%;">
-          <iframe style="flex-grow: 1; min-height: 390px; flex-basis: 50%; border: none;" src="https://spenden.twingle.de/serlo-education-e-v/spendenprofil/tw5e8dbb1390e8b/page?tw_cid=${encodedCampaignId}"/>
+          <iframe id="iframe-donation-form" style="flex-grow: 1; height: 400px; flex-basis: 50%; border: none;" src="https://spenden.twingle.de/serlo-education-e-v/spendenprofil/tw5e8dbb1390e8b/page?tw_cid=${encodedCampaignId}" />
           <p class="mehr-anzeigen-p" style="color: #999; display: none;">Du möchtest nicht, dass deine Spende auf deinem Profil sichtbar ist oder du möchtest einmalig spenden: <a href="https://de.serlo.org/spenden" style="text-decoration: underline;">Dann klicke hier</a></p>
         </div>
       </div>
-    `)
+  `)
 }
 
 function addBannerToProfile(): void {
