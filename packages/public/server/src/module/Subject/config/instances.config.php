@@ -388,6 +388,20 @@ return [
                         'applet',
                     ],
                 ],
+                'Matemáticas' => [
+                    'allowed_taxonomies' => [
+                        'topic',
+                        'locale',
+                    ],
+                    'allowed_entities'   => [
+                        'article',
+                        'text-exercise',
+                        'video',
+                        'course',
+                        'text-exercise-group',
+                        'applet',
+                    ],
+                ],
             ],
             'hindi' => [
                 'community' => [
