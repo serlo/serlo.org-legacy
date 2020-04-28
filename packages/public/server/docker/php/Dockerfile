@@ -26,9 +26,10 @@ RUN chmod 777 -R src/data src/logs
 
 FROM composer:1.8 as dependencies
 WORKDIR /app
+COPY src/module src/module
 COPY composer.json .
 COPY composer.lock .
-RUN composer install
+RUN composer install --no-dev --optimize-autoloader
 
 FROM base as release
 WORKDIR /usr/local/apache2/htdocs

@@ -41,7 +41,7 @@ set_error_handler("exception_error_handler");
 date_default_timezone_set('Europe/Berlin');
 
 // Setup autoloading
-require 'init_autoloader.php';
+require __DIR__ . '/../init_autoloader.php';
 
 // Run the application!
 Zend\Mvc\Application::init(require 'config/application.config.php')->run();

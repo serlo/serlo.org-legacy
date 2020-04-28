@@ -73,51 +73,8 @@ namespace AtheneTest {
 
         protected static function initAutoloader()
         {
-            $vendorPath = static::findParentPath('vendor');
-
-            $zf2Path = getenv('ZF2_PATH');
-            if (!$zf2Path) {
-                if (defined('ZF2_PATH')) {
-                    $zf2Path = ZF2_PATH;
-                } elseif (is_dir($vendorPath . '/ZF2/library')) {
-                    $zf2Path = $vendorPath . '/ZF2/library';
-                } elseif (is_dir($vendorPath . '/zendframework/zendframework/library')) {
-                    $zf2Path = $vendorPath . '/zendframework/zendframework/library';
-                }
-            }
-
-            if (!$zf2Path) {
-                throw new RuntimeException('Unable to load ZF2. Run `php composer.phar install` or' . ' define a ZF2_PATH environment variable.');
-            }
-
-            if (file_exists($vendorPath . '/autoload.php')) {
-                include $vendorPath . '/autoload.php';
-            }
-
-            include $zf2Path . '/Zend/Loader/AutoloaderFactory.php';
-
-            $namespaces = array(
-                __NAMESPACE__ => __DIR__,
-            );
-
-            $modulePath = self::findParentPath('module');
-
-            if ($handle = opendir(static::findParentPath('src/module'))) {
-                while (false !== ($file = readdir($handle))) {
-                    if (substr($file, 0, 1) != '.') {
-                        $namespaces[$file] = $modulePath . '/' . $file . '/src/' . $file;
-                        $namespaces[$file . 'Test'] = $modulePath . '/' . $file . '/test/' . $file . 'Test';
-                    }
-                }
-                closedir($handle);
-            }
-
-            AutoloaderFactory::factory(array(
-                'Zend\Loader\StandardAutoloader' => array(
-                    'autoregister_zf' => true,
-                    'namespaces' => $namespaces,
-                ),
-            ));
+            $root = __DIR__ . '/../..';
+            require $root . '/init_autoloader.php';
         }
 
         public static function findParentPath($path)

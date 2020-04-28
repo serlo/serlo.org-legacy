@@ -44,6 +44,7 @@ services:
     volumes:
       - ./packages/public/server/composer.json:/app/composer.json:cached
       - ./packages/public/server/composer.lock:/app/composer.lock:cached
+      - ./packages/public/server/src/module:/app/src/module:cached
       - ./packages/public/server/src/vendor:/app/src/vendor:cached
 
   server-composer-dev-tools:

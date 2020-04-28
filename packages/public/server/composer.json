@@ -19,13 +19,78 @@
     "zf-commons/zfc-rbac": "~2.3.0",
     "zf-commons/zfc-twig": "^1.0.0"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^5.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Admin\\": "src/module/Admin/src",
+      "Ads\\": "src/module/Ads/src",
+      "Alias\\": "src/module/Alias/src",
+      "Api\\": "src/module/Api/src",
+      "Application\\": "src/module/Application/src",
+      "Attachment\\": "src/module/Attachment/src",
+      "Authentication\\": "src/module/Authentication/src",
+      "Authorization\\": "src/module/Authorization/src",
+      "Blog\\": "src/module/Blog/src",
+      "Cache\\": "src/module/Cache/src",
+      "CacheInvalidator\\": "src/module/CacheInvalidator/src",
+      "ClassResolver\\": "src/module/ClassResolver/src",
+      "Common\\": "src/module/Common/src",
+      "Contexter\\": "src/module/Contexter/src",
+      "Csrf\\": "src/module/Csrf/src",
+      "Discussion\\": "src/module/Discussion/src",
+      "Entity\\": "src/module/Entity/src",
+      "Event\\": "src/module/Event/src",
+      "FeatureFlags\\": "src/module/FeatureFlags/src",
+      "Flag\\": "src/module/Flag/src",
+      "Instance\\": "src/module/Instance/src",
+      "License\\": "src/module/License/src",
+      "Link\\": "src/module/Link/src",
+      "Log\\": "src/module/Log/src",
+      "Mailman\\": "src/module/Mailman/src",
+      "Metadata\\": "src/module/Metadata/src",
+      "Navigation\\": "src/module/Navigation/src",
+      "Newsletter\\": "src/module/Newsletter/src",
+      "Normalizer\\": "src/module/Normalizer/src",
+      "Notification\\": "src/module/Notification/src",
+      "Page\\": "src/module/Page/src",
+      "PageSpeed\\": "src/module/PageSpeed/src",
+      "RelatedContent\\": "src/module/RelatedContent/src",
+      "Renderer\\": "src/module/Renderer/src",
+      "Search\\": "src/module/Search/src",
+      "Session\\": "src/module/Session/src",
+      "StaticPage\\": "src/module/StaticPage/src",
+      "Subject\\": "src/module/Subject/src",
+      "Taxonomy\\": "src/module/Taxonomy/src",
+      "Term\\": "src/module/Term/src",
+      "Token\\": "src/module/Token/src",
+      "Type\\": "src/module/Type/src",
+      "Ui\\": "src/module/Ui/src",
+      "User\\": "src/module/User/src",
+      "Uuid\\": "src/module/Uuid/src",
+      "Versioning\\": "src/module/Versioning/src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AtheneTest\\": "src/test/AtheneTest",
+      "AdminTest\\": "src/module/Admin/test",
+      "ApiTest\\": "src/module/Api/test",
+      "BlogTest\\": "src/module/Blog/test",
+      "ClassResolverTest\\": "src/module/ClassResolver/test",
+      "CommonTest\\": "src/module/Common/test",
+      "EntityTest\\": "src/module/Entity/test",
+      "FeatureFlagsTest\\": "src/module/FeatureFlags/test",
+      "InstanceTest\\": "src/module/Instance/test",
+      "MailmanTest\\": "src/module/Mailman/test",
+      "TypeTest\\": "src/module/Type/test"
+    }
+  },
   "config": {
     "platform": {
       "php": "7.0.33"
     },
     "vendor-dir": "src/vendor"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^5.0.0"
   }
 }
