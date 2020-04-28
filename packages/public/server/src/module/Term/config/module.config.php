@@ -60,7 +60,7 @@ return [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => [
-                    __DIR__ . '/../src/' . __NAMESPACE__ . '/Entity',
+                    __DIR__ . '/../src/Entity',
                 ],
             ],
             'orm_default'             => [
