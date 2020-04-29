@@ -41,9 +41,7 @@ import {
 } from '@edtr-io/plugin'
 import {
   getDocument,
-  getRedoStack,
-  getUndoStack,
-  hasPendingChanges,
+  getPendingChanges,
   redo,
   serializeRootDocument,
   undo
@@ -105,9 +103,10 @@ export const HeaderInput = styled.input({
 export function Controls(props: OwnProps) {
   const store = useScopedStore()
   const dispatch = useScopedDispatch()
-  const undoable = useScopedSelector(getUndoStack).length > 0
-  const redoable = useScopedSelector(getRedoStack).length > 0
-  const pendingChanges = useScopedSelector(hasPendingChanges)
+  const pendingChanges = useScopedSelector(getPendingChanges())
+  const undoable = pendingChanges > 0
+  const redoable = pendingChanges < 0
+  const hasPendingChanges = pendingChanges !== 0
   const getCsrfToken = React.useContext(CsrfContext)
 
   const [visible, setVisibility] = React.useState(false)
@@ -134,8 +133,8 @@ export function Controls(props: OwnProps) {
   }, [visible])
 
   React.useEffect(() => {
-    window.onbeforeunload = pendingChanges && !pending ? () => '' : null
-  }, [pendingChanges, pending])
+    window.onbeforeunload = hasPendingChanges && !pending ? () => '' : null
+  }, [hasPendingChanges, pending])
 
   return (
     <React.Fragment>
@@ -209,14 +208,14 @@ export function Controls(props: OwnProps) {
           onClick() {
             setVisibility(true)
           },
-          disabled: !pendingChanges,
+          disabled: !hasPendingChanges,
           children: <span className="fa fa-save" />
         }
       : {
           onClick() {
             handleSave()
           },
-          disabled: !pendingChanges || !maySave() || pending,
+          disabled: !hasPendingChanges || !maySave() || pending,
           children: pending ? (
             <span className="fa fa-spinner fa-spin" />
           ) : (

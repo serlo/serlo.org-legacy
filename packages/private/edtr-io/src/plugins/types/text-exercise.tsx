@@ -30,8 +30,8 @@ import {
   OptionalChild,
   entityType
 } from './common'
-import { AddButton } from '@edtr-io/editor-ui'
-import { RevisionHistory, Settings } from './helpers/settings'
+import { AddButton } from '@edtr-io/editor-ui/internal'
+import { RevisionHistory } from './helpers/settings'
 
 export const textExerciseTypeState = entityType(
   {

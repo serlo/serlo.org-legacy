@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { AddButton } from '@edtr-io/editor-ui'
+import { AddButton } from '@edtr-io/editor-ui/internal'
 import { EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
 import * as React from 'react'
 

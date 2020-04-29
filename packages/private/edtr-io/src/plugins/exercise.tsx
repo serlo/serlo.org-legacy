@@ -20,7 +20,8 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { PluginToolbarButton, useScopedStore } from '@edtr-io/core'
-import { AddButton, styled } from '@edtr-io/editor-ui'
+import { styled } from '@edtr-io/editor-ui'
+import { AddButton } from '@edtr-io/editor-ui/internal'
 import {
   EditorPlugin,
   EditorPluginProps,

@@ -26,7 +26,6 @@ import {
   entity,
   Controls,
   editorContent,
-  serializedChild,
   HeaderInput,
   entityType
 } from './common'
@@ -86,6 +85,17 @@ function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
             state={{
               src: props.state.content,
               alt: props.state.title
+            }}
+            config={{
+              // TODO:
+              i18n: {
+                src: {
+                  label: ''
+                },
+                alt: {
+                  label: ''
+                }
+              }
             }}
           />
         </section>

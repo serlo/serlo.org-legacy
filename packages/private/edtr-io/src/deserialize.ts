@@ -20,8 +20,8 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { StateType, StateTypeSerializedType } from '@edtr-io/plugin'
-import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
-import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
+import { InputExercisePluginState } from '@edtr-io/plugin-input-exercise'
+import { ScMcExercisePluginState } from '@edtr-io/plugin-sc-mc-exercise'
 import {
   convert,
   isEdtr,
@@ -348,7 +348,7 @@ export function deserialize({
     function deserializeScMcExercise():
       | {
           plugin: 'scMcExercise'
-          state: StateTypeSerializedType<ScMcExerciseState>
+          state: StateTypeSerializedType<ScMcExercisePluginState>
         }
       | undefined {
       stack.push({ id: state.id, type: 'sc-mc-exercise' })
@@ -450,7 +450,7 @@ export function deserialize({
     function deserializeInputExercise():
       | {
           plugin: 'inputExercise'
-          state: StateTypeSerializedType<InputExerciseState>
+          state: StateTypeSerializedType<InputExercisePluginState>
         }
       | undefined {
       if (

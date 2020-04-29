@@ -21,12 +21,8 @@
  */
 import axios from 'axios'
 import { OverlayInput } from '@edtr-io/core'
-import {
-  PrimarySettings,
-  EditorInput,
-  PreviewOverlay,
-  styled
-} from '@edtr-io/editor-ui'
+import { EditorInlineSettings, EditorInput, styled } from '@edtr-io/editor-ui'
+import { PreviewOverlay } from '@edtr-io/editor-ui/internal'
 import { EditorPluginProps, string, EditorPlugin } from '@edtr-io/plugin'
 import { Icon, faNewspaper } from '@edtr-io/ui'
 import * as React from 'react'
@@ -145,7 +141,7 @@ function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
         </PlaceholderWrapper>
       )}
       {props.focused && !preview ? (
-        <PrimarySettings>
+        <EditorInlineSettings>
           {/*
            // @ts-ignore */}
           <EditorInput
@@ -155,11 +151,11 @@ function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
             onChange={e => {
               props.state.set(e.target.value)
             }}
-            textfieldWidth="30%"
-            editorInputWidth="100%"
-            ref={props.defaultFocusRef}
+            width="30%"
+            inputWidth="100%"
+            ref={props.autofocusRef}
           />
-        </PrimarySettings>
+        </EditorInlineSettings>
       ) : null}
       {props.renderIntoSettings(
         <React.Fragment>

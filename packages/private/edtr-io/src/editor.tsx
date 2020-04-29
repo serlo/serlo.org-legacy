@@ -116,7 +116,6 @@ export function Editor(props: EditorProps) {
         <Core
           onError={props.onError}
           plugins={plugins}
-          defaultPlugin="text"
           initialState={result.initialState}
           editable
         >

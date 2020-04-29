@@ -20,7 +20,12 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
-import { createTablePlugin, TableConfig } from '@edtr-io/plugin-table'
+import {
+  createTablePlugin,
+  TableProps,
+  TablePluginState,
+  TablePluginConfig
+} from '@edtr-io/plugin-table'
 import { converter } from '@serlo/markdown'
 import { typeset } from '@serlo/mathjax'
 import * as React from 'react'
@@ -34,17 +39,12 @@ function MarkdownRenderer(props: { markdown: string }) {
   return <div dangerouslySetInnerHTML={{ __html: html }} />
 }
 
-export const tablePlugin: EditorPlugin<
-  typeof edtrTablePlugin.state,
-  TableConfig
-> = {
+export const tablePlugin: EditorPlugin<TablePluginState, TablePluginConfig> = {
   ...edtrTablePlugin,
   Component: TableEditor
 }
 
-function TableEditor(
-  props: EditorPluginProps<typeof edtrTablePlugin.state, TableConfig>
-) {
+function TableEditor(props: TableProps) {
   const ref = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     const timeout = setTimeout(typesetMathjax, 1000)
@@ -61,9 +61,7 @@ function TableEditor(
   )
 
   function typesetMathjax() {
-    if (!ref.current) {
-      return
-    }
+    if (!ref.current) return
     typeset(ref.current)
   }
 }

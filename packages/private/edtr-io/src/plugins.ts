@@ -60,18 +60,38 @@ export function createPlugins(
   registry: RowsConfig['plugins']
 ): Record<string, EditorPlugin<any, any>> {
   return {
-    anchor: createAnchorPlugin(),
-    blockquote: createBlockquotePlugin(),
+    anchor: createAnchorPlugin({
+      // TODO:
+      i18n: {}
+    }),
+    blockquote: createBlockquotePlugin({
+      content: {
+        plugin: 'text'
+      }
+    }),
     error: errorPlugin,
     exercise: exercisePlugin,
-    geogebra: createGeogebraPlugin(),
-    highlight: createHighlightPlugin(),
+    geogebra: createGeogebraPlugin({
+      // TODO:
+      i18n: {}
+    }),
+    highlight: createHighlightPlugin({
+      // TODO:
+      i18n: {}
+    }),
     image: createImagePlugin(getCsrfToken),
     important: createImportantPlugin(),
     injection: injectionPlugin,
-    inputExercise: createInputExercisePlugin(),
+    inputExercise: createInputExercisePlugin({
+      feedback: {
+        plugin: 'text'
+      },
+      // TODO:
+      i18n: {}
+    }),
     layout: layoutPlugin,
     multimedia: createMultimediaExplanationPlugin({
+      explanation: { plugin: 'rows' },
       plugins: [
         {
           name: 'image',
@@ -85,16 +105,40 @@ export function createPlugins(
           name: 'geogebra',
           title: 'GeoGebra Applet'
         }
-      ]
+      ],
+      // TODO:
+      i18n: {}
     }),
-    rows: createRowsPlugin({ plugins: registry }),
-    scMcExercise: createScMcExercisePlugin(),
+    rows: createRowsPlugin({
+      content: { plugin: 'text' },
+      plugins: registry,
+      // TODO:
+      i18n: {}
+    }),
+    scMcExercise: createScMcExercisePlugin({
+      content: { plugin: 'text' },
+      feedback: { plugin: 'text' },
+      // TODO:
+      i18n: {}
+    }),
     separator: separatorPlugin,
     solution: solutionPlugin,
-    spoiler: createSpoilerPlugin(),
+    spoiler: createSpoilerPlugin({
+      content: { plugin: 'rows' },
+      // TODO:
+      i18n: {}
+    }),
     table: tablePlugin,
-    text: createTextPlugin({ registry, blockquote: 'blockquote' }),
-    video: createVideoPlugin(),
+    text: createTextPlugin({
+      registry,
+      blockquote: 'blockquote',
+      // TODO:
+      i18n: {}
+    }),
+    video: createVideoPlugin({
+      // TODO:
+      i18n: {}
+    }),
 
     // Internal plugins for our content types
     'type-applet': appletTypePlugin,
