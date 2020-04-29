@@ -22,15 +22,17 @@
 /* globals gaOptout */
 import { reprocess, typeset } from '@serlo/mathjax'
 import autosize from 'autosize'
+import i18next from 'i18next'
+import moment from 'moment'
 import $ from 'jquery'
 import 'jquery-sticky'
 import 'jquery-ui'
 import 'katex/dist/katex.css'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+
 import { config } from '@fortawesome/fontawesome-svg-core'
 
 import 'magnific-popup'
-import moment from 'moment'
 import 'iframe-resizer/js/iframeResizer.contentWindow'
 
 config.autoAddCss = false
@@ -88,14 +90,20 @@ console.log('########################')
 console.log(`# serlo-org-client@${version} #`)
 console.log('########################')
 
-const setLanguage = () => {
-  const language = $('html').attr('lang') || 'de'
+async function setLanguage() {
+  const language = $('html').attr('lang') || 'en'
 
   t.config({
     language
   })
-
   moment.locale(language)
+  await i18next.init({
+    debug: process.env.NODE_ENV !== 'production',
+    defaultNS: 'default',
+    fallbackLng: 'en',
+    lng: language,
+    resources: require('i18next-resource-store-loader!../../../../../i18n')
+  })
 }
 
 const initNavigation = () => {
@@ -152,8 +160,7 @@ const initSubjectNav = $context => {
   })
 }
 
-const init = $context => {
-  setLanguage()
+function init($context) {
   initChangeDimensionEvents()
   initContentApi()
   initConsentBanner()
@@ -252,5 +259,7 @@ const init = $context => {
   initTracking($context)
 }
 
-init($('body'))
+setLanguage().then(() => {
+  init($('body'))
+})
 Supporter.check()
