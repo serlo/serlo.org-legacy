@@ -33,7 +33,7 @@
     "howler": "^2.0.0",
     "iframe-resizer": "^4.0.0",
     "jasny-bootstrap": "^3.0.0",
-    "jquery": "~3.4.0",
+    "jquery": "~3.5.0",
     "jquery-sticky": "^1.0.0",
     "jquery-ui": "^1.0.0",
     "jquery.redirect": "^1.0.0",
