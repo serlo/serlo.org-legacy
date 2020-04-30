@@ -30,6 +30,7 @@ import {
   entityType
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
+import { useTranslation } from 'react-i18next'
 
 export const coursePageTypeState = entityType(
   {
@@ -59,6 +60,7 @@ function CoursePageTypeEditor(
   >
 ) {
   const { title, icon, content } = props.state
+  const { i18n } = useTranslation()
 
   React.useEffect(() => {
     if (!['explanation', 'play', 'question'].includes(icon.value)) {
@@ -81,15 +83,15 @@ function CoursePageTypeEditor(
             state={icon}
             options={[
               {
-                label: 'Erklärung',
+                label: i18n.t('coursePage::Explanation'),
                 value: 'explanation'
               },
               {
-                label: 'Video',
+                label: i18n.t('coursePage::Video'),
                 value: 'play'
               },
               {
-                label: 'Aufgabe',
+                label: i18n.t('coursePage::Question'),
                 value: 'question'
               }
             ]}
@@ -99,7 +101,7 @@ function CoursePageTypeEditor(
       <h1>
         {props.editable ? (
           <HeaderInput
-            placeholder="Titel"
+            placeholder={i18n.t('coursePage::Title')}
             value={title.value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               title.set(e.target.value)

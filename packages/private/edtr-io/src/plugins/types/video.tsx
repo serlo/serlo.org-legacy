@@ -31,6 +31,7 @@ import {
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
 import { createVideoPlugin } from '@edtr-io/plugin-video'
+import { useTranslation } from 'react-i18next'
 
 export const videoTypeState = entityType(
   {
@@ -53,6 +54,7 @@ export const videoTypePlugin: EditorPlugin<typeof videoTypeState> = {
 
 function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
   const { title, content, description } = props.state
+  const { i18n } = useTranslation()
 
   return (
     <section>
@@ -67,7 +69,7 @@ function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
         <h1>
           {props.editable ? (
             <HeaderInput
-              placeholder="Titel"
+              placeholder={i18n.t('video::Title')}
               value={title.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 title.set(e.target.value)
@@ -87,13 +89,12 @@ function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
               alt: props.state.title
             }}
             config={{
-              // TODO:
               i18n: {
                 src: {
-                  label: ''
+                  label: i18n.t('video::URL')
                 },
                 alt: {
-                  label: ''
+                  label: i18n.t('video::Title for search engines')
                 }
               }
             }}

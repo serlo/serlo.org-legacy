@@ -29,6 +29,7 @@ import {
 import * as React from 'react'
 
 import { Controls, editorContent, HeaderInput, uuid } from './common'
+import { useTranslation } from 'react-i18next'
 
 export const taxonomyTypeState = object({
   ...uuid,
@@ -51,6 +52,7 @@ function TaxonomyTypeEditor(
   props: EditorPluginProps<typeof taxonomyTypeState>
 ) {
   const { term, description } = props.state
+  const { i18n } = useTranslation()
 
   return (
     <article>
@@ -59,7 +61,7 @@ function TaxonomyTypeEditor(
           <h1>
             {props.editable ? (
               <HeaderInput
-                placeholder="Titel"
+                placeholder={i18n.t('taxonomy::Title')}
                 value={term.name.value}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   term.name.set(e.target.value)

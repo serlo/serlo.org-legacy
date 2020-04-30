@@ -26,6 +26,7 @@ import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
 import { RevisionHistory } from './helpers/settings'
+import { useTranslation } from 'react-i18next'
 
 export const textSolutionTypeState = entityType(
   {
@@ -60,10 +61,13 @@ const solutionTheme = {
 }
 
 function TextSolutionTypeEditor(props: TextSolutionTypeProps) {
+  const { i18n } = useTranslation()
   const renderTitle = React.useCallback((collapsed: boolean) => {
     return (
       <React.Fragment>
-        Lösung {collapsed ? 'anzeigen' : 'ausblenden'}
+        {collapsed
+          ? i18n.t('solution::Show solution')
+          : i18n.t('solution::Hide solution')}
       </React.Fragment>
     )
   }, [])

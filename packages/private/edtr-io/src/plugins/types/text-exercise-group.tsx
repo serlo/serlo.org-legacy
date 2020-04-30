@@ -33,6 +33,7 @@ import {
 } from './common'
 import { RevisionHistory } from './helpers/settings'
 import { SemanticSection } from '../helpers/semantic-section'
+import { useTranslation } from 'react-i18next'
 
 export const textExerciseGroupTypeState = entityType(
   {
@@ -54,6 +55,7 @@ function TextExerciseGroupTypeEditor(
   props: EditorPluginProps<typeof textExerciseGroupTypeState>
 ) {
   const { content, 'grouped-text-exercise': children } = props.state
+  const { i18n } = useTranslation()
 
   return (
     <article className="exercisegroup">
@@ -78,6 +80,7 @@ function TextExerciseGroupTypeEditor(
             <div className="col-sm-11 col-xs-12">
               <OptionalChild
                 state={child}
+                removeLabel={i18n.t('textExerciseGroup::Remove exercise')}
                 onRemove={() => {
                   children.remove(index)
                 }}
@@ -91,7 +94,7 @@ function TextExerciseGroupTypeEditor(
           children.insert()
         }}
       >
-        Teilaufgabe hinzufügen
+        {i18n.t('textExerciseGroup::Add exercise')}
       </AddButton>
       <Controls subscriptions {...props.state} />
     </article>

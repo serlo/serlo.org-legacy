@@ -100,6 +100,8 @@ async function setLanguage() {
   await i18next.init({
     debug: process.env.NODE_ENV !== 'production',
     defaultNS: 'default',
+    nsSeparator: ':::',
+    keySeparator: '::',
     fallbackLng: 'en',
     lng: language,
     resources: require('i18next-resource-store-loader!../../../../../i18n')

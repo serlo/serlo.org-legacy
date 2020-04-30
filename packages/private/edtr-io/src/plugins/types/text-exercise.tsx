@@ -32,6 +32,7 @@ import {
 } from './common'
 import { AddButton } from '@edtr-io/editor-ui/internal'
 import { RevisionHistory } from './helpers/settings'
+import { useTranslation } from 'react-i18next'
 
 export const textExerciseTypeState = entityType(
   {
@@ -61,6 +62,7 @@ export function TextExerciseTypeEditor(
   >
 ) {
   const { content, 'text-solution': textSolution } = props.state
+  const { i18n } = useTranslation()
 
   return (
     <article className="text-exercise">
@@ -75,6 +77,7 @@ export function TextExerciseTypeEditor(
       {textSolution.id ? (
         <OptionalChild
           state={textSolution}
+          removeLabel={i18n.t('textExercise::Remove solution')}
           onRemove={() => {
             textSolution.remove()
           }}
@@ -85,7 +88,7 @@ export function TextExerciseTypeEditor(
             textSolution.create()
           }}
         >
-          Lösung hinzufügen
+          {i18n.t('textExercise::Create solution')}
         </AddButton>
       )}
       {props.config.skipControls ? null : (

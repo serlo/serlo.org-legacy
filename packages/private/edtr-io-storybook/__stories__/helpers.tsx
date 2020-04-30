@@ -22,6 +22,9 @@
 import * as React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Editor } from '@serlo/edtr-io'
+import { select } from '@storybook/addon-knobs'
+import i18next from 'i18next'
+import { initReactI18next } from 'react-i18next'
 
 export function addContentTypeStories(
   name: string,
@@ -53,9 +56,48 @@ export function addContentTypeStories(
   })
 }
 
+export function Provider({ children }: { children: React.ReactNode }) {
+  const [ready, setReady] = React.useState(false)
+  const lng = select(
+    'Language',
+    {
+      English: 'en',
+      German: 'de',
+      DEBUG: 'cimode'
+    },
+    'en'
+  )
+
+  React.useEffect(() => {
+    i18next
+      .use(initReactI18next)
+      .init({
+        debug: true,
+        defaultNS: 'default',
+        nsSeparator: ':::',
+        keySeparator: '::',
+        fallbackLng: 'en',
+        lng,
+        resources: require('i18next-resource-store-loader!../../../../i18n')
+      })
+      .then(() => {
+        setReady(true)
+      })
+  }, [])
+  React.useEffect(() => {
+    i18next.changeLanguage(lng).then(() => {
+      console.log('language changed')
+    })
+  }, [lng])
+
+  if (!ready) return null
+
+  return <React.Fragment>{children}</React.Fragment>
+}
+
 export function Container({ children }: React.PropsWithChildren<{}>) {
   return (
-    <React.Fragment>
+    <Provider>
       <link href="http://localhost:8081/main.css" rel="stylesheet" />
       <div>
         <div
@@ -430,7 +472,7 @@ export function Container({ children }: React.PropsWithChildren<{}>) {
         </div>
         <script type="text/javascript" src="http://localhost:8081/main.js" />
       </div>
-    </React.Fragment>
+    </Provider>
   )
 }
 

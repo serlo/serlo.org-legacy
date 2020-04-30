@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@edtr-io/core": "^1.0.0-beta.3",
+    "@edtr-io/default-document-editor": "^1.0.0-beta.3",
     "@edtr-io/editor-ui": "^1.0.0-beta.3",
     "@edtr-io/plugin": "^1.0.0-beta.3",
     "@edtr-io/plugin-anchor": "^1.0.0-beta.3",
@@ -43,6 +44,7 @@
     "react-dnd-html5-backend": "^10.0.0",
     "react-dom": "^16.8.0",
     "react-hotkeys": "^2.0.0",
+    "react-i18next": "^11.0.0",
     "react-modal": "^3.0.0",
     "styled-components": "^5.0.0",
     "tslib": "^1.0.0"

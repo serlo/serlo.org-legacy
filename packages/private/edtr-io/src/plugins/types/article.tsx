@@ -30,6 +30,7 @@ import {
   entityType
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
+import { useTranslation } from 'react-i18next'
 
 export const articleTypeState = entityType(
   {
@@ -51,6 +52,7 @@ export const articleTypePlugin: EditorPlugin<typeof articleTypeState> = {
 
 function ArticleTypeEditor(props: EditorPluginProps<typeof articleTypeState>) {
   const { title, content, meta_title, meta_description } = props.state
+  const { i18n } = useTranslation()
 
   return (
     <React.Fragment>
@@ -64,9 +66,12 @@ function ArticleTypeEditor(props: EditorPluginProps<typeof articleTypeState>) {
         )}
         {props.renderIntoSettings(
           <Settings>
-            <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />
             <Settings.Textarea
-              label="Suchmaschinen-Beschreibung"
+              label={i18n.t('article::Title for search engines')}
+              state={meta_title}
+            />
+            <Settings.Textarea
+              label={i18n.t('article::Description for search engines')}
               state={meta_description}
             />
           </Settings>
@@ -74,7 +79,7 @@ function ArticleTypeEditor(props: EditorPluginProps<typeof articleTypeState>) {
         <h1>
           {props.editable ? (
             <HeaderInput
-              placeholder="Titel"
+              placeholder={i18n.t('article::Title')}
               value={title.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 title.set(e.target.value)

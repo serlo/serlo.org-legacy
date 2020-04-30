@@ -24,6 +24,7 @@ import * as React from 'react'
 
 import { entity, Controls, editorContent, entityType } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
+import { useTranslation } from 'react-i18next'
 
 export const mathPuzzleTypeState = entityType(
   {
@@ -44,6 +45,7 @@ function MathPuzzleTypeEditor(
   props: EditorPluginProps<typeof mathPuzzleTypeState>
 ) {
   const { source, content } = props.state
+  const { i18n } = useTranslation()
 
   return (
     <React.Fragment>
@@ -56,7 +58,10 @@ function MathPuzzleTypeEditor(
       )}
       {props.renderIntoSettings(
         <Settings>
-          <Settings.Textarea label="Quellcode" state={source} />
+          <Settings.Textarea
+            label={i18n.t('event::Source code')}
+            state={source}
+          />
         </Settings>
       )}
       <div className="math-puzzle" data-source={source.value}>

@@ -31,6 +31,7 @@ import {
   entityType
 } from './common'
 import { Settings, RevisionHistory } from './helpers/settings'
+import { useTranslation } from 'react-i18next'
 
 export const appletTypeState = entityType(
   {
@@ -53,6 +54,7 @@ export const appletTypePlugin: EditorPlugin<typeof appletTypeState> = {
 
 function AppletTypeEditor(props: EditorPluginProps<typeof appletTypeState>) {
   const { title, url, content, meta_title, meta_description } = props.state
+  const { i18n } = useTranslation()
 
   return (
     <div>
@@ -66,9 +68,12 @@ function AppletTypeEditor(props: EditorPluginProps<typeof appletTypeState>) {
         )}
         {props.renderIntoSettings(
           <Settings>
-            <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />
             <Settings.Textarea
-              label="Suchmaschinen-Beschreibung"
+              label={i18n.t('applet::Title for search engines')}
+              state={meta_title}
+            />
+            <Settings.Textarea
+              label={i18n.t('applet::Description for search engines')}
               state={meta_description}
             />
           </Settings>
@@ -76,7 +81,7 @@ function AppletTypeEditor(props: EditorPluginProps<typeof appletTypeState>) {
         <h1>
           {props.editable ? (
             <HeaderInput
-              placeholder="Titel"
+              placeholder={i18n.t('applet::Title')}
               value={title.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 title.set(e.target.value)

@@ -34,6 +34,8 @@ import { Icon, faRandom, faTrashAlt } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SemanticSection } from './helpers/semantic-section'
+import { i18n } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 const exerciseState = object({
   content: child({ plugin: 'rows' }),
@@ -57,15 +59,26 @@ const ButtonContainer = styled.div({
 
 const interactivePlugins: {
   name: 'scMcExercise' | 'inputExercise'
-  title: string
+  addLabel: (i18n: i18n) => string
+  title: (i18n: i18n) => string
 }[] = [
   {
     name: 'scMcExercise',
-    title: 'Auswahlaufgabe'
+    addLabel(i18n) {
+      return i18n.t('exercise::Add choice exercise')
+    },
+    title(i18n) {
+      return i18n.t('exercise::Choice exercise')
+    }
   },
   {
     name: 'inputExercise',
-    title: 'Eingabefeld'
+    addLabel(i18n) {
+      return i18n.t('exercise::Add input exercise')
+    },
+    title(i18n) {
+      return i18n.t('exercise::Input exercise')
+    }
   }
 ]
 
@@ -104,6 +117,7 @@ const Option = styled.div({
 })
 
 function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
+  const { i18n } = useTranslation()
   const store = useScopedStore()
   const { content, interactive } = state
   const [showOptions, setShowOptions] = React.useState(false)
@@ -160,7 +174,7 @@ function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
                               setShowOptions(false)
                             }}
                           >
-                            {plugin.title}
+                            {plugin.title(i18n)}
                           </Option>
                         )
                       })}
@@ -178,7 +192,7 @@ function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
       return (
         <React.Fragment>
           <p>
-            <em>Füge optional ein interaktives Element hinzu:</em>
+            <em>{i18n.t('exercise::Add an optional interactive exercise:')}</em>
           </p>
           <ButtonContainer>
             {interactivePlugins.map(plugin => {
@@ -191,7 +205,7 @@ function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
                     })
                   }}
                 >
-                  {`${plugin.title} hinzufügen`}
+                  {plugin.addLabel(i18n)}
                 </AddButton>
               )
             })}

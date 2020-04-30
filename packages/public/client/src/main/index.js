@@ -28,6 +28,7 @@ import $ from 'jquery'
 import 'jquery-sticky'
 import 'jquery-ui'
 import 'katex/dist/katex.css'
+import { initReactI18next } from 'react-i18next'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 
@@ -100,9 +101,11 @@ async function setLanguage() {
     language
   })
   moment.locale(language)
-  await i18next.init({
+  await i18next.use(initReactI18next).init({
     debug: process.env.NODE_ENV !== 'production',
     defaultNS: 'default',
+    nsSeparator: ':::',
+    keySeparator: '::',
     fallbackLng: 'en',
     lng: language,
     resources: require('i18next-resource-store-loader!../../../../../i18n')

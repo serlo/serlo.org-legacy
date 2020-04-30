@@ -23,7 +23,6 @@ import { EditorPlugin, EditorPluginProps, object } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { Controls, editorContent } from './common'
-import { videoTypeState } from './video'
 
 export const userTypeState = object({
   description: editorContent()

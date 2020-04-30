@@ -27,6 +27,7 @@ import { RowsPlugin } from '@serlo/legacy-editor-to-editor'
 import * as React from 'react'
 
 import { layoutState } from '.'
+import { useTranslation } from 'react-i18next'
 
 const LayoutContainer = styled.div({
   display: 'flex',
@@ -69,19 +70,22 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
   remove?: () => void
 }> = props => {
   const store = useScopedStore()
+  const { i18n } = useTranslation()
 
   return (
     <React.Fragment>
       {props.editable ? (
         <ConvertInfo>
-          Um die Inhalte zu verschieben, konvertiere sie für den neuen Editor:
+          {i18n.t(
+            'layout::To make the content draggable, convert them for the new editor:'
+          )}
           <ButtonContainer>
             <ConvertButton onClick={convertToRow}>
-              Konvertiere zu einspaltigen Inhalten
+              {i18n.t('layout::One-column layout')}
             </ConvertButton>
             {canConvertToMultimediaExplanation() ? (
               <ConvertButton onClick={convertToMultimediaExplanation}>
-                Konvertiere zu Text + Multimedia-Inhalt
+                {i18n.t('layout::Multimedia content associated with text')}
               </ConvertButton>
             ) : null}
           </ButtonContainer>

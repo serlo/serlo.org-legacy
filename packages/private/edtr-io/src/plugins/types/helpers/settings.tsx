@@ -34,24 +34,7 @@ import BSModal from 'react-bootstrap/lib/Modal'
 import BSTable from 'react-bootstrap/lib/Table'
 
 import { deserialize, isError } from '../../../deserialize'
-
-const StyledSettings = styled.div({
-  position: 'absolute',
-  top: '10px',
-  left: '-10px',
-  transformOrigin: 'center top',
-  transform: 'translateX(-100%)'
-})
-
-const Content = styled.div({
-  paddingBottom: '10px',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-end',
-  zIndex: 16,
-  position: 'relative',
-  transition: '250ms all ease-in-out'
-})
+import { useTranslation } from 'react-i18next'
 
 const StyledTR = styled.tr<{ selected: boolean }>(props => {
   return props.selected
@@ -62,17 +45,6 @@ const StyledTR = styled.tr<{ selected: boolean }>(props => {
         cursor: 'pointer'
       }
 })
-
-function SettingsIcon(props: { open: () => void }) {
-  return (
-    <span onClick={props.open}>
-      <PluginToolbarButton
-        icon={<Icon icon={faCog} size="lg" />}
-        label="Einstellungen"
-      />
-    </span>
-  )
-}
 
 interface RevisionData {
   id: number
@@ -92,6 +64,7 @@ export function RevisionHistory<T>(
   const [availableRevisions, setAvailableRevisions] = React.useState<
     RevisionData[]
   >([])
+  const { i18n } = useTranslation()
 
   const [showRevisions, setShowRevisions] = React.useState(false)
   React.useEffect(() => {
@@ -115,7 +88,7 @@ export function RevisionHistory<T>(
       >
         <PluginToolbarButton
           icon={<Icon icon={faHistory} size="lg" />}
-          label="Andere Version auswählen"
+          label={i18n.t('edtr-io::Switch to another revision')}
         />
       </span>
       <BSModal
@@ -126,17 +99,19 @@ export function RevisionHistory<T>(
         bsSize="lg"
       >
         <BSModal.Header closeButton>
-          <BSModal.Title>Andere Version auswählen</BSModal.Title>
+          <BSModal.Title>
+            {i18n.t('edtr-io::Switch to another revision')}
+          </BSModal.Title>
         </BSModal.Header>
         <BSModal.Body>
           <BSTable striped hover>
             <thead>
               <tr>
                 <th>#</th>
-                <th>Aktuell</th>
-                <th>Änderungen</th>
-                <th>Verfasser</th>
-                <th>Zeitstempel</th>
+                <th>{i18n.t('edtr-io::Current')}</th>
+                <th>{i18n.t('edtr-io::Changes')}</th>
+                <th>{i18n.t('edtr-io::Author')}</th>
+                <th>{i18n.t('edtr-io::Created at')}</th>
               </tr>
             </thead>
             <tbody>

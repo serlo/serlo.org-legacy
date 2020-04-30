@@ -33,6 +33,8 @@ import {
   entityType
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
+import { useTranslation } from 'react-i18next'
+import BSCheckbox from 'react-bootstrap/lib/Checkbox'
 
 export const courseTypeState = entityType(
   {
@@ -55,6 +57,7 @@ export const courseTypePlugin: EditorPlugin<typeof courseTypeState> = {
 
 function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
   const { title, meta_description, 'course-page': children } = props.state
+  const { i18n } = useTranslation()
 
   return (
     <article>
@@ -68,7 +71,7 @@ function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
       {props.renderIntoSettings(
         <Settings>
           <Settings.Textarea
-            label="Suchmaschinen-Beschreibung"
+            label={i18n.t('course::Description for search engines')}
             state={meta_description}
           />
         </Settings>
@@ -76,7 +79,7 @@ function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
       <h1>
         {props.editable ? (
           <HeaderInput
-            placeholder="Titel"
+            placeholder={i18n.t('course::Title')}
             value={title.value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               title.set(e.target.value)
@@ -91,6 +94,7 @@ function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
           <OptionalChild
             state={child}
             key={child.id}
+            removeLabel={i18n.t('course::Remove course page')}
             onRemove={() => {
               children.remove(index)
             }}
@@ -99,7 +103,7 @@ function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
       })}
       <hr />
       <AddButton onClick={() => children.insert()}>
-        Kursseite hinzufügen
+        {i18n.t('course::Add course page')}
       </AddButton>
       <Controls subscriptions {...props.state} />
     </article>

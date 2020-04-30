@@ -21,15 +21,20 @@
  */
 import { Renderer as Core, RendererProps } from '@edtr-io/renderer'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { createPlugins } from './plugins'
-
-const plugins = createPlugins(() => '', [])
 
 export function Renderer(
   props: React.PropsWithChildren<{
     state: RendererProps['state']
   }>
 ) {
+  const { i18n } = useTranslation()
+  const plugins = createPlugins({
+    getCsrfToken: () => '',
+    registry: [],
+    i18next: i18n
+  })
   return <Core plugins={plugins} state={props.state || { plugin: 'text' }} />
 }

@@ -26,6 +26,7 @@ import { PreviewOverlay } from '@edtr-io/editor-ui/internal'
 import { EditorPluginProps, string, EditorPlugin } from '@edtr-io/plugin'
 import { Icon, faNewspaper } from '@edtr-io/ui'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 
 /* global */
 declare const Common: {
@@ -42,6 +43,7 @@ export const injectionPlugin: EditorPlugin<typeof injectionState> = {
 export function InjectionRenderer(props: { src: string }) {
   const [loaded, setLoaded] = React.useState('')
   const ref = React.useRef<HTMLDivElement>(null)
+  const { i18n } = useTranslation()
 
   React.useEffect(() => {
     const src = createURL(props.src)
@@ -60,9 +62,11 @@ export function InjectionRenderer(props: { src: string }) {
           }
         })
       })
-      .catch(e => {
+      .catch(() => {
         setLoaded(
-          '<div class="alert alert-info">Illegal injection found </div>'
+          `<div class="alert alert-info">${i18n.t(
+            'injection::Illegal injection found'
+          )}</div>`
         )
       })
   }, [props.src])
@@ -82,7 +86,7 @@ export function InjectionRenderer(props: { src: string }) {
   const src = createURL(props.src)
   return (
     <div>
-      <a href={src}>Serlo Inhalt {src}</a>
+      <a href={src}>{i18n.t('injection::Serlo entity {{src}}', { src })}</a>
     </div>
   )
 }
@@ -107,6 +111,7 @@ const PlaceholderWrapper = styled.div({
 function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
   const [cache, setCache] = React.useState(props.state.value)
   const [preview, setPreview] = React.useState(false)
+  const { i18n } = useTranslation()
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -142,10 +147,8 @@ function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
       )}
       {props.focused && !preview ? (
         <EditorInlineSettings>
-          {/*
-           // @ts-ignore */}
           <EditorInput
-            label="Serlo ID:"
+            label={i18n.t('injection::Serlo ID:')}
             placeholder="123456"
             value={props.state.value}
             onChange={e => {
@@ -159,10 +162,8 @@ function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
       ) : null}
       {props.renderIntoSettings(
         <React.Fragment>
-          {/*
-           // @ts-ignore */}
           <OverlayInput
-            label="Serlo ID:"
+            label={i18n.t('injection::Serlo ID:')}
             placeholder="123456"
             value={props.state.value}
             onChange={e => {

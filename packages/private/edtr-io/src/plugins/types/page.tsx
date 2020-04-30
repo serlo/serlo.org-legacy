@@ -28,6 +28,7 @@ import {
 import * as React from 'react'
 
 import { Controls, editorContent, HeaderInput, license, uuid } from './common'
+import { useTranslation } from 'react-i18next'
 
 export const pageTypeState = object({
   ...uuid,
@@ -44,6 +45,7 @@ export const pageTypePlugin: EditorPlugin<typeof pageTypeState> = {
 
 function PageTypeEditor(props: EditorPluginProps<typeof pageTypeState>) {
   const { title, content } = props.state
+  const { i18n } = useTranslation()
 
   return (
     <article>
@@ -52,7 +54,7 @@ function PageTypeEditor(props: EditorPluginProps<typeof pageTypeState>) {
           <h1>
             {props.editable ? (
               <HeaderInput
-                placeholder="Titel"
+                placeholder={i18n.t('page::Title')}
                 value={title.value}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   title.set(e.target.value)

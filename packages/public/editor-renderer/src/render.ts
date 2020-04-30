@@ -29,8 +29,16 @@ import {
   Legacy,
   Splish
 } from '@serlo/legacy-editor-to-editor'
+import { i18n } from 'i18next'
 
-const plugins = createPlugins(() => '', [])
+// TODO: initialize i18next somehow. Probably accept both language and editor state
+const plugins = createPlugins({
+  getCsrfToken: () => '',
+  registry: [],
+  i18next: {
+    t: (key: string) => key
+  } as i18n // TODO:
+})
 
 export async function render(input: string): Promise<string> {
   if (input === undefined) throw new Error('No input given')
