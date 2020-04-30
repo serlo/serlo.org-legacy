@@ -21,19 +21,21 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Admin\Factory;
+namespace Common\Factory;
 
-use Admin\Controller\DebuggerController;
-use Authorization\Service\AssertGrantedServiceInterface;
-use Common\Factory\AbstractControllerFactory;
+use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class DebuggerControllerFactory extends AbstractControllerFactory
+abstract class AbstractControllerFactory implements FactoryInterface
 {
-    protected function createController(ServiceLocatorInterface $serviceManager)
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var AssertGrantedServiceInterface $assertGrantedService */
-        $assertGrantedService = $serviceManager->get(AssertGrantedServiceInterface::class);
-        return new DebuggerController($assertGrantedService);
+        /** @var AbstractPluginManager $serviceLocator */
+        /** @var ServiceLocatorInterface $serviceManager */
+        $serviceManager = $serviceLocator->getServiceLocator();
+        return $this->createController($serviceManager);
     }
+
+    abstract protected function createController(ServiceLocatorInterface $serviceManager);
 }

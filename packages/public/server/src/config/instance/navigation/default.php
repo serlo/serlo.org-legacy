@@ -25,7 +25,7 @@ return [
         'default' => [
             'restricted' => [
                 'label' => t('Backend'),
-                'route' => 'backend',
+                'route' => 'admin/backend',
                 'needsIdentity' => true,
                 'translate' => true,
                 'pages' => [

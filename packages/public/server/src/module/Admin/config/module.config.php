@@ -38,23 +38,31 @@ return [
     ],
     'router' => [
         'routes' => [
-            'backend' => [
-                'type' => 'literal',
+            'admin' => [
+                'type' => 'segment',
                 'options' => [
-                    'route' => '/backend',
-                    'defaults' => [
-                        'controller' => BackendController::class,
-                        'action' => 'index',
-                    ],
+                    'route' => '',
                 ],
-            ],
-            'debugger' => [
-                'type' => 'literal',
-                'options' => [
-                    'route' => '/debugger',
-                    'defaults' => [
-                        'controller' => DebuggerController::class,
-                        'action' => 'index',
+                'child_routes' => [
+                    'backend' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/backend',
+                            'defaults' => [
+                                'controller' => BackendController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
+                    'debugger' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/debugger',
+                            'defaults' => [
+                                'controller' => DebuggerController::class,
+                                'action' => 'index',
+                            ],
+                        ],
                     ],
                 ],
             ],

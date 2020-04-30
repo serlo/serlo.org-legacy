@@ -24,18 +24,25 @@
 namespace Admin\Controller;
 
 use Admin\Form\DebuggerForm;
-use Authorization\Service\AssertGrantedServiceAwareTrait;
+use Authorization\Permission;
+use Authorization\Service\AssertGrantedServiceInterface;
 use Ui\View\Helper\Encrypt;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class DebuggerController extends AbstractActionController
 {
-    use AssertGrantedServiceAwareTrait;
+    /** @var AssertGrantedServiceInterface */
+    protected $assertGrantedService;
+
+    public function __construct(AssertGrantedServiceInterface $assertGrantedService)
+    {
+        $this->assertGrantedService = $assertGrantedService;
+    }
 
     public function indexAction()
     {
-        $this->getAssertGrantedService()->assert('debugger.use');
+        $this->assertGrantedService->assert(Permission::ADMIN_DEBUGGER_USE);
 
         $form = new DebuggerForm();
         $message = false;

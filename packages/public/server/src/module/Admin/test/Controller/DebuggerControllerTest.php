@@ -24,6 +24,7 @@
 namespace AdminTest\Controller;
 
 use Admin\Controller\DebuggerController;
+use Authorization\Permission;
 use Authorization\Service\AssertGrantedServiceInterface;
 use Csrf\CsrfTokenContainer;
 use Ui\View\Helper\Encrypt;
@@ -53,7 +54,7 @@ class DebuggerControllerTest extends AbstractHttpControllerTestCase
         $assertGrantedService
             ->expects($this->once())
             ->method('assert')
-            ->with($this->equalTo('debugger.use'));
+            ->with($this->equalTo(Permission::ADMIN_DEBUGGER_USE));
         $serviceManager->setService(AssertGrantedServiceInterface::class, $assertGrantedService);
 
         // Override layout so we can test the template in isolation

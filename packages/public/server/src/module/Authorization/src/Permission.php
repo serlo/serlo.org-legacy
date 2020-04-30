@@ -21,20 +21,9 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Authorization\Service;
+namespace Authorization;
 
-trait AssertGrantedServiceAwareTrait
+class Permission
 {
-    /** @var AssertGrantedServiceInterface */
-    protected $assertGrantedService;
-
-    public function setAssertGrantedService(AssertGrantedServiceInterface $assertGrantedService)
-    {
-        $this->assertGrantedService = $assertGrantedService;
-    }
-
-    public function getAssertGrantedService()
-    {
-        return $this->assertGrantedService;
-    }
+    const ADMIN_DEBUGGER_USE = 'debugger.use';
 }
