@@ -4,8 +4,7 @@
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
-    "deploy:image": "ts-node scripts/deploy",
-    "sentry-release": "ts-node scripts/sentry-release"
+    "deploy:image": "ts-node scripts/deploy"
   },
   "dependencies": {},
   "devDependencies": {
