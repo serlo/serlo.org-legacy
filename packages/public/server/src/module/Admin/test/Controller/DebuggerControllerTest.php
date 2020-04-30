@@ -24,27 +24,22 @@
 namespace AdminTest\Controller;
 
 use Admin\Controller\DebuggerController;
+use AtheneTest\TestCase\AbstractHttpControllerTestCase;
 use Authorization\Permission;
 use Authorization\Service\AssertGrantedServiceInterface;
 use Csrf\CsrfTokenContainer;
 use Ui\View\Helper\Encrypt;
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 class DebuggerControllerTest extends AbstractHttpControllerTestCase
 {
+    protected $modules = ['Admin'];
+
     public function setUp()
     {
-        $config = include __DIR__ . '/../../../../config/application.config.php';
-        $config['modules'] = ['Admin', 'Ui'];
-        $this->setApplicationConfig($config);
-
         parent::setUp();
 
         $serviceManager = $this->getApplicationServiceLocator();
         $serviceManager->setAllowOverride(true);
-
-        // Ui module depends on default_navigation
-        $serviceManager->setService('default_navigation', []);
 
         // Verify that we check permission `debugger.use`
         $assertGrantedService = $this
@@ -56,10 +51,6 @@ class DebuggerControllerTest extends AbstractHttpControllerTestCase
             ->method('assert')
             ->with($this->equalTo(Permission::ADMIN_DEBUGGER_USE));
         $serviceManager->setService(AssertGrantedServiceInterface::class, $assertGrantedService);
-
-        // Override layout so we can test the template in isolation
-        $view = $serviceManager->get('ViewRenderer');
-        $view->layout('layout/partials/main');
     }
 
     public function testIndexActionGet()

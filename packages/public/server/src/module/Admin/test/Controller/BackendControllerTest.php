@@ -24,27 +24,14 @@
 namespace AdminTest\Controller;
 
 use Admin\Controller\BackendController;
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use AtheneTest\TestCase\AbstractHttpControllerTestCase;
 
 class BackendControllerTest extends AbstractHttpControllerTestCase
 {
-    public function setUp()
-    {
-        $config = include __DIR__ . '/../../../../config/application.config.php';
-        $config['modules'] = ['Admin', 'Ui'];
-        $this->setApplicationConfig($config);
-        parent::setUp();
-    }
+    protected $modules = ['Admin'];
 
     public function testIndexAction()
     {
-        $serviceManager = $this->getApplicationServiceLocator();
-        $serviceManager->setAllowOverride(true);
-        $serviceManager->setService('default_navigation', []);
-
-        $view = $serviceManager->get('ViewRenderer');
-        $view->layout('layout/partials/main');
-
         $this->dispatch('/backend');
         $this->assertControllerName(BackendController::class);
         $this->assertQueryContentRegex('h1', '/Backend/');
