@@ -24,7 +24,7 @@
         {{ timeago().render(revision.getTimestamp()) }} {{ 'by' | trans }} {{ normalize().toAnchor(revision.getAuthor()) }}
     </small>
 {% endset %}
-{{ pageHeader(normalize().toTitle(revision)).setSubtitle(subtitle).append(contexter().renderButton('right')).setBacklink(url('entity/repository/history', {'entity': entity.getId()})).render() }}
+{{ pageHeader(normalize().toTitle(revision)).setSubtitle(subtitle).setBacklink(url('entity/repository/history', {'entity': entity.getId()})).render() }}
 
 {% include 'entity/repository/partials/alerts' %}
 <article class="panel-group">

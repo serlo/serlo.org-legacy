@@ -19,7 +19,7 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{{ pageHeader(normalize().toTitle(entity)).setSubtitle('History'|trans).setBacklink(normalize().toUrl(entity)).append(contexter().renderButton('right')).render() }}
+{{ pageHeader(normalize().toTitle(entity)).setSubtitle('History'|trans).setBacklink(normalize().toUrl(entity)).render() }}
 {% if(entity.countUnrevised() > 1) %}
     <div class="alert alert-info">
         {% trans %} There are multiple recent revisions for this object. Please be aware that they may be of very

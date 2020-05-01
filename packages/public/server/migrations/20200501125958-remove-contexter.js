@@ -1,4 +1,3 @@
-<?php
 /**
  * This file is part of Serlo.org.
  *
@@ -20,37 +19,37 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Contexter\Form;
 
-use Zend\Form\Element\Submit;
-use Zend\Form\Element\Text;
-use Zend\Form\Form;
-use Zend\InputFilter\InputFilter;
-
-class UrlForm extends Form
-{
-    public function __construct()
-    {
-        parent::__construct('uri');
-        $this->setAttribute('method', 'post');
-        $this->setAttribute('class', 'clearfix');
-        $inputFilter = new InputFilter('uri');
-
-        $this->add((new Text('uri'))->setLabel('Uri:'));
-        $this->add(
-            (new Submit('submit'))->setValue('Select')->setAttribute('class', 'btn btn-success pull-right')
-        );
-
-        $inputFilter->add(
-            [
-                'name'     => 'uri',
-                'required' => true,
-                'filters'  => [
-                    [
-                        'name' => 'StripTags',
-                    ],
-                ],
-            ]
-        );
+/**
+ * Removes all rows & permissions from the database that were used by the Contexter module
+ * THIS IS AN IRREVERSIBLE MIGRATION!
+ */
+exports.up = function(db, cb) {
+  db.dropTable('context_route_parameter', err => {
+    if (err) {
+      return cb(err)
     }
+
+    db.dropTable('context_route', err => {
+      if (err) {
+        return cb(err)
+      }
+
+      db.dropTable('context', err => {
+        if (err) {
+          return cb(err)
+        }
+
+        db.runSql('DELETE FROM permission WHERE name LIKE "contexter.%"', cb)
+      })
+    })
+  })
+}
+
+exports.down = function(db, cb) {
+  cb()
+}
+
+exports._meta = {
+  version: 1
 }

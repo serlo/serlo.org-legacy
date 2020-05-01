@@ -21,7 +21,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 ?>
-<?php echo $this->pageHeader('Order content')->setSubtitle($this->term->getName())->setBacklink($this->normalize()->toUrl($this->term))->append($this->contexter()->renderButton('right')); ?>
+<?php echo $this->pageHeader('Order content')->setSubtitle($this->term->getName())->setBacklink($this->normalize()->toUrl($this->term)); ?>
 <div class="sortable" data-depth="1" data-active="false" data-action="<?php echo $this->url('taxonomy/term/sort-associated', array('term' => $this->term->getId(), 'association' => $this->association)); ?>">
     <ol class="sortable-list">
         <?php foreach($this->associations as $associated):?>

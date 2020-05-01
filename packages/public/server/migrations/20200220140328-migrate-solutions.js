@@ -73,6 +73,7 @@ exports._meta = {
 
 function migrateState(state) {
   const stepsState = state.state.map(({ state }) => {
+    if (state.type !== 'solutionSteps') return state
     const children = []
     const { introduction, strategy, solutionSteps, additionals } = state
     if (introduction && introduction.plugin === 'rows') {

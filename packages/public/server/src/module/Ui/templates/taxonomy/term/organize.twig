@@ -21,7 +21,5 @@
  #}
 {% set title = term.getName() %}
 {{ pageHeader(title).setSubTitle('Organize taxonomy' | trans).setBacklink(normalize().toURL(term)).render() }}
-{% set controls = contexter().renderButton() %}
-{% do placeholder('controls').set(controls) %}
 {% do placeholder('breadcrumbs').set('<li><span>' ~ title ~ '</span></li>') %}
 {% include 'taxonomy/term/organize/partial' with {'isChild' : false} %}

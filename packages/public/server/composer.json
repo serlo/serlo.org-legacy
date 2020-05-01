@@ -37,7 +37,6 @@
       "CacheInvalidator\\": "src/module/CacheInvalidator/src",
       "ClassResolver\\": "src/module/ClassResolver/src",
       "Common\\": "src/module/Common/src",
-      "Contexter\\": "src/module/Contexter/src",
       "Csrf\\": "src/module/Csrf/src",
       "Discussion\\": "src/module/Discussion/src",
       "Entity\\": "src/module/Entity/src",

@@ -65,7 +65,6 @@ return [
         'Blog',
         'Attachment',
         'RelatedContent',
-        'Contexter',
         'Navigation',
         'Flag',
         'Search',
