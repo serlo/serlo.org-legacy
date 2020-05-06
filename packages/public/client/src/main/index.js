@@ -37,6 +37,7 @@ import 'iframe-resizer/js/iframeResizer.contentWindow'
 
 config.autoAddCss = false
 
+import i18nextOptions from '../../../../../i18next.config'
 import { initContent, initEntityEditor } from '../editor'
 import '../libs/polyfills'
 import Common from '../modules/common'
@@ -44,7 +45,6 @@ import Content from '../modules/content'
 import '../modules/modals'
 import '../modules/spoiler'
 import SystemNotification from '../modules/system_notification'
-import { tenant } from '../modules/tenant'
 import t from '../modules/translator'
 import '../thirdparty/jquery.nestable'
 import '../thirdparty/deployggb'
@@ -102,11 +102,8 @@ async function setLanguage() {
   })
   moment.locale(language)
   await i18next.use(initReactI18next).init({
+    ...i18nextOptions,
     debug: process.env.NODE_ENV !== 'production',
-    defaultNS: 'default',
-    nsSeparator: ':::',
-    keySeparator: '::',
-    fallbackLng: 'en',
     lng: language,
     resources: require('i18next-resource-store-loader!../../../../../i18n')
   })

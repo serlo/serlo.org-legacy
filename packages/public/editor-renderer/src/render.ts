@@ -29,18 +29,19 @@ import {
   Legacy,
   Splish
 } from '@serlo/legacy-editor-to-editor'
-import { i18n } from 'i18next'
+import i18next from 'i18next'
+import { initReactI18next } from 'react-i18next'
 
-// TODO: initialize i18next somehow. Probably accept both language and editor state
-const plugins = createPlugins({
-  getCsrfToken: () => '',
-  registry: [],
-  i18next: {
-    t: (key: string) => key
-  } as i18n // TODO:
-})
+// @ts-ignore
+import i18nextOptions from '../../../../i18next.config'
 
-export async function render(input: string): Promise<string> {
+export async function render({
+  state: input,
+  language
+}: {
+  state: string
+  language: string
+}): Promise<string> {
   if (input === undefined) throw new Error('No input given')
   if (input === '') return ''
 
@@ -53,6 +54,16 @@ export async function render(input: string): Promise<string> {
 
   const state = isEdtr(data) ? data : convert(data)
   try {
+    await i18next.use(initReactI18next).init({
+      ...i18nextOptions,
+      lng: language,
+      resources: require('i18next-resource-store-loader!../../../../i18n')
+    })
+    const plugins = createPlugins({
+      getCsrfToken: () => '',
+      registry: [],
+      i18next: i18next
+    })
     return wrapOutput(coreRender({ plugins, state }))
   } catch (e) {
     console.log('render failed', e, stringifyState(state))

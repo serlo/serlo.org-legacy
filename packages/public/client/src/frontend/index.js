@@ -37,6 +37,7 @@ import 'iframe-resizer/js/iframeResizer.contentWindow'
 
 config.autoAddCss = false
 
+import i18nextOptions from '../../../../../i18next.config'
 import '../libs/polyfills'
 import Common from '../modules/common'
 import Content from '../modules/content'
@@ -99,10 +100,7 @@ async function setLanguage() {
   moment.locale(language)
   await i18next.init({
     debug: process.env.NODE_ENV !== 'production',
-    defaultNS: 'default',
-    nsSeparator: ':::',
-    keySeparator: '::',
-    fallbackLng: 'en',
+    ...i18nextOptions,
     lng: language,
     resources: require('i18next-resource-store-loader!../../../../../i18n')
   })

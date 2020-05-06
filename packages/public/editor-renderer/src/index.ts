@@ -32,8 +32,8 @@ const app = createApp()
 
 app.use(bodyParser.json())
 
-app.post('/', (req: { body: { state: string } }, res) => {
-  render(req.body.state)
+app.post('/', (req: { body: { state: string; language: string } }, res) => {
+  render({ state: req.body.state, language: req.body.language })
     .then(html => {
       console.log('request successful')
       res.status(200).send({ html })

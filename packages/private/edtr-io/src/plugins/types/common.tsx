@@ -350,7 +350,7 @@ export function Controls(props: OwnProps) {
           setAutoCheckout(checked)
         }}
       >
-        {i18n.t('edtr-io::Skip peer review (not recommended')}
+        {i18n.t('edtr-io::Skip peer review (not recommended)')}
       </BSCheckbox>
     )
   }

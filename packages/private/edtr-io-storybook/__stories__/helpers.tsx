@@ -26,6 +26,9 @@ import { select } from '@storybook/addon-knobs'
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
+// @ts-ignore
+import i18nextOptions from '../../../../i18next.config'
+
 export function addContentTypeStories(
   name: string,
   type: string,
@@ -73,10 +76,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
       .use(initReactI18next)
       .init({
         debug: true,
-        defaultNS: 'default',
-        nsSeparator: ':::',
-        keySeparator: '::',
-        fallbackLng: 'en',
+        ...i18nextOptions,
         lng,
         resources: require('i18next-resource-store-loader!../../../../i18n')
       })
