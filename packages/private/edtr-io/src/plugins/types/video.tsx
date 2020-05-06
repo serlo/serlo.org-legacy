@@ -20,6 +20,8 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { createVideoPlugin } from '@edtr-io/plugin-video'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import {
@@ -29,9 +31,7 @@ import {
   HeaderInput,
   entityType
 } from './common'
-import { RevisionHistory, Settings } from './helpers/settings'
-import { createVideoPlugin } from '@edtr-io/plugin-video'
-import { useTranslation } from 'react-i18next'
+import { RevisionHistory } from './helpers/settings'
 
 export const videoTypeState = entityType(
   {
@@ -53,8 +53,8 @@ export const videoTypePlugin: EditorPlugin<typeof videoTypeState> = {
 }
 
 function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
-  const { title, content, description } = props.state
-  const { i18n } = useTranslation()
+  const { title, description } = props.state
+  const i18n = useI18n()
 
   return (
     <section>

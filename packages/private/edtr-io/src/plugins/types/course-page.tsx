@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import {
@@ -30,7 +31,6 @@ import {
   entityType
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
-import { useTranslation } from 'react-i18next'
 
 export const coursePageTypeState = entityType(
   {
@@ -60,7 +60,7 @@ function CoursePageTypeEditor(
   >
 ) {
   const { title, icon, content } = props.state
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   React.useEffect(() => {
     if (!['explanation', 'play', 'question'].includes(icon.value)) {

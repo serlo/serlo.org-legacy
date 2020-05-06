@@ -21,8 +21,9 @@
  */
 import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory'
 import { StateTypeReturnType, string } from '@edtr-io/plugin'
-import { faCog, Icon, faCheck, styled } from '@edtr-io/ui'
+import { Icon, faCheck, styled } from '@edtr-io/ui'
 import { PluginToolbarButton } from '@edtr-io/core'
+import { useI18n } from '@serlo/i18n'
 import axios from 'axios'
 import moment from 'moment'
 import * as React from 'react'
@@ -34,7 +35,6 @@ import BSModal from 'react-bootstrap/lib/Modal'
 import BSTable from 'react-bootstrap/lib/Table'
 
 import { deserialize, isError } from '../../../deserialize'
-import { useTranslation } from 'react-i18next'
 
 const StyledTR = styled.tr<{ selected: boolean }>(props => {
   return props.selected
@@ -64,7 +64,7 @@ export function RevisionHistory<T>(
   const [availableRevisions, setAvailableRevisions] = React.useState<
     RevisionData[]
   >([])
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   const [showRevisions, setShowRevisions] = React.useState(false)
   React.useEffect(() => {

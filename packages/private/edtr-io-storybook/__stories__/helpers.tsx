@@ -19,15 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Editor } from '@serlo/edtr-io'
+import { initI18n, setLanguage } from '@serlo/i18n'
 import { select } from '@storybook/addon-knobs'
-import i18next from 'i18next'
-import { initReactI18next } from 'react-i18next'
-
-// @ts-ignore
-import i18nextOptions from '../../../../i18next.config'
+import * as React from 'react'
 
 export function addContentTypeStories(
   name: string,
@@ -61,7 +57,7 @@ export function addContentTypeStories(
 
 export function Provider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = React.useState(false)
-  const lng = select(
+  const language = select(
     'Language',
     {
       English: 'en',
@@ -72,23 +68,18 @@ export function Provider({ children }: { children: React.ReactNode }) {
   )
 
   React.useEffect(() => {
-    i18next
-      .use(initReactI18next)
-      .init({
-        debug: true,
-        ...i18nextOptions,
-        lng,
-        resources: require('i18next-resource-store-loader!../../../../i18n')
-      })
-      .then(() => {
-        setReady(true)
-      })
+    initI18n({
+      language,
+      resources: require('i18next-resource-store-loader!@serlo/i18n/resources')
+    }).then(() => {
+      setReady(true)
+    })
   }, [])
   React.useEffect(() => {
-    i18next.changeLanguage(lng).then(() => {
+    setLanguage(language).then(() => {
       console.log('language changed')
     })
-  }, [lng])
+  }, [language])
 
   if (!ready) return null
 

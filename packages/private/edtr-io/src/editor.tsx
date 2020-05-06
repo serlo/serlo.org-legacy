@@ -35,7 +35,7 @@ import {
   faPhotoVideo,
   faQuoteRight
 } from '@edtr-io/ui'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import { CsrfContext } from './csrf-context'
@@ -64,13 +64,13 @@ export const SaveContext = React.createContext<{
 })
 
 export function Editor(props: EditorProps) {
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   let result = deserialize(props)
   const plugins = createPlugins({
     getCsrfToken: props.getCsrfToken,
     registry: getRegistry(),
-    i18next: i18n
+    i18n
   })
 
   // FIXME: doesnt seem to be used yet

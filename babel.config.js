@@ -26,6 +26,7 @@ module.exports = api => {
               alias: {
                 '@serlo/editor-helpers': '@serlo/editor-helpers/src',
                 '@serlo/edtr-io': '@serlo/edtr-io/src',
+                '@serlo/i18n': '@serlo/i18n/src',
                 '@serlo/legacy-editor-to-editor':
                   '@serlo/legacy-editor-to-editor/src',
                 '@serlo/markdown': '@serlo/markdown/src',

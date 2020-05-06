@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import {
@@ -30,7 +31,6 @@ import {
   entityType
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
-import { useTranslation } from 'react-i18next'
 
 export const eventTypeState = entityType(
   {
@@ -51,7 +51,7 @@ export const eventTypePlugin: EditorPlugin<typeof eventTypeState> = {
 
 function EventTypeEditor(props: EditorPluginProps<typeof eventTypeState>) {
   const { content, title, meta_title, meta_description } = props.state
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   return (
     <React.Fragment>

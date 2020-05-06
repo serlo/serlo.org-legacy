@@ -20,9 +20,9 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 /* globals gaOptout */
+import { initI18n } from '@serlo/i18n'
 import { reprocess, typeset } from '@serlo/mathjax'
 import autosize from 'autosize'
-import i18next from 'i18next'
 import moment from 'moment'
 import $ from 'jquery'
 import 'jquery-sticky'
@@ -37,7 +37,6 @@ import 'iframe-resizer/js/iframeResizer.contentWindow'
 
 config.autoAddCss = false
 
-import i18nextOptions from '../../../../../i18next.config'
 import '../libs/polyfills'
 import Common from '../modules/common'
 import Content from '../modules/content'
@@ -98,11 +97,9 @@ async function setLanguage() {
     language
   })
   moment.locale(language)
-  await i18next.init({
-    debug: process.env.NODE_ENV !== 'production',
-    ...i18nextOptions,
-    lng: language,
-    resources: require('i18next-resource-store-loader!../../../../../i18n')
+  await initI18n({
+    language,
+    resources: require('i18next-resource-store-loader!@serlo/i18n/resources')
   })
 }
 

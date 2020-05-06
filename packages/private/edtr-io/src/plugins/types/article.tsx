@@ -21,6 +21,7 @@
  */
 import * as React from 'react'
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 
 import {
   Controls,
@@ -30,7 +31,6 @@ import {
   entityType
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
-import { useTranslation } from 'react-i18next'
 
 export const articleTypeState = entityType(
   {
@@ -52,7 +52,7 @@ export const articleTypePlugin: EditorPlugin<typeof articleTypeState> = {
 
 function ArticleTypeEditor(props: EditorPluginProps<typeof articleTypeState>) {
   const { title, content, meta_title, meta_description } = props.state
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   return (
     <React.Fragment>

@@ -31,11 +31,10 @@ import {
 } from '@edtr-io/plugin'
 import { getDocument } from '@edtr-io/store'
 import { Icon, faRandom, faTrashAlt } from '@edtr-io/ui'
+import { useI18n, I18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import { SemanticSection } from './helpers/semantic-section'
-import { i18n } from 'i18next'
-import { useTranslation } from 'react-i18next'
 
 const exerciseState = object({
   content: child({ plugin: 'rows' }),
@@ -59,8 +58,8 @@ const ButtonContainer = styled.div({
 
 const interactivePlugins: {
   name: 'scMcExercise' | 'inputExercise'
-  addLabel: (i18n: i18n) => string
-  title: (i18n: i18n) => string
+  addLabel: (i18n: I18n) => string
+  title: (i18n: I18n) => string
 }[] = [
   {
     name: 'scMcExercise',
@@ -116,8 +115,8 @@ const Option = styled.div({
   }
 })
 
-function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
-  const { i18n } = useTranslation()
+function ExerciseEditor({ editable, state }: ExerciseProps) {
+  const i18n = useI18n()
   const store = useScopedStore()
   const { content, interactive } = state
   const [showOptions, setShowOptions] = React.useState(false)

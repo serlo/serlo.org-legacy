@@ -27,8 +27,8 @@ import {
   string
 } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
 
 export const errorState = object({
   plugin: string(),
@@ -42,7 +42,7 @@ const Error = styled.div({
 export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
   typeof errorState
 >> = props => {
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   return (
     <Error>

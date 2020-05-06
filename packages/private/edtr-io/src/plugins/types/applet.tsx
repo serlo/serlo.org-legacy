@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import {
@@ -31,7 +32,6 @@ import {
   entityType
 } from './common'
 import { Settings, RevisionHistory } from './helpers/settings'
-import { useTranslation } from 'react-i18next'
 
 export const appletTypeState = entityType(
   {
@@ -54,7 +54,7 @@ export const appletTypePlugin: EditorPlugin<typeof appletTypeState> = {
 
 function AppletTypeEditor(props: EditorPluginProps<typeof appletTypeState>) {
   const { title, url, content, meta_title, meta_description } = props.state
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   return (
     <div>

@@ -62,18 +62,18 @@ import { tablePlugin } from './plugins/table'
 
 export function createPlugins({
   getCsrfToken,
-  i18next,
+  i18n,
   registry
 }: {
   getCsrfToken: () => string
-  i18next: i18n
+  i18n: i18n
   registry: RowsConfig['plugins']
 }): Record<string, EditorPlugin<any, any>> {
   return {
     anchor: createAnchorPlugin({
       i18n: {
-        label: i18next.t('anchor::Identifier'),
-        placeholder: i18next.t('anchor::ID of the anchor')
+        label: i18n.t('anchor::Identifier'),
+        placeholder: i18n.t('anchor::ID of the anchor')
       }
     }),
     blockquote: createBlockquotePlugin({
@@ -85,21 +85,21 @@ export function createPlugins({
     exercise: exercisePlugin,
     geogebra: createGeogebraPlugin({
       i18n: {
-        label: i18next.t('geogebra::GeoGebra URL or ID')
+        label: i18n.t('geogebra::GeoGebra URL or ID')
       }
     }),
     highlight: createHighlightPlugin({
       i18n: {
         code: {
-          label: i18next.t('highlight::Click here and enter your source code…'),
-          placeholder: i18next.t('highlight::Enter your source code here')
+          label: i18n.t('highlight::Click here and enter your source code…'),
+          placeholder: i18n.t('highlight::Enter your source code here')
         },
         language: {
-          label: i18next.t('highlight::Language'),
-          placeholder: i18next.t('highlight::Enter language')
+          label: i18n.t('highlight::Language'),
+          placeholder: i18n.t('highlight::Enter language')
         },
         showLineNumbers: {
-          label: i18next.t('highlight::Show line numbers')
+          label: i18n.t('highlight::Show line numbers')
         }
       }
     }),
@@ -112,32 +112,32 @@ export function createPlugins({
       },
       i18n: {
         types: {
-          [InputExerciseType.InputStringNormalizedMatchChallenge]: i18next.t(
+          [InputExerciseType.InputStringNormalizedMatchChallenge]: i18n.t(
             'inputExercise::Text'
           ),
-          [InputExerciseType.InputNumberExactMatchChallenge]: i18next.t(
+          [InputExerciseType.InputNumberExactMatchChallenge]: i18n.t(
             'inputExercise::Number'
           ),
-          [InputExerciseType.InputExpressionEqualMatchChallenge]: i18next.t(
+          [InputExerciseType.InputExpressionEqualMatchChallenge]: i18n.t(
             'inputExercise::Mathematical expression'
           )
         },
         type: {
-          label: i18next.t('inputExercise::Choose the exercise type')
+          label: i18n.t('inputExercise::Choose the exercise type')
         },
         unit: {
-          label: i18next.t('inputExercise::Unit')
+          label: i18n.t('inputExercise::Unit')
         },
         answer: {
-          addLabel: i18next.t('inputExercise::Add answer'),
+          addLabel: i18n.t('inputExercise::Add answer'),
           value: {
-            placeholder: i18next.t('inputExercise::Enter the value')
+            placeholder: i18n.t('inputExercise::Enter the value')
           }
         },
-        inputPlaceholder: i18next.t('inputExercise::Your solution'),
+        inputPlaceholder: i18n.t('inputExercise::Your solution'),
         fallbackFeedback: {
-          correct: i18next.t('inputExercise::Correct'),
-          wrong: i18next.t('inputExercise::Wrong')
+          correct: i18n.t('inputExercise::Correct'),
+          wrong: i18n.t('inputExercise::Wrong')
         }
       }
     }),
@@ -147,28 +147,24 @@ export function createPlugins({
       plugins: [
         {
           name: 'image',
-          title: i18next.t('multimedia::Image')
+          title: i18n.t('multimedia::Image')
         },
         {
           name: 'video',
-          title: i18next.t('multimedia::Video')
+          title: i18n.t('multimedia::Video')
         },
         {
           name: 'geogebra',
-          title: i18next.t('multimedia::GeoGebra Applet')
+          title: i18n.t('multimedia::GeoGebra Applet')
         }
       ],
       i18n: {
-        changeMultimediaType: i18next.t(
-          'multimedia::Change the multimedia type'
-        ),
+        changeMultimediaType: i18n.t('multimedia::Change the multimedia type'),
         illustrating: {
-          label: i18next.t(
-            'multimedia::How important is the multimedia content?'
-          ),
+          label: i18n.t('multimedia::How important is the multimedia content?'),
           values: {
-            illustrating: i18next.t('multimedia::It is illustrating'),
-            explaining: i18next.t('multimedia::It is essential')
+            illustrating: i18n.t('multimedia::It is illustrating'),
+            explaining: i18n.t('multimedia::It is essential')
           }
         }
       }
@@ -178,17 +174,17 @@ export function createPlugins({
       plugins: registry,
       i18n: {
         menu: {
-          searchPlaceholder: i18next.t('rows::Search for tools…')
+          searchPlaceholder: i18n.t('rows::Search for tools…')
         },
         settings: {
-          duplicateLabel: i18next.t('rows::Duplicate'),
-          removeLabel: i18next.t('rows::Remove'),
-          closeLabel: i18next.t('rows::Close')
+          duplicateLabel: i18n.t('rows::Duplicate'),
+          removeLabel: i18n.t('rows::Remove'),
+          closeLabel: i18n.t('rows::Close')
         },
         toolbar: {
-          dragLabel: i18next.t('rows::Drag the element within the document')
+          dragLabel: i18n.t('rows::Drag the element within the document')
         },
-        addLabel: i18next.t('rows::Add an element')
+        addLabel: i18n.t('rows::Add an element')
       }
     }),
     scMcExercise: createScMcExercisePlugin({
@@ -196,24 +192,24 @@ export function createPlugins({
       feedback: { plugin: 'text' },
       i18n: {
         types: {
-          singleChoice: i18next.t('scMcExercise::Single-choice'),
-          multipleChoice: i18next.t('scMcExercise::Multiple-choice')
+          singleChoice: i18n.t('scMcExercise::Single-choice'),
+          multipleChoice: i18n.t('scMcExercise::Multiple-choice')
         },
         isSingleChoice: {
-          label: i18next.t('scMcExercise::Choose the exercise type')
+          label: i18n.t('scMcExercise::Choose the exercise type')
         },
         answer: {
-          addLabel: i18next.t('scMcExercise::Add answer'),
+          addLabel: i18n.t('scMcExercise::Add answer'),
           fallbackFeedback: {
-            wrong: i18next.t('scMcExercise::Wrong')
+            wrong: i18n.t('scMcExercise::Wrong')
           }
         },
         globalFeedback: {
-          missingCorrectAnswers: i18next.t(
+          missingCorrectAnswers: i18n.t(
             'scMcExercise::Almost! You missed at least one correct answer'
           ),
-          correct: i18next.t('scMcExercise::Correct'),
-          wrong: i18next.t('scMcExercise::Wrong')
+          correct: i18n.t('scMcExercise::Correct'),
+          wrong: i18n.t('scMcExercise::Wrong')
         }
       }
     }),
@@ -223,7 +219,7 @@ export function createPlugins({
       content: { plugin: 'rows' },
       i18n: {
         title: {
-          placeholder: i18next.t('spoiler::Enter a title')
+          placeholder: i18n.t('spoiler::Enter a title')
         }
       }
     }),
@@ -233,40 +229,40 @@ export function createPlugins({
       blockquote: 'blockquote',
       i18n: {
         blockquote: {
-          toggleTitle: i18next.t('text::Quote')
+          toggleTitle: i18n.t('text::Quote')
         },
         colors: {
-          setColorTitle: i18next.t('text::Set color'),
-          resetColorTitle: i18next.t('text::Reset color'),
-          openMenuTitle: i18next.t('text::Colors'),
-          closeMenuTitle: i18next.t('text::Close sub menu')
+          setColorTitle: i18n.t('text::Set color'),
+          resetColorTitle: i18n.t('text::Reset color'),
+          openMenuTitle: i18n.t('text::Colors'),
+          closeMenuTitle: i18n.t('text::Close sub menu')
         },
         headings: {
           setHeadingTitle(level: number) {
-            return `${i18next.t('text::Heading')} ${level}`
+            return `${i18n.t('text::Heading')} ${level}`
           },
-          openMenuTitle: i18next.t('text::Headings'),
-          closeMenuTitle: i18next.t('text::Close sub menu')
+          openMenuTitle: i18n.t('text::Headings'),
+          closeMenuTitle: i18n.t('text::Close sub menu')
         },
         link: {
-          toggleTitle: i18next.t('text::Link (Strg + K)'),
-          placeholder: i18next.t('text::Enter URL'),
-          openInNewTabTitle: i18next.t('text::Open in new tab')
+          toggleTitle: i18n.t('text::Link (Strg + K)'),
+          placeholder: i18n.t('text::Enter URL'),
+          openInNewTabTitle: i18n.t('text::Open in new tab')
         },
         list: {
-          toggleOrderedList: i18next.t('text::Ordered list'),
-          toggleUnorderedList: i18next.t('text::Unordered list'),
-          openMenuTitle: i18next.t('text::Lists'),
-          closeMenuTitle: i18next.t('text::Close sub menu')
+          toggleOrderedList: i18n.t('text::Ordered list'),
+          toggleUnorderedList: i18n.t('text::Unordered list'),
+          openMenuTitle: i18n.t('text::Lists'),
+          closeMenuTitle: i18n.t('text::Close sub menu')
         },
         math: {
-          toggleTitle: i18next.t('text::Math formula (Strg + M)'),
-          displayBlockLabel: i18next.t('text::Display as block'),
-          placeholder: i18next.t('text::[formula]'),
+          toggleTitle: i18n.t('text::Math formula (Strg + M)'),
+          displayBlockLabel: i18n.t('text::Display as block'),
+          placeholder: i18n.t('text::[formula]'),
           editors: {
-            visual: i18next.t('text::visual'),
-            latex: i18next.t('text::LaTeX'),
-            noVisualEditorAvailableMessage: i18next.t(
+            visual: i18n.t('text::visual'),
+            latex: i18n.t('text::LaTeX'),
+            noVisualEditorAvailableMessage: i18n.t(
               'text::Only LaTeX editor available'
             )
           },
@@ -275,19 +271,19 @@ export function createPlugins({
           ) {
             return (
               <>
-                {i18next.t('text::Shortcuts')}:
+                {i18n.t('text::Shortcuts')}:
                 <br />
                 <br />
                 <p>
-                  {i18next.t('text::Fraction')}: <KeySpan>/</KeySpan>
+                  {i18n.t('text::Fraction')}: <KeySpan>/</KeySpan>
                 </p>
                 <p>
-                  {i18next.t('text::Superscript')}: <KeySpan>↑</KeySpan>{' '}
-                  {i18next.t('text::or')} <KeySpan>^</KeySpan>
+                  {i18n.t('text::Superscript')}: <KeySpan>↑</KeySpan>{' '}
+                  {i18n.t('text::or')} <KeySpan>^</KeySpan>
                 </p>
                 <p>
-                  {i18next.t('text::Subscript')}: <KeySpan>↓</KeySpan>{' '}
-                  {i18next.t('text::or')} <KeySpan>_</KeySpan>
+                  {i18n.t('text::Subscript')}: <KeySpan>↓</KeySpan>{' '}
+                  {i18n.t('text::or')} <KeySpan>_</KeySpan>
                 </p>
                 <p>
                   π, α, β, γ: <KeySpan>pi</KeySpan>, <KeySpan>alpha</KeySpan>,{' '}
@@ -297,16 +293,16 @@ export function createPlugins({
                   ≤, ≥: <KeySpan>{'<='}</KeySpan>, <KeySpan>{'>='}</KeySpan>
                 </p>
                 <p>
-                  {i18next.t('text::Root')}: <KeySpan>\sqrt</KeySpan>,{' '}
+                  {i18n.t('text::Root')}: <KeySpan>\sqrt</KeySpan>,{' '}
                   <KeySpan>\nthroot</KeySpan>
                 </p>
                 <p>
-                  {i18next.t('text::Math symbols')}:{' '}
-                  <KeySpan>{'\\<NAME>'}</KeySpan>, {i18next.t('text::e.g.')}{' '}
+                  {i18n.t('text::Math symbols')}:{' '}
+                  <KeySpan>{'\\<NAME>'}</KeySpan>, {i18n.t('text::e.g.')}{' '}
                   <KeySpan>\neq</KeySpan> (≠), <KeySpan>\pm</KeySpan> (±), ...
                 </p>
                 <p>
-                  {i18next.t('text::Functions')}: <KeySpan>sin</KeySpan>,{' '}
+                  {i18n.t('text::Functions')}: <KeySpan>sin</KeySpan>,{' '}
                   <KeySpan>cos</KeySpan>, <KeySpan>ln</KeySpan>, ...
                 </p>
               </>
@@ -314,21 +310,21 @@ export function createPlugins({
           }
         },
         richText: {
-          toggleStrongTitle: i18next.t('text::Bold (Strg + B)'),
-          toggleEmphasizeTitle: i18next.t('text::Italic (Strg + I)')
+          toggleStrongTitle: i18n.t('text::Bold (Strg + B)'),
+          toggleEmphasizeTitle: i18n.t('text::Italic (Strg + I)')
         },
         suggestions: {
-          noResultsMessage: i18next.t('text::No items found')
+          noResultsMessage: i18n.t('text::No items found')
         }
       }
     }),
     video: createVideoPlugin({
       i18n: {
         src: {
-          label: i18next.t('video::Video URL')
+          label: i18n.t('video::Video URL')
         },
         alt: {
-          label: i18next.t('video::Description')
+          label: i18n.t('video::Description')
         }
       } as VideoConfig['i18n'] // TODO: upstream bug in typing
     }),

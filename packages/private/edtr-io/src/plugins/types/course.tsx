@@ -22,6 +22,7 @@
 import * as React from 'react'
 import { AddButton } from '@edtr-io/editor-ui/internal'
 import { EditorPlugin, EditorPluginProps, list, string } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 
 import {
   editorContent,
@@ -33,8 +34,6 @@ import {
   entityType
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
-import { useTranslation } from 'react-i18next'
-import BSCheckbox from 'react-bootstrap/lib/Checkbox'
 
 export const courseTypeState = entityType(
   {
@@ -57,7 +56,7 @@ export const courseTypePlugin: EditorPlugin<typeof courseTypeState> = {
 
 function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
   const { title, meta_description, 'course-page': children } = props.state
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   return (
     <article>

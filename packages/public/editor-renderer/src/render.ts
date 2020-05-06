@@ -22,6 +22,7 @@
 import { render as coreRender } from '@edtr-io/renderer-ssr'
 import { createPlugins } from '@serlo/edtr-io'
 import { stringifyState } from '@serlo/editor-helpers'
+import { i18n, initI18nWithBackend } from '@serlo/i18n'
 import {
   convert,
   isEdtr,
@@ -29,11 +30,9 @@ import {
   Legacy,
   Splish
 } from '@serlo/legacy-editor-to-editor'
-import i18next from 'i18next'
-import { initReactI18next } from 'react-i18next'
-
 // @ts-ignore
-import i18nextOptions from '../../../../i18next.config'
+import backend from 'i18next-fs-backend'
+import * as path from 'path'
 
 export async function render({
   state: input,
@@ -54,15 +53,27 @@ export async function render({
 
   const state = isEdtr(data) ? data : convert(data)
   try {
-    await i18next.use(initReactI18next).init({
-      ...i18nextOptions,
-      lng: language,
-      resources: require('i18next-resource-store-loader!../../../../i18n')
+    await initI18nWithBackend({
+      backend: backend,
+      options: {
+        loadPath: path.join(
+          __dirname,
+          '..',
+          '..',
+          '..',
+          'private',
+          'i18n',
+          'resources',
+          '{{lng}}',
+          '{{ns}}.json'
+        )
+      },
+      language
     })
     const plugins = createPlugins({
       getCsrfToken: () => '',
       registry: [],
-      i18next: i18next
+      i18n
     })
     return wrapOutput(coreRender({ plugins, state }))
   } catch (e) {

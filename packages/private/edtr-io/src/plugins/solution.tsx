@@ -31,12 +31,12 @@ import * as React from 'react'
 import { useScopedSelector } from '@edtr-io/core'
 import { isEmpty } from '@edtr-io/store'
 import { Icon, faExternalLinkAlt, styled } from '@edtr-io/ui'
+import { useI18n } from '@serlo/i18n'
 
 import { SemanticSection } from './helpers/semantic-section'
 import { InlineInput } from './helpers/inline-input'
 import { InlineSettings } from './helpers/inline-settings'
 import { InlineSettingsInput } from './helpers/inline-settings-input'
-import { useTranslation } from 'react-i18next'
 
 const solutionState = object({
   prerequisite: optional(
@@ -64,7 +64,7 @@ const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 
 function SolutionEditor({ editable, state, focused }: SolutionProps) {
   const { prerequisite, strategy } = state
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   const hasStrategy = !useScopedSelector(isEmpty(strategy.id))
 

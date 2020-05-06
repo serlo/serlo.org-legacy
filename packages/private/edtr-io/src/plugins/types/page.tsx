@@ -25,10 +25,10 @@ import {
   object,
   string
 } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import { Controls, editorContent, HeaderInput, license, uuid } from './common'
-import { useTranslation } from 'react-i18next'
 
 export const pageTypeState = object({
   ...uuid,
@@ -45,7 +45,7 @@ export const pageTypePlugin: EditorPlugin<typeof pageTypeState> = {
 
 function PageTypeEditor(props: EditorPluginProps<typeof pageTypeState>) {
   const { title, content } = props.state
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   return (
     <article>

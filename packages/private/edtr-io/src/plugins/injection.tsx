@@ -25,8 +25,8 @@ import { EditorInlineSettings, EditorInput, styled } from '@edtr-io/editor-ui'
 import { PreviewOverlay } from '@edtr-io/editor-ui/internal'
 import { EditorPluginProps, string, EditorPlugin } from '@edtr-io/plugin'
 import { Icon, faNewspaper } from '@edtr-io/ui'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
 
 /* global */
 declare const Common: {
@@ -43,7 +43,7 @@ export const injectionPlugin: EditorPlugin<typeof injectionState> = {
 export function InjectionRenderer(props: { src: string }) {
   const [loaded, setLoaded] = React.useState('')
   const ref = React.useRef<HTMLDivElement>(null)
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   React.useEffect(() => {
     const src = createURL(props.src)
@@ -111,7 +111,7 @@ const PlaceholderWrapper = styled.div({
 function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
   const [cache, setCache] = React.useState(props.state.value)
   const [preview, setPreview] = React.useState(false)
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {

@@ -24,10 +24,10 @@ import { EditorPluginProps, StateTypeReturnType } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
 import { DocumentState, replace, serializeDocument } from '@edtr-io/store'
 import { RowsPlugin } from '@serlo/legacy-editor-to-editor'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import { layoutState } from '.'
-import { useTranslation } from 'react-i18next'
 
 const LayoutContainer = styled.div({
   display: 'flex',
@@ -70,7 +70,7 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
   remove?: () => void
 }> = props => {
   const store = useScopedStore()
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   return (
     <React.Fragment>

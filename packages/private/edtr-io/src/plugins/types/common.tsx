@@ -47,6 +47,7 @@ import {
   undo
 } from '@edtr-io/store'
 import { Icon, faTrashAlt, styled } from '@edtr-io/ui'
+import { useI18n } from '@serlo/i18n'
 import * as R from 'ramda'
 import * as React from 'react'
 import BSAlert from 'react-bootstrap/lib/Alert'
@@ -60,7 +61,6 @@ import { createPortal } from 'react-dom'
 
 import { CsrfContext } from '../../csrf-context'
 import { SaveContext, storeState } from '../../editor'
-import { useTranslation } from 'react-i18next'
 
 export const licenseState = object({
   id: number(),
@@ -102,7 +102,7 @@ export const HeaderInput = styled.input({
 })
 
 export function Controls(props: OwnProps) {
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
   const store = useScopedStore()
   const dispatch = useScopedDispatch()
   const pendingChanges = useScopedSelector(getPendingChanges())
@@ -149,7 +149,7 @@ export function Controls(props: OwnProps) {
             }}
             disabled={!undoable}
           >
-            <span className="fa fa-undo"></span>
+            <span className="fa fa-undo" />
           </button>
           <button
             className="btn btn-default"
@@ -158,7 +158,7 @@ export function Controls(props: OwnProps) {
             }}
             disabled={!redoable}
           >
-            <span className="fa fa-repeat"></span>
+            <span className="fa fa-repeat" />
           </button>
           {renderSaveButton()}
         </div>,

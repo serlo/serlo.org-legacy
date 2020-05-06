@@ -21,6 +21,7 @@
  */
 import { AddButton } from '@edtr-io/editor-ui/internal'
 import { EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import {
@@ -33,7 +34,6 @@ import {
 } from './common'
 import { RevisionHistory } from './helpers/settings'
 import { SemanticSection } from '../helpers/semantic-section'
-import { useTranslation } from 'react-i18next'
 
 export const textExerciseGroupTypeState = entityType(
   {
@@ -55,7 +55,7 @@ function TextExerciseGroupTypeEditor(
   props: EditorPluginProps<typeof textExerciseGroupTypeState>
 ) {
   const { content, 'grouped-text-exercise': children } = props.state
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   return (
     <article className="exercisegroup">

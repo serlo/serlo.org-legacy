@@ -19,9 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { useI18n } from '@serlo/i18n'
 import { Renderer as Core, RendererProps } from '@edtr-io/renderer'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
 
 import { createPlugins } from './plugins'
 
@@ -30,11 +30,11 @@ export function Renderer(
     state: RendererProps['state']
   }>
 ) {
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
   const plugins = createPlugins({
     getCsrfToken: () => '',
     registry: [],
-    i18next: i18n
+    i18n: i18n
   })
   return <Core plugins={plugins} state={props.state || { plugin: 'text' }} />
 }

@@ -19,7 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { AddButton } from '@edtr-io/editor-ui/internal'
 import { EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import {
@@ -30,9 +32,8 @@ import {
   OptionalChild,
   entityType
 } from './common'
-import { AddButton } from '@edtr-io/editor-ui/internal'
+
 import { RevisionHistory } from './helpers/settings'
-import { useTranslation } from 'react-i18next'
 
 export const textExerciseTypeState = entityType(
   {
@@ -62,7 +63,7 @@ export function TextExerciseTypeEditor(
   >
 ) {
   const { content, 'text-solution': textSolution } = props.state
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   return (
     <article className="text-exercise">

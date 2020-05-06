@@ -26,10 +26,10 @@ import {
   string,
   number
 } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import { Controls, editorContent, HeaderInput, uuid } from './common'
-import { useTranslation } from 'react-i18next'
 
 export const taxonomyTypeState = object({
   ...uuid,
@@ -52,7 +52,7 @@ function TaxonomyTypeEditor(
   props: EditorPluginProps<typeof taxonomyTypeState>
 ) {
   const { term, description } = props.state
-  const { i18n } = useTranslation()
+  const i18n = useI18n()
 
   return (
     <article>
