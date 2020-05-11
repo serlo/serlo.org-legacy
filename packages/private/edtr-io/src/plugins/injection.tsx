@@ -21,14 +21,11 @@
  */
 import axios from 'axios'
 import { OverlayInput } from '@edtr-io/core'
-import {
-  PrimarySettings,
-  EditorInput,
-  PreviewOverlay,
-  styled
-} from '@edtr-io/editor-ui'
+import { EditorInlineSettings, EditorInput, styled } from '@edtr-io/editor-ui'
+import { PreviewOverlay } from '@edtr-io/editor-ui/internal'
 import { EditorPluginProps, string, EditorPlugin } from '@edtr-io/plugin'
 import { Icon, faNewspaper } from '@edtr-io/ui'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 /* global */
@@ -46,6 +43,7 @@ export const injectionPlugin: EditorPlugin<typeof injectionState> = {
 export function InjectionRenderer(props: { src: string }) {
   const [loaded, setLoaded] = React.useState('')
   const ref = React.useRef<HTMLDivElement>(null)
+  const i18n = useI18n()
 
   React.useEffect(() => {
     const src = createURL(props.src)
@@ -64,9 +62,11 @@ export function InjectionRenderer(props: { src: string }) {
           }
         })
       })
-      .catch(e => {
+      .catch(() => {
         setLoaded(
-          '<div class="alert alert-info">Illegal injection found </div>'
+          `<div class="alert alert-info">${i18n.t(
+            'injection::Illegal injection found'
+          )}</div>`
         )
       })
   }, [props.src])
@@ -86,7 +86,7 @@ export function InjectionRenderer(props: { src: string }) {
   const src = createURL(props.src)
   return (
     <div>
-      <a href={src}>Serlo Inhalt {src}</a>
+      <a href={src}>{i18n.t('injection::Serlo entity {{src}}', { src })}</a>
     </div>
   )
 }
@@ -111,6 +111,7 @@ const PlaceholderWrapper = styled.div({
 function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
   const [cache, setCache] = React.useState(props.state.value)
   const [preview, setPreview] = React.useState(false)
+  const i18n = useI18n()
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -145,28 +146,24 @@ function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
         </PlaceholderWrapper>
       )}
       {props.focused && !preview ? (
-        <PrimarySettings>
-          {/*
-           // @ts-ignore */}
+        <EditorInlineSettings>
           <EditorInput
-            label="Serlo ID:"
+            label={i18n.t('injection::Serlo ID:')}
             placeholder="123456"
             value={props.state.value}
             onChange={e => {
               props.state.set(e.target.value)
             }}
-            textfieldWidth="30%"
-            editorInputWidth="100%"
-            ref={props.defaultFocusRef}
+            width="30%"
+            inputWidth="100%"
+            ref={props.autofocusRef}
           />
-        </PrimarySettings>
+        </EditorInlineSettings>
       ) : null}
       {props.renderIntoSettings(
         <React.Fragment>
-          {/*
-           // @ts-ignore */}
           <OverlayInput
-            label="Serlo ID:"
+            label={i18n.t('injection::Serlo ID:')}
             placeholder="123456"
             value={props.state.value}
             onChange={e => {

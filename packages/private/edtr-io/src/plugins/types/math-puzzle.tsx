@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import { entity, Controls, editorContent, entityType } from './common'
@@ -44,6 +45,7 @@ function MathPuzzleTypeEditor(
   props: EditorPluginProps<typeof mathPuzzleTypeState>
 ) {
   const { source, content } = props.state
+  const i18n = useI18n()
 
   return (
     <React.Fragment>
@@ -56,7 +58,10 @@ function MathPuzzleTypeEditor(
       )}
       {props.renderIntoSettings(
         <Settings>
-          <Settings.Textarea label="Quellcode" state={source} />
+          <Settings.Textarea
+            label={i18n.t('event::Source code')}
+            state={source}
+          />
         </Settings>
       )}
       <div className="math-puzzle" data-source={source.value}>

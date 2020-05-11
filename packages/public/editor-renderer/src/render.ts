@@ -22,6 +22,7 @@
 import { render as coreRender } from '@edtr-io/renderer-ssr'
 import { createPlugins } from '@serlo/edtr-io'
 import { stringifyState } from '@serlo/editor-helpers'
+import { i18n, initI18nWithBackend } from '@serlo/i18n'
 import {
   convert,
   isEdtr,
@@ -29,10 +30,17 @@ import {
   Legacy,
   Splish
 } from '@serlo/legacy-editor-to-editor'
+// @ts-ignore
+import backend from 'i18next-fs-backend'
+import * as path from 'path'
 
-const plugins = createPlugins(() => '', [])
-
-export async function render(input: string): Promise<string> {
+export async function render({
+  state: input,
+  language
+}: {
+  state: string
+  language: string
+}): Promise<string> {
   if (input === undefined) throw new Error('No input given')
   if (input === '') return ''
 
@@ -45,6 +53,28 @@ export async function render(input: string): Promise<string> {
 
   const state = isEdtr(data) ? data : convert(data)
   try {
+    await initI18nWithBackend({
+      backend: backend,
+      options: {
+        loadPath: path.join(
+          __dirname,
+          '..',
+          '..',
+          '..',
+          'private',
+          'i18n',
+          'resources',
+          '{{lng}}',
+          '{{ns}}.json'
+        )
+      },
+      language
+    })
+    const plugins = createPlugins({
+      getCsrfToken: () => '',
+      registry: [],
+      i18n
+    })
     return wrapOutput(coreRender({ plugins, state }))
   } catch (e) {
     console.log('render failed', e, stringifyState(state))

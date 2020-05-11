@@ -37,7 +37,7 @@ var Field = function(field, type, label) {
   this.$field = $(field)
   this.$label = $('<label class="preview-label">')
   this.type = type
-  this.label = label || ''
+  this.removeLabel = label || ''
 
   this.hasError = !!this.$field.parents('.has-error').length
 

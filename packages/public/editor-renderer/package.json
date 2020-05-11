@@ -1,6 +1,6 @@
 {
   "name": "@serlo/editor-renderer",
-  "version": "8.1.0",
+  "version": "9.0.0",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsdx build --target node --format cjs --tsconfig tsconfig.prod.json",
@@ -9,13 +9,15 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@edtr-io/renderer-ssr": "^0.51.0",
+    "@edtr-io/renderer-ssr": "^1.0.0-beta.3",
     "@serlo/edtr-io": "^0.0.0",
     "@serlo/editor-helpers": "^0.0.0",
+    "@serlo/i18n": "^0.0.0",
     "@serlo/legacy-editor-to-editor": "^0.0.0",
     "babel-runtime": "^6.0.0",
     "body-parser": "^1.0.0",
     "express": "^4.0.0",
+    "i18next-fs-backend": "^1.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "styled-components": "^5.0.0",

@@ -20,18 +20,18 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { createVideoPlugin } from '@edtr-io/plugin-video'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import {
   entity,
   Controls,
   editorContent,
-  serializedChild,
   HeaderInput,
   entityType
 } from './common'
-import { RevisionHistory, Settings } from './helpers/settings'
-import { createVideoPlugin } from '@edtr-io/plugin-video'
+import { RevisionHistory } from './helpers/settings'
 
 export const videoTypeState = entityType(
   {
@@ -53,7 +53,8 @@ export const videoTypePlugin: EditorPlugin<typeof videoTypeState> = {
 }
 
 function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
-  const { title, content, description } = props.state
+  const { title, description } = props.state
+  const i18n = useI18n()
 
   return (
     <section>
@@ -68,7 +69,7 @@ function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
         <h1>
           {props.editable ? (
             <HeaderInput
-              placeholder="Titel"
+              placeholder={i18n.t('video::Title')}
               value={title.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 title.set(e.target.value)
@@ -86,6 +87,16 @@ function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
             state={{
               src: props.state.content,
               alt: props.state.title
+            }}
+            config={{
+              i18n: {
+                src: {
+                  label: i18n.t('video::URL')
+                },
+                alt: {
+                  label: i18n.t('video::Title for search engines')
+                }
+              }
             }}
           />
         </section>

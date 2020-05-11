@@ -5,13 +5,15 @@
     "start": "start-storybook --port 9001 --config-dir .storybook --quiet"
   },
   "dependencies": {
-    "@serlo/edtr-io": "^0.0.0"
+    "@serlo/edtr-io": "^0.0.0",
+    "@serlo/i18n": "^0.0.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.0.0",
     "@storybook/addon-knobs": "^5.0.0",
     "@storybook/react": "^5.0.0",
-    "babel-loader": "^8.0.0"
+    "babel-loader": "^8.0.0",
+    "i18next-resource-store-loader": "^0.1.0"
   },
   "private": true
 }

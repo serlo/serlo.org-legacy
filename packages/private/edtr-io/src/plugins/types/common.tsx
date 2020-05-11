@@ -41,14 +41,13 @@ import {
 } from '@edtr-io/plugin'
 import {
   getDocument,
-  getRedoStack,
-  getUndoStack,
-  hasPendingChanges,
+  getPendingChanges,
   redo,
   serializeRootDocument,
   undo
 } from '@edtr-io/store'
 import { Icon, faTrashAlt, styled } from '@edtr-io/ui'
+import { useI18n } from '@serlo/i18n'
 import * as R from 'ramda'
 import * as React from 'react'
 import BSAlert from 'react-bootstrap/lib/Alert'
@@ -103,11 +102,13 @@ export const HeaderInput = styled.input({
 })
 
 export function Controls(props: OwnProps) {
+  const i18n = useI18n()
   const store = useScopedStore()
   const dispatch = useScopedDispatch()
-  const undoable = useScopedSelector(getUndoStack).length > 0
-  const redoable = useScopedSelector(getRedoStack).length > 0
-  const pendingChanges = useScopedSelector(hasPendingChanges)
+  const pendingChanges = useScopedSelector(getPendingChanges())
+  const undoable = pendingChanges > 0
+  const redoable = pendingChanges < 0
+  const hasPendingChanges = pendingChanges !== 0
   const getCsrfToken = React.useContext(CsrfContext)
 
   const [visible, setVisibility] = React.useState(false)
@@ -134,8 +135,8 @@ export function Controls(props: OwnProps) {
   }, [visible])
 
   React.useEffect(() => {
-    window.onbeforeunload = pendingChanges && !pending ? () => '' : null
-  }, [pendingChanges, pending])
+    window.onbeforeunload = hasPendingChanges && !pending ? () => '' : null
+  }, [hasPendingChanges, pending])
 
   return (
     <React.Fragment>
@@ -148,7 +149,7 @@ export function Controls(props: OwnProps) {
             }}
             disabled={!undoable}
           >
-            <span className="fa fa-undo"></span>
+            <span className="fa fa-undo" />
           </button>
           <button
             className="btn btn-default"
@@ -157,7 +158,7 @@ export function Controls(props: OwnProps) {
             }}
             disabled={!redoable}
           >
-            <span className="fa fa-repeat"></span>
+            <span className="fa fa-repeat" />
           </button>
           {renderSaveButton()}
         </div>,
@@ -170,7 +171,7 @@ export function Controls(props: OwnProps) {
         }}
       >
         <BSModal.Header closeButton>
-          <BSModal.Title>Speichern</BSModal.Title>
+          <BSModal.Title>{i18n.t('edtr-io::Save')}</BSModal.Title>
         </BSModal.Header>
         <BSModal.Body>
           {renderAlert()}
@@ -185,7 +186,7 @@ export function Controls(props: OwnProps) {
               setVisibility(false)
             }}
           >
-            Abbrechen
+            {i18n.t('edtr-io::Cancel')}
           </BSButton>
           <BSButton
             onClick={() => {
@@ -195,7 +196,7 @@ export function Controls(props: OwnProps) {
             disabled={!maySave() || pending}
             title={getSaveHint()}
           >
-            {pending ? 'Speichert ...' : 'Speichern'}
+            {pending ? i18n.t('edtr-io::Saving…') : i18n.t('edtr-io::Save')}
           </BSButton>
         </BSModal.Footer>
       </BSModal>
@@ -209,14 +210,14 @@ export function Controls(props: OwnProps) {
           onClick() {
             setVisibility(true)
           },
-          disabled: !pendingChanges,
+          disabled: !hasPendingChanges,
           children: <span className="fa fa-save" />
         }
       : {
           onClick() {
             handleSave()
           },
-          disabled: !pendingChanges || !maySave() || pending,
+          disabled: !hasPendingChanges || !maySave() || pending,
           children: pending ? (
             <span className="fa fa-spinner fa-spin" />
           ) : (
@@ -240,11 +241,13 @@ export function Controls(props: OwnProps) {
   function getSaveHint() {
     if (maySave()) return undefined
     if (licenseAccepted() && !changesFilledIn()) {
-      return 'Du musst zuerst die Änderungen ausfüllen.'
+      return i18n.t('edtr-io::You need to fill out the changes you made')
     } else if (!licenseAccepted() && changesFilledIn()) {
-      return 'Du musst zuerst die Lizenzbedingungen akzeptieren.'
+      return i18n.t('edtr-io::You need to accept the license terms')
     } else {
-      return 'Du musst zuerst die Lizenzbedingungen akzeptieren und die Änderungen ausfüllen'
+      return i18n.t(
+        'edtr-io::You need to fill out the changes you made and accept the license terms'
+      )
     }
   }
 
@@ -295,11 +298,11 @@ export function Controls(props: OwnProps) {
             setHasError(false)
           }}
         >
-          Speichern ist leider fehlgeschlagen. Bitte schnappe dir einen
-          Entwickler. <br />
+          {i18n.t('edtr-io::An error occurred during saving.')}
           <br />
-          Du kannst die Bearbeitung lokal zwischenspeichern, dann die Seite neu
-          laden und es erneut versuchen.
+          {i18n.t(
+            'edtr-io::You can store the revision locally, refresh the page and try to save again.'
+          )}
         </BSAlert>
         <BSModal.Footer>
           <BSButton
@@ -311,8 +314,8 @@ export function Controls(props: OwnProps) {
             }}
           >
             {savedToLocalstorage
-              ? 'Bearbeitung gespeichert!'
-              : 'Bearbeitung zwischenspeichern'}
+              ? i18n.t('edtr-io::Revision saved')
+              : i18n.t('edtr-io::Save revision')}
           </BSButton>
         </BSModal.Footer>
       </React.Fragment>
@@ -324,7 +327,7 @@ export function Controls(props: OwnProps) {
     if (!changes) return null
     return (
       <BSFormGroup controlId="changes">
-        <BSControlLabel>Änderungen</BSControlLabel>
+        <BSControlLabel>{i18n.t('edtr-io::Changes')}</BSControlLabel>
         <BSFormControl
           componentClass="textarea"
           value={changes.value}
@@ -347,7 +350,7 @@ export function Controls(props: OwnProps) {
           setAutoCheckout(checked)
         }}
       >
-        Bearbeitung ohne Review freischalten (nicht empfohlen)
+        {i18n.t('edtr-io::Skip peer review (not recommended)')}
       </BSCheckbox>
     )
   }
@@ -380,7 +383,7 @@ export function Controls(props: OwnProps) {
             setNotificationSubscription(checked)
           }}
         >
-          Benachrichtigungen auf Serlo erhalten
+          {i18n.t('edtr-io::Enable serlo.org notifications')}
         </BSCheckbox>
         <BSCheckbox
           checked={emailSubscription}
@@ -389,7 +392,7 @@ export function Controls(props: OwnProps) {
             setEmailSubscription(checked)
           }}
         >
-          Benachrichtigungen per Email erhalten
+          {i18n.t('edtr-io::Enable notifications via e-mail')}
         </BSCheckbox>
       </React.Fragment>
     )
@@ -563,6 +566,7 @@ export function optionalSerializedChild(
 }
 
 export function OptionalChild(props: {
+  removeLabel: string
   state: StateTypeReturnType<ReturnType<typeof serializedChild>>
   onRemove: () => void
 }) {
@@ -578,7 +582,7 @@ export function OptionalChild(props: {
         <React.Fragment>
           <PluginToolbarButton
             icon={<Icon icon={faTrashAlt} />}
-            label="Teilaufgabe entfernen"
+            label={props.removeLabel}
             onClick={() => {
               props.onRemove()
             }}

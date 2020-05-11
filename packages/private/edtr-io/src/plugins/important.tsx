@@ -23,7 +23,7 @@ import { child, EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
-export const importantState = child()
+export const importantState = child({ plugin: 'text' })
 export type ImportantState = typeof importantState
 export type ImportantProps = EditorPluginProps<ImportantState>
 

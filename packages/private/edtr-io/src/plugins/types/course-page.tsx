@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import {
@@ -59,6 +60,7 @@ function CoursePageTypeEditor(
   >
 ) {
   const { title, icon, content } = props.state
+  const i18n = useI18n()
 
   React.useEffect(() => {
     if (!['explanation', 'play', 'question'].includes(icon.value)) {
@@ -81,15 +83,15 @@ function CoursePageTypeEditor(
             state={icon}
             options={[
               {
-                label: 'Erklärung',
+                label: i18n.t('coursePage::Explanation'),
                 value: 'explanation'
               },
               {
-                label: 'Video',
+                label: i18n.t('coursePage::Video'),
                 value: 'play'
               },
               {
-                label: 'Aufgabe',
+                label: i18n.t('coursePage::Question'),
                 value: 'question'
               }
             ]}
@@ -99,7 +101,7 @@ function CoursePageTypeEditor(
       <h1>
         {props.editable ? (
           <HeaderInput
-            placeholder="Titel"
+            placeholder={i18n.t('coursePage::Title')}
             value={title.value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               title.set(e.target.value)

@@ -19,7 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { Editor as Core } from '@edtr-io/core'
+import { Editor as Core } from '@edtr-io/core/beta'
+import { createDefaultDocumentEditor } from '@edtr-io/default-document-editor/beta'
 import { RowsConfig } from '@edtr-io/plugin-rows'
 import {
   createIcon,
@@ -34,6 +35,7 @@ import {
   faPhotoVideo,
   faQuoteRight
 } from '@edtr-io/ui'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import { CsrfContext } from './csrf-context'
@@ -62,8 +64,24 @@ export const SaveContext = React.createContext<{
 })
 
 export function Editor(props: EditorProps) {
+  const i18n = useI18n()
+
   let result = deserialize(props)
-  const plugins = createPlugins(props.getCsrfToken, getRegistry())
+  const plugins = createPlugins({
+    getCsrfToken: props.getCsrfToken,
+    registry: getRegistry(),
+    i18n
+  })
+
+  // FIXME: doesnt seem to be used yet
+  const DocumentEditor = createDefaultDocumentEditor({
+    i18n: {
+      modal: {
+        title: i18n.t('edtr-io::Extended Settings'),
+        closeLabel: i18n.t('edtr-io::Close')
+      }
+    }
+  })
 
   const legacyUrl = window.location.pathname
     .replace('add-revision', 'add-revision-old')
@@ -73,17 +91,21 @@ export function Editor(props: EditorProps) {
       case 'type-unsupported':
         return (
           <div className="alert alert-danger" role="alert">
-            Dieser Inhaltstyp wird vom neuen Editor noch nicht unterstützt.
-            Bitte erstelle eine Bearbeitung mit{' '}
-            <a href={legacyUrl}>dem alten Editor</a>.
+            {i18n.t(
+              "edtr-io::This content type isn't supported by the new editor, yet."
+            )}{' '}
+            <a href={legacyUrl}>
+              {i18n.t('edtr-io::Edit the content in the old editor.')}
+            </a>
           </div>
         )
       case 'failure':
         return (
           <div className="alert alert-danger" role="alert">
-            Leider trat ein Fehler bei der Konvertierung auf. Die Entwickler
-            wurden informiert. Bitte benutze in der Zwischenzeit noch{' '}
-            <a href={legacyUrl}>den alten Editor</a> für diesen Inhalt.
+            {i18n.t('edtr-io::An error occurred during the conversion.')}{' '}
+            <a href={legacyUrl}>
+              {i18n.t('edtr-io::Edit the content in the old editor.')}
+            </a>
           </div>
         )
     }
@@ -92,7 +114,9 @@ export function Editor(props: EditorProps) {
   if (
     stored &&
     confirm(
-      'Es wurde eine alte Bearbeitung von dir gefunden. Möchtest du diese wiederherstellen?'
+      i18n.t(
+        'edtr-io::We found an old revision created by you. Do you want to restore it?'
+      )
     )
   ) {
     result = {
@@ -101,6 +125,7 @@ export function Editor(props: EditorProps) {
       converted: false
     }
   }
+
   return (
     <CsrfContext.Provider value={props.getCsrfToken}>
       <SaveContext.Provider
@@ -108,15 +133,18 @@ export function Editor(props: EditorProps) {
       >
         {result.converted ? (
           <div className="alert alert-warning" role="alert">
-            Dieser Inhalt wurde noch nicht im neuen Editor bearbeitet. Falls du
-            auf ein Problem stößt, kannst du{' '}
-            <a href={legacyUrl}>zum alten Editor</a> zurück wechseln.
+            {i18n.t(
+              "edtr-io::This entity hasn't been converted to the new editor, yet."
+            )}{' '}
+            <a href={legacyUrl}>
+              {i18n.t('edtr-io::Edit the content in the old editor.')}
+            </a>
           </div>
         ) : null}
         <Core
+          DocumentEditor={DocumentEditor}
           onError={props.onError}
           plugins={plugins}
-          defaultPlugin="text"
           initialState={result.initialState}
           editable
         >
@@ -135,85 +163,90 @@ export function Editor(props: EditorProps) {
     return [
       {
         name: 'text',
-        title: 'Text',
-        description: 'Schreibe Text und Matheformeln und formatiere sie.',
+        title: i18n.t('edtr-io::Text'),
+        description: i18n.t(
+          'edtr-io::Compose content using rich text and math formulas.'
+        ),
         icon: createIcon(faParagraph)
       },
       {
         name: 'blockquote',
-        title: 'Zitat',
-        description: 'Erzeuge eingerückten Text für Zitate.',
+        title: i18n.t('edtr-io::Quotation'),
+        description: i18n.t('edtr-io::Create indented text for quotations.'),
         icon: createIcon(faQuoteRight)
       },
       {
         name: 'geogebra',
-        title: 'GeoGebra Applet',
-        description:
-          'Binde Applets von GeoGebra Materials via Link oder ID ein.',
+        title: i18n.t('edtr-io::GeoGebra Applet'),
+        description: i18n.t(
+          'edtr-io::Embed GeoGebra Materials applets via URL or ID.'
+        ),
         icon: createIcon(faCubes)
       },
       {
         name: 'highlight',
-        title: 'Code',
-        description:
-          'Schreibe Code und hebe ihn je nach Programmiersprache hervor.',
+        title: i18n.t('edtr-io::Source Code'),
+        description: i18n.t('edtr-io::Highlight the syntax of source code.'),
         icon: createIcon(faCode)
       },
       {
         name: 'anchor',
-        title: 'Anker',
-        description: 'Füge eine Sprungmarke innerhalb deines Inhalts hinzu.',
+        title: i18n.t('edtr-io::Anchor'),
+        description: i18n.t('edtr-io::Insert an anchor.'),
         icon: createIcon(faAnchor)
       },
       {
         name: 'image',
-        title: 'Bild',
-        description:
-          'Lade Bilder hoch oder verwende Bilder, die bereits online sind.',
+        title: i18n.t('edtr-io::Image'),
+        description: i18n.t('edtr-io::Upload images.'),
         icon: createIcon(faImages)
       },
       {
         name: 'important',
-        title: 'Merksatz'
+        title: i18n.t('edtr-io::Important Statement'),
+        description: i18n.t('edtr-io::A box to highlight important statements.')
       },
       {
         name: 'injection',
-        title: 'Serlo Inhalt',
-        description: 'Binde einen Inhalt von serlo.org via ID ein.',
+        title: i18n.t('edtr-io::serlo.org Content'),
+        description: i18n.t('edtr-io::Embed serlo.org content via their ID.'),
         icon: createIcon(faNewspaper)
       },
       {
         name: 'multimedia',
-        title: 'Erklärung mit Multimedia-Inhalt',
-        description:
-          'Erstelle einen veranschaulichenden oder erklärenden Multimedia-Inhalt mit zugehöriger Erklärung',
+        title: i18n.t('edtr-io::Multimedia content associated with text'),
+        description: i18n.t(
+          'edtr-io::Create an illustrating or explaining multimedia content associated with text.'
+        ),
         icon: createIcon(faPhotoVideo)
       },
       {
         name: 'spoiler',
-        title: 'Spoiler',
-        description:
-          'In diese ausklappbare Box kannst du zum Beispiel Exkurse hinzufügen.',
+        title: i18n.t('edtr-io::Spoiler'),
+        description: i18n.t('edtr-io::A collapsible box.'),
         icon: createIcon(faCaretSquareDown)
       },
       {
         name: 'table',
-        title: 'Tabelle',
-        description: 'Erstelle eine Tabelle mit Markdown.'
+        title: i18n.t('edtr-io::Table'),
+        description: i18n.t('edtr-io::Create tables using Markdown.')
       },
       {
         name: 'video',
-        title: 'Video',
-        description:
-          'Binde Videos von YouTube, Vimeo, Wikimedia Commons und BR ein.',
+        title: i18n.t('edtr-io::Video'),
+        description: i18n.t(
+          'edtr-io::Embed YouTube, Vimeo, Wikimedia Commons or BR videos.'
+        ),
         icon: createIcon(faFilm)
       },
       ...(isExercise
         ? [
             {
               name: 'separator',
-              title: 'Lösungs-Trenner',
-              description: 'Unterteilt die Lösung in Lösungsschritte.'
+              title: i18n.t('edtr-io::Solution Separator'),
+              description: i18n.t(
+                'edtr-io::Divide the solution into individual steps.'
+              )
             }
           ]
         : [])

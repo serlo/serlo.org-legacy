@@ -23,7 +23,9 @@ import { EditorPlugin, child, list, number, object } from '@edtr-io/plugin'
 
 import { LayoutRenderer } from './editor'
 
-export const layoutState = list(object({ child: child(), width: number() }))
+export const layoutState = list(
+  object({ child: child({ plugin: 'text' }), width: number() })
+)
 
 export const layoutPlugin: EditorPlugin<typeof layoutState> = {
   Component: LayoutRenderer,

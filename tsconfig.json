@@ -7,6 +7,7 @@
     "paths": {
       "@serlo/editor-helpers": ["editor-helpers/src"],
       "@serlo/edtr-io": ["edtr-io/src"],
+      "@serlo/i18n": ["i18n/src"],
       "@serlo/legacy-editor-to-editor": ["legacy-editor-to-editor/src"],
       "@serlo/markdown": ["markdown/src"],
       "@serlo/mathjax": ["mathjax/src"]

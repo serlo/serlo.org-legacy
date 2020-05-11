@@ -20,8 +20,9 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as React from 'react'
-import { AddButton } from '@edtr-io/editor-ui'
+import { AddButton } from '@edtr-io/editor-ui/internal'
 import { EditorPlugin, EditorPluginProps, list, string } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 
 import {
   editorContent,
@@ -55,6 +56,7 @@ export const courseTypePlugin: EditorPlugin<typeof courseTypeState> = {
 
 function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
   const { title, meta_description, 'course-page': children } = props.state
+  const i18n = useI18n()
 
   return (
     <article>
@@ -68,7 +70,7 @@ function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
       {props.renderIntoSettings(
         <Settings>
           <Settings.Textarea
-            label="Suchmaschinen-Beschreibung"
+            label={i18n.t('course::Description for search engines')}
             state={meta_description}
           />
         </Settings>
@@ -76,7 +78,7 @@ function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
       <h1>
         {props.editable ? (
           <HeaderInput
-            placeholder="Titel"
+            placeholder={i18n.t('course::Title')}
             value={title.value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               title.set(e.target.value)
@@ -91,6 +93,7 @@ function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
           <OptionalChild
             state={child}
             key={child.id}
+            removeLabel={i18n.t('course::Remove course page')}
             onRemove={() => {
               children.remove(index)
             }}
@@ -99,7 +102,7 @@ function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {
       })}
       <hr />
       <AddButton onClick={() => children.insert()}>
-        Kursseite hinzufügen
+        {i18n.t('course::Add course page')}
       </AddButton>
       <Controls subscriptions {...props.state} />
     </article>

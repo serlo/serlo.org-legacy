@@ -19,8 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { AddButton } from '@edtr-io/editor-ui'
+import { AddButton } from '@edtr-io/editor-ui/internal'
 import { EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import {
@@ -54,6 +55,7 @@ function TextExerciseGroupTypeEditor(
   props: EditorPluginProps<typeof textExerciseGroupTypeState>
 ) {
   const { content, 'grouped-text-exercise': children } = props.state
+  const i18n = useI18n()
 
   return (
     <article className="exercisegroup">
@@ -78,6 +80,7 @@ function TextExerciseGroupTypeEditor(
             <div className="col-sm-11 col-xs-12">
               <OptionalChild
                 state={child}
+                removeLabel={i18n.t('textExerciseGroup::Remove exercise')}
                 onRemove={() => {
                   children.remove(index)
                 }}
@@ -91,7 +94,7 @@ function TextExerciseGroupTypeEditor(
           children.insert()
         }}
       >
-        Teilaufgabe hinzufügen
+        {i18n.t('textExerciseGroup::Add exercise')}
       </AddButton>
       <Controls subscriptions {...props.state} />
     </article>

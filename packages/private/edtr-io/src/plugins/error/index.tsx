@@ -27,6 +27,7 @@ import {
   string
 } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 export const errorState = object({
@@ -41,17 +42,22 @@ const Error = styled.div({
 export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
   typeof errorState
 >> = props => {
+  const i18n = useI18n()
+
   return (
     <Error>
       <p>
-        <strong>Beim Konvertieren ist ein Fehler aufgetreten!</strong>
+        <strong>{i18n.t('error::An error occurred during conversion!')}</strong>
       </p>
       <p>
-        Das Plugin {props.state.plugin.value} konnte nicht konvertiert werden.
-        Es enthielt folgende Daten:
+        {i18n.t(
+          "error::The plugin of type `{{plugin}}` couldn't be converted",
+          {
+            plugin: props.state.plugin.value
+          }
+        )}
       </p>
       <code>{JSON.stringify(props.state.state.value)}</code>
-      <p>Bitte wende dich an einen Entwickler.</p>
     </Error>
   )
 }

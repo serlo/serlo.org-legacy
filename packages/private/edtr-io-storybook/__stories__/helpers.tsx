@@ -19,9 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Editor } from '@serlo/edtr-io'
+import { initI18n, setLanguage } from '@serlo/i18n'
+import { select } from '@storybook/addon-knobs'
+import * as React from 'react'
 
 export function addContentTypeStories(
   name: string,
@@ -53,9 +55,40 @@ export function addContentTypeStories(
   })
 }
 
+export function Provider({ children }: { children: React.ReactNode }) {
+  const [ready, setReady] = React.useState(false)
+  const language = select(
+    'Language',
+    {
+      English: 'en',
+      German: 'de',
+      DEBUG: 'cimode'
+    },
+    'en'
+  )
+
+  React.useEffect(() => {
+    initI18n({
+      language,
+      resources: require('i18next-resource-store-loader!@serlo/i18n/resources')
+    }).then(() => {
+      setReady(true)
+    })
+  }, [])
+  React.useEffect(() => {
+    setLanguage(language).then(() => {
+      console.log('language changed')
+    })
+  }, [language])
+
+  if (!ready) return null
+
+  return <React.Fragment>{children}</React.Fragment>
+}
+
 export function Container({ children }: React.PropsWithChildren<{}>) {
   return (
-    <React.Fragment>
+    <Provider>
       <link href="http://localhost:8081/main.css" rel="stylesheet" />
       <div>
         <div
@@ -430,7 +463,7 @@ export function Container({ children }: React.PropsWithChildren<{}>) {
         </div>
         <script type="text/javascript" src="http://localhost:8081/main.js" />
       </div>
-    </React.Fragment>
+    </Provider>
   )
 }
 

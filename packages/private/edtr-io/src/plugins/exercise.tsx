@@ -20,7 +20,8 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { PluginToolbarButton, useScopedStore } from '@edtr-io/core'
-import { AddButton, styled } from '@edtr-io/editor-ui'
+import { styled } from '@edtr-io/editor-ui'
+import { AddButton } from '@edtr-io/editor-ui/internal'
 import {
   EditorPlugin,
   EditorPluginProps,
@@ -30,6 +31,7 @@ import {
 } from '@edtr-io/plugin'
 import { getDocument } from '@edtr-io/store'
 import { Icon, faRandom, faTrashAlt } from '@edtr-io/ui'
+import { useI18n, I18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import { SemanticSection } from './helpers/semantic-section'
@@ -56,15 +58,26 @@ const ButtonContainer = styled.div({
 
 const interactivePlugins: {
   name: 'scMcExercise' | 'inputExercise'
-  title: string
+  addLabel: (i18n: I18n) => string
+  title: (i18n: I18n) => string
 }[] = [
   {
     name: 'scMcExercise',
-    title: 'Auswahlaufgabe'
+    addLabel(i18n) {
+      return i18n.t('exercise::Add choice exercise')
+    },
+    title(i18n) {
+      return i18n.t('exercise::Choice exercise')
+    }
   },
   {
     name: 'inputExercise',
-    title: 'Eingabefeld'
+    addLabel(i18n) {
+      return i18n.t('exercise::Add input exercise')
+    },
+    title(i18n) {
+      return i18n.t('exercise::Input exercise')
+    }
   }
 ]
 
@@ -102,7 +115,8 @@ const Option = styled.div({
   }
 })
 
-function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
+function ExerciseEditor({ editable, state }: ExerciseProps) {
+  const i18n = useI18n()
   const store = useScopedStore()
   const { content, interactive } = state
   const [showOptions, setShowOptions] = React.useState(false)
@@ -159,7 +173,7 @@ function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
                               setShowOptions(false)
                             }}
                           >
-                            {plugin.title}
+                            {plugin.title(i18n)}
                           </Option>
                         )
                       })}
@@ -177,7 +191,7 @@ function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
       return (
         <React.Fragment>
           <p>
-            <em>Füge optional ein interaktives Element hinzu:</em>
+            <em>{i18n.t('exercise::Add an optional interactive exercise:')}</em>
           </p>
           <ButtonContainer>
             {interactivePlugins.map(plugin => {
@@ -190,7 +204,7 @@ function ExerciseEditor({ editable, state, focused }: ExerciseProps) {
                     })
                   }}
                 >
-                  {`${plugin.title} hinzufügen`}
+                  {plugin.addLabel(i18n)}
                 </AddButton>
               )
             })}

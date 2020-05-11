@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2020-01-10 07:07+0100\n"
-"PO-Revision-Date: 2020-01-13 03:15\n"
+"PO-Revision-Date: 2020-05-11 02:00\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -39,7 +39,7 @@ msgstr "Crear una página"
 #: ../config/instance/navigation/default.php:45
 #: ../module/Ui/templates/page/update.twig:22
 msgid "Update page"
-msgstr ""
+msgstr "Actualizar página"
 
 #: ../config/instance/navigation/default.php:53
 msgid "Taxonomy"
@@ -385,19 +385,19 @@ msgstr "Enviar"
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:107
 msgid "Guideline for reviewing"
-msgstr ""
+msgstr "Guía para revisar"
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:111
 msgid "List of all discussions"
-msgstr ""
+msgstr "Lista de todas las discusiones"
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:115
 msgid "Channel #feedback-requests in RocketChat"
-msgstr ""
+msgstr "Canal #solicitudes-retroalimentación en RocketChat"
 
 #: ../module/Entity/src/Entity/Controller/EntityController.php:119
 msgid "Questionnaire for reviewers"
-msgstr ""
+msgstr "Cuestionario para revisores"
 
 #: ../module/Entity/src/Entity/Controller/LinkController.php:65
 #: ../module/Entity/src/Entity/Controller/LinkController.php:89
@@ -406,15 +406,15 @@ msgstr "Tus cambios han sido guardados."
 
 #: ../module/Entity/src/Entity/Controller/RepositoryController.php:358
 msgid "Your revision has been saved and is available"
-msgstr ""
+msgstr "Su revisión ha sido guardada y está disponible"
 
 #: ../module/Entity/src/Entity/Controller/RepositoryController.php:361
 msgid "Your revision has been saved, it will be available once it gets approved"
-msgstr ""
+msgstr "Su revisión ha sido guardada, estará disponible una vez que sea aprobada"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:49
 msgid "Applet Url:"
-msgstr ""
+msgstr "Url de Applet:"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:50
 #: ../module/Entity/src/Entity/Form/ModuleForm.php:46
@@ -555,11 +555,11 @@ msgstr "Valor:"
 
 #: ../module/Normalizer/src/Normalizer/Adapter/EntityAdapter.php:172
 msgid "applet"
-msgstr ""
+msgstr "Applet"
 
 #: ../module/Normalizer/src/Normalizer/Adapter/EntityAdapter.php:176
 msgid "course"
-msgstr ""
+msgstr "curso"
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:94
 msgid "You are now receiving notifications for this content."
@@ -695,47 +695,47 @@ msgstr "Repetir contraseña"
 
 #: ../module/User/src/User/Form/Register.php:69
 msgid "First name (optional):"
-msgstr ""
+msgstr "Nombre (opcional)"
 
 #: ../module/User/src/User/Form/Register.php:70
 msgid "Enter first name"
-msgstr ""
+msgstr "Escribe tu nombre"
 
 #: ../module/User/src/User/Form/Register.php:73
 msgid "Last name (optional):"
-msgstr ""
+msgstr "Apellido (opcional)"
 
 #: ../module/User/src/User/Form/Register.php:74
 msgid "Enter last name"
-msgstr ""
+msgstr "Escribe tu apellido"
 
 #: ../module/User/src/User/Form/Register.php:77
 msgid "I agree that Serlo Education e.V. may contact me via email."
-msgstr ""
+msgstr "Acepto que Serlo Education e.V. pueda ponerse en contacto conmigo por correo electrónico."
 
 #: ../module/User/src/User/Form/Register.php:82
 msgid "Parent"
-msgstr ""
+msgstr "Padre o madre"
 
 #: ../module/User/src/User/Form/Register.php:83
 msgid "Teacher"
-msgstr ""
+msgstr "Maestro/a"
 
 #: ../module/User/src/User/Form/Register.php:84
 msgid "Pupil"
-msgstr ""
+msgstr "Alumno/a"
 
 #: ../module/User/src/User/Form/Register.php:85
 msgid "University student"
-msgstr ""
+msgstr "Estudiante universitario"
 
 #: ../module/User/src/User/Form/Register.php:86
 msgid "Other"
-msgstr ""
+msgstr "Otro"
 
 #: ../module/User/src/User/Form/Register.php:89
 msgid "I am here as…"
-msgstr ""
+msgstr "Estoy aquí como…"
 
 #: ../module/User/src/User/Form/Register.php:92
 #: ../module/Ui/templates/user/user/register.twig:24
@@ -1039,11 +1039,11 @@ msgstr "estructurado democráticamente"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:107
 msgid "free of charge"
-msgstr "gratuido"
+msgstr "gratuito"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:119
 msgid "ad-free"
-msgstr "sin anuncios"
+msgstr "sin publicidad"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:131
 msgid "openly licensed"
@@ -1055,7 +1055,7 @@ msgstr "transparente"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:162
 msgid "non-profit"
-msgstr "sin fines de lucro"
+msgstr "sin ánimo de lucro"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:109
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:28
@@ -1067,11 +1067,14 @@ msgid "We are a grassroots non-profit organization supporting personalized learn
 "                                towards equal educational opportunities. This learning platform offers thousands of\n"
 "                                instructional articles, learning videos and practice exercises for millions of students\n"
 "                                worldwide - completely free of charge. Now it’s time to join us in your language."
-msgstr "Somos una plataforma educativa de organización comunitaria, que apoya el aprendizaje personalizado y trabaja para dar igualdad de oportunidades en educación para todos. Esta plataforma educativa ofrece cientos de artículos, videos, y ejercicios didácticos para millones de estudiantes a nivel mundial - de manera completamente gratuita. Este es el momento para que te nos unas en español."
+msgstr "Somos una organización de base comunitaria sin ánimo de lucro que apoya el aprendizaje personalizado y trabajando\n"
+" por la igualdad de oportunidades educativas. Esta plataforma de aprendizaje ofrece miles de\n"
+" artículos de instrucción, videos de aprendizaje y ejercicios de práctica para millones de estudiantes\n"
+" en todo el mundo - completamente gratis. Ahora es el momento de unirse a nosotros en tu idioma."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:124
 msgid "/serlo"
-msgstr ""
+msgstr "/serlo"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:125
 #: ../module/Ui/templates/layout/partials/footer.phtml:49
@@ -1086,7 +1089,8 @@ msgstr "Serlo es la Wikipedia para el Aprendizaje"
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:144
 msgid "Just like Wikipedia, this platform is created by an engaged community of authors. Serlo Education \n"
 "                                is run and owned by decentralized teams of volunteers and professionals all over the world."
-msgstr "Al igual que Wikipedia, esta plataforma es creada por una comunidad de autores comprometidos con la educación. “Serlo Education” es propiedad de varios equipos descentralizados de voluntarios y profesionales, y manejado por ellos mismos alrededor del mundo."
+msgstr "Al igual que Wikipedia, esta plataforma es creada por una comunidad de autores comprometidos con la educación. “Serlo Education”\n"
+"    es propiedad de varios equipos descentralizados de voluntarios y profesionales, y manejado por ellos mismos alrededor del mundo."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:157
 msgid "Become a Part of Our Movement for Open Education"
@@ -1095,7 +1099,8 @@ msgstr "Conviértete en Parte de Nuestro Movimiento para la Educación Abierta"
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:164
 msgid "We are looking for teachers and enthusiastic educators who are passionate about their subject.\n"
 "                             Become an author on serlo.org! You can create new learning material and help us improve existing content."
-msgstr "Estamos buscando profesores y educadores entusiastas a quienes les apasionen las materias que enseñan. Conviértete en un autor en serlo.org! Tu puedes crear nuevo material de aprendizaje y ayudarnos a mejorar el contenido existente."
+msgstr "Estamos buscando profesores, maestros y educadores entusiastas a quienes les apasionen las materias que enseñan.\n"
+"  ¡Conviértete en un autor en serlo.org! Tu puedes crear nuevo material de aprendizaje y ayudarnos a mejorar el contenido existente."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:168
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:190
@@ -1110,7 +1115,7 @@ msgstr "Nosotros ofrecemos una diversa gama de trabajo y oportunidades de volunt
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:181
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:196
 msgid "Get involved!"
-msgstr "Participa!"
+msgstr "¡Participa!"
 
 #: ../module/Ui/templates/layout/partials/default-modal.phtml:33
 #: ../module/Ui/templates/layout/partials/noscript.phtml:45
@@ -1166,7 +1171,7 @@ msgstr "Términos legales"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:148
 msgid "Loading"
-msgstr ""
+msgstr "Cargando"
 
 #: ../module/Ui/templates/layout/partials/noscript.phtml:32
 msgid "This site makes heavy use of JavaScript!"
@@ -1218,7 +1223,7 @@ msgstr "Acciones"
 
 #: ../module/Ui/templates/license/manage.phtml:50
 msgid "Caution, deleting a license has serious consequences. You are going to delete a great amount of content, you need to know exactly what you are doing! THIS ACTION CAN NOT BE UNDONE"
-msgstr "Precaución, eliminar una licencia tiene serias consecuencias. Vas a eliminar una gran cantidad de contenido, necesitas saber exactamente lo que estás haciendo! NO SE PUEDE DESHACER ESTA ACCIÓN"
+msgstr "Precaución, eliminar una licencia tiene serias consecuencias. ¡Vas a eliminar una gran cantidad de contenido, necesitas saber exactamente lo que estás haciendo! NO SE PUEDE DESHACER ESTA ACCIÓN"
 
 #: ../module/Ui/templates/license/manage.phtml:52
 msgid "DANGER: You are going to delete all contents associated with this license!"
@@ -1310,7 +1315,7 @@ msgstr "Anuncios"
 
 #: ../module/Ui/templates/ads/ads.twig:31
 msgid "Edit \"About Horizon\""
-msgstr ""
+msgstr "Editar \"Sobre el horizonte\""
 
 #: ../module/Ui/templates/ads/ads.twig:62
 msgid "Frequency"
@@ -1388,7 +1393,7 @@ msgstr "Comentar una discusión"
 
 #: ../module/Ui/templates/discussion/discussion/select/forum.twig:27
 msgid "Please select an appropriate category for your discussion. Choosing the right category helps others to find your discussion faster and to answer you quicker. Thank you!"
-msgstr "Selecciona una categoría adecuada para tu discusión. Elegir la categoría correcta ayuda a otros a encontrar tu discusión más rápido y a responder más rápido. ¡Gracias!"
+msgstr "Selecciona una categoría adecuada para tu discusión. Elegir la categoría correcta ayuda a otros a encontrar tu discusión más rápidamente y a responder más rápido. ¡Gracias!"
 
 #: ../module/Ui/templates/discussion/discussion/select/forum.twig:37
 msgid "Saving..."
@@ -1452,7 +1457,7 @@ msgstr "Comentarios"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:62
 msgid "Unarchive discussion"
-msgstr "Restaurar debate"
+msgstr "Desarchivar discusión"
 
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:64
 msgid "Archive discussion"
@@ -1472,7 +1477,7 @@ msgstr "En %type% %object%: %title%"
 
 #: ../module/Ui/templates/discussion/partials/discuss-button.twig:24
 msgid "Comment"
-msgstr ""
+msgstr "Comentario"
 
 #: ../module/Ui/templates/entity/link/order.twig:33
 #: ../module/Ui/templates/entity/taxonomy/update.twig:50
@@ -1532,11 +1537,11 @@ msgstr "Origen"
 
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:41
 msgid "Old version"
-msgstr ""
+msgstr "Versión anterior"
 
 #: ../module/Ui/templates/entity/repository/compare-revision.twig:42
 msgid "Preview"
-msgstr "Prevista"
+msgstr "Vista Previa"
 
 #: ../module/Ui/templates/entity/repository/history.twig:22
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/history.twig:27
@@ -1548,8 +1553,8 @@ msgstr "Historial"
 #: ../module/Ui/templates/entity/repository/history.twig:25
 msgid "There are multiple recent revisions for this object. Please be aware that they may be of very\n"
 "        different nature. Consider reviewing all of them before accepting or merging."
-msgstr "Existen varias revisiones recientes para este objeto. Por favor tenga en cuenta que pueden ser\n"
-" de naturaleza muy distinta. Considera revisar todas revisiones antes de aceptar o fusionar."
+msgstr "Existen varias revisiones recientes para este objeto. Por favor ten en cuenta que pueden ser\n"
+" de naturaleza muy distinta. Considera revisarlas todas antes de aceptar o fusionar."
 
 #: ../module/Ui/templates/entity/repository/history.twig:33
 msgid "Current"
@@ -1606,15 +1611,15 @@ msgstr "Recursos de aprendizaje sin revisión"
 
 #: ../module/Ui/templates/entity/unrevised.twig:24
 msgid "Support links for reviewing"
-msgstr ""
+msgstr "Enlaces de soporte para revisar"
 
 #: ../module/Ui/templates/entity/unrevised.twig:36
 msgid "Revision"
-msgstr ""
+msgstr "Revisión"
 
 #: ../module/Ui/templates/entity/view/applet.twig:38
 msgid "Could not embed geogebra applet. Unknown url format."
-msgstr ""
+msgstr "No se pudo integrar el applet geogebra. Formato de url desconocido."
 
 #: ../module/Ui/templates/entity/view/article.twig:22
 msgid "article"
@@ -1626,7 +1631,7 @@ msgstr "página del curso"
 
 #: ../module/Ui/templates/entity/view/event.twig:22
 msgid "event"
-msgstr ""
+msgstr "evento"
 
 #: ../module/Ui/templates/entity/view/grouped-text-exercise.twig:22
 msgid "grouped-text-exercise"
@@ -1725,12 +1730,12 @@ msgstr "Mover a la papelera"
 
 #: ../module/Ui/templates/entity/view/partials/actions/trash.twig:37
 msgid "Restore"
-msgstr ""
+msgstr "Restaurar"
 
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/convert.twig:30
 #: ../module/Ui/templates/page/partials/controls.twig:39
 msgid "Convert"
-msgstr ""
+msgstr "Convertir"
 
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/edit-essential.twig:38
 #: ../module/Ui/templates/page/pages.twig:40
@@ -1787,7 +1792,7 @@ msgstr "Ocultar pista"
 #: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:23
 #: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:23
 msgid "Nope. Try again!"
-msgstr ""
+msgstr "¡No! ¡Inténtalo de nuevo!"
 
 #: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:25
 #: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:25
@@ -1902,7 +1907,7 @@ msgstr "%user% ha rechazado la %revision% en %repository%: \"%reason%\""
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:32
 msgid "%user% rejected %revision% in %repository%"
-msgstr "%user% rejected %revision% in %repository%"
+msgstr "%user% rechazado %revision% en %repository%"
 
 #: ../module/Ui/templates/event/helper/event/license/object/set.twig:26
 msgid "%user% changed the license of %object%"
@@ -1946,40 +1951,40 @@ msgstr "%user% ha echado %object% en la papelera"
 
 #: ../module/Ui/templates/legacy-editor/partials/video-modal.twig:35
 msgid "Don't show again"
-msgstr ""
+msgstr "No mostrar de nuevo"
 
 #: ../module/Ui/templates/mailman/messages/notification/body.twig:24
 #: ../module/Ui/templates/mailman/messages/notification/plain.twig:24
 msgid "Hello %user%!"
-msgstr ""
+msgstr "¡Hola %user%!"
 
 #: ../module/Ui/templates/mailman/messages/notification/body.twig:32
 msgid "You can <a href=\"%href%\">change the settings</a> for which content you want to receive notifications."
-msgstr ""
+msgstr "Puedes <a href=\"%href%\">cambiar la configuración</a> para el contenido del cual quieres recibir notificaciones."
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/content.twig:25
 msgid "Here's a heads up of what has happened with content you edited or created:"
-msgstr ""
+msgstr "Aquí hay una visión general de lo que pasó con el contenido que creaste o editaste:"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/content.twig:29
 msgid "This happened with a content you edited or created:"
-msgstr ""
+msgstr "Esto sucedió con un contenido que has editado o creado:"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/discussions.twig:26
 msgid "Users on %brand% have messaged you or replied to comments by you:"
-msgstr ""
+msgstr "Los usuarios de %brand% te han enviado mensajes o respondieron a tus comentarios:"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/discussions.twig:30
 msgid "A user on %brand% has messaged you or replied to one of your comments:"
-msgstr ""
+msgstr "Un usuario en %brand% te ha enviado mensajes o ha respondido a uno de tus comentarios:"
 
 #: ../module/Ui/templates/mailman/messages/notification/plain.twig:32
 msgid "You can change the settings for which content you want to receive notifications here: %href%"
-msgstr ""
+msgstr "Aquí puedes cambiar la configuración de los contenidos que quieres recibir notificaciones: %href%"
 
 #: ../module/Ui/templates/mailman/messages/notification/subject.twig:24
 msgid "You have unread notifications on %brand%"
-msgstr "Tiene nuevas notificaciones en %brand%"
+msgstr "Tienes nuevas notificaciones en %brand%"
 
 #: ../module/Ui/templates/mailman/messages/register/body.twig:25
 #: ../module/Ui/templates/mailman/messages/register/plain.twig:25
@@ -1989,15 +1994,20 @@ msgid "Hello %s,\n\n"
 "        %s\n\n"
 "        We are looking forward to your contribution to %s!\n\n"
 "        Your community support"
-msgstr ""
+msgstr "Hola %s, \n\n"
+"     muchas gracias por tu registro en %s.\n\n"
+"       Por favor, confirma tu cuenta haciendo clic en el siguiente enlace: \n"
+"%s\n\n"
+"   Esperamos con interés su contribución a %s!\n\n"
+"      Soporte técnico de la comunidad"
 
 #: ../module/Ui/templates/mailman/messages/register/body.twig:39
 msgid "Activate account"
-msgstr ""
+msgstr "Activar cuenta"
 
 #: ../module/Ui/templates/mailman/messages/register/subject.twig:23
 msgid "Please activate your %s account!"
-msgstr ""
+msgstr "Por favor, activa tu cuenta"
 
 #: ../module/Ui/templates/mailman/messages/restore-password/body.twig:24
 #: ../module/Ui/templates/mailman/messages/restore-password/plain.twig:24
@@ -2005,7 +2015,10 @@ msgid "Hi %s,\n"
 "        it seems that you want to restore your password. If not, you can ignore this email.\n"
 "        You can restore your password by clicking the link below:\n\n"
 "        %s"
-msgstr ""
+msgstr "Hola %s,\n"
+"     parece que quieres restablecer tu contraseña. Si no es así, puedes ignorar este correo.\n"
+"       Puedes restablecer la contraseña haciendo clic en el enlace de abajo:\n\n"
+"     %s"
 
 #: ../module/Ui/templates/mailman/messages/restore-password/subject.twig:23
 msgid "Restore your password on %s"
@@ -2017,7 +2030,11 @@ msgid "Dear %s,\n\n"
 "        To find out how to get started on editing and creating content, please visit the <a href=\"https://de.serlo.org/community\">community homepage</a>.\n\n"
 "        If you have any questions, problems or feedback for us, feel free to get in touch via <a href=\"mailto:de@serlo.org\">de@serlo.org</a>.\n\n"
 "        Enjoy Serlo!"
-msgstr ""
+msgstr "Estimado/a %s,\n\n"
+"        Estamos encantados de que hayas decidido escribir un comentario o contribuir al servidor. rg!\n\n"
+"        Para saber cómo empezar a editar y crear contenido, por favor visite la página <a href=\"https://de.serlo.org/community\">de inicio de la comunidad</a>.\n\n"
+"        Si tienes alguna pregunta, problemas o comentarios para nosotros, no dudes en ponerte en contacto a través de <a href=\"mailto:de@serlo.org\">de@serlo. rg</a>.\n\n"
+"        ¡Disfruta de Serlo!"
 
 #: ../module/Ui/templates/mailman/messages/welcome/plain.twig:24
 msgid "Dear %s,\n\n"
@@ -2025,7 +2042,11 @@ msgid "Dear %s,\n\n"
 "        To find out how to get started on editing and creating content, please visit the community homepage: https://de.serlo.org/community.\n\n"
 "        If you have any questions, problems or feedback for us, feel free to get in touch via de@serlo.org.\n\n"
 "        Enjoy Serlo!"
-msgstr ""
+msgstr "Estimado/a %s,\n\n"
+"        Estamos encantados de que hayas decidido escribir un comentario o contribuir a serlo.org\n\n"
+"        Para saber cómo empezar a editar y crear contenido, por favor visita la página principal de la comunidad: https://de. erlo.org/comunidad.\n\n"
+"        Si tienes alguna pregunta, o comentarios para nosotros, no dudes en ponerse en contacto a través de de@serlo. rg.\n\n"
+"        ¡Disfruta de Serlo!"
 
 #: ../module/Ui/templates/mailman/messages/welcome/subject.twig:23
 msgid "How to get started on Serlo!"
@@ -2177,7 +2198,7 @@ msgstr "%user% rechazó %revision% de %repository%: %reason%"
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:35
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:50
 msgid "%user% rejected a %revision% of %repository%"
-msgstr ""
+msgstr "%user% rechazó %revision% de %repository%"
 
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:28
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:36
@@ -2277,7 +2298,7 @@ msgstr "Resultados de la búsqueda"
 
 #: ../module/Ui/templates/static/de/datenschutz/partials/header.twig:34
 msgid "Datenschutzerklärung"
-msgstr ""
+msgstr "Política de privacidad"
 
 #: ../module/Ui/templates/subject/home/index.twig:23
 msgid "Start learning now!"
@@ -2307,7 +2328,7 @@ msgstr "Template para %name% no econtrado."
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:30
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:29
 msgid "Organize taxonomy"
-msgstr ""
+msgstr "Organizar taxonomía"
 
 #: ../module/Ui/templates/taxonomy/term/organize/partial.twig:63
 msgid "Tools"
@@ -2357,11 +2378,11 @@ msgstr "Vídeos"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Applets"
-msgstr ""
+msgstr "Applets"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:34
 msgid "Events"
-msgstr ""
+msgstr "Eventos"
 
 #: ../module/Ui/templates/taxonomy/term/templates/partials/entities.twig:49
 #: ../module/Ui/templates/taxonomy/term/templates/partials/groups.twig:34
@@ -2426,19 +2447,19 @@ msgstr "Visto por última vez"
 
 #: ../module/Ui/templates/user/user/register.twig:82
 msgid "Stay in touch!"
-msgstr ""
+msgstr "¡Mantente en contacto!"
 
 #: ../module/Ui/templates/user/user/register.twig:85
 msgid "<strong>Sign up to our newsletter to receive quarterly updates about our work.</strong> Serlo Education e.V. will use the information you provided to send you the newsletter and (optionally) personalise these mailings. We will also supply insights on aspects of Serlo that may be particularly interesting to you, based on the information you provided. To enable us to keep serlo.org free of charge and free of advertising we send out a fundraiser campaign through our newsletter list annually around Christmas. Please confirm below if you would like to give us permission to contact you in this way."
-msgstr ""
+msgstr "<strong>Suscríbete a nuestro boletín para recibir actualizaciones trimestrales sobre nuestro trabajo.</strong>Serlo Education e.V. utilizará la información que has proporcionado para enviarte el boletín de noticias y (opcionalmente) personalizar estos envíos. También proporcionaremos información sobre aspectos de Serlo que pueden ser particularmente interesantes para ti, basados en la información que nos has proporcionado. Para que podamos mantener serlo.org libre y sin publicidad, enviamos una campaña de recaudación de fondos a través de nuestra lista de boletines anualmente alrededor de la Navidad. Por favor, confirma a continuación si deseas darnos permiso para contactarte de esta manera."
 
 #: ../module/Ui/templates/user/user/register.twig:114
 msgid "You can revoke your consent to contact you via email at any time by clicking the unsubscribe link in any mailing or send us an email at <a href=\"mailto:de@serlo.org\">de@serlo.org</a>. Your privacy is very important to us. For the processing of our mailing activities we work with MailChimp as a service provider. MailChimp underlies a strict data processing agreement with us that ensures the protection of your data in accordance with the European General Data Protection Regulations. By subscribing to our newsletter you agree with our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and acknowledge that your data will be processed by MailChimp in accordance with their <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">Terms</a>."
-msgstr ""
+msgstr "Puede revocar tu consentimiento para el contacto contigo por correo electrónico en cualquier momento haciendo clic en el enlace de cancelación de la suscripción en cualquier correo o enviándonos un correo electrónico a<a href=\"mailto:de@serlo.org\">de@serlo.org</a>Tu privacidad es muy importante para nosotros. Para el procesamiento de nuestras actividades de correo trabajamos con MailChimp como proveedor de servicios. MailChimp tiene un estricto acuerdo de procesamiento de datos con nosotros que asegura la protección de tus datos de acuerdo con las Regulaciones Generales de Protección de Datos Europeas. Al suscribirte a nuestro boletín de noticias estás de acuerdo con nuestro<a href=\"/22964\" target=\"_blank\">Política de privacidad</a>y reconoces que tus datos serán procesados por MailChimp de acuerdo con su<a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">Política de privacidad</a> y <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\"> sus Términos</a>."
 
 #: ../module/Ui/templates/user/user/register.twig:122
 msgid "By clicking <em>Sign up</em>, you agree to our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and <a href=\"/21654\" target=\"_blank\">Terms</a>. You may receive email notifications from us and can opt out at any time."
-msgstr ""
+msgstr "Al hacer clic en <em> Inscríbete </em>, estás de acuerdo con nuestra <a href=\"/22964\" target=\"_blank\">Política de privacidad</a>y <a href=\"/21654\" target=\"_blank\"> sus Términos</a>. Puedes recibir notificaciones por correo electrónico de nosotros y puedes optar por no participar en cualquier momento."
 
 #: ../module/Ui/templates/user/user/settings.twig:22
 msgid "My settings"

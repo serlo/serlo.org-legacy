@@ -31,6 +31,7 @@ import * as React from 'react'
 import { useScopedSelector } from '@edtr-io/core'
 import { isEmpty } from '@edtr-io/store'
 import { Icon, faExternalLinkAlt, styled } from '@edtr-io/ui'
+import { useI18n } from '@serlo/i18n'
 
 import { SemanticSection } from './helpers/semantic-section'
 import { InlineInput } from './helpers/inline-input'
@@ -45,10 +46,7 @@ const solutionState = object({
     })
   ),
   strategy: child({
-    plugin: 'text',
-    config: {
-      placeholder: 'Beschreibe hier optional die Lösungsstrategie'
-    }
+    plugin: 'text'
   }),
   steps: child({ plugin: 'rows' })
 })
@@ -66,6 +64,7 @@ const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 
 function SolutionEditor({ editable, state, focused }: SolutionProps) {
   const { prerequisite, strategy } = state
+  const i18n = useI18n()
 
   const hasStrategy = !useScopedSelector(isEmpty(strategy.id))
 
@@ -74,7 +73,13 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
       {renderPrerequisite()}
       {hasStrategy || editable ? (
         <SemanticSection editable={editable}>
-          {strategy.render()}
+          {strategy.render({
+            config: {
+              placeholder: i18n.t(
+                'solution::Optionally explain the solution strategy here'
+              )
+            }
+          })}
         </SemanticSection>
       ) : null}
       <SemanticSection editable={editable}>
@@ -92,7 +97,9 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
       if (editable) {
         return (
           <div>
-            Für diese Aufgabe benötigst Du folgendes Grundwissen:
+            {i18n.t(
+              'solution::For this exercise, you need the following fundamentals:'
+            )}{' '}
             {focused ? (
               <InlineSettings
                 onDelete={() => {
@@ -108,7 +115,7 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
                       ? `/${prerequisite.id.value}`
                       : ''
                   }
-                  placeholder="ID des Artikels ein, z.B. 1855"
+                  placeholder={i18n.t('solution::ID of an article, e.g. 1855')}
                   onChange={event => {
                     const newValue = event.target.value.replace(/[^0-9]/g, '')
                     if (prerequisite.defined) {
@@ -130,7 +137,9 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
                   }
                   rel="noopener noreferrer"
                 >
-                  <OpenInNewTab title="Artikel im neuen Tab öffnen">
+                  <OpenInNewTab
+                    title={i18n.t('solution::Open the article in a new tab:')}
+                  >
                     <Icon icon={faExternalLinkAlt} />
                   </OpenInNewTab>
                 </a>
@@ -146,17 +155,23 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
                     prerequisite.create({ id: '', title: value })
                   }
                 }}
-                placeholder="Titel der Verlinkung"
+                placeholder={i18n.t('solution::Title of the link')}
               />
             </a>
           </div>
         )
       }
 
-      if (prerequisite.defined) {
+      if (
+        prerequisite.defined &&
+        prerequisite.id.value &&
+        prerequisite.title.value
+      ) {
         return (
           <p>
-            Für diese Aufgabe benötigst Du folgendes Grundwissen:
+            {i18n.t(
+              'solution::For this exercise, you need the following fundamentals:'
+            )}{' '}
             <a href={`/${prerequisite.id.value}`}>{prerequisite.title.value}</a>
           </p>
         )

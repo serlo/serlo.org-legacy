@@ -25,6 +25,7 @@ namespace Renderer;
 
 use Exception;
 use FeatureFlags\Service as FeatureFlagsService;
+use Instance\Manager\InstanceManagerInterface;
 use Raven_Client;
 use Renderer\Exception\RuntimeException;
 use Renderer\View\Helper\FormatHelper;
@@ -35,42 +36,29 @@ class Renderer
 {
     use FormatHelperAwareTrait;
 
-    /**
-     * @var FeatureFlagsService
-     */
-    private $featureFlags;
+    /** @var InstanceManagerInterface */
+    protected $instanceManager;
+
+    /** @var FeatureFlagsService */
+    protected $featureFlags;
+
+    /** @var string */
+    protected $editorRendererUrl;
+
+    /** @var string */
+    protected $legacyRendererUrl;
+
+    /** @var StorageInterface */
+    protected $storage;
+
+    /** @var bool */
+    protected $cacheEnabled;
+
+    /** @var Raven_Client */
+    protected $sentry;
 
     /**
-     * @var RenderComponentService
-     */
-    private $renderComponentService;
-
-    /**
-     * @var string
-     */
-    private $editorRendererUrl;
-
-    /**
-     * @var string
-     */
-    private $legacyRendererUrl;
-
-    /**
-     * @var StorageInterface
-     */
-    private $storage;
-
-    /**
-     * @var bool
-     */
-    private $cacheEnabled;
-
-    /**
-     * @var Raven_Client
-     */
-    private $sentry;
-
-    /**
+     * @param InstanceManagerInterface $instanceManager
      * @param FeatureFlagsService $featureFlags
      * @param string $editorRendererUrl
      * @param string $legacyRendererUrl
@@ -79,8 +67,17 @@ class Renderer
      * @param bool $cacheEnabled
      * @param Raven_Client $sentry
      */
-    public function __construct(FeatureFlagsService $featureFlags, $editorRendererUrl, $legacyRendererUrl, FormatHelper $formatHelper, StorageInterface $storage, $cacheEnabled, Raven_Client $sentry)
-    {
+    public function __construct(
+        InstanceManagerInterface $instanceManager,
+        FeatureFlagsService $featureFlags,
+        $editorRendererUrl,
+        $legacyRendererUrl,
+        FormatHelper $formatHelper,
+        StorageInterface $storage,
+        $cacheEnabled,
+        Raven_Client $sentry
+    ) {
+        $this->instanceManager = $instanceManager;
         $this->featureFlags = $featureFlags;
         $this->editorRendererUrl = $editorRendererUrl;
         $this->legacyRendererUrl = $legacyRendererUrl;
@@ -91,27 +88,30 @@ class Renderer
     }
 
     /**
-     * @param string $input
+     * @param string $state
      * @return string
      */
-    public function render($input)
+    public function render($state)
     {
-        $key = 'renderer/' . hash('sha512', $input);
+        $data = [
+            'state' => $state,
+            'language' => $this->instanceManager->getInstanceFromRequest()->getLanguage()->getCode(),
+        ];
+
+        $key = 'renderer/' . hash('sha512', json_encode($data));
 
         if ($this->cacheEnabled && $this->storage->hasItem($key)) {
             return $this->storage->getItem($key);
         }
 
         $rendered = null;
-        $data = ['state' => $input];
-
 
         $httpHeader = [
             'Accept: application/json',
             'Content-Type: application/json',
         ];
 
-        $url = $this->getFormatHelper()->isLegacyFormat($input) ? $this->legacyRendererUrl : $this->editorRendererUrl;
+        $url = $this->getFormatHelper()->isLegacyFormat($state) ? $this->legacyRendererUrl : $this->editorRendererUrl;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

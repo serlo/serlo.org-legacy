@@ -24,7 +24,10 @@ import { DocumentState } from '@serlo/edtr-io'
 import { render } from '../src/render'
 
 test('empty string', async () => {
-  const html = await render('')
+  const html = await render({
+    state: '',
+    language: 'en'
+  })
   expect(html).toEqual('')
 })
 
@@ -33,5 +36,8 @@ test('video plugin', async () => {
     plugin: 'video',
     state: 'https://www.youtube.com/watch?v=SCJ7nzKwnYo'
   }
-  await render(JSON.stringify(state))
+  await render({
+    state: JSON.stringify(state),
+    language: 'en'
+  })
 })

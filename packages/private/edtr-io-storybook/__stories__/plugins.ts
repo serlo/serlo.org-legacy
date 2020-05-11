@@ -22,6 +22,22 @@
 import { license } from './fixtures'
 import { addContentTypeStories } from './helpers'
 
+addContentTypeStories('Error', 'article', {
+  id: 1337,
+  license,
+  changes: '',
+  title: 'Error Tests',
+  content: JSON.stringify({
+    plugin: 'error',
+    state: {
+      plugin: 'type',
+      state: {
+        foo: 'bar'
+      }
+    }
+  })
+})
+
 addContentTypeStories('Plugins/Layout/image on right', 'article', {
   id: 1337,
   license,

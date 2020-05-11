@@ -22,6 +22,7 @@
 import { EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from '@edtr-io/ui'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import { Controls, editorContent, entity, entityType } from './common'
@@ -60,10 +61,13 @@ const solutionTheme = {
 }
 
 function TextSolutionTypeEditor(props: TextSolutionTypeProps) {
+  const i18n = useI18n()
   const renderTitle = React.useCallback((collapsed: boolean) => {
     return (
       <React.Fragment>
-        Lösung {collapsed ? 'anzeigen' : 'ausblenden'}
+        {collapsed
+          ? i18n.t('solution::Show solution')
+          : i18n.t('solution::Hide solution')}
       </React.Fragment>
     )
   }, [])

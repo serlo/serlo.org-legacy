@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
 import {
@@ -50,6 +51,7 @@ export const eventTypePlugin: EditorPlugin<typeof eventTypeState> = {
 
 function EventTypeEditor(props: EditorPluginProps<typeof eventTypeState>) {
   const { content, title, meta_title, meta_description } = props.state
+  const i18n = useI18n()
 
   return (
     <React.Fragment>
@@ -63,9 +65,12 @@ function EventTypeEditor(props: EditorPluginProps<typeof eventTypeState>) {
         )}
         {props.renderIntoSettings(
           <Settings>
-            <Settings.Textarea label="Suchmaschinen-Titel" state={meta_title} />
             <Settings.Textarea
-              label="Suchmaschinen-Beschreibung"
+              label={i18n.t('event::Title for search engines')}
+              state={meta_title}
+            />
+            <Settings.Textarea
+              label={i18n.t('event::Description for search engines')}
               state={meta_description}
             />
           </Settings>
@@ -73,7 +78,7 @@ function EventTypeEditor(props: EditorPluginProps<typeof eventTypeState>) {
         <h1>
           {props.editable ? (
             <HeaderInput
-              placeholder="Titel"
+              placeholder={i18n.t('event::Title')}
               value={title.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 title.set(e.target.value)

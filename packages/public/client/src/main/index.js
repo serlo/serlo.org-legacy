@@ -20,8 +20,10 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 /* globals gaOptout */
+import { initI18n } from '@serlo/i18n'
 import { reprocess, typeset } from '@serlo/mathjax'
 import autosize from 'autosize'
+import moment from 'moment'
 import $ from 'jquery'
 import 'jquery-sticky'
 import 'jquery-ui'
@@ -30,7 +32,6 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 
 import 'magnific-popup'
-import moment from 'moment'
 import 'iframe-resizer/js/iframeResizer.contentWindow'
 
 config.autoAddCss = false
@@ -42,7 +43,6 @@ import Content from '../modules/content'
 import '../modules/modals'
 import '../modules/spoiler'
 import SystemNotification from '../modules/system_notification'
-import { tenant } from '../modules/tenant'
 import t from '../modules/translator'
 import '../thirdparty/jquery.nestable'
 import '../thirdparty/deployggb'
@@ -92,14 +92,17 @@ console.log('########################')
 console.log(`# serlo-org-client@${version} #`)
 console.log('########################')
 
-const setLanguage = () => {
-  const language = $('html').attr('lang') || 'de'
+async function setLanguage() {
+  const language = $('html').attr('lang') || 'en'
 
   t.config({
     language
   })
-
   moment.locale(language)
+  await initI18n({
+    language,
+    resources: require('i18next-resource-store-loader!@serlo/i18n/resources')
+  })
 }
 
 const initNavigation = () => {
@@ -156,8 +159,7 @@ const initSubjectNav = $context => {
   })
 }
 
-const init = $context => {
-  setLanguage()
+function init($context) {
   initChangeDimensionEvents()
   initContentApi()
   initConsentBanner()
@@ -271,5 +273,7 @@ const init = $context => {
   initNewFeaturePrototypes()
 }
 
-init($('body'))
+setLanguage().then(() => {
+  init($('body'))
+})
 Supporter.check()
