@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2020-01-10 07:07+0100\n"
-"PO-Revision-Date: 2020-01-13 03:15\n"
+"PO-Revision-Date: 2020-05-11 02:00\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -270,7 +270,7 @@ msgstr "Aucun compte avec ce token n'a pu être trouvé. Vous pouvez maintenant 
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:96
 msgid "Your have been sent an activation email. Please check your spam folder as well."
-msgstr "Nous vous avons envoyé un e-mail d'activation. Veuillez également vérifier votre dossier de spam."
+msgstr "Nous vous avons envoyé un e-mail d'activation. Veuillez également voir votre dossier spam."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:134
 msgid "Your password has successfully been changed."
@@ -278,7 +278,7 @@ msgstr "Votre mot de passe a été modifié avec succès."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:239
 msgid "You have been sent an email with instructions on how to restore your password! Please check your spam folder as well."
-msgstr "Nous vous avons envoyé par mail les instructions de réinitialisation de votre mot de passe! Veuillez également vérifier votre dossier de spam."
+msgstr "Nous vous avons envoyé par mail les instructions de réinitialisation de votre mot de passe! Veuillez également voir votre dossier spam."
 
 #: ../module/Authentication/src/Authentication/Form/ActivateForm.php:43
 #: ../module/User/src/User/Form/Register.php:54
@@ -352,11 +352,11 @@ msgstr "Votre conversation a demarré."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:191
 msgid "You have downvoted this comment."
-msgstr "Vous avez voté contre ce commentaire."
+msgstr "Vous avez rejeté ce commentaire."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:193
 msgid "You can't downvote this comment."
-msgstr "Vous ne pouvez pas voter contre ce commentaire."
+msgstr "Vous ne pouvez pas rejeter ce commentaire."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:197
 msgid "You have upvoted this comment."
@@ -740,7 +740,7 @@ msgstr "Je suis ici comme…"
 #: ../module/User/src/User/Form/Register.php:92
 #: ../module/Ui/templates/user/user/register.twig:24
 msgid "Sign up"
-msgstr "Inscrivez-vous"
+msgstr "Inscription"
 
 #: ../module/User/src/User/Form/RegisterFilter.php:57
 msgid "This email address is already in use. Please use a different one."
@@ -1067,13 +1067,13 @@ msgid "We are a grassroots non-profit organization supporting personalized learn
 "                                towards equal educational opportunities. This learning platform offers thousands of\n"
 "                                instructional articles, learning videos and practice exercises for millions of students\n"
 "                                worldwide - completely free of charge. Now it’s time to join us in your language."
-msgstr "Nous sommes une organisation communautaire à but non-lucratif supportant l'apprentissage personnalisé et travaillant\n"
+msgstr "Nous sommes une organisation communautaire à but non lucratif supportant l'apprentissage personnalisé et travaillant\n"
 "\n"
 "à la réalisation d'opportunités éducatives égales. Cette plateforme propose des milliers\n"
 "\n"
-"d'articles d'instruction, de vidéos pédagogiques et d'exercices pratiques à des millions d'étudiant(e)s\n"
+"d'articles d'instruction, des vidéos pédagogiques et des exercices pratiques aux millions d'étudiant(e)s et d'élèves\n"
 "\n"
-"dans le monde entier - complètement gratuit. Maintenant, c'est à vous de nous joindre en Français."
+"dans le monde entier - complètement gratuit. Maintenant, vous êtes invité de joindre l'équipe Serlo francophone."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:124
 msgid "/serlo"
@@ -1092,7 +1092,7 @@ msgstr "Serlo est le Wikipédia pour l'apprentissage"
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:144
 msgid "Just like Wikipedia, this platform is created by an engaged community of authors. Serlo Education \n"
 "                                is run and owned by decentralized teams of volunteers and professionals all over the world."
-msgstr "Tout comme Wikipédia, cette plateforme est créée par une communauté d'auteur(e)s engagé(e)s. Serlo Education \n"
+msgstr "Tout comme Wikipédia, cette plateforme est créée par une communauté d'auteurs engagé(e)s. Serlo Education \n"
 " est gérée et détenue par des équipes décentralisées de bénévoles et de professionnels dans le monde entier."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:157
@@ -1103,12 +1103,12 @@ msgstr "Rejoignez notre mouvement pour l'éducation libre"
 msgid "We are looking for teachers and enthusiastic educators who are passionate about their subject.\n"
 "                             Become an author on serlo.org! You can create new learning material and help us improve existing content."
 msgstr "Nous cherchons des enseignant(e)s et des éducateur(e)s enthousiastes et passionné(e)s de leur matière.\n"
-"                             Devenez un(e) auteur(e) sur serlo.org ! Vous pouvez créer du nouveau matériel pédagogique et nous aider à améliorer le contenu existant."
+"                             Devenez un(e) auteur sur serlo.org ! Vous pouvez créer du nouveau matériel pédagogique et nous aider à améliorer le contenu existant."
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:168
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:190
 msgid "Visit the landing page for authors"
-msgstr "Visitez la page d'accueil d'auteur(e)s"
+msgstr "Visitez la page d'accueil d'auteurs"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:176
 msgid "We offer a diverse range of jobs and volunteering opportunities in the fields of software development,\n"
@@ -1119,7 +1119,7 @@ msgstr "Nous offrons une variété d'emplois et de possibilités de bénévolat 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:181
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:196
 msgid "Get involved!"
-msgstr "Participez!"
+msgstr "Participe!"
 
 #: ../module/Ui/templates/layout/partials/default-modal.phtml:33
 #: ../module/Ui/templates/layout/partials/noscript.phtml:45
@@ -1193,7 +1193,7 @@ msgstr "Montrez-moi comment activer JavaScript"
 #: ../module/Ui/templates/search/form.twig:24
 #: ../module/Ui/templates/search/search.twig:24
 msgid "Search"
-msgstr "Chercher"
+msgstr "Recherche"
 
 #: ../module/Ui/templates/license/manage.phtml:24
 msgid "Manage licenses"
@@ -2080,7 +2080,7 @@ msgstr "Ajouter une page"
 #: ../module/Ui/templates/page/partials/actions.twig:68
 #: ../module/Ui/templates/page/partials/controls.twig:75
 msgid "Settings"
-msgstr "Réglages"
+msgstr "Paramètres"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:58
 msgid "Remove page"
