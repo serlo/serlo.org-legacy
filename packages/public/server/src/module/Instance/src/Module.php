@@ -80,13 +80,13 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         putenv('LC_MESSAGES=' . $locale);
 
         if (function_exists('bindtextdomain')) {
-            bindtextdomain('athene2', __DIR__ . '/../../../lang');
+            bindtextdomain('default', __DIR__ . '/../../../lang');
         }
         if (function_exists('bind_textdomain_codeset')) {
-            bind_textdomain_codeset('athene2', 'UTF-8');
+            bind_textdomain_codeset('default', 'UTF-8');
         }
         if (function_exists('textdomain')) {
-            textdomain('athene2');
+            textdomain('default');
         }
 
         $translator->addTranslationFile('PhpArray', __DIR__ . '/../../../lang/routes/' . $code . '.php', 'default', $code);
