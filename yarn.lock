@@ -3792,9 +3792,9 @@
     pretty-format "^25.2.1"
 
 "@types/jquery@^3.0.0":
-  version "3.3.35"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.35.tgz#ab2cbf97e7a04b4dc0faee22b93c633fa540891c"
-  integrity sha512-pnIELWhHXJ7RgoFylhiTxD+96QlKBJfEx8JCLj963/dh7zBOKFkZ6rlNqbaCcn2JZrsAxCI8WhgRXznBx2iDsA==
+  version "3.3.38"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.38.tgz#6385f1e1b30bd2bff55ae8ee75ea42a999cc3608"
+  integrity sha512-nkDvmx7x/6kDM5guu/YpXkGZ/Xj/IwGiLDdKM99YA5Vag7pjGyTJ8BNUh/6hxEn/sEu5DKtyRgnONJ7EmOoKrA==
   dependencies:
     "@types/sizzle" "*"
 
@@ -12056,10 +12056,15 @@ jquery.redirect@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery.redirect/-/jquery.redirect-1.1.4.tgz#3fc6e1e842f19312e47415012065a08d97f71b24"
   integrity sha512-t6YUxbTwTNSXEMww0x6QD3RnlmbtmItDo4IiK3lo4AEqbpq9gUx50HCBCGRpKaF0aTBQAOW/vSnzPjV+Nrlf4Q==
 
-jquery@*, jquery@3.4.1, "jquery@>=1.7.1 <4.0.0", jquery@^3.0.0, jquery@^3.4.1, jquery@~3.4.0:
+jquery@*, "jquery@>=1.7.1 <4.0.0", jquery@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
+
+jquery@^3.0.0, jquery@^3.5.0:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
+  integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
 
 js-base64@^2.1.8:
   version "2.5.2"
@@ -15694,7 +15699,7 @@ react-markdown@^4.0.0:
     unist-util-visit "^1.3.0"
     xtend "^4.0.1"
 
-react-mathquill@0.2.4, react-mathquill@^0.2.0:
+react-mathquill@^0.2.0:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/react-mathquill/-/react-mathquill-0.2.4.tgz#5672a412ab1a30e12b9eda3809a1346d37da404e"
   integrity sha512-nefeoIxJTSnATeNQHftUKjfQYBIcWv3Z51W/8gzsJrJk6mxNhH+vvawJxrT8tWdygTwmNurBI8XU13Z3UdZOuA==
