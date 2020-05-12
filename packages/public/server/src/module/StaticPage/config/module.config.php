@@ -23,18 +23,15 @@
 
 namespace StaticPage;
 
-use StaticPage\Controller\BeitragController;
 use StaticPage\Controller\SpendenController;
 
 return [
     'di' => [
         'allowed_controllers' => [
-            BeitragController::class,
             SpendenController::class,
         ],
         'definition' => [
             'class' => [
-                BeitragController::class => [],
                 SpendenController::class => [],
             ],
         ],
@@ -58,17 +55,6 @@ return [
                             'route' => '/spenden',
                             'defaults' => [
                                 'controller' => SpendenController::class,
-                                'action' => 'index',
-                            ],
-                        ],
-                        'may_terminate' => true,
-                    ],
-                    'beitrag' => [
-                        'type' => 'literal',
-                        'options' => [
-                            'route' => '/beitrag',
-                            'defaults' => [
-                                'controller' => BeitragController::class,
                                 'action' => 'index',
                             ],
                         ],
