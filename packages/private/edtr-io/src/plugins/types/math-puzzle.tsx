@@ -59,7 +59,7 @@ function MathPuzzleTypeEditor(
       {props.renderIntoSettings(
         <Settings>
           <Settings.Textarea
-            label={i18n.t('event::Source code')}
+            label={i18n.t('mathPuzzle::Source code')}
             state={source}
           />
         </Settings>

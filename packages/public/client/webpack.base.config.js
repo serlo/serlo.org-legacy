@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
+const { WebpackDeduplicationPlugin } = require('webpack-deduplication-plugin')
 
 module.exports = {
   entry: {
@@ -66,6 +67,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       chunkFilename: '[id].[chunkhash:8].css',
       filename: '[name].css'
-    })
+    }),
+    new WebpackDeduplicationPlugin({})
   ]
 }

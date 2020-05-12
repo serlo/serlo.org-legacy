@@ -196,6 +196,11 @@ export function Editor(props: EditorProps) {
         icon: createIcon(faAnchor)
       },
       {
+        name: 'equations',
+        title: i18n.t('edtr-io::Equations'),
+        description: i18n.t('edtr-io::Create mathematical equations and terms.')
+      },
+      {
         name: 'image',
         title: i18n.t('edtr-io::Image'),
         description: i18n.t('edtr-io::Upload images.'),

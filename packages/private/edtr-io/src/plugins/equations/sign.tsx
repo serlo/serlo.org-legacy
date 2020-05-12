@@ -19,3 +19,30 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import * as React from 'react'
+
+export enum Sign {
+  Equals = 'equals',
+  GreaterThan = 'greater-than',
+  GreaterThanOrEqual = 'greater-than-or-equal',
+  LessThan = 'less-than',
+  LessThanOrEqual = 'less-than-or-equal',
+  AlmostEqualTo = 'almost-equal-to'
+}
+
+export function renderSignToString(sign: Sign): string {
+  switch (sign) {
+    case Sign.Equals:
+      return '='
+    case Sign.GreaterThan:
+      return '>'
+    case Sign.GreaterThanOrEqual:
+      return '≥'
+    case Sign.LessThan:
+      return '<'
+    case Sign.LessThanOrEqual:
+      return '≤'
+    case Sign.AlmostEqualTo:
+      return '≈'
+  }
+}
