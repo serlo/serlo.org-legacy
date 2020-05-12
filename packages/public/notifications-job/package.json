@@ -15,7 +15,7 @@
     "tslib": "^1.0.0"
   },
   "devDependencies": {
-    "tsdx": "^0.12.0",
+    "tsdx": "^0.13.0",
     "typescript": "^3.0.0"
   },
   "private": true

@@ -17,7 +17,6 @@ export async function initI18n({
   language: string
 }): Promise<void> {
   await i18n.use(initReactI18next).init({
-    debug: process.env.NODE_ENV !== 'production',
     defaultNS: 'default',
     nsSeparator: ':::',
     keySeparator: '::',
@@ -40,7 +39,6 @@ export async function initI18nWithBackend<B extends Module>({
     .use(initReactI18next)
     .use(backend)
     .init({
-      debug: process.env.NODE_ENV !== 'production',
       ns: ['default'],
       defaultNS: 'default',
       nsSeparator: ':::',

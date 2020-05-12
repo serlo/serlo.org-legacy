@@ -14,13 +14,13 @@
     "ramda": "^0.27.0",
     "slate-html-serializer": "^0.8.0",
     "tslib": "^1.0.0",
-    "uuid": "^3.0.0"
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
-    "@types/ramda": "^0.26.0",
-    "@types/uuid": "^3.0.0",
+    "@types/ramda": "^0.27.0",
+    "@types/uuid": "^7.0.0",
     "ts-node": "^8.0.0",
-    "tsdx": "^0.12.0",
+    "tsdx": "^0.13.0",
     "typescript": "^3.0.0"
   },
   "private": true
