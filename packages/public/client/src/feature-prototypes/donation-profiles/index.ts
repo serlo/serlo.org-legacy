@@ -214,12 +214,16 @@ function addIconsToUserLinks(): void {
 
     if (match) {
       const userId = match[1]
+      let icons = ''
 
       for (const spec of userProfileSpecs) {
         if (spec.userList.includes(userId)) {
-          $(a).append(icon(spec, 23))
+          icons += icon(spec, 23)
         }
       }
+
+      if (icons)
+        $(a).append(` <span style="display: inline-block;">${icons}</span> `)
     }
   })
 }
