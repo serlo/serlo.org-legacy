@@ -210,7 +210,7 @@ function addBannerToProfile(): void {
 function addIconsToUserLinks(): void {
   $('a').each((_, a) => {
     const href = a.getAttribute('href')
-    const match = href === null ? null : href.match(/^\/user\/profile\/(\d+)$/)
+    const match = href === null ? null : href.match(/\/user\/profile\/(\d+)$/)
 
     if (match) {
       const userId = match[1]
