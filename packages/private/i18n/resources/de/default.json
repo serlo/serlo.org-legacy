@@ -52,7 +52,8 @@
     "Author": "Verfasser",
     "Created at": "Zeitstempel",
     "Equations": "Gleichungen",
-    "Create mathematical equations and terms.": "Füge mathematische Gleichungen und Terme hinzu."
+    "Create mathematical equations and terms.": "Füge mathematische Gleichungen und Terme hinzu.",
+    "Settings": "Einstellungen"
   },
   "anchor": {
     "Identifier": "Name",

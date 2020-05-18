@@ -52,7 +52,8 @@
     "Author": "Author",
     "Created at": "Created at",
     "Equations": "Equations",
-    "Create mathematical equations and terms.": "Create mathematical equations and terms."
+    "Create mathematical equations and terms.": "Create mathematical equations and terms.",
+    "Settings": "Settings"
   },
   "anchor": {
     "Identifier": "Identifier",

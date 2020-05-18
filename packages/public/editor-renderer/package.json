@@ -1,6 +1,6 @@
 {
   "name": "@serlo/editor-renderer",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsdx build --target node --format cjs --tsconfig tsconfig.prod.json",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@edtr-io/renderer-ssr": "^1.0.0-beta.3",
+    "@edtr-io/renderer-ssr": "^1.0.0-beta.4",
     "@serlo/edtr-io": "^0.0.0",
     "@serlo/editor-helpers": "^0.0.0",
     "@serlo/i18n": "^0.0.0",
