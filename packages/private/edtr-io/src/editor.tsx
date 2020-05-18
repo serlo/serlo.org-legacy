@@ -73,12 +73,12 @@ export function Editor(props: EditorProps) {
     i18n
   })
 
-  // FIXME: doesnt seem to be used yet
   const DocumentEditor = createDefaultDocumentEditor({
     i18n: {
-      modal: {
-        title: i18n.t('edtr-io::Extended Settings'),
-        closeLabel: i18n.t('edtr-io::Close')
+      settings: {
+        buttonLabel: i18n.t('edtr-io::Settings'),
+        modalTitle: i18n.t('edtr-io::Extended Settings'),
+        modalCloseLabel: i18n.t('edtr-io::Close')
       }
     }
   })
@@ -194,6 +194,11 @@ export function Editor(props: EditorProps) {
         title: i18n.t('edtr-io::Anchor'),
         description: i18n.t('edtr-io::Insert an anchor.'),
         icon: createIcon(faAnchor)
+      },
+      {
+        name: 'equations',
+        title: i18n.t('edtr-io::Equations'),
+        description: i18n.t('edtr-io::Create mathematical equations and terms.')
       },
       {
         name: 'image',

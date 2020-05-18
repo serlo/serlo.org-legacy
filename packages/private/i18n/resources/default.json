@@ -50,7 +50,10 @@
     "Switch to another revision": "Switch to another revision",
     "Current": "Current",
     "Author": "Author",
-    "Created at": "Created at"
+    "Created at": "Created at",
+    "Equations": "Equations",
+    "Create mathematical equations and terms.": "Create mathematical equations and terms.",
+    "Settings": "Settings"
   },
   "anchor": {
     "Identifier": "Identifier",
@@ -202,8 +205,7 @@
   "event": {
     "Title for search engines": "Title for search engines",
     "Description for search engines": "Description for search engines",
-    "Title": "Title",
-    "Source code": "Source code"
+    "Title": "Title"
   },
   "page": {
     "Title": "Title"
@@ -218,5 +220,15 @@
   "textExercise": {
     "Remove solution": "Remove solution",
     "Create solution": "Create solution"
+  },
+  "equations": {
+    "Left-hand side": "Left-hand side",
+    "Right-hand side": "Right-hand side",
+    "Transformation / explanation": "Transformation / explanation",
+    "Transformation": "Transformation",
+    "Add step": "Add step"
+  },
+  "mathPuzzle": {
+    "Source code": "Source code"
   }
 }

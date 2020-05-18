@@ -50,7 +50,10 @@
     "Switch to another revision": "Andere Version auswählen",
     "Current": "Aktuell",
     "Author": "Verfasser",
-    "Created at": "Zeitstempel"
+    "Created at": "Zeitstempel",
+    "Equations": "Gleichungen",
+    "Create mathematical equations and terms.": "Füge mathematische Gleichungen und Terme hinzu.",
+    "Settings": "Einstellungen"
   },
   "anchor": {
     "Identifier": "Name",
@@ -202,8 +205,7 @@
   "event": {
     "Title for search engines": "Titel für Suchmaschinen",
     "Description for search engines": "Beschreibung für Suchmaschinen",
-    "Title": "Titel",
-    "Source code": "Quellcode"
+    "Title": "Titel"
   },
   "page": {
     "Title": "Titel"
@@ -218,5 +220,15 @@
   "textExercise": {
     "Remove solution": "Lösung entfernen",
     "Create solution": "Lösung hinzufügen"
+  },
+  "equations": {
+    "Left-hand side": "Linke Seite",
+    "Right-hand side": "Rechte Seite",
+    "Transformation / explanation": "Umformung / Erklärung",
+    "Transformation": "Umformung",
+    "Add step": "Schritt hinzufügen"
+  },
+  "mathPuzzle": {
+    "Source code": "Quellcode"
   }
 }
