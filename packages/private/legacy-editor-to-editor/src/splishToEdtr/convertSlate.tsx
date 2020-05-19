@@ -24,6 +24,7 @@ import Html, { Rule } from 'slate-html-serializer'
 // @ts-ignore
 import { parseFragment } from 'parse5'
 import { Block, Inline, Mark, Value, ValueJSON } from 'slate'
+import { normalize } from './normalize-slate'
 
 /**
  * This file provides a serializer for the splish slate state to html
@@ -107,7 +108,7 @@ export function htmlToSlate(html: string) {
     }
   })
 
-  return deserializer.deserialize(html, { toJSON: true })
+  return normalize(deserializer.deserialize(html, { toJSON: true }))
 }
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
