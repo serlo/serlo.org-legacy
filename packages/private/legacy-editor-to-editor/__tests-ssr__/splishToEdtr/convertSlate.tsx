@@ -22,7 +22,7 @@
 import { htmlToSlate } from '../../src/splishToEdtr/convertSlate'
 
 describe('slate serializer and deserializer work', () => {
-  it('can handle empty paragraphs', () => {
+  test('can handle empty paragraphs', () => {
     const html = '<p></p>'
 
     expect(htmlToSlate(html)).toEqual({
@@ -34,7 +34,8 @@ describe('slate serializer and deserializer work', () => {
       }
     })
   })
-  it('works with normal text.', () => {
+
+  test('works with normal text.', () => {
     const html = 'This was created with'
 
     expect(htmlToSlate(html)).toEqual({
@@ -60,7 +61,7 @@ describe('slate serializer and deserializer work', () => {
     })
   })
 
-  it('works with normal paragraphs and marks.', () => {
+  test('works with normal paragraphs and marks.', () => {
     const html = '<p>This was created with <strong>Splish</strong> editor.</p>'
     expect(htmlToSlate(html)).toEqual({
       object: 'value',
@@ -91,7 +92,7 @@ describe('slate serializer and deserializer work', () => {
     })
   })
 
-  it('works with list', () => {
+  test('works with list', () => {
     const html = '<ul><li><p>foo</p></li><li><p>bar</p></li></ul>'
     expect(htmlToSlate(html)).toEqual({
       object: 'value',
@@ -161,7 +162,7 @@ describe('slate serializer and deserializer work', () => {
     })
   })
 
-  it('works with real html from splish slate', () => {
+  test('works with real html from splish slate', () => {
     const html =
       '<p>This was created with <strong>Splish</strong> editor.</p><ul><li><p>foo</p></li><li><p>bar</p></li></ul>'
     expect(htmlToSlate(html)).toEqual({
@@ -248,6 +249,32 @@ describe('slate serializer and deserializer work', () => {
                 ]
               }
             ]
+          }
+        ]
+      }
+    })
+  })
+
+  test('normalizes the slate state', () => {
+    const html = '<p>Formula: <katexblock>a^2+b^2=c^2</katexblock></p>'
+
+    expect(htmlToSlate(html)).toEqual({
+      object: 'value',
+      document: {
+        object: 'document',
+        data: {},
+        nodes: [
+          {
+            object: 'block',
+            type: 'paragraph',
+            nodes: [{ object: 'text', text: 'Formula: ', marks: [] }],
+            data: {}
+          },
+          {
+            object: 'block',
+            type: '@splish-me/katex-block',
+            data: { formula: 'a^2+b^2=c^2', inline: false },
+            nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }]
           }
         ]
       }
