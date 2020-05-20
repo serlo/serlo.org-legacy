@@ -107,13 +107,14 @@ of the following packages. Check out their READMEs for package-specific details:
 - `yarn build` builds our packages (only needed for deployment)
 - `yarn deploy:images` deploys the docker images to our Container Registry (only needed for deployment)
 - `yarn deploy:packages` deploys the packages to our Package Registry (only needed for deployment)
-- `yarn dump:sql` to update the docker initialization file of the sql database with the current database state
 - `yarn format` formats all source code
 - `yarn lint` lints all source code
 - `yarn license` updates license headers in source files
 - `yarn mysql` connects to the running MySQL database (requires `yarn start` beforehand)
+- `yarn mysql:dump` updates the docker initialization file of the sql database with the current database state (requires `yarn start` beforehand)
+- `yarn mysql:import-anonymous-data` imports the latest anonymized dump (requires `yarn start` beforehand, only works on Unix currently)
+- `yarn mysql:rollback` resets the database (requires `yarn start` beforehand)
 - `yarn oauth` runs a OAuth workflow to manually test Hydra integration
-- `yarn rollback:sql` resets the database
 - `yarn test:e2e` runs all end-to-end tests (requires `yarn start` beforehand)
   - Use `HEADLESS=false yarn test.e2e` to run the tests in an actual browser.
   - Use `HEADLESS=false SLOWMO=<number> yarn test:e2e` to introduce a `<number>` of milliseconds delay between actions in tests.
