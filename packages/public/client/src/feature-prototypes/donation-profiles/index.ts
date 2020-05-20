@@ -210,16 +210,20 @@ function addBannerToProfile(): void {
 function addIconsToUserLinks(): void {
   $('a').each((_, a) => {
     const href = a.getAttribute('href')
-    const match = href === null ? null : href.match(/^\/user\/profile\/(\d+)$/)
+    const match = href === null ? null : href.match(/\/user\/profile\/(\d+)$/)
 
     if (match) {
       const userId = match[1]
+      let icons = ''
 
       for (const spec of userProfileSpecs) {
         if (spec.userList.includes(userId)) {
-          $(a).append(icon(spec, 23))
+          icons += icon(spec, 23)
         }
       }
+
+      if (icons)
+        $(a).append(` <span style="display: inline-block;">${icons}</span> `)
     }
   })
 }
