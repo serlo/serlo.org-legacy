@@ -42,10 +42,14 @@ class AttachmentForm extends Form implements AttachmentFieldsetProvider
 
         $this->add(new AttachmentFieldset());
         $this->add(
-            (new Select('type'))->setLabel('Set type:')->setValueOptions(['file' => 'File', 'geogebra' => 'Geogebra'])
+            (new Select('type'))
+                ->setLabel('Set type:')
+                ->setValueOptions(['file' => 'File', 'geogebra' => 'Geogebra'])
         );
         $this->add(
-            (new Submit('submit'))->setValue('Upload')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Upload')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
         $filter->add(['name' => 'type', 'required' => true]);

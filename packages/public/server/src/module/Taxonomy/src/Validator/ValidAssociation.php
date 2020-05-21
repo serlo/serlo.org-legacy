@@ -46,8 +46,9 @@ class ValidAssociation extends AbstractValidator
      * @var array Message templates
      */
     protected $messageTemplates = [
-        self::NOT_AUTHORIZED => "You do not have permission to associate those two objects.",
-        self::NOT_ALLOWED    => "You can't associate those two objects.",
+        self::NOT_AUTHORIZED =>
+            'You do not have permission to associate those two objects.',
+        self::NOT_ALLOWED => "You can't associate those two objects.",
     ];
 
     /**
@@ -74,22 +75,32 @@ class ValidAssociation extends AbstractValidator
         }
 
         if (!$options['taxonomy_manager'] instanceof TaxonomyManagerInterface) {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected taxonomy_manager to be of type TaxonomyManagerInterface but got %s',
-                is_object($options['taxonomy_manager']) ? get_class($options['taxonomy_manager']) :
-                    gettype($options['taxonomy_manager'])
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected taxonomy_manager to be of type TaxonomyManagerInterface but got %s',
+                    is_object($options['taxonomy_manager'])
+                        ? get_class($options['taxonomy_manager'])
+                        : gettype($options['taxonomy_manager'])
+                )
+            );
         }
 
-        if (!$options['target'] instanceof TaxonomyTermAwareInterface && !$options['target'] instanceof FormInterface) {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected target to be of type TaxonomyTermAwareInterface or FormInterface but got %s',
-                is_object($options['target']) ? get_class($options['target']) : gettype($options['target'])
-            ));
+        if (
+            !$options['target'] instanceof TaxonomyTermAwareInterface &&
+            !$options['target'] instanceof FormInterface
+        ) {
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected target to be of type TaxonomyTermAwareInterface or FormInterface but got %s',
+                    is_object($options['target'])
+                        ? get_class($options['target'])
+                        : gettype($options['target'])
+                )
+            );
         }
 
         $this->taxonomyManager = $options['taxonomy_manager'];
-        $this->target          = $options['target'];
+        $this->target = $options['target'];
     }
 
     /**
@@ -109,10 +120,14 @@ class ValidAssociation extends AbstractValidator
             if ($target instanceof FormInterface) {
                 $target = $target->getObject();
                 if (!$target instanceof TaxonomyTermAwareInterface) {
-                    throw new Exception\RuntimeException(sprintf(
-                        'Target supplied by FormInterface is not of type TaxonomyTermAwareInterface',
-                        is_object($target) ? get_class($target) : gettype($target)
-                    ));
+                    throw new Exception\RuntimeException(
+                        sprintf(
+                            'Target supplied by FormInterface is not of type TaxonomyTermAwareInterface',
+                            is_object($target)
+                                ? get_class($target)
+                                : gettype($target)
+                        )
+                    );
                 }
             }
 
@@ -129,6 +144,6 @@ class ValidAssociation extends AbstractValidator
             throw new Exception\RuntimeException($e->getMessage());
         }
 
-        throw new Exception\RuntimeException("Validation failed");
+        throw new Exception\RuntimeException('Validation failed');
     }
 }

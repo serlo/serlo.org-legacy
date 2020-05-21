@@ -26,7 +26,6 @@ use Page\Entity\PageRepositoryInterface;
 
 class PageRepositoryAdapter extends AbstractAdapter
 {
-
     /**
      * @return PageRepositoryInterface
      */
@@ -55,7 +54,7 @@ class PageRepositoryAdapter extends AbstractAdapter
         if ($revision) {
             return $revision->getDate();
         }
-        return new \DateTime;
+        return new \DateTime();
     }
 
     protected function getId()
@@ -81,7 +80,9 @@ class PageRepositoryAdapter extends AbstractAdapter
     {
         $revision = $this->getObject()->getCurrentRevision();
         if (!$revision) {
-            $revision = $this->getObject()->getRevisions()->current();
+            $revision = $this->getObject()
+                ->getRevisions()
+                ->current();
         }
         return $revision;
     }

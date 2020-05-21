@@ -24,7 +24,7 @@ return [
     'zfc_rbac' => [
         'guards' => [
             'ZfcRbac\Guard\RouteGuard' => [
-                'license/add'    => ['admin'],
+                'license/add' => ['admin'],
                 'license/remove' => ['sysadmin'],
                 'license/update' => ['admin'],
             ],

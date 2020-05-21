@@ -66,29 +66,41 @@ class EventLog extends AbstractHelper
         } elseif ($id instanceof EventLogInterface) {
             $event = $id;
         } else {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected numeric, EventLogInterface or EventServiceInterface but got `%s`',
-                gettype($id)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected numeric, EventLogInterface or EventServiceInterface but got `%s`',
+                    gettype($id)
+                )
+            );
         }
 
-        return $this->getView()->partial($this->eventTemplate, ['event' => $event]);
+        return $this->getView()->partial($this->eventTemplate, [
+            'event' => $event,
+        ]);
     }
 
-    public function countEventsFoundByActorAndNames(UserInterface $user, array $names)
-    {
-        return $this->getEventManager()->findEventsByNamesAndActor($user, $names)->count();
+    public function countEventsFoundByActorAndNames(
+        UserInterface $user,
+        array $names
+    ) {
+        return $this->getEventManager()
+            ->findEventsByNamesAndActor($user, $names)
+            ->count();
     }
 
     public function renderObjectLog($id)
     {
         $events = $this->getEventManager()->findEventsByObject($id);
-        return $this->getView()->partial($this->eventsTemplate, ['events' => $events]);
+        return $this->getView()->partial($this->eventsTemplate, [
+            'events' => $events,
+        ]);
     }
 
     public function renderUserLog($id, $limit = 50)
     {
         $events = $this->getEventManager()->findEventsByActor($id, $limit);
-        return $this->getView()->partial($this->eventsTemplate, ['events' => $events]);
+        return $this->getView()->partial($this->eventsTemplate, [
+            'events' => $events,
+        ]);
     }
 }

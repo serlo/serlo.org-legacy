@@ -34,7 +34,6 @@ use Instance\Entity\InstanceInterface;
  */
 class AdPage implements AdPageInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Instance\Entity\Instance")

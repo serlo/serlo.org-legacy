@@ -29,13 +29,16 @@ class Module implements ConfigProviderInterface
 {
     public function getConfig()
     {
-        return ArrayUtils::merge(include __DIR__ . '/../config/module.config.php', $this->getInstanceConfig());
+        return ArrayUtils::merge(
+            include __DIR__ . '/../config/module.config.php',
+            $this->getInstanceConfig()
+        );
     }
 
     public function getInstanceConfig()
     {
         $instances = [__DIR__ . '/../config/instances.config.php'];
-        $config    = [];
+        $config = [];
         foreach ($instances as $instance) {
             $config = ArrayUtils::merge($config, include $instance);
         }

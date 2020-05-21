@@ -30,7 +30,8 @@ use Notification\Listener\EventManagerListener;
 return [
     'view_helpers' => [
         'factories' => [
-            'notifications' => __NAMESPACE__ . '\Factory\NotificationHelperFactory',
+            'notifications' =>
+                __NAMESPACE__ . '\Factory\NotificationHelperFactory',
             'subscribe' => __NAMESPACE__ . '\Factory\SubscribeFactory',
         ],
     ],
@@ -55,7 +56,8 @@ return [
                         'options' => [
                             'route' => '/read',
                             'defaults' => [
-                                'controller' => 'Notification\Controller\NotificationController',
+                                'controller' =>
+                                    'Notification\Controller\NotificationController',
                                 'action' => 'read',
                             ],
                         ],
@@ -77,7 +79,8 @@ return [
                 'options' => [
                     'route' => '',
                     'defaults' => [
-                        'controller' => 'Notification\Controller\SubscriptionController',
+                        'controller' =>
+                            'Notification\Controller\SubscriptionController',
                     ],
                 ],
                 'may_terminate' => false,
@@ -116,7 +119,8 @@ return [
                 'options' => [
                     'route' => '/subscriptions',
                     'defaults' => [
-                        'controller' => 'Notification\Controller\SubscriptionController',
+                        'controller' =>
+                            'Notification\Controller\SubscriptionController',
                     ],
                 ],
                 'child_routes' => [
@@ -135,8 +139,10 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\NotificationManager' => __NAMESPACE__ . '\Factory\NotificationManagerFactory',
-            __NAMESPACE__ . '\Storage\Storage' => __NAMESPACE__ . '\Factory\NotificationStorageFactory',
+            __NAMESPACE__ . '\NotificationManager' =>
+                __NAMESPACE__ . '\Factory\NotificationManagerFactory',
+            __NAMESPACE__ . '\Storage\Storage' =>
+                __NAMESPACE__ . '\Factory\NotificationStorageFactory',
         ],
     ],
     'controllers' => [
@@ -145,9 +151,12 @@ return [
         ],
     ],
     'class_resolver' => [
-        __NAMESPACE__ . '\Entity\NotificationEventInterface' => __NAMESPACE__ . '\Entity\NotificationEvent',
-        __NAMESPACE__ . '\Entity\NotificationInterface' => __NAMESPACE__ . '\Entity\Notification',
-        __NAMESPACE__ . '\Entity\SubscriptionInterface' => __NAMESPACE__ . '\Entity\Subscription',
+        __NAMESPACE__ . '\Entity\NotificationEventInterface' =>
+            __NAMESPACE__ . '\Entity\NotificationEvent',
+        __NAMESPACE__ . '\Entity\NotificationInterface' =>
+            __NAMESPACE__ . '\Entity\Notification',
+        __NAMESPACE__ . '\Entity\SubscriptionInterface' =>
+            __NAMESPACE__ . '\Entity\Subscription',
     ],
     'di' => [
         'allowed_controllers' => [
@@ -161,7 +170,8 @@ return [
                         'required' => true,
                     ],
                 ],
-                __NAMESPACE__ . '\Listener\AuthenticationControllerListener' => [],
+                __NAMESPACE__ .
+                '\Listener\AuthenticationControllerListener' => [],
                 __NAMESPACE__ . '\Listener\DiscussionManagerListener' => [],
                 __NAMESPACE__ . '\Listener\RepositoryManagerListener' => [
                     'setSubscriptionManager' => [
@@ -206,8 +216,10 @@ return [
         ],
         'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\SubscriptionManagerInterface' => __NAMESPACE__ . '\SubscriptionManager',
-                __NAMESPACE__ . '\NotificationManagerInterface' => __NAMESPACE__ . '\NotificationManager',
+                __NAMESPACE__ . '\SubscriptionManagerInterface' =>
+                    __NAMESPACE__ . '\SubscriptionManager',
+                __NAMESPACE__ . '\NotificationManagerInterface' =>
+                    __NAMESPACE__ . '\NotificationManager',
             ],
         ],
     ],
@@ -216,9 +228,7 @@ return [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
             'orm_default' => [
                 'drivers' => [

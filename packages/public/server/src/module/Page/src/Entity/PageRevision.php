@@ -37,7 +37,6 @@ use Versioning\Entity\RepositoryInterface;
  */
 class PageRevision extends Uuid implements PageRevisionInterface
 {
-
     /**
      * @ORM\ManyToOne(targetEntity="User\Entity\User")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
@@ -63,7 +62,6 @@ class PageRevision extends Uuid implements PageRevisionInterface
      * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
      */
     protected $date;
-
 
     public function getRepository()
     {

@@ -24,7 +24,6 @@ namespace License\Manager;
 
 trait LicenseManagerAwareTrait
 {
-
     /**
      * @var LicenseManagerInterface
      */

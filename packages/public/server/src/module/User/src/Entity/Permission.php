@@ -33,7 +33,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Permission implements ParametrizedPermissionInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

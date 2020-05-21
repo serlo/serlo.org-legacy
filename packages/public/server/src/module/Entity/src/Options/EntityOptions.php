@@ -118,7 +118,9 @@ class EntityOptions extends AbstractOptions
     public function getComponent($component)
     {
         if (!$this->hasComponent($component)) {
-            throw new Exception\RuntimeException(sprintf('Component "%s" not enabled.', $component));
+            throw new Exception\RuntimeException(
+                sprintf('Component "%s" not enabled.', $component)
+            );
         }
 
         $options = $this->components[$component];
@@ -172,7 +174,7 @@ class EntityOptions extends AbstractOptions
      */
     protected function findComponent($key)
     {
-        foreach ($this->availableComponents as & $availableComponent) {
+        foreach ($this->availableComponents as &$availableComponent) {
             if (!is_object($availableComponent)) {
                 $availableComponent = new $availableComponent();
             }
@@ -181,6 +183,8 @@ class EntityOptions extends AbstractOptions
             }
         }
 
-        throw new Exception\RuntimeException(sprintf('Could not find a suitable component for "%s"', $key));
+        throw new Exception\RuntimeException(
+            sprintf('Could not find a suitable component for "%s"', $key)
+        );
     }
 }

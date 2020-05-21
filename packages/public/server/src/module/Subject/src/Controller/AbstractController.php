@@ -32,7 +32,9 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 class AbstractController extends AbstractActionController
 {
-    use SubjectManagerAwareTrait, InstanceManagerAwareTrait, TaxonomyManagerAwareTrait;
+    use SubjectManagerAwareTrait,
+        InstanceManagerAwareTrait,
+        TaxonomyManagerAwareTrait;
 
     public function __construct(
         InstanceManagerInterface $instanceManager,
@@ -40,7 +42,7 @@ class AbstractController extends AbstractActionController
         TaxonomyManagerInterface $taxonomyManager
     ) {
         $this->instanceManager = $instanceManager;
-        $this->subjectManager  = $subjectManager;
+        $this->subjectManager = $subjectManager;
         $this->taxonomyManager = $taxonomyManager;
     }
 
@@ -50,7 +52,7 @@ class AbstractController extends AbstractActionController
      */
     public function getSubject($id = null)
     {
-        $subject = $id ? : $this->params()->fromRoute('subject');
+        $subject = $id ?: $this->params()->fromRoute('subject');
 
         if (is_numeric($subject)) {
             return $this->getSubjectManager()->getSubject($id);

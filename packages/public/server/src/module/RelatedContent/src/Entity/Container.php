@@ -52,10 +52,10 @@ class Container implements ContainerInterface
 
     public function __construct(UuidInterface $id, InstanceInterface $instance)
     {
-        $this->id                = $id;
-        $this->holders           = new ArrayCollection();
+        $this->id = $id;
+        $this->holders = new ArrayCollection();
         $this->internalRelations = new ArrayCollection();
-        $this->instance          = $instance;
+        $this->instance = $instance;
     }
 
     public function getId()

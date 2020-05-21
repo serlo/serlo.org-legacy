@@ -26,7 +26,6 @@ namespace Renderer\View\Helper;
 
 trait FormatHelperAwareTrait
 {
-
     /**
      * @var FormatHelper
      */

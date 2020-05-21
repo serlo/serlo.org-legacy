@@ -29,7 +29,6 @@ use Uuid\Entity\UuidInterface;
 
 interface EventLogInterface extends InstanceAwareInterface
 {
-
     /**
      * @param EventParameterInterface $parameter
      * @return self

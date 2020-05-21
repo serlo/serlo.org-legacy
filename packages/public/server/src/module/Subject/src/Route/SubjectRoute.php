@@ -45,11 +45,15 @@ class SubjectRoute extends Segment implements ServiceLocatorAwareInterface
      */
     protected $identifier;
 
-    public function __construct($route, array $constraints, array $defaults, $identifier)
-    {
-        $this->defaults   = $defaults;
-        $this->parts      = $this->parseRouteDefinition($route);
-        $this->regex      = $this->buildRegex($this->parts, $constraints);
+    public function __construct(
+        $route,
+        array $constraints,
+        array $defaults,
+        $identifier
+    ) {
+        $this->defaults = $defaults;
+        $this->parts = $this->parseRouteDefinition($route);
+        $this->regex = $this->buildRegex($this->parts, $constraints);
         $this->identifier = $identifier;
     }
 
@@ -61,16 +65,20 @@ class SubjectRoute extends Segment implements ServiceLocatorAwareInterface
      * @return Segment
      * @throws Exception\InvalidArgumentException
      */
-    public static function factory($options = array())
+    public static function factory($options = [])
     {
         if ($options instanceof Traversable) {
             $options = ArrayUtils::iteratorToArray($options);
         } elseif (!is_array($options)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ' expects an array or Traversable set of options');
+            throw new Exception\InvalidArgumentException(
+                __METHOD__ . ' expects an array or Traversable set of options'
+            );
         }
 
         if (!isset($options['route'])) {
-            throw new Exception\InvalidArgumentException('Missing "route" in options array');
+            throw new Exception\InvalidArgumentException(
+                'Missing "route" in options array'
+            );
         }
 
         if (!isset($options['identifier'])) {
@@ -78,14 +86,19 @@ class SubjectRoute extends Segment implements ServiceLocatorAwareInterface
         }
 
         if (!isset($options['constraints'])) {
-            $options['constraints'] = array();
+            $options['constraints'] = [];
         }
 
         if (!isset($options['defaults'])) {
-            $options['defaults'] = array();
+            $options['defaults'] = [];
         }
 
-        return new static($options['route'], $options['constraints'], $options['defaults'], $options['identifier']);
+        return new static(
+            $options['route'],
+            $options['constraints'],
+            $options['defaults'],
+            $options['identifier']
+        );
     }
 
     /**
@@ -94,7 +107,9 @@ class SubjectRoute extends Segment implements ServiceLocatorAwareInterface
     public function getInstanceManager()
     {
         // TODO: Wait for zf2 route refactor.
-        return $this->getServiceLocator()->getServiceLocator()->get('Instance\Manager\InstanceManager');
+        return $this->getServiceLocator()
+            ->getServiceLocator()
+            ->get('Instance\Manager\InstanceManager');
     }
 
     /**
@@ -103,7 +118,9 @@ class SubjectRoute extends Segment implements ServiceLocatorAwareInterface
     public function getSubjectManager()
     {
         // TODO: Wait for zf2 route refactor.
-        return $this->getServiceLocator()->getServiceLocator()->get('Subject\Manager\SubjectManager');
+        return $this->getServiceLocator()
+            ->getServiceLocator()
+            ->get('Subject\Manager\SubjectManager');
     }
 
     /**
@@ -112,8 +129,11 @@ class SubjectRoute extends Segment implements ServiceLocatorAwareInterface
      * @param array   $options
      * @return null|RouteMatch
      */
-    public function match(Request $request, $pathOffset = null, array $options = array())
-    {
+    public function match(
+        Request $request,
+        $pathOffset = null,
+        array $options = []
+    ) {
         $routeMatch = parent::match($request, $pathOffset, $options);
 
         if (!$routeMatch) {
@@ -123,7 +143,10 @@ class SubjectRoute extends Segment implements ServiceLocatorAwareInterface
         $subject = $routeMatch->getParam($this->identifier);
 
         try {
-            $this->getSubjectManager()->findSubjectByString($subject, $this->getInstanceManager()->getInstanceFromRequest());
+            $this->getSubjectManager()->findSubjectByString(
+                $subject,
+                $this->getInstanceManager()->getInstanceFromRequest()
+            );
             return $routeMatch;
         } catch (\Exception $e) {
             return null;

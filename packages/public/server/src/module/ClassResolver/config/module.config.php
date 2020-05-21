@@ -25,15 +25,17 @@ namespace ClassResolver;
 return [
     'service_manager' => [
         'factories' => [
-            'ClassResolver\ClassResolver' => 'ClassResolver\ClassResolverFactory',
+            'ClassResolver\ClassResolver' =>
+                'ClassResolver\ClassResolverFactory',
         ],
     ],
-    'di'              => [
+    'di' => [
         'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\ClassResolverInterface' => __NAMESPACE__ . '\ClassResolver',
+                __NAMESPACE__ . '\ClassResolverInterface' =>
+                    __NAMESPACE__ . '\ClassResolver',
             ],
         ],
     ],
-    'class_resolver'  => [],
+    'class_resolver' => [],
 ];

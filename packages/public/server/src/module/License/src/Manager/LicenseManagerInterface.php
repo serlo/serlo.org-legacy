@@ -30,7 +30,6 @@ use License\Form\LicenseForm;
 
 interface LicenseManagerInterface extends Flushable
 {
-
     /**
      * @param int $id
      * @param bool $instanceAware
@@ -72,7 +71,10 @@ interface LicenseManagerInterface extends Flushable
      * @param LicenseInterface      $license
      * @return void
      */
-    public function injectLicense(LicenseAwareInterface $object, LicenseInterface $license = null);
+    public function injectLicense(
+        LicenseAwareInterface $object,
+        LicenseInterface $license = null
+    );
 
     /**
      * @return LicenseInterface

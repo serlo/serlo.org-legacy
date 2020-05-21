@@ -39,14 +39,17 @@ class LicenseController extends AbstractActionController
      */
     public function __construct(LicenseManagerInterface $licenseManager)
     {
-        $this->licenseManager  = $licenseManager;
+        $this->licenseManager = $licenseManager;
     }
 
     public function manageAction()
     {
         $this->assertGranted('license.create');
         $licenses = $this->getLicenseManager()->findAllLicenses();
-        $view     = new ViewModel(['licenses' => $licenses, 'form' => new CsrfForm('remove-license')]);
+        $view = new ViewModel([
+            'licenses' => $licenses,
+            'form' => new CsrfForm('remove-license'),
+        ]);
         $view->setTemplate('license/manage');
         return $view;
     }
@@ -54,7 +57,7 @@ class LicenseController extends AbstractActionController
     public function detailAction()
     {
         $license = $this->getLicenseManager()->getLicense($this->params('id'));
-        $view    = new ViewModel(['license' => $license]);
+        $view = new ViewModel(['license' => $license]);
         $view->setTemplate('license/detail');
         return $view;
     }
@@ -68,13 +71,15 @@ class LicenseController extends AbstractActionController
         $view = new ViewModel(['form' => $form]);
         $view->setTemplate('license/update');
         if ($this->getRequest()->isPost()) {
-            $form->setData(
-                $this->getRequest()->getPost()
-            );
+            $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $this->getLicenseManager()->updateLicense($form);
-                $this->getLicenseManager()->getObjectManager()->flush();
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                $this->getLicenseManager()
+                    ->getObjectManager()
+                    ->flush();
+                return $this->redirect()->toUrl(
+                    $this->referer()->fromStorage()
+                );
             }
         } else {
             $this->referer()->store();
@@ -95,8 +100,12 @@ class LicenseController extends AbstractActionController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $this->getLicenseManager()->createLicense($form);
-                $this->getLicenseManager()->getObjectManager()->flush();
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                $this->getLicenseManager()
+                    ->getObjectManager()
+                    ->flush();
+                return $this->redirect()->toUrl(
+                    $this->referer()->fromStorage()
+                );
             }
         } else {
             $this->referer()->store();
@@ -115,9 +124,13 @@ class LicenseController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $this->getLicenseManager()->removeLicense($this->params('id'));
-                $this->getLicenseManager()->getObjectManager()->flush();
+                $this->getLicenseManager()
+                    ->getObjectManager()
+                    ->flush();
             } else {
-                $this->flashMessenger()->addErrorMessage('The license could not be removed (validation failed)');
+                $this->flashMessenger()->addErrorMessage(
+                    'The license could not be removed (validation failed)'
+                );
             }
         }
         return $this->redirect()->toReferer();

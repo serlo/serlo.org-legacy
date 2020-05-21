@@ -45,14 +45,20 @@ class Url extends ZendUrl
         AliasManagerInterface $aliasManager,
         InstanceManagerInterface $instanceManager
     ) {
-        $this->aliasManager    = $aliasManager;
+        $this->aliasManager = $aliasManager;
         $this->instanceManager = $instanceManager;
     }
 
-    public function __invoke($name = null, $params = [], $options = [], $reuseMatchedParams = false, $useAlias = true)
-    {
-        $useCanonical = (isset($options['force_canonical']) && $options['force_canonical']);
-        $link         = parent::__invoke($name, $params, $options, $reuseMatchedParams);
+    public function __invoke(
+        $name = null,
+        $params = [],
+        $options = [],
+        $reuseMatchedParams = false,
+        $useAlias = true
+    ) {
+        $useCanonical =
+            isset($options['force_canonical']) && $options['force_canonical'];
+        $link = parent::__invoke($name, $params, $options, $reuseMatchedParams);
 
         if (!$useAlias) {
             return $link;
@@ -60,11 +66,16 @@ class Url extends ZendUrl
 
         try {
             $aliasManager = $this->getAliasManager();
-            $instance     = $this->getInstanceManager()->getInstanceFromRequest();
+            $instance = $this->getInstanceManager()->getInstanceFromRequest();
             if ($useCanonical) {
                 $options['force_canonical'] = false;
-                $source                     = parent::__invoke($name, $params, $options, $reuseMatchedParams);
-                $link                       = $aliasManager->findAliasBySource($source, $instance);
+                $source = parent::__invoke(
+                    $name,
+                    $params,
+                    $options,
+                    $reuseMatchedParams
+                );
+                $link = $aliasManager->findAliasBySource($source, $instance);
                 return $this->getView()->serverUrl($link);
             }
             $link = $aliasManager->findAliasBySource($link, $instance);

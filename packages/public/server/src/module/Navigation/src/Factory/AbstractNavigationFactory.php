@@ -48,7 +48,9 @@ abstract class AbstractNavigationFactory extends ZendAbstractNavigationFactory
     {
         if (!is_object($this->routeMatch)) {
             if (is_object($application->getMvcEvent()->getRouteMatch())) {
-                $this->setRouteMatch($application->getMvcEvent()->getRouteMatch());
+                $this->setRouteMatch(
+                    $application->getMvcEvent()->getRouteMatch()
+                );
             } else {
                 $this->setRouteMatch(new RouteMatch([]));
             }
@@ -69,11 +71,13 @@ abstract class AbstractNavigationFactory extends ZendAbstractNavigationFactory
      * @param array|\Zend\Config\Config $pages
      * @return mixed
      */
-    protected function preparePages(ServiceLocatorInterface $serviceLocator, $pages)
-    {
+    protected function preparePages(
+        ServiceLocatorInterface $serviceLocator,
+        $pages
+    ) {
         $application = $serviceLocator->get('Application');
-        $routeMatch  = $this->getRouteMatch($application);
-        $router      = $application->getMvcEvent()->getRouter();
+        $routeMatch = $this->getRouteMatch($application);
+        $router = $application->getMvcEvent()->getRouter();
 
         return $this->injectComponents($pages, $routeMatch, $router);
     }

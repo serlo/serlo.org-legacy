@@ -26,7 +26,6 @@ use Type\Entity\TypeAwareInterface;
 
 interface LinkInterface extends TypeAwareInterface
 {
-
     /**
      * @return int
      */

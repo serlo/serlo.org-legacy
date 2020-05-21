@@ -40,8 +40,11 @@ class CsrfTokenCookie
     /** @var Response */
     private $response;
 
-    public function __construct(SessionConfig $sessionConfig, RequestInterface $request, ResponseInterface $response)
-    {
+    public function __construct(
+        SessionConfig $sessionConfig,
+        RequestInterface $request,
+        ResponseInterface $response
+    ) {
         $this->sessionConfig = $sessionConfig;
         $this->request = $request;
         $this->response = $response;
@@ -55,7 +58,10 @@ class CsrfTokenCookie
     public function init()
     {
         // Abort when request is not an HTTP request
-        if (!$this->request instanceof Request || !$this->response instanceof Response) {
+        if (
+            !$this->request instanceof Request ||
+            !$this->response instanceof Response
+        ) {
             return;
         }
 
@@ -63,7 +69,7 @@ class CsrfTokenCookie
             return;
         }
 
-        $lifetime = (int)$this->sessionConfig->getCookieLifetime();
+        $lifetime = (int) $this->sessionConfig->getCookieLifetime();
         $expires = $lifetime !== 0 ? time() + $lifetime : null;
         $lifetime = $lifetime !== 0 ? $lifetime : null;
         $token = CsrfTokenContainer::getToken();

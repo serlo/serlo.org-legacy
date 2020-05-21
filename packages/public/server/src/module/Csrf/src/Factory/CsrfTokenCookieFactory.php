@@ -41,7 +41,9 @@ class CsrfTokenCookieFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /** @var $sessionConfig SessionConfig */
-        $sessionConfig = $serviceLocator->get('Zend\Session\Config\SessionConfig');
+        $sessionConfig = $serviceLocator->get(
+            'Zend\Session\Config\SessionConfig'
+        );
         /** @var $request RequestInterface */
         $request = $serviceLocator->get('Request');
         /** @var $response ResponseInterface */

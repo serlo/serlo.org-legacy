@@ -32,20 +32,14 @@ class DiscussionManagerListener extends AbstractListener
         $events->attach(
             $this->getMonitoredClass(),
             'start',
-            [
-                $this,
-                'onStartSubscribe',
-            ],
+            [$this, 'onStartSubscribe'],
             2
         );
 
         $events->attach(
             $this->getMonitoredClass(),
             'comment',
-            [
-                $this,
-                'onCommentSubscribe',
-            ],
+            [$this, 'onCommentSubscribe'],
             2
         );
     }
@@ -59,19 +53,15 @@ class DiscussionManagerListener extends AbstractListener
     {
         if (isset($e->getParam('data')['subscription'])) {
             $params = $e->getParam('data');
-            $param  = $params['subscription'];
+            $param = $params['subscription'];
             if ($param['subscribe'] === '1') {
-                $user          = $e->getParam('author');
-                $discussion    = $e->getParam('discussion');
-                $comment       = $e->getParam('comment');
+                $user = $e->getParam('author');
+                $discussion = $e->getParam('discussion');
+                $comment = $e->getParam('comment');
                 $notifyMailman = $param['mailman'] === '1' ? true : false;
 
                 $this->subscribe($user, $discussion, $notifyMailman); // We want to subscribe to the discussion
-                $this->subscribe(
-                    $user,
-                    $comment,
-                    $notifyMailman
-                ); // And also to the comment for e.g. listening on likes
+                $this->subscribe($user, $comment, $notifyMailman); // And also to the comment for e.g. listening on likes
             }
         }
     }
@@ -80,10 +70,10 @@ class DiscussionManagerListener extends AbstractListener
     {
         if (isset($e->getParam('data')['subscription'])) {
             $params = $e->getParam('data');
-            $param  = $params['subscription'];
+            $param = $params['subscription'];
             if ($param['subscribe'] === '1') {
-                $user          = $e->getParam('author');
-                $discussion    = $e->getParam('discussion');
+                $user = $e->getParam('author');
+                $discussion = $e->getParam('discussion');
                 $notifyMailman = $param['mailman'] === '1' ? true : false;
                 $this->subscribe($user, $discussion, $notifyMailman);
             }

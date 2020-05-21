@@ -21,7 +21,6 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-
 namespace Page\Form;
 
 use Csrf\Form\Element\CsrfToken;
@@ -37,13 +36,16 @@ use Zend\InputFilter\InputFilter;
 
 class RepositoryForm extends Form
 {
-    public function __construct(ObjectManager $objectManager, PageRepositoryInterface $pageRepository, TaxonomyManagerInterface $taxonomyManager)
-    {
+    public function __construct(
+        ObjectManager $objectManager,
+        PageRepositoryInterface $pageRepository,
+        TaxonomyManagerInterface $taxonomyManager
+    ) {
         parent::__construct('createPage');
         $this->add(new CsrfToken());
 
         $hydrator = new DoctrineObject($objectManager);
-        $filter   = new InputFilter();
+        $filter = new InputFilter();
 
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'form-horizontal');
@@ -52,60 +54,59 @@ class RepositoryForm extends Form
         $this->setObject($pageRepository);
 
         $this->add((new Text('slug'))->setLabel('Url:'));
-        $this->add((new Checkbox('discussionsEnabled'))->setLabel('Discussions enabled'));
         $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'instance',
-                'options' => [
-                    'object_manager' => $objectManager,
-                    'target_class'   => 'Instance\Entity\Instance',
-                ],
-            ]
-        );
-
-        $this->add(
-            array(
-                'type'    => 'DoctrineModule\Form\Element\ObjectSelect',
-                'name'    => 'license',
-                'options' => array(
-                    'object_manager' => $objectManager,
-                    'label'          => 'License',
-                    'target_class'   => 'License\Entity\License',
-                    'property'       => 'title',
-                ),
+            (new Checkbox('discussionsEnabled'))->setLabel(
+                'Discussions enabled'
             )
         );
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'instance',
+            'options' => [
+                'object_manager' => $objectManager,
+                'target_class' => 'Instance\Entity\Instance',
+            ],
+        ]);
+
+        $this->add([
+            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+            'name' => 'license',
+            'options' => [
+                'object_manager' => $objectManager,
+                'label' => 'License',
+                'target_class' => 'License\Entity\License',
+                'property' => 'title',
+            ],
+        ]);
+
+        $this->add([
+            'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
+            'name' => 'roles',
+            'options' => [
+                'object_manager' => $objectManager,
+                'label' => 'Roles',
+                'target_class' => 'User\Entity\Role',
+            ],
+        ]);
 
         $this->add(
-            array(
-                'type'    => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
-                'name'    => 'roles',
-                'options' => array(
-                    'object_manager' => $objectManager,
-                    'label'          => 'Roles',
-                    'target_class'   => 'User\Entity\Role',
-                ),
-            )
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $this->add((new Submit('submit'))->setValue('Save')->setAttribute('class', 'btn btn-success pull-right'));
-
-        $filter->add(
-            [
-
-                'name'       => 'forum',
-                'required'   => false,
-                'validators' => [
-                    [
-                        'name'    => 'Taxonomy\Validator\ValidAssociation',
-                        'options' => [
-                            'target'           => $this,
-                            'taxonomy_manager' => $taxonomyManager,
-                        ],
+        $filter->add([
+            'name' => 'forum',
+            'required' => false,
+            'validators' => [
+                [
+                    'name' => 'Taxonomy\Validator\ValidAssociation',
+                    'options' => [
+                        'target' => $this,
+                        'taxonomy_manager' => $taxonomyManager,
                     ],
                 ],
-            ]
-        );
+            ],
+        ]);
     }
 }

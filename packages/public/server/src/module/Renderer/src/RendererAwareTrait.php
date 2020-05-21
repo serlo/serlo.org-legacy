@@ -24,7 +24,6 @@ namespace Renderer;
 
 trait RendererAwareTrait
 {
-
     /**
      * @var Renderer
      */

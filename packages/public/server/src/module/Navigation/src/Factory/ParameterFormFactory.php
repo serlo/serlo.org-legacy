@@ -39,9 +39,9 @@ class ParameterFormFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $entityManager     = $this->getEntityManager($serviceLocator);
+        $entityManager = $this->getEntityManager($serviceLocator);
         $navigationManager = $this->getNavigationManager($serviceLocator);
-        $form              = new ParameterForm($entityManager, $navigationManager);
+        $form = new ParameterForm($entityManager, $navigationManager);
 
         return $form;
     }

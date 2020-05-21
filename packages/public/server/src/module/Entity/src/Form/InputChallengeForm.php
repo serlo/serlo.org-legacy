@@ -42,7 +42,11 @@ class InputChallengeForm extends Form
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'clearfix');
 
-        $this->add((new Text('solution'))->setAttribute('id', 'solution')->setLabel('Solution:'));
+        $this->add(
+            (new Text('solution'))
+                ->setAttribute('id', 'solution')
+                ->setLabel('Solution:')
+        );
         $this->add((new EditorState('feedback'))->setLabel('Feedback:'));
         $this->add(new Changes());
         $this->add(new AgreementFieldset($license));

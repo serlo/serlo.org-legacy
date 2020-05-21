@@ -31,7 +31,9 @@ interface StrategyInterface
      * @param InstanceManagerInterface $instanceManager
      * @return InstanceInterface
      */
-    public function getActiveInstance(InstanceManagerInterface $instanceManager);
+    public function getActiveInstance(
+        InstanceManagerInterface $instanceManager
+    );
 
     /**
      * @param InstanceInterface $instance

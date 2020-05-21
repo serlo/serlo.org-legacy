@@ -71,7 +71,7 @@ class Uuid implements UuidInterface
 
     public function __construct()
     {
-        $this->opinions = new ArrayCollection;
+        $this->opinions = new ArrayCollection();
     }
 
     public function isTrashed()
@@ -86,7 +86,7 @@ class Uuid implements UuidInterface
 
     public function setTrashed($trashed)
     {
-        $this->trashed = (bool)$trashed;
+        $this->trashed = (bool) $trashed;
     }
 
     public function getId()
@@ -96,6 +96,6 @@ class Uuid implements UuidInterface
 
     public function __toString()
     {
-        return (string)$this->getId();
+        return (string) $this->getId();
     }
 }

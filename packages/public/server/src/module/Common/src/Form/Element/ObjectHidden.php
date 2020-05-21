@@ -29,7 +29,6 @@ use Zend\Form\ElementInterface;
 
 class ObjectHidden extends HiddenElement
 {
-
     /**
      * @var Proxy
      */
@@ -41,8 +40,7 @@ class ObjectHidden extends HiddenElement
     public function getValueOptions()
     {
         if (empty($this->valueOptions)) {
-            $this->setValueOptions($this->getProxy()
-                ->getValueOptions());
+            $this->setValueOptions($this->getProxy()->getValueOptions());
         }
 
         return $this->valueOptions;

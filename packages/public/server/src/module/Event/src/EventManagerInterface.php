@@ -51,7 +51,11 @@ interface EventManagerInterface
      * @param array $filter
      * @return EventLogInterface[]|Collection
      */
-    public function findEventsByObject($objectId, $recursive = true, array $filter = []);
+    public function findEventsByObject(
+        $objectId,
+        $recursive = true,
+        array $filter = []
+    );
 
     /**
      * Finds an event by it's name
@@ -72,7 +76,10 @@ interface EventManagerInterface
      * @param array $names
      * @return EventLogInterface[]|Collection
      */
-    public function findEventsByNamesAndActor(UserInterface $user, array $names);
+    public function findEventsByNamesAndActor(
+        UserInterface $user,
+        array $names
+    );
 
     /**
      * @param int $page

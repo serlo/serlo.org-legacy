@@ -24,7 +24,6 @@ namespace Link\Options;
 
 interface LinkOptionsInterface
 {
-
     /**
      * @param string $type
      * @return bool

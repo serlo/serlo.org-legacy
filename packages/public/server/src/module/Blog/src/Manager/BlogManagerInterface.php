@@ -30,7 +30,6 @@ use Zend\Form\FormInterface;
 
 interface BlogManagerInterface
 {
-
     /**
      * @param FormInterface $form
      * @return PostInterface|false

@@ -33,8 +33,9 @@ trait NavigationManagerFactoryTrait
      * @param ServiceLocatorInterface $serviceManager
      * @return NavigationManagerInterface
      */
-    protected function getNavigationManager(ServiceLocatorInterface $serviceManager)
-    {
+    protected function getNavigationManager(
+        ServiceLocatorInterface $serviceManager
+    ) {
         /** @var NavigationManagerInterface $notificationManager */
         $notificationManager = $serviceManager->get(NavigationManager::class);
         return $notificationManager;

@@ -34,14 +34,16 @@ use Zend\InputFilter\InputFilter;
 
 class ParameterForm extends Form
 {
-    public function __construct(EntityManager $entityManager, NavigationManagerInterface $navigationManager)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        NavigationManagerInterface $navigationManager
+    ) {
         parent::__construct('parameter');
         $this->add(new CsrfToken());
 
         $hydrator = new ObjectHydrator($entityManager);
-        $filter   = new InputFilter();
-        $types    = [];
+        $filter = new InputFilter();
+        $types = [];
 
         foreach ($navigationManager->getParameterKeys() as $type) {
             $types[$type->getId()] = $type->getName();
@@ -51,45 +53,39 @@ class ParameterForm extends Form
         $this->setInputFilter($filter);
 
         $this->add(
-            (new Select('key'))->setLabel('Key:')->setOptions(
-                [
-                    'value_options' => $types,
-                ]
-            )
+            (new Select('key'))->setLabel('Key:')->setOptions([
+                'value_options' => $types,
+            ])
         );
 
         $this->add((new Text('value'))->setLabel('Value:'));
 
-        $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'page',
-                'options' => [
-                    'object_manager' => $entityManager,
-                    'target_class'   => 'Navigation\Entity\Page',
-                ],
-            ]
-        );
-        $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'parent',
-                'options' => [
-                    'object_manager' => $entityManager,
-                    'target_class'   => 'Navigation\Entity\Parameter',
-                ],
-            ]
-        );
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'page',
+            'options' => [
+                'object_manager' => $entityManager,
+                'target_class' => 'Navigation\Entity\Page',
+            ],
+        ]);
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'parent',
+            'options' => [
+                'object_manager' => $entityManager,
+                'target_class' => 'Navigation\Entity\Parameter',
+            ],
+        ]);
 
         $this->add(
-            (new Submit('submit'))->setValue('Save')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $filter->add(
-            [
-                'name'     => 'page',
-                'required' => true,
-            ]
-        );
+        $filter->add([
+            'name' => 'page',
+            'required' => true,
+        ]);
     }
 }

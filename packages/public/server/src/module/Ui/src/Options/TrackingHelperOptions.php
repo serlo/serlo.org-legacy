@@ -47,8 +47,10 @@ class TrackingHelperOptions extends AbstractOptions
         }
 
         if (!is_object($this->instances[$name])) {
-            $options                = $this->instances[$name];
-            $this->instances[$name] = new TrackingHelperInstanceOptions($options);
+            $options = $this->instances[$name];
+            $this->instances[$name] = new TrackingHelperInstanceOptions(
+                $options
+            );
         }
 
         return $this->instances[$name];

@@ -38,9 +38,9 @@ class LanguageHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator  = $serviceLocator->getServiceLocator();
+        $serviceLocator = $serviceLocator->getServiceLocator();
         $instanceManager = $this->getInstanceManager($serviceLocator);
-        $instance        = new LanguageHelper($instanceManager);
+        $instance = new LanguageHelper($instanceManager);
 
         return $instance;
     }

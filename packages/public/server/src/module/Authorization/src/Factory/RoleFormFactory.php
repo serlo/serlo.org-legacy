@@ -40,7 +40,7 @@ class RoleFormFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $entityManager = $this->getEntityManager($serviceLocator);
-        $form          = new RoleForm($entityManager);
+        $form = new RoleForm($entityManager);
 
         return $form;
     }

@@ -38,7 +38,9 @@ class AssertGrantedServiceFactory implements FactoryInterface
         $service = new AssertGrantedService();
 
         /** @var AuthorizationService $authorizationService */
-        $authorizationService = $serviceLocator->get(AuthorizationService::class);
+        $authorizationService = $serviceLocator->get(
+            AuthorizationService::class
+        );
         $service->setAuthorizationService($authorizationService);
 
         return $service;

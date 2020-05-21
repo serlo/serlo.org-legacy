@@ -77,7 +77,7 @@ class Post extends Uuid implements PostInterface
     public function __construct()
     {
         $this->publish = new DateTime();
-        $this->date    = new DateTime();
+        $this->date = new DateTime();
     }
 
     public function getAuthor()
@@ -157,18 +157,24 @@ class Post extends Uuid implements PostInterface
         return $this->getPublish() < new DateTime();
     }
 
-    public function addTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm, TaxonomyTermNodeInterface $node = null)
-    {
+    public function addTaxonomyTerm(
+        TaxonomyTermInterface $taxonomyTerm,
+        TaxonomyTermNodeInterface $node = null
+    ) {
         $this->setBlog($taxonomyTerm);
     }
 
-    public function removeTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm, TaxonomyTermNodeInterface $node = null)
-    {
-        throw new Exception\RuntimeException('You can\'t unset the category - it is required!');
+    public function removeTaxonomyTerm(
+        TaxonomyTermInterface $taxonomyTerm,
+        TaxonomyTermNodeInterface $node = null
+    ) {
+        throw new Exception\RuntimeException(
+            'You can\'t unset the category - it is required!'
+        );
     }
 
     public function getTaxonomyTerms()
     {
-        return new ArrayCollection((array)$this->getBlog());
+        return new ArrayCollection((array) $this->getBlog());
     }
 }

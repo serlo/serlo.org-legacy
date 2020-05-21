@@ -26,7 +26,6 @@ use Doctrine\Common\Collections\Collection;
 
 interface TypeManagerInterface
 {
-
     /**
      * Gets a type
      *

@@ -30,8 +30,10 @@ class PermissionControllerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $permissionService = $serviceLocator->getServiceLocator()->get('Authorization\Service\PermissionService');
-        $instance          = new PermissionController($permissionService);
+        $permissionService = $serviceLocator
+            ->getServiceLocator()
+            ->get('Authorization\Service\PermissionService');
+        $instance = new PermissionController($permissionService);
 
         return $instance;
     }

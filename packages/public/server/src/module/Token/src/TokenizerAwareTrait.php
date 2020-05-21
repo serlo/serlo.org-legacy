@@ -24,7 +24,6 @@ namespace Token;
 
 trait TokenizerAwareTrait
 {
-
     /**
      * @var TokenizerInterface
      */

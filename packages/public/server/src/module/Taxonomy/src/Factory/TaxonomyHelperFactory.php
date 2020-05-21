@@ -36,10 +36,12 @@ class TaxonomyHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator  = $serviceLocator->getServiceLocator();
-        $moduleOptions   = $serviceLocator->get('Taxonomy\Options\ModuleOptions');
-        $taxonomyManager = $serviceLocator->get('Taxonomy\Manager\TaxonomyManager');
-        $plugin          = new TaxonomyHelper($moduleOptions, $taxonomyManager);
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $moduleOptions = $serviceLocator->get('Taxonomy\Options\ModuleOptions');
+        $taxonomyManager = $serviceLocator->get(
+            'Taxonomy\Manager\TaxonomyManager'
+        );
+        $plugin = new TaxonomyHelper($moduleOptions, $taxonomyManager);
 
         return $plugin;
     }

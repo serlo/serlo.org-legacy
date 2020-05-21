@@ -33,7 +33,6 @@ use ZfcRbac\Service\AuthorizationService;
 
 class SubscriptionController extends AbstractActionController
 {
-
     /**
      * @var SubscriptionManagerInterface
      */
@@ -54,20 +53,22 @@ class SubscriptionController extends AbstractActionController
         UuidManagerInterface $uuidManager,
         SubscriptionManagerInterface $subscriptionManager
     ) {
-        $this->subscriptionManager  = $subscriptionManager;
-        $this->uuidManager          = $uuidManager;
+        $this->subscriptionManager = $subscriptionManager;
+        $this->uuidManager = $uuidManager;
         $this->authorizationService = $authorizationService;
     }
 
     public function manageAction()
     {
         if ($this->authorizationService->getIdentity() === null) {
-            throw new UnauthorizedException;
+            throw new UnauthorizedException();
         }
 
-        $user          = $this->authorizationService->getIdentity();
-        $subscriptions = $this->subscriptionManager->findSubscriptionsByUser($user);
-        $view          = new ViewModel(['subscriptions' => $subscriptions]);
+        $user = $this->authorizationService->getIdentity();
+        $subscriptions = $this->subscriptionManager->findSubscriptionsByUser(
+            $user
+        );
+        $view = new ViewModel(['subscriptions' => $subscriptions]);
         $view->setTemplate('notification/subscription/manage');
         return $view;
     }
@@ -75,12 +76,12 @@ class SubscriptionController extends AbstractActionController
     public function subscribeAction()
     {
         if (!$this->authorizationService->getIdentity()) {
-            throw new UnauthorizedException;
+            throw new UnauthorizedException();
         }
 
         $object = $this->params('object');
-        $email  = $this->params('email');
-        $user   = $this->authorizationService->getIdentity();
+        $email = $this->params('email');
+        $user = $this->authorizationService->getIdentity();
 
         try {
             $object = $this->uuidManager->getUuid($object);
@@ -91,27 +92,33 @@ class SubscriptionController extends AbstractActionController
 
         $this->subscriptionManager->subscribe($user, $object, $email);
         $this->subscriptionManager->flush();
-        $this->flashMessenger()->addSuccessMessage('You are now receiving notifications for this content.');
+        $this->flashMessenger()->addSuccessMessage(
+            'You are now receiving notifications for this content.'
+        );
         return $this->redirect()->toReferer();
     }
 
     public function updateAction()
     {
         if (!$this->authorizationService->getIdentity()) {
-            throw new UnauthorizedException;
+            throw new UnauthorizedException();
         }
 
         $object = $this->params('object');
-        $email  = $this->params('email', false);
-        $user   = $this->authorizationService->getIdentity();
+        $email = $this->params('email', false);
+        $user = $this->authorizationService->getIdentity();
 
         try {
             $object = $this->uuidManager->getUuid($object);
             $this->subscriptionManager->update($user, $object, $email);
             $this->subscriptionManager->flush();
-            $this->flashMessenger()->addSuccessMessage('Your subscription has been updated successfully.');
+            $this->flashMessenger()->addSuccessMessage(
+                'Your subscription has been updated successfully.'
+            );
         } catch (NotFoundException $e) {
-            $this->flashMessenger()->addErrorMessage('The object you are trying to subscribe to does not exist.');
+            $this->flashMessenger()->addErrorMessage(
+                'The object you are trying to subscribe to does not exist.'
+            );
         } catch (RuntimeException $e) {
             $this->flashMessenger()->addErrorMessage(
                 'You can\'t update your subscription because you did not subscribe to this object.'
@@ -124,11 +131,11 @@ class SubscriptionController extends AbstractActionController
     public function unsubscribeAction()
     {
         if (!$this->authorizationService->getIdentity()) {
-            throw new UnauthorizedException;
+            throw new UnauthorizedException();
         }
 
         $object = $this->params('object');
-        $user   = $this->authorizationService->getIdentity();
+        $user = $this->authorizationService->getIdentity();
 
         try {
             $object = $this->uuidManager->getUuid($object);
@@ -139,7 +146,9 @@ class SubscriptionController extends AbstractActionController
 
         $this->subscriptionManager->unSubscribe($user, $object);
         $this->subscriptionManager->flush();
-        $this->flashMessenger()->addSuccessMessage('You are no longer receiving notifications for this content.');
+        $this->flashMessenger()->addSuccessMessage(
+            'You are no longer receiving notifications for this content.'
+        );
         return $this->redirect()->toReferer();
     }
 }

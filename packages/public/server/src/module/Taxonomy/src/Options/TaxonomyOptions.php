@@ -77,7 +77,10 @@ class TaxonomyOptions extends AbstractOptions
     public function isAssociationAllowed($association)
     {
         foreach ($this->getAllowedAssociations() as $allowedAssociation) {
-            if ($association === $allowedAssociation || $association instanceof $allowedAssociation) {
+            if (
+                $association === $allowedAssociation ||
+                $association instanceof $allowedAssociation
+            ) {
                 return true;
             }
         }

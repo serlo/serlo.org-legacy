@@ -96,7 +96,7 @@ class ApiController extends AbstractController
     public function latestAction()
     {
         $type = $this->params('type');
-        $age = (int)$this->params('age');
+        $age = (int) $this->params('age');
         $maxAge = new DateTime($age . ' days ago');
         $entities = $this->getEntityManager()->findEntitiesByTypeName($type);
         $chain = new FilterChain();
@@ -111,7 +111,7 @@ class ApiController extends AbstractController
     {
         $feed = new Feed();
         $type = $this->params('type');
-        $age = (int)$this->params('age');
+        $age = (int) $this->params('age');
         $maxAge = new DateTime($age . ' days ago');
         $entities = $this->getEntityManager()->findEntitiesByTypeName($type);
         $chain = new FilterChain();
@@ -140,9 +140,15 @@ class ApiController extends AbstractController
         $feed->setTitle($this->brand()->getHeadTitle());
         $feed->setDescription($this->brand()->getDescription());
         $feed->setDateModified(time());
-        $feed->setLink($this->url()->fromRoute('home', [], ['force_canonical' => true]));
+        $feed->setLink(
+            $this->url()->fromRoute('home', [], ['force_canonical' => true])
+        );
         $feed->setFeedLink(
-            $this->url()->fromRoute('entity/api/rss', ['type' => $type, 'age' => $age], ['force_canonical' => true]),
+            $this->url()->fromRoute(
+                'entity/api/rss',
+                ['type' => $type, 'age' => $age],
+                ['force_canonical' => true]
+            ),
             'atom'
         );
         $feed->export('atom');
@@ -206,7 +212,9 @@ class ApiController extends AbstractController
             'video',
         ];
         foreach ($types as $type) {
-            $entities = $this->getEntityManager()->findEntitiesByTypeName($type);
+            $entities = $this->getEntityManager()->findEntitiesByTypeName(
+                $type
+            );
             $chain = new FilterChain();
             $chain->attach(new HasCurrentRevisionCollectionFilter());
             $chain->attach(new NotTrashedCollectionFilter());
@@ -219,7 +227,7 @@ class ApiController extends AbstractController
                 $serializedContent = $revision->get($contentField);
                 $content = json_decode($serializedContent, true);
                 $data[$type][] = [
-                    'id' => (string)$entity->getId(),
+                    'id' => (string) $entity->getId(),
                     'converted' => isset($content['plugin']),
                 ];
             }
@@ -248,10 +256,13 @@ class ApiController extends AbstractController
             $item = [
                 'title' => $normalized->getTitle(),
                 'description' => $description,
-                'guid' => (string)$entity->getId(),
+                'guid' => (string) $entity->getId(),
                 'keywords' => $normalized->getMetadata()->getKeywords(),
                 'categories' => $this->getCategories($entity),
-                'link' => $this->url()->fromRoute($normalized->getRouteName(), $normalized->getRouteParams()),
+                'link' => $this->url()->fromRoute(
+                    $normalized->getRouteName(),
+                    $normalized->getRouteParams()
+                ),
                 'lastModified' => $normalized->getMetadata()->getLastModified(),
                 'authorsCount' => count(array_unique($authors->toArray())),
                 'revisionsCount' => $entity->getRevisions()->count(),

@@ -30,7 +30,10 @@ class PageControllerListener extends AbstractListener
 {
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach($this->getMonitoredClass(), 'page.create.postFlush', [$this, 'onUpdate']);
+        $events->attach($this->getMonitoredClass(), 'page.create.postFlush', [
+            $this,
+            'onUpdate',
+        ]);
     }
 
     /**
@@ -42,10 +45,19 @@ class PageControllerListener extends AbstractListener
     public function onUpdate(Event $e)
     {
         /* @var $repository PageRepositoryInterface */
-        $slug       = $e->getParam('slug');
+        $slug = $e->getParam('slug');
         $repository = $e->getParam('repository');
-        $url        = $e->getTarget()->url()->fromRoute('page/view', ['page' => $repository->getId()], null, null, false);
-        $alias      = $this->getAliasManager()->createAlias(
+        $url = $e
+            ->getTarget()
+            ->url()
+            ->fromRoute(
+                'page/view',
+                ['page' => $repository->getId()],
+                null,
+                null,
+                false
+            );
+        $alias = $this->getAliasManager()->createAlias(
             $url,
             $slug,
             $slug . '-' . $repository->getId(),

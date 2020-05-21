@@ -31,7 +31,6 @@ use Uuid\Entity\UuidInterface;
  */
 class Metadata implements MetadataInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

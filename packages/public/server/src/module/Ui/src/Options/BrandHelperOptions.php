@@ -44,7 +44,7 @@ class BrandHelperOptions extends AbstractOptions
         }
 
         if (!is_object($this->instances[$key])) {
-            $options               = $this->instances[$key];
+            $options = $this->instances[$key];
             $this->instances[$key] = new BrandHelperInstanceOptions($options);
         }
 

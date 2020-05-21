@@ -27,7 +27,6 @@ namespace Event;
  */
 trait EventManagerAwareTrait
 {
-
     /**
      * The EventManager
      *

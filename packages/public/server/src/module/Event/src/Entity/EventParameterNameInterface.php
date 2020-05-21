@@ -24,7 +24,6 @@ namespace Event\Entity;
 
 interface EventParameterNameInterface
 {
-
     /**
      * @return int
      */

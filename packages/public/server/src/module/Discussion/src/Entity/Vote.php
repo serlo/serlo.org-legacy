@@ -33,13 +33,12 @@ use User\Entity\UserInterface;
  */
 class Vote implements VoteInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    protected $id = "asdf";
+    protected $id = 'asdf';
 
     /**
      * @ORM\ManyToOne(targetEntity="User\Entity\User")

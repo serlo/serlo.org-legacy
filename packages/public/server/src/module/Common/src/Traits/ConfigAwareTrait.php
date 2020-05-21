@@ -46,11 +46,7 @@ trait ConfigAwareTrait
     {
         $this->config = ArrayUtils::merge($this->getDefaultConfig(), $config);
 
-        $array = [
-            $this->getDefaultConfig(),
-            $config,
-            $this->config,
-        ];
+        $array = [$this->getDefaultConfig(), $config, $this->config];
 
         return $this;
     }

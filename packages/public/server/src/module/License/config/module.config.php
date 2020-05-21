@@ -26,7 +26,8 @@ namespace License;
 return [
     'zfc_rbac' => [
         'assertion_map' => [
-            'license.create' => 'Authorization\Assertion\RequestInstanceAssertion',
+            'license.create' =>
+                'Authorization\Assertion\RequestInstanceAssertion',
             'license.update' => 'Authorization\Assertion\InstanceAssertion',
             'license.purge' => 'Authorization\Assertion\InstanceAssertion',
             'license.get' => 'Authorization\Assertion\InstanceAssertion',
@@ -36,7 +37,8 @@ return [
         'factories' => [],
     ],
     'class_resolver' => [
-        __NAMESPACE__ . '\Entity\LicenseInterface' => __NAMESPACE__ . '\Entity\License',
+        __NAMESPACE__ . '\Entity\LicenseInterface' =>
+            __NAMESPACE__ . '\Entity\License',
     ],
     'di' => [
         'allowed_controllers' => [
@@ -55,7 +57,8 @@ return [
         ],
         'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\Manager\LicenseManagerInterface' => __NAMESPACE__ . '\Manager\LicenseManager',
+                __NAMESPACE__ . '\Manager\LicenseManagerInterface' =>
+                    __NAMESPACE__ . '\Manager\LicenseManager',
             ],
         ],
     ],
@@ -64,9 +67,7 @@ return [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
             'orm_default' => [
                 'drivers' => [
@@ -77,7 +78,8 @@ return [
         'entity_resolver' => [
             'orm_default' => [
                 'resolvers' => [
-                    __NAMESPACE__ . '\Entity\LicenseInterface' => __NAMESPACE__ . '\Entity\License',
+                    __NAMESPACE__ . '\Entity\LicenseInterface' =>
+                        __NAMESPACE__ . '\Entity\License',
                 ],
             ],
         ],
@@ -89,7 +91,8 @@ return [
                 'options' => [
                     'route' => '/license',
                     'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\LicenseController',
+                        'controller' =>
+                            __NAMESPACE__ . '\Controller\LicenseController',
                     ],
                 ],
                 'child_routes' => [

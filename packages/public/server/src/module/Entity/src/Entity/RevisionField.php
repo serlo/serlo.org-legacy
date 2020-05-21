@@ -33,7 +33,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RevisionField
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -116,6 +115,6 @@ class RevisionField
     public function __construct($revision, $field)
     {
         $this->revision = $revision;
-        $this->name     = $field;
+        $this->name = $field;
     }
 }

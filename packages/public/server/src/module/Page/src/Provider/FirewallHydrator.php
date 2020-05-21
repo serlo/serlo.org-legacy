@@ -26,8 +26,8 @@ use Zend\Mvc\MvcEvent;
 
 class FirewallHydrator
 {
-    use\Page\Manager\PageManagerAwareTrait;
-    use\Zend\ServiceManager\ServiceLocatorAwareTrait;
+    use \Page\Manager\PageManagerAwareTrait;
+    use \Zend\ServiceManager\ServiceLocatorAwareTrait;
 
     protected $event;
 
@@ -42,14 +42,14 @@ class FirewallHydrator
             $this->getServiceLocator()->get('Page\Manager\PageManager')
         );
         $routeMatch = $this->event->getRouteMatch();
-        $id         = $routeMatch->getParam('page');
+        $id = $routeMatch->getParam('page');
         if ($id === null) {
             $id = $routeMatch->getParam('id');
         }
         $pageRepository = $this->getPageManager()->getPageRepository($id);
 
         $allRoles = $this->getPageManager()->findAllRoles();
-        $array    = [];
+        $array = [];
 
         foreach ($allRoles as $role) {
             if ($pageRepository->hasRole($role)) {

@@ -49,36 +49,32 @@ class FlagForm extends Form
         }
 
         $this->add(
-            (new Select('type'))->setLabel('Type:')->setOptions(
-                [
-                    'value_options' => $values,
-                ]
-            )
+            (new Select('type'))->setLabel('Type:')->setOptions([
+                'value_options' => $values,
+            ])
         );
 
         $this->add((new Textarea('content'))->setLabel('Content:'));
 
         $this->add(
-            (new Submit('submit'))->setValue('Report')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Report')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $inputFilter->add(
-            [
-                'name'     => 'content',
-                'required' => true,
-                'filters'  => [
-                    [
-                        'name' => 'StripTags',
-                    ],
+        $inputFilter->add([
+            'name' => 'content',
+            'required' => true,
+            'filters' => [
+                [
+                    'name' => 'StripTags',
                 ],
-            ]
-        );
+            ],
+        ]);
 
-        $inputFilter->add(
-            [
-                'name'     => 'type',
-                'required' => true,
-            ]
-        );
+        $inputFilter->add([
+            'name' => 'type',
+            'required' => true,
+        ]);
     }
 }

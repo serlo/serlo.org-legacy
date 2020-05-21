@@ -43,10 +43,12 @@ class ModuleForm extends Form
         $this->setAttribute('class', 'clearfix');
 
         $this->add(new Title());
-        $this->add((new EditorState('description'))->setLabel('Description:')->setAttribute('class', 'meta'));
         $this->add(
-            (new EditorState('reasoning'))->setLabel('Reasoning:')
+            (new EditorState('description'))
+                ->setLabel('Description:')
+                ->setAttribute('class', 'meta')
         );
+        $this->add((new EditorState('reasoning'))->setLabel('Reasoning:'));
         $this->add(new Changes());
 
         $this->add(new Element\MetaDescription());

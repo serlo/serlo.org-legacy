@@ -47,7 +47,9 @@ class AttachmentManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $moduleOptions */
-        $moduleOptions = $serviceLocator->get('Attachment\Options\ModuleOptions');
+        $moduleOptions = $serviceLocator->get(
+            'Attachment\Options\ModuleOptions'
+        );
         $authService = $this->getAuthorizationService($serviceLocator);
         $classResolver = $this->getClassResolver($serviceLocator);
         $entityManager = $this->getEntityManager($serviceLocator);
@@ -55,7 +57,15 @@ class AttachmentManagerFactory implements FactoryInterface
         $typeManager = $this->getTypeManager($serviceLocator);
         $uploadSecret = $serviceLocator->get('config')['upload_secret'];
 
-        $instance = new AttachmentManager($authService, $classResolver, $instanceManager, $moduleOptions, $uploadSecret, $typeManager, $entityManager);
+        $instance = new AttachmentManager(
+            $authService,
+            $classResolver,
+            $instanceManager,
+            $moduleOptions,
+            $uploadSecret,
+            $typeManager,
+            $entityManager
+        );
 
         return $instance;
     }

@@ -29,9 +29,11 @@ use Taxonomy\Entity\TaxonomyTermAwareInterface;
 use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 
-interface CommentInterface extends TaxonomyTermAwareInterface, InstanceAwareInterface, UuidInterface
+interface CommentInterface extends
+    TaxonomyTermAwareInterface,
+    InstanceAwareInterface,
+    UuidInterface
 {
-
     /**
      * @param CommentInterface $comment
      * @return self

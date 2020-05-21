@@ -54,7 +54,8 @@ class MailRendererTest extends TestCase
     {
         $this->mailRenderer->setTemplateFolder($folder);
 
-        $this->renderer->expects($this->exactly(3))
+        $this->renderer
+            ->expects($this->exactly(3))
             ->method('render')
             ->with($this->isInstanceOf('\Zend\View\Model\ViewModel'))
             ->will($this->returnValue('subject'));
@@ -85,11 +86,11 @@ class MailRendererTest extends TestCase
             ],
         ];
 
-        return array(
-            array('mailman/messages/welcome', $data),
-            array('mailman/messages/register', $data),
-            array('mailman/messages/restore-password', $data),
-        );
+        return [
+            ['mailman/messages/welcome', $data],
+            ['mailman/messages/register', $data],
+            ['mailman/messages/restore-password', $data],
+        ];
     }
 
     public function providerNotificationMailData()
@@ -101,17 +102,22 @@ class MailRendererTest extends TestCase
         $data = [
             'body' => [
                 'user' => $userDummy,
-                'contentNotifications' => new ArrayCollection(array($contentNotificationDummy)),
-                'discussionNotifications' => new ArrayCollection(array($discussionNotificationDummy)),
+                'contentNotifications' => new ArrayCollection([
+                    $contentNotificationDummy,
+                ]),
+                'discussionNotifications' => new ArrayCollection([
+                    $discussionNotificationDummy,
+                ]),
             ],
         ];
-        return array(
-            array('mailman/messages/notification', $data),
-        );
+        return [['mailman/messages/notification', $data]];
     }
 
     public function providerAllData()
     {
-        return array_merge($this->providerUserMailData(), $this->providerNotificationMailData());
+        return array_merge(
+            $this->providerUserMailData(),
+            $this->providerNotificationMailData()
+        );
     }
 }

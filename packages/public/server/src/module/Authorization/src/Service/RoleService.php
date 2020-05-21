@@ -38,7 +38,10 @@ use Zend\Form\FormInterface;
 
 class RoleService implements RoleServiceInterface
 {
-    use ObjectManagerAwareTrait, ClassResolverAwareTrait, UserManagerAwareTrait, PermissionServiceAwareTrait,
+    use ObjectManagerAwareTrait,
+        ClassResolverAwareTrait,
+        UserManagerAwareTrait,
+        PermissionServiceAwareTrait,
         AuthorizationAssertionTrait;
 
     protected $interface = 'Authorization\Entity\RoleInterface';
@@ -51,10 +54,10 @@ class RoleService implements RoleServiceInterface
         UserManagerInterface $userManager
     ) {
         $this->authorizationService = $authorizationService;
-        $this->classResolver        = $classResolver;
-        $this->objectManager        = $objectManager;
-        $this->userManager          = $userManager;
-        $this->permissionService    = $permissionService;
+        $this->classResolver = $classResolver;
+        $this->objectManager = $objectManager;
+        $this->userManager = $userManager;
+        $this->permissionService = $permissionService;
     }
 
     public function createRole(FormInterface $form)
@@ -66,12 +69,14 @@ class RoleService implements RoleServiceInterface
         }
 
         $processingForm = clone $form;
-        $data           = $processingForm->getData(FormInterface::VALUES_AS_ARRAY);
+        $data = $processingForm->getData(FormInterface::VALUES_AS_ARRAY);
         $processingForm->bind(new Role());
         $processingForm->setData($data);
 
         if (!$processingForm->isValid()) {
-            throw new RuntimeException(print_r($processingForm->getMessages(), true));
+            throw new RuntimeException(
+                print_r($processingForm->getMessages(), true)
+            );
         }
 
         $this->objectManager->persist($processingForm->getObject());
@@ -80,14 +85,22 @@ class RoleService implements RoleServiceInterface
 
     public function findAllRoles()
     {
-        $className = $this->getClassResolver()->resolveClassName($this->interface);
-        return $this->getObjectManager()->getRepository($className)->findAll();
+        $className = $this->getClassResolver()->resolveClassName(
+            $this->interface
+        );
+        return $this->getObjectManager()
+            ->getRepository($className)
+            ->findAll();
     }
 
     public function findRoleByName($name)
     {
-        $className = $this->getClassResolver()->resolveClassName($this->interface);
-        return $this->getObjectManager()->getRepository($className)->findOneBy(['name' => $name]);
+        $className = $this->getClassResolver()->resolveClassName(
+            $this->interface
+        );
+        return $this->getObjectManager()
+            ->getRepository($className)
+            ->findOneBy(['name' => $name]);
     }
 
     public function flush()
@@ -97,10 +110,14 @@ class RoleService implements RoleServiceInterface
 
     public function getRole($id)
     {
-        $className = $this->getClassResolver()->resolveClassName($this->interface);
-        $role      = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            $this->interface
+        );
+        $role = $this->getObjectManager()->find($className, $id);
         if (!is_object($role)) {
-            throw new RoleNotFoundException(sprintf('Role `%d` not found', $id));
+            throw new RoleNotFoundException(
+                sprintf('Role `%d` not found', $id)
+            );
         }
 
         return $role;
@@ -132,7 +149,9 @@ class RoleService implements RoleServiceInterface
         }
 
         if (!$permission instanceof ParametrizedPermissionInterface) {
-            $permission = $this->getPermissionService()->getParametrizedPermission($permission);
+            $permission = $this->getPermissionService()->getParametrizedPermission(
+                $permission
+            );
         }
 
         $role->addPermission($permission);
@@ -151,8 +170,10 @@ class RoleService implements RoleServiceInterface
     public function removeRolePermission($role, $permission)
     {
         $this->assertGranted('authorization.role.revoke.permission');
-        $permission = $this->getPermissionService()->getParametrizedPermission($permission);
-        $role       = $this->getRole($role);
+        $permission = $this->getPermissionService()->getParametrizedPermission(
+            $permission
+        );
+        $role = $this->getRole($role);
         $role->removePermission($permission);
     }
 }

@@ -24,7 +24,6 @@ namespace Flag\Manager;
 
 trait FlagManagerAwareTrait
 {
-
     /**
      * @var FlagManagerInterface
      */

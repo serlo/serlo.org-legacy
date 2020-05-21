@@ -40,10 +40,16 @@ class SaveHandlerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config       = ArrayUtils::merge($serviceLocator->get('config')['dbParams'], ['driver' => 'pdo_mysql']);
-        $adapter      = new Adapter($config);
+        $config = ArrayUtils::merge(
+            $serviceLocator->get('config')['dbParams'],
+            ['driver' => 'pdo_mysql']
+        );
+        $adapter = new Adapter($config);
         $tableGateway = new TableGateway('session', $adapter);
-        $saveHandler  = new DbTableGateway($tableGateway, new DbTableGatewayOptions());
+        $saveHandler = new DbTableGateway(
+            $tableGateway,
+            new DbTableGatewayOptions()
+        );
 
         return $saveHandler;
     }

@@ -42,9 +42,11 @@ class Mailman implements MailmanInterface
      * @param Options\ModuleOptions   $moduleOptions
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(Options\ModuleOptions $moduleOptions, ServiceLocatorInterface $serviceLocator)
-    {
-        $this->moduleOptions  = $moduleOptions;
+    public function __construct(
+        Options\ModuleOptions $moduleOptions,
+        ServiceLocatorInterface $serviceLocator
+    ) {
+        $this->moduleOptions = $moduleOptions;
         $this->serviceLocator = $serviceLocator;
     }
 
@@ -79,12 +81,19 @@ class Mailman implements MailmanInterface
     {
         foreach ($this->moduleOptions->getAdapters() as $adapter) {
             if (!isset($this->adapters[$adapter])) {
-                $this->adapters[$adapter] = $this->serviceLocator->get($adapter);
-                if (!$this->adapters[$adapter] instanceof Adapter\AdapterInterface) {
-                    throw new Exception\RuntimeException(sprintf(
-                        '%s does not implement AdapterInterface',
-                        get_class($this->adapters[$adapter])
-                    ));
+                $this->adapters[$adapter] = $this->serviceLocator->get(
+                    $adapter
+                );
+                if (
+                    !$this->adapters[$adapter] instanceof
+                    Adapter\AdapterInterface
+                ) {
+                    throw new Exception\RuntimeException(
+                        sprintf(
+                            '%s does not implement AdapterInterface',
+                            get_class($this->adapters[$adapter])
+                        )
+                    );
                 }
             }
         }

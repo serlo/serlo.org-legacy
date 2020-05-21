@@ -24,7 +24,6 @@ namespace Authentication;
 
 trait HashServiceAwareTrait
 {
-
     /**
      * @var HashServiceInterface
      */

@@ -24,7 +24,6 @@ namespace ClassResolver;
 
 interface ClassResolverInterface
 {
-
     /**
      * @param string $class
      * @return string class name

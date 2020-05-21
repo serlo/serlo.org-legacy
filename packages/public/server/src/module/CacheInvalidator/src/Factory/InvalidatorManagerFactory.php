@@ -39,7 +39,9 @@ class InvalidatorManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $options CacheOptions */
-        $options      = $serviceLocator->get('CacheInvalidator\Options\CacheOptions');
+        $options = $serviceLocator->get(
+            'CacheInvalidator\Options\CacheOptions'
+        );
         $invalidators = new Config($options->getInvalidators());
         return new InvalidatorManager($invalidators);
     }

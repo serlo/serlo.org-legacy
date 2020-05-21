@@ -45,7 +45,7 @@ class RendererFactory implements FactoryInterface
         $formatHelper = new FormatHelper();
         /** @var featureFlagsService $featureFlags */
         $featureFlags = $serviceLocator->get(FeatureFlagsService::class);
-        $config  = $serviceLocator->get('config');
+        $config = $serviceLocator->get('config');
         $editorRendererUrl = $config['services']['editor_renderer'];
         $legacyRendererUrl = $config['services']['legacy_editor_renderer'];
         $cacheEnabled = $config['renderer']['cache_enabled'];

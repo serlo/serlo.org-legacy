@@ -24,7 +24,6 @@ namespace Type\Entity;
 
 interface TypeInterface
 {
-
     /**
      * @return string
      */

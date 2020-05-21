@@ -29,7 +29,6 @@ use Zend\View\Helper\AbstractHelper;
 
 class SubjectHelper extends AbstractHelper
 {
-
     /**
      * @var ModuleOptions
      */
@@ -59,7 +58,10 @@ class SubjectHelper extends AbstractHelper
      */
     public function getOptions(TaxonomyTermInterface $subject)
     {
-        return $this->getModuleOptions()->getInstance($subject->getName(), $subject->getInstance()->getName());
+        return $this->getModuleOptions()->getInstance(
+            $subject->getName(),
+            $subject->getInstance()->getName()
+        );
     }
 
     /**
@@ -85,7 +87,9 @@ class SubjectHelper extends AbstractHelper
      */
     public function slugify(TaxonomyTermInterface $term, $parent = 'subject')
     {
-        return $this->filter->filter(substr($this->processSlugs($term, $parent), 0, -1));
+        return $this->filter->filter(
+            substr($this->processSlugs($term, $parent), 0, -1)
+        );
     }
 
     /**
@@ -95,9 +99,10 @@ class SubjectHelper extends AbstractHelper
      */
     protected function processSlugs(TaxonomyTermInterface $term, $parent)
     {
-        return ($term->getTaxonomy()->getName() != $parent) ? $this->processSlugs(
-            $term->getParent(),
-            $parent
-            ) . $term->getName() . '/' : '';
+        return $term->getTaxonomy()->getName() != $parent
+            ? $this->processSlugs($term->getParent(), $parent) .
+                    $term->getName() .
+                    '/'
+            : '';
     }
 }

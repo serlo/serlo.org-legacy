@@ -30,7 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class File implements FileInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

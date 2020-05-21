@@ -38,7 +38,9 @@ class StrokerStorageInvalidatorFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator AbstractPluginManager */
-        $storage = $serviceLocator->getServiceLocator()->get('StrokerCache\Storage\CacheStorage');
+        $storage = $serviceLocator
+            ->getServiceLocator()
+            ->get('StrokerCache\Storage\CacheStorage');
         return new StrokerStorageInvalidator($storage);
     }
 }

@@ -41,8 +41,12 @@ class NavigationApiControllerFactory implements FactoryInterface
         $serviceManager = $serviceLocator->getServiceLocator();
         $router = $serviceManager->get('Router');
         $controller = new NavigationApiController($router);
-        $controller->setInstanceManager($this->getInstanceManager($serviceManager));
-        $controller->setNavigationService($this->getNavigationService($serviceManager));
+        $controller->setInstanceManager(
+            $this->getInstanceManager($serviceManager)
+        );
+        $controller->setNavigationService(
+            $this->getNavigationService($serviceManager)
+        );
         return $controller;
     }
 }

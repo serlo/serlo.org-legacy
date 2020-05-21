@@ -41,7 +41,10 @@ interface TaxonomyTermInterface extends InstanceProviderInterface, UuidInterface
      * @param FilterInterface $filter
      * @return int
      */
-    public function countAssociations($association = null, FilterInterface $filter = null);
+    public function countAssociations(
+        $association = null,
+        FilterInterface $filter = null
+    );
 
     /**
      * @param TaxonomyTermAwareInterface $object
@@ -72,7 +75,10 @@ interface TaxonomyTermInterface extends InstanceProviderInterface, UuidInterface
      * @param array  $allowedTaxonomies
      * @return TaxonomyTermAwareInterface[]|Collection
      */
-    public function getAssociatedRecursive($association, array $allowedTaxonomies = []);
+    public function getAssociatedRecursive(
+        $association,
+        array $allowedTaxonomies = []
+    );
 
     /**
      * @return Collection|TaxonomyTermInterface[]
@@ -153,7 +159,11 @@ interface TaxonomyTermInterface extends InstanceProviderInterface, UuidInterface
      * @param string                         $association
      * @return self
      */
-    public function positionAssociatedObject($object, $position, $association = null);
+    public function positionAssociatedObject(
+        $object,
+        $position,
+        $association = null
+    );
 
     /**
      * @param TaxonomyTermAwareInterface $object

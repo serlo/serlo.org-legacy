@@ -34,12 +34,12 @@ namespace Cache;
 return [
     'strokercache' => [
         'id_generator' => 'AjaxGenerator',
-        'id_generators' => array(
-            'plugin_manager' => array(
-                'invokables' => array(
+        'id_generators' => [
+            'plugin_manager' => [
+                'invokables' => [
                     'AjaxGenerator' => 'Cache\IdGenerator\AjaxGenerator',
-                ),
-            ),
-        ),
+                ],
+            ],
+        ],
     ],
 ];

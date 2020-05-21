@@ -34,8 +34,11 @@ use Zend\Mvc\I18n\Translator;
 
 class Register extends Form
 {
-    public function __construct(EntityManager $entityManager, Translator $translator, $config)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        Translator $translator,
+        $config
+    ) {
         parent::__construct('signUp');
         $this->add(new CsrfToken());
 
@@ -44,52 +47,88 @@ class Register extends Form
         $filter = new RegisterFilter($entityManager);
         $this->setInputFilter($filter);
 
-        $this->add((new Text('username'))
-            ->setLabel('Username:')
-            ->setAttribute('required', 'required')
-            ->setAttribute('placeholder', $translator->translate('Enter username')));
+        $this->add(
+            (new Text('username'))
+                ->setLabel('Username:')
+                ->setAttribute('required', 'required')
+                ->setAttribute(
+                    'placeholder',
+                    $translator->translate('Enter username')
+                )
+        );
 
-        $this->add((new Text('email'))
-            ->setAttribute('type', 'email')
-            ->setLabel('Email:')
-            ->setAttribute('required', 'required')
-            ->setAttribute('placeholder', $translator->translate('Enter email address')));
+        $this->add(
+            (new Text('email'))
+                ->setAttribute('type', 'email')
+                ->setLabel('Email:')
+                ->setAttribute('required', 'required')
+                ->setAttribute(
+                    'placeholder',
+                    $translator->translate('Enter email address')
+                )
+        );
 
-        $this->add((new Password('password'))
-            ->setLabel('Password:')
-            ->setAttribute('required', 'required')
-            ->setAttribute('placeholder', $translator->translate('Enter password')));
+        $this->add(
+            (new Password('password'))
+                ->setLabel('Password:')
+                ->setAttribute('required', 'required')
+                ->setAttribute(
+                    'placeholder',
+                    $translator->translate('Enter password')
+                )
+        );
 
-        $this->add((new Password('passwordConfirm'))
-            ->setLabel('Confirm password:')
-            ->setAttribute('required', 'required')
-            ->setAttribute('placeholder', $translator->translate('Confirm password')));
+        $this->add(
+            (new Password('passwordConfirm'))
+                ->setLabel('Confirm password:')
+                ->setAttribute('required', 'required')
+                ->setAttribute(
+                    'placeholder',
+                    $translator->translate('Confirm password')
+                )
+        );
 
-        $this->add((new Text('firstName'))
-            ->setLabel('First name (optional):')
-            ->setAttribute('placeholder', $translator->translate('Enter first name')));
+        $this->add(
+            (new Text('firstName'))
+                ->setLabel('First name (optional):')
+                ->setAttribute(
+                    'placeholder',
+                    $translator->translate('Enter first name')
+                )
+        );
 
-        $this->add((new Text('lastName'))
-            ->setLabel('Last name (optional):')
-            ->setAttribute('placeholder', $translator->translate('Enter last name')));
+        $this->add(
+            (new Text('lastName'))
+                ->setLabel('Last name (optional):')
+                ->setAttribute(
+                    'placeholder',
+                    $translator->translate('Enter last name')
+                )
+        );
 
-        $this->add((new Checkbox('newsletterOptIn'))
-            ->setLabel('I agree that Serlo Education e.V. may contact me via email.'));
+        $this->add(
+            (new Checkbox('newsletterOptIn'))->setLabel(
+                'I agree that Serlo Education e.V. may contact me via email.'
+            )
+        );
 
-        $this->add((new Select('interests'))
-            ->setAttribute('required', false)
-            ->setValueOptions(array(
-                'parent' => $translator->translate('Parent'),
-                'teacher' => $translator->translate('Teacher'),
-                'pupil' => $translator->translate('Pupil'),
-                'student' => $translator->translate('University student'),
-                'other' => $translator->translate('Other'),
-            ))
-            ->setEmptyOption('')
-            ->setLabel('I am here as…'));
+        $this->add(
+            (new Select('interests'))
+                ->setAttribute('required', false)
+                ->setValueOptions([
+                    'parent' => $translator->translate('Parent'),
+                    'teacher' => $translator->translate('Teacher'),
+                    'pupil' => $translator->translate('Pupil'),
+                    'student' => $translator->translate('University student'),
+                    'other' => $translator->translate('Other'),
+                ])
+                ->setEmptyOption('')
+                ->setLabel('I am here as…')
+        );
 
-        $recaptcha = (new ReCaptcha($config['recaptcha_options']))
-            ->setLabel('Sign up');
+        $recaptcha = (new ReCaptcha($config['recaptcha_options']))->setLabel(
+            'Sign up'
+        );
         $this->add($recaptcha);
     }
 }

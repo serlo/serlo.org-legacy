@@ -32,8 +32,8 @@ class Slugify implements FilterInterface
      */
     protected static function slugify($text)
     {
-        $text = trim($text, " ");
-        $text = preg_replace("~ +~u", '-', $text);
+        $text = trim($text, ' ');
+        $text = preg_replace('~ +~u', '-', $text);
         $text = strtolower($text);
         if (empty($text)) {
             return false;
@@ -49,9 +49,9 @@ class Slugify implements FilterInterface
     protected static function toAscii($str, $delimiter = '-')
     {
         $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
-        $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+        $clean = preg_replace('/[^a-zA-Z0-9\/_|+ -]/', '', $clean);
         $clean = strtolower(trim($clean, '-'));
-        $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
+        $clean = preg_replace('/[\/_|+ -]+/', $delimiter, $clean);
 
         return $clean;
     }

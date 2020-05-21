@@ -24,7 +24,6 @@ namespace Versioning;
 
 trait RepositoryManagerAwareTrait
 {
-
     /**
      * The RepositoryManager
      *
@@ -48,8 +47,9 @@ trait RepositoryManagerAwareTrait
      * @param RepositoryManagerInterface $repositoryManager
      * @return self
      */
-    public function setRepositoryManager(RepositoryManagerInterface $repositoryManager)
-    {
+    public function setRepositoryManager(
+        RepositoryManagerInterface $repositoryManager
+    ) {
         $this->repositoryManager = $repositoryManager;
         return $this;
     }

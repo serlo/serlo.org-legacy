@@ -24,7 +24,6 @@ namespace RelatedContent\Entity;
 
 interface CategoryInterface
 {
-
     /**
      * @return string
      */

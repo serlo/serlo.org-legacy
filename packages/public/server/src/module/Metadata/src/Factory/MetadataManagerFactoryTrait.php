@@ -32,8 +32,9 @@ trait MetadataManagerFactoryTrait
      * @param ServiceLocatorInterface $serviceLocator
      * @return \Metadata\Manager\MetadataManager
      */
-    protected function getMetadataManager(ServiceLocatorInterface $serviceLocator)
-    {
+    protected function getMetadataManager(
+        ServiceLocatorInterface $serviceLocator
+    ) {
         return $serviceLocator->get('Metadata\Manager\MetadataManager');
     }
 }

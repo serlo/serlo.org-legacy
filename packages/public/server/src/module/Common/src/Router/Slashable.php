@@ -26,8 +26,11 @@ use Zend\Mvc\Router\Http\Segment;
 
 class Slashable extends Segment
 {
-    public function __construct($route, array $constraints = [], array $defaults = [])
-    {
+    public function __construct(
+        $route,
+        array $constraints = [],
+        array $defaults = []
+    ) {
         parent::__construct($route, $constraints, $defaults);
 
         // add the slash to the allowed unencoded chars map, since this route

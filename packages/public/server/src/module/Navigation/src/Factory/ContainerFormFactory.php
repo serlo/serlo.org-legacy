@@ -39,9 +39,9 @@ class ContainerFormFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $entityManager     = $this->getEntityManager($serviceLocator);
+        $entityManager = $this->getEntityManager($serviceLocator);
         $navigationManager = $this->getNavigationManager($serviceLocator);
-        $form              = new ContainerForm($entityManager, $navigationManager);
+        $form = new ContainerForm($entityManager, $navigationManager);
 
         return $form;
     }

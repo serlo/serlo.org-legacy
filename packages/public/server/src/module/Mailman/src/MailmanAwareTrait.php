@@ -24,7 +24,6 @@ namespace Mailman;
 
 trait MailmanAwareTrait
 {
-
     /**
      * @var MailmanInterface
      */

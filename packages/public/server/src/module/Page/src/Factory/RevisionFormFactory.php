@@ -40,7 +40,9 @@ class RevisionFormFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $license = $this->getLicenseManager($serviceLocator)->getDefaultLicense();
+        $license = $this->getLicenseManager(
+            $serviceLocator
+        )->getDefaultLicense();
         return new RevisionForm($license);
     }
 }

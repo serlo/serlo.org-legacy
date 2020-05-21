@@ -40,9 +40,9 @@ class SubjectManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $taxonomyManager = $this->getTaxonomyManager($serviceLocator);
-        $storage         = $serviceLocator->get('Subject\Storage\SubjectStorage');
-        $normalizer      = $serviceLocator->get('Normalizer\Normalizer');
-        $service         = new SubjectManager($normalizer, $storage, $taxonomyManager);
+        $storage = $serviceLocator->get('Subject\Storage\SubjectStorage');
+        $normalizer = $serviceLocator->get('Normalizer\Normalizer');
+        $service = new SubjectManager($normalizer, $storage, $taxonomyManager);
 
         return $service;
     }

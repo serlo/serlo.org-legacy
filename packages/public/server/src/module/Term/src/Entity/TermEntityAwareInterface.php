@@ -24,7 +24,6 @@ namespace Term\Entity;
 
 interface TermEntityAwareInterface
 {
-
     /**
      * @param TermEntityInterface $term
      * @return self

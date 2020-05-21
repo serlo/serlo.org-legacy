@@ -72,14 +72,12 @@ class Normalize extends AbstractHelper
         $lang = $this->getSubdomain();
 
         if ($lang === 'de' || $lang === 'en') {
-            $this->getView()->headLink(
-                [
-                    'rel' => 'search',
-                    'href' => '/opensearch.' . $lang . '.xml',
-                    'title' => 'Serlo (' . $lang . ')',
-                    'type' => 'application/opensearchdescription+xml',
-                ]
-            );
+            $this->getView()->headLink([
+                'rel' => 'search',
+                'href' => '/opensearch.' . $lang . '.xml',
+                'title' => 'Serlo (' . $lang . ')',
+                'type' => 'application/opensearchdescription+xml',
+            ]);
         }
     }
 
@@ -90,8 +88,16 @@ class Normalize extends AbstractHelper
         $meta->setProperty('og:title', $this->normalize($object)->getTitle());
         $meta->setProperty('og:type', 'website');
         $meta->setProperty('og:image', $this->getMetaImage($object));
-        $meta->setProperty('og:description', $this->getMetaDescription($object));
-        $meta->setProperty('og:site_name', $this->getView()->brand()->getBrand(true));
+        $meta->setProperty(
+            'og:description',
+            $this->getMetaDescription($object)
+        );
+        $meta->setProperty(
+            'og:site_name',
+            $this->getView()
+                ->brand()
+                ->getBrand(true)
+        );
     }
 
     private function appendFacebookMeta($object)
@@ -101,7 +107,6 @@ class Normalize extends AbstractHelper
         $meta->setProperty('fb:pages', '155020041197918');
         $meta->setProperty('fb:profile_id', '155020041197918');
     }
-
 
     private function getMetaDescription($object)
     {
@@ -113,15 +118,20 @@ class Normalize extends AbstractHelper
     {
         $fileName = 'meta/serlo.jpg';
 
-        $subject = trim(strtolower(strip_tags(
-            $this->getView()->navigation('default_navigation')
-                ->menu()
-                ->setPartial('layout/navigation/partial/active-subject')
-                ->setOnlyActiveBranch(true)
-                ->setMinDepth(0)
-                ->setMaxDepth(0)
-                ->render()
-        )));
+        $subject = trim(
+            strtolower(
+                strip_tags(
+                    $this->getView()
+                        ->navigation('default_navigation')
+                        ->menu()
+                        ->setPartial('layout/navigation/partial/active-subject')
+                        ->setOnlyActiveBranch(true)
+                        ->setMinDepth(0)
+                        ->setMaxDepth(0)
+                        ->render()
+                )
+            )
+        );
 
         switch ($subject) {
             case 'mathematik':
@@ -137,12 +147,16 @@ class Normalize extends AbstractHelper
                 break;
         }
 
-        return $this->getView()->assets()->getAsset($fileName);
+        return $this->getView()
+            ->assets()
+            ->getAsset($fileName);
     }
 
     private function getSubdomain()
     {
-        return $this->getInstanceManager()->getInstanceFromRequest()->getSubdomain();
+        return $this->getInstanceManager()
+            ->getInstanceFromRequest()
+            ->getSubdomain();
     }
 
     /**
@@ -156,7 +170,7 @@ class Normalize extends AbstractHelper
     public function headTitle($object)
     {
         /* @var $headTitle HeadTitle */
-        $headTitle  = $this->getView()->plugin('headTitle');
+        $headTitle = $this->getView()->plugin('headTitle');
         if (is_string($object)) {
             $headTitle($object);
         } else {
@@ -169,9 +183,9 @@ class Normalize extends AbstractHelper
     public function appendBrand()
     {
         /** @var Brand $brand */
-        $brand  = $this->getView()->brand();
+        $brand = $this->getView()->brand();
         /* @var $headTitle HeadTitle */
-        $headTitle  = $this->getView()->plugin('headTitle');
+        $headTitle = $this->getView()->plugin('headTitle');
         $title = $headTitle->renderTitle();
         $maxStringLen = 65;
 
@@ -182,13 +196,13 @@ class Normalize extends AbstractHelper
         }
         //add "– lernen mit Serlo"
         $titlePostfix = $brand->getHeadTitle(true);
-        if (strlen($title) < ($maxStringLen-strlen($titlePostfix))) {
+        if (strlen($title) < $maxStringLen - strlen($titlePostfix)) {
             $headTitle($titlePostfix);
             return $this;
         }
 
         $titlePostfixFallback = $brand->getBrand(true);
-        if (strlen($title) < ($maxStringLen-strlen($titlePostfixFallback))) {
+        if (strlen($title) < $maxStringLen - strlen($titlePostfixFallback)) {
             $headTitle($titlePostfixFallback);
             return $this;
         }
@@ -210,28 +224,38 @@ class Normalize extends AbstractHelper
     public function toAnchor($object, $forceCanonical = false)
     {
         $normalized = $this->normalize($object);
-        return '<a href="' . $this->toUrl($object, $forceCanonical) . '">' . $normalized->getTitle() . '</a>';
+        return '<a href="' .
+            $this->toUrl($object, $forceCanonical) .
+            '">' .
+            $normalized->getTitle() .
+            '</a>';
     }
 
     public function toAuthor($object)
     {
-        return $this->normalize($object)->getMetadata()->getAuthor();
+        return $this->normalize($object)
+            ->getMetadata()
+            ->getAuthor();
     }
 
     public function toCreationDate($object)
     {
-        return $this->normalize($object)->getMetadata()->getCreationDate();
+        return $this->normalize($object)
+            ->getMetadata()
+            ->getCreationDate();
     }
 
     public function toLastModified($object)
     {
-        return $this->normalize($object)->getMetadata()->getLastModified();
+        return $this->normalize($object)
+            ->getMetadata()
+            ->getLastModified();
     }
 
     public function toPreview($object)
     {
         $normalized = $this->normalize($object);
-        $content    = $normalized->getMetadata()->getDescription();
+        $content = $normalized->getMetadata()->getDescription();
         return $this->renderPreview($content);
     }
 
@@ -239,9 +263,9 @@ class Normalize extends AbstractHelper
     {
         /** @var FormatHelper $renderer */
         $renderer = $this->getView()->plugin('renderer');
-        $content =  $renderer->toHtml($string);
-        $filter     = new PreviewFilter(152);
-        $preview    = $filter->filter($content);
+        $content = $renderer->toHtml($string);
+        $filter = new PreviewFilter(152);
+        $preview = $filter->filter($content);
         return $preview;
     }
 

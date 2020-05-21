@@ -42,20 +42,14 @@ class PageManagerListener extends AbstractListener
         $events->attach(
             $this->getMonitoredClass(),
             'update',
-            [
-                $this,
-                'onChange',
-            ],
+            [$this, 'onChange'],
             2
         );
 
         $events->attach(
             $this->getMonitoredClass(),
             'create',
-            [
-                $this,
-                'onChange',
-            ],
+            [$this, 'onChange'],
             2
         );
     }

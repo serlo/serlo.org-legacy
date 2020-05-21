@@ -36,7 +36,9 @@ class CsrfForm extends Form
         $this->add(new CsrfToken());
 
         $this->add(
-            (new Submit('submit'))->setValue('')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
     }
 }

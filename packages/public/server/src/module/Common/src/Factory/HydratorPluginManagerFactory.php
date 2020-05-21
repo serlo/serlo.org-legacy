@@ -37,8 +37,8 @@ class HydratorPluginManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config   = $serviceLocator->get('config')['hydrator_plugins'];
-        $config   = new Config($config);
+        $config = $serviceLocator->get('config')['hydrator_plugins'];
+        $config = new Config($config);
         $hydrator = new HydratorPluginManager($config);
         return $hydrator;
     }

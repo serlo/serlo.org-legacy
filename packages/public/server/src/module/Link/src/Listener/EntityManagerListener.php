@@ -27,36 +27,37 @@ use Zend\EventManager\Event;
 
 class EntityManagerListener extends AbstractSharedListenerAggregate
 {
-    use\Entity\Manager\EntityManagerAwareTrait, \Link\Service\LinkServiceAwareTrait,
+    use \Entity\Manager\EntityManagerAwareTrait,
+        \Link\Service\LinkServiceAwareTrait,
         \Entity\Options\ModuleOptionsAwareTrait;
 
     public function onCreate(Event $e)
     {
         /* var $entity \Entity\Entity\EntityInterface */
         $entity = $e->getParam('entity');
-        $data   = $e->getParam('data');
+        $data = $e->getParam('data');
 
         if (!array_key_exists('link', $data)) {
             return;
         }
 
         $options = $data['link'];
-        $type    = $options['type'];
+        $type = $options['type'];
 
         if (isset($options['child'])) {
-            $child       = $entity;
-            $parent      = $this->getEntityManager()->getEntity($options['child']);
-            $linkOptions = $this->getModuleOptions()->getType(
-                $parent->getType()->getName()
-            )->getComponent($type);
+            $child = $entity;
+            $parent = $this->getEntityManager()->getEntity($options['child']);
+            $linkOptions = $this->getModuleOptions()
+                ->getType($parent->getType()->getName())
+                ->getComponent($type);
 
             $this->getLinkService()->associate($parent, $child, $linkOptions);
         } elseif (isset($options['parent'])) {
-            $parent      = $entity;
-            $child       = $this->getEntityManager()->getEntity($options['child']);
-            $linkOptions = $this->getModuleOptions()->getType(
-                $parent->getType()->getName()
-            )->getComponent($type);
+            $parent = $entity;
+            $child = $this->getEntityManager()->getEntity($options['child']);
+            $linkOptions = $this->getModuleOptions()
+                ->getType($parent->getType()->getName())
+                ->getComponent($type);
 
             $this->getLinkService()->associate($parent, $child, $linkOptions);
         }
@@ -65,15 +66,13 @@ class EntityManagerListener extends AbstractSharedListenerAggregate
     /*
      * (non-PHPdoc) @see \Zend\EventManager\SharedListenerAggregateInterface::attachShared()
      */
-    public function attachShared(\Zend\EventManager\SharedEventManagerInterface $events)
-    {
+    public function attachShared(
+        \Zend\EventManager\SharedEventManagerInterface $events
+    ) {
         $this->listeners[] = $events->attach(
             $this->getMonitoredClass(),
             'create',
-            [
-                $this,
-                'onCreate',
-            ],
+            [$this, 'onCreate'],
             2
         );
     }

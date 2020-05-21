@@ -52,8 +52,8 @@ class SubjectStorageFactory implements FactoryInterface
             ],
         ];
         if (array_key_exists('subject_cache', $serviceLocator->get('Config'))) {
-            $config =  $serviceLocator->get('Config')['subject_cache'];
-        };
+            $config = $serviceLocator->get('Config')['subject_cache'];
+        }
         $cache = StorageFactory::factory($config);
         return $cache;
     }

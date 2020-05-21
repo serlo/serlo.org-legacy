@@ -42,7 +42,11 @@ class PermissionForm extends Form
             $values[$permission->getId()] = $permission->getName();
         }
 
-        $this->add((new Select('permission'))->setLabel('Permission:')->setValueOptions($values));
+        $this->add(
+            (new Select('permission'))
+                ->setLabel('Permission:')
+                ->setValueOptions($values)
+        );
 
         $values = [
             -1 => 'Global',
@@ -51,18 +55,22 @@ class PermissionForm extends Form
             $values[$instance->getId()] = $instance->getName();
         }
 
-        $this->add((new Select('instance'))->setLabel('Instance:')->setValueOptions($values));
+        $this->add(
+            (new Select('instance'))
+                ->setLabel('Instance:')
+                ->setValueOptions($values)
+        );
 
         $this->add(
-            (new Submit('submit'))->setValue('Add')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Add')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $inputFilter->add(
-            [
-                'name'     => 'permission',
-                'required' => true,
-            ]
-        );
+        $inputFilter->add([
+            'name' => 'permission',
+            'required' => true,
+        ]);
 
         $this->setInputFilter($inputFilter);
     }

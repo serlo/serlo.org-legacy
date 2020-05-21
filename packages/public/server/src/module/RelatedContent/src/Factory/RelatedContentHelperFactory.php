@@ -31,9 +31,9 @@ class RelatedContentHelperFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $instance = new RelatedContentHelper();
-        $relatedContentManager = $serviceLocator->getServiceLocator()->get(
-            'RelatedContent\Manager\RelatedContentManager'
-            );
+        $relatedContentManager = $serviceLocator
+            ->getServiceLocator()
+            ->get('RelatedContent\Manager\RelatedContentManager');
 
         $instance->setRelatedContentManager($relatedContentManager);
 

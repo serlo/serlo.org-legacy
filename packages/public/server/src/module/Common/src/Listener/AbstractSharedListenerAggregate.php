@@ -24,9 +24,9 @@ namespace Common\Listener;
 
 use Zend\EventManager\SharedListenerAggregateInterface;
 
-abstract class AbstractSharedListenerAggregate implements SharedListenerAggregateInterface
+abstract class AbstractSharedListenerAggregate implements
+    SharedListenerAggregateInterface
 {
-
     /**
      * An array containing all registered listeners.
      *
@@ -41,8 +41,9 @@ abstract class AbstractSharedListenerAggregate implements SharedListenerAggregat
      */
     abstract protected function getMonitoredClass();
 
-    public function detachShared(\Zend\EventManager\SharedEventManagerInterface $events)
-    {
+    public function detachShared(
+        \Zend\EventManager\SharedEventManagerInterface $events
+    ) {
         foreach ($this->listeners as $index => $listener) {
             if ($events->detach($this->getMonitoredClass(), $listener)) {
                 unset($this->listeners[$index]);

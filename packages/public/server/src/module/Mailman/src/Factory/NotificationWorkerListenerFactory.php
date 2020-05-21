@@ -36,11 +36,16 @@ class NotificationWorkerListenerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $mailman    = $serviceLocator->get('Mailman/Mailman');
+        $mailman = $serviceLocator->get('Mailman/Mailman');
         $translator = $serviceLocator->get('Translator');
-        $logger     = $serviceLocator->get('Zend\Log\Logger');
-        $renderer   = $serviceLocator->get('Mailman\Renderer\MailRenderer');
-        $class      = new NotificationWorkerListener($logger, $mailman, $renderer, $translator);
+        $logger = $serviceLocator->get('Zend\Log\Logger');
+        $renderer = $serviceLocator->get('Mailman\Renderer\MailRenderer');
+        $class = new NotificationWorkerListener(
+            $logger,
+            $mailman,
+            $renderer,
+            $translator
+        );
 
         return $class;
     }

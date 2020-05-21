@@ -33,18 +33,22 @@ class TokenizerProvider extends AbstractProvider implements ProviderInterface
     {
         return [
             'title' => $this->getObject()->getTitle(),
-            'blog'  => $this->getObject()->getBlog()->getName(),
-            'id'    => $this->getObject()->getId(),
+            'blog' => $this->getObject()
+                ->getBlog()
+                ->getName(),
+            'id' => $this->getObject()->getId(),
         ];
     }
 
     protected function validObject($object)
     {
         if (!$object instanceof PostInterface) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected PostInterface but got `%s`',
-                get_class($object)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected PostInterface but got `%s`',
+                    get_class($object)
+                )
+            );
         }
     }
 }

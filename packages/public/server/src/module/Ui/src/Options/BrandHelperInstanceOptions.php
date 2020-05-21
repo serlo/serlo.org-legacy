@@ -46,7 +46,6 @@ class BrandHelperInstanceOptions extends AbstractOptions
      */
     protected $logo = 'Logo html here';
 
-
     /**
      * @var string
      */
@@ -65,7 +64,7 @@ class BrandHelperInstanceOptions extends AbstractOptions
      */
     public function setDescription($description)
     {
-        $this->description = (string)$description;
+        $this->description = (string) $description;
     }
 
     /**

@@ -78,13 +78,16 @@ class TaxonomyManager implements TaxonomyManagerInterface
         $this->classResolver = $classResolver;
         $this->moduleOptions = $moduleOptions;
         $this->objectManager = $objectManager;
-        $this->typeManager   = $typeManager;
+        $this->typeManager = $typeManager;
         $this->setAuthorizationService($authorizationService);
         $this->instanceManager = $instanceManager;
     }
 
-    public function associateWith($term, TaxonomyTermAwareInterface $object, $position = null)
-    {
+    public function associateWith(
+        $term,
+        TaxonomyTermAwareInterface $object,
+        $position = null
+    ) {
         if (!$term instanceof TaxonomyTermInterface) {
             $term = $this->getTerm($term);
         }
@@ -109,15 +112,21 @@ class TaxonomyManager implements TaxonomyManagerInterface
 
         try {
             if ($position !== null) {
-                $term->positionAssociatedObject($object, (int)$position);
+                $term->positionAssociatedObject($object, (int) $position);
             } else {
                 $field = $term->getAssociationFieldName($object);
-                $term->positionAssociatedObject($object, $term->countAssociations($field) + 1);
+                $term->positionAssociatedObject(
+                    $object,
+                    $term->countAssociations($field) + 1
+                );
             }
         } catch (Exception\SortingNotSupported $e) {
             // Sorting obviously not supported...nothing to do
         }
-        $this->getEventManager()->trigger('associate', $this, ['object' => $object, 'term' => $term]);
+        $this->getEventManager()->trigger('associate', $this, [
+            'object' => $object,
+            'term' => $term,
+        ]);
         $this->getObjectManager()->persist($term);
     }
 
@@ -128,21 +137,21 @@ class TaxonomyManager implements TaxonomyManagerInterface
     public function createRoot(TermForm $termForm)
     {
         $instance = $this->instanceManager->getInstanceFromRequest();
-        $termForm->setData(
-            [
-                'instance' => $instance,
-                'term'     => [
-                    'name' => 'root',
-                ],
-                'taxonomy' => $this->findTaxonomyByName('root', $instance),
-            ]
-        );
+        $termForm->setData([
+            'instance' => $instance,
+            'term' => [
+                'name' => 'root',
+            ],
+            'taxonomy' => $this->findTaxonomyByName('root', $instance),
+        ]);
         return $this->createTerm($termForm);
     }
 
     public function createTerm(FormInterface $form)
     {
-        $term = $this->getClassResolver()->resolve('Taxonomy\Entity\TaxonomyTermInterface');
+        $term = $this->getClassResolver()->resolve(
+            'Taxonomy\Entity\TaxonomyTermInterface'
+        );
         $this->bind($term, $form);
         $this->assertGranted('taxonomy.term.create', $term);
         $this->getEventManager()->trigger('create', $this, ['term' => $term]);
@@ -153,17 +162,25 @@ class TaxonomyManager implements TaxonomyManagerInterface
     {
         $old = $this->objectManager->getBypassIsolation();
         $this->objectManager->setBypassIsolation($bypassInstanceIsolation);
-        $className = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyTermInterface');
-        $terms     = $this->getObjectManager()->getRepository($className)->findAll();
+        $className = $this->getClassResolver()->resolveClassName(
+            'Taxonomy\Entity\TaxonomyTermInterface'
+        );
+        $terms = $this->getObjectManager()
+            ->getRepository($className)
+            ->findAll();
         $this->objectManager->setBypassIsolation($old);
         return new ArrayCollection($terms);
     }
 
     public function findAllTaxonomies(InstanceInterface $instance)
     {
-        $className = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyInterface');
-        $criteria  = ['instance' => $instance->getId()];
-        $entities  = $this->getObjectManager()->getRepository($className)->findBy($criteria);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Taxonomy\Entity\TaxonomyInterface'
+        );
+        $criteria = ['instance' => $instance->getId()];
+        $entities = $this->getObjectManager()
+            ->getRepository($className)
+            ->findBy($criteria);
 
         foreach ($entities as $entity) {
             $this->assertGranted('taxonomy.get', $entity);
@@ -173,16 +190,25 @@ class TaxonomyManager implements TaxonomyManagerInterface
 
     public function findTaxonomyByName($name, InstanceInterface $instance)
     {
-        $className = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyInterface');
-        $type      = $this->getTypeManager()->findTypeByName($name);
-        $criteria  = ['type' => $type->getId(), 'instance' => $instance->getId()];
-        $entity    = $this->getObjectManager()->getRepository($className)->findOneBy($criteria);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Taxonomy\Entity\TaxonomyInterface'
+        );
+        $type = $this->getTypeManager()->findTypeByName($name);
+        $criteria = [
+            'type' => $type->getId(),
+            'instance' => $instance->getId(),
+        ];
+        $entity = $this->getObjectManager()
+            ->getRepository($className)
+            ->findOneBy($criteria);
 
         if (!is_object($entity)) {
             $this->assertGranted('taxonomy.create', $instance);
 
             /* @var $entity \Taxonomy\Entity\TaxonomyInterface */
-            $entity = $this->getClassResolver()->resolve('Taxonomy\Entity\TaxonomyInterface');
+            $entity = $this->getClassResolver()->resolve(
+                'Taxonomy\Entity\TaxonomyInterface'
+            );
             $entity->setInstance($instance);
             $entity->setType($type);
 
@@ -196,15 +222,17 @@ class TaxonomyManager implements TaxonomyManagerInterface
         return $entity;
     }
 
-    public function findTermByName(TaxonomyInterface $taxonomy, array $ancestors)
-    {
+    public function findTermByName(
+        TaxonomyInterface $taxonomy,
+        array $ancestors
+    ) {
         if (!count($ancestors)) {
             throw new Exception\RuntimeException('Ancestors are empty');
         }
 
-        $terms          = $taxonomy->getChildren();
+        $terms = $taxonomy->getChildren();
         $ancestorsFound = 0;
-        $found          = false;
+        $found = false;
         foreach ($ancestors as &$element) {
             if (is_string($element) && strlen($element) > 0) {
                 $element = strtolower($element);
@@ -258,22 +286,30 @@ class TaxonomyManager implements TaxonomyManagerInterface
 
     public function getTaxonomy($id)
     {
-        $className = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyInterface');
-        $entity    = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Taxonomy\Entity\TaxonomyInterface'
+        );
+        $entity = $this->getObjectManager()->find($className, $id);
 
         if (!is_object($entity)) {
-            throw new Exception\RuntimeException(sprintf('Term with id %s not found', $id));
+            throw new Exception\RuntimeException(
+                sprintf('Term with id %s not found', $id)
+            );
         }
         return $entity;
     }
 
     public function getTerm($id)
     {
-        $className = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyTermInterface');
-        $entity    = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Taxonomy\Entity\TaxonomyTermInterface'
+        );
+        $entity = $this->getObjectManager()->find($className, $id);
 
         if (!is_object($entity)) {
-            throw new Exception\TermNotFoundException(sprintf('Term with id %s not found', $id));
+            throw new Exception\TermNotFoundException(
+                sprintf('Term with id %s not found', $id)
+            );
         }
         $this->assertGranted('taxonomy.term.get', $entity);
         return $entity;
@@ -287,7 +323,11 @@ class TaxonomyManager implements TaxonomyManagerInterface
         $taxonomy = $term->getTaxonomy();
         $this->assertGranted('taxonomy.term.associate', $term);
 
-        if (!$this->getModuleOptions()->getType($taxonomy->getName())->isAssociationAllowed($object)) {
+        if (
+            !$this->getModuleOptions()
+                ->getType($taxonomy->getName())
+                ->isAssociationAllowed($object)
+        ) {
             return false;
         }
         return true;
@@ -301,7 +341,10 @@ class TaxonomyManager implements TaxonomyManagerInterface
         }
         $this->assertGranted('taxonomy.term.dissociate', $term);
         $term->removeAssociation($object);
-        $this->getEventManager()->trigger('dissociate', $this, ['object' => $object, 'term' => $term]);
+        $this->getEventManager()->trigger('dissociate', $this, [
+            'object' => $object,
+            'term' => $term,
+        ]);
         $this->getObjectManager()->persist($term);
     }
 
@@ -309,8 +352,8 @@ class TaxonomyManager implements TaxonomyManagerInterface
     {
         /* @var $objectManager EntityManager */
         $objectManager = $this->objectManager;
-        $term          = $this->bind($form->getObject(), $form);
-        $unitOfWork    = $objectManager->getUnitOfWork();
+        $term = $this->bind($form->getObject(), $form);
+        $unitOfWork = $objectManager->getUnitOfWork();
 
         $this->assertGranted('taxonomy.term.update', $term);
         $unitOfWork->computeChangeSets();
@@ -318,17 +361,15 @@ class TaxonomyManager implements TaxonomyManagerInterface
         $changeSet = $unitOfWork->getEntityChangeSet($term);
 
         if (!empty($changeSet)) {
-            $this->getEventManager()->trigger('update', $this, ['term' => $term]);
+            $this->getEventManager()->trigger('update', $this, [
+                'term' => $term,
+            ]);
             if (isset($changeSet['parent'])) {
-                $this->getEventManager()->trigger(
-                    'parent.change',
-                    $this,
-                    [
-                        'term' => $term,
-                        'from' => $changeSet['parent'][0]->getParent(),
-                        'to'   => $changeSet['parent'][1]->getParent(),
-                    ]
-                );
+                $this->getEventManager()->trigger('parent.change', $this, [
+                    'term' => $term,
+                    'from' => $changeSet['parent'][0]->getParent(),
+                    'to' => $changeSet['parent'][1]->getParent(),
+                ]);
             }
         }
 
@@ -347,13 +388,16 @@ class TaxonomyManager implements TaxonomyManagerInterface
         if (!$form->isValid()) {
             throw new RuntimeException(
                 print_r(
-                    [$form->getMessages(), $form->getData(FormInterface::VALUES_AS_ARRAY)],
+                    [
+                        $form->getMessages(),
+                        $form->getData(FormInterface::VALUES_AS_ARRAY),
+                    ],
                     true
                 )
             );
         }
         $processingForm = clone $form;
-        $data           = $form->getData(FormInterface::VALUES_AS_ARRAY);
+        $data = $form->getData(FormInterface::VALUES_AS_ARRAY);
         $processingForm->bind($object);
         $processingForm->setData($data);
         $processingForm->isValid();

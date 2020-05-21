@@ -62,8 +62,9 @@ class PageHeader extends AbstractHelper
     /**
      * @param PageHeaderHelperOptions $pageHeaderHelperOptions
      */
-    public function __construct(PageHeaderHelperOptions $pageHeaderHelperOptions)
-    {
+    public function __construct(
+        PageHeaderHelperOptions $pageHeaderHelperOptions
+    ) {
         $this->options = $pageHeaderHelperOptions;
     }
 
@@ -73,7 +74,7 @@ class PageHeader extends AbstractHelper
      */
     public function __invoke($text)
     {
-        $this->text = $this->getView()->translate((string)$text);
+        $this->text = $this->getView()->translate((string) $text);
         return $this;
     }
 
@@ -119,16 +120,13 @@ class PageHeader extends AbstractHelper
             }
         }
 
-        return $this->getView()->partial(
-            $this->options->getTemplate(),
-            [
-                'text'     => $this->text,
-                'subtext'  => $this->subtext,
-                'backLink' => $this->backLink,
-                'append'   => $this->append,
-                'prepend'  => $this->prepend,
-            ]
-        );
+        return $this->getView()->partial($this->options->getTemplate(), [
+            'text' => $this->text,
+            'subtext' => $this->subtext,
+            'backLink' => $this->backLink,
+            'append' => $this->append,
+            'prepend' => $this->prepend,
+        ]);
     }
 
     /**
@@ -147,7 +145,7 @@ class PageHeader extends AbstractHelper
      */
     public function setSubtitle($subtext)
     {
-        $this->subtext = $this->getView()->translate((string)$subtext);
+        $this->subtext = $this->getView()->translate((string) $subtext);
         return $this;
     }
 }

@@ -30,14 +30,17 @@ use Instance\Entity\InstanceInterface;
 
 interface EntityManagerInterface extends Flushable
 {
-
     /**
      * @param string            $type
      * @param array             $data
      * @param InstanceInterface $instance
      * @return EntityInterface
      */
-    public function createEntity($type, array $data = [], InstanceInterface $instance);
+    public function createEntity(
+        $type,
+        array $data = [],
+        InstanceInterface $instance
+    );
 
     /**
      * @param bool $bypassInstanceIsolation
@@ -50,7 +53,10 @@ interface EntityManagerInterface extends Flushable
      * @param bool   $bypassInstanceIsolation
      * @return EntityInterface[]|Collection
      */
-    public function findEntitiesByTypeName($name, $bypassInstanceIsolation = false);
+    public function findEntitiesByTypeName(
+        $name,
+        $bypassInstanceIsolation = false
+    );
 
     /**
      *  Finds all unrevised Entities

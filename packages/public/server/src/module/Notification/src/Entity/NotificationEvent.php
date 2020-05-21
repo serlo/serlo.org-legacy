@@ -31,7 +31,6 @@ use Event\Entity\EventLogInterface;
  */
 class NotificationEvent implements NotificationEventInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

@@ -54,15 +54,19 @@ class ModuleOptions extends AbstractOptions
         $className = ClassUtils::getRealClass(get_class($repository));
 
         if (!isset($this->permissions[$className])) {
-            throw new Exception\RuntimeException(sprintf('Permission for repository "%s" not found', $className));
+            throw new Exception\RuntimeException(
+                sprintf('Permission for repository "%s" not found', $className)
+            );
         }
 
         if (!isset($this->permissions[$className][$action])) {
-            throw new Exception\RuntimeException(sprintf(
-                'Permission action "%s" for object "%s" not found',
-                $action,
-                $className
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Permission action "%s" for object "%s" not found',
+                    $action,
+                    $className
+                )
+            );
         }
 
         return $this->permissions[$className][$action];

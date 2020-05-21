@@ -60,11 +60,11 @@ class RelatedContentManager implements RelatedContentManagerInterface
         UuidManagerInterface $uuidManager
     ) {
         $this->setAuthorizationService($authorizationService);
-        $this->classResolver   = $classResolver;
+        $this->classResolver = $classResolver;
         $this->instanceManager = $instanceManager;
-        $this->router          = $route;
-        $this->objectManager   = $objectManager;
-        $this->uuidManager     = $uuidManager;
+        $this->router = $route;
+        $this->objectManager = $objectManager;
+        $this->uuidManager = $uuidManager;
     }
 
     public function addCategory($container, $name)
@@ -72,9 +72,11 @@ class RelatedContentManager implements RelatedContentManagerInterface
         $this->assertGranted('related.content.create');
 
         $container = $this->getContainer($container);
-        $holder    = $this->createHolder($container);
+        $holder = $this->createHolder($container);
         /* @var $internal Entity\CategoryInterface */
-        $internal = $this->getClassResolver()->resolve('RelatedContent\Entity\CategoryInterface');
+        $internal = $this->getClassResolver()->resolve(
+            'RelatedContent\Entity\CategoryInterface'
+        );
 
         $this->assertGranted('related.content.create', $container);
         $internal->setTitle($name);
@@ -87,9 +89,11 @@ class RelatedContentManager implements RelatedContentManagerInterface
     public function addExternal($container, $title, $url)
     {
         /* @var $external Entity\ExternalInterface */
-        $external  = $this->getClassResolver()->resolve('RelatedContent\Entity\ExternalInterface');
+        $external = $this->getClassResolver()->resolve(
+            'RelatedContent\Entity\ExternalInterface'
+        );
         $container = $this->getContainer($container);
-        $holder    = $this->createHolder($container);
+        $holder = $this->createHolder($container);
 
         $this->assertGranted('related.content.create', $container);
         $external->setTitle($title);
@@ -103,10 +107,12 @@ class RelatedContentManager implements RelatedContentManagerInterface
     public function addInternal($container, $title, $reference)
     {
         /* @var $internal Entity\InternalInterface */
-        $internal  = $this->getClassResolver()->resolve('RelatedContent\Entity\InternalInterface');
-        $object    = $this->getUuid($reference);
+        $internal = $this->getClassResolver()->resolve(
+            'RelatedContent\Entity\InternalInterface'
+        );
+        $object = $this->getUuid($reference);
         $container = $this->getContainer($container);
-        $holder    = $this->createHolder($container);
+        $holder = $this->createHolder($container);
 
         $this->assertGranted('related.content.create', $container);
         $internal->setTitle($title);
@@ -126,8 +132,10 @@ class RelatedContentManager implements RelatedContentManagerInterface
     public function getContainer($id)
     {
         /* @var $related Entity\ContainerInterface */
-        $className = $this->getClassResolver()->resolveClassName('RelatedContent\Entity\ContainerInterface');
-        $related   = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            'RelatedContent\Entity\ContainerInterface'
+        );
+        $related = $this->getObjectManager()->find($className, $id);
 
         if (!is_object($related)) {
             return $this->createContainer($id);
@@ -141,11 +149,15 @@ class RelatedContentManager implements RelatedContentManagerInterface
     public function positionHolder($holder, $position)
     {
         /* @var $holder Entity\HolderInterface */
-        $className = $this->getClassResolver()->resolveClassName('RelatedContent\Entity\HolderInterface');
-        $holder    = $this->getObjectManager()->find($className, $holder);
+        $className = $this->getClassResolver()->resolveClassName(
+            'RelatedContent\Entity\HolderInterface'
+        );
+        $holder = $this->getObjectManager()->find($className, $holder);
 
         if (!is_object($holder)) {
-            throw new Exception\RuntimeException(sprintf('Holder not found by id `%d`', $holder));
+            throw new Exception\RuntimeException(
+                sprintf('Holder not found by id `%d`', $holder)
+            );
         }
 
         $this->assertGranted('related.content.update', $holder->getContainer());
@@ -156,11 +168,15 @@ class RelatedContentManager implements RelatedContentManagerInterface
     public function removeRelatedContent($id)
     {
         /* @var $object Entity\HolderInterface */
-        $className = $this->getClassResolver()->resolveClassName('RelatedContent\Entity\HolderInterface');
-        $object    = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            'RelatedContent\Entity\HolderInterface'
+        );
+        $object = $this->getObjectManager()->find($className, $id);
 
         if (!is_object($object)) {
-            throw new Exception\RelationNotFoundException(sprintf('Could not find internal by id `%d`', $id));
+            throw new Exception\RelationNotFoundException(
+                sprintf('Could not find internal by id `%d`', $id)
+            );
         }
 
         $this->assertGranted('related.content.purge', $object->getContainer());
@@ -183,10 +199,12 @@ class RelatedContentManager implements RelatedContentManagerInterface
                 $result = new CategoryResult();
                 $result->setObject($specific);
             } else {
-                throw new Exception\RuntimeException(sprintf(
-                    'Could not find a result type for `%s`',
-                    get_class($specific)
-                ));
+                throw new Exception\RuntimeException(
+                    sprintf(
+                        'Could not find a result type for `%s`',
+                        get_class($specific)
+                    )
+                );
             }
             $collection->add($result);
         }
@@ -203,9 +221,11 @@ class RelatedContentManager implements RelatedContentManagerInterface
         // No Authorization required for this.
 
         /* @var $container Entity\ContainerInterface */
-        $uuid      = $this->getUuid($id);
-        $container = $this->getClassResolver()->resolveClassName('RelatedContent\Entity\ContainerInterface');
-        $instance  = $this->getInstanceManager()->getInstanceFromRequest();
+        $uuid = $this->getUuid($id);
+        $container = $this->getClassResolver()->resolveClassName(
+            'RelatedContent\Entity\ContainerInterface'
+        );
+        $instance = $this->getInstanceManager()->getInstanceFromRequest();
         $container = new $container($uuid, $instance);
         $this->getObjectManager()->persist($container);
         return $container;
@@ -220,7 +240,9 @@ class RelatedContentManager implements RelatedContentManagerInterface
         $this->assertGranted('related.content.create', $container);
 
         /* @var $holder Entity\HolderInterface */
-        $holder = $this->getClassResolver()->resolve('RelatedContent\Entity\HolderInterface');
+        $holder = $this->getClassResolver()->resolve(
+            'RelatedContent\Entity\HolderInterface'
+        );
         $holder->setContainer($container);
         $holder->setPosition(999);
         $this->getObjectManager()->persist($holder);
@@ -234,7 +256,7 @@ class RelatedContentManager implements RelatedContentManagerInterface
         try {
             return $this->getUuidManager()->getUuid($reference);
         } catch (NotFoundException $e) {
-            throw new Exception\NotFoundException;
+            throw new Exception\NotFoundException();
         }
     }
 }

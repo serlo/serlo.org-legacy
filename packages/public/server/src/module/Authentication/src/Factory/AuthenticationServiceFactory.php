@@ -37,12 +37,24 @@ class AuthenticationServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $sessionConfig = $serviceLocator->get('Zend\Session\Config\SessionConfig');
-        $request       = $serviceLocator->get('Request');
-        $response      = $serviceLocator->get('Response');
-        $adapter       = $serviceLocator->get('Authentication\Adapter\UserAuthAdapter');
-        $storage       = $serviceLocator->get('Authentication\Storage\UserSessionStorage');
-        $instance      = new AuthenticationService($storage, $adapter, $sessionConfig, $response, $request);
+        $sessionConfig = $serviceLocator->get(
+            'Zend\Session\Config\SessionConfig'
+        );
+        $request = $serviceLocator->get('Request');
+        $response = $serviceLocator->get('Response');
+        $adapter = $serviceLocator->get(
+            'Authentication\Adapter\UserAuthAdapter'
+        );
+        $storage = $serviceLocator->get(
+            'Authentication\Storage\UserSessionStorage'
+        );
+        $instance = new AuthenticationService(
+            $storage,
+            $adapter,
+            $sessionConfig,
+            $response,
+            $request
+        );
 
         return $instance;
     }

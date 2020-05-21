@@ -51,17 +51,20 @@ class ContainerRepositoryProvider implements ContainerProviderInterface
         StorageInterface $storage
     ) {
         $this->navigationManager = $navigationManager;
-        $this->instanceManager   = $instanceManager;
-        $this->storage           = $storage;
+        $this->instanceManager = $instanceManager;
+        $this->storage = $storage;
     }
 
     public function provide($container)
     {
         $instance = $this->instanceManager->getInstanceFromRequest();
-        $pages    = [];
+        $pages = [];
 
         try {
-            $container = $this->navigationManager->findContainerByNameAndInstance($container, $instance);
+            $container = $this->navigationManager->findContainerByNameAndInstance(
+                $container,
+                $instance
+            );
         } catch (ContainerNotFoundException $e) {
             return [];
         }
@@ -74,8 +77,11 @@ class ContainerRepositoryProvider implements ContainerProviderInterface
         foreach ($container->getPages() as $page) {
             $addPage = $this->buildPage($page);
 
-            $hasUri      = isset($addPage['uri']);
-            $hasMvc      = isset($addPage['action']) || isset($addPage['controller']) || isset($addPage['route']);
+            $hasUri = isset($addPage['uri']);
+            $hasMvc =
+                isset($addPage['action']) ||
+                isset($addPage['controller']) ||
+                isset($addPage['route']);
             $hasProvider = isset($addPage['provider']);
 
             if ($hasUri || $hasMvc || $hasProvider) {
@@ -98,8 +104,11 @@ class ContainerRepositoryProvider implements ContainerProviderInterface
 
         foreach ($page->getChildren() as $child) {
             $addPage = $this->buildPage($child);
-            $hasUri      = isset($addPage['uri']);
-            $hasMvc      = isset($addPage['action']) || isset($addPage['controller']) || isset($addPage['route']);
+            $hasUri = isset($addPage['uri']);
+            $hasMvc =
+                isset($addPage['action']) ||
+                isset($addPage['controller']) ||
+                isset($addPage['route']);
             $hasProvider = isset($addPage['provider']);
 
             if ($hasUri || $hasMvc || $hasProvider) {
@@ -110,9 +119,14 @@ class ContainerRepositoryProvider implements ContainerProviderInterface
         return $config;
     }
 
-    protected function buildParameter(ParameterInterface $parameter, &$config = [])
-    {
-        $key = $parameter->getKey() !== null ? (string)$parameter->getKey() : $parameter->getId();
+    protected function buildParameter(
+        ParameterInterface $parameter,
+        &$config = []
+    ) {
+        $key =
+            $parameter->getKey() !== null
+                ? (string) $parameter->getKey()
+                : $parameter->getId();
 
         if ($parameter->hasChildren()) {
             foreach ($parameter->getChildren() as $child) {

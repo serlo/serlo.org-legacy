@@ -44,7 +44,6 @@ use Zend\Filter\FilterInterface;
  */
 class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
 {
-
     /**
      * @ORM\ManyToOne(targetEntity="Taxonomy\Entity\Taxonomy",inversedBy="terms")
      */
@@ -122,14 +121,13 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
         }
     }
 
-    public function countAssociations($field = null, FilterInterface $filter = null)
-    {
+    public function countAssociations(
+        $field = null,
+        FilterInterface $filter = null
+    ) {
         if ($field === null) {
             $count = 0;
-            $relations = [
-                'entities',
-                'blogPosts',
-            ];
+            $relations = ['entities', 'blogPosts'];
 
             foreach ($relations as $relation) {
                 $count += $this->countAssociations($relation, $filter);
@@ -160,14 +158,11 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
 
     public function findChildrenByTaxonomyNames(array $names)
     {
-        return $this->getChildren()->filter(
-            function (TaxonomyTermInterface $term) use ($names) {
-                return in_array(
-                    $term->getTaxonomy()->getName(),
-                    $names
-                );
-            }
-        );
+        return $this->getChildren()->filter(function (
+            TaxonomyTermInterface $term
+        ) use ($names) {
+            return in_array($term->getTaxonomy()->getName(), $names);
+        });
     }
 
     /**
@@ -176,21 +171,18 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
      */
     public function findChildrenByTrashed($trashed)
     {
-        return $this->getChildren()->filter(
-            function (TaxonomyTermInterface $t) use ($trashed) {
-                return $t->isTrashed() == $trashed;
-            }
-        );
+        return $this->getChildren()->filter(function (
+            TaxonomyTermInterface $t
+        ) use ($trashed) {
+            return $t->isTrashed() == $trashed;
+        });
     }
 
     public function getAssociated($field = null)
     {
         if ($field === null) {
             $elements = [];
-            $fields = [
-                'entities',
-                'blogPosts',
-            ];
+            $fields = ['entities', 'blogPosts'];
 
             foreach ($fields as $field) {
                 $elements[] = $this->getAssociated($field);
@@ -199,8 +191,13 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
             return new ArrayCollection($elements);
         }
 
-        if (!in_array($field, $this->allowedRelations) && !isset($this->allowedRelations[$field])) {
-            throw new RuntimeException(sprintf('Field %s is not whitelisted.', $field));
+        if (
+            !in_array($field, $this->allowedRelations) &&
+            !isset($this->allowedRelations[$field])
+        ) {
+            throw new RuntimeException(
+                sprintf('Field %s is not whitelisted.', $field)
+            );
         }
 
         $method = 'get' . ucfirst($field);
@@ -211,10 +208,17 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
         }
     }
 
-    public function getAssociatedRecursive($association, array $allowedTaxonomies = [])
-    {
+    public function getAssociatedRecursive(
+        $association,
+        array $allowedTaxonomies = []
+    ) {
         $collection = new ArrayCollection();
-        $this->iterAssociationNodes($collection, $this, $association, $allowedTaxonomies);
+        $this->iterAssociationNodes(
+            $collection,
+            $this,
+            $association,
+            $allowedTaxonomies
+        );
         return $collection;
     }
 
@@ -326,18 +330,23 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
         return false;
     }
 
-    public function positionAssociatedObject($object, $order, $association = null)
-    {
+    public function positionAssociatedObject(
+        $object,
+        $order,
+        $association = null
+    ) {
         if (!$association) {
             $association = $this->getAssociationFieldName($object);
         }
         $method = 'order' . ucfirst($association);
 
         if (!method_exists($this, $method)) {
-            throw new Exception\SortingNotSupported(sprintf(
-                'Association `%s` does not support sorting. You\'d have to implement a node',
-                $association
-            ));
+            throw new Exception\SortingNotSupported(
+                sprintf(
+                    'Association `%s` does not support sorting. You\'d have to implement a node',
+                    $association
+                )
+            );
         }
 
         return $this->$method($object, $order);
@@ -381,7 +390,12 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
         } elseif ($object instanceof PostInterface) {
             return 'blogPosts';
         } else {
-            throw new RuntimeException(sprintf('Could not determine which field to use for %s', get_class($object)));
+            throw new RuntimeException(
+                sprintf(
+                    'Could not determine which field to use for %s',
+                    get_class($object)
+                )
+            );
         }
     }
 
@@ -415,8 +429,16 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
         }
 
         foreach ($term->getChildren() as $child) {
-            if (empty($allowedTaxonomies) || in_array($child->getTaxonomy()->getName(), $allowedTaxonomies)) {
-                $this->iterAssociationNodes($collection, $child, $associations, $allowedTaxonomies);
+            if (
+                empty($allowedTaxonomies) ||
+                in_array($child->getTaxonomy()->getName(), $allowedTaxonomies)
+            ) {
+                $this->iterAssociationNodes(
+                    $collection,
+                    $child,
+                    $associations,
+                    $allowedTaxonomies
+                );
             }
         }
     }
@@ -426,7 +448,7 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
         if ($object instanceof TaxonomyTermAwareInterface) {
             $id = $object->getId();
         } else {
-            $id = (int)$object;
+            $id = (int) $object;
         }
 
         foreach ($this->getEntityNodes() as $rel) {

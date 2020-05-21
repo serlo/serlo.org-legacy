@@ -33,10 +33,7 @@ class Changes extends Textarea implements InputProviderInterface
 
         $this->setAttribute('id', 'changes');
         $this->setLabel('Changes:');
-        $this->setAttribute(
-            'class',
-            'plain'
-        );
+        $this->setAttribute('class', 'plain');
     }
 
     /**
@@ -50,9 +47,7 @@ class Changes extends Textarea implements InputProviderInterface
         return [
             'name' => $this->getName(),
             'required' => true,
-            'filters' => [
-                ['name' => 'StripTags'],
-            ],
+            'filters' => [['name' => 'StripTags']],
         ];
     }
 }

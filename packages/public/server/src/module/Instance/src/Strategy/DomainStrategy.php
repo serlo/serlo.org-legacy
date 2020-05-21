@@ -56,11 +56,14 @@ class DomainStrategy extends AbstractStrategy
      * @param RouteInterface    $router
      * @param RouteMatch        $routeMatch
      */
-    public function __construct(ResponseInterface $response, RouteInterface $router, RouteMatch $routeMatch)
-    {
-        $this->response   = $response;
+    public function __construct(
+        ResponseInterface $response,
+        RouteInterface $router,
+        RouteMatch $routeMatch
+    ) {
+        $this->response = $response;
         $this->routeMatch = $routeMatch;
-        $this->router     = $router;
+        $this->router = $router;
     }
 
     /**
@@ -68,13 +71,15 @@ class DomainStrategy extends AbstractStrategy
      */
     public function getActiveInstance(InstanceManagerInterface $instanceManager)
     {
-        if (!array_key_exists('HTTP_HOST', (array)$_SERVER)) {
+        if (!array_key_exists('HTTP_HOST', (array) $_SERVER)) {
             return $instanceManager->getDefaultInstance();
         }
 
         if (!is_object($this->instance)) {
-            $subDomain      = explode('.', $_SERVER['HTTP_HOST'])[0];
-            $this->instance = $instanceManager->findInstanceBySubDomain($subDomain);
+            $subDomain = explode('.', $_SERVER['HTTP_HOST'])[0];
+            $this->instance = $instanceManager->findInstanceBySubDomain(
+                $subDomain
+            );
         }
 
         return $this->instance;
@@ -85,19 +90,19 @@ class DomainStrategy extends AbstractStrategy
      */
     public function switchInstance(InstanceInterface $instance)
     {
-        if (!array_key_exists('HTTP_HOST', (array)$_SERVER)) {
+        if (!array_key_exists('HTTP_HOST', (array) $_SERVER)) {
             throw new Exception\RuntimeException(sprintf('Host not set.'));
         }
 
-        $url = $this->router->assemble(
-            $this->routeMatch->getParams(),
-            [
-                'name' => $this->routeMatch->getMatchedRouteName(),
-            ]
-        );
+        $url = $this->router->assemble($this->routeMatch->getParams(), [
+            'name' => $this->routeMatch->getMatchedRouteName(),
+        ]);
 
         $hostNames = explode('.', $_SERVER['HTTP_HOST']);
-        $tld       = $hostNames[count($hostNames) - 2] . "." . $hostNames[count($hostNames) - 1];
+        $tld =
+            $hostNames[count($hostNames) - 2] .
+            '.' .
+            $hostNames[count($hostNames) - 1];
         $url = 'http://' . $instance->getSubdomain() . '.' . $tld . $url;
 
         $this->redirect($url);

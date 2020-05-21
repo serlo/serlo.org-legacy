@@ -53,11 +53,7 @@ return [
                 'components' => [
                     'repository' => [
                         'form' => __NAMESPACE__ . '\Form\MathPuzzleForm',
-                        'fields' => [
-                            'content',
-                            'source',
-                            'changes',
-                        ],
+                        'fields' => ['content', 'source', 'changes'],
                     ],
                     'link' => [
                         'children' => [
@@ -69,7 +65,6 @@ return [
                     'license' => [],
                     'taxonomy' => [],
                 ],
-
             ],
             'text-exercise' => [
                 'title' => 'id',
@@ -77,10 +72,7 @@ return [
                 'components' => [
                     'repository' => [
                         'form' => __NAMESPACE__ . '\Form\TextExerciseForm',
-                        'fields' => [
-                            'content',
-                            'changes',
-                        ],
+                        'fields' => ['content', 'changes'],
                     ],
                     'link' => [
                         'children' => [
@@ -120,10 +112,7 @@ return [
                 'components' => [
                     'repository' => [
                         'form' => __NAMESPACE__ . '\Form\TextExerciseGroupForm',
-                        'fields' => [
-                            'content',
-                            'changes',
-                        ],
+                        'fields' => ['content', 'changes'],
                     ],
                     'link' => [
                         'children' => [
@@ -141,11 +130,9 @@ return [
                 'description' => 'content',
                 'components' => [
                     'repository' => [
-                        'form' => __NAMESPACE__ . '\Form\GroupedTextExerciseForm',
-                        'fields' => [
-                            'content',
-                            'changes',
-                        ],
+                        'form' =>
+                            __NAMESPACE__ . '\Form\GroupedTextExerciseForm',
+                        'fields' => ['content', 'changes'],
                     ],
                     'link' => [
                         'children' => [
@@ -191,12 +178,10 @@ return [
                 'description' => 'content',
                 'components' => [
                     'repository' => [
-                        'form' => __NAMESPACE__ . '\Form\MultipleChoiceWrongAnswerForm',
-                        'fields' => [
-                            'content',
-                            'changes',
-                            'feedback',
-                        ],
+                        'form' =>
+                            __NAMESPACE__ .
+                            '\Form\MultipleChoiceWrongAnswerForm',
+                        'fields' => ['content', 'changes', 'feedback'],
                     ],
                     'link' => [
                         'parents' => [
@@ -219,11 +204,10 @@ return [
                 'description' => 'content',
                 'components' => [
                     'repository' => [
-                        'form' => __NAMESPACE__ . '\Form\MultipleChoiceRightAnswerForm',
-                        'fields' => [
-                            'content',
-                            'changes',
-                        ],
+                        'form' =>
+                            __NAMESPACE__ .
+                            '\Form\MultipleChoiceRightAnswerForm',
+                        'fields' => ['content', 'changes'],
                     ],
                     'link' => [
                         'parents' => [
@@ -246,12 +230,9 @@ return [
                 'description' => 'content',
                 'components' => [
                     'repository' => [
-                        'form' => __NAMESPACE__ . '\Form\SingleChoiceAnswerForm',
-                        'fields' => [
-                            'content',
-                            'changes',
-                            'feedback',
-                        ],
+                        'form' =>
+                            __NAMESPACE__ . '\Form\SingleChoiceAnswerForm',
+                        'fields' => ['content', 'changes', 'feedback'],
                     ],
                     'link' => [
                         'parents' => [
@@ -274,12 +255,9 @@ return [
                 'description' => 'content',
                 'components' => [
                     'repository' => [
-                        'form' => __NAMESPACE__ . '\Form\SingleChoiceAnswerForm',
-                        'fields' => [
-                            'content',
-                            'changes',
-                            'feedback',
-                        ],
+                        'form' =>
+                            __NAMESPACE__ . '\Form\SingleChoiceAnswerForm',
+                        'fields' => ['content', 'changes', 'feedback'],
                     ],
                     'link' => [
                         'parents' => [
@@ -303,11 +281,7 @@ return [
                 'components' => [
                     'repository' => [
                         'form' => __NAMESPACE__ . '\Form\InputChallengeForm',
-                        'fields' => [
-                            'solution',
-                            'feedback',
-                            'changes',
-                        ],
+                        'fields' => ['solution', 'feedback', 'changes'],
                     ],
                     'link' => [
                         'children' => [
@@ -351,11 +325,7 @@ return [
                 'components' => [
                     'repository' => [
                         'form' => __NAMESPACE__ . '\Form\InputChallengeForm',
-                        'fields' => [
-                            'solution',
-                            'feedback',
-                            'changes',
-                        ],
+                        'fields' => ['solution', 'feedback', 'changes'],
                     ],
                     'link' => [
                         'children' => [
@@ -399,11 +369,7 @@ return [
                 'components' => [
                     'repository' => [
                         'form' => __NAMESPACE__ . '\Form\InputChallengeForm',
-                        'fields' => [
-                            'solution',
-                            'feedback',
-                            'changes',
-                        ],
+                        'fields' => ['solution', 'feedback', 'changes'],
                     ],
                     'link' => [
                         'children' => [
@@ -447,10 +413,7 @@ return [
                 'components' => [
                     'repository' => [
                         'form' => __NAMESPACE__ . '\Form\TextSolutionForm',
-                        'fields' => [
-                            'content',
-                            'changes',
-                        ],
+                        'fields' => ['content', 'changes'],
                     ],
                     'link' => [
                         'parents' => [
@@ -493,9 +456,7 @@ return [
                 'components' => [
                     'repository' => [
                         'form' => __NAMESPACE__ . '\Form\TextHintForm',
-                        'fields' => [
-                            'content',
-                        ],
+                        'fields' => ['content'],
                     ],
                     'link' => [
                         'parents' => [
@@ -568,12 +529,7 @@ return [
                 'components' => [
                     'repository' => [
                         'form' => __NAMESPACE__ . '\Form\ModulePageForm',
-                        'fields' => [
-                            'title',
-                            'icon',
-                            'content',
-                            'changes',
-                        ],
+                        'fields' => ['title', 'icon', 'content', 'changes'],
                     ],
                     'link' => [
                         'parents' => [

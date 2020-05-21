@@ -38,8 +38,11 @@ class PageAssertionFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var \Rbac\Traversal\Strategy\TraversalStrategyInterface $traversalStrategy */
-        $traversalStrategy = $serviceLocator->getServiceLocator()->get('Rbac\Rbac')->getTraversalStrategy();
-        $assertion         = new PageAssertion($traversalStrategy);
+        $traversalStrategy = $serviceLocator
+            ->getServiceLocator()
+            ->get('Rbac\Rbac')
+            ->getTraversalStrategy();
+        $assertion = new PageAssertion($traversalStrategy);
         return $assertion;
     }
 }

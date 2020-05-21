@@ -24,7 +24,8 @@ namespace Common\Traits;
 
 trait InstanceManagerTrait
 {
-    use \Zend\ServiceManager\ServiceLocatorAwareTrait, \ClassResolver\ClassResolverAwareTrait;
+    use \Zend\ServiceManager\ServiceLocatorAwareTrait,
+        \ClassResolver\ClassResolverAwareTrait;
 
     /**
      * Array of all registered instances
@@ -124,9 +125,9 @@ trait InstanceManagerTrait
         $instance = $this->getServiceLocator()->get($class);
 
         if ($this->checkClassInheritance && !$instance instanceof $class) {
-            throw new \InvalidArgumentException('Expeted ' . $class . ' but got ' . get_class(
-                $instance
-                ));
+            throw new \InvalidArgumentException(
+                'Expeted ' . $class . ' but got ' . get_class($instance)
+            );
         }
 
         return $instance;

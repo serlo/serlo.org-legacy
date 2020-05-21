@@ -51,23 +51,23 @@ class EntityAgeCollectionFilter implements FilterInterface
     public function filter($value)
     {
         if (!$value instanceof Collection) {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected instance of Collection but got %s',
-                is_object($value) ? get_class($value) : gettype($value)
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected instance of Collection but got %s',
+                    is_object($value) ? get_class($value) : gettype($value)
+                )
+            );
         }
 
-        return $value->filter(
-            function (EntityInterface $entity) {
-                /* @var $revision RevisionInterface */
-                $revision = $entity->getCurrentRevision();
+        return $value->filter(function (EntityInterface $entity) {
+            /* @var $revision RevisionInterface */
+            $revision = $entity->getCurrentRevision();
 
-                if (!$revision) {
-                    return false;
-                }
-
-                return $revision->getTimestamp() > $this->maxAge;
+            if (!$revision) {
+                return false;
             }
-        );
+
+            return $revision->getTimestamp() > $this->maxAge;
+        });
     }
 }

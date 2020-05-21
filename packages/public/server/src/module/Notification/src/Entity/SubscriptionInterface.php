@@ -28,7 +28,6 @@ use Uuid\Entity\UuidInterface;
 
 interface SubscriptionInterface
 {
-
     /**
      * @return bool
      */

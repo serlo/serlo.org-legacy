@@ -65,30 +65,37 @@ class AttachmentManager implements AttachmentManagerInterface
         ObjectManager $objectManager
     ) {
         $this->authorizationService = $authorizationService;
-        $this->classResolver        = $classResolver;
-        $this->instanceManager      = $instanceManager;
-        $this->typeManager          = $typeManager;
-        $this->objectManager        = $objectManager;
-        $this->moduleOptions        = $moduleOptions;
+        $this->classResolver = $classResolver;
+        $this->instanceManager = $instanceManager;
+        $this->typeManager = $typeManager;
+        $this->objectManager = $objectManager;
+        $this->moduleOptions = $moduleOptions;
 
         $gcloud = new ServiceBuilder([
             'projectId' => $this->moduleOptions->getProjectId(),
             'keyFile' => json_decode($uploadSecret, true),
         ]);
 
-        $this->bucket = $gcloud->storage()->bucket($this->moduleOptions->getBucket());
+        $this->bucket = $gcloud
+            ->storage()
+            ->bucket($this->moduleOptions->getBucket());
     }
 
-    public function attach(AttachmentFieldsetProvider $form, $type = 'file', $appendId = null)
-    {
+    public function attach(
+        AttachmentFieldsetProvider $form,
+        $type = 'file',
+        $appendId = null
+    ) {
         if (!$form->isValid()) {
-            throw new Exception\RuntimeException(print_r($form->getMessages(), true));
+            throw new Exception\RuntimeException(
+                print_r($form->getMessages(), true)
+            );
         }
 
         if (!$appendId) {
             $this->assertGranted('attachment.create');
             $attachment = $this->createAttachment();
-            $type       = $this->getTypeManager()->findTypeByName($type);
+            $type = $this->getTypeManager()->findTypeByName($type);
             $attachment->setType($type);
         } else {
             $attachment = $this->getAttachment($appendId);
@@ -97,33 +104,41 @@ class AttachmentManager implements AttachmentManagerInterface
 
         $data = $form->getData()['attachment'];
         if (!isset($data['file']) || $data['file']['error']) {
-            throw new Exception\NoFileSent;
+            throw new Exception\NoFileSent();
         }
 
-        $file        = $data['file'];
-        $filename    = $file['name'];
-        $size        = $file['size'];
-        $filetype    = $file['type'];
-        $pathinfo    = pathinfo($filename);
-        $extension   = isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '';
-        $hash        = uniqid() . '_' . hash('ripemd160', $filename) . $extension;
-        $location    = $file['tmp_name'];
+        $file = $data['file'];
+        $filename = $file['name'];
+        $size = $file['size'];
+        $filetype = $file['type'];
+        $pathinfo = pathinfo($filename);
+        $extension = isset($pathinfo['extension'])
+            ? '.' . $pathinfo['extension']
+            : '';
+        $hash = uniqid() . '_' . hash('ripemd160', $filename) . $extension;
+        $location = $file['tmp_name'];
         $webLocation = $this->moduleOptions->getWebpath() . '/' . $hash;
-        $contentLanguage = $this->getInstanceManager()->getInstanceFromRequest()->getLanguage()->getCode();
+        $contentLanguage = $this->getInstanceManager()
+            ->getInstanceFromRequest()
+            ->getLanguage()
+            ->getCode();
 
-        $this->bucket->upload(
-            fopen($location, 'r'),
-            [
-                'resumable' => true,
-                'name' => $hash,
-                'metadata' => [
-                    'name' => $filename,
-                    'contentLanguage' => $contentLanguage,
-                ],
-            ]
+        $this->bucket->upload(fopen($location, 'r'), [
+            'resumable' => true,
+            'name' => $hash,
+            'metadata' => [
+                'name' => $filename,
+                'contentLanguage' => $contentLanguage,
+            ],
+        ]);
+
+        return $this->attachFile(
+            $attachment,
+            $filename,
+            $webLocation,
+            $size,
+            $filetype
         );
-
-        return $this->attachFile($attachment, $filename, $webLocation, $size, $filetype);
     }
 
     public function flush()
@@ -135,12 +150,16 @@ class AttachmentManager implements AttachmentManagerInterface
     {
         /* @var $entity \Attachment\Entity\ContainerInterface */
         $entity = $this->getObjectManager()->find(
-            $this->getClassResolver()->resolveClassName('Attachment\Entity\ContainerInterface'),
+            $this->getClassResolver()->resolveClassName(
+                'Attachment\Entity\ContainerInterface'
+            ),
             $id
         );
 
         if (!is_object($entity)) {
-            throw new Exception\AttachmentNotFoundException(sprintf('Upload "%s" not found', $id));
+            throw new Exception\AttachmentNotFoundException(
+                sprintf('Upload "%s" not found', $id)
+            );
         }
 
         return $entity;
@@ -152,12 +171,16 @@ class AttachmentManager implements AttachmentManagerInterface
         $this->assertGranted('attachment.get', $attachment);
 
         if ($fileId) {
-            $criteria = Criteria::create()->where(Criteria::expr()->eq('id', $fileId));
+            $criteria = Criteria::create()->where(
+                Criteria::expr()->eq('id', $fileId)
+            );
             $matching = $attachment->getFiles()->matching($criteria);
-            $file     = $matching->first();
+            $file = $matching->first();
 
             if (!is_object($file)) {
-                throw new Exception\FileNotFoundException(sprintf('Container found, but file id does not exist.'));
+                throw new Exception\FileNotFoundException(
+                    sprintf('Container found, but file id does not exist.')
+                );
             }
 
             return $file;
@@ -166,9 +189,16 @@ class AttachmentManager implements AttachmentManagerInterface
         }
     }
 
-    protected function attachFile(ContainerInterface $attachment, $filename, $location, $size, $type)
-    {
-        $file = $this->getClassResolver()->resolve('Attachment\Entity\FileInterface');
+    protected function attachFile(
+        ContainerInterface $attachment,
+        $filename,
+        $location,
+        $size,
+        $type
+    ) {
+        $file = $this->getClassResolver()->resolve(
+            'Attachment\Entity\FileInterface'
+        );
 
         $file->setFilename($filename);
         $file->setLocation($location);
@@ -184,8 +214,10 @@ class AttachmentManager implements AttachmentManagerInterface
     protected function createAttachment()
     {
         /* @var $attachment ContainerInterface */
-        $attachment = $this->getClassResolver()->resolve('Attachment\Entity\ContainerInterface');
-        $instance   = $this->getInstanceManager()->getInstanceFromRequest();
+        $attachment = $this->getClassResolver()->resolve(
+            'Attachment\Entity\ContainerInterface'
+        );
+        $instance = $this->getInstanceManager()->getInstanceFromRequest();
 
         $attachment->setInstance($instance);
         $this->getObjectManager()->persist($attachment);

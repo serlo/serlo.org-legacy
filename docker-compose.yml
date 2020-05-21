@@ -47,13 +47,6 @@ services:
       - ./packages/public/server/src/module:/app/src/module:cached
       - ./packages/public/server/src/vendor:/app/src/vendor:cached
 
-  server-composer-dev-tools:
-    image: composer:1.8
-    volumes:
-      - ./packages/public/server/dev-tools/composer.json:/app/composer.json:cached
-      - ./packages/public/server/dev-tools/composer.lock:/app/composer.lock:cached
-      - ./packages/public/server/dev-tools/vendor:/app/vendor:cached
-
   server-httpd:
     build:
       context: packages/public/server

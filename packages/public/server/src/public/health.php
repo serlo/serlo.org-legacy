@@ -21,4 +21,4 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-echo "ok";
+echo 'ok';

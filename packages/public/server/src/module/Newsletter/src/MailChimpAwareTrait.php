@@ -22,11 +22,10 @@
  */
 namespace Newsletter;
 
-use \DrewM\MailChimp\MailChimp;
+use DrewM\MailChimp\MailChimp;
 
 trait MailChimpAwareTrait
 {
-
     /**
      * @var MailChimp
      */

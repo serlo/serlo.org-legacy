@@ -36,9 +36,13 @@ class NormalizeHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $normalize  = new Normalize();
-        $normalizer = $serviceLocator->getServiceLocator()->get('Normalizer\Normalizer');
-        $instanceManager = $serviceLocator->getServiceLocator()->get('Instance\Manager\InstanceManager');
+        $normalize = new Normalize();
+        $normalizer = $serviceLocator
+            ->getServiceLocator()
+            ->get('Normalizer\Normalizer');
+        $instanceManager = $serviceLocator
+            ->getServiceLocator()
+            ->get('Instance\Manager\InstanceManager');
 
         $normalize->setNormalizer($normalizer);
         $normalize->setInstanceManager($instanceManager);

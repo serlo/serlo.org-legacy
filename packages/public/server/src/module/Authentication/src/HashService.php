@@ -26,13 +26,15 @@ class HashService implements HashServiceInterface
 {
     private $_config = [
         'salt_pattern' => '1,3,5,9,14,15,20,21,28,30',
-        'hash_method'  => 'sha1',
+        'hash_method' => 'sha1',
     ];
-
 
     public function __construct()
     {
-        $this->_config['salt_pattern'] = explode(',', $this->_config['salt_pattern']);
+        $this->_config['salt_pattern'] = explode(
+            ',',
+            $this->_config['salt_pattern']
+        );
     }
 
     /**
@@ -44,7 +46,11 @@ class HashService implements HashServiceInterface
     {
         if ($salt === false) {
             // Create a salt seed, same length as the number of offsets in the pattern
-            $salt = substr($this->hash(uniqid(null, true)), 0, count($this->_config['salt_pattern']));
+            $salt = substr(
+                $this->hash(uniqid(null, true)),
+                0,
+                count($this->_config['salt_pattern'])
+            );
         }
 
         // Password hash that the salt will be inserted into

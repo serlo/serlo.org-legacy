@@ -43,13 +43,19 @@ class SingleChoiceHelper extends AbstractHelper
     public function fetchSingleChoice(EntityInterface $entity)
     {
         $answers = [];
-        foreach ($entity->getValidChildren('link', 'single-choice-right-answer') as $add) {
+        foreach (
+            $entity->getValidChildren('link', 'single-choice-right-answer')
+            as $add
+        ) {
             $answers[] = [
                 'right' => true,
                 'entity' => $add,
             ];
         }
-        foreach ($entity->getValidChildren('link', 'single-choice-wrong-answer') as $add) {
+        foreach (
+            $entity->getValidChildren('link', 'single-choice-wrong-answer')
+            as $add
+        ) {
             $answers[] = [
                 'right' => false,
                 'entity' => $add,
@@ -65,7 +71,10 @@ class SingleChoiceHelper extends AbstractHelper
      */
     public function fetchPositiveFeedback(EntityInterface $entity)
     {
-        foreach ($entity->getChildren('link', 'single-choice-right-answer') as $positive) {
+        foreach (
+            $entity->getChildren('link', 'single-choice-right-answer')
+            as $positive
+        ) {
             if ($positive->hasCurrentRevision()) {
                 return $positive->getCurrentRevision()->get('feedback');
             } else {

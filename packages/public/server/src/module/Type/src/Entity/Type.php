@@ -30,7 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Type implements TypeInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

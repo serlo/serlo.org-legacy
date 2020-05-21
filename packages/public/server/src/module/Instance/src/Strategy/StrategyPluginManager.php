@@ -36,8 +36,10 @@ class StrategyPluginManager extends AbstractPluginManager
      * {@inheritDoc}
      */
     protected $factories = [
-        'Instance\Strategy\DomainStrategy' => 'Instance\Factory\DomainStrategyFactory',
-        'Instance\Strategy\CookieStrategy' => 'Instance\Factory\CookieStrategyFactory',
+        'Instance\Strategy\DomainStrategy' =>
+            'Instance\Factory\DomainStrategyFactory',
+        'Instance\Strategy\CookieStrategy' =>
+            'Instance\Factory\CookieStrategyFactory',
     ];
 
     /**
@@ -46,10 +48,12 @@ class StrategyPluginManager extends AbstractPluginManager
     public function validatePlugin($plugin)
     {
         if (!$plugin instanceof StrategyInterface) {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected instance of StrategyInterface but got %s.',
-                is_object($plugin) ? get_class($plugin) : gettype($plugin)
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected instance of StrategyInterface but got %s.',
+                    is_object($plugin) ? get_class($plugin) : gettype($plugin)
+                )
+            );
         }
     }
 

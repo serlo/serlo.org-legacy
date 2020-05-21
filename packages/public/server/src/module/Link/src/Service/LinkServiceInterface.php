@@ -27,7 +27,6 @@ use Link\Options\LinkOptionsInterface;
 
 interface LinkServiceInterface
 {
-
     /**
      * @param LinkableInterface    $parent
      * @param LinkableInterface    $child
@@ -60,7 +59,11 @@ interface LinkServiceInterface
      * @param array             $children
      * @return self
      */
-    public function sortChildren(LinkableInterface $parent, $typeName, array $children);
+    public function sortChildren(
+        LinkableInterface $parent,
+        $typeName,
+        array $children
+    );
 
     /**
      * @param LinkableInterface $child
@@ -68,5 +71,9 @@ interface LinkServiceInterface
      * @param array             $parents
      * @return self
      */
-    public function sortParents(LinkableInterface $child, $typeName, array $parents);
+    public function sortParents(
+        LinkableInterface $child,
+        $typeName,
+        array $parents
+    );
 }

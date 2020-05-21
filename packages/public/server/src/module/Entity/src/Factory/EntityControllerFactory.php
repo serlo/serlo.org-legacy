@@ -41,8 +41,12 @@ class EntityControllerFactory implements FactoryInterface
         $serviceManager = $serviceLocator->getServiceLocator();
 
         $result = new EntityController();
-        $result->setEntityManager($serviceManager->get('Entity\Manager\EntityManager'));
-        $result->setInstanceManager($serviceManager->get('Instance\Manager\InstanceManager'));
+        $result->setEntityManager(
+            $serviceManager->get('Entity\Manager\EntityManager')
+        );
+        $result->setInstanceManager(
+            $serviceManager->get('Instance\Manager\InstanceManager')
+        );
         $result->setTranslator($serviceManager->get('MvcTranslator'));
 
         return $result;

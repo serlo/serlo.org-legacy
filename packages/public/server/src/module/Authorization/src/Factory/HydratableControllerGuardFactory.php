@@ -27,9 +27,10 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class HydratableControllerGuardFactory implements FactoryInterface, MutableCreationOptionsInterface
+class HydratableControllerGuardFactory implements
+    FactoryInterface,
+    MutableCreationOptionsInterface
 {
-
     /**
      * @var array
      */
@@ -56,8 +57,13 @@ class HydratableControllerGuardFactory implements FactoryInterface, MutableCreat
         /* @var \ZfcRbac\Service\RoleService $roleService */
         $roleService = $parentLocator->get('ZfcRbac\Service\RoleService');
 
-        $controllerGuard = new HydratableControllerGuard($roleService, $this->options);
-        $controllerGuard->setProtectionPolicy($moduleOptions->getProtectionPolicy());
+        $controllerGuard = new HydratableControllerGuard(
+            $roleService,
+            $this->options
+        );
+        $controllerGuard->setProtectionPolicy(
+            $moduleOptions->getProtectionPolicy()
+        );
         $controllerGuard->setServiceLocator($parentLocator);
 
         return $controllerGuard;

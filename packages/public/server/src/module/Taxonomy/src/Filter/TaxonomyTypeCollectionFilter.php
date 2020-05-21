@@ -49,17 +49,17 @@ class TaxonomyTypeCollectionFilter implements FilterInterface
     public function filter($value)
     {
         if (!$value instanceof Collection) {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected Collection but got %s',
-                is_object($value) ? get_class($value) : gettype($value)
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected Collection but got %s',
+                    is_object($value) ? get_class($value) : gettype($value)
+                )
+            );
         }
 
-        return $value->filter(
-            function (TaxonomyTermInterface $term) {
-                $type = $term->getType()->getName();
-                return !in_array($type, $this->forbiddenTypes);
-            }
-        );
+        return $value->filter(function (TaxonomyTermInterface $term) {
+            $type = $term->getType()->getName();
+            return !in_array($type, $this->forbiddenTypes);
+        });
     }
 }

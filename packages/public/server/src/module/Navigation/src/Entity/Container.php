@@ -51,7 +51,7 @@ class Container implements ContainerInterface
 
     public function __construct()
     {
-        $this->pages = new ArrayCollection;
+        $this->pages = new ArrayCollection();
     }
 
     /**
@@ -85,8 +85,12 @@ class Container implements ContainerInterface
      */
     public function getPages()
     {
-        return $this->pages->matching(
-            Criteria::create()->where(Criteria::expr()->isNull('parent'))->orderBy(['position' => 'asc'])
-        )->toArray();
+        return $this->pages
+            ->matching(
+                Criteria::create()
+                    ->where(Criteria::expr()->isNull('parent'))
+                    ->orderBy(['position' => 'asc'])
+            )
+            ->toArray();
     }
 }

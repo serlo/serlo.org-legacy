@@ -34,29 +34,30 @@ namespace Type;
 return [
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\TypeManager' => __NAMESPACE__ . '\Factory\TypeManagerFactory',
+            __NAMESPACE__ . '\TypeManager' =>
+                __NAMESPACE__ . '\Factory\TypeManagerFactory',
         ],
     ],
-    'class_resolver'  => [
-        __NAMESPACE__ . '\Entity\TypeInterface' => __NAMESPACE__ . '\Entity\Type',
+    'class_resolver' => [
+        __NAMESPACE__ . '\Entity\TypeInterface' =>
+            __NAMESPACE__ . '\Entity\Type',
     ],
-    'di'              => [
+    'di' => [
         'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\TypeManagerInterface' => __NAMESPACE__ . '\TypeManager',
+                __NAMESPACE__ . '\TypeManagerInterface' =>
+                    __NAMESPACE__ . '\TypeManager',
             ],
         ],
     ],
-    'doctrine'        => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],

@@ -37,15 +37,22 @@ class AliasManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $options       = $serviceLocator->get('Alias\Options\ManagerOptions');
+        $options = $serviceLocator->get('Alias\Options\ManagerOptions');
         $objectManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
-        $tokenizer     = $serviceLocator->get('Token\Tokenizer');
+        $tokenizer = $serviceLocator->get('Token\Tokenizer');
         $classResolver = $serviceLocator->get('ClassResolver\ClassResolver');
-        $storage       = $serviceLocator->get('Alias\Storage\AliasStorage');
-        $isConsole     = Console::isConsole();
-        $router        = $isConsole ? 'HttpRouter' : 'Router';
-        $router        = $serviceLocator->get($router);
-        $aliasManager  = new AliasManager($classResolver, $options, $objectManager, $router, $storage, $tokenizer);
+        $storage = $serviceLocator->get('Alias\Storage\AliasStorage');
+        $isConsole = Console::isConsole();
+        $router = $isConsole ? 'HttpRouter' : 'Router';
+        $router = $serviceLocator->get($router);
+        $aliasManager = new AliasManager(
+            $classResolver,
+            $options,
+            $objectManager,
+            $router,
+            $storage,
+            $tokenizer
+        );
 
         return $aliasManager;
     }

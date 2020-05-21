@@ -32,16 +32,27 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RoleServiceFactory implements FactoryInterface
 {
-    use ClassResolverFactoryTrait, EntityManagerFactoryTrait, AuthorizationServiceFactoryTrait, UserManagerFactoryTrait;
+    use ClassResolverFactoryTrait,
+        EntityManagerFactoryTrait,
+        AuthorizationServiceFactoryTrait,
+        UserManagerFactoryTrait;
 
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $authorizationService = $this->getAuthorizationService($serviceLocator);
-        $objectManager        = $this->getEntityManager($serviceLocator);
-        $classResolver        = $this->getClassResolver($serviceLocator);
-        $userManager          = $this->getUserManager($serviceLocator);
-        $permissionService    = $serviceLocator->get('Authorization\Service\PermissionService');
-        $instance             = new RoleService($authorizationService, $classResolver, $objectManager, $permissionService, $userManager);
+        $objectManager = $this->getEntityManager($serviceLocator);
+        $classResolver = $this->getClassResolver($serviceLocator);
+        $userManager = $this->getUserManager($serviceLocator);
+        $permissionService = $serviceLocator->get(
+            'Authorization\Service\PermissionService'
+        );
+        $instance = new RoleService(
+            $authorizationService,
+            $classResolver,
+            $objectManager,
+            $permissionService,
+            $userManager
+        );
 
         return $instance;
     }

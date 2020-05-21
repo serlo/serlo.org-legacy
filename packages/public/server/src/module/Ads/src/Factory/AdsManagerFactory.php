@@ -32,7 +32,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AdsManagerFactory implements FactoryInterface
 {
-    use EntityManagerFactoryTrait, ClassResolverFactoryTrait, AuthorizationServiceFactoryTrait;
+    use EntityManagerFactoryTrait,
+        ClassResolverFactoryTrait,
+        AuthorizationServiceFactoryTrait;
 
     /**
      * Create service
@@ -43,11 +45,19 @@ class AdsManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $authorizationService = $this->getAuthorizationService($serviceLocator);
-        $entityManager        = $this->getEntityManager($serviceLocator);
-        $classResolver        = $this->getClassResolver($serviceLocator);
-        $attachmentManager    = $serviceLocator->get('Attachment\Manager\AttachmentManager');
+        $entityManager = $this->getEntityManager($serviceLocator);
+        $classResolver = $this->getClassResolver($serviceLocator);
+        $attachmentManager = $serviceLocator->get(
+            'Attachment\Manager\AttachmentManager'
+        );
         $pageManager = $serviceLocator->get('Page\Manager\PageManager');
-        $adsManager           = new AdsManager($authorizationService, $attachmentManager, $classResolver, $entityManager, $pageManager);
+        $adsManager = new AdsManager(
+            $authorizationService,
+            $attachmentManager,
+            $classResolver,
+            $entityManager,
+            $pageManager
+        );
 
         return $adsManager;
     }

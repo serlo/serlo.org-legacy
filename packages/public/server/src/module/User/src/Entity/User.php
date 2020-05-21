@@ -94,9 +94,9 @@ class User extends Uuid implements UserInterface
 
     public function __construct()
     {
-        $this->roles       = new ArrayCollection();
-        $this->fields      = new ArrayCollection();
-        $this->logins      = 0;
+        $this->roles = new ArrayCollection();
+        $this->fields = new ArrayCollection();
+        $this->logins = 0;
         $this->generateToken();
     }
 
@@ -221,9 +221,12 @@ class User extends Uuid implements UserInterface
      */
     public function getField($field)
     {
-        $expression = Criteria::expr()->eq("name", $field);
-        $criteria   = Criteria::create()->where($expression)->setFirstResult(0)->setMaxResults(1);
-        $data       = $this->fields->matching($criteria);
+        $expression = Criteria::expr()->eq('name', $field);
+        $criteria = Criteria::create()
+            ->where($expression)
+            ->setFirstResult(0)
+            ->setMaxResults(1);
+        $data = $this->fields->matching($criteria);
 
         if (empty($data)) {
             return null;

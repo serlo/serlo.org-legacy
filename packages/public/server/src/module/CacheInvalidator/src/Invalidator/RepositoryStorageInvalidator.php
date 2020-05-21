@@ -33,7 +33,6 @@ use Zend\EventManager\Event;
 
 class RepositoryStorageInvalidator implements InvalidatorInterface
 {
-
     /**
      * @var StorageInterface
      */
@@ -44,14 +43,15 @@ class RepositoryStorageInvalidator implements InvalidatorInterface
      */
     protected $cacheService;
 
-
     /**
      * @param CacheService     $cacheService
      * @param StorageInterface $storage
      */
-    public function __construct(CacheService $cacheService, StorageInterface $storage)
-    {
-        $this->storage      = $storage;
+    public function __construct(
+        CacheService $cacheService,
+        StorageInterface $storage
+    ) {
+        $this->storage = $storage;
         $this->cacheService = $cacheService;
     }
 
@@ -64,12 +64,18 @@ class RepositoryStorageInvalidator implements InvalidatorInterface
     public function invalidate(Event $e, $class, $event)
     {
         $repository = $e->getParam('repository');
-        $result     = false;
+        $result = false;
         if ($repository instanceof EntityInterface) {
-            $result = $this->cacheService->clearByTags(['route_entity/page', 'param_entity_' . $repository->getId()]);
+            $result = $this->cacheService->clearByTags([
+                'route_entity/page',
+                'param_entity_' . $repository->getId(),
+            ]);
             $this->clearTaxonomyTerms($repository->getTaxonomyTerms());
         } elseif ($repository instanceof PageRepositoryInterface) {
-            $result = $this->cacheService->clearByTags(['route_page/view', 'param_page_' . $repository->getId()]);
+            $result = $this->cacheService->clearByTags([
+                'route_page/view',
+                'param_page_' . $repository->getId(),
+            ]);
         }
         if ($this->storage instanceof FlushableInterface && !$result) {
             $this->storage->flush();
@@ -80,7 +86,10 @@ class RepositoryStorageInvalidator implements InvalidatorInterface
     {
         foreach ($collection as $term) {
             if ($term instanceof TaxonomyTermInterface) {
-                $this->cacheService->clearByTags(['route_taxonomy/term/get', 'param_term_' . $term->getId()]);
+                $this->cacheService->clearByTags([
+                    'route_taxonomy/term/get',
+                    'param_term_' . $term->getId(),
+                ]);
             }
         }
     }

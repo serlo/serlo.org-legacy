@@ -59,7 +59,7 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         $eventManager->getSharedManager()->attach(
             'Zend\Mvc\Controller\AbstractController',
             MvcEvent::EVENT_DISPATCH,
-            array($this, 'onDispatch'),
+            [$this, 'onDispatch'],
             // WARN: Do not changes this or navigation *will* break
             -90
         );
@@ -81,7 +81,14 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         }
 
         // The template has not been changed by the controller, so can override it!
-        if (in_array($vm->getTemplate(), ['layout/layout', 'layout/1-col', 'layout/3-col', 'layout/2-col'])) {
+        if (
+            in_array($vm->getTemplate(), [
+                'layout/layout',
+                'layout/1-col',
+                'layout/3-col',
+                'layout/2-col',
+            ])
+        ) {
             $controller->layout('layout/1-col');
         }
     }

@@ -40,9 +40,11 @@ class AssertionPluginManager extends \ZfcRbac\Assertion\AssertionPluginManager
             return; // we're okay
         }
 
-        throw new Exception\RuntimeException(sprintf(
-            'Assertions must implement "Authorization\Assertion\AssertionInterface", but "%s" was given',
-            is_object($plugin) ? get_class($plugin) : gettype($plugin)
-        ));
+        throw new Exception\RuntimeException(
+            sprintf(
+                'Assertions must implement "Authorization\Assertion\AssertionInterface", but "%s" was given',
+                is_object($plugin) ? get_class($plugin) : gettype($plugin)
+            )
+        );
     }
 }

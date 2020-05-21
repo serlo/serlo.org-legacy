@@ -47,13 +47,19 @@ class Login extends Form
             (new Text('email'))
                 ->setLabel('Email address:')
                 ->setAttribute('required', 'required')
-                ->setAttribute('placeholder', $translator->translate('Email address or Username'))
+                ->setAttribute(
+                    'placeholder',
+                    $translator->translate('Email address or Username')
+                )
         );
         $this->add(
             (new Password('password'))
                 ->setLabel('Password:')
                 ->setAttribute('required', 'required')
-                ->setAttribute('placeholder', $translator->translate('Password'))
+                ->setAttribute(
+                    'placeholder',
+                    $translator->translate('Password')
+                )
         );
         $this->add(
             (new Checkbox('remember'))
@@ -67,18 +73,14 @@ class Login extends Form
                 ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $filter->add(
-            [
-                'name'     => 'email',
-                'required' => true,
-            ]
-        );
+        $filter->add([
+            'name' => 'email',
+            'required' => true,
+        ]);
 
-        $filter->add(
-            [
-                'name'     => 'password',
-                'required' => true,
-            ]
-        );
+        $filter->add([
+            'name' => 'password',
+            'required' => true,
+        ]);
     }
 }

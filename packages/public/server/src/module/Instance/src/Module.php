@@ -37,9 +37,7 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
     /**
      * @var array
      */
-    public static $listeners = [
-        'Instance\Listener\IsolationBypassedListener',
-    ];
+    public static $listeners = ['Instance\Listener\IsolationBypassedListener'];
 
     public function getConfig()
     {
@@ -48,20 +46,22 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
 
     public function onBootstrap(EventInterface $e)
     {
-        $app            = $e->getApplication();
+        $app = $e->getApplication();
         $serviceManager = $app->getServiceManager();
-        $eventManager   = $app->getEventManager();
+        $eventManager = $app->getEventManager();
 
         /* @var $translator Translator */
         $translator = $serviceManager->get('MvcTranslator');
-        $router     = $serviceManager->get('Router');
+        $router = $serviceManager->get('Router');
 
         /* @var $instanceManager Manager\InstanceManager */
-        $instanceManager = $serviceManager->get('Instance\Manager\InstanceManager');
-        $instance        = $instanceManager->getInstanceFromRequest();
-        $language        = $instance->getLanguage();
-        $code            = $language->getCode();
-        $locale          = $language->getLocale() . '.UTF-8';
+        $instanceManager = $serviceManager->get(
+            'Instance\Manager\InstanceManager'
+        );
+        $instance = $instanceManager->getInstanceFromRequest();
+        $language = $instance->getLanguage();
+        $code = $language->getCode();
+        $locale = $language->getLocale() . '.UTF-8';
 
         if ($router instanceof TranslatorAwareInterface) {
             $router->setTranslator($translator);
@@ -70,10 +70,12 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         AbstractValidator::setDefaultTranslator($translator);
 
         if (!setlocale(LC_ALL, $locale) || !setlocale(LC_MESSAGES, $locale)) {
-            throw new \Exception(sprintf(
-                'Either gettext is not enabled or locale %s is not installed on this system',
-                $locale
-            ));
+            throw new \Exception(
+                sprintf(
+                    'Either gettext is not enabled or locale %s is not installed on this system',
+                    $locale
+                )
+            );
         }
 
         putenv('LC_ALL=' . $locale);
@@ -89,12 +91,21 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
             textdomain('default');
         }
 
-        $translator->addTranslationFile('PhpArray', __DIR__ . '/../../../lang/routes/' . $code . '.php', 'default', $code);
+        $translator->addTranslationFile(
+            'PhpArray',
+            __DIR__ . '/../../../lang/routes/' . $code . '.php',
+            'default',
+            $code
+        );
         $translator->setLocale($locale);
         $translator->setFallbackLocale('en_US.UTF-8');
 
         $eventManager->attach('route', [$this, 'onPreRoute'], 4);
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatchRegisterListeners'), 1000);
+        $eventManager->attach(
+            MvcEvent::EVENT_DISPATCH,
+            [$this, 'onDispatchRegisterListeners'],
+            1000
+        );
 
         $entityManager = $serviceManager->get('Doctrine\ORM\EntityManager');
         if ($entityManager instanceof InstanceAwareEntityManager) {
@@ -104,18 +115,21 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
 
     public function onDispatchRegisterListeners(MvcEvent $e)
     {
-        $eventManager       = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         foreach (self::$listeners as $listener) {
             $sharedEventManager->attachAggregate(
-                $e->getApplication()->getServiceManager()->get($listener)
+                $e
+                    ->getApplication()
+                    ->getServiceManager()
+                    ->get($listener)
             );
         }
     }
 
     public function onPreRoute(MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
     }

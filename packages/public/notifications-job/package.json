@@ -11,7 +11,8 @@
   "dependencies": {
     "axios": "^0.19.0",
     "mysql": "^2.0.0",
-    "promise-mysql": "^4.0.0"
+    "promise-mysql": "^4.0.0",
+    "tslib": "^1.0.0"
   },
   "devDependencies": {
     "tsdx": "^0.13.0",

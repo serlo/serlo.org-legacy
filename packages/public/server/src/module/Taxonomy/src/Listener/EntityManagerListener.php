@@ -34,17 +34,25 @@ class EntityManagerListener extends AbstractSharedListenerAggregate
     public function onCreate(Event $e)
     {
         $entity = $e->getParam('entity');
-        $data   = $e->getParam('data');
+        $data = $e->getParam('data');
 
         if (array_key_exists('taxonomy', $data)) {
             $options = $data['taxonomy'];
-            $this->getTaxonomyManager()->associateWith($options['term'], $entity);
+            $this->getTaxonomyManager()->associateWith(
+                $options['term'],
+                $entity
+            );
         }
     }
 
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach($this->getMonitoredClass(), 'create', [$this, 'onCreate'], 2);
+        $events->attach(
+            $this->getMonitoredClass(),
+            'create',
+            [$this, 'onCreate'],
+            2
+        );
     }
 
     protected function getMonitoredClass()

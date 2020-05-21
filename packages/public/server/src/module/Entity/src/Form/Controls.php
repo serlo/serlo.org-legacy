@@ -35,7 +35,9 @@ class Controls extends Fieldset
         $this->add(new OptInFieldset());
 
         $this->add(
-            (new Submit('submit'))->setValue('Save')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
     }
 }

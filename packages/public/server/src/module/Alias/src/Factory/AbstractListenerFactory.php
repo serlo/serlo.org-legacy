@@ -38,7 +38,7 @@ abstract class AbstractListenerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $aliasManager = $this->getAliasManager($serviceLocator);
-        $listener     = $this->getClassName();
+        $listener = $this->getClassName();
 
         return new $listener($aliasManager);
     }

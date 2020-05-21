@@ -41,13 +41,14 @@ class NotificationWorker
     public function run(int $id)
     {
         $user = $this->userManager->getUser($id);
-        $notifications = $this->notificationManager->findMailmanNotificationsBySubscriber($user);
+        $notifications = $this->notificationManager->findMailmanNotificationsBySubscriber(
+            $user
+        );
         if ($notifications->count() > 0) {
-            $this->getEventManager()->trigger(
-                'notify',
-                $this,
-                ['notifications' => $notifications->toArray(), 'user' => $user]
-            );
+            $this->getEventManager()->trigger('notify', $this, [
+                'notifications' => $notifications->toArray(),
+                'user' => $user,
+            ]);
             /** @var NotificationInterface $notification */
             foreach ($notifications as $notification) {
                 $notification->setEmailSent(true);

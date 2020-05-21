@@ -47,31 +47,46 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
     public function onBootstrap(EventInterface $e)
     {
         $eventManager = $e->getApplication()->getEventManager();
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatchRegisterListeners'), 1000);
+        $eventManager->attach(
+            MvcEvent::EVENT_DISPATCH,
+            [$this, 'onDispatchRegisterListeners'],
+            1000
+        );
     }
 
     public function onDispatchRegisterListeners(MvcEvent $e)
     {
-        $eventManager       = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         foreach (self::$listeners as $listener) {
             $sharedEventManager->attachAggregate(
-                $e->getApplication()->getServiceManager()->get($listener)
+                $e
+                    ->getApplication()
+                    ->getServiceManager()
+                    ->get($listener)
             );
         }
 
-        $application        = $e->getApplication();
-        $serviceLocator     = $application->getServiceManager();
+        $application = $e->getApplication();
+        $serviceLocator = $application->getServiceManager();
         if ($e->getRequest() instanceof Request) {
             /* @var $moduleOptions Options\ModuleOptions */
-            $moduleOptions = $serviceLocator->get('Mailman\Options\ModuleOptions');
-            $uri           = new Http($moduleOptions->getLocation());
+            $moduleOptions = $serviceLocator->get(
+                'Mailman\Options\ModuleOptions'
+            );
+            $uri = new Http($moduleOptions->getLocation());
             $serviceLocator->get('HttpRouter')->setRequestUri($uri);
 
-            $moduleOptions = $serviceLocator->get('Mailman\Options\ModuleOptions');
-            $serverUrlHelper = $serviceLocator->get('ViewHelperManager')->get('serverUrl');
+            $moduleOptions = $serviceLocator->get(
+                'Mailman\Options\ModuleOptions'
+            );
+            $serverUrlHelper = $serviceLocator
+                ->get('ViewHelperManager')
+                ->get('serverUrl');
             $this->injectServerUrl($serverUrlHelper, $moduleOptions);
-            $serverUrlHelper = $serviceLocator->get('ZfcTwigViewHelperManager')->get('serverUrl');
+            $serverUrlHelper = $serviceLocator
+                ->get('ZfcTwigViewHelperManager')
+                ->get('serverUrl');
             $this->injectServerUrl($serverUrlHelper, $moduleOptions);
         }
     }
@@ -80,8 +95,10 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
      * @param ServerUrl     $serverUrlHelper
      * @param ModuleOptions $moduleOptions
      */
-    protected function injectServerUrl(ServerUrl $serverUrlHelper, ModuleOptions $moduleOptions)
-    {
+    protected function injectServerUrl(
+        ServerUrl $serverUrlHelper,
+        ModuleOptions $moduleOptions
+    ) {
         $options = parse_url($moduleOptions->getLocation());
         $serverUrlHelper->setScheme($options['scheme']);
         $serverUrlHelper->setHost($options['host']);

@@ -37,7 +37,7 @@ class ModuleOptionsFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config   = $serviceLocator->get('config')['attachment_manager'];
+        $config = $serviceLocator->get('config')['attachment_manager'];
         $instance = new ModuleOptions($config);
 
         return $instance;

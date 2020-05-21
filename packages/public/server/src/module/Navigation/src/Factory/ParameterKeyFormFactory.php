@@ -40,7 +40,7 @@ class ParameterKeyFormFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $entityManager = $this->getEntityManager($serviceLocator);
-        $form          = new ParameterKeyForm($entityManager);
+        $form = new ParameterKeyForm($entityManager);
 
         return $form;
     }

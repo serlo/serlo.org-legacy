@@ -91,8 +91,8 @@ class Comment extends Uuid implements CommentInterface
     public function __construct()
     {
         $this->children = new ArrayCollection();
-        $this->votes    = new ArrayCollection();
-        $this->terms    = new ArrayCollection();
+        $this->votes = new ArrayCollection();
+        $this->terms = new ArrayCollection();
         $this->archived = false;
     }
 
@@ -183,11 +183,9 @@ class Comment extends Uuid implements CommentInterface
 
     public function countUpVotes()
     {
-        $collection = $this->votes->filter(
-            function (VoteInterface $v) {
-                return $v->getVote() === 1;
-            }
-        );
+        $collection = $this->votes->filter(function (VoteInterface $v) {
+            return $v->getVote() === 1;
+        });
         return $collection->count();
     }
 
@@ -198,11 +196,9 @@ class Comment extends Uuid implements CommentInterface
 
     public function countDownVotes()
     {
-        $collection = $this->votes->filter(
-            function (VoteInterface $v) {
-                return $v->getVote() === -1;
-            }
-        );
+        $collection = $this->votes->filter(function (VoteInterface $v) {
+            return $v->getVote() === -1;
+        });
         return $collection->count();
     }
 
@@ -231,13 +227,17 @@ class Comment extends Uuid implements CommentInterface
         return $this->findVotesByUser($user)->count() === 1;
     }
 
-    public function addTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm, TaxonomyTermNodeInterface $node = null)
-    {
+    public function addTaxonomyTerm(
+        TaxonomyTermInterface $taxonomyTerm,
+        TaxonomyTermNodeInterface $node = null
+    ) {
         $this->terms->add($taxonomyTerm);
     }
 
-    public function removeTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm, TaxonomyTermNodeInterface $node = null)
-    {
+    public function removeTaxonomyTerm(
+        TaxonomyTermInterface $taxonomyTerm,
+        TaxonomyTermNodeInterface $node = null
+    ) {
         $this->terms->removeElement($taxonomyTerm);
     }
 
@@ -248,7 +248,10 @@ class Comment extends Uuid implements CommentInterface
 
     protected function findVotesByUser(UserInterface $user)
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->eq('user', $user))->setFirstResult(0)->setMaxResults(1);
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user))
+            ->setFirstResult(0)
+            ->setMaxResults(1);
         return $this->getVotes()->matching($criteria);
     }
 

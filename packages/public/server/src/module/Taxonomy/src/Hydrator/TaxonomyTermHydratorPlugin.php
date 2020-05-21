@@ -39,9 +39,11 @@ class TaxonomyTermHydratorPlugin extends AbstractHydratorPlugin
      */
     protected $taxonomyManager;
 
-    public function __construct(ObjectManager $objectManager, TaxonomyManagerInterface $taxonomyManager)
-    {
-        $this->objectManager   = $objectManager;
+    public function __construct(
+        ObjectManager $objectManager,
+        TaxonomyManagerInterface $taxonomyManager
+    ) {
+        $this->objectManager = $objectManager;
         $this->taxonomyManager = $taxonomyManager;
     }
 

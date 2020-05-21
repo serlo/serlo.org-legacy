@@ -34,8 +34,8 @@ class TaxonomyManagerListenerFactory extends AbstractListenerFactory
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $aliasManager = $this->getAliasManager($serviceLocator);
-        $listener     = $this->getClassName();
-        $normalizer   = $serviceLocator->get('Normalizer\Normalizer');
+        $listener = $this->getClassName();
+        $normalizer = $serviceLocator->get('Normalizer\Normalizer');
 
         return new $listener($aliasManager, $normalizer);
     }

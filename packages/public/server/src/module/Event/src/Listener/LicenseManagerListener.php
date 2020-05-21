@@ -31,7 +31,10 @@ class LicenseManagerListener extends AbstractListener
 {
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach($this->getMonitoredClass(), 'inject', [$this, 'onInject']);
+        $events->attach($this->getMonitoredClass(), 'inject', [
+            $this,
+            'onInject',
+        ]);
     }
 
     protected function getMonitoredClass()
@@ -42,8 +45,15 @@ class LicenseManagerListener extends AbstractListener
     public function onInject(Event $e)
     {
         $object = $e->getParam('object');
-        if ($object instanceof InstanceProviderInterface && $object instanceof UuidInterface) {
-            $this->logEvent('license/object/set', $object->getInstance(), $object);
+        if (
+            $object instanceof InstanceProviderInterface &&
+            $object instanceof UuidInterface
+        ) {
+            $this->logEvent(
+                'license/object/set',
+                $object->getInstance(),
+                $object
+            );
         }
     }
 }

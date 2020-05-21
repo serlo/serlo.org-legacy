@@ -46,16 +46,18 @@ class RenderController extends AbstractController
      * @param array                 $config
      * @param AliasManagerInterface $aliasManager
      */
-    public function __construct(array $config, AliasManagerInterface $aliasManager)
-    {
-        $this->config       = $config;
+    public function __construct(
+        array $config,
+        AliasManagerInterface $aliasManager
+    ) {
+        $this->config = $config;
         $this->aliasManager = $aliasManager;
     }
 
     public function jsonAction()
     {
         $response = $this->getResponse();
-        $headers  = $response->getHeaders();
+        $headers = $response->getHeaders();
         $headers->addHeaders(['Content-Type' => 'application/json']);
         return $this->process('navigation/render/json');
     }
@@ -80,9 +82,9 @@ class RenderController extends AbstractController
     protected function process($template)
     {
         $navigation = $this->params('navigation');
-        $current    = $this->params('current');
-        $depth      = $this->params('depth');
-        $branch     = $this->params('branch');
+        $current = $this->params('current');
+        $depth = $this->params('depth');
+        $branch = $this->params('branch');
 
         if (!$this->isValidNavigationKey($navigation)) {
             $this->getResponse()->setStatusCode(404);
@@ -90,10 +92,10 @@ class RenderController extends AbstractController
         }
 
         $view = new ViewModel([
-            'container'                 => $navigation,
-            'current'                   => $current,
-            'depth'                     => $depth,
-            'branch'                    => $branch,
+            'container' => $navigation,
+            'current' => $current,
+            'depth' => $depth,
+            'branch' => $branch,
             '__disableTemplateDebugger' => true,
         ]);
 

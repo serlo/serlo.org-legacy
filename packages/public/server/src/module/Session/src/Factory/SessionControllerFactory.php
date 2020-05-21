@@ -42,8 +42,10 @@ class SessionControllerFactory implements FactoryInterface
         $serviceLocator = $serviceLocator->getServiceLocator();
         /* @var $sessionManager SessionManager */
         $sessionManager = $serviceLocator->get('Zend\Session\SessionManager');
-        $config         = $sessionManager->getConfig();
-        $saveHandler    = $serviceLocator->get('Zend\Session\SaveHandler\SaveHandlerInterface');
+        $config = $sessionManager->getConfig();
+        $saveHandler = $serviceLocator->get(
+            'Zend\Session\SaveHandler\SaveHandlerInterface'
+        );
         /* @var $logger Logger */
         $logger = $serviceLocator->get(Logger::class);
         $secret = $serviceLocator->get('config')['cronjob_secret'];

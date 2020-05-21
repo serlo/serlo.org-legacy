@@ -30,29 +30,41 @@ return [
     'zfc_rbac' => [
         'guard_manager' => [
             'factories' => [
-                __NAMESPACE__ . '\Guard\HydratableControllerGuard' => __NAMESPACE__ . '\Factory\HydratableControllerGuardFactory',
+                __NAMESPACE__ . '\Guard\HydratableControllerGuard' =>
+                    __NAMESPACE__ . '\Factory\HydratableControllerGuardFactory',
             ],
         ],
         'assertion_manager' => [
             'factories' => [
-                'Authorization\Assertion\RoleAssertion' => __NAMESPACE__ . '\Factory\RoleAssertionFactory',
-                'Authorization\Assertion\InstanceAssertion' => __NAMESPACE__ . '\Factory\InstanceAssertionFactory',
-                'Authorization\Assertion\RequestInstanceAssertion' => __NAMESPACE__ . '\Factory\RequestInstanceAssertionFactory',
+                'Authorization\Assertion\RoleAssertion' =>
+                    __NAMESPACE__ . '\Factory\RoleAssertionFactory',
+                'Authorization\Assertion\InstanceAssertion' =>
+                    __NAMESPACE__ . '\Factory\InstanceAssertionFactory',
+                'Authorization\Assertion\RequestInstanceAssertion' =>
+                    __NAMESPACE__ . '\Factory\RequestInstanceAssertionFactory',
             ],
         ],
         'assertion_map' => [
-            'authorization.identity.grant.role' => 'Authorization\Assertion\RoleAssertion',
-            'authorization.identity.revoke.role' => 'Authorization\Assertion\RoleAssertion',
+            'authorization.identity.grant.role' =>
+                'Authorization\Assertion\RoleAssertion',
+            'authorization.identity.revoke.role' =>
+                'Authorization\Assertion\RoleAssertion',
         ],
     ],
     'service_manager' => [
         'factories' => [
-            'Authorization\Service\RoleService' => __NAMESPACE__ . '\Factory\RoleServiceFactory',
-            'Authorization\Service\PermissionService' => __NAMESPACE__ . '\Factory\PermissionServiceFactory',
-            'ZfcRbac\Service\AuthorizationService' => __NAMESPACE__ . '\Factory\AuthorizationServiceFactory',
-            'ZfcRbac\Assertion\AssertionPluginManager' => __NAMESPACE__ . '\Factory\AssertionPluginManagerFactory',
-            'Authorization\Form\RoleForm' => __NAMESPACE__ . '\Factory\RoleFormFactory',
-            AssertGrantedServiceInterface::class => AssertGrantedServiceFactory::class,
+            'Authorization\Service\RoleService' =>
+                __NAMESPACE__ . '\Factory\RoleServiceFactory',
+            'Authorization\Service\PermissionService' =>
+                __NAMESPACE__ . '\Factory\PermissionServiceFactory',
+            'ZfcRbac\Service\AuthorizationService' =>
+                __NAMESPACE__ . '\Factory\AuthorizationServiceFactory',
+            'ZfcRbac\Assertion\AssertionPluginManager' =>
+                __NAMESPACE__ . '\Factory\AssertionPluginManagerFactory',
+            'Authorization\Form\RoleForm' =>
+                __NAMESPACE__ . '\Factory\RoleFormFactory',
+            AssertGrantedServiceInterface::class =>
+                AssertGrantedServiceFactory::class,
         ],
     ],
     'controller_plugins' => [
@@ -62,21 +74,26 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            __NAMESPACE__ . '\Controller\RoleController' => __NAMESPACE__ . '\Factory\RoleControllerFactory',
+            __NAMESPACE__ . '\Controller\RoleController' =>
+                __NAMESPACE__ . '\Factory\RoleControllerFactory',
         ],
         'invokables' => [
-            __NAMESPACE__ . '\Controller\ForbiddenController' => __NAMESPACE__ . '\Controller\ForbiddenController',
+            __NAMESPACE__ . '\Controller\ForbiddenController' =>
+                __NAMESPACE__ . '\Controller\ForbiddenController',
         ],
     ],
     'class_resolver' => [
         __NAMESPACE__ . '\Entity\RoleInterface' => 'User\Entity\Role',
-        __NAMESPACE__ . '\Entity\PermissionInterface' => 'User\Entity\PermissionKey',
-        __NAMESPACE__ . '\Entity\ParametrizedPermissionInterface' => 'User\Entity\Permission',
+        __NAMESPACE__ .
+        '\Entity\PermissionInterface' => 'User\Entity\PermissionKey',
+        __NAMESPACE__ .
+        '\Entity\ParametrizedPermissionInterface' => 'User\Entity\Permission',
     ],
     'di' => [
         'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\Service\RoleServiceInterface' => __NAMESPACE__ . '\Service\RoleService',
+                __NAMESPACE__ . '\Service\RoleServiceInterface' =>
+                    __NAMESPACE__ . '\Service\RoleService',
             ],
         ],
     ],
@@ -93,7 +110,9 @@ return [
                         'options' => [
                             'route' => '/forbidden',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\ForbiddenController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\ForbiddenController',
                                 'action' => 'index',
                             ],
                         ],
@@ -103,7 +122,9 @@ return [
                         'options' => [
                             'route' => '/roles',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\RoleController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\RoleController',
                                 'action' => 'roles',
                             ],
                         ],
@@ -113,7 +134,9 @@ return [
                         'options' => [
                             'route' => '/role',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\RoleController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\RoleController',
                             ],
                         ],
                         'child_routes' => [
@@ -188,7 +211,8 @@ return [
                                     'remove' => [
                                         'type' => 'segment',
                                         'options' => [
-                                            'route' => '/remove/:role/:permission',
+                                            'route' =>
+                                                '/remove/:role/:permission',
                                             'defaults' => [
                                                 'action' => 'removePermission',
                                             ],

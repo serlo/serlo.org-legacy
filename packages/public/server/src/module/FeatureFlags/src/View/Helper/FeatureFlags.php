@@ -51,9 +51,9 @@ class FeatureFlags extends AbstractHelper
      */
     public function isEnabled(string $feature): bool
     {
-        return $this->isEnabledViaQueryParam($feature)
-            || $this->isEnabledViaCookie($feature)
-            || $this->isEnabledGlobally($feature);
+        return $this->isEnabledViaQueryParam($feature) ||
+            $this->isEnabledViaCookie($feature) ||
+            $this->isEnabledGlobally($feature);
     }
 
     private function isEnabledViaQueryParam(string $feature): bool

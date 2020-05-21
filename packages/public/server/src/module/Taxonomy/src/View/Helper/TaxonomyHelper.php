@@ -47,9 +47,11 @@ class TaxonomyHelper extends AbstractHelper
      * @param ModuleOptions            $moduleOptions
      * @param TaxonomyManagerInterface $taxonomyManager
      */
-    public function __construct(ModuleOptions $moduleOptions, TaxonomyManagerInterface $taxonomyManager)
-    {
-        $this->moduleOptions   = $moduleOptions;
+    public function __construct(
+        ModuleOptions $moduleOptions,
+        TaxonomyManagerInterface $taxonomyManager
+    ) {
+        $this->moduleOptions = $moduleOptions;
         $this->taxonomyManager = $taxonomyManager;
     }
 
@@ -73,17 +75,22 @@ class TaxonomyHelper extends AbstractHelper
         } elseif ($object instanceof TaxonomyTermInterface) {
             $name = $object->getTaxonomy()->getName();
         } else {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected $nameOrObject to be TaxonomyInterface, TaxonomyTermInterface or string but got "%s"',
-                is_object($object) ? get_class($object) : gettype($object)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected $nameOrObject to be TaxonomyInterface, TaxonomyTermInterface or string but got "%s"',
+                    is_object($object) ? get_class($object) : gettype($object)
+                )
+            );
         }
 
         $taxonomies = [];
-        $children   = $this->moduleOptions->getType($name)->getAllowedChildren();
-        $instance   = $object->getInstance();
+        $children = $this->moduleOptions->getType($name)->getAllowedChildren();
+        $instance = $object->getInstance();
         foreach ($children as $child) {
-            $taxonomies[] = $this->taxonomyManager->findTaxonomyByName($child, $instance);
+            $taxonomies[] = $this->taxonomyManager->findTaxonomyByName(
+                $child,
+                $instance
+            );
         }
 
         return $taxonomies;
@@ -133,10 +140,14 @@ class TaxonomyHelper extends AbstractHelper
         } elseif (is_string($nameOrObject)) {
             $name = $nameOrObject;
         } else {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected $nameOrObject to be TaxonomyInterface, TaxonomyTermInterface or string but got "%s"',
-                is_object($nameOrObject) ? get_class($nameOrObject) : gettype($nameOrObject)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected $nameOrObject to be TaxonomyInterface, TaxonomyTermInterface or string but got "%s"',
+                    is_object($nameOrObject)
+                        ? get_class($nameOrObject)
+                        : gettype($nameOrObject)
+                )
+            );
         }
 
         return $this->moduleOptions->getType($name);
@@ -150,7 +161,7 @@ class TaxonomyHelper extends AbstractHelper
     {
         $ancestors = [];
         $current = $term;
-        $i=0;
+        $i = 0;
         while ($current->hasParent() && $current->getParent()->hasParent()) {
             $current = $current->getParent();
             $ancestors[$i] = $current;

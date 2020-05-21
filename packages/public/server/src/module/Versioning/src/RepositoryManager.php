@@ -61,35 +61,37 @@ class RepositoryManager implements RepositoryManagerInterface
         ModuleOptions $moduleOptions,
         ObjectManager $objectManager
     ) {
-        $this->moduleOptions        = $moduleOptions;
-        $this->objectManager        = $objectManager;
+        $this->moduleOptions = $moduleOptions;
+        $this->objectManager = $objectManager;
         $this->authorizationService = $authorizationService;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function checkoutRevision(RepositoryInterface $repository, $revision, $reason = '')
-    {
+    public function checkoutRevision(
+        RepositoryInterface $repository,
+        $revision,
+        $reason = ''
+    ) {
         if (!$revision instanceof RevisionInterface) {
             $revision = $this->findRevision($repository, $revision);
         }
 
-        $user       = $this->getAuthorizationService()->getIdentity();
-        $permission = $this->moduleOptions->getPermission($repository, 'checkout');
+        $user = $this->getAuthorizationService()->getIdentity();
+        $permission = $this->moduleOptions->getPermission(
+            $repository,
+            'checkout'
+        );
         $this->assertGranted($permission, $repository);
         $repository->setCurrentRevision($revision);
 
-        $this->getEventManager()->trigger(
-            'checkout',
-            $this,
-            [
-                'repository' => $repository,
-                'revision'   => $revision,
-                'actor'      => $user,
-                'reason'     => $reason,
-            ]
-        );
+        $this->getEventManager()->trigger('checkout', $this, [
+            'repository' => $repository,
+            'revision' => $revision,
+            'actor' => $user,
+            'reason' => $reason,
+        ]);
 
         $this->objectManager->persist($repository);
     }
@@ -99,9 +101,12 @@ class RepositoryManager implements RepositoryManagerInterface
      */
     public function commitRevision(RepositoryInterface $repository, array $data)
     {
-        $user       = $this->getAuthorizationService()->getIdentity();
-        $permission = $this->moduleOptions->getPermission($repository, 'commit');
-        $revision   = $repository->createRevision();
+        $user = $this->getAuthorizationService()->getIdentity();
+        $permission = $this->moduleOptions->getPermission(
+            $repository,
+            'commit'
+        );
+        $revision = $repository->createRevision();
 
         $this->assertGranted($permission, $repository);
         $revision->setAuthor($user);
@@ -121,17 +126,12 @@ class RepositoryManager implements RepositoryManagerInterface
             $this->objectManager->flush($revision);
         }
 
-        $this->getEventManager()->trigger(
-            'commit',
-            $this,
-            [
-                'repository' => $repository,
-                'revision'   => $revision,
-                'data'       => $data,
-                'author'     => $user,
-            ]
-        );
-
+        $this->getEventManager()->trigger('commit', $this, [
+            'repository' => $repository,
+            'revision' => $revision,
+            'data' => $data,
+            'author' => $user,
+        ]);
 
         return $revision;
     }
@@ -147,14 +147,18 @@ class RepositoryManager implements RepositoryManagerInterface
             }
         }
 
-        throw new Exception\RevisionNotFoundException(sprintf('Revision "%d" not found', $id));
+        throw new Exception\RevisionNotFoundException(
+            sprintf('Revision "%d" not found', $id)
+        );
     }
 
     /**
      * {@inheritDoc}
      */
-    public function findPreviousRevision(RepositoryInterface $repository, RevisionInterface $revision)
-    {
+    public function findPreviousRevision(
+        RepositoryInterface $repository,
+        RevisionInterface $revision
+    ) {
         $date = $revision->getTimestamp();
 
         $previousTimestamp = null;
@@ -163,7 +167,10 @@ class RepositoryManager implements RepositoryManagerInterface
         foreach ($repository->getRevisions() as $revision) {
             $timestamp = $revision->getTimestamp();
             if ($timestamp < $date) {
-                if ($previousTimestamp === null || $previousTimestamp < $timestamp) {
+                if (
+                    $previousTimestamp === null ||
+                    $previousTimestamp < $timestamp
+                ) {
                     $previousTimestamp = $timestamp;
                     $previousRevision = $revision;
                 }
@@ -183,27 +190,29 @@ class RepositoryManager implements RepositoryManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function rejectRevision(RepositoryInterface $repository, $revision, $reason = '')
-    {
+    public function rejectRevision(
+        RepositoryInterface $repository,
+        $revision,
+        $reason = ''
+    ) {
         if (!$revision instanceof RevisionInterface) {
             $revision = $this->findRevision($repository, $revision);
         }
 
-        $user       = $this->getAuthorizationService()->getIdentity();
-        $permission = $this->moduleOptions->getPermission($repository, 'reject');
+        $user = $this->getAuthorizationService()->getIdentity();
+        $permission = $this->moduleOptions->getPermission(
+            $repository,
+            'reject'
+        );
 
         $this->assertGranted($permission, $repository);
         $revision->setTrashed(true);
         $this->objectManager->persist($revision);
-        $this->getEventManager()->trigger(
-            'reject',
-            $this,
-            [
-                'repository' => $repository,
-                'revision'   => $revision,
-                'actor'      => $user,
-                'reason'     => $reason,
-            ]
-        );
+        $this->getEventManager()->trigger('reject', $this, [
+            'repository' => $repository,
+            'revision' => $revision,
+            'actor' => $user,
+            'reason' => $reason,
+        ]);
     }
 }

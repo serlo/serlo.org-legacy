@@ -23,66 +23,63 @@
 namespace Blog;
 
 return [
-    'zfc_rbac'       => [
+    'zfc_rbac' => [
         'assertion_map' => [
-            'blog.get'                   => 'Authorization\Assertion\InstanceAssertion',
-            'blog.post.create'           => 'Authorization\Assertion\InstanceAssertion',
-            'blog.post.get'              => 'Authorization\Assertion\InstanceAssertion',
-            'blog.post.update'           => 'Authorization\Assertion\InstanceAssertion',
-            'blog.post.trash'            => 'Authorization\Assertion\InstanceAssertion',
-            'blog.post.delete'           => 'Authorization\Assertion\InstanceAssertion',
-            'blog.posts.get.unpublished' => 'Authorization\Assertion\InstanceAssertion',
-            'blog.posts.get'             => 'Authorization\Assertion\InstanceAssertion',
+            'blog.get' => 'Authorization\Assertion\InstanceAssertion',
+            'blog.post.create' => 'Authorization\Assertion\InstanceAssertion',
+            'blog.post.get' => 'Authorization\Assertion\InstanceAssertion',
+            'blog.post.update' => 'Authorization\Assertion\InstanceAssertion',
+            'blog.post.trash' => 'Authorization\Assertion\InstanceAssertion',
+            'blog.post.delete' => 'Authorization\Assertion\InstanceAssertion',
+            'blog.posts.get.unpublished' =>
+                'Authorization\Assertion\InstanceAssertion',
+            'blog.posts.get' => 'Authorization\Assertion\InstanceAssertion',
         ],
     ],
-    'uuid'           => [
+    'uuid' => [
         'permissions' => [
             'Blog\Entity\Post' => [
-                'trash'   => 'blog.post.trash',
+                'trash' => 'blog.post.trash',
                 'restore' => 'blog.post.restore',
-                'purge'   => 'blog.post.purge',
+                'purge' => 'blog.post.purge',
             ],
         ],
     ],
-    'doctrine'       => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],
             ],
         ],
     ],
-    'di'             => [
-        'allowed_controllers' => [
-            __NAMESPACE__ . '\Controller\BlogController',
-        ],
-        'definition'          => [
+    'di' => [
+        'allowed_controllers' => [__NAMESPACE__ . '\Controller\BlogController'],
+        'definition' => [
             'class' => [
-                __NAMESPACE__ . '\Form\CreatePostForm'       => [],
-                __NAMESPACE__ . '\Form\UpdatePostForm'       => [],
+                __NAMESPACE__ . '\Form\CreatePostForm' => [],
+                __NAMESPACE__ . '\Form\UpdatePostForm' => [],
                 __NAMESPACE__ . '\Controller\BlogController' => [],
-                __NAMESPACE__ . '\Manager\BlogManager'       => [
-                    'setTaxonomyManager'      => [
+                __NAMESPACE__ . '\Manager\BlogManager' => [
+                    'setTaxonomyManager' => [
                         'required' => true,
                     ],
-                    'setClassResolver'        => [
+                    'setClassResolver' => [
                         'required' => true,
                     ],
-                    'setObjectManager'        => [
+                    'setObjectManager' => [
                         'required' => true,
                     ],
-                    'setUuidManager'          => [
+                    'setUuidManager' => [
                         'required' => true,
                     ],
-                    'setInstanceManager'      => [
+                    'setInstanceManager' => [
                         'required' => true,
                     ],
                     'setAuthorizationService' => [
@@ -91,15 +88,19 @@ return [
                 ],
             ],
         ],
-        'instance'            => [
+        'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\Manager\BlogManagerInterface' => __NAMESPACE__ . '\Manager\BlogManager',
+                __NAMESPACE__ . '\Manager\BlogManagerInterface' =>
+                    __NAMESPACE__ . '\Manager\BlogManager',
             ],
         ],
     ],
     'class_resolver' => [
-        __NAMESPACE__ . '\Entity\PostInterface'         => __NAMESPACE__ . '\Entity\Post',
-        __NAMESPACE__ . '\Service\PostServiceInterface' => __NAMESPACE__ . '\Service\PostService',
-        __NAMESPACE__ . '\Manager\PostManagerInterface' => __NAMESPACE__ . '\Manager\PostManager',
+        __NAMESPACE__ . '\Entity\PostInterface' =>
+            __NAMESPACE__ . '\Entity\Post',
+        __NAMESPACE__ . '\Service\PostServiceInterface' =>
+            __NAMESPACE__ . '\Service\PostService',
+        __NAMESPACE__ . '\Manager\PostManagerInterface' =>
+            __NAMESPACE__ . '\Manager\PostManager',
     ],
 ];

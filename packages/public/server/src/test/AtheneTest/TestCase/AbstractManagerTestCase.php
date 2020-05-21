@@ -30,7 +30,6 @@ use ZfcRbac\Service\AuthorizationService;
 
 abstract class AbstractManagerTestCase extends AbstractObjectManagerTestCase
 {
-
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -55,7 +54,6 @@ abstract class AbstractManagerTestCase extends AbstractObjectManagerTestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManager;
-
 
     /**
      * Creates a mocked version of ClassResolver\ClassResolverInterface
@@ -105,9 +103,14 @@ abstract class AbstractManagerTestCase extends AbstractObjectManagerTestCase
      * @param mixed $id The identity of the object to find
      * @param mixed $expectedReturn Expected return value for method "find"
      */
-    final protected function prepareFind(\PHPUnit_Framework_MockObject_MockObject $objectManager, $repositoryName, $id, $expectedReturn)
-    {
-        $objectManager->expects($this->once())
+    final protected function prepareFind(
+        \PHPUnit_Framework_MockObject_MockObject $objectManager,
+        $repositoryName,
+        $id,
+        $expectedReturn
+    ) {
+        $objectManager
+            ->expects($this->once())
             ->method('find')
             ->with($this->equalTo($repositoryName), $this->equalTo($id))
             ->will($this->returnValue($expectedReturn));
@@ -120,9 +123,13 @@ abstract class AbstractManagerTestCase extends AbstractObjectManagerTestCase
      * @param string $classNameToResolve  Name of class to resolve
      * @param string $expectedReturn Expected return value for method "resolveClassName"
      */
-    final protected function prepareResolveClass(\PHPUnit_Framework_MockObject_MockObject $classResolver, $classNameToResolve, $expectedReturn)
-    {
-        $classResolver->expects($this->once())
+    final protected function prepareResolveClass(
+        \PHPUnit_Framework_MockObject_MockObject $classResolver,
+        $classNameToResolve,
+        $expectedReturn
+    ) {
+        $classResolver
+            ->expects($this->once())
             ->method('resolveClassName')
             ->with($this->equalTo($classNameToResolve))
             ->will($this->returnValue($expectedReturn));
@@ -135,9 +142,13 @@ abstract class AbstractManagerTestCase extends AbstractObjectManagerTestCase
      * @param string $classNameToResolve  Name of class to resolve
      * @param mixed $expectedReturn Expected return value for method "resolve"
      */
-    final protected function prepareResolve(\PHPUnit_Framework_MockObject_MockObject $classResolver, $classNameToResolve, $expectedReturn)
-    {
-        $classResolver->expects($this->once())
+    final protected function prepareResolve(
+        \PHPUnit_Framework_MockObject_MockObject $classResolver,
+        $classNameToResolve,
+        $expectedReturn
+    ) {
+        $classResolver
+            ->expects($this->once())
             ->method('resolve')
             ->with($this->equalTo($classNameToResolve))
             ->will($this->returnValue($expectedReturn));
@@ -151,14 +162,18 @@ abstract class AbstractManagerTestCase extends AbstractObjectManagerTestCase
      * @param mixed $context Context of the permission
      * @param boolean $expectedReturn Granted or not
      */
-    final protected function prepareIsGranted(\PHPUnit_Framework_MockObject_MockObject $authorizationService, $permission, $context, $expectedReturn)
-    {
-        $authorizationService->expects($this->once())
+    final protected function prepareIsGranted(
+        \PHPUnit_Framework_MockObject_MockObject $authorizationService,
+        $permission,
+        $context,
+        $expectedReturn
+    ) {
+        $authorizationService
+            ->expects($this->once())
             ->method('isGranted')
             ->with($this->equalTo($permission), $this->equalTo($context))
             ->will($this->returnValue($expectedReturn));
     }
-
 
     /**
      * Registers a new expectation for method 'findBy' on a mocked Repository specified via $repository
@@ -168,16 +183,22 @@ abstract class AbstractManagerTestCase extends AbstractObjectManagerTestCase
      * @param array $criteria Criteria for findBy
      * @param mixed $expectedReturn Expected return value for findBy
      */
-    final protected function prepareFindBy($objectManager, $repository, array $criteria, $expectedReturn)
-    {
+    final protected function prepareFindBy(
+        $objectManager,
+        $repository,
+        array $criteria,
+        $expectedReturn
+    ) {
         $repo = $this->mockEntityRepository();
 
-        $objectManager->expects($this->once())
+        $objectManager
+            ->expects($this->once())
             ->method('getRepository')
             ->with($repository)
             ->will($this->returnValue($repo));
 
-        $repo->expects($this->once())
+        $repo
+            ->expects($this->once())
             ->method('findBy')
             ->with($criteria)
             ->will($this->returnValue($expectedReturn));
@@ -191,16 +212,22 @@ abstract class AbstractManagerTestCase extends AbstractObjectManagerTestCase
      * @param array $criteria Criteria for findOneBy
      * @param mixed $expectedReturn Expected return value for findOneBy
      */
-    final protected function prepareFindOneBy($objectManager, $repository, array $criteria, $expectedReturn)
-    {
+    final protected function prepareFindOneBy(
+        $objectManager,
+        $repository,
+        array $criteria,
+        $expectedReturn
+    ) {
         $repo = $this->mockEntityRepository();
 
-        $objectManager->expects($this->once())
+        $objectManager
+            ->expects($this->once())
             ->method('getRepository')
             ->with($repository)
             ->will($this->returnValue($repo));
 
-        $repo->expects($this->once())
+        $repo
+            ->expects($this->once())
             ->method('findOneBy')
             ->with($criteria)
             ->will($this->returnValue($expectedReturn));

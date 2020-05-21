@@ -35,10 +35,10 @@ class UuidController extends AbstractActionController
 
     public function recycleBinAction()
     {
-        $page     = $this->params()->fromQuery('page', 1);
+        $page = $this->params()->fromQuery('page', 1);
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
         $elements = $this->getUuidManager()->findTrashed($page, $instance);
-        $view     = new ViewModel(['elements' => $elements]);
+        $view = new ViewModel(['elements' => $elements]);
         $view->setTemplate('uuid/recycle-bin');
         return $view;
     }
@@ -52,9 +52,13 @@ class UuidController extends AbstractActionController
         if ($form->isValid()) {
             $this->getUuidManager()->trashUuid($this->params('id'));
             $this->getUuidManager()->flush();
-            $this->flashMessenger()->addSuccessMessage('The content has been trashed.');
+            $this->flashMessenger()->addSuccessMessage(
+                'The content has been trashed.'
+            );
         } else {
-            $this->flashMessenger()->addErrorMessage('The content could not be trashed (validation failed)');
+            $this->flashMessenger()->addErrorMessage(
+                'The content could not be trashed (validation failed)'
+            );
         }
 
         return $this->redirect()->toReferer();
@@ -64,7 +68,9 @@ class UuidController extends AbstractActionController
     {
         $this->getUuidManager()->restoreUuid($this->params('id'));
         $this->getUuidManager()->flush();
-        $this->flashMessenger()->addSuccessMessage('The content has been restored.');
+        $this->flashMessenger()->addSuccessMessage(
+            'The content has been restored.'
+        );
         return $this->redirect()->toReferer();
     }
 
@@ -79,9 +85,13 @@ class UuidController extends AbstractActionController
             $this->getUuidManager()->flush();
             // cascading deletes might result in dead uuids, so we clear them here
             $this->getUuidManager()->clearDeadUuids();
-            $this->flashMessenger()->addSuccessMessage('The content has been removed.');
+            $this->flashMessenger()->addSuccessMessage(
+                'The content has been removed.'
+            );
         } else {
-            $this->flashMessenger()->addErrorMessage('The content could not be removed (validation failed)');
+            $this->flashMessenger()->addErrorMessage(
+                'The content could not be removed (validation failed)'
+            );
         }
 
         return $this->redirect()->toReferer();

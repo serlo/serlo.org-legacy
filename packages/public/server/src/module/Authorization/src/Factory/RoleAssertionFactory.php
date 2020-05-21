@@ -31,10 +31,21 @@ class RoleAssertionFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var \Rbac\Traversal\Strategy\TraversalStrategyInterface $traversalStrategy */
-        $traversalStrategy = $serviceLocator->getServiceLocator()->get('Rbac\Rbac')->getTraversalStrategy();
-        $instanceManager   = $serviceLocator->getServiceLocator()->get('Instance\Manager\InstanceManager');
-        $permissionService = $serviceLocator->getServiceLocator()->get('Authorization\Service\PermissionService');
-        $instance          = new RoleAssertion($instanceManager, $permissionService, $traversalStrategy);
+        $traversalStrategy = $serviceLocator
+            ->getServiceLocator()
+            ->get('Rbac\Rbac')
+            ->getTraversalStrategy();
+        $instanceManager = $serviceLocator
+            ->getServiceLocator()
+            ->get('Instance\Manager\InstanceManager');
+        $permissionService = $serviceLocator
+            ->getServiceLocator()
+            ->get('Authorization\Service\PermissionService');
+        $instance = new RoleAssertion(
+            $instanceManager,
+            $permissionService,
+            $traversalStrategy
+        );
 
         return $instance;
     }

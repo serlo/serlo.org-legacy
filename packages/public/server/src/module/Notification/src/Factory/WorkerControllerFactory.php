@@ -39,7 +39,7 @@ class WorkerControllerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ServiceLocatorInterface */
-        $serviceLocator    = $serviceLocator->getServiceLocator();
+        $serviceLocator = $serviceLocator->getServiceLocator();
         /* @var $logger Logger */
         $logger = $serviceLocator->get(Logger::class);
         /* @var $notificationWorker NotificationWorker */

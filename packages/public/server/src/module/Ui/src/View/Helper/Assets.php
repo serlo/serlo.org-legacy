@@ -41,7 +41,6 @@ class Assets extends AbstractHelper
         return $this;
     }
 
-
     public function getBundle(string $path)
     {
         return $this->config['bundle_host'] . $path;

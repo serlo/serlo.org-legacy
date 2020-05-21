@@ -36,9 +36,9 @@ abstract class AbstractOptionsFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $className = $this->getClassName();
-        $keyName   = $this->getKeyName();
-        $config    = $serviceLocator->get('config');
-        $options   = isset($config[$keyName]) ? $config[$keyName] : [];
+        $keyName = $this->getKeyName();
+        $config = $serviceLocator->get('config');
+        $options = isset($config[$keyName]) ? $config[$keyName] : [];
         return new $className($options);
     }
 

@@ -27,9 +27,7 @@ use StaticPage\Controller\SpendenController;
 
 return [
     'di' => [
-        'allowed_controllers' => [
-            SpendenController::class,
-        ],
+        'allowed_controllers' => [SpendenController::class],
         'definition' => [
             'class' => [
                 SpendenController::class => [],

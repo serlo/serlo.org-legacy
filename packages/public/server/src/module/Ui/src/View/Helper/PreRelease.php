@@ -28,6 +28,7 @@ class PreRelease extends AbstractHelper
 {
     public function __invoke()
     {
-        return isset($_COOKIE['prerelease']) && $_COOKIE['prerelease'] === 'true';
+        return isset($_COOKIE['prerelease']) &&
+            $_COOKIE['prerelease'] === 'true';
     }
 }

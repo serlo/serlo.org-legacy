@@ -38,8 +38,10 @@ class NavigationMenuHelperFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $serviceLocator = $serviceLocator->getServiceLocator();
-        $storage        = $serviceLocator->get('Navigation\Storage\NavigationHelperStorage');
-        $helper         = new Menu($storage);
+        $storage = $serviceLocator->get(
+            'Navigation\Storage\NavigationHelperStorage'
+        );
+        $helper = new Menu($storage);
         return $helper;
     }
 }

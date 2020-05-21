@@ -28,22 +28,20 @@ class EntityManagerListener extends AbstractListener
 {
     public function onCreate(Event $e)
     {
-        $entity   = $e->getParam('entity');
-        $user     = $this->getUserManager()->getUserFromAuthenticator();
+        $entity = $e->getParam('entity');
+        $user = $this->getUserManager()->getUserFromAuthenticator();
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
 
         $this->logEvent('entity/create', $instance, $entity);
     }
 
-    public function attachShared(\Zend\EventManager\SharedEventManagerInterface $events)
-    {
+    public function attachShared(
+        \Zend\EventManager\SharedEventManagerInterface $events
+    ) {
         $this->listeners[] = $events->attach(
             $this->getMonitoredClass(),
             'create',
-            [
-                $this,
-                'onCreate',
-            ]
+            [$this, 'onCreate']
         );
     }
 

@@ -33,8 +33,10 @@ use Zend\InputFilter\InputFilter;
 
 class DiscussionForm extends AbstractForm
 {
-    public function __construct(HydratorPluginAwareDoctrineObject $hydrator, ObjectManager $objectManager)
-    {
+    public function __construct(
+        HydratorPluginAwareDoctrineObject $hydrator,
+        ObjectManager $objectManager
+    ) {
         parent::__construct('discussion');
         $this->add(new CsrfToken());
         $inputFilter = new InputFilter('discussion');
@@ -44,48 +46,50 @@ class DiscussionForm extends AbstractForm
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'clearfix');
 
-        $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'author',
-                'options' => [
-                    'object_manager' => $objectManager,
-                    'target_class'   => 'User\Entity\User',
-                ],
-            ]
-        );
-        $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'object',
-                'options' => [
-                    'object_manager' => $objectManager,
-                    'target_class'   => 'Uuid\Entity\Uuid',
-                ],
-            ]
-        );
-        $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'instance',
-                'options' => [
-                    'object_manager' => $objectManager,
-                    'target_class'   => 'Instance\Entity\Instance',
-                ],
-            ]
-        );
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'author',
+            'options' => [
+                'object_manager' => $objectManager,
+                'target_class' => 'User\Entity\User',
+            ],
+        ]);
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'object',
+            'options' => [
+                'object_manager' => $objectManager,
+                'target_class' => 'Uuid\Entity\Uuid',
+            ],
+        ]);
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'instance',
+            'options' => [
+                'object_manager' => $objectManager,
+                'target_class' => 'Instance\Entity\Instance',
+            ],
+        ]);
         $this->add(new Hidden('terms'));
 
         $this->add(new OptInHiddenFieldset());
 
         $this->add(
             (new Textarea('content'))
-                ->setAttribute('placeholder', t('Ask a question or suggest an improvement'))
+                ->setAttribute(
+                    'placeholder',
+                    t('Ask a question or suggest an improvement')
+                )
                 ->setAttribute('class', 'discussion-content autosize')
                 ->setAttribute('rows', '1')
         );
         $this->add(
-            (new Submit('start'))->setValue(t('Submit'))->setAttribute('class', 'btn btn-success pull-right discussion-submit')
+            (new Submit('start'))
+                ->setValue(t('Submit'))
+                ->setAttribute(
+                    'class',
+                    'btn btn-success pull-right discussion-submit'
+                )
         );
 
         $inputFilter->add(['name' => 'instance', 'required' => true]);

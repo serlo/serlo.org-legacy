@@ -45,10 +45,16 @@ class UpdateLicenseForm extends Form
             $values[$license->getId()] = $license->getTitle();
         }
 
-        $this->add((new Select('license'))->setLabel('Select a license:')->setValueOptions($values));
+        $this->add(
+            (new Select('license'))
+                ->setLabel('Select a license:')
+                ->setValueOptions($values)
+        );
 
         $this->add(
-            (new Submit('submit'))->setValue('Update')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Update')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
     }
 }

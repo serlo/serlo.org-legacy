@@ -24,7 +24,6 @@ namespace Taxonomy\Manager;
 
 trait TaxonomyManagerAwareTrait
 {
-
     /**
      * @var TaxonomyManagerInterface
      */

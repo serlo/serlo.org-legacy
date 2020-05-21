@@ -56,36 +56,41 @@ class ZendMailAdapter implements AdapterInterface
     public function __construct(SmtpOptions $smtpOptions)
     {
         if (self::$instance) {
-            throw new Exception\RuntimeException('ZendMailAdapter does not allow multiple instances');
+            throw new Exception\RuntimeException(
+                'ZendMailAdapter does not allow multiple instances'
+            );
         }
 
-        self::$instance    = $this;
+        self::$instance = $this;
         $this->smtpOptions = $smtpOptions;
-        $this->queue       = [];
-        $this->transport   = new Smtp();
+        $this->queue = [];
+        $this->transport = new Smtp();
     }
 
     public function addMail($to, $from, $mail)
     {
-        $message              = new Message();
-        $bodyPart             = new MimeMessage();
-        $bodyHtmlMessage          = new MimePart($mail->getHtmlBody());
-        $bodyHtmlMessage->type    = 'text/html';
+        $message = new Message();
+        $bodyPart = new MimeMessage();
+        $bodyHtmlMessage = new MimePart($mail->getHtmlBody());
+        $bodyHtmlMessage->type = 'text/html';
         $bodyHtmlMessage->charset = 'UTF-8';
 
-        $bodyTextMessage          = new MimePart($mail->getPlainBody());
-        $bodyTextMessage->type    = 'text/plain';
+        $bodyTextMessage = new MimePart($mail->getPlainBody());
+        $bodyTextMessage->type = 'text/plain';
         $bodyTextMessage->charset = 'UTF-8';
 
         $bodyPart->setParts([$bodyHtmlMessage, $bodyTextMessage]);
         $message->setFrom($from);
         $message->setSender($from);
         $message->addTo($to);
-        $message->setEncoding("UTF-8");
+        $message->setEncoding('UTF-8');
         $message->setSubject($mail->getSubject());
         $message->setBody($bodyPart);
 
-        $message->getHeaders()->get('content-type')->setType('multipart/alternative');
+        $message
+            ->getHeaders()
+            ->get('content-type')
+            ->setType('multipart/alternative');
         $this->queue[] = $message;
     }
 

@@ -47,10 +47,7 @@ class AliasManagerListener extends AbstractListener
         $events->attach(
             $this->getMonitoredClass(),
             'create',
-            [
-                $this,
-                'onCreate',
-            ],
+            [$this, 'onCreate'],
             2
         );
     }

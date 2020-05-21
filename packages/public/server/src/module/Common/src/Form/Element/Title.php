@@ -46,9 +46,7 @@ class Title extends Text implements InputProviderInterface
         return [
             'name' => $this->getName(),
             'required' => true,
-            'filters' => [
-              ['name' => 'StripTags'],
-            ],
+            'filters' => [['name' => 'StripTags']],
         ];
     }
 }

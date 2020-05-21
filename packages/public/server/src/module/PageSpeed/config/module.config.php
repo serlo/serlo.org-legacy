@@ -28,21 +28,20 @@ return [
             'routes' => [
                 'pagespeed' => [
                     'options' => [
-                        'route'    => 'pagespeed build',
+                        'route' => 'pagespeed build',
                         'defaults' => [
-                            'controller' => 'PageSpeed\Controller\PageSpeedController',
-                            'action'     => 'build',
+                            'controller' =>
+                                'PageSpeed\Controller\PageSpeedController',
+                            'action' => 'build',
                         ],
                     ],
                 ],
             ],
         ],
     ],
-    'di'      => [
-        'allowed_controllers' => [
-            'PageSpeed\Controller\PageSpeedController',
-        ],
-        'definition'          => [
+    'di' => [
+        'allowed_controllers' => ['PageSpeed\Controller\PageSpeedController'],
+        'definition' => [
             'class' => [
                 'PageSpeed\Controller\PageSpeedController' => [],
             ],

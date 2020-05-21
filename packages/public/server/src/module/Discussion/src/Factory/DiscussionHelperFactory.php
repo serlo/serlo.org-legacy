@@ -36,17 +36,31 @@ class DiscussionHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator        = $serviceLocator->getServiceLocator();
-        $discussionManager     = $serviceLocator->get('Discussion\DiscussionManager');
-        $userManager           = $serviceLocator->get('User\Manager\UserManager');
-        $instanceManager       = $serviceLocator->get('Instance\Manager\InstanceManager');
-        $sharedTaxonomyManager = $serviceLocator->get('Taxonomy\Manager\TaxonomyManager');
-        $termForm              = $serviceLocator->get('Taxonomy\Form\TermForm');
-        $discussionForm        = $serviceLocator->get('Discussion\Form\DiscussionForm');
-        $commentForm           = $serviceLocator->get('Discussion\Form\CommentForm');
-        $renderer              = $serviceLocator->get('ZfcTwig\View\TwigRenderer');
-        $request               = $serviceLocator->get('Request');
-        $plugin                = new Discussion($termForm, $commentForm, $discussionForm, $renderer, $request);
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $discussionManager = $serviceLocator->get(
+            'Discussion\DiscussionManager'
+        );
+        $userManager = $serviceLocator->get('User\Manager\UserManager');
+        $instanceManager = $serviceLocator->get(
+            'Instance\Manager\InstanceManager'
+        );
+        $sharedTaxonomyManager = $serviceLocator->get(
+            'Taxonomy\Manager\TaxonomyManager'
+        );
+        $termForm = $serviceLocator->get('Taxonomy\Form\TermForm');
+        $discussionForm = $serviceLocator->get(
+            'Discussion\Form\DiscussionForm'
+        );
+        $commentForm = $serviceLocator->get('Discussion\Form\CommentForm');
+        $renderer = $serviceLocator->get('ZfcTwig\View\TwigRenderer');
+        $request = $serviceLocator->get('Request');
+        $plugin = new Discussion(
+            $termForm,
+            $commentForm,
+            $discussionForm,
+            $renderer,
+            $request
+        );
 
         $plugin->setDiscussionManager($discussionManager);
         $plugin->setUserManager($userManager);

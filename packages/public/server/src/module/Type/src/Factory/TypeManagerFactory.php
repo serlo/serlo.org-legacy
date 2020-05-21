@@ -42,7 +42,7 @@ class TypeManagerFactory implements FactoryInterface
     {
         $classResolver = $this->getClassResolver($serviceLocator);
         $objectManager = $this->getEntityManager($serviceLocator);
-        $service       = new TypeManager($classResolver, $objectManager);
+        $service = new TypeManager($classResolver, $objectManager);
 
         return $service;
     }

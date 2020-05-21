@@ -52,7 +52,10 @@ class Service
     public function isEnabled(string $feature): bool
     {
         if (!array_key_exists($feature, $this->flags)) {
-            $this->sentry->captureMessage('No configuration found for feature flag "%s"', [$feature]);
+            $this->sentry->captureMessage(
+                'No configuration found for feature flag "%s"',
+                [$feature]
+            );
             return false;
         }
 

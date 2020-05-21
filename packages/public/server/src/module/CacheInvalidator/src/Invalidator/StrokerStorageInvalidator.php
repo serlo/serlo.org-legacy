@@ -33,7 +33,6 @@ class StrokerStorageInvalidator implements InvalidatorInterface
      */
     protected $storage;
 
-
     /**
      * @param StorageInterface $storage
      */

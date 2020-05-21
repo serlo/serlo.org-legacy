@@ -34,7 +34,7 @@ use Zend\ModuleManager\ModuleManagerInterface;
  */
 class Module implements ConfigProviderInterface, InitProviderInterface
 {
-    protected $knownClasses = array();
+    protected $knownClasses = [];
 
     /**
      * Generate code to cache from class reflection.
@@ -48,7 +48,7 @@ class Module implements ConfigProviderInterface, InitProviderInterface
     protected static function getCacheCode(ClassReflection $r)
     {
         $useString = '';
-        $usesNames = array();
+        $usesNames = [];
         if (count($uses = $r->getDeclaringFile()->getUses())) {
             foreach ($uses as $use) {
                 $usesNames[$use['use']] = $use['as'];
@@ -85,10 +85,15 @@ class Module implements ConfigProviderInterface, InitProviderInterface
 
         $parentName = false;
         if (($parent = $r->getParentClass()) && $r->getNamespaceName()) {
-            $parentName = array_key_exists($parent->getName(), $usesNames) ?
-                ($usesNames[$parent->getName()] ? : $parent->getShortName()) :
-                ((0 === strpos($parent->getName(), $r->getNamespaceName())) ?
-                    substr($parent->getName(), strlen($r->getNamespaceName()) + 1) : '\\' . $parent->getName());
+            $parentName = array_key_exists($parent->getName(), $usesNames)
+                ? ($usesNames[$parent->getName()] ?:
+                $parent->getShortName())
+                : (0 === strpos($parent->getName(), $r->getNamespaceName())
+                    ? substr(
+                        $parent->getName(),
+                        strlen($r->getNamespaceName()) + 1
+                    )
+                    : '\\' . $parent->getName());
         } else {
             if ($parent && !$r->getNamespaceName()) {
                 $parentName = '\\' . $parent->getName();
@@ -99,35 +104,56 @@ class Module implements ConfigProviderInterface, InitProviderInterface
             $declaration .= " extends {$parentName}";
         }
 
-        $interfaces = array_diff($r->getInterfaceNames(), $parent ? $parent->getInterfaceNames() : array());
+        $interfaces = array_diff(
+            $r->getInterfaceNames(),
+            $parent ? $parent->getInterfaceNames() : []
+        );
         if (count($interfaces)) {
             foreach ($interfaces as $interface) {
                 $iReflection = new ClassReflection($interface);
-                $interfaces  = array_diff($interfaces, $iReflection->getInterfaceNames());
+                $interfaces = array_diff(
+                    $interfaces,
+                    $iReflection->getInterfaceNames()
+                );
             }
             $declaration .= $r->isInterface() ? ' extends ' : ' implements ';
             $declaration .= implode(
                 ', ',
-                array_map(
-                    function ($interface) use ($usesNames, $r) {
-                        $iReflection = new ClassReflection($interface);
-                        return (array_key_exists($iReflection->getName(), $usesNames) ?
-                            ($usesNames[$iReflection->getName()] ? : $iReflection->getShortName()) :
-                            ((0 === strpos($iReflection->getName(), $r->getNamespaceName())) ?
-                                substr($iReflection->getName(), strlen($r->getNamespaceName()) + 1) :
-                                '\\' . $iReflection->getName()));
-                    },
-                    $interfaces
-                )
+                array_map(function ($interface) use ($usesNames, $r) {
+                    $iReflection = new ClassReflection($interface);
+                    return array_key_exists($iReflection->getName(), $usesNames)
+                        ? ($usesNames[$iReflection->getName()] ?:
+                            $iReflection->getShortName())
+                        : (0 ===
+                        strpos($iReflection->getName(), $r->getNamespaceName())
+                            ? substr(
+                                $iReflection->getName(),
+                                strlen($r->getNamespaceName()) + 1
+                            )
+                            : '\\' . $iReflection->getName());
+                }, $interfaces)
             );
         }
 
         $classContents = $r->getContents(false);
-        $classFileDir  = dirname($r->getFileName());
-        $classContents = trim(str_replace('__DIR__', sprintf("'%s'", $classFileDir), $classContents));
+        $classFileDir = dirname($r->getFileName());
+        $classContents = trim(
+            str_replace(
+                '__DIR__',
+                sprintf("'%s'", $classFileDir),
+                $classContents
+            )
+        );
 
-        $return = "\nnamespace " . $r->getNamespaceName(
-            ) . " {\n" . $useString . $declaration . "\n" . $classContents . "\n}\n";
+        $return =
+            "\nnamespace " .
+            $r->getNamespaceName() .
+            " {\n" .
+            $useString .
+            $declaration .
+            "\n" .
+            $classContents .
+            "\n}\n";
 
         return $return;
     }
@@ -143,9 +169,12 @@ class Module implements ConfigProviderInterface, InitProviderInterface
         $request = $e->getRequest();
 
         if ($request instanceof ConsoleRequest) {
-            if (!($request->getParam('controller') == 'PageSpeed\Controller\PageSpeedController' && $request->getParam(
-                'action'
-                ) == 'build')
+            if (
+                !(
+                    $request->getParam('controller') ==
+                        'PageSpeed\Controller\PageSpeedController' &&
+                    $request->getParam('action') == 'build'
+                )
             ) {
                 return;
             }
@@ -160,7 +189,10 @@ class Module implements ConfigProviderInterface, InitProviderInterface
             $code = "<?php\n";
         }
 
-        $classes = array_merge(get_declared_interfaces(), get_declared_classes());
+        $classes = array_merge(
+            get_declared_interfaces(),
+            get_declared_classes()
+        );
         foreach ($classes as $class) {
             // Skip non-Zend classes
             if (0 !== strpos($class, 'Zend')) {
@@ -168,7 +200,9 @@ class Module implements ConfigProviderInterface, InitProviderInterface
             }
 
             // Skip the autoloader factory and this class
-            if (in_array($class, array('Zend\Loader\AutoloaderFactory', __CLASS__))) {
+            if (
+                in_array($class, ['Zend\Loader\AutoloaderFactory', __CLASS__])
+            ) {
                 continue;
             }
 
@@ -185,14 +219,18 @@ class Module implements ConfigProviderInterface, InitProviderInterface
             $class = new ClassReflection($class);
 
             // Skip ZF2-based autoloaders
-            if (in_array('Zend\Loader\SplAutoloader', $class->getInterfaceNames())) {
+            if (
+                in_array(
+                    'Zend\Loader\SplAutoloader',
+                    $class->getInterfaceNames()
+                )
+            ) {
                 continue;
             }
 
             // Skip internal classes or classes from extensions
             // (this shouldn't happen, as we're only caching Zend classes)
-            if ($class->isInternal() || $class->getExtensionName()
-            ) {
+            if ($class->isInternal() || $class->getExtensionName()) {
                 continue;
             }
 
@@ -217,7 +255,7 @@ class Module implements ConfigProviderInterface, InitProviderInterface
     public function init(ModuleManagerInterface $e)
     {
         $events = $e->getEventManager()->getSharedManager();
-        $events->attach('Zend\Mvc\Application', 'finish', array($this, 'cache'));
+        $events->attach('Zend\Mvc\Application', 'finish', [$this, 'cache']);
     }
 
     /**
@@ -227,7 +265,7 @@ class Module implements ConfigProviderInterface, InitProviderInterface
      */
     protected function reflectClassCache()
     {
-        $scanner            = new FileScanner(ZF_CLASS_CACHE);
+        $scanner = new FileScanner(ZF_CLASS_CACHE);
         $this->knownClasses = array_unique($scanner->getClassNames());
     }
 }

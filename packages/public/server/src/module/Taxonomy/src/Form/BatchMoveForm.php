@@ -48,24 +48,24 @@ class BatchMoveForm extends Form
         );
 
         $multiCheckbox = new MultiCheckbox('associations');
-        $multiCheckbox->setLabel('Elements')->setAttribute('id', 'associations');
+        $multiCheckbox
+            ->setLabel('Elements')
+            ->setAttribute('id', 'associations');
         $multiCheckbox->setValueOptions($associations);
         $this->add($multiCheckbox);
 
-        $this->add((new Submit('submit'))->setValue('Save')->setAttribute('class', 'btn btn-success pull-right'));
-
-        $filter->add(
-            [
-                'name'        => 'destination',
-                'required'    => true,
-                'allow_empty' => false,
-                'filters'     => [
-                    ['name' => 'Int'],
-                ],
-                'validators'  => [
-                    ['name' => 'Digits'],
-                ],
-            ]
+        $this->add(
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
+
+        $filter->add([
+            'name' => 'destination',
+            'required' => true,
+            'allow_empty' => false,
+            'filters' => [['name' => 'Int']],
+            'validators' => [['name' => 'Digits']],
+        ]);
     }
 }

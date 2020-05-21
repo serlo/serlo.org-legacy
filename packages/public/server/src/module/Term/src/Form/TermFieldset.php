@@ -34,7 +34,11 @@ class TermFieldset extends Fieldset implements InputFilterProviderInterface
     {
         parent::__construct('term');
 
-        $this->add((new Text('name'))->setAttribute('id', 'term[name]')->setLabel('Name:'));
+        $this->add(
+            (new Text('name'))
+                ->setAttribute('id', 'term[name]')
+                ->setLabel('Name:')
+        );
     }
 
     public function getInputFilterSpecification()
@@ -49,10 +53,11 @@ class TermFieldset extends Fieldset implements InputFilterProviderInterface
                 ],
                 'validators' => [
                     [
-                        'name'    => 'NotEmpty',
+                        'name' => 'NotEmpty',
                         'options' => [
                             'messages' => [
-                                NotEmpty::IS_EMPTY => 'The title can\'t be empty',
+                                NotEmpty::IS_EMPTY =>
+                                    'The title can\'t be empty',
                             ],
                         ],
                     ],

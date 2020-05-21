@@ -29,14 +29,14 @@ class ApiController extends AbstractController
 {
     public function typesAction()
     {
-        $instance   = $this->getInstanceManager()->getInstanceFromRequest();
+        $instance = $this->getInstanceManager()->getInstanceFromRequest();
         $taxonomies = $this->getTaxonomyManager()->findAllTaxonomies($instance);
-        $data       = [];
+        $data = [];
         foreach ($taxonomies as $taxonomy) {
             $data[] = [
-                'name'     => $taxonomy->getName(),
+                'name' => $taxonomy->getName(),
                 'instance' => $taxonomy->getInstance()->getId(),
-                'id'       => $taxonomy->getId(),
+                'id' => $taxonomy->getId(),
             ];
         }
         $view = new JsonModel($data);
@@ -45,24 +45,30 @@ class ApiController extends AbstractController
 
     public function typeAction()
     {
-        $type     = $this->params('type');
+        $type = $this->params('type');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName($type, $instance);
-        $data     = [
-            'name'     => $taxonomy->getName(),
+        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName(
+            $type,
+            $instance
+        );
+        $data = [
+            'name' => $taxonomy->getName(),
             'instance' => $taxonomy->getInstance()->getId(),
-            'id'       => $taxonomy->getId(),
+            'id' => $taxonomy->getId(),
         ];
-        $view     = new JsonModel($data);
+        $view = new JsonModel($data);
         return $view;
     }
 
     public function termsAction()
     {
-        $type     = $this->params('type');
+        $type = $this->params('type');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName($type, $instance);
-        $data     = [];
+        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName(
+            $type,
+            $instance
+        );
+        $data = [];
         foreach ($taxonomy->getTerms() as $term) {
             $data[] = $this->ajaxify($term);
         }
@@ -72,18 +78,21 @@ class ApiController extends AbstractController
 
     public function termAction()
     {
-        $type     = $this->params('id');
+        $type = $this->params('id');
         $taxonomy = $this->getTaxonomyManager()->getTerm($type);
-        $view     = new JsonModel($this->ajaxify($taxonomy));
+        $view = new JsonModel($this->ajaxify($taxonomy));
         return $view;
     }
 
     public function saplingsAction()
     {
-        $type     = $this->params('type');
+        $type = $this->params('type');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName($type, $instance);
-        $data     = [];
+        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName(
+            $type,
+            $instance
+        );
+        $data = [];
         foreach ($taxonomy->getChildren() as $term) {
             $data[] = $this->ajaxify($term);
         }
@@ -94,13 +103,15 @@ class ApiController extends AbstractController
     protected function ajaxify(TaxonomyTermInterface $term)
     {
         $data = [
-            'id'           => $term->getId(),
-            'name'         => $term->getName(),
-            'taxonomy'     => $term->getTaxonomy()->getId(),
-            'url'          => $this->url()->fromRoute('uuid/get', ['uuid' => $term->getId()]),
-            'parent'       => $term->hasParent() ? $term->getParent()->getId() : null,
-            'children'     => [],
-            'items'        => [],
+            'id' => $term->getId(),
+            'name' => $term->getName(),
+            'taxonomy' => $term->getTaxonomy()->getId(),
+            'url' => $this->url()->fromRoute('uuid/get', [
+                'uuid' => $term->getId(),
+            ]),
+            'parent' => $term->hasParent() ? $term->getParent()->getId() : null,
+            'children' => [],
+            'items' => [],
         ];
 
         foreach ($term->getChildren() as $child) {
@@ -109,7 +120,7 @@ class ApiController extends AbstractController
 
         foreach ($term->getAssociated('entities') as $child) {
             $data['items'][] = [
-                'id'   => $child->getId(),
+                'id' => $child->getId(),
                 'type' => 'entity',
             ];
         }

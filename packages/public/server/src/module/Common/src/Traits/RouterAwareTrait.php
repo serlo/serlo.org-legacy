@@ -26,7 +26,6 @@ use Zend\Mvc\Router\RouteInterface;
 
 trait RouterAwareTrait
 {
-
     /**
      * @var RouteInterface
      */

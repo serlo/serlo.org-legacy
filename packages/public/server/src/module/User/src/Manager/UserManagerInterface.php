@@ -31,7 +31,6 @@ use Zend\Paginator\Paginator;
 
 interface UserManagerInterface extends Flushable
 {
-
     /**
      * @param array $data
      * @return UserInterface

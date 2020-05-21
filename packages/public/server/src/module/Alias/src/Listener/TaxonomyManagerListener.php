@@ -39,8 +39,10 @@ class TaxonomyManagerListener extends AbstractListener
      * @param AliasManagerInterface $aliasManager
      * @param NormalizerInterface   $normalizer
      */
-    public function __construct(AliasManagerInterface $aliasManager, NormalizerInterface $normalizer)
-    {
+    public function __construct(
+        AliasManagerInterface $aliasManager,
+        NormalizerInterface $normalizer
+    ) {
         $this->normalizer = $normalizer;
         parent::__construct($aliasManager);
     }
@@ -91,13 +93,18 @@ class TaxonomyManagerListener extends AbstractListener
             $this->getAliasManager()->flush($term);
         }
 
-        $instance    = $term->getInstance();
-        $normalizer  = $this->normalizer->normalize($term);
-        $routeName   = $normalizer->getRouteName();
+        $instance = $term->getInstance();
+        $normalizer = $this->normalizer->normalize($term);
+        $routeName = $normalizer->getRouteName();
         $routeParams = $normalizer->getRouteParams();
-        $router      = $this->getAliasManager()->getRouter();
-        $url         = $router->assemble($routeParams, ['name' => $routeName]);
-        $this->getAliasManager()->autoAlias('taxonomyTerm', $url, $term, $instance);
+        $router = $this->getAliasManager()->getRouter();
+        $url = $router->assemble($routeParams, ['name' => $routeName]);
+        $this->getAliasManager()->autoAlias(
+            'taxonomyTerm',
+            $url,
+            $term,
+            $instance
+        );
 
         foreach ($term->getChildren() as $child) {
             $this->process($child);

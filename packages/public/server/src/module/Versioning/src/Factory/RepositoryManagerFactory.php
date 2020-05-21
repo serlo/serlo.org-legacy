@@ -31,7 +31,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RepositoryManagerFactory implements FactoryInterface
 {
-    use ClassResolverFactoryTrait, AuthorizationServiceFactoryTrait, EntityManagerFactoryTrait;
+    use ClassResolverFactoryTrait,
+        AuthorizationServiceFactoryTrait,
+        EntityManagerFactoryTrait;
 
     /**
      * Create service
@@ -41,10 +43,16 @@ class RepositoryManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $objectManager        = $this->getEntityManager($serviceLocator);
+        $objectManager = $this->getEntityManager($serviceLocator);
         $authorizationService = $this->getAuthorizationService($serviceLocator);
-        $moduleOptions        = $serviceLocator->get('Versioning\Options\ModuleOptions');
+        $moduleOptions = $serviceLocator->get(
+            'Versioning\Options\ModuleOptions'
+        );
 
-        return new RepositoryManager($authorizationService, $moduleOptions, $objectManager);
+        return new RepositoryManager(
+            $authorizationService,
+            $moduleOptions,
+            $objectManager
+        );
     }
 }

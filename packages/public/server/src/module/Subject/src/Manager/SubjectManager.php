@@ -49,8 +49,11 @@ class SubjectManager implements SubjectManagerInterface
      */
     protected $normalizer;
 
-    public function __construct(Normalizer $normalizer, StorageInterface $storage, TaxonomyManagerInterface $taxonomyManager)
-    {
+    public function __construct(
+        Normalizer $normalizer,
+        StorageInterface $storage,
+        TaxonomyManagerInterface $taxonomyManager
+    ) {
         $this->taxonomyManager = $taxonomyManager;
         $this->storage = $storage;
         $this->normalizer = $normalizer;
@@ -58,14 +61,23 @@ class SubjectManager implements SubjectManagerInterface
 
     public function findSubjectByString($name, InstanceInterface $instance)
     {
-        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName('subject', $instance);
-        $term = $this->getTaxonomyManager()->findTermByName($taxonomy, (array) $name);
+        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName(
+            'subject',
+            $instance
+        );
+        $term = $this->getTaxonomyManager()->findTermByName(
+            $taxonomy,
+            (array) $name
+        );
         return $term;
     }
 
     public function findSubjectsByInstance(InstanceInterface $instance)
     {
-        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName('subject', $instance);
+        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName(
+            'subject',
+            $instance
+        );
         return $taxonomy->getChildren();
     }
 
@@ -89,8 +101,10 @@ class SubjectManager implements SubjectManagerInterface
         return $collection;
     }
 
-    protected function isTrashed(EntityInterface $entity, Collection $collection)
-    {
+    protected function isTrashed(
+        EntityInterface $entity,
+        Collection $collection
+    ) {
         if ($entity->getTrashed()) {
             // Todo undirtify, this is needed because we can't cache doctrine models (where are your proxies now?)
             $normalized = $this->normalizer->normalize($entity);
@@ -103,8 +117,11 @@ class SubjectManager implements SubjectManagerInterface
         return $term->getAssociatedRecursive('entities');
     }
 
-    protected function iterEntities(Collection $entities, Collection $collection, $callback)
-    {
+    protected function iterEntities(
+        Collection $entities,
+        Collection $collection,
+        $callback
+    ) {
         foreach ($entities as $entity) {
             // Todo undirtify, this is needed because we can't cache doctrine models (where are your proxies now?)
             $this->$callback($entity, $collection);
@@ -112,8 +129,15 @@ class SubjectManager implements SubjectManagerInterface
         }
     }
 
-    protected function iterLinks(EntityInterface $entity, $collection, $callback)
-    {
-        $this->iterEntities($entity->getChildren('link'), $collection, $callback);
+    protected function iterLinks(
+        EntityInterface $entity,
+        $collection,
+        $callback
+    ) {
+        $this->iterEntities(
+            $entity->getChildren('link'),
+            $collection,
+            $callback
+        );
     }
 }

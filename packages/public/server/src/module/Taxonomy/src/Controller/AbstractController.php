@@ -52,7 +52,7 @@ class AbstractController extends AbstractAPIAwareActionController
     ) {
         $this->instanceManager = $instanceManager;
         $this->taxonomyManager = $taxonomyManager;
-        $this->termForm        = $termForm;
+        $this->termForm = $termForm;
     }
 
     /**
@@ -61,13 +61,18 @@ class AbstractController extends AbstractAPIAwareActionController
      */
     public function getTerm($id = null)
     {
-        $id = $id ? : $this->params('id', $id);
-        $id = $id ? : $this->params('term', $id);
+        $id = $id ?: $this->params('id', $id);
+        $id = $id ?: $this->params('term', $id);
         if ($id === null) {
             $instance = $this->getInstanceManager()->getInstanceFromRequest();
-            $root     = $this->getTaxonomyManager()->findTaxonomyByName('root', $instance)->getChildren()->first();
+            $root = $this->getTaxonomyManager()
+                ->findTaxonomyByName('root', $instance)
+                ->getChildren()
+                ->first();
             if (!is_object($root)) {
-                $root = $this->getTaxonomyManager()->createRoot($this->termForm);
+                $root = $this->getTaxonomyManager()->createRoot(
+                    $this->termForm
+                );
                 $this->getTaxonomyManager()->flush();
             }
             return $root;

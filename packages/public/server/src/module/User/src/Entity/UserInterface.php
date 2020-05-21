@@ -31,7 +31,6 @@ use ZfcRbac\Identity\IdentityInterface;
 
 interface UserInterface extends UuidInterface, IdentityInterface
 {
-
     /**
      * @return string
      */

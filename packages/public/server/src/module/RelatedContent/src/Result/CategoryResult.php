@@ -36,10 +36,12 @@ class CategoryResult extends AbstractResult
     public function setObject(TypeInterface $object)
     {
         if (!$object instanceof CategoryInterface) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected CategoryInterface but got `%s`',
-                get_class($object)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected CategoryInterface but got `%s`',
+                    get_class($object)
+                )
+            );
         }
         return parent::setObject($object);
     }

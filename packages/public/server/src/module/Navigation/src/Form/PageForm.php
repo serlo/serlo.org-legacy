@@ -37,72 +37,58 @@ class PageForm extends Form
         parent::__construct('pageForm');
         $this->add(new CsrfToken());
 
-        $filter   = new InputFilter();
+        $filter = new InputFilter();
         $hydrator = new ObjectHydrator($entityManager);
 
         $this->setHydrator($hydrator);
         $this->setInputFilter($filter);
 
-        $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'container',
-                'options' => [
-                    'object_manager' => $entityManager,
-                    'target_class'   => 'Navigation\Entity\Container',
-                ],
-            ]
-        );
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'container',
+            'options' => [
+                'object_manager' => $entityManager,
+                'target_class' => 'Navigation\Entity\Container',
+            ],
+        ]);
 
-        $this->add(
-            [
-                'type'    => 'DoctrineModule\Form\Element\ObjectSelect',
-                'name'    => 'parent',
-                'options' => [
-                    'label'              => 'Parent:',
-                    'object_manager'     => $entityManager,
-                    'target_class'       => 'Navigation\Entity\Page',
-                    'property'           => 'id',
-                    'display_empty_item' => true,
-                    'empty_item_label'   => '---',
-                ],
-            ]
-        );
+        $this->add([
+            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+            'name' => 'parent',
+            'options' => [
+                'label' => 'Parent:',
+                'object_manager' => $entityManager,
+                'target_class' => 'Navigation\Entity\Page',
+                'property' => 'id',
+                'display_empty_item' => true,
+                'empty_item_label' => '---',
+            ],
+        ]);
 
         $this->add((new Text('position'))->setLabel('Position'));
 
         $this->add(
-            (new Submit('submit'))->setValue('Save')->setAttribute('class', 'btn btn-default')
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-default')
         );
 
-        $filter->add(
-            [
-                'name'     => 'container',
-                'required' => true,
-                'filters'  => [
-                    ['name' => 'Int'],
-                ],
-            ]
-        );
+        $filter->add([
+            'name' => 'container',
+            'required' => true,
+            'filters' => [['name' => 'Int']],
+        ]);
 
-        $filter->add(
-            [
-                'name'     => 'parent',
-                'required' => false,
-                'filters'  => [
-                    ['name' => 'Int'],
-                ],
-            ]
-        );
+        $filter->add([
+            'name' => 'parent',
+            'required' => false,
+            'filters' => [['name' => 'Int']],
+        ]);
 
-        $filter->add(
-            [
-                'name'     => 'position',
-                'required' => false,
-                'filters'  => [
-                    ['name' => 'Int'],
-                ],
-            ]
-        );
+        $filter->add([
+            'name' => 'position',
+            'required' => false,
+            'filters' => [['name' => 'Int']],
+        ]);
     }
 }

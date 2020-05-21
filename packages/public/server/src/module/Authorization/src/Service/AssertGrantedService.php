@@ -33,7 +33,9 @@ class AssertGrantedService implements AssertGrantedServiceInterface
     /** @inheritDoc */
     public function assert($permission, $context = null)
     {
-        if (!$this->getAuthorizationService()->isGranted($permission, $context)) {
+        if (
+            !$this->getAuthorizationService()->isGranted($permission, $context)
+        ) {
             throw new UnauthorizedException();
         }
     }

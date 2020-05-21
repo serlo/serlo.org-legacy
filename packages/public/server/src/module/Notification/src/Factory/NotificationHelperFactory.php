@@ -41,12 +41,19 @@ class NotificationHelperFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var AbstractPluginManager $serviceLocator */
-        $serviceManager      = $serviceLocator->getServiceLocator();
-        $userManager         = $this->getUserManager($serviceManager);
-        $notificationManager = $serviceManager->get('Notification\NotificationManager');
-        $storage             = $serviceManager->get('Notification\Storage\Storage');
-        $renderer            = $serviceManager->get('ZfcTwig\View\TwigRenderer');
+        $serviceManager = $serviceLocator->getServiceLocator();
+        $userManager = $this->getUserManager($serviceManager);
+        $notificationManager = $serviceManager->get(
+            'Notification\NotificationManager'
+        );
+        $storage = $serviceManager->get('Notification\Storage\Storage');
+        $renderer = $serviceManager->get('ZfcTwig\View\TwigRenderer');
 
-        return new Notification($notificationManager, $storage, $renderer, $userManager);
+        return new Notification(
+            $notificationManager,
+            $storage,
+            $renderer,
+            $userManager
+        );
     }
 }

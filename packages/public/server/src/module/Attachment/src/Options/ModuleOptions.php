@@ -27,7 +27,6 @@ use Zend\Stdlib\AbstractOptions;
 
 class ModuleOptions extends AbstractOptions
 {
-
     /**
      * @var string
      */
@@ -37,7 +36,6 @@ class ModuleOptions extends AbstractOptions
      * @var string
      */
     protected $webpath = 'https://assets.serlo.org';
-
 
     /**
      * @var string

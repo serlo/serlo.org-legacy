@@ -44,20 +44,22 @@ class SitemapController extends AbstractActionController
      */
     protected $uuidManager;
 
-    public function __construct(InstanceManagerInterface $instanceManager, UuidManagerInterface $uuidManager)
-    {
+    public function __construct(
+        InstanceManagerInterface $instanceManager,
+        UuidManagerInterface $uuidManager
+    ) {
         $this->instanceManager = $instanceManager;
-        $this->uuidManager     = $uuidManager;
+        $this->uuidManager = $uuidManager;
     }
 
     public function indexAction()
     {
         $view = new ViewModel();
-        $this->getResponse()->getHeaders()->addHeaders(
-            [
+        $this->getResponse()
+            ->getHeaders()
+            ->addHeaders([
                 'Content-Type' => 'text/html',
-            ]
-        );
+            ]);
         $view->setTemplate('normalizer/sitemap');
         $view->setTerminal(true);
         return $view;
@@ -66,28 +68,30 @@ class SitemapController extends AbstractActionController
     public function uuidAction()
     {
         // Todo unhack
-        $objects  = $this->uuidManager->findAll();
-        $objects  = $objects->filter(
-            function (UuidInterface $object) {
-                $isGood = $object instanceof TaxonomyTermInterface || $object instanceof PageRepositoryInterface;
-                $isGood = $isGood || $object instanceof EntityInterface || $object instanceof PostInterface;
-                if ($object instanceof EntityInterface) {
-                    $name = $object->getType()->getName();
-                    $isGood = $isGood && $object->hasCurrentRevision()
-                        && (in_array(
-                            $name,
-                            ['article', 'course', 'video']
-                        ));
-                }
-                return !$object->isTrashed() && $isGood;
+        $objects = $this->uuidManager->findAll();
+        $objects = $objects->filter(function (UuidInterface $object) {
+            $isGood =
+                $object instanceof TaxonomyTermInterface ||
+                $object instanceof PageRepositoryInterface;
+            $isGood =
+                $isGood ||
+                $object instanceof EntityInterface ||
+                $object instanceof PostInterface;
+            if ($object instanceof EntityInterface) {
+                $name = $object->getType()->getName();
+                $isGood =
+                    $isGood &&
+                    $object->hasCurrentRevision() &&
+                    in_array($name, ['article', 'course', 'video']);
             }
-        );
+            return !$object->isTrashed() && $isGood;
+        });
         $view = new ViewModel(['objects' => $objects]);
-        $this->getResponse()->getHeaders()->addHeaders(
-            [
+        $this->getResponse()
+            ->getHeaders()
+            ->addHeaders([
                 'Content-Type' => 'text/html',
-            ]
-        );
+            ]);
         $view->setTemplate('normalizer/sitemap-uuid');
         $view->setTerminal(true);
         return $view;

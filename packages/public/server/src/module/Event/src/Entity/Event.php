@@ -30,7 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Event implements EventInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

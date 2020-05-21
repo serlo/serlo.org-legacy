@@ -55,37 +55,25 @@ class UuidManagerListener extends AbstractListener
         $events->attach(
             $this->getMonitoredClass(),
             'remove',
-            [
-                $this,
-                'onRemove',
-            ],
+            [$this, 'onRemove'],
             2
         );
         $events->attach(
             $this->getMonitoredClass(),
             'purge',
-            [
-                $this,
-                'onPurge',
-            ],
+            [$this, 'onPurge'],
             2
         );
         $events->attach(
             $this->getMonitoredClass(),
             'restore',
-            [
-                $this,
-                'onChange',
-            ],
+            [$this, 'onChange'],
             2
         );
         $events->attach(
             $this->getMonitoredClass(),
             'trash',
-            [
-                $this,
-                'onChange',
-            ],
+            [$this, 'onChange'],
             2
         );
     }

@@ -24,7 +24,6 @@ namespace Entity\Manager;
 
 trait EntityManagerAwareTrait
 {
-
     /**
      * @var EntityManagerInterface
      */

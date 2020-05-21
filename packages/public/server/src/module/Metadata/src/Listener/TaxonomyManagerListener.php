@@ -43,8 +43,10 @@ class TaxonomyManagerListener extends AbstractListener
         }
     }
 
-    protected function addMetadata(UuidInterface $object, TaxonomyTermInterface $term)
-    {
+    protected function addMetadata(
+        UuidInterface $object,
+        TaxonomyTermInterface $term
+    ) {
         while ($term->hasParent()) {
             try {
                 $this->getMetadataManager()->addMetadata(
@@ -72,10 +74,13 @@ class TaxonomyManagerListener extends AbstractListener
     public function onAssociate(Event $e)
     {
         /* @var $term TaxonomyTermInterface */
-        $term   = $e->getParam('term');
+        $term = $e->getParam('term');
         $object = $e->getParam('object');
 
-        if ($object instanceof TaxonomyTermAwareInterface && $object instanceof UuidInterface) {
+        if (
+            $object instanceof TaxonomyTermAwareInterface &&
+            $object instanceof UuidInterface
+        ) {
             $this->addMetadata($object, $term);
         }
     }
@@ -83,10 +88,13 @@ class TaxonomyManagerListener extends AbstractListener
     public function onDissociate(Event $e)
     {
         /* @var $term TaxonomyTermInterface */
-        $term   = $e->getParam('term');
+        $term = $e->getParam('term');
         $object = $e->getParam('object');
 
-        if ($object instanceof TaxonomyTermAwareInterface && $object instanceof UuidInterface) {
+        if (
+            $object instanceof TaxonomyTermAwareInterface &&
+            $object instanceof UuidInterface
+        ) {
             $this->removeMetadata($object, $term);
         }
     }

@@ -39,11 +39,18 @@ class RefreshControllerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $sessionManager SessionManager */
-        $serviceLocator  = $serviceLocator->getServiceLocator();
-        $aliasManager    = $serviceLocator->get('Alias\AliasManager');
-        $taxonomyManager = $serviceLocator->get('Taxonomy\Manager\TaxonomyManager');
-        $entityManager   = $serviceLocator->get('Entity\Manager\EntityManager');
-        $normalizer      = $serviceLocator->get('Normalizer\Normalizer');
-        return new RefreshController($aliasManager, $taxonomyManager, $entityManager, $normalizer);
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $aliasManager = $serviceLocator->get('Alias\AliasManager');
+        $taxonomyManager = $serviceLocator->get(
+            'Taxonomy\Manager\TaxonomyManager'
+        );
+        $entityManager = $serviceLocator->get('Entity\Manager\EntityManager');
+        $normalizer = $serviceLocator->get('Normalizer\Normalizer');
+        return new RefreshController(
+            $aliasManager,
+            $taxonomyManager,
+            $entityManager,
+            $normalizer
+        );
     }
 }

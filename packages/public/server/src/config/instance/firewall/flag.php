@@ -24,7 +24,7 @@ return [
     'zfc_rbac' => [
         'guards' => [
             'ZfcRbac\Guard\RouteGuard' => [
-                'flag/add'    => ['login'],
+                'flag/add' => ['login'],
                 'flag/remove' => ['helper'],
             ],
         ],

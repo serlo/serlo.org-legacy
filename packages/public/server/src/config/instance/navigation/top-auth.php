@@ -24,25 +24,25 @@ return [
     'navigation' => [
         'top-auth' => [
             [
-                'label'         => '',
-                'route'         => 'user/me',
-                'icon'          => 'user',
+                'label' => '',
+                'route' => 'user/me',
+                'icon' => 'user',
                 'needsIdentity' => true,
             ],
             [
-                'label'         => 'Sign up',
-                'route'         => 'user/register',
+                'label' => 'Sign up',
+                'route' => 'user/register',
                 'needsIdentity' => false,
             ],
             [
-                'label'         => 'Log in',
-                'route'         => 'authentication/login',
-                'icon'          => 'user',
+                'label' => 'Log in',
+                'route' => 'authentication/login',
+                'icon' => 'user',
                 'needsIdentity' => false,
             ],
             [
-                'label'         => 'Log out',
-                'route'         => 'authentication/logout',
+                'label' => 'Log out',
+                'route' => 'authentication/logout',
                 'needsIdentity' => true,
             ],
         ],

@@ -37,14 +37,10 @@ class AuthenticationControllerListener extends AbstractListener
 
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach(
-            $this->getMonitoredClass(),
-            'activated',
-            [
-                $this,
-                'onActivated',
-            ]
-        );
+        $events->attach($this->getMonitoredClass(), 'activated', [
+            $this,
+            'onActivated',
+        ]);
     }
 
     protected function getMonitoredClass()

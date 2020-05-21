@@ -35,7 +35,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Role implements RoleInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -81,9 +80,9 @@ class Role implements RoleInterface
 
     public function __construct()
     {
-        $this->users       = new ArrayCollection();
+        $this->users = new ArrayCollection();
         $this->permissions = new ArrayCollection();
-        $this->children    = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     public function __toString()
@@ -171,8 +170,9 @@ class Role implements RoleInterface
         return $this->permissions;
     }
 
-    public function removePermission(ParametrizedPermissionInterface $permission)
-    {
+    public function removePermission(
+        ParametrizedPermissionInterface $permission
+    ) {
         $this->permissions->removeElement($permission);
     }
 

@@ -95,7 +95,10 @@ class Renderer
     {
         $data = [
             'state' => $state,
-            'language' => $this->instanceManager->getInstanceFromRequest()->getLanguage()->getCode(),
+            'language' => $this->instanceManager
+                ->getInstanceFromRequest()
+                ->getLanguage()
+                ->getCode(),
         ];
 
         $key = 'renderer/' . hash('sha512', json_encode($data));
@@ -111,7 +114,9 @@ class Renderer
             'Content-Type: application/json',
         ];
 
-        $url = $this->getFormatHelper()->isLegacyFormat($state) ? $this->legacyRendererUrl : $this->editorRendererUrl;
+        $url = $this->getFormatHelper()->isLegacyFormat($state)
+            ? $this->legacyRendererUrl
+            : $this->editorRendererUrl;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -126,7 +131,9 @@ class Renderer
         try {
             $rendered = json_decode($result, true)['html'];
         } catch (Exception $e) {
-            $this->sentry->captureException($e, ['tags' => ['renderer' => true]]);
+            $this->sentry->captureException($e, [
+                'tags' => ['renderer' => true],
+            ]);
             throw new RuntimeException(sprintf('Broken pipe'));
         }
 

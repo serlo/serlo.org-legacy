@@ -73,7 +73,7 @@ class Json extends Menu
         }
 
         $data = $this->process($container);
-        $json = new ZendJson;
+        $json = new ZendJson();
         $json = $json->encode($data);
         return $json;
     }
@@ -102,9 +102,12 @@ class Json extends Menu
             $maxDepth = $this->getMaxDepth();
         }
 
-        $found  = null;
+        $found = null;
         $foundDepth = -1;
-        $iterator = new \RecursiveIteratorIterator($container, \RecursiveIteratorIterator::CHILD_FIRST);
+        $iterator = new \RecursiveIteratorIterator(
+            $container,
+            \RecursiveIteratorIterator::CHILD_FIRST
+        );
 
         foreach ($iterator as $page) {
             $currDepth = $iterator->getDepth();
@@ -136,14 +139,18 @@ class Json extends Menu
         }
 
         if ($found) {
-            return array('page' => $found, 'depth' => $foundDepth);
+            return ['page' => $found, 'depth' => $foundDepth];
         }
 
-        return array();
+        return [];
     }
 
-    protected function process($container, $currentDepth = 0, $activeDepth = null, array &$pages = [])
-    {
+    protected function process(
+        $container,
+        $currentDepth = 0,
+        $activeDepth = null,
+        array &$pages = []
+    ) {
         if (!$activeDepth) {
             $foundActive = $this->findActive($container, 0, 9999);
             $activeDepth = 99999;
@@ -152,50 +159,66 @@ class Json extends Menu
             }
         }
 
-        $start         = $this->getMinDepth();
-        $end           = $start + $this->getMaxDepth();
+        $start = $this->getMinDepth();
+        $end = $start + $this->getMaxDepth();
         $pagePrototype = [
-            'identifier'    => null,
-            'label'         => null,
-            'class'         => null,
-            'href'          => null,
-            'elements'      => 0,
-            'icon'          => null,
+            'identifier' => null,
+            'label' => null,
+            'class' => null,
+            'href' => null,
+            'elements' => 0,
+            'icon' => null,
             'needsFetching' => false,
-            'children'      => [],
+            'children' => [],
         ];
 
         /* @var $page AbstractPage */
         foreach ($container as $page) {
-            if (!($page->isVisible() && $this->accept(
-                $page
-                ) && $currentDepth < $end && ($this->showAll || $currentDepth > $activeDepth || $this->isActive($page)))
+            if (
+                !(
+                    $page->isVisible() &&
+                    $this->accept($page) &&
+                    $currentDepth < $end &&
+                    ($this->showAll ||
+                        $currentDepth > $activeDepth ||
+                        $this->isActive($page))
+                )
             ) {
                 continue;
             }
             if ($currentDepth >= $start) {
                 if ($page->getLabel() == 'divider') {
-                    $addPage          = $pagePrototype;
+                    $addPage = $pagePrototype;
                     $addPage['class'] = 'divider';
-                    $pages[]          = $addPage;
+                    $pages[] = $addPage;
                 } else {
-                    $active                   = $this->isActive($page, false) ? ' active' : '';
-                    $addPage                  = $pagePrototype;
-                    $addPage['identifier']    = $page->get('identifier');
-                    $addPage['label']         = $page->getLabel();
-                    $addPage['elements']      = $page->get('elements') ? : 0;
-                    $addPage['icon']          = $page->get('icon');
-                    $addPage['class']         = $page->getClass() . $active;
-                    $addPage['href']          = $page->getHref();
-                    $addPage['needsFetching'] = $currentDepth >= $end - 2 && count($page->getPages());
+                    $active = $this->isActive($page, false) ? ' active' : '';
+                    $addPage = $pagePrototype;
+                    $addPage['identifier'] = $page->get('identifier');
+                    $addPage['label'] = $page->getLabel();
+                    $addPage['elements'] = $page->get('elements') ?: 0;
+                    $addPage['icon'] = $page->get('icon');
+                    $addPage['class'] = $page->getClass() . $active;
+                    $addPage['href'] = $page->getHref();
+                    $addPage['needsFetching'] =
+                        $currentDepth >= $end - 2 && count($page->getPages());
                     if (count($page->getPages())) {
-                        $addPage['children'] = $this->process($page->getPages(), $currentDepth + 1, $activeDepth);
+                        $addPage['children'] = $this->process(
+                            $page->getPages(),
+                            $currentDepth + 1,
+                            $activeDepth
+                        );
                     }
                     $pages[] = $addPage;
                 }
             } else {
                 if (count($page->getPages())) {
-                    $this->process($page->getPages(), $currentDepth + 1, $activeDepth, $pages);
+                    $this->process(
+                        $page->getPages(),
+                        $currentDepth + 1,
+                        $activeDepth,
+                        $pages
+                    );
                 }
             }
         }

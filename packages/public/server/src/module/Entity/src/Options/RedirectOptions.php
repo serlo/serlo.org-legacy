@@ -24,7 +24,8 @@ namespace Entity\Options;
 
 use Zend\Stdlib\AbstractOptions;
 
-class RedirectOptions extends AbstractOptions implements ComponentOptionsInterface
+class RedirectOptions extends AbstractOptions implements
+    ComponentOptionsInterface
 {
     /**
      * @var string
@@ -47,7 +48,6 @@ class RedirectOptions extends AbstractOptions implements ComponentOptionsInterfa
     {
         return $this->toType;
     }
-
 
     /**
      * @param string $key

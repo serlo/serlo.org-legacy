@@ -45,7 +45,11 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
     public function onBootstrap(EventInterface $e)
     {
         $eventManager = $e->getApplication()->getEventManager();
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatchRegisterListeners'), 1000);
+        $eventManager->attach(
+            MvcEvent::EVENT_DISPATCH,
+            [$this, 'onDispatchRegisterListeners'],
+            1000
+        );
     }
 
     public function onDispatchRegisterListeners(MvcEvent $e)
@@ -54,13 +58,29 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         $serviceManager = $application->getServiceManager();
         $eventManager = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
-        $sharedEventManager->attachAggregate($serviceManager->get(AliasManagerListener::class));
-        $sharedEventManager->attachAggregate($serviceManager->get(RepositoryManagerListener::class));
-        $sharedEventManager->attachAggregate($serviceManager->get(LicenseManagerListener::class));
-        $sharedEventManager->attachAggregate($serviceManager->get(PageManagerListener::class));
-        $sharedEventManager->attachAggregate($serviceManager->get(RepositoryManagerListener::class));
-        $sharedEventManager->attachAggregate($serviceManager->get(TaxonomyManagerListener::class));
-        $sharedEventManager->attachAggregate($serviceManager->get(UserManagerListener::class));
-        $sharedEventManager->attachAggregate($serviceManager->get(UuidManagerListener::class));
+        $sharedEventManager->attachAggregate(
+            $serviceManager->get(AliasManagerListener::class)
+        );
+        $sharedEventManager->attachAggregate(
+            $serviceManager->get(RepositoryManagerListener::class)
+        );
+        $sharedEventManager->attachAggregate(
+            $serviceManager->get(LicenseManagerListener::class)
+        );
+        $sharedEventManager->attachAggregate(
+            $serviceManager->get(PageManagerListener::class)
+        );
+        $sharedEventManager->attachAggregate(
+            $serviceManager->get(RepositoryManagerListener::class)
+        );
+        $sharedEventManager->attachAggregate(
+            $serviceManager->get(TaxonomyManagerListener::class)
+        );
+        $sharedEventManager->attachAggregate(
+            $serviceManager->get(UserManagerListener::class)
+        );
+        $sharedEventManager->attachAggregate(
+            $serviceManager->get(UuidManagerListener::class)
+        );
     }
 }

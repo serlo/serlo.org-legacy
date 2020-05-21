@@ -24,7 +24,6 @@ namespace RelatedContent\Manager;
 
 trait RelatedContentManagerAwareTrait
 {
-
     /**
      * @var RelatedContentManagerInterface
      */
@@ -42,8 +41,9 @@ trait RelatedContentManagerAwareTrait
      * @param RelatedContentManagerInterface $relatedContentManager
      * @return self
      */
-    public function setRelatedContentManager(RelatedContentManagerInterface $relatedContentManager)
-    {
+    public function setRelatedContentManager(
+        RelatedContentManagerInterface $relatedContentManager
+    ) {
         $this->relatedContentManager = $relatedContentManager;
         return $this;
     }

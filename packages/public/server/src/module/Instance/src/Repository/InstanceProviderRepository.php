@@ -47,8 +47,12 @@ class InstanceProviderRepository extends EntityRepository
     /**
      * {@inheritDoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         $result = parent::findBy($criteria, $orderBy, $limit, $offset);
         return $this->filter($result);
     }
@@ -76,28 +80,34 @@ class InstanceProviderRepository extends EntityRepository
     {
         /* @var $entityManager InstanceAwareEntityManager */
         $entityManager = $this->_em;
-        $result        = null;
+        $result = null;
         if ($this->instanceFiltering and $entityManager->getInstance()) {
             if (is_array($entities)) {
                 $result = [];
                 foreach ($entities as $entity) {
                     if (!$entity instanceof InstanceProviderInterface) {
-                        throw new RuntimeException(sprintf(
-                            '%s does not implement InstanceProviderInterface.',
-                            get_class($entity)
-                        ));
+                        throw new RuntimeException(
+                            sprintf(
+                                '%s does not implement InstanceProviderInterface.',
+                                get_class($entity)
+                            )
+                        );
                     }
-                    if ($entity->getInstance() === $entityManager->getInstance()) {
+                    if (
+                        $entity->getInstance() === $entityManager->getInstance()
+                    ) {
                         $result[] = $entity;
                     }
                 }
             } elseif (is_object($entities)) {
                 $entity = $entities;
                 if (!$entity instanceof InstanceProviderInterface) {
-                    throw new RuntimeException(sprintf(
-                        '%s does not implement InstanceProviderInterface.',
-                        get_class($entity)
-                    ));
+                    throw new RuntimeException(
+                        sprintf(
+                            '%s does not implement InstanceProviderInterface.',
+                            get_class($entity)
+                        )
+                    );
                 }
                 if ($entity->getInstance() === $entityManager->getInstance()) {
                     $result = $entity;

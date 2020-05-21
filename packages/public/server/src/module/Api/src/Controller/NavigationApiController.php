@@ -61,9 +61,11 @@ class NavigationApiController extends AbstractActionController
         $pages = array_map(function ($page) {
             return $this->formatPage($page);
         }, $pages);
-        return array_values(array_filter($pages, function ($page) {
-            return isset($page);
-        }));
+        return array_values(
+            array_filter($pages, function ($page) {
+                return isset($page);
+            })
+        );
     }
 
     protected function formatPage(array $page)
@@ -72,7 +74,10 @@ class NavigationApiController extends AbstractActionController
         if (count($parameters) === 0) {
             return null;
         }
-        if (array_key_exists('visible', $parameters) && $parameters['visible'] === 'false') {
+        if (
+            array_key_exists('visible', $parameters) &&
+            $parameters['visible'] === 'false'
+        ) {
             return null;
         }
 
@@ -83,26 +88,32 @@ class NavigationApiController extends AbstractActionController
             $result['children'] = $children;
         }
 
-        if (array_key_exists('label', $parameters) && array_key_exists('uri', $parameters)) {
+        if (
+            array_key_exists('label', $parameters) &&
+            array_key_exists('uri', $parameters)
+        ) {
             $result['label'] = $parameters['label'];
             if ($parameters['uri'] !== '#') {
                 preg_match('/\/(\d+)/', $parameters['uri'], $matches);
                 if (count($matches) === 2) {
                     $result['label'] = $parameters['label'];
-                    $result['id'] = (int)$matches[1];
+                    $result['id'] = (int) $matches[1];
                 } else {
                     $result['url'] = $parameters['uri'];
                 }
             }
         }
 
-        if (array_key_exists('label', $parameters) && array_key_exists('route', $parameters)) {
+        if (
+            array_key_exists('label', $parameters) &&
+            array_key_exists('route', $parameters)
+        ) {
             $result['label'] = $parameters['label'];
 
             if ($parameters['route'] === 'page/view') {
-                $result['id'] = (int)$parameters['params.page'];
+                $result['id'] = (int) $parameters['params.page'];
             } elseif ($parameters['route'] === 'taxonomy/term/get') {
-                $result['id'] = (int)$parameters['params.term'];
+                $result['id'] = (int) $parameters['params.term'];
             } else {
                 try {
                     $routeParams = [];
@@ -112,7 +123,9 @@ class NavigationApiController extends AbstractActionController
                             $routeParams[$matches[1]] = $value;
                         }
                     }
-                    $url = $this->router->assemble($routeParams, ['name' => $parameters['route']]);
+                    $url = $this->router->assemble($routeParams, [
+                        'name' => $parameters['route'],
+                    ]);
                     $result['url'] = $url;
                 } catch (Throwable $e) {
                     return null;
@@ -122,7 +135,7 @@ class NavigationApiController extends AbstractActionController
 
         if (count($result) === 0) {
             $data = print_r($page, true);
-            throw new Exception("Invalid page" . $data);
+            throw new Exception('Invalid page' . $data);
         }
 
         return $result;

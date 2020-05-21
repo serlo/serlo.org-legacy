@@ -40,7 +40,11 @@ interface TaxonomyManagerInterface extends Flushable, EventManagerAwareInterface
      * @param int|null                   $position
      * @return self
      */
-    public function associateWith($term, TaxonomyTermAwareInterface $with, $position = null);
+    public function associateWith(
+        $term,
+        TaxonomyTermAwareInterface $with,
+        $position = null
+    );
 
     /**
      * @param TermForm $termForm
@@ -78,7 +82,10 @@ interface TaxonomyManagerInterface extends Flushable, EventManagerAwareInterface
      * @param array             $ancestors
      * @return TaxonomyTermInterface
      */
-    public function findTermByName(TaxonomyInterface $taxonomy, array $ancestors);
+    public function findTermByName(
+        TaxonomyInterface $taxonomy,
+        array $ancestors
+    );
 
     /**
      * @param int $id
@@ -103,7 +110,10 @@ interface TaxonomyManagerInterface extends Flushable, EventManagerAwareInterface
      * @param int|TaxonomyTermInterface  $term
      * @param TaxonomyTermAwareInterface $object
      */
-    public function removeAssociation($term, TaxonomyTermAwareInterface $object);
+    public function removeAssociation(
+        $term,
+        TaxonomyTermAwareInterface $object
+    );
 
     /**
      * @param FormInterface $form

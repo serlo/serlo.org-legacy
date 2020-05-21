@@ -36,7 +36,7 @@ class PermissionServiceFactory implements FactoryInterface
     {
         $objectManager = $this->getEntityManager($serviceLocator);
         $classResolver = $this->getClassResolver($serviceLocator);
-        $instance      = new PermissionService($classResolver, $objectManager);
+        $instance = new PermissionService($classResolver, $objectManager);
 
         return $instance;
     }

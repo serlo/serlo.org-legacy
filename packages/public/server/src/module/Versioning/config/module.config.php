@@ -25,35 +25,39 @@ namespace Versioning;
 return [
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Options\ModuleOptions' => __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
-            __NAMESPACE__ . '\RepositoryManager'     => __NAMESPACE__ . '\Factory\RepositoryManagerFactory',
+            __NAMESPACE__ . '\Options\ModuleOptions' =>
+                __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
+            __NAMESPACE__ . '\RepositoryManager' =>
+                __NAMESPACE__ . '\Factory\RepositoryManagerFactory',
         ],
     ],
-    'class_resolver'  => [
-        'Versioning\Service\RepositoryServiceInterface' => 'Versioning\Service\RepositoryService',
+    'class_resolver' => [
+        'Versioning\Service\RepositoryServiceInterface' =>
+            'Versioning\Service\RepositoryService',
     ],
-    'di'              => [
+    'di' => [
         'definition' => [
             'class' => [
                 'Versioning\Service\RepositoryService' => [
-                    'setUuidManager'          => [
+                    'setUuidManager' => [
                         'required' => true,
                     ],
-                    'setObjectManager'        => [
+                    'setObjectManager' => [
                         'required' => true,
                     ],
                     'setAuthorizationService' => [
                         'required' => true,
                     ],
-                    'setModuleOptions'        => [
+                    'setModuleOptions' => [
                         'required' => true,
                     ],
                 ],
             ],
         ],
-        'instance'   => [
-            'preferences'                          => [
-                'Versioning\RepositoryManagerInterface' => 'Versioning\RepositoryManager',
+        'instance' => [
+            'preferences' => [
+                'Versioning\RepositoryManagerInterface' =>
+                    'Versioning\RepositoryManager',
             ],
             'Versioning\Service\RepositoryService' => [
                 'shared' => false,

@@ -38,10 +38,10 @@ To create a new module, do the following:
 
    class Module implements ConfigProviderInterface
    {
-       public function getConfig()
-       {
-           return include __DIR__ . '/../config/module.config.php';
-       }
+     public function getConfig()
+     {
+       return include __DIR__ . '/../config/module.config.php';
+     }
    }
    ```
 
@@ -71,9 +71,7 @@ To create a new module, do the following:
    <?php
 
    return [
-      'modules' => [
-          'Foo',
-      ]
+     'modules' => ['Foo'],
    ];
    ```
 

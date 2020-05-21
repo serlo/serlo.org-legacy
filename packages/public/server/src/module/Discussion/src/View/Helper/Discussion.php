@@ -37,8 +37,11 @@ use ZfcTwig\View\TwigRenderer;
 
 class Discussion extends AbstractHelper
 {
-    use \Discussion\DiscussionManagerAwareTrait, \Common\Traits\ConfigAwareTrait, \User\Manager\UserManagerAwareTrait,
-        \Taxonomy\Manager\TaxonomyManagerAwareTrait, \Instance\Manager\InstanceManagerAwareTrait;
+    use \Discussion\DiscussionManagerAwareTrait,
+        \Common\Traits\ConfigAwareTrait,
+        \User\Manager\UserManagerAwareTrait,
+        \Taxonomy\Manager\TaxonomyManagerAwareTrait,
+        \Instance\Manager\InstanceManagerAwareTrait;
 
     protected $discussions;
     protected $object;
@@ -86,18 +89,24 @@ class Discussion extends AbstractHelper
         TwigRenderer $renderer,
         Request $request
     ) {
-        $this->renderer       = $renderer;
-        $this->form           = [];
-        $this->termForm       = $termForm;
-        $this->commentForm    = $commentForm;
+        $this->renderer = $renderer;
+        $this->form = [];
+        $this->termForm = $termForm;
+        $this->commentForm = $commentForm;
         $this->discussionForm = $discussionForm;
-        $this->request       = $request;
+        $this->request = $request;
     }
 
-    public function __invoke(UuidInterface $object = null, $forum = null, $archived = null)
-    {
+    public function __invoke(
+        UuidInterface $object = null,
+        $forum = null,
+        $archived = null
+    ) {
         if ($object !== null) {
-            $this->discussions = $this->getDiscussionManager()->findDiscussionsOn($object, $archived);
+            $this->discussions = $this->getDiscussionManager()->findDiscussionsOn(
+                $object,
+                $archived
+            );
             $this->setObject($object);
         }
         if ($archived !== null) {
@@ -129,17 +138,22 @@ class Discussion extends AbstractHelper
 
     public function getDiscussions(UuidInterface $object)
     {
-        $discussions = $this->getDiscussionManager()->findDiscussionsOn($object);
-        $discussions = $discussions->filter(
-            function (CommentInterface $comment) {
-                return !$comment->isTrashed();
-            }
+        $discussions = $this->getDiscussionManager()->findDiscussionsOn(
+            $object
         );
+        $discussions = $discussions->filter(function (
+            CommentInterface $comment
+        ) {
+            return !$comment->isTrashed();
+        });
         return $discussions;
     }
 
-    public function getForm($type, UuidInterface $object, TaxonomyTermInterface $forum = null)
-    {
+    public function getForm(
+        $type,
+        UuidInterface $object,
+        TaxonomyTermInterface $forum = null
+    ) {
         $view = $this->getView();
         $queries = ['query' => ['redirect' => $view->serverUrl(true)]];
 
@@ -196,18 +210,17 @@ class Discussion extends AbstractHelper
 
     public function render($template = null, $leftWidth = 2, $force = false)
     {
-        $template = $template ? 'discussion/helper/' . $template . '/' . $template : $this->getOption('template');
+        $template = $template
+            ? 'discussion/helper/' . $template . '/' . $template
+            : $this->getOption('template');
         if ($force || !$this->request->isXmlHttpRequest()) {
-            return $this->renderer->render(
-                $template,
-                [
-                    'discussions' => $this->discussions,
-                    'isArchived'  => $this->archived,
-                    'object'      => $this->getObject(),
-                    'forum'     => $this->getForum(),
-                    'leftWidth' => $leftWidth,
-                ]
-            );
+            return $this->renderer->render($template, [
+                'discussions' => $this->discussions,
+                'isArchived' => $this->archived,
+                'object' => $this->getObject(),
+                'forum' => $this->getForum(),
+                'leftWidth' => $leftWidth,
+            ]);
         } else {
             return '';
         }
@@ -228,8 +241,8 @@ class Discussion extends AbstractHelper
     {
         return [
             'template' => 'discussion/helper/default/default',
-            'root'     => 'root',
-            'forum'    => 'forum',
+            'root' => 'root',
+            'forum' => 'forum',
         ];
     }
 }

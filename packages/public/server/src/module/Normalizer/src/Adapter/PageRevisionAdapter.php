@@ -26,7 +26,6 @@ use Page\Entity\PageRevisionInterface;
 
 class PageRevisionAdapter extends AbstractAdapter
 {
-
     /**
      * @return PageRevisionInterface
      */

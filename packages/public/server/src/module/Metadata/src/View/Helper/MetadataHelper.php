@@ -57,13 +57,22 @@ class MetadataHelper extends AbstractHelper
      * @param string        $separator
      * @return $this
      */
-    public function keywords(UuidInterface $object, array $keys = [], $separator = ', ')
-    {
+    public function keywords(
+        UuidInterface $object,
+        array $keys = [],
+        $separator = ', '
+    ) {
         $data = [];
         if (!empty($keys)) {
             $metadata = [];
             foreach ($keys as $key) {
-                $metadata[] = implode($this->metadataManager->findMetadataByObjectAndKey($object, $key), $separator);
+                $metadata[] = implode(
+                    $this->metadataManager->findMetadataByObjectAndKey(
+                        $object,
+                        $key
+                    ),
+                    $separator
+                );
             }
         } else {
             $metadata = $this->metadataManager->findMetadataByObject($object);
@@ -75,9 +84,11 @@ class MetadataHelper extends AbstractHelper
         }
 
         $filter = new PreviewFilter(250);
-        $data   = implode($data, $separator);
-        $data   = $filter->filter($data);
-        $this->getView()->headMeta()->setProperty('keywords', $data);
+        $data = implode($data, $separator);
+        $data = $filter->filter($data);
+        $this->getView()
+            ->headMeta()
+            ->setProperty('keywords', $data);
 
         return $this;
     }

@@ -68,21 +68,33 @@ class InstanceAwareEntityManager extends EntityManager
      * Return self instead of hardcoded EntityManager
      * {@inheritDoc}
      */
-    public static function create($conn, Configuration $config, EventManager $eventManager = null)
-    {
+    public static function create(
+        $conn,
+        Configuration $config,
+        EventManager $eventManager = null
+    ) {
         if (!$config->getMetadataDriverImpl()) {
             throw ORMException::missingMappingDriverImpl();
         }
 
         if (is_array($conn)) {
-            $conn = DriverManager::getConnection($conn, $config, ($eventManager ?: new EventManager()));
+            $conn = DriverManager::getConnection(
+                $conn,
+                $config,
+                $eventManager ?: new EventManager()
+            );
         } else {
             if ($conn instanceof Connection) {
-                if ($eventManager !== null && $conn->getEventManager() !== $eventManager) {
+                if (
+                    $eventManager !== null &&
+                    $conn->getEventManager() !== $eventManager
+                ) {
                     throw ORMException::mismatchedEventManager();
                 }
             } else {
-                throw new \InvalidArgumentException("Invalid argument: " . $conn);
+                throw new \InvalidArgumentException(
+                    'Invalid argument: ' . $conn
+                );
             }
         }
 
@@ -92,15 +104,23 @@ class InstanceAwareEntityManager extends EntityManager
     /**
      * {@inheritDoc}
      */
-    public function find($entityName, $id, $instanceAware = true, $lockMode = null, $lockVersion = null)
-    {
+    public function find(
+        $entityName,
+        $id,
+        $instanceAware = true,
+        $lockMode = null,
+        $lockVersion = null
+    ) {
         $entity = parent::find($entityName, $id, $lockMode, $lockVersion);
         if ($instanceAware && $entity instanceof InstanceProviderInterface) {
             if ($entity->getInstance() === $this->getInstance()) {
                 return $entity;
             }
             if ($this->bypassIsolation) {
-                $this->getZendEventManager()->trigger('isolationBypassed', $entity);
+                $this->getZendEventManager()->trigger(
+                    'isolationBypassed',
+                    $entity
+                );
             }
             return null;
         }
@@ -157,19 +177,39 @@ class InstanceAwareEntityManager extends EntityManager
 
         $metadata = $this->getClassMetadata($entityName);
         $customRepositoryClassName = $metadata->customRepositoryClassName;
-        $instanceProviderInterface = 'Instance\\Entity\\InstanceProviderInterface';
+        $instanceProviderInterface =
+            'Instance\\Entity\\InstanceProviderInterface';
         $instanceAwareInterface = 'Instance\\Entity\\InstanceAwareInterface';
 
         if ($customRepositoryClassName !== null) {
             $repository = new $customRepositoryClassName($this, $metadata);
-            if ($this->instance && $metadata->reflClass->implementsInterface($instanceAwareInterface)) {
+            if (
+                $this->instance &&
+                $metadata->reflClass->implementsInterface(
+                    $instanceAwareInterface
+                )
+            ) {
                 $repository->setInstanceField($this->instanceField);
             }
-        } elseif ($this->instance && $metadata->reflClass->implementsInterface($instanceAwareInterface)) {
-            $repository = new $this->instanceAwareRepositoryClassName($this, $metadata);
+        } elseif (
+            $this->instance &&
+            $metadata->reflClass->implementsInterface($instanceAwareInterface)
+        ) {
+            $repository = new $this->instanceAwareRepositoryClassName(
+                $this,
+                $metadata
+            );
             $repository->setInstanceField($this->instanceField);
-        } elseif ($this->instance && $metadata->reflClass->implementsInterface($instanceProviderInterface)) {
-            $repository = new $this->instanceProviderRepositoryClassName($this, $metadata);
+        } elseif (
+            $this->instance &&
+            $metadata->reflClass->implementsInterface(
+                $instanceProviderInterface
+            )
+        ) {
+            $repository = new $this->instanceProviderRepositoryClassName(
+                $this,
+                $metadata
+            );
         } else {
             $repository = new EntityRepository($this, $metadata);
         }
@@ -219,13 +259,16 @@ class InstanceAwareEntityManager extends EntityManager
      */
     public function setZendEventManager(EventManagerInterface $events)
     {
-        $identifiers = array(__CLASS__, get_class($this));
+        $identifiers = [__CLASS__, get_class($this)];
         if (isset($this->eventIdentifier)) {
-            if ((is_string($this->eventIdentifier)) || (is_array(
-                $this->eventIdentifier
-                )) || ($this->eventIdentifier instanceof Traversable)
+            if (
+                is_string($this->eventIdentifier) ||
+                is_array($this->eventIdentifier) ||
+                $this->eventIdentifier instanceof Traversable
             ) {
-                $identifiers = array_unique(array_merge($identifiers, (array)$this->eventIdentifier));
+                $identifiers = array_unique(
+                    array_merge($identifiers, (array) $this->eventIdentifier)
+                );
             } elseif (is_object($this->eventIdentifier)) {
                 $identifiers[] = $this->eventIdentifier;
             }

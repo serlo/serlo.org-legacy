@@ -38,17 +38,17 @@ class SearchForm extends Form
         $inputFilter = new InputFilter('search');
         $this->setInputFilter($inputFilter);
 
-        $this->add((new Text('q')));
+        $this->add(new Text('q'));
 
         $this->add(
-            (new Submit('submit'))->setValue('search')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('search')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $inputFilter->add(
-            [
-                'name'     => 'q',
-                'required' => true,
-            ]
-        );
+        $inputFilter->add([
+            'name' => 'q',
+            'required' => true,
+        ]);
     }
 }

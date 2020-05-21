@@ -76,8 +76,8 @@ class Page implements PageInterface
 
     public function __construct()
     {
-        $this->children   = new ArrayCollection;
-        $this->parameters = new ArrayCollection;
+        $this->children = new ArrayCollection();
+        $this->parameters = new ArrayCollection();
     }
 
     /**
@@ -144,7 +144,9 @@ class Page implements PageInterface
      */
     public function getParameters()
     {
-        return $this->parameters->matching(Criteria::create()->where(Criteria::expr()->isNull('parent')));
+        return $this->parameters->matching(
+            Criteria::create()->where(Criteria::expr()->isNull('parent'))
+        );
     }
 
     /**
@@ -169,7 +171,7 @@ class Page implements PageInterface
      */
     public function getPosition()
     {
-        return (int)$this->position;
+        return (int) $this->position;
     }
 
     /**

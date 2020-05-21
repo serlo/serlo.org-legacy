@@ -24,7 +24,6 @@ namespace Subject\Manager;
 
 trait SubjectManagerAwareTrait
 {
-
     /**
      * @var SubjectManagerInterface
      */

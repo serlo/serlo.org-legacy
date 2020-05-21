@@ -46,15 +46,22 @@ class NotificationManager implements NotificationManagerInterface
      */
     protected $persistentNotificationFilterChain;
 
-    public function __construct(ClassResolverInterface $classResolver, ObjectManager $objectManager)
-    {
+    public function __construct(
+        ClassResolverInterface $classResolver,
+        ObjectManager $objectManager
+    ) {
         $this->classResolver = $classResolver;
         $this->objectManager = $objectManager;
-        $this->persistentNotificationFilterChain = new PersistentNotificationFilterChain($objectManager);
+        $this->persistentNotificationFilterChain = new PersistentNotificationFilterChain(
+            $objectManager
+        );
     }
 
-    public function createNotification(UserInterface $user, EventLogInterface $log, bool $email)
-    {
+    public function createNotification(
+        UserInterface $user,
+        EventLogInterface $log,
+        bool $email
+    ) {
         /* @var $notificationLog \Notification\Entity\NotificationEventInterface */
         $notification = $this->aggregateNotification($user, $log);
         $class = 'Notification\Entity\NotificationEventInterface';
@@ -78,7 +85,9 @@ class NotificationManager implements NotificationManagerInterface
 
     public function findMailmanNotificationsBySubscriber(UserInterface $user)
     {
-        $className = $this->getClassResolver()->resolveClassName('Notification\Entity\NotificationInterface');
+        $className = $this->getClassResolver()->resolveClassName(
+            'Notification\Entity\NotificationInterface'
+        );
         $criteria = [
             'user' => $user->getId(),
             'email' => true,
@@ -86,17 +95,25 @@ class NotificationManager implements NotificationManagerInterface
             'seen' => false,
         ];
         $order = ['user' => 'desc', 'id' => 'asc'];
-        $notifications = $this->getObjectManager()->getRepository($className)->findBy($criteria, $order);
+        $notifications = $this->getObjectManager()
+            ->getRepository($className)
+            ->findBy($criteria, $order);
         $collection = new ArrayCollection($notifications);
         return $this->persistentNotificationFilterChain->filter($collection);
     }
 
-    public function findNotificationsBySubscriber(UserInterface $user, $limit = 20)
-    {
-        $className = $this->getClassResolver()->resolveClassName('Notification\Entity\NotificationInterface');
+    public function findNotificationsBySubscriber(
+        UserInterface $user,
+        $limit = 20
+    ) {
+        $className = $this->getClassResolver()->resolveClassName(
+            'Notification\Entity\NotificationInterface'
+        );
         $criteria = ['user' => $user->getId()];
         $order = ['id' => 'desc'];
-        $notifications = $this->getObjectManager()->getRepository($className)->findBy($criteria, $order, $limit);
+        $notifications = $this->getObjectManager()
+            ->getRepository($className)
+            ->findBy($criteria, $order, $limit);
         $collection = new ArrayCollection($notifications);
         return $this->persistentNotificationFilterChain->filter($collection);
     }
@@ -105,14 +122,14 @@ class NotificationManager implements NotificationManagerInterface
     {
         $notifications = $this->findNotificationsBySubscriber($user, 100);
         $entityManager = $this->objectManager;
-        $notifications->map(
-            function (NotificationInterface $n) use ($entityManager) {
-                if (!$n->getSeen()) {
-                    $n->setSeen(true);
-                    $entityManager->persist($n);
-                }
+        $notifications->map(function (NotificationInterface $n) use (
+            $entityManager
+        ) {
+            if (!$n->getSeen()) {
+                $n->setSeen(true);
+                $entityManager->persist($n);
             }
-        );
+        });
     }
 
     /**
@@ -120,9 +137,13 @@ class NotificationManager implements NotificationManagerInterface
      * @param EventLogInterface $log
      * @return NotificationInterface
      */
-    protected function aggregateNotification(UserInterface $user, EventLogInterface $log)
-    {
-        $className = $this->getClassResolver()->resolveClassName('Notification\Entity\NotificationInterface');
+    protected function aggregateNotification(
+        UserInterface $user,
+        EventLogInterface $log
+    ) {
+        $className = $this->getClassResolver()->resolveClassName(
+            'Notification\Entity\NotificationInterface'
+        );
         return new $className();
     }
 }

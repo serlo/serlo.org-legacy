@@ -30,7 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category extends AbstractType implements CategoryInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\OneToOne(targetEntity="Holder", inversedBy="category")

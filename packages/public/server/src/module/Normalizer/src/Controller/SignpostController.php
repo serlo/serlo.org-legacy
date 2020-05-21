@@ -42,20 +42,29 @@ class SignpostController extends AbstractActionController
     public function indexAction()
     {
         try {
-            $object = $this->getUuidManager()->getUuid($this->params('uuid'), true);
+            $object = $this->getUuidManager()->getUuid(
+                $this->params('uuid'),
+                true
+            );
         } catch (NotFoundException $e) {
             $this->getResponse()->setStatusCode(404);
             return false;
         }
 
-        $normalized  = $this->getNormalizer()->normalize($object);
-        $routeName   = $normalized->getRouteName();
+        $normalized = $this->getNormalizer()->normalize($object);
+        $routeName = $normalized->getRouteName();
         $routeParams = $normalized->getRouteParams();
-        $type        = $normalized->getType();
-        $url         = $this->url()->fromRoute($routeName, $routeParams, null, null, false);
+        $type = $normalized->getType();
+        $url = $this->url()->fromRoute(
+            $routeName,
+            $routeParams,
+            null,
+            null,
+            false
+        );
 
         if (!$this->getRequest()->isXmlHttpRequest()) {
-            $url      = $this->url()->fromRoute($routeName, $routeParams);
+            $url = $this->url()->fromRoute($routeName, $routeParams);
             $query = http_build_query($this->params()->fromQuery());
             $url = strlen($query) > 0 ? $url . '?' . $query : $url;
             $response = $this->redirect()->toUrl($url);
@@ -63,22 +72,24 @@ class SignpostController extends AbstractActionController
             return $response;
         }
 
-        $router  = $this->getServiceLocator()->get('Router');
+        $router = $this->getServiceLocator()->get('Router');
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
         $request->setUri($url);
         $routeMatch = $router->match($request);
 
         if (!$routeMatch) {
-            throw new RuntimeException(sprintf(
-                'Could not match a route for `%s`',
-                $url
-            ));
+            throw new RuntimeException(
+                sprintf('Could not match a route for `%s`', $url)
+            );
         }
 
-        $params     = array_merge($routeMatch->getParams(), ['forwarded' => true, 'isXmlHttpRequest' => true]);
+        $params = array_merge($routeMatch->getParams(), [
+            'forwarded' => true,
+            'isXmlHttpRequest' => true,
+        ]);
         $controller = $params['controller'];
-        $response   = $this->forward()->dispatch($controller, $params);
+        $response = $this->forward()->dispatch($controller, $params);
 
         // TODO: Do me a favor and remove this piece of cr*p with something that doesn't hack the whole thing
         if ($response instanceof JsonModel) {
@@ -87,9 +98,9 @@ class SignpostController extends AbstractActionController
         }
 
         $view = new ViewModel([
-            'id'                        => $object->getId(),
-            'type'                      => $type,
-            'url'                       => $url,
+            'id' => $object->getId(),
+            'type' => $type,
+            'url' => $url,
             '__disableTemplateDebugger' => true,
         ]);
 
@@ -123,7 +134,9 @@ class SignpostController extends AbstractActionController
 
     public function refAction()
     {
-        $this->redirect()->toRoute('uuid/get', ['uuid' => $this->params('object')]);
+        $this->redirect()->toRoute('uuid/get', [
+            'uuid' => $this->params('object'),
+        ]);
         $this->getResponse()->setStatusCode(301);
         return false;
     }

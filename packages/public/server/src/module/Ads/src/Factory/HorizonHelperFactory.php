@@ -37,10 +37,12 @@ class HorizonHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator  = $serviceLocator->getServiceLocator();
-        $instanceManager = $serviceLocator->get('Instance\Manager\InstanceManager');
-        $adsManager      = $serviceLocator->get('Ads\Manager\AdsManager');
-        $viewHelper      = new Horizon();
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $instanceManager = $serviceLocator->get(
+            'Instance\Manager\InstanceManager'
+        );
+        $adsManager = $serviceLocator->get('Ads\Manager\AdsManager');
+        $viewHelper = new Horizon();
         $viewHelper->setAdsManager($adsManager);
         $viewHelper->setInstanceManager($instanceManager);
 

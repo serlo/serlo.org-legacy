@@ -46,8 +46,9 @@ class Menu extends \Zend\View\Helper\Navigation\Menu
             $output = parent::render($container);
             return $output;
         } catch (Exception $e) {
-            return '<div class="alert-danger alert"><span class="fa fa-exclamation-triangle"></span> ' . $e->getMessage(
-            ) . '</div>';
+            return '<div class="alert-danger alert"><span class="fa fa-exclamation-triangle"></span> ' .
+                $e->getMessage() .
+                '</div>';
         }
     }
 }

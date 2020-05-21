@@ -41,11 +41,19 @@ class AuthenticationControllerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator AbstractPluginManager */
-        $serviceManager        = $serviceLocator->getServiceLocator();
-        $authenticationService = $this->getAuthenticationService($serviceManager);
-        $userManager           = $this->getUserManager($serviceManager);
-        $roleService           = $serviceManager->get('Authorization\Service\RoleService');
-        $controller            = new AuthenticationController($authenticationService, $roleService, $userManager);
+        $serviceManager = $serviceLocator->getServiceLocator();
+        $authenticationService = $this->getAuthenticationService(
+            $serviceManager
+        );
+        $userManager = $this->getUserManager($serviceManager);
+        $roleService = $serviceManager->get(
+            'Authorization\Service\RoleService'
+        );
+        $controller = new AuthenticationController(
+            $authenticationService,
+            $roleService,
+            $userManager
+        );
 
         return $controller;
     }

@@ -33,7 +33,7 @@ use Uuid\Entity\UuidInterface;
  */
 class Flag implements FlagInterface
 {
-    use\Type\Entity\TypeAwareTrait;
+    use \Type\Entity\TypeAwareTrait;
     use InstanceAwareTrait;
 
     /**

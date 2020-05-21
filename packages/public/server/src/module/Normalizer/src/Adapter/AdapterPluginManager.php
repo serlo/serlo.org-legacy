@@ -54,10 +54,12 @@ class AdapterPluginManager extends AbstractPluginManager
     public function validatePlugin($plugin)
     {
         if (!$plugin instanceof AdapterInterface) {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected AdapterInterface but got %s',
-                is_object($plugin) ? get_class($plugin) : gettype($plugin)
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected AdapterInterface but got %s',
+                    is_object($plugin) ? get_class($plugin) : gettype($plugin)
+                )
+            );
         }
     }
 }

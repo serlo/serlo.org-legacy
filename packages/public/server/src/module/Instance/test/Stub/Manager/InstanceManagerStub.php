@@ -57,30 +57,39 @@ class InstanceManagerStub implements InstanceManagerInterface
 
     public function findInstanceByName($name)
     {
-        $result = array_values(array_filter($this->findAllInstances(), function ($instance) use ($name) {
-            return $instance->getName() === $name;
-        }));
+        $result = array_values(
+            array_filter($this->findAllInstances(), function ($instance) use (
+                $name
+            ) {
+                return $instance->getName() === $name;
+            })
+        );
         if (count($result) === 0) {
-            throw new InstanceNotFoundException(sprintf('Instance %s could not be found', $name));
+            throw new InstanceNotFoundException(
+                sprintf('Instance %s could not be found', $name)
+            );
         }
         return $result[0];
     }
 
     public function findAllInstances()
     {
-        return [
-            $this->germanInstance,
-            $this->englishInstance,
-        ];
+        return [$this->germanInstance, $this->englishInstance];
     }
 
     public function findInstanceBySubDomain($subDomain)
     {
-        $result = array_filter(array_filter($this->findAllInstances(), function ($instance) use ($subDomain) {
-            return $instance->getSubdomain() === $subDomain;
-        }));
+        $result = array_filter(
+            array_filter($this->findAllInstances(), function ($instance) use (
+                $subDomain
+            ) {
+                return $instance->getSubdomain() === $subDomain;
+            })
+        );
         if (count($result) === 0) {
-            throw new InstanceNotFoundException(sprintf('Instance %s could not be found', $subDomain));
+            throw new InstanceNotFoundException(
+                sprintf('Instance %s could not be found', $subDomain)
+            );
         }
         return $result[0];
     }
@@ -102,11 +111,17 @@ class InstanceManagerStub implements InstanceManagerInterface
 
     public function getInstance($id)
     {
-        $result = array_filter(array_filter($this->findAllInstances(), function ($instance) use ($id) {
-            return $instance->getId() === $id;
-        }));
+        $result = array_filter(
+            array_filter($this->findAllInstances(), function ($instance) use (
+                $id
+            ) {
+                return $instance->getId() === $id;
+            })
+        );
         if (count($result) === 0) {
-            throw new InstanceNotFoundException(sprintf('Instance %s could not be found', $id));
+            throw new InstanceNotFoundException(
+                sprintf('Instance %s could not be found', $id)
+            );
         }
         return $result[0];
     }

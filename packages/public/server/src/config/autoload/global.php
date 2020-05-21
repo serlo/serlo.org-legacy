@@ -21,7 +21,10 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-$packageJson = $json = json_decode(file_get_contents(__DIR__ . '/../../../package.json'), true);
+$packageJson = $json = json_decode(
+    file_get_contents(__DIR__ . '/../../../package.json'),
+    true
+);
 
 // Version number used for Sentry Release (Log Module)
 $version = $json['version'];
@@ -31,7 +34,8 @@ require __DIR__ . '/../definitions.local.php';
 return [
     'assets' => array_merge(
         [
-            'assets_host' => 'https://packages.serlo.org/serlo-org-static-assets@2/',
+            'assets_host' =>
+                'https://packages.serlo.org/serlo-org-static-assets@2/',
             'bundle_host' => 'https://packages.serlo.org/serlo-org-client@13/',
         ],
         $assets
@@ -48,42 +52,48 @@ return [
             'deutsch' => [
                 'name' => '<div class="serlo-brand">Serlo</div>',
                 'slogan' => 'Die freie Lernplattform',
-                'description' => 'Serlo ist eine kostenlose Plattform mit freien Lernmaterialien, die alle mitgestalten können.',
+                'description' =>
+                    'Serlo ist eine kostenlose Plattform mit freien Lernmaterialien, die alle mitgestalten können.',
                 'logo' => '<span class="serlo-logo">V</span>',
                 'head_title' => 'lernen mit Serlo!',
             ],
             'english' => [
                 'name' => '<div class="serlo-brand">Serlo</div>',
                 'slogan' => 'The Open Learning Platform',
-                'description' => 'Serlo is a free service with open educational resources, which anyone can contribute to.',
+                'description' =>
+                    'Serlo is a free service with open educational resources, which anyone can contribute to.',
                 'logo' => '<span class="serlo-logo">V</span>',
                 'head_title' => 'learn with Serlo!',
             ],
             'spanish' => [
                 'name' => '<div class="serlo-brand">Serlo</div>',
                 'slogan' => 'La Plataforma para el Aprendizaje Abierto',
-                'description' => 'Serlo es una plataforma abierta gratuita que ofrece recursos educativos, a los que todos pueden contribuir',
+                'description' =>
+                    'Serlo es una plataforma abierta gratuita que ofrece recursos educativos, a los que todos pueden contribuir',
                 'logo' => '<span class="serlo-logo">V</span>',
                 'head_title' => 'aprende con Serlo!',
             ],
             'french' => [
                 'name' => '<div class="serlo-brand">Serlo</div>',
                 'slogan' => 'La plateforme d\'apprentissage libre',
-                'description' => 'Serlo est un service libre qui offre des ressources éducatives auxquelles chacun(e) peut contribuer.',
+                'description' =>
+                    'Serlo est un service libre qui offre des ressources éducatives auxquelles chacun(e) peut contribuer.',
                 'logo' => '<span class="serlo-logo">V</span>',
                 'head_title' => 'apprendre avec Serlo!',
             ],
             'hindi' => [
                 'name' => '<div class="serlo-brand">सेर्लो</div>',
                 'slogan' => 'ओपन लर्निंग प्लेटफॉर्म',
-                'description' => 'सेर्लो खुले शैक्षिक संसाधनों के साथ एक नि: शुल्क सेवा है, जो कोई भी योगदान दे सकता है.',
+                'description' =>
+                    'सेर्लो खुले शैक्षिक संसाधनों के साथ एक नि: शुल्क सेवा है, जो कोई भी योगदान दे सकता है.',
                 'logo' => '<span class="serlo-logo">V</span>',
                 'head_title' => 'सेर्लो के साथ सीखो!',
             ],
             'tamil' => [
                 'name' => '<div class="serlo-brand">Serlo</div>',
                 'slogan' => 'அனைவருக்கும் திறந்த உரிமம் உள்ள ஓர் இணையத் தளம்',
-                'description' => 'Serlo அனைவருக்கும் ஒரு இலவச மற்றும் திறந்த உரிமம் உள்ள சேவை.',
+                'description' =>
+                    'Serlo அனைவருக்கும் ஒரு இலவச மற்றும் திறந்த உரிமம் உள்ள சேவை.',
                 'logo' => '<span class="serlo-logo">V</span>',
                 'head_title' => 'Serlo வுடன் கற்றுக்கொள்ளுங்கள்!',
             ],
@@ -96,9 +106,11 @@ return [
     ],
 
     // Newsletter Module
-    'newsletter' => isset($newsletter_key) ? [
-        'api_key' => $newsletter_key,
-    ] : [],
+    'newsletter' => isset($newsletter_key)
+        ? [
+            'api_key' => $newsletter_key,
+        ]
+        : [],
 
     // Api Module
     'api_options' => $api_options,

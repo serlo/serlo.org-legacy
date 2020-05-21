@@ -38,7 +38,6 @@ class MailRenderer implements MailRendererInterface
      */
     protected $renderer;
 
-
     public function __construct($renderer)
     {
         $this->renderer = $renderer;
@@ -58,7 +57,11 @@ class MailRenderer implements MailRendererInterface
         $plain = new ViewModel($bodyData);
         $plain->setTemplate($this->route . '/plain');
 
-        return new Mail($this->renderer->render($subject), $this->renderer->render($body), $this->renderer->render($plain));
+        return new Mail(
+            $this->renderer->render($subject),
+            $this->renderer->render($body),
+            $this->renderer->render($plain)
+        );
     }
 
     public function setTemplateFolder($route)

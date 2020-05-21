@@ -36,11 +36,11 @@ abstract class AbstractStrategyFactory implements FactoryInterface
     {
         /* @var $serviceLocator AbstractPluginManager */
         $serviceManager = $serviceLocator->getServiceLocator();
-        $response       = $serviceManager->get('Response');
-        $request        = $serviceManager->get('Request');
-        $router         = $serviceManager->get('Router');
-        $routeMatch     = $router->match($request);
-        $class          = $this->getClass();
+        $response = $serviceManager->get('Response');
+        $request = $serviceManager->get('Request');
+        $router = $serviceManager->get('Router');
+        $routeMatch = $router->match($request);
+        $class = $this->getClass();
 
         if (null === $routeMatch) {
             $routeMatch = new RouteMatch([]);

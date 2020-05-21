@@ -35,6 +35,8 @@ class UniqueDefaultNavigationFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return $serviceLocator->get(__NAMESPACE__ . '\DefaultNavigationFactory')->createService($serviceLocator);
+        return $serviceLocator
+            ->get(__NAMESPACE__ . '\DefaultNavigationFactory')
+            ->createService($serviceLocator);
     }
 }

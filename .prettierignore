@@ -1,12 +1,11 @@
+# Third-party
 packages/public/client/src/thirdparty/**/*
-packages/public/server/dev-tools/vendor/**/*
 packages/public/server/src/vendor/**/*
 packages/public/server/src/test/math-puzzle/d3.js
 packages/public/server/src/test/math-puzzle/jquery.js
 packages/public/server/src/test/math-puzzle/require.js
-packages/public/server/dev-tools/vendor/**/*
 
-# Transpiled code
+# Transpiled
 packages/*/*/dist/
 packages/public/server/migrations/20200520065142-remove-splish-states.js
 
@@ -15,3 +14,6 @@ packages/public/server/migrations/20200520065142-remove-splish-states.js
 
 # HTML files
 *.html
+
+# Mixed PHP and HTML
+*.phtml

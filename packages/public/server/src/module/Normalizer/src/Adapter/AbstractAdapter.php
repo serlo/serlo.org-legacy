@@ -45,30 +45,35 @@ abstract class AbstractAdapter implements AdapterInterface
     public function normalize($object)
     {
         if (!$this->isValid($object)) {
-            throw new RuntimeException(sprintf(
-                'I don\'t know how to normalize "%s", maybe you used the wrong strategy?',
-                get_class($object)
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'I don\'t know how to normalize "%s", maybe you used the wrong strategy?',
+                    get_class($object)
+                )
+            );
         }
-
 
         $this->setObject($object);
 
         $normalized = new Normalized([
-            'title'       => $this->getTitle(),
-            'content'     => $this->getContent(),
-            'type'        => $this->getType(),
-            'routeName'   => $this->getRouteName(),
+            'title' => $this->getTitle(),
+            'content' => $this->getContent(),
+            'type' => $this->getType(),
+            'routeName' => $this->getRouteName(),
             'routeParams' => $this->getRouteParams(),
-            'id'          => $this->getId(),
-            'metadata'    => [
-                'title'            => $this->getHeadTitle(),
-                'creationDate'     => $this->getCreationDate() ? $this->getCreationDate() : new DateTime(),
-                'description'      => $this->getDescription(),
-                'metaDescription'  => $this->getMetaDescription(),
-                'keywords'         => $this->getKeywords(),
-                'lastModified'     => $this->getLastModified() ? $this->getLastModified() : new DateTime(),
-                'robots'           => $this->isTrashed() ? 'noindex' : 'all',
+            'id' => $this->getId(),
+            'metadata' => [
+                'title' => $this->getHeadTitle(),
+                'creationDate' => $this->getCreationDate()
+                    ? $this->getCreationDate()
+                    : new DateTime(),
+                'description' => $this->getDescription(),
+                'metaDescription' => $this->getMetaDescription(),
+                'keywords' => $this->getKeywords(),
+                'lastModified' => $this->getLastModified()
+                    ? $this->getLastModified()
+                    : new DateTime(),
+                'robots' => $this->isTrashed() ? 'noindex' : 'all',
             ],
         ]);
 

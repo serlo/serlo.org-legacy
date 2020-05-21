@@ -40,7 +40,7 @@ class SearchController extends AbstractActionController
         if (isset($data['q'])) {
             $form->setData($data);
             if ($form->isValid()) {
-                $data      = $form->getData();
+                $data = $form->getData();
                 $view->setVariable('query', $data['q']);
                 $view->setTemplate('search/results');
             }

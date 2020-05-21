@@ -35,7 +35,9 @@ use Uuid\Entity\UuidInterface;
 
 abstract class AbstractListener extends AbstractSharedListenerAggregate
 {
-    use EventManagerAwareTrait, InstanceManagerAwareTrait, UserManagerAwareTrait;
+    use EventManagerAwareTrait,
+        InstanceManagerAwareTrait,
+        UserManagerAwareTrait;
 
     public function __construct(
         EventManagerInterface $eventManager,
@@ -43,18 +45,24 @@ abstract class AbstractListener extends AbstractSharedListenerAggregate
         UserManagerInterface $userManager
     ) {
         if (!class_exists($this->getMonitoredClass())) {
-            throw new RuntimeException(sprintf(
-                'The class you are trying to attach to does not exist: %s',
-                $this->getMonitoredClass()
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'The class you are trying to attach to does not exist: %s',
+                    $this->getMonitoredClass()
+                )
+            );
         }
-        $this->eventManager    = $eventManager;
+        $this->eventManager = $eventManager;
         $this->instanceManager = $instanceManager;
-        $this->userManager     = $userManager;
+        $this->userManager = $userManager;
     }
 
-    public function logEvent($name, InstanceInterface $instance, $uuid, array $params = [])
-    {
+    public function logEvent(
+        $name,
+        InstanceInterface $instance,
+        $uuid,
+        array $params = []
+    ) {
         $this->getEventManager()->logEvent($name, $instance, $uuid, $params);
     }
 }

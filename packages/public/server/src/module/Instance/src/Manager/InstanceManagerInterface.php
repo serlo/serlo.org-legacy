@@ -27,7 +27,6 @@ use Instance\Entity\InstanceInterface;
 
 interface InstanceManagerInterface
 {
-
     /**
      * @return Collection|InstanceInterface[]
      */

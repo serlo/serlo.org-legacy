@@ -27,9 +27,10 @@ use Instance\Entity\InstanceProviderInterface;
 use User\Entity\UserInterface;
 use Versioning\Entity\RevisionInterface as VersioningRevision;
 
-interface RevisionInterface extends VersioningRevision, InstanceProviderInterface
+interface RevisionInterface extends
+    VersioningRevision,
+    InstanceProviderInterface
 {
-
     /**
      * Gets the date
      *

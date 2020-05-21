@@ -26,39 +26,24 @@ return [
             'ZfcRbac\Guard\ControllerGuard' => [
                 [
                     'controller' => 'User\Controller\UserController',
-                    'actions'    => [
+                    'actions' => [
                         'profile',
                         'login',
                         'register',
                         'restorePassword',
                         'activate',
                     ],
-                    'roles'      => [
-                        'guest',
-                    ],
+                    'roles' => ['guest'],
                 ],
                 [
                     'controller' => 'User\Controller\UserController',
-                    'actions'    => [
-                        'me',
-                        'logout',
-                        'settings',
-                        'changePassword',
-                    ],
-                    'roles'      => [
-                        'login',
-                    ],
+                    'actions' => ['me', 'logout', 'settings', 'changePassword'],
+                    'roles' => ['login'],
                 ],
                 [
                     'controller' => 'User\Controller\UserController',
-                    'actions'    => [
-                        'addRole',
-                        'removeRole',
-                        'purge',
-                    ],
-                    'roles'      => [
-                        'sysadmin',
-                    ],
+                    'actions' => ['addRole', 'removeRole', 'purge'],
+                    'roles' => ['sysadmin'],
                 ],
             ],
         ],

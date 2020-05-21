@@ -26,7 +26,6 @@ use Doctrine\ORM\EntityManager;
 
 trait EntityManagerAwareTrait
 {
-
     /**
      * @var EntityManager
      */

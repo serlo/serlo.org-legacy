@@ -30,8 +30,10 @@ class CacheOptionsFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config  = $serviceLocator->get('config');
-        $options = array_key_exists('cache_invalidator', $config) ? $config['cache_invalidator'] : [];
+        $config = $serviceLocator->get('config');
+        $options = array_key_exists('cache_invalidator', $config)
+            ? $config['cache_invalidator']
+            : [];
         return new CacheOptions($options);
     }
 }

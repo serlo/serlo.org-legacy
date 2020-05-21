@@ -27,7 +27,6 @@ namespace Common\Guard;
  */
 trait StringGuardTrait
 {
-
     /**
      * Verify that the data is a string
      *
@@ -43,7 +42,7 @@ trait StringGuardTrait
     ) {
         if (!is_string($data)) {
             $message = sprintf(
-                "%s must be a string, [%s] given",
+                '%s must be a string, [%s] given',
                 $dataName,
                 is_object($data) ? get_class($data) : gettype($data)
             );

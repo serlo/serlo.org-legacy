@@ -24,9 +24,9 @@ return [
     'zfc_rbac' => [
         'guards' => [
             'ZfcRbac\Guard\RouteGuard' => [
-                'uuid/purge'       => ['sysadmin'],
-                'uuid/trash'       => ['moderator'],
-                'uuid/restore'     => ['moderator'],
+                'uuid/purge' => ['sysadmin'],
+                'uuid/trash' => ['moderator'],
+                'uuid/restore' => ['moderator'],
                 'uuid/recycle-bin' => ['guest'],
             ],
         ],

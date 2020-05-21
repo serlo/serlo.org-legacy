@@ -108,8 +108,20 @@ class RefreshController extends AbstractConsoleController
             $routeParams = $normalizer->getRouteParams();
             $router = $this->aliasManager->getRouter();
             $url = $router->assemble($routeParams, ['name' => $routeName]);
-            $alias = $this->aliasManager->autoAlias('taxonomyTerm', $url, $term, $instance);
-            $console->writeLine('Updated taxonomy term ' . $term->getName() . ' (' . $term->getId() . '): ' . $alias->getAlias());
+            $alias = $this->aliasManager->autoAlias(
+                'taxonomyTerm',
+                $url,
+                $term,
+                $instance
+            );
+            $console->writeLine(
+                'Updated taxonomy term ' .
+                    $term->getName() .
+                    ' (' .
+                    $term->getId() .
+                    '): ' .
+                    $alias->getAlias()
+            );
         }
     }
 
@@ -125,12 +137,21 @@ class RefreshController extends AbstractConsoleController
                 continue;
             }
             $instance = $entity->getInstance();
-            $url = $this->aliasManager->getRouter()->assemble(
-                ['entity' => $entity->getId()],
-                ['name' => 'entity/page']
+            $url = $this->aliasManager
+                ->getRouter()
+                ->assemble(
+                    ['entity' => $entity->getId()],
+                    ['name' => 'entity/page']
+                );
+            $alias = $this->aliasManager->autoAlias(
+                'entity',
+                $url,
+                $entity,
+                $instance
             );
-            $alias = $this->aliasManager->autoAlias('entity', $url, $entity, $instance);
-            $console->writeLine('Updated entity ' . $entity->getId() . ': ' . $alias->getAlias());
+            $console->writeLine(
+                'Updated entity ' . $entity->getId() . ': ' . $alias->getAlias()
+            );
         }
     }
 }

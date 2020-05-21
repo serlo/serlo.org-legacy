@@ -58,8 +58,8 @@ class DiscussionController extends AbstractController
         DiscussionForm $discussionForm,
         TaxonomyManagerInterface $taxonomyManager
     ) {
-        $this->commentForm     = $commentForm;
-        $this->discussionForm  = $discussionForm;
+        $this->commentForm = $commentForm;
+        $this->discussionForm = $discussionForm;
         $this->taxonomyManager = $taxonomyManager;
     }
 
@@ -80,8 +80,10 @@ class DiscussionController extends AbstractController
     public function commentAction()
     {
         $discussion = $this->getDiscussion($this->params('discussion'));
-        $url        = $this->url()->fromRoute('uuid/get', ['uuid' => $this->params('discussion')]);
-        $ref        = $this->params()->fromQuery('redirect');
+        $url = $this->url()->fromRoute('uuid/get', [
+            'uuid' => $this->params('discussion'),
+        ]);
+        $ref = $this->params()->fromQuery('redirect');
 
         if (!$discussion) {
             return false;
@@ -97,21 +99,27 @@ class DiscussionController extends AbstractController
         if ($this->getRequest()->isPost()) {
             $data = [
                 'instance' => $this->getInstanceManager()->getInstanceFromRequest(),
-                'parent'   => $this->params('discussion'),
-                'author'   => $this->getUserManager()->getUserFromAuthenticator(),
+                'parent' => $this->params('discussion'),
+                'author' => $this->getUserManager()->getUserFromAuthenticator(),
             ];
             $form->setData(array_merge($this->params()->fromPost(), $data));
             if ($form->isValid()) {
                 $this->getDiscussionManager()->commentDiscussion($form);
                 $this->getDiscussionManager()->flush();
-                $this->flashMessenger()->addSuccessMessage('Your comment has been saved.');
+                $this->flashMessenger()->addSuccessMessage(
+                    'Your comment has been saved.'
+                );
                 return $this->redirect()->toUrl($ref);
             }
         } else {
             $this->referer()->store('discussion-comment');
         }
 
-        $view = new ViewModel(['form' => $form, 'discussion' => $discussion, 'ref' => $ref]);
+        $view = new ViewModel([
+            'form' => $form,
+            'discussion' => $discussion,
+            'ref' => $ref,
+        ]);
         $view->setTemplate('discussion/discussion/comment');
         return $view;
     }
@@ -126,7 +134,7 @@ class DiscussionController extends AbstractController
 
         $view = new ViewModel([
             'discussion' => $discussion,
-            'user'       => $this->getUserManager()->getUserFromAuthenticator(),
+            'user' => $this->getUserManager()->getUserFromAuthenticator(),
         ]);
         $view->setTemplate('discussion/discussion/index');
 
@@ -135,31 +143,35 @@ class DiscussionController extends AbstractController
 
     public function startAction()
     {
-        $form     = $this->getForm('discussion', $this->params('on'));
+        $form = $this->getForm('discussion', $this->params('on'));
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $author   = $this->getUserManager()->getUserFromAuthenticator();
-        $url      = $this->url()->fromRoute('uuid/get', ['uuid' => $this->params('on')]);
-        $ref      = $this->params()->fromQuery('redirect');
+        $author = $this->getUserManager()->getUserFromAuthenticator();
+        $url = $this->url()->fromRoute('uuid/get', [
+            'uuid' => $this->params('on'),
+        ]);
+        $ref = $this->params()->fromQuery('redirect');
 
         if ($ref == null) {
             $ref = $url;
         }
 
-        $view     = new ViewModel(['form' => $form, 'ref' => $ref]);
+        $view = new ViewModel(['form' => $form, 'ref' => $ref]);
         $this->assertGranted('discussion.create', $instance);
 
         if ($this->getRequest()->isPost()) {
             $data = [
                 'instance' => $instance,
-                'author'   => $author,
-                'object'   => $this->params('on'),
+                'author' => $author,
+                'object' => $this->params('on'),
             ];
             $form->setData(array_merge($this->params()->fromPost(), $data));
             if ($form->isValid()) {
                 $this->getDiscussionManager()->startDiscussion($form);
                 $this->getDiscussionManager()->flush();
                 if (!$this->getRequest()->isXmlHttpRequest()) {
-                    $this->flashMessenger()->addSuccessMessage('Your discussion has been started.');
+                    $this->flashMessenger()->addSuccessMessage(
+                        'Your discussion has been started.'
+                    );
                     return $this->redirect()->toUrl($ref);
                 }
                 $view->setTerminal(true);
@@ -188,15 +200,23 @@ class DiscussionController extends AbstractController
 
         if ($this->params('vote') == 'down') {
             if ($discussion->downVote($user)) {
-                $this->flashMessenger()->addSuccessMessage('You have downvoted this comment.');
+                $this->flashMessenger()->addSuccessMessage(
+                    'You have downvoted this comment.'
+                );
             } else {
-                $this->flashMessenger()->addErrorMessage('You can\'t downvote this comment.');
+                $this->flashMessenger()->addErrorMessage(
+                    'You can\'t downvote this comment.'
+                );
             }
         } else {
             if ($discussion->upVote($user)) {
-                $this->flashMessenger()->addSuccessMessage('You have upvoted this comment.');
+                $this->flashMessenger()->addSuccessMessage(
+                    'You have upvoted this comment.'
+                );
             } else {
-                $this->flashMessenger()->addErrorMessage('You can\'t upvote this comment.');
+                $this->flashMessenger()->addErrorMessage(
+                    'You can\'t upvote this comment.'
+                );
             }
         }
 
@@ -206,7 +226,7 @@ class DiscussionController extends AbstractController
 
     protected function getDiscussion($id = null)
     {
-        $id = $id ? : $this->params('id');
+        $id = $id ?: $this->params('id');
         try {
             return $this->getDiscussionManager()->getComment($id);
         } catch (CommentNotFoundException $e) {
@@ -226,10 +246,9 @@ class DiscussionController extends AbstractController
                 $form = clone $this->commentForm;
                 $form->setAttribute(
                     'action',
-                    $this->url()->fromRoute(
-                        'discussion/discussion/comment',
-                        ['discussion' => $id]
-                    )
+                    $this->url()->fromRoute('discussion/discussion/comment', [
+                        'discussion' => $id,
+                    ])
                 );
                 return $form;
                 break;

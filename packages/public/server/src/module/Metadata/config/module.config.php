@@ -23,21 +23,24 @@
 namespace Metadata;
 
 return [
-    'class_resolver'  => [
-        __NAMESPACE__ . '\Entity\MetadataInterface'    => __NAMESPACE__ . '\Entity\Metadata',
-        __NAMESPACE__ . '\Entity\MetadataKeyInterface' => __NAMESPACE__ . '\Entity\MetadataKey',
+    'class_resolver' => [
+        __NAMESPACE__ . '\Entity\MetadataInterface' =>
+            __NAMESPACE__ . '\Entity\Metadata',
+        __NAMESPACE__ . '\Entity\MetadataKeyInterface' =>
+            __NAMESPACE__ . '\Entity\MetadataKey',
     ],
-    'view_helpers'    => [
+    'view_helpers' => [
         'factories' => [
             'metadata' => __NAMESPACE__ . '\Factory\MetadataHelperFactory',
         ],
     ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Manager\MetadataManager' => __NAMESPACE__ . '\Factory\MetadataManagerFactory',
+            __NAMESPACE__ . '\Manager\MetadataManager' =>
+                __NAMESPACE__ . '\Factory\MetadataManagerFactory',
         ],
     ],
-    'di'              => [
+    'di' => [
         'definition' => [
             'class' => [
                 __NAMESPACE__ . '\Listener\TaxonomyManagerListener' => [
@@ -47,22 +50,21 @@ return [
                 ],
             ],
         ],
-        'instance'   => [
+        'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\Manager\MetadataManagerInterface' => __NAMESPACE__ . '\Manager\MetadataManager',
+                __NAMESPACE__ . '\Manager\MetadataManagerInterface' =>
+                    __NAMESPACE__ . '\Manager\MetadataManager',
             ],
         ],
     ],
-    'doctrine'        => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],

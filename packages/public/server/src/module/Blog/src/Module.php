@@ -29,15 +29,14 @@ class Module implements ConfigProviderInterface
 {
     public function getConfig()
     {
-        $include = [
-            'dependencies',
-            'module',
-            'router',
-        ];
-        $config  = [];
+        $include = ['dependencies', 'module', 'router'];
+        $config = [];
 
         foreach ($include as $file) {
-            $config = ArrayUtils::merge($config, include __DIR__ . '/../config/' . $file . '.config.php');
+            $config = ArrayUtils::merge(
+                $config,
+                include __DIR__ . '/../config/' . $file . '.config.php'
+            );
         }
 
         return $config;

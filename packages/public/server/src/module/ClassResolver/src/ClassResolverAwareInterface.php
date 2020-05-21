@@ -24,7 +24,6 @@ namespace ClassResolver;
 
 interface ClassResolverAwareInterface
 {
-
     /**
      * @return self
      */

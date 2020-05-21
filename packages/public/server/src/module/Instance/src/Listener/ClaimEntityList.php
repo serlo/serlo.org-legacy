@@ -38,10 +38,14 @@ class ClaimEntityListener implements EventSubscriber
      */
     public function prePersist(EventArgs $args)
     {
-        $em     = $args->getEntityManager();
+        $em = $args->getEntityManager();
         $entity = $args->getEntity();
 
-        if ($entity instanceof InstanceInterface && !$entity->getInstance() && $tenant = $em->getTenant()) {
+        if (
+            $entity instanceof InstanceInterface &&
+            !$entity->getInstance() &&
+            ($tenant = $em->getTenant())
+        ) {
             $entity->setTenant($tenant);
         }
     }

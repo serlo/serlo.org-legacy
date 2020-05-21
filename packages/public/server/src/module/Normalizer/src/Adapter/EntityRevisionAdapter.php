@@ -26,7 +26,6 @@ use Entity\Entity\Revision;
 
 class EntityRevisionAdapter extends AbstractAdapter
 {
-
     /**
      * @return Revision
      */
@@ -54,7 +53,10 @@ class EntityRevisionAdapter extends AbstractAdapter
     {
         if ($this->getObject()->get($field) !== null) {
             return $this->getObject()->get($field);
-        } elseif ($fallback !== null && $this->getObject()->get($fallback) !== null) {
+        } elseif (
+            $fallback !== null &&
+            $this->getObject()->get($fallback) !== null
+        ) {
             return $this->getObject()->get($fallback);
         } else {
             return $this->getObject()->getId();
@@ -69,7 +71,7 @@ class EntityRevisionAdapter extends AbstractAdapter
     protected function getPreview()
     {
         $description = $this->getObject()->get('description');
-        $description = $description ? : $this->getObject()->get('content');
+        $description = $description ?: $this->getObject()->get('content');
         return $description;
     }
 
@@ -81,7 +83,9 @@ class EntityRevisionAdapter extends AbstractAdapter
     protected function getRouteParams()
     {
         return [
-            'entity'   => $this->getObject()->getRepository()->getId(),
+            'entity' => $this->getObject()
+                ->getRepository()
+                ->getId(),
             'revision' => $this->getObject()->getId(),
         ];
     }
@@ -93,12 +97,15 @@ class EntityRevisionAdapter extends AbstractAdapter
 
     protected function getTitle()
     {
-        return $this->getObject()->get('title') ? : $this->object->getId();
+        return $this->getObject()->get('title') ?: $this->object->getId();
     }
 
     protected function getType()
     {
-        return $this->getObject()->getRepository()->getType()->getName();
+        return $this->getObject()
+            ->getRepository()
+            ->getType()
+            ->getName();
     }
 
     protected function isTrashed()

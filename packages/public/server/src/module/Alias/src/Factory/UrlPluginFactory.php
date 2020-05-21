@@ -39,8 +39,8 @@ class UrlPluginFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator  = $serviceLocator->getServiceLocator();
-        $aliasManager    = $this->getAliasManager($serviceLocator);
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $aliasManager = $this->getAliasManager($serviceLocator);
         $instanceManager = $this->getInstanceManager($serviceLocator);
         return new Url($aliasManager, $instanceManager);
     }

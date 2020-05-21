@@ -39,7 +39,11 @@ interface PermissionServiceInterface
      * @param $parameterValue
      * @return PermissionInterface
      */
-    public function findOrCreateParametrizedPermission($name, $parameterKey, $parameterValue);
+    public function findOrCreateParametrizedPermission(
+        $name,
+        $parameterKey,
+        $parameterValue
+    );
 
     /**
      * @param PermissionInterface|string $name
@@ -48,7 +52,11 @@ interface PermissionServiceInterface
      * @throws PermissionNotFoundException
      * @return PermissionInterface
      */
-    public function findParametrizedPermission($name, $parameterKey, $parameterValue);
+    public function findParametrizedPermission(
+        $name,
+        $parameterKey,
+        $parameterValue
+    );
 
     /**
      * @param PermissionInterface|string $name
@@ -56,7 +64,11 @@ interface PermissionServiceInterface
      * @param mixed                      $parameterValue
      * @return PermissionInterface[]
      */
-    public function findParametrizedPermissions($name, $parameterKey, $parameterValue);
+    public function findParametrizedPermissions(
+        $name,
+        $parameterKey,
+        $parameterValue
+    );
 
     /**
      * @param string $name

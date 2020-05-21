@@ -26,7 +26,6 @@ use User\Entity\UserInterface;
 
 class UserAdapter extends AbstractAdapter
 {
-
     /**
      * @return UserInterface
      */

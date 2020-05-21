@@ -42,11 +42,14 @@ class ActivateForm extends Form
 
         $this->add((new Email('email'))->setLabel('Email:'));
 
-        $this->add((new Submit('submit'))->setValue('Activate')
-            ->setAttribute('class', 'btn btn-success pull-right'));
+        $this->add(
+            (new Submit('submit'))
+                ->setValue('Activate')
+                ->setAttribute('class', 'btn btn-success pull-right')
+        );
 
         $filter->add([
-            'name'     => 'email',
+            'name' => 'email',
             'required' => true,
         ]);
     }

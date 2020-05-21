@@ -67,8 +67,11 @@ class CommentAdapter extends AbstractAdapter
     protected function getRouteParams()
     {
         return [
-            'id' => $this->getObject()->hasParent() ? $this->getObject()->getParent()->getId() :
-                    $this->getObject()->getId(),
+            'id' => $this->getObject()->hasParent()
+                ? $this->getObject()
+                    ->getParent()
+                    ->getId()
+                : $this->getObject()->getId(),
         ];
     }
 
@@ -79,8 +82,11 @@ class CommentAdapter extends AbstractAdapter
 
     protected function getTitle()
     {
-        return $this->getObject()->hasParent() ? $this->getObject()->getParent()->getTitle() :
-            $this->getObject()->getTitle();
+        return $this->getObject()->hasParent()
+            ? $this->getObject()
+                ->getParent()
+                ->getTitle()
+            : $this->getObject()->getTitle();
     }
 
     protected function getType()

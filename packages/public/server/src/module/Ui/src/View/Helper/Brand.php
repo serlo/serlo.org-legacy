@@ -42,11 +42,13 @@ class Brand extends AbstractHelper
      * @param BrandHelperOptions       $brandHelperOptions
      * @param InstanceManagerInterface $instanceManager
      */
-    public function __construct(BrandHelperOptions $brandHelperOptions, InstanceManagerInterface $instanceManager)
-    {
-        $key                   = $instanceManager->getInstanceFromRequest()->getName();
+    public function __construct(
+        BrandHelperOptions $brandHelperOptions,
+        InstanceManagerInterface $instanceManager
+    ) {
+        $key = $instanceManager->getInstanceFromRequest()->getName();
         $this->instanceManager = $instanceManager;
-        $this->options         = $brandHelperOptions->getInstance($key);
+        $this->options = $brandHelperOptions->getInstance($key);
     }
 
     /**

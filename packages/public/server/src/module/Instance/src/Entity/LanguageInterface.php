@@ -26,7 +26,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 interface LanguageInterface
 {
-
     /**
      * @return int
      */

@@ -30,7 +30,7 @@ class ModuleOptionsFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config  = $serviceLocator->get('config');
+        $config = $serviceLocator->get('config');
         $options = array_key_exists('entity', $config) ? $config['entity'] : [];
 
         return new ModuleOptions($options);

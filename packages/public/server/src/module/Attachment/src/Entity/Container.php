@@ -45,7 +45,7 @@ class Container extends Uuid implements ContainerInterface
 
     public function __construct()
     {
-        $this->files = new ArrayCollection;
+        $this->files = new ArrayCollection();
     }
 
     public function getFiles()

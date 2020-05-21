@@ -24,7 +24,6 @@ namespace Blog\Manager;
 
 trait BlogManagerAwareTrait
 {
-
     /**
      * @var BlogManagerInterface
      */

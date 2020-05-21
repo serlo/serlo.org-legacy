@@ -47,9 +47,7 @@ class MetaDescription extends Text implements InputProviderInterface
         return [
             'name' => $this->getName(),
             'required' => false,
-            'filters' => [
-              ['name' => 'StripTags'],
-            ],
+            'filters' => [['name' => 'StripTags']],
         ];
     }
 }

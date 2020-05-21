@@ -24,7 +24,6 @@ namespace Token;
 
 interface TokenizerInterface
 {
-
     /**
      * @param string $provider
      * @param object $object

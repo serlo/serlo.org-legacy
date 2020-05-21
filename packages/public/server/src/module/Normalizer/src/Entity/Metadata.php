@@ -27,7 +27,6 @@ use Zend\Stdlib\AbstractOptions;
 
 class Metadata extends AbstractOptions implements MetadataInterface
 {
-
     /**
      * @var string
      */
@@ -86,8 +85,12 @@ class Metadata extends AbstractOptions implements MetadataInterface
     public function __construct(array $data)
     {
         parent::__construct($data);
-        $this->creationDate = $this->creationDate ? $this->creationDate : new DateTime();
-        $this->lastModified = $this->lastModified ? $this->lastModified : new DateTime();
+        $this->creationDate = $this->creationDate
+            ? $this->creationDate
+            : new DateTime();
+        $this->lastModified = $this->lastModified
+            ? $this->lastModified
+            : new DateTime();
     }
 
     /**

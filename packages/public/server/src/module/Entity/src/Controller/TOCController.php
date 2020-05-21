@@ -27,7 +27,6 @@ use Zend\View\Model\ViewModel;
 
 class TOCController extends AbstractController
 {
-
     /**
      * @var ModuleOptions
      */
@@ -43,7 +42,11 @@ class TOCController extends AbstractController
         $entity = $this->getEntity();
         $type = $this->moduleOptions->getType($entity->getType()->getName());
 
-        if (!$entity || $entity->isTrashed() || !$type->hasComponent('tableOfContents')) {
+        if (
+            !$entity ||
+            $entity->isTrashed() ||
+            !$type->hasComponent('tableOfContents')
+        ) {
             $this->getResponse()->setStatusCode(404);
             return false;
         }

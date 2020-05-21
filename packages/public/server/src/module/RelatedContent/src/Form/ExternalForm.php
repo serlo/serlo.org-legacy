@@ -45,31 +45,29 @@ class ExternalForm extends Form
         $this->add((new Url('url'))->setLabel('Url:'));
 
         $this->add(
-            (new Submit('submit'))->setValue('Add')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Add')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $inputFilter->add(
-            [
-                'name'     => 'title',
-                'required' => true,
-                'filters'  => [
-                    [
-                        'name' => 'StripTags',
-                    ],
+        $inputFilter->add([
+            'name' => 'title',
+            'required' => true,
+            'filters' => [
+                [
+                    'name' => 'StripTags',
                 ],
-            ]
-        );
+            ],
+        ]);
 
-        $inputFilter->add(
-            [
-                'name'     => 'url',
-                'required' => true,
-                'filters'  => [
-                    [
-                        'name' => 'StripTags',
-                    ],
+        $inputFilter->add([
+            'name' => 'url',
+            'required' => true,
+            'filters' => [
+                [
+                    'name' => 'StripTags',
                 ],
-            ]
-        );
+            ],
+        ]);
     }
 }

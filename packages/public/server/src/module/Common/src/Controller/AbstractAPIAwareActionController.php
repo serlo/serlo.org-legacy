@@ -49,16 +49,17 @@ class AbstractAPIAwareActionController extends AbstractActionController
         $this->layout()->hideHorizon = $hideHorizon || $contentOnly;
         $this->layout()->hideFooter = $hideFooter || $contentOnly;
 
-        $this->layout()->usingAPI = $fullWidth
-            || $hideTopbar
-            || $hideLeftSidebar
-            || $hideRightSidebar
-            || $hideBreadcrumbs
-            || $hideDiscussions
-            || $hideBanner
-            || $hideHorizon
-            || $hideFooter
-            || $contentOnly;
+        $this->layout()->usingAPI =
+            $fullWidth ||
+            $hideTopbar ||
+            $hideLeftSidebar ||
+            $hideRightSidebar ||
+            $hideBreadcrumbs ||
+            $hideDiscussions ||
+            $hideBanner ||
+            $hideHorizon ||
+            $hideFooter ||
+            $contentOnly;
     }
 
     private function setupAPIQueryParam(string $key)

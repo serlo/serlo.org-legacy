@@ -65,11 +65,13 @@ class AuthenticationControllerListener extends AbstractListener
         /* @var $user \User\Entity\UserInterface */
         $user = $e->getParam('user');
 
-        $this->getMailRenderer()->setTemplateFolder('mailman/messages/register');
+        $this->getMailRenderer()->setTemplateFolder(
+            'mailman/messages/register'
+        );
         $data = $this->getMailRenderer()->renderMail([
-          'body' =>   [
-              'user' => $user,
-          ],
+            'body' => [
+                'user' => $user,
+            ],
         ]);
 
         $this->getMailman()->send(
@@ -84,7 +86,9 @@ class AuthenticationControllerListener extends AbstractListener
         /* @var $user \User\Entity\UserInterface */
         $user = $e->getParam('user');
 
-        $this->getMailRenderer()->setTemplateFolder('mailman/messages/restore-password');
+        $this->getMailRenderer()->setTemplateFolder(
+            'mailman/messages/restore-password'
+        );
         $data = $this->getMailRenderer()->renderMail([
             'body' => [
                 'user' => $user,

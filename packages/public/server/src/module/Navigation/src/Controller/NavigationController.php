@@ -74,28 +74,34 @@ class NavigationController extends AbstractActionController
         ParameterKeyForm $parameterKeyForm
     ) {
         $this->navigationManager = $navigationManager;
-        $this->containerForm     = $containerForm;
-        $this->pageForm          = $pageForm;
-        $this->parameterForm     = $parameterForm;
-        $this->parameterKeyForm  = $parameterKeyForm;
-        $this->instanceManager   = $instanceManager;
+        $this->containerForm = $containerForm;
+        $this->pageForm = $pageForm;
+        $this->parameterForm = $parameterForm;
+        $this->parameterKeyForm = $parameterKeyForm;
+        $this->instanceManager = $instanceManager;
     }
 
     public function createContainerAction()
     {
-        $form     = $this->containerForm;
+        $form = $this->containerForm;
         $instance = $this->instanceManager->getInstanceFromRequest();
         $this->assertGranted('navigation.manage', $instance);
 
         if ($this->getRequest()->isPost()) {
-            $data = array_merge($this->params()->fromPost(), ['instance' => $instance]);
+            $data = array_merge($this->params()->fromPost(), [
+                'instance' => $instance,
+            ]);
             $form->setData($data);
             if ($form->isValid()) {
                 $this->navigationManager->createContainer($form);
                 $this->navigationManager->flush();
-                $this->flashMessenger()->addSuccessMessage('The container was successfully created');
+                $this->flashMessenger()->addSuccessMessage(
+                    'The container was successfully created'
+                );
 
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                return $this->redirect()->toUrl(
+                    $this->referer()->fromStorage()
+                );
             }
         } else {
             $this->referer()->store();
@@ -110,7 +116,10 @@ class NavigationController extends AbstractActionController
     public function createPageAction()
     {
         $container = $this->params('container');
-        $this->assertGranted('navigation.manage', $this->navigationManager->getContainer($container));
+        $this->assertGranted(
+            'navigation.manage',
+            $this->navigationManager->getContainer($container)
+        );
 
         if ($this->getRequest()->isPost()) {
             $data = array_merge($this->params()->fromPost(), [
@@ -122,9 +131,13 @@ class NavigationController extends AbstractActionController
             if ($this->pageForm->isValid()) {
                 $this->navigationManager->createPage($this->pageForm);
                 $this->navigationManager->flush();
-                $this->flashMessenger()->addSuccessMessage('The container was successfully created');
+                $this->flashMessenger()->addSuccessMessage(
+                    'The container was successfully created'
+                );
             } else {
-                $this->flashMessenger()->addErrorMessage('The container could not be created (validation failed)');
+                $this->flashMessenger()->addErrorMessage(
+                    'The container could not be created (validation failed)'
+                );
             }
         }
 
@@ -134,7 +147,10 @@ class NavigationController extends AbstractActionController
     public function createParameterAction()
     {
         $page = $this->params('page');
-        $this->assertGranted('navigation.manage', $this->navigationManager->getPage($page));
+        $this->assertGranted(
+            'navigation.manage',
+            $this->navigationManager->getPage($page)
+        );
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
@@ -143,11 +159,13 @@ class NavigationController extends AbstractActionController
                 $this->navigationManager->createParameter($this->parameterForm);
                 $this->navigationManager->flush();
 
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                return $this->redirect()->toUrl(
+                    $this->referer()->fromStorage()
+                );
             }
         } else {
             $data = [
-                'page'   => $page,
+                'page' => $page,
                 'parent' => $this->params('parent', null),
             ];
             $this->parameterForm->setData($data);
@@ -162,16 +180,23 @@ class NavigationController extends AbstractActionController
 
     public function createParameterKeyAction()
     {
-        $this->assertGranted('navigation.manage', $this->instanceManager->getInstanceFromRequest());
+        $this->assertGranted(
+            'navigation.manage',
+            $this->instanceManager->getInstanceFromRequest()
+        );
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $this->parameterKeyForm->setData($data);
             if ($this->parameterKeyForm->isValid()) {
-                $this->navigationManager->createParameterKey($this->parameterKeyForm);
+                $this->navigationManager->createParameterKey(
+                    $this->parameterKeyForm
+                );
                 $this->navigationManager->flush();
 
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                return $this->redirect()->toUrl(
+                    $this->referer()->fromStorage()
+                );
             }
         } else {
             $this->referer()->store();
@@ -185,13 +210,15 @@ class NavigationController extends AbstractActionController
 
     public function getContainerAction()
     {
-        $container = $this->navigationManager->getContainer($this->params('container'));
+        $container = $this->navigationManager->getContainer(
+            $this->params('container')
+        );
         $this->assertGranted('navigation.manage', $container);
 
         $view = new ViewModel([
-            'container'    => $container,
+            'container' => $container,
             'positionForm' => $this->pageForm,
-            'form'         => new CsrfForm('navigation'),
+            'form' => new CsrfForm('navigation'),
         ]);
 
         $view->setTemplate('navigation/container/get');
@@ -216,8 +243,10 @@ class NavigationController extends AbstractActionController
         $instance = $this->instanceManager->getInstanceFromRequest();
         $this->assertGranted('navigation.manage', $instance);
 
-        $containers = $this->navigationManager->findContainersByInstance($instance);
-        $view       = new ViewModel(['containers' => $containers]);
+        $containers = $this->navigationManager->findContainersByInstance(
+            $instance
+        );
+        $view = new ViewModel(['containers' => $containers]);
 
         $view->setTemplate('navigation/containers');
 
@@ -226,7 +255,9 @@ class NavigationController extends AbstractActionController
 
     public function removeContainerAction()
     {
-        $container = $this->navigationManager->getContainer($this->params('container'));
+        $container = $this->navigationManager->getContainer(
+            $this->params('container')
+        );
         $this->assertGranted('navigation.manage', $container);
         if ($this->getRequest()->isPost()) {
             $form = new CsrfForm('remove-container');
@@ -234,9 +265,13 @@ class NavigationController extends AbstractActionController
             if ($form->isValid()) {
                 $this->navigationManager->removeContainer($container->getId());
                 $this->navigationManager->flush();
-                $this->flashMessenger()->addSuccessMessage('The container was successfully removed');
+                $this->flashMessenger()->addSuccessMessage(
+                    'The container was successfully removed'
+                );
             } else {
-                $this->flashMessenger()->addErrorMessage('The container could not be removed (validation failed)');
+                $this->flashMessenger()->addErrorMessage(
+                    'The container could not be removed (validation failed)'
+                );
             }
         }
         return $this->redirect()->toReferer();
@@ -252,9 +287,13 @@ class NavigationController extends AbstractActionController
             if ($form->isValid()) {
                 $this->navigationManager->removePage($page->getId());
                 $this->navigationManager->flush();
-                $this->flashMessenger()->addSuccessMessage('The page was successfully removed');
+                $this->flashMessenger()->addSuccessMessage(
+                    'The page was successfully removed'
+                );
             } else {
-                $this->flashMessenger()->addErrorMessage('The page could not be removed (validation failed)');
+                $this->flashMessenger()->addErrorMessage(
+                    'The page could not be removed (validation failed)'
+                );
             }
         }
         return $this->redirect()->toReferer();
@@ -262,7 +301,9 @@ class NavigationController extends AbstractActionController
 
     public function removeParameterAction()
     {
-        $parameter = $this->navigationManager->getParameter($this->params('parameter'));
+        $parameter = $this->navigationManager->getParameter(
+            $this->params('parameter')
+        );
         $this->assertGranted('navigation.manage', $parameter->getPage());
         if ($this->getRequest()->isPost()) {
             $form = new CsrfForm('remove-parameter');
@@ -270,9 +311,13 @@ class NavigationController extends AbstractActionController
             if ($form->isValid()) {
                 $this->navigationManager->removeParameter($parameter->getId());
                 $this->navigationManager->flush();
-                $this->flashMessenger()->addSuccessMessage('The parameter was successfully removed');
+                $this->flashMessenger()->addSuccessMessage(
+                    'The parameter was successfully removed'
+                );
             } else {
-                $this->flashMessenger()->addErrorMessage('The parameter could not be removed (validation failed)');
+                $this->flashMessenger()->addErrorMessage(
+                    'The parameter could not be removed (validation failed)'
+                );
             }
         }
         return $this->redirect()->toReferer();
@@ -291,7 +336,9 @@ class NavigationController extends AbstractActionController
             if ($this->pageForm->isValid()) {
                 $this->navigationManager->updatePage($this->pageForm);
                 $this->navigationManager->flush();
-                $this->flashMessenger()->addSuccessMessage('The page was successfully updated');
+                $this->flashMessenger()->addSuccessMessage(
+                    'The page was successfully updated'
+                );
                 return $this->redirect()->toReferer();
             }
         } else {
@@ -306,7 +353,9 @@ class NavigationController extends AbstractActionController
 
     public function updateParameterAction()
     {
-        $parameter = $this->navigationManager->getParameter($this->params('parameter'));
+        $parameter = $this->navigationManager->getParameter(
+            $this->params('parameter')
+        );
         $this->assertGranted('navigation.manage', $parameter->getPage());
         $this->parameterForm->bind($parameter);
 
@@ -317,7 +366,9 @@ class NavigationController extends AbstractActionController
                 $this->navigationManager->updateParameter($this->parameterForm);
                 $this->navigationManager->flush();
 
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                return $this->redirect()->toUrl(
+                    $this->referer()->fromStorage()
+                );
             }
         } else {
             $this->referer()->store();

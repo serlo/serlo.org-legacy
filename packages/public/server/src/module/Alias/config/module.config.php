@@ -26,7 +26,8 @@ namespace Alias;
 return [
     'controllers' => [
         'factories' => [
-            __NAMESPACE__ . '\Controller\RefreshController' => __NAMESPACE__ . '\Factory\RefreshControllerFactory',
+            __NAMESPACE__ . '\Controller\RefreshController' =>
+                __NAMESPACE__ . '\Factory\RefreshControllerFactory',
         ],
     ],
     'console' => [
@@ -34,9 +35,11 @@ return [
             'routes' => [
                 'alias' => [
                     'options' => [
-                        'route' => 'alias refresh [--percentile=] [--skip-entities] [--skip-terms] ',
+                        'route' =>
+                            'alias refresh [--percentile=] [--skip-entities] [--skip-terms] ',
                         'defaults' => [
-                            'controller' => __NAMESPACE__ . '\Controller\RefreshController',
+                            'controller' =>
+                                __NAMESPACE__ . '\Controller\RefreshController',
                             'action' => 'refresh',
                         ],
                     ],
@@ -69,7 +72,8 @@ return [
         ],
     ],
     'class_resolver' => [
-        __NAMESPACE__ . '\Entity\AliasInterface' => __NAMESPACE__ . '\Entity\Alias',
+        __NAMESPACE__ . '\Entity\AliasInterface' =>
+            __NAMESPACE__ . '\Entity\Alias',
     ],
     'router' => [
         'routes' => [
@@ -91,20 +95,26 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Options\ManagerOptions' => __NAMESPACE__ . '\Factory\ManagerOptionsFactory',
-            __NAMESPACE__ . '\AliasManager' => __NAMESPACE__ . '\Factory\AliasManagerFactory',
-            __NAMESPACE__ . '\Listener\BlogManagerListener' => __NAMESPACE__ . '\Factory\BlogManagerListenerFactory',
-            __NAMESPACE__ . '\Listener\BlogManagerListener' => __NAMESPACE__ . '\Factory\BlogManagerListenerFactory',
-            __NAMESPACE__ . '\Listener\RepositoryManagerListener' => __NAMESPACE__ . '\Factory\RepositoryManagerListenerFactory',
-            __NAMESPACE__ . '\Listener\PageControllerListener' => __NAMESPACE__ . '\Factory\PageControllerListenerFactory',
-            __NAMESPACE__ . '\Listener\TaxonomyManagerListener' => __NAMESPACE__ . '\Factory\TaxonomyManagerListenerFactory',
-            __NAMESPACE__ . '\Storage\AliasStorage' => __NAMESPACE__ . '\Factory\AliasStorageFactory',
+            __NAMESPACE__ . '\Options\ManagerOptions' =>
+                __NAMESPACE__ . '\Factory\ManagerOptionsFactory',
+            __NAMESPACE__ . '\AliasManager' =>
+                __NAMESPACE__ . '\Factory\AliasManagerFactory',
+            __NAMESPACE__ . '\Listener\BlogManagerListener' =>
+                __NAMESPACE__ . '\Factory\BlogManagerListenerFactory',
+            __NAMESPACE__ . '\Listener\BlogManagerListener' =>
+                __NAMESPACE__ . '\Factory\BlogManagerListenerFactory',
+            __NAMESPACE__ . '\Listener\RepositoryManagerListener' =>
+                __NAMESPACE__ . '\Factory\RepositoryManagerListenerFactory',
+            __NAMESPACE__ . '\Listener\PageControllerListener' =>
+                __NAMESPACE__ . '\Factory\PageControllerListenerFactory',
+            __NAMESPACE__ . '\Listener\TaxonomyManagerListener' =>
+                __NAMESPACE__ . '\Factory\TaxonomyManagerListenerFactory',
+            __NAMESPACE__ . '\Storage\AliasStorage' =>
+                __NAMESPACE__ . '\Factory\AliasStorageFactory',
         ],
     ],
     'di' => [
-        'allowed_controllers' => [
-            'Alias\Controller\AliasController',
-        ],
+        'allowed_controllers' => ['Alias\Controller\AliasController'],
         'definition' => [
             'class' => [
                 __NAMESPACE__ . '\Controller\AliasController' => [
@@ -119,7 +129,8 @@ return [
         ],
         'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\AliasManagerInterface' => __NAMESPACE__ . '\AliasManager',
+                __NAMESPACE__ . '\AliasManagerInterface' =>
+                    __NAMESPACE__ . '\AliasManager',
             ],
         ],
     ],
@@ -128,9 +139,7 @@ return [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
             'orm_default' => [
                 'drivers' => [

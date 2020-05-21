@@ -24,7 +24,6 @@ namespace Link\Service;
 
 trait LinkServiceAwareTrait
 {
-
     /**
      * @var LinkServiceInterface
      */

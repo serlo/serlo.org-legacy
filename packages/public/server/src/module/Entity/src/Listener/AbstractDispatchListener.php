@@ -46,14 +46,10 @@ abstract class AbstractDispatchListener extends AbstractSharedListenerAggregate
 
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach(
-            $this->getMonitoredClass(),
-            MvcEvent::EVENT_DISPATCH,
-            [
-                $this,
-                'onDispatch',
-            ]
-        );
+        $events->attach($this->getMonitoredClass(), MvcEvent::EVENT_DISPATCH, [
+            $this,
+            'onDispatch',
+        ]);
     }
 
     public function onDispatch(Event $event)
@@ -79,19 +75,19 @@ abstract class AbstractDispatchListener extends AbstractSharedListenerAggregate
             }
         }
 
-        $term  = $this->strategy->findBranch($terms);
+        $term = $this->strategy->findBranch($terms);
 
         if ($term) {
             /* @var $navigationFactory DefaultNavigationFactory */
-            $navigationFactory = $controller->getServiceLocator()->get(
-                'Navigation\Factory\DefaultNavigationFactory'
-            );
-            $params            = [
-                'term'       => $term->getId(),
+            $navigationFactory = $controller
+                ->getServiceLocator()
+                ->get('Navigation\Factory\DefaultNavigationFactory');
+            $params = [
+                'term' => $term->getId(),
                 'controller' => 'Taxonomy\Controller\GetController',
-                'action'     => 'index',
+                'action' => 'index',
             ];
-            $routeMatch        = new RouteMatch($params);
+            $routeMatch = new RouteMatch($params);
 
             $routeMatch->setMatchedRouteName('taxonomy/term/get');
             $navigationFactory->setRouteMatch($routeMatch);
