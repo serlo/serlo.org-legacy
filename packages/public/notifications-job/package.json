@@ -1,12 +1,13 @@
 {
   "name": "@serlo/notifications-job",
   "version": "2.1.0",
+  "private": true,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsdx build --target node --format cjs --tsconfig tsconfig.prod.json",
-    "start": "node .",
-    "deploy:image": "ts-node scripts/deploy"
+    "deploy:image": "ts-node scripts/deploy",
+    "start": "node ."
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -17,6 +18,5 @@
   "devDependencies": {
     "tsdx": "^0.13.0",
     "typescript": "^3.0.0"
-  },
-  "private": true
+  }
 }

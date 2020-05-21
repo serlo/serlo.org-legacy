@@ -1,6 +1,7 @@
 {
   "name": "@serlo/mathjax",
   "version": "0.0.0",
+  "private": true,
   "main": "dist/index.js",
   "module": "dist/mathjax.esm.js",
   "typings": "dist/index.d.ts",
@@ -14,6 +15,5 @@
     "ts-node": "^8.0.0",
     "tsdx": "^0.13.0",
     "typescript": "^3.0.0"
-  },
-  "private": true
+  }
 }

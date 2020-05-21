@@ -1,6 +1,7 @@
 {
   "name": "@serlo/edtr-io-storybook",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "start": "start-storybook --port 9001 --config-dir .storybook --quiet"
   },
@@ -14,6 +15,5 @@
     "@storybook/react": "^5.0.0",
     "babel-loader": "^8.0.0",
     "i18next-resource-store-loader": "^0.1.0"
-  },
-  "private": true
+  }
 }

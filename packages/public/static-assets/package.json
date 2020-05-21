@@ -1,6 +1,7 @@
 {
   "name": "@serlo/static-assets",
   "version": "2.0.0",
+  "private": true,
   "scripts": {
     "predeploy:package": "find . -name '.DS_Store' -type f -delete",
     "deploy:package": "ts-node scripts/deploy"
@@ -9,6 +10,5 @@
     "@serlo/cloudflare": "^0.0.0",
     "@serlo/gcloud": "^0.0.0",
     "serve": "^11.0.0"
-  },
-  "private": true
+  }
 }

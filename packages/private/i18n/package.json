@@ -1,12 +1,13 @@
 {
   "name": "@serlo/i18n",
   "version": "0.0.0",
+  "private": true,
   "main": "dist/index.js",
   "module": "dist/i18n.esm.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "i18n:regenerate": "i18next-scanner --config i18next-scanner.config.js",
-    "build": "ts-node ../../../scripts/build"
+    "build": "ts-node ../../../scripts/build",
+    "i18n:regenerate": "i18next-scanner --config i18next-scanner.config.js"
   },
   "dependencies": {
     "i18next": "^19.0.0",
@@ -17,6 +18,5 @@
     "ts-node": "^8.0.0",
     "tsdx": "^0.13.0",
     "typescript": "^3.0.0"
-  },
-  "private": true
+  }
 }

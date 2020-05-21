@@ -1,24 +1,35 @@
 {
   "name": "@serlo/serlo.org-workspace",
   "version": "0.0.0",
+  "private": true,
   "bugs": {
     "url": "https://github.com/serlo/serlo.org/issues"
   },
   "repository": "serlo/serlo.org",
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
+  "workspaces": [
+    "packages/private/*",
+    "packages/public/*"
+  ],
   "scripts": {
+    "_prettier": "prettier .",
     "build": "lerna run --stream build",
+    "c": "docker-compose run --rm server-composer",
     "deploy:images": "lerna run --stream deploy:image",
     "predeploy:packages": "lerna run --stream build --scope=@serlo/{client,static-assets} --include-filtered-dependencies",
     "deploy:packages": "lerna run --stream deploy:package",
+    "down:server": "docker-compose down",
     "dump:sql": "ts-node scripts/mysql-dump.ts",
     "format": "yarn _prettier --write",
     "i18n:regenerate": "lerna run i18n:regenerate",
-    "lint": "npm-run-all --parallel lint:js:*",
-    "lint:tsc": "tsc --noEmit",
-    "lint:prettier": "yarn _prettier --check",
     "license": "ts-node scripts/license-headers",
+    "lint": "npm-run-all --parallel lint:js:*",
+    "lint:prettier": "yarn _prettier --check",
+    "lint:tsc": "tsc --noEmit",
+    "migrate": "docker-compose run --rm server-migrate",
+    "migrate:create": "yarn migrate create",
+    "migrate:up": "yarn migrate up",
     "mysql": "docker-compose exec mysql mysql --user=root --password=secret serlo",
     "mysql:dump": "ts-node scripts/mysql-dump.ts",
     "mysql:import-anonymous-data": "ts-node scripts/mysql-import-anonymous-data.ts",
@@ -27,33 +38,22 @@
     "oauth:clear": "docker-compose run hydra clients delete test_client --endpoint http://hydra:4445",
     "oauth:client": "docker-compose run hydra clients create --skip-tls-verify --endpoint http://hydra:4445 --id test_client --secret CHANGEMENOWOMG --grant-types authorization_code --response-types code --scope openid,email --callbacks http://127.0.0.1:4446/callback",
     "oauth:user": "docker-compose run -p 4446:4446 hydra token user --skip-tls-verify --client-id test_client --client-secret CHANGEMENOWOMG --port 4446 --auth-url http://localhost:4444/oauth2/auth --token-url http://hydra:4444/oauth2/token --scope openid,email",
-    "test:e2e": "jest --config ./jest.config-e2e.js --maxWorkers 1",
-    "test:js": "npm-run-all test:js:*",
-    "test:js:client": "jest",
-    "test:js:ssr": "jest --config ./jest.config-ssr.js",
-    "test:php": "docker-compose run --rm server-php src/vendor/bin/phpunit",
     "pacts": "jest --config ./jest.config-pacts.js",
-    "migrate:create": "yarn migrate create",
-    "migrate:up": "yarn migrate up",
-    "migrate": "docker-compose run --rm server-migrate",
-    "c": "docker-compose run --rm server-composer",
     "start": "npm-run-all start:server start:client",
     "start:client": "lerna run --stream --scope=@serlo/client start",
     "prestart:server": "yarn c install",
     "start:server": "docker-compose up --build --detach",
     "stop:server": "docker-compose stop",
-    "down:server": "docker-compose down",
-    "_prettier": "prettier ."
+    "test:e2e": "jest --config ./jest.config-e2e.js --maxWorkers 1",
+    "test:js": "npm-run-all test:js:*",
+    "test:js:client": "jest",
+    "test:js:ssr": "jest --config ./jest.config-ssr.js",
+    "test:php": "docker-compose run --rm server-php src/vendor/bin/phpunit"
   },
   "dependencies": {},
   "devDependencies": {
     "@types/rimraf": "^3.0.0",
     "lerna": "^3.0.0",
     "rimraf": "^3.0.0"
-  },
-  "private": true,
-  "workspaces": [
-    "packages/private/*",
-    "packages/public/*"
-  ]
+  }
 }
