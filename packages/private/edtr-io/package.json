@@ -47,8 +47,7 @@
     "react-dom": "^16.8.0",
     "react-hotkeys": "^2.0.0",
     "react-modal": "^3.0.0",
-    "styled-components": "^5.0.0",
-    "tslib": "^1.0.0"
+    "styled-components": "^5.0.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.0.0",

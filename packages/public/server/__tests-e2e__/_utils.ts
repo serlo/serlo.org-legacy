@@ -94,10 +94,8 @@ function just<T>(x: T): NonNullable<T> {
   return x!
 }
 
-export async function isVisible(
-  element: ElementHandle<HTMLElement>
-): Promise<boolean> {
-  return element.evaluate(
+export async function isVisible(element: ElementHandle): Promise<boolean> {
+  return (element as ElementHandle<HTMLElement>).evaluate(
     e => !!(e && (e.offsetWidth || e.offsetHeight || e.getClientRects().length))
   )
 }

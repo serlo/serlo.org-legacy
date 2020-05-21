@@ -13,7 +13,6 @@
     "parse5": "^5.0.0",
     "ramda": "^0.27.0",
     "slate-html-serializer": "^0.8.0",
-    "tslib": "^1.0.0",
     "uuid": "^8.0.0"
   },
   "devDependencies": {

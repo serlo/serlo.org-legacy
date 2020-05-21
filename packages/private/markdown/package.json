@@ -8,8 +8,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "showdown": "^1.0.0",
-    "tslib": "^1.0.0"
+    "showdown": "^1.0.0"
   },
   "devDependencies": {
     "ts-node": "^8.0.0",

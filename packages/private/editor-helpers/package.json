@@ -10,7 +10,6 @@
   "dependencies": {
     "base-64": "^0.1.0",
     "jquery": "^3.0.0",
-    "tslib": "^1.0.0",
     "utf8": "^3.0.0"
   },
   "devDependencies": {

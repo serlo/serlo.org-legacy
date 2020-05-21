@@ -6,7 +6,7 @@ export class ConcatenateInsertCommands extends LineTransform {
   private currentCmdLength: number = 0
   private maxInsertCmdLength: number
 
-  constructor(encoding: string, maxInsertCmdLength: number) {
+  constructor(encoding: BufferEncoding, maxInsertCmdLength: number) {
     super(encoding)
     this.maxInsertCmdLength = maxInsertCmdLength
   }

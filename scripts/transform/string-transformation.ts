@@ -2,16 +2,13 @@ import * as assert from 'assert'
 import { Transform } from 'stream'
 
 export abstract class StringTransform extends Transform {
-  protected readonly encoding: string
-
-  constructor(encoding: string) {
+  constructor(protected readonly encoding: BufferEncoding) {
     super()
-    this.encoding = encoding
   }
 
   abstract transformString(text: string): void
 
-  _transform(chunk: Buffer, encoding: string, callback: Function) {
+  _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function) {
     assert.strictEqual(
       encoding,
       'buffer',
