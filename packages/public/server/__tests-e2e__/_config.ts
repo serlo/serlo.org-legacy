@@ -30,12 +30,12 @@ export const elements = {
   },
   getLoginButton(page: ElementHandle) {
     return getByText(page, 'Log in', {
-      selector: '#serlo-menu a'
+      selector: '#serlo-menu a',
     })
   },
   getLogoutButton(page: ElementHandle) {
     return getByText(page, 'Log out', {
-      selector: '#serlo-menu a'
+      selector: '#serlo-menu a',
     })
   },
   getSaveButton(page: ElementHandle) {
@@ -49,17 +49,17 @@ export const elements = {
   },
   getProfileButton(page: ElementHandle) {
     return getBySelector(page, '#serlo-menu a .fa-user')
-  }
+  },
 }
 
 export const notifications = {
-  savedAndCheckedOut: 'Your revision has been saved and is available'
+  savedAndCheckedOut: 'Your revision has been saved and is available',
 }
 
 export const pages = {
   e2eTopic: {
     path: '/math/area-e2e-tests',
-    id: '35566'
+    id: '35566',
   },
   login: {
     defaultPassword: '123456',
@@ -67,12 +67,12 @@ export const pages = {
     identifier: {
       inputUser: 'Email address or Username',
       inputPassword: 'Password',
-      buttonLogin: 'Login'
-    }
+      buttonLogin: 'Login',
+    },
   },
   logout: {
-    path: '/auth/logout'
-  }
+    path: '/auth/logout',
+  },
 }
 
 export const testingServerUrl = 'http://en.serlo.localhost:4567'
@@ -82,6 +82,6 @@ export const users = ['login', 'german_reviewer', 'german_helper', 'admin']
 export const viewports = {
   desktop: {
     width: 1920,
-    height: 1080
-  }
+    height: 1080,
+  },
 }

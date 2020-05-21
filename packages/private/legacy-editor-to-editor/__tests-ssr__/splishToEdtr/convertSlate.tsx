@@ -30,8 +30,8 @@ describe('slate serializer and deserializer work', () => {
       document: {
         object: 'document',
         data: {},
-        nodes: [{ object: 'block', type: 'paragraph', data: {}, nodes: [] }]
-      }
+        nodes: [{ object: 'block', type: 'paragraph', data: {}, nodes: [] }],
+      },
     })
   })
 
@@ -52,12 +52,12 @@ describe('slate serializer and deserializer work', () => {
               {
                 object: 'text',
                 text: 'This was created with',
-                marks: []
-              }
-            ]
-          }
-        ]
-      }
+                marks: [],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 
@@ -77,18 +77,18 @@ describe('slate serializer and deserializer work', () => {
               {
                 object: 'text',
                 text: 'This was created with ',
-                marks: []
+                marks: [],
               },
               {
                 object: 'text',
                 text: 'Splish',
-                marks: [{ type: '@splish-me/strong' }]
+                marks: [{ type: '@splish-me/strong' }],
               },
-              { object: 'text', text: ' editor.', marks: [] }
-            ]
-          }
-        ]
-      }
+              { object: 'text', text: ' editor.', marks: [] },
+            ],
+          },
+        ],
+      },
     })
   })
 
@@ -122,13 +122,13 @@ describe('slate serializer and deserializer work', () => {
                           {
                             object: 'text',
                             text: 'foo',
-                            marks: []
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
+                            marks: [],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 object: 'block',
@@ -147,18 +147,18 @@ describe('slate serializer and deserializer work', () => {
                           {
                             object: 'text',
                             text: 'bar',
-                            marks: []
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                            marks: [],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 
@@ -179,19 +179,19 @@ describe('slate serializer and deserializer work', () => {
               {
                 object: 'text',
                 text: 'This was created with ',
-                marks: []
+                marks: [],
               },
               {
                 object: 'text',
                 text: 'Splish',
-                marks: [{ type: '@splish-me/strong', data: undefined }]
+                marks: [{ type: '@splish-me/strong', data: undefined }],
               },
               {
                 object: 'text',
                 text: ' editor.',
-                marks: []
-              }
-            ]
+                marks: [],
+              },
+            ],
           },
           {
             object: 'block',
@@ -215,13 +215,13 @@ describe('slate serializer and deserializer work', () => {
                           {
                             object: 'text',
                             text: 'foo',
-                            marks: []
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
+                            marks: [],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 object: 'block',
@@ -240,18 +240,18 @@ describe('slate serializer and deserializer work', () => {
                           {
                             object: 'text',
                             text: 'bar',
-                            marks: []
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                            marks: [],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 
@@ -268,16 +268,16 @@ describe('slate serializer and deserializer work', () => {
             object: 'block',
             type: 'paragraph',
             nodes: [{ object: 'text', text: 'Formula: ', marks: [] }],
-            data: {}
+            data: {},
           },
           {
             object: 'block',
             type: '@splish-me/katex-block',
             data: { formula: 'a^2+b^2=c^2', inline: false },
-            nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }]
-          }
-        ]
-      }
+            nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }],
+          },
+        ],
+      },
     })
   })
 })

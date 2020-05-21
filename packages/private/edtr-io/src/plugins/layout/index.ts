@@ -30,5 +30,5 @@ export const layoutState = list(
 export const layoutPlugin: EditorPlugin<typeof layoutState> = {
   Component: LayoutRenderer,
   state: layoutState,
-  config: {}
+  config: {},
 }

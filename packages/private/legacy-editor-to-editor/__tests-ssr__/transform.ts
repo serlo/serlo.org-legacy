@@ -31,30 +31,30 @@ describe('Transformes Serlo Layout to new Layout', () => {
         [
           {
             col: 24,
-            content: 'Lorem ipsum'
-          }
+            content: 'Lorem ipsum',
+          },
         ],
         [
           {
             col: 24,
-            content: 'dolor sit amet.'
-          }
-        ]
+            content: 'dolor sit amet.',
+          },
+        ],
       ],
       output: {
         cells: [
           {
             rows: [
               {
-                cells: [{ size: 12, raw: 'Lorem ipsum' }]
+                cells: [{ size: 12, raw: 'Lorem ipsum' }],
               },
               {
-                cells: [{ size: 12, raw: 'dolor sit amet.' }]
-              }
-            ]
-          }
-        ]
-      }
+                cells: [{ size: 12, raw: 'dolor sit amet.' }],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 
@@ -64,13 +64,13 @@ describe('Transformes Serlo Layout to new Layout', () => {
         [
           {
             col: 12,
-            content: 'Lorem ipsum'
+            content: 'Lorem ipsum',
           },
           {
             col: 12,
-            content: 'dolor adipiscing amet'
-          }
-        ]
+            content: 'dolor adipiscing amet',
+          },
+        ],
       ],
       output: {
         cells: [
@@ -79,13 +79,13 @@ describe('Transformes Serlo Layout to new Layout', () => {
               {
                 cells: [
                   { size: 6, raw: 'Lorem ipsum' },
-                  { size: 6, raw: 'dolor adipiscing amet' }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                  { size: 6, raw: 'dolor adipiscing amet' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 
@@ -95,13 +95,13 @@ describe('Transformes Serlo Layout to new Layout', () => {
         [
           {
             col: 5,
-            content: 'Lorem ipsum'
+            content: 'Lorem ipsum',
           },
           {
             col: 19,
-            content: 'dolor adipiscing amet'
-          }
-        ]
+            content: 'dolor adipiscing amet',
+          },
+        ],
       ],
       output: {
         cells: [
@@ -110,19 +110,19 @@ describe('Transformes Serlo Layout to new Layout', () => {
               {
                 cells: [
                   { size: 2, raw: 'Lorem ipsum' },
-                  { size: 9, raw: 'dolor adipiscing amet' }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                  { size: 9, raw: 'dolor adipiscing amet' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 
   function createTestCase({
     input,
-    output
+    output,
   }: {
     input: Legacy
     output: ReturnType<typeof transform>

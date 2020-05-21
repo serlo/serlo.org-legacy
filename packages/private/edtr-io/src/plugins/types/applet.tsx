@@ -29,7 +29,7 @@ import {
   editorContent,
   serializedChild,
   HeaderInput,
-  entityType
+  entityType,
 } from './common'
 import { Settings, RevisionHistory } from './helpers/settings'
 
@@ -41,7 +41,7 @@ export const appletTypeState = entityType(
     reasoning: editorContent(),
     meta_title: string(),
     meta_description: string(),
-    url: serializedChild('geogebra')
+    url: serializedChild('geogebra'),
   },
   {}
 )
@@ -49,7 +49,7 @@ export const appletTypeState = entityType(
 export const appletTypePlugin: EditorPlugin<typeof appletTypeState> = {
   Component: AppletTypeEditor,
   state: appletTypeState,
-  config: {}
+  config: {},
 }
 
 function AppletTypeEditor(props: EditorPluginProps<typeof appletTypeState>) {

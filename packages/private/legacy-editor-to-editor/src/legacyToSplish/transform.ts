@@ -22,19 +22,19 @@
 import { Legacy, LegacyRow } from '../splishToEdtr/types'
 
 const getCellsFromRow = (row: LegacyRow) =>
-  row.map(cell => ({
+  row.map((cell) => ({
     size: Math.floor(cell.col / 2),
-    raw: cell.content
+    raw: cell.content,
   }))
 
 const transform = (input: Legacy) => ({
   cells: [
     {
-      rows: input.map(row => ({
-        cells: getCellsFromRow(row)
-      }))
-    }
-  ]
+      rows: input.map((row) => ({
+        cells: getCellsFromRow(row),
+      })),
+    },
+  ],
 })
 
 export default transform

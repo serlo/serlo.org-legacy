@@ -68,7 +68,7 @@ function createIconTag(columns) {
 
   context.fill()
 
-  _.each(columns, function(column, index) {
+  _.each(columns, function (column, index) {
     drawColumn(column, index)
   })
 
@@ -78,7 +78,7 @@ function createIconTag(columns) {
   return buildImageTag(cached[iconName], iconName)
 }
 
-LayoutAdd = function(layouts) {
+LayoutAdd = function (layouts) {
   var that = this
 
   eventScope(that)
@@ -87,10 +87,10 @@ LayoutAdd = function(layouts) {
   that.$plus = $('<a href="#" class="plus">+</a>')
   that.$layoutList = $('<div class="layout-list">')
 
-  _.each(layouts, function(columns) {
+  _.each(layouts, function (columns) {
     var $addLayout = $('<a href="#">' + createIconTag(columns) + '</a>')
 
-    $addLayout.click(function(e) {
+    $addLayout.click(function (e) {
       e.stopPropagation()
       that.trigger('add-layout', columns)
       that.toggleLayouts(true)
@@ -100,18 +100,18 @@ LayoutAdd = function(layouts) {
   })
 
   that.$el.append(that.$plus)
-  that.$plus.click(function(e) {
+  that.$plus.click(function (e) {
     e.preventDefault()
     e.stopPropagation()
     that.toggleLayouts()
   })
 
-  that.addEventListener('close', function() {
+  that.addEventListener('close', function () {
     that.toggleLayouts(true)
   })
 }
 
-LayoutAdd.prototype.toggleLayouts = function(forceClose) {
+LayoutAdd.prototype.toggleLayouts = function (forceClose) {
   if (forceClose || this.opened) {
     this.$layoutList.detach()
     this.opened = false

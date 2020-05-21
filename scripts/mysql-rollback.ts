@@ -16,7 +16,7 @@ sqlRollback.stderr
   .pipe(new IgnoreInsecurePasswordWarning('utf8'))
   .pipe(process.stderr)
 
-sqlRollback.on('error', error => {
+sqlRollback.on('error', (error) => {
   console.error('ERROR: ' + error)
 })
 

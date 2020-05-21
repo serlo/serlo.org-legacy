@@ -31,17 +31,17 @@ export type SeparatorProps = EditorPluginProps<SeparatorState>
 export const separatorPlugin: EditorPlugin<SeparatorState> = {
   Component: SeparatorEditor,
   state: separatorState,
-  config: {}
+  config: {},
 }
 
 const Container = styled.div({
   paddingTop: '10px',
-  paddingBottom: '10px'
+  paddingBottom: '10px',
 })
 
 const Separator = styled.hr({
   marginTop: 0,
-  marginBottom: 0
+  marginBottom: 0,
 })
 
 function SeparatorEditor(props: SeparatorProps) {

@@ -36,13 +36,13 @@ import BSTable from 'react-bootstrap/lib/Table'
 
 import { deserialize, isError } from '../../../deserialize'
 
-const StyledTR = styled.tr<{ selected: boolean }>(props => {
+const StyledTR = styled.tr<{ selected: boolean }>((props) => {
   return props.selected
     ? {
-        border: '3px solid rgb(0,100,0)'
+        border: '3px solid rgb(0,100,0)',
       }
     : {
-        cursor: 'pointer'
+        cursor: 'pointer',
       }
 })
 
@@ -71,7 +71,7 @@ export function RevisionHistory<T>(
     if (props.id !== 0) {
       axios
         .get<RevisionData[]>(`/entity/repository/get-revisions/${props.id}`)
-        .then(response => {
+        .then((response) => {
           setAvailableRevisions(response.data)
         })
     }
@@ -115,7 +115,7 @@ export function RevisionHistory<T>(
               </tr>
             </thead>
             <tbody>
-              {availableRevisions.map(revisionData => {
+              {availableRevisions.map((revisionData) => {
                 const selected = props.currentRevision
                   ? props.currentRevision === revisionData.id
                   : revisionData.active
@@ -132,10 +132,10 @@ export function RevisionHistory<T>(
                         .get<{ state: unknown; type: string }>(
                           `/entity/repository/get-revision-data/${props.id}/${revisionData.id}`
                         )
-                        .then(response => {
+                        .then((response) => {
                           const deserialized = deserialize({
                             initialState: response.data.state,
-                            type: response.data.type
+                            type: response.data.type,
                           })
                           if (isError(deserialized)) {
                             alert(deserialized.error)
@@ -184,7 +184,7 @@ export function Settings(props: React.PropsWithChildren<{}>) {
 
 Settings.Textarea = function SettingsTextarea({
   label,
-  state
+  state,
 }: {
   label: string
   state: StateTypeReturnType<ReturnType<typeof string>>
@@ -195,7 +195,7 @@ Settings.Textarea = function SettingsTextarea({
       <BSFormControl
         componentClass="textarea"
         value={state.value}
-        onChange={e => {
+        onChange={(e) => {
           const { value } = e.target as HTMLTextAreaElement
           state.set(value)
         }}
@@ -207,7 +207,7 @@ Settings.Textarea = function SettingsTextarea({
 Settings.Select = function SettingsSelect({
   label,
   state,
-  options
+  options,
 }: {
   label: string
   state: StateTypeReturnType<ReturnType<typeof string>>
@@ -220,12 +220,12 @@ Settings.Select = function SettingsSelect({
         componentClass="select"
         placeholder="select"
         value={state.value}
-        onChange={e => {
+        onChange={(e) => {
           const { value } = e.target as HTMLSelectElement
           state.set(value)
         }}
       >
-        {options.map(option => {
+        {options.map((option) => {
           return (
             <option key={option.value} value={option.value}>
               {option.label}

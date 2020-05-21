@@ -36,11 +36,11 @@ function ajax(url, data, method) {
   return $.ajax({
     url: url,
     method: method || 'get',
-    data: data
+    data: data,
   })
 }
 
-FormulaPlugin = function() {
+FormulaPlugin = function () {
   this.state = 'math'
   this.init()
 }
@@ -48,7 +48,7 @@ FormulaPlugin = function() {
 FormulaPlugin.prototype = new EditorPlugin()
 FormulaPlugin.prototype.constructor = FormulaPlugin
 
-FormulaPlugin.prototype.init = function() {
+FormulaPlugin.prototype.init = function () {
   var that = this
 
   that.template = _.template(pluginHtmlTemplate)
@@ -58,7 +58,7 @@ FormulaPlugin.prototype.init = function() {
 
   that.$el = $(that.template(that.data))
 
-  that.$el.on('click', '.btn-cancel', function(e) {
+  that.$el.on('click', '.btn-cancel', function (e) {
     e.preventDefault()
     that.trigger('close')
   })
@@ -66,7 +66,7 @@ FormulaPlugin.prototype.init = function() {
   $('.content', that.$el).height(450)
 }
 
-FormulaPlugin.prototype.activate = function(token) {
+FormulaPlugin.prototype.activate = function (token) {
   var that = this
   var formular
 
@@ -79,12 +79,12 @@ FormulaPlugin.prototype.activate = function(token) {
     wiris.insertInto($('.content', that.$el)[0])
 
     ajax(latex2mml, 'latex=' + encodeURIComponent(that.data.content))
-      .done(function(mml) {
+      .done(function (mml) {
         wiris.setMathML(mml)
       })
       .fail(Common.genericError)
 
-    that.$el.on('click', '.btn-save', function() {
+    that.$el.on('click', '.btn-save', function () {
       that.save()
     })
   }
@@ -94,24 +94,24 @@ FormulaPlugin.prototype.activate = function(token) {
   } else {
     require('https://www.wiris.net/demo/editor/editor').then(() => {
       wiris = com.wiris.jsEditor.JsEditor.newInstance({
-        language: 'en'
+        language: 'en',
       })
       asyncActivate()
     })
   }
 }
 
-FormulaPlugin.prototype.deactivate = function() {
+FormulaPlugin.prototype.deactivate = function () {
   this.$el.detach()
   wiris.close()
 }
 
-FormulaPlugin.prototype.save = function() {
+FormulaPlugin.prototype.save = function () {
   var that = this
   var data = wiris.getMathML()
 
   ajax(mml2latex, 'mml=' + encodeURIComponent(data), 'post')
-    .done(function(latex) {
+    .done(function (latex) {
       that.data.content = that.wrap + latex + that.wrap
       that.trigger('save', that)
     })

@@ -39,19 +39,19 @@ async function run() {
     name: 'serlo-org-httpd',
     version,
     Dockerfile: path.join(root, 'docker', 'httpd', 'Dockerfile'),
-    context: '.'
+    context: '.',
   })
   buildDockerImage({
     name: 'serlo-org-php',
     version,
     Dockerfile: path.join(root, 'docker', 'php', 'Dockerfile'),
-    context: '.'
+    context: '.',
   })
   buildDockerImage({
     name: 'serlo-org-migrate',
     version,
     Dockerfile: path.join(root, 'docker', 'migrate', 'Dockerfile'),
-    context: '.'
+    context: '.',
   })
 }
 

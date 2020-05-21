@@ -23,7 +23,7 @@ import { convertPlugin } from '../../src/splishToEdtr/convertPlugins'
 import { expect } from '../common'
 import {
   SplishImageState,
-  SplishSpoilerState
+  SplishSpoilerState,
 } from '../../src/legacyToSplish/createPlugin'
 import { ContentCell, Plugin } from '../../src/splishToEdtr/types'
 
@@ -35,9 +35,9 @@ describe('plugin convert works', () => {
         state: {
           description: 'Some image description',
           src: 'https://assets.serlo.org/some/asset',
-          title: ''
-        }
-      }
+          title: '',
+        },
+      },
     }
     const spoiler: ContentCell<SplishSpoilerState> = {
       content: {
@@ -53,15 +53,15 @@ describe('plugin convert works', () => {
                   id: '2',
                   rows: [
                     {
-                      cells: [image]
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      }
+                      cells: [image],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
     }
 
     const expected = {
@@ -76,13 +76,13 @@ describe('plugin convert works', () => {
                 alt: 'Some image description',
                 link: undefined,
                 maxWidth: undefined,
-                src: 'https://assets.serlo.org/some/asset'
-              }
-            }
-          ]
+                src: 'https://assets.serlo.org/some/asset',
+              },
+            },
+          ],
         },
-        title: 'title'
-      }
+        title: 'title',
+      },
     }
     expect(convertPlugin(spoiler), 'to equal', expected)
   })

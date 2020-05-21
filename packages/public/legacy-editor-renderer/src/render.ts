@@ -38,9 +38,9 @@ export async function render(state: string): Promise<string> {
   }
 
   return rows
-    .map(row => {
+    .map((row) => {
       const innerHtml = row
-        .map(column => {
+        .map((column) => {
           return `<div class="c${column.col}">${converter.makeHtml(
             column.content
           )}</div>`

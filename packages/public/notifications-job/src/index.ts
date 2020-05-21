@@ -28,15 +28,15 @@ mysql
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
+    database: process.env.DB_DATABASE,
   })
-  .then(con => {
+  .then((con) => {
     return con
       .query(
         'SELECT user_id FROM notification WHERE seen = 0 AND email = 1 AND email_sent = 0 GROUP BY user_id'
       )
-      .then(result => result.map((row: { user_id: number }) => row.user_id))
-      .then(users => {
+      .then((result) => result.map((row: { user_id: number }) => row.user_id))
+      .then((users) => {
         con.end()
         return processUsers(users)
       })
@@ -51,18 +51,18 @@ function processUsers(users: number[]): Promise<void> {
       `${process.env.SERVER_HOST}/notification/worker`,
       querystring.stringify({
         secret: process.env.JOB_SECRET,
-        user: user
+        user: user,
       }),
       {
         ...(process.env.BASIC_AUTH_USERNAME && process.env.BASIC_AUTH_PASSWORD
           ? {
               auth: {
                 username: process.env.BASIC_AUTH_USERNAME,
-                password: process.env.BASIC_AUTH_PASSWORD
-              }
+                password: process.env.BASIC_AUTH_PASSWORD,
+              },
             }
           : {}),
-        headers: { 'content-type': 'application/x-www-form-urlencoded' }
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
       }
     )
     .then(() => {
@@ -76,7 +76,7 @@ function processUsers(users: number[]): Promise<void> {
 
 // Wait 1 sec
 function wait(): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve()
     }, 1000)

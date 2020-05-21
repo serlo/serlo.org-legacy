@@ -39,13 +39,13 @@ function splitCell(cell: CellBeforeSplit): Cell {
   if (isLeaf(cell)) {
     return {
       size: cell.size,
-      rows: splitMarkdown(cell.raw)
+      rows: splitMarkdown(cell.raw),
     }
   } else {
     const { rows = [] } = cell
     return {
       ...cell,
-      rows: rows.map(splitRow)
+      rows: rows.map(splitRow),
     }
   }
 }
@@ -53,14 +53,14 @@ function splitCell(cell: CellBeforeSplit): Cell {
 function splitRow(row: RowBeforeSplit) {
   return {
     ...row,
-    cells: row.cells.map(splitCell)
+    cells: row.cells.map(splitCell),
   }
 }
 
 function split(input: ReturnType<typeof transform>) {
   return {
     ...input,
-    cells: input.cells.map(splitCell)
+    cells: input.cells.map(splitCell),
   }
 }
 

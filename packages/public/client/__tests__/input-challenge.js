@@ -32,11 +32,11 @@ jest.mock('../src/frontend/modules/sounds')
 
 require('../src/frontend/modules/input_challenge')
 
-describe('Input challenge', function() {
-  describe('input-string-exact-match-challenge', function() {
+describe('Input challenge', function () {
+  describe('input-string-exact-match-challenge', function () {
     var $container, $form, $input, $feedback, $submit
 
-    beforeEach(function() {
+    beforeEach(function () {
       $container = $('<div>')
       $form = $('<form class="input-challenge-group">')
       $input = $('<input class="input-challenge-input">')
@@ -52,18 +52,18 @@ describe('Input challenge', function() {
       $container.append([$form, $feedback])
     })
 
-    const submit = value => {
+    const submit = (value) => {
       $input.val(value)
       $form.submit()
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           resolve()
         }, 1000)
       })
     }
 
-    it('works when the exact correct input is passed', function() {
+    it('works when the exact correct input is passed', function () {
       $container.InputChallenge()
 
       return submit('Foo').then(() => {
@@ -72,7 +72,7 @@ describe('Input challenge', function() {
       })
     })
 
-    it('works when the correct input is passed', function() {
+    it('works when the correct input is passed', function () {
       $container.InputChallenge()
 
       return submit('fOO').then(() => {
@@ -81,7 +81,7 @@ describe('Input challenge', function() {
       })
     })
 
-    it('works when the correct input (with wrong spaces) is passed', function() {
+    it('works when the correct input (with wrong spaces) is passed', function () {
       $container.InputChallenge()
 
       return submit('   Foo    ').then(() => {
@@ -90,7 +90,7 @@ describe('Input challenge', function() {
       })
     })
 
-    it('works when the a false input is passed', function() {
+    it('works when the a false input is passed', function () {
       $container.InputChallenge()
 
       return submit('FooTotallyFalse').then(() => {
@@ -99,7 +99,7 @@ describe('Input challenge', function() {
       })
     })
 
-    it('works when the a false input is passed', function() {
+    it('works when the a false input is passed', function () {
       $container.InputChallenge()
 
       return submit('Foo')
@@ -112,18 +112,18 @@ describe('Input challenge', function() {
         })
     })
 
-    it('works when a user feedback is passed on a false input', function() {
+    it('works when a user feedback is passed on a false input', function () {
       $input.data('wrong-inputs', [
         {
           type: 'input-string-exact-match-challenge',
           solution: 'wa1',
-          feedback: 'YouIdiot!'
+          feedback: 'YouIdiot!',
         },
         {
           type: 'input-string-exact-match-challenge',
           solution: 'wa2',
-          feedback: 'YouFool!'
-        }
+          feedback: 'YouFool!',
+        },
       ])
 
       $container.InputChallenge()

@@ -24,11 +24,11 @@ import _ from 'underscore'
 
 var Slider, pushTab, getTab, quote
 
-quote = function(str) {
+quote = function (str) {
   return str.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1')
 }
 
-pushTab = function(id, slide) {
+pushTab = function (id, slide) {
   var q = window.location.hash
   var re
 
@@ -42,10 +42,10 @@ pushTab = function(id, slide) {
   }
 }
 
-getTab = function(id) {
+getTab = function (id) {
   var e
   var r = /([^&;=]+)=?([^&;]*)/g
-  var d = function(s) {
+  var d = function (s) {
     return decodeURIComponent(s)
   }
   var q = window.location.hash.substring(1)
@@ -59,12 +59,12 @@ getTab = function(id) {
   return 0
 }
 
-Slider = function() {
+Slider = function () {
   var $self = $(this)
   var slideTabNav
   var id = $(this).attr('id')
 
-  slideTabNav = function(evt) {
+  slideTabNav = function (evt) {
     var slide = $(evt.relatedTarget).index()
     var $scrollTo = $('.controls li:eq(' + slide + ')', $self)
     var $container = $('.controls', $self)
@@ -75,14 +75,14 @@ Slider = function() {
     $scrollTo.addClass('active')
 
     throttledSliding = _.throttle(
-      function() {
+      function () {
         $container.animate(
           {
             scrollLeft:
               $scrollTo.offset().left -
               $container.offset().left +
               $container.scrollLeft() -
-              Math.ceil($container.width() / 2 - $scrollTo.width() / 2)
+              Math.ceil($container.width() / 2 - $scrollTo.width() / 2),
           },
           200
         )
@@ -97,7 +97,7 @@ Slider = function() {
   $self.unbind('slide.bs.carousel', slideTabNav)
   $self.bind('slide.bs.carousel', slideTabNav)
 
-  $self.bind('slid.bs.carousel', function() {
+  $self.bind('slid.bs.carousel', function () {
     $self.carousel('pause')
   })
 

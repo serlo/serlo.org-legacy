@@ -23,7 +23,7 @@ import {
   EditorPlugin,
   EditorPluginProps,
   object,
-  string
+  string,
 } from '@edtr-io/plugin'
 import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
@@ -34,13 +34,13 @@ export const pageTypeState = object({
   ...uuid,
   ...license,
   title: string(),
-  content: editorContent()
+  content: editorContent(),
 })
 
 export const pageTypePlugin: EditorPlugin<typeof pageTypeState> = {
   Component: PageTypeEditor,
   state: pageTypeState,
-  config: {}
+  config: {},
 }
 
 function PageTypeEditor(props: EditorPluginProps<typeof pageTypeState>) {

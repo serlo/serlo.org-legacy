@@ -21,5 +21,5 @@
  */
 module.exports = {
   testEnvironment: 'node',
-  testRegex: '/__tests-pacts__/.*\\.[jt]sx?$'
+  testRegex: '/__tests-pacts__/.*\\.[jt]sx?$',
 }

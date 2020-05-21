@@ -42,7 +42,7 @@ const cases: {
           content: {
             plugin: {
               name: Plugin.Text,
-              version: '999.0.0'
+              version: '999.0.0',
             },
             state: {
               editorState: {
@@ -62,7 +62,7 @@ const cases: {
                             {
                               object: 'leaf',
                               text: 'This was created with ',
-                              marks: []
+                              marks: [],
                             },
                             {
                               object: 'leaf',
@@ -71,18 +71,18 @@ const cases: {
                                 {
                                   object: 'mark',
                                   type: '@splish-me/strong',
-                                  data: {}
-                                }
-                              ]
+                                  data: {},
+                                },
+                              ],
                             },
                             {
                               object: 'leaf',
                               text: ' editor.',
-                              marks: []
-                            }
-                          ]
-                        }
-                      ]
+                              marks: [],
+                            },
+                          ],
+                        },
+                      ],
                     },
                     {
                       object: 'block',
@@ -95,11 +95,11 @@ const cases: {
                             {
                               object: 'leaf',
                               text: '',
-                              marks: []
-                            }
-                          ]
-                        }
-                      ]
+                              marks: [],
+                            },
+                          ],
+                        },
+                      ],
                     },
                     {
                       object: 'block',
@@ -122,13 +122,13 @@ const cases: {
                                     {
                                       object: 'leaf',
                                       text: 'foo',
-                                      marks: []
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
+                                      marks: [],
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
                         },
                         {
                           object: 'block',
@@ -146,23 +146,23 @@ const cases: {
                                     {
                                       object: 'leaf',
                                       text: 'bar',
-                                      marks: []
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      ]
+                                      marks: [],
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      ],
     },
     edtrIO: {
       plugin: 'rows',
@@ -173,14 +173,14 @@ const cases: {
             htmlToSlate(
               '<p>This was created with <strong>Splish</strong> editor.</p><p></p><ul><li><p>foo</p></li><li><p>bar</p></li></ul>'
             )
-          )
-        }
-      ]
-    }
-  }
+          ),
+        },
+      ],
+    },
+  },
 ]
 
-cases.forEach(testcase => {
+cases.forEach((testcase) => {
   describe('Transformes Splish state to editor state', () => {
     it(testcase.description, () => {
       expect(

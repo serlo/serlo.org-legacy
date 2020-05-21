@@ -27,7 +27,7 @@ const lines = [
   '',
   `@copyright Copyright (c) 2013-${year} Serlo Education e.V.`,
   '@license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0',
-  '@link      https://github.com/serlo-org/serlo.org for the canonical source repository'
+  '@link      https://github.com/serlo-org/serlo.org for the canonical source repository',
 ]
 
 g('**/*@(.js|.ts|.tsx|.php|.twig|.phtml)', {
@@ -39,21 +39,21 @@ g('**/*@(.js|.ts|.tsx|.php|.twig|.phtml)', {
     'packages/public/client/src/thirdparty/**',
     'packages/public/server/dev-tools/vendor/**',
     'packages/public/server/src/vendor/**',
-    'scripts/**'
-  ]
-}).then(files => {
-  return files.map(file => {
+    'scripts/**',
+  ],
+}).then((files) => {
+  return files.map((file) => {
     const filePath = path.join(root, file)
 
     return updateCopyrightHeader(filePath, {
       lines,
-      shouldUpdate: content => {
+      shouldUpdate: (content) => {
         return (
           content.includes('Athene2') ||
           content.includes('Serlo') ||
           content.includes('serlo')
         )
-      }
+      },
     })
   })
 })

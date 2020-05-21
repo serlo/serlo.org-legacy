@@ -43,16 +43,16 @@ var $geogebraTubeTemplate = $(
 
 // terrible geogebra oninit handler..
 // that doesnt work.....
-window.ggbOnInit = function(id) {
+window.ggbOnInit = function (id) {
   if (ggbApplets[id]) {
     ggbApplets[id]()
   }
 }
 
-Injections = function() {
+Injections = function () {
   var totalInjectionsCount = $(this).length
 
-  return $(this).each(function() {
+  return $(this).each(function () {
     var $that = $(this)
     var $a = $('> a', $that)
     var title = $a.text()
@@ -78,7 +78,7 @@ Injections = function() {
       )
 
       // the following doesnt work.
-      ggbApplets[ggbAppletID] = function() {
+      ggbApplets[ggbAppletID] = function () {
         var applet = window[ggbAppletID]
         applet.setXML(xml)
       }
@@ -104,7 +104,7 @@ Injections = function() {
       applet = new GGBApplet({ material_id: href.substr(5) }, true)
       applet.inject(gtAppletID, 'preferHTML5')
 
-      transform = function() {
+      transform = function () {
         setTimeout(transform, 1000)
         scale =
           $clone.parent().width() /
@@ -117,9 +117,7 @@ Injections = function() {
             scale *
             $clone.find('div:first > article').attr('data-param-scale')
         )
-        $($clone[0])
-          .parent()
-          .height('100%')
+        $($clone[0]).parent().height('100%')
       }
       transform()
       $($clone[1]).attr('href', 'https://serlo.org/ggt/' + href.substr(5))
@@ -138,7 +136,7 @@ Injections = function() {
     function handleResponse(data, contentType) {
       cache[href] = {
         data: data,
-        contentType: contentType
+        contentType: contentType,
       }
 
       if (
@@ -182,20 +180,20 @@ Injections = function() {
 
     // by default load injections from the server
     $.ajax(href)
-      .done(function() {
+      .done(function () {
         handleResponse(
           arguments[0],
           arguments[2].getResponseHeader('Content-Type')
         )
       })
-      .always(function() {
+      .always(function () {
         totalInjectionsCount -= 1
         if (totalInjectionsCount === 0 && ggbAppletsCount > 0) {
           Sentry.captureMessage('Legacy GeoGebra applet')
         }
       })
       // This error could mean that the injection is of type GeoGebraTube
-      .fail(function() {
+      .fail(function () {
         Common.log('Could not load injection from Serlo server')
       })
   })

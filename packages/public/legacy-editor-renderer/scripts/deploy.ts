@@ -39,7 +39,7 @@ async function run() {
     name: 'serlo-org-legacy-editor-renderer',
     version,
     Dockerfile: path.join(root, 'Dockerfile'),
-    context: '../../..'
+    context: '../../..',
   })
 }
 

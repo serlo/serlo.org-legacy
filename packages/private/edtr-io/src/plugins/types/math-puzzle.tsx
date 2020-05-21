@@ -30,7 +30,7 @@ export const mathPuzzleTypeState = entityType(
   {
     ...entity,
     source: string(),
-    content: editorContent()
+    content: editorContent(),
   },
   {}
 )
@@ -38,7 +38,7 @@ export const mathPuzzleTypeState = entityType(
 export const mathPuzzleTypePlugin: EditorPlugin<typeof mathPuzzleTypeState> = {
   Component: MathPuzzleTypeEditor,
   state: mathPuzzleTypeState,
-  config: {}
+  config: {},
 }
 
 function MathPuzzleTypeEditor(

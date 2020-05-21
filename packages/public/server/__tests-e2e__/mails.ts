@@ -33,7 +33,7 @@ test('Reset password mail renders correctly', async () => {
   // FIXME: should work but doesn't. We aren't using the "for" attribute correctly
   // const $email = await queries.getByLabelText($document, 'E-Mail-Adresse:')
   // await $email.type(email)
-  await mailPage.evaluate(email => {
+  await mailPage.evaluate((email) => {
     const $email = document.getElementsByName('email')[0] as HTMLInputElement
     $email.value = email
   }, email)

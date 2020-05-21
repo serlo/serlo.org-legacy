@@ -31,7 +31,7 @@ import { RevisionHistory } from './helpers/settings'
 export const textSolutionTypeState = entityType(
   {
     ...entity,
-    content: editorContent('solution')
+    content: editorContent('solution'),
   },
   {}
 )
@@ -47,17 +47,17 @@ export const textSolutionTypePlugin: EditorPlugin<
   Component: TextSolutionTypeEditor,
   state: textSolutionTypeState,
   config: {
-    skipControls: false
-  }
+    skipControls: false,
+  },
 }
 
 const solutionTheme = {
   rendererUi: {
     expandableBox: {
       toggleBackgroundColor: '#d9edf7',
-      containerBorderColor: '#d9edf7'
-    }
-  }
+      containerBorderColor: '#d9edf7',
+    },
+  },
 }
 
 function TextSolutionTypeEditor(props: TextSolutionTypeProps) {

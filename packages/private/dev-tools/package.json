@@ -35,7 +35,7 @@
     "jest": "^26.0.0",
     "nodemon": "^2.0.0",
     "npm-run-all": "^4.0.0",
-    "prettier": "^1.0.0",
+    "prettier": "^2.0.0",
     "signale": "^1.0.0",
     "ts-node": "^8.0.0",
     "typescript": "^3.0.0"

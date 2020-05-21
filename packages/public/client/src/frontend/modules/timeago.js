@@ -29,8 +29,8 @@ function updateTime($elem, datetime) {
   $elem.text(datetime.fromNow())
 }
 
-TimeAgo = function() {
-  return $(this).each(function() {
+TimeAgo = function () {
+  return $(this).each(function () {
     var self = this
     var $self = $(self)
     var datetime = $self.attr('title') || null
@@ -50,7 +50,7 @@ TimeAgo = function() {
 
     updateTime($self, datetime)
 
-    self.interval = setInterval(function() {
+    self.interval = setInterval(function () {
       updateTime($self, datetime)
     }, 45000)
   })

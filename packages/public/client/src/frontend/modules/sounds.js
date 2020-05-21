@@ -28,13 +28,13 @@ import wrongOgg from '../../../sounds/wrong.ogg'
 
 const sounds = {
   correct: new Howl({
-    src: [correctOgg, correctMp3]
+    src: [correctOgg, correctMp3],
   }),
   wrong: new Howl({
-    src: [wrongOgg, wrongMp3]
-  })
+    src: [wrongOgg, wrongMp3],
+  }),
 }
 
-export default key => {
+export default (key) => {
   sounds[key].stop().play()
 }

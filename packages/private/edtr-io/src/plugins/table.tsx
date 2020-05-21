@@ -24,14 +24,14 @@ import {
   createTablePlugin,
   TableProps,
   TablePluginState,
-  TablePluginConfig
+  TablePluginConfig,
 } from '@edtr-io/plugin-table'
 import { converter } from '@serlo/markdown'
 import { typeset } from '@serlo/mathjax'
 import * as React from 'react'
 
 const edtrTablePlugin = createTablePlugin({
-  MarkdownRenderer
+  MarkdownRenderer,
 })
 
 function MarkdownRenderer(props: { markdown: string }) {
@@ -41,7 +41,7 @@ function MarkdownRenderer(props: { markdown: string }) {
 
 export const tablePlugin: EditorPlugin<TablePluginState, TablePluginConfig> = {
   ...edtrTablePlugin,
-  Component: TableEditor
+  Component: TableEditor,
 }
 
 function TableEditor(props: TableProps) {

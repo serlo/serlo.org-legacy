@@ -20,27 +20,27 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 /* eslint-disable */
-CodeMirror.defineMode('sfm', function(cmCfg, modeCfg) {
-  var defStartPos = function(stream, state) {
+CodeMirror.defineMode('sfm', function (cmCfg, modeCfg) {
+  var defStartPos = function (stream, state) {
       state.startPos = {
         line: stream.lineNo,
-        ch: stream.start
+        ch: stream.start,
       }
       state.endPos = undefined
     },
-    defEndPos = function(stream, state) {
+    defEndPos = function (stream, state) {
       state.endPos = {
         line: stream.lineNo,
-        ch: stream.pos
+        ch: stream.pos,
       }
     }
 
   return {
-    startState: function() {
+    startState: function () {
       return {}
     },
 
-    blankLine: function(state) {
+    blankLine: function (state) {
       // state.wasBlank = true;
       state.inEm = false
       state.inStrong = false
@@ -50,7 +50,7 @@ CodeMirror.defineMode('sfm', function(cmCfg, modeCfg) {
       state.startPos = undefined
     },
 
-    token: function(stream, state) {
+    token: function (stream, state) {
       // START OF LINE
       if (stream.sol()) {
         if (stream.match(/^\s*$/, true)) {
@@ -166,7 +166,7 @@ CodeMirror.defineMode('sfm', function(cmCfg, modeCfg) {
       stream.next()
 
       return null // Unstyled token
-    }
+    },
   }
 })
 

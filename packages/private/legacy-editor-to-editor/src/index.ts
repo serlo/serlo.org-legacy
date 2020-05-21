@@ -26,7 +26,7 @@ import {
   Splish,
   RowsPlugin,
   isSplish,
-  convertRow
+  convertRow,
 } from './splishToEdtr'
 
 export function convert(content: Legacy | Splish): RowsPlugin {
@@ -41,14 +41,14 @@ export function convertLegacyToSplish(content: Legacy, id: string): Splish {
   const cells = split(transform(content))
   return {
     ...cells,
-    id
+    id,
   }
 }
 
 export function convertSplishToEdtrIO(content: Splish): RowsPlugin {
   return {
     plugin: 'rows',
-    state: convertRow(content)
+    state: convertRow(content),
   }
 }
 
@@ -59,5 +59,5 @@ export {
   Legacy,
   Splish,
   isSplish,
-  isEdtr
+  isEdtr,
 } from './splishToEdtr'

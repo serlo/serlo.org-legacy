@@ -31,13 +31,13 @@ export function createImportantPlugin(): EditorPlugin<ImportantState> {
   return {
     Component: ImportantRenderer,
     config: {},
-    state: importantState
+    state: importantState,
   }
 }
 
 const Box = styled.div({
   borderLeft: '#bedfed solid 5px',
-  paddingLeft: '15px'
+  paddingLeft: '15px',
 })
 
 function ImportantRenderer(props: ImportantProps) {

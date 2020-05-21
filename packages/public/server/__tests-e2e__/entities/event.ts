@@ -29,6 +29,6 @@ test('view page of events', async () => {
   const event = await getByItemType(eventPage, eventItemType)
   await expect(event).toMatchElement('h1', { text: 'Beispielveranstaltung' })
   await expect(event).toMatchElement('*', {
-    text: 'Redaktionssitzung in Münster'
+    text: 'Redaktionssitzung in Münster',
   })
 })

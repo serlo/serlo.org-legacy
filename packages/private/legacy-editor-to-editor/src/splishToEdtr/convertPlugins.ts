@@ -28,7 +28,7 @@ import {
   SplishInjectionState,
   SplishSpoilerState,
   SplishTableState,
-  SplishTextState
+  SplishTextState,
 } from '../legacyToSplish/createPlugin'
 import { convertOldSlate, htmlToSlate } from './convertSlate'
 import { ContentCell, OtherPlugin, Plugin } from './types'
@@ -41,7 +41,7 @@ export function convertPlugin(cell: ContentCell): OtherPlugin {
       const blockquoteState = state as SplishBlockquoteState
       return {
         plugin: 'important',
-        state: convertSplishToEdtrIO(blockquoteState.child.state)
+        state: convertSplishToEdtrIO(blockquoteState.child.state),
       }
     case Plugin.Image:
       const imageState = state as SplishImageState
@@ -52,18 +52,18 @@ export function convertPlugin(cell: ContentCell): OtherPlugin {
           link: imageState.href
             ? {
                 href: imageState.href,
-                openInNewTab: false
+                openInNewTab: false,
               }
             : undefined,
           src: imageState.src,
-          maxWidth: undefined
-        }
+          maxWidth: undefined,
+        },
       }
     case Plugin.Injection:
       const injectionState = state as SplishInjectionState
       return {
         plugin: 'injection',
-        state: injectionState.src
+        state: injectionState.src,
       }
     case Plugin.Spoiler:
       const spoilerState = state as SplishSpoilerState
@@ -71,35 +71,35 @@ export function convertPlugin(cell: ContentCell): OtherPlugin {
         plugin: 'spoiler',
         state: {
           title: spoilerState.title,
-          content: convertSplishToEdtrIO(spoilerState.content.state)
-        }
+          content: convertSplishToEdtrIO(spoilerState.content.state),
+        },
       }
     case Plugin.Text:
       const textState = state as SplishTextState
       if (textState.editorState) {
         return {
           plugin: 'text',
-          state: serializer.serialize(convertOldSlate(textState.editorState))
+          state: serializer.serialize(convertOldSlate(textState.editorState)),
         }
       } else {
         return {
           plugin: 'text',
           state: serializer.serialize(
             htmlToSlate(textState.importFromHtml || '')
-          )
+          ),
         }
       }
     case Plugin.Table:
       const tableState = state as SplishTableState
       return {
         plugin: 'table',
-        state: tableState.src
+        state: tableState.src,
       }
     case Plugin.Geogebra:
       const geogebraState = state as SplishGeogebraState
       return {
         plugin: 'geogebra',
-        state: geogebraState.src
+        state: geogebraState.src,
       }
     case 'code':
       const code = state as SplishCodeState
@@ -108,16 +108,16 @@ export function convertPlugin(cell: ContentCell): OtherPlugin {
         state: {
           language: code.language,
           code: code.src,
-          showLineNumbers: false
-        }
+          showLineNumbers: false,
+        },
       }
     default:
       return {
         plugin: 'error',
         state: {
           plugin: plugin.name,
-          state: state
-        }
+          state: state,
+        },
       }
   }
 }

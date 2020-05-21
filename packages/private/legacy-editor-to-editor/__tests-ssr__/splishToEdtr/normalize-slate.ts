@@ -21,7 +21,7 @@
  */
 import {
   unwrapChildBlocks,
-  normalize
+  normalize,
 } from '../../src/splishToEdtr/normalize-slate'
 import { BlockJSON, ValueJSON } from 'slate'
 
@@ -41,20 +41,20 @@ describe('normalizeSlateValue()', () => {
                 object: 'block',
                 type: '@splish-me/katex-block',
                 data: { formula: 'a^2+b^2=c^2', inline: false },
-                nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }]
+                nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }],
               },
               { object: 'text', text: ' and ', marks: [] },
               {
                 object: 'block',
                 type: '@splish-me/katex-block',
                 data: { formula: '\\sqrt{-1}=i', inline: false },
-                nodes: [{ object: 'text', text: '\\sqrt{-1}=i', marks: [] }]
-              }
+                nodes: [{ object: 'text', text: '\\sqrt{-1}=i', marks: [] }],
+              },
             ],
-            data: {}
-          }
-        ]
-      }
+            data: {},
+          },
+        ],
+      },
     }
     const expectedResult: ValueJSON = {
       object: 'value',
@@ -66,22 +66,22 @@ describe('normalizeSlateValue()', () => {
             object: 'block',
             type: '@splish-me/katex-block',
             data: { formula: 'a^2+b^2=c^2', inline: false },
-            nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }]
+            nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }],
           },
           {
             object: 'block',
             type: 'paragraph',
             nodes: [{ object: 'text', text: ' and ', marks: [] }],
-            data: {}
+            data: {},
           },
           {
             object: 'block',
             type: '@splish-me/katex-block',
             data: { formula: '\\sqrt{-1}=i', inline: false },
-            nodes: [{ object: 'text', text: '\\sqrt{-1}=i', marks: [] }]
-          }
-        ]
-      }
+            nodes: [{ object: 'text', text: '\\sqrt{-1}=i', marks: [] }],
+          },
+        ],
+      },
     }
 
     expect(normalize(input)).toEqual(expectedResult)
@@ -100,31 +100,31 @@ describe('unwrapChildBlocks()', () => {
             object: 'block',
             type: '@splish-me/katex-block',
             data: { formula: 'a^2+b^2=c^2', inline: false },
-            nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }]
+            nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }],
           },
-          { object: 'text', text: ' is very famous.', marks: [] }
+          { object: 'text', text: ' is very famous.', marks: [] },
         ],
-        data: {}
+        data: {},
       }
       const expectedResult = [
         {
           object: 'block',
           type: 'paragraph',
           nodes: [{ object: 'text', text: 'The theorem ', marks: [] }],
-          data: {}
+          data: {},
         },
         {
           object: 'block',
           type: '@splish-me/katex-block',
           data: { formula: 'a^2+b^2=c^2', inline: false },
-          nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }]
+          nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }],
         },
         {
           object: 'block',
           type: 'paragraph',
           nodes: [{ object: 'text', text: ' is very famous.', marks: [] }],
-          data: {}
-        }
+          data: {},
+        },
       ]
 
       expect(unwrapChildBlocks(input)).toEqual(expectedResult)
@@ -139,37 +139,37 @@ describe('unwrapChildBlocks()', () => {
             object: 'block',
             type: '@splish-me/katex-block',
             data: { formula: 'a^2+b^2=c^2', inline: false },
-            nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }]
+            nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }],
           },
           { object: 'text', text: ' and ', marks: [] },
           {
             object: 'block',
             type: '@splish-me/katex-block',
             data: { formula: '\\sqrt{-1}=i', inline: false },
-            nodes: [{ object: 'text', text: '\\sqrt{-1}=i', marks: [] }]
-          }
+            nodes: [{ object: 'text', text: '\\sqrt{-1}=i', marks: [] }],
+          },
         ],
-        data: {}
+        data: {},
       }
       const expectedResult: BlockJSON[] = [
         {
           object: 'block',
           type: '@splish-me/katex-block',
           data: { formula: 'a^2+b^2=c^2', inline: false },
-          nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }]
+          nodes: [{ object: 'text', text: 'a^2+b^2=c^2', marks: [] }],
         },
         {
           object: 'block',
           type: 'paragraph',
           nodes: [{ object: 'text', text: ' and ', marks: [] }],
-          data: {}
+          data: {},
         },
         {
           object: 'block',
           type: '@splish-me/katex-block',
           data: { formula: '\\sqrt{-1}=i', inline: false },
-          nodes: [{ object: 'text', text: '\\sqrt{-1}=i', marks: [] }]
-        }
+          nodes: [{ object: 'text', text: '\\sqrt{-1}=i', marks: [] }],
+        },
       ]
 
       expect(unwrapChildBlocks(input)).toEqual(expectedResult)
@@ -185,10 +185,10 @@ describe('unwrapChildBlocks()', () => {
         {
           object: 'text',
           text: 'World!',
-          marks: [{ type: '@splish-me/strong' }]
-        }
+          marks: [{ type: '@splish-me/strong' }],
+        },
       ],
-      data: {}
+      data: {},
     }
 
     expect(unwrapChildBlocks(paragraph)).toEqual([paragraph])

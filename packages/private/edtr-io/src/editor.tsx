@@ -33,7 +33,7 @@ import {
   faNewspaper,
   faParagraph,
   faPhotoVideo,
-  faQuoteRight
+  faQuoteRight,
 } from '@edtr-io/ui'
 import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
@@ -60,7 +60,7 @@ export const SaveContext = React.createContext<{
   onSave: () => {
     return Promise.reject()
   },
-  mayCheckout: false
+  mayCheckout: false,
 })
 
 export function Editor(props: EditorProps) {
@@ -70,7 +70,7 @@ export function Editor(props: EditorProps) {
   const plugins = createPlugins({
     getCsrfToken: props.getCsrfToken,
     registry: getRegistry(),
-    i18n
+    i18n,
   })
 
   const DocumentEditor = createDefaultDocumentEditor({
@@ -78,9 +78,9 @@ export function Editor(props: EditorProps) {
       settings: {
         buttonLabel: i18n.t('edtr-io::Settings'),
         modalTitle: i18n.t('edtr-io::Extended Settings'),
-        modalCloseLabel: i18n.t('edtr-io::Close')
-      }
-    }
+        modalCloseLabel: i18n.t('edtr-io::Close'),
+      },
+    },
   })
 
   const legacyUrl = window.location.pathname
@@ -122,7 +122,7 @@ export function Editor(props: EditorProps) {
     result = {
       success: true,
       initialState: stored,
-      converted: false
+      converted: false,
     }
   }
 
@@ -158,7 +158,7 @@ export function Editor(props: EditorProps) {
     const isExercise = [
       'grouped-text-exercise',
       'text-exercise',
-      'text-exercise-group'
+      'text-exercise-group',
     ].includes(props.type)
     return [
       {
@@ -167,13 +167,13 @@ export function Editor(props: EditorProps) {
         description: i18n.t(
           'edtr-io::Compose content using rich text and math formulas.'
         ),
-        icon: createIcon(faParagraph)
+        icon: createIcon(faParagraph),
       },
       {
         name: 'blockquote',
         title: i18n.t('edtr-io::Quotation'),
         description: i18n.t('edtr-io::Create indented text for quotations.'),
-        icon: createIcon(faQuoteRight)
+        icon: createIcon(faQuoteRight),
       },
       {
         name: 'geogebra',
@@ -181,41 +181,45 @@ export function Editor(props: EditorProps) {
         description: i18n.t(
           'edtr-io::Embed GeoGebra Materials applets via URL or ID.'
         ),
-        icon: createIcon(faCubes)
+        icon: createIcon(faCubes),
       },
       {
         name: 'highlight',
         title: i18n.t('edtr-io::Source Code'),
         description: i18n.t('edtr-io::Highlight the syntax of source code.'),
-        icon: createIcon(faCode)
+        icon: createIcon(faCode),
       },
       {
         name: 'anchor',
         title: i18n.t('edtr-io::Anchor'),
         description: i18n.t('edtr-io::Insert an anchor.'),
-        icon: createIcon(faAnchor)
+        icon: createIcon(faAnchor),
       },
       {
         name: 'equations',
         title: i18n.t('edtr-io::Equations'),
-        description: i18n.t('edtr-io::Create mathematical equations and terms.')
+        description: i18n.t(
+          'edtr-io::Create mathematical equations and terms.'
+        ),
       },
       {
         name: 'image',
         title: i18n.t('edtr-io::Image'),
         description: i18n.t('edtr-io::Upload images.'),
-        icon: createIcon(faImages)
+        icon: createIcon(faImages),
       },
       {
         name: 'important',
         title: i18n.t('edtr-io::Important Statement'),
-        description: i18n.t('edtr-io::A box to highlight important statements.')
+        description: i18n.t(
+          'edtr-io::A box to highlight important statements.'
+        ),
       },
       {
         name: 'injection',
         title: i18n.t('edtr-io::serlo.org Content'),
         description: i18n.t('edtr-io::Embed serlo.org content via their ID.'),
-        icon: createIcon(faNewspaper)
+        icon: createIcon(faNewspaper),
       },
       {
         name: 'multimedia',
@@ -223,18 +227,18 @@ export function Editor(props: EditorProps) {
         description: i18n.t(
           'edtr-io::Create an illustrating or explaining multimedia content associated with text.'
         ),
-        icon: createIcon(faPhotoVideo)
+        icon: createIcon(faPhotoVideo),
       },
       {
         name: 'spoiler',
         title: i18n.t('edtr-io::Spoiler'),
         description: i18n.t('edtr-io::A collapsible box.'),
-        icon: createIcon(faCaretSquareDown)
+        icon: createIcon(faCaretSquareDown),
       },
       {
         name: 'table',
         title: i18n.t('edtr-io::Table'),
-        description: i18n.t('edtr-io::Create tables using Markdown.')
+        description: i18n.t('edtr-io::Create tables using Markdown.'),
       },
       {
         name: 'video',
@@ -242,7 +246,7 @@ export function Editor(props: EditorProps) {
         description: i18n.t(
           'edtr-io::Embed YouTube, Vimeo, Wikimedia Commons or BR videos.'
         ),
-        icon: createIcon(faFilm)
+        icon: createIcon(faFilm),
       },
       ...(isExercise
         ? [
@@ -251,10 +255,10 @@ export function Editor(props: EditorProps) {
               title: i18n.t('edtr-io::Solution Separator'),
               description: i18n.t(
                 'edtr-io::Divide the solution into individual steps.'
-              )
-            }
+              ),
+            },
           ]
-        : [])
+        : []),
     ]
   }
 }
@@ -273,7 +277,7 @@ export function storeState(state: unknown) {
     localStorage.setItem(
       'edtr',
       JSON.stringify({
-        [window.location.pathname]: state
+        [window.location.pathname]: state,
       })
     )
   } else {
@@ -282,7 +286,7 @@ export function storeState(state: unknown) {
       'edtr',
       JSON.stringify({
         ...parsed,
-        [window.location.pathname]: state
+        [window.location.pathname]: state,
       })
     )
   }

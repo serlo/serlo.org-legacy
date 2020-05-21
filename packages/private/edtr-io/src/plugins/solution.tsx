@@ -25,7 +25,7 @@ import {
   child,
   object,
   string,
-  optional
+  optional,
 } from '@edtr-io/plugin'
 import * as React from 'react'
 import { useScopedSelector } from '@edtr-io/core'
@@ -42,13 +42,13 @@ const solutionState = object({
   prerequisite: optional(
     object({
       id: string(),
-      title: string()
+      title: string(),
     })
   ),
   strategy: child({
-    plugin: 'text'
+    plugin: 'text',
   }),
-  steps: child({ plugin: 'rows' })
+  steps: child({ plugin: 'rows' }),
 })
 
 export type SolutionState = typeof solutionState
@@ -57,7 +57,7 @@ export type SolutionProps = EditorPluginProps<SolutionState>
 export const solutionPlugin: EditorPlugin<SolutionState> = {
   Component: SolutionEditor,
   state: solutionState,
-  config: {}
+  config: {},
 }
 
 const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
@@ -77,8 +77,8 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
             config: {
               placeholder: i18n.t(
                 'solution::Optionally explain the solution strategy here'
-              )
-            }
+              ),
+            },
           })}
         </SemanticSection>
       ) : null}
@@ -116,14 +116,14 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
                       : ''
                   }
                   placeholder={i18n.t('solution::ID of an article, e.g. 1855')}
-                  onChange={event => {
+                  onChange={(event) => {
                     const newValue = event.target.value.replace(/[^0-9]/g, '')
                     if (prerequisite.defined) {
                       prerequisite.id.set(newValue)
                     } else {
                       prerequisite.create({
                         id: newValue,
-                        title: ''
+                        title: '',
                       })
                     }
                   }}
@@ -148,7 +148,7 @@ function SolutionEditor({ editable, state, focused }: SolutionProps) {
             <a>
               <InlineInput
                 value={prerequisite.defined ? prerequisite.title.value : ''}
-                onChange={value => {
+                onChange={(value) => {
                   if (prerequisite.defined) {
                     prerequisite.title.set(value)
                   } else {

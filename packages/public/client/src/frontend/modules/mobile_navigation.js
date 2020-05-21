@@ -56,8 +56,8 @@ defaults = {
     // attribute name to decide whether a subnav should be shown
     sidenav: 'sidenav',
     // attribute name to identify the menuitem
-    identifier: 'identifier'
-  }
+    identifier: 'identifier',
+  },
 }
 
 /**
@@ -66,7 +66,7 @@ defaults = {
  *
  * Main constructor
  **/
-MobileNavigation = function(options) {
+MobileNavigation = function (options) {
   if (!(this instanceof MobileNavigation)) {
     return new MobileNavigation(options)
   }
@@ -96,7 +96,7 @@ MobileNavigation = function(options) {
 
   // get navigation elements
   this.copyNav('#serlo-menu .navbar-inner>ul', this.$serloNavDropdown, {
-    skip: '.notifications, .authentication'
+    skip: '.notifications, .authentication',
   })
   this.copyNav('#side-navigation-social', this.$serloNavDropdown)
   this.copyNav('#main-nav', this.$mainNav)
@@ -113,7 +113,7 @@ MobileNavigation = function(options) {
     .first()
     .removeClass('is-hidden')
     .addClass(this.options.navHeaderClass)
-    .click(function(e) {
+    .click(function (e) {
       e.preventDefault()
     })
 
@@ -129,17 +129,17 @@ MobileNavigation = function(options) {
  *
  * Attaches all needed event handlers
  **/
-MobileNavigation.prototype.attachEventHandler = function() {
+MobileNavigation.prototype.attachEventHandler = function () {
   var self = this
 
   // toggle menu and refresh affixes
-  $(self.options.toggleId).click(function() {
+  $(self.options.toggleId).click(function () {
     self.$el.slideToggle({
       duration: 300,
       // easing: 'easeInOutCubic',
-      complete: function() {
+      complete: function () {
         $(document).trigger('affix-refresh')
-      }
+      },
     })
   })
 
@@ -152,7 +152,7 @@ MobileNavigation.prototype.attachEventHandler = function() {
  *
  * Renders the sub navigation as dropdown
  */
-MobileNavigation.prototype.renderSubNavigation = function(root) {
+MobileNavigation.prototype.renderSubNavigation = function (root) {
   var self = this
 
   /**
@@ -165,7 +165,7 @@ MobileNavigation.prototype.renderSubNavigation = function(root) {
   function loop(elem, navElements) {
     var link = elem.children().first()
     var dropdown = $('<ul>', {
-      class: 'dropdown-menu'
+      class: 'dropdown-menu',
     })
 
     // change element into dropdown
@@ -177,15 +177,15 @@ MobileNavigation.prototype.renderSubNavigation = function(root) {
 
     self.attachDropdownEventHandlers(elem)
 
-    $.each(navElements, function(i, item) {
+    $.each(navElements, function (i, item) {
       var li = $('<li>', {
         dataNeedsFetching: item.needsFetching,
         dataSidenav: item.sidenav,
-        dataIdentifier: item.identifier
+        dataIdentifier: item.identifier,
       })
       var a = $('<a>', {
         href: item.href,
-        text: item.label
+        text: item.label,
       })
 
       li.append(a)
@@ -193,7 +193,7 @@ MobileNavigation.prototype.renderSubNavigation = function(root) {
 
       if (item.children.length > 0) {
         // Enable multilevel dropdown menus
-        a.click(function(e) {
+        a.click(function (e) {
           e.preventDefault()
           e.stopPropagation()
 
@@ -210,7 +210,7 @@ MobileNavigation.prototype.renderSubNavigation = function(root) {
     elem.append(dropdown)
   }
 
-  root.children().each(function() {
+  root.children().each(function () {
     var elem = $(this)
     var sidenav = elem.data(self.options.asyncNav.sidenav) === undefined
     var id = elem.data(self.options.asyncNav.identifier)
@@ -221,7 +221,7 @@ MobileNavigation.prototype.renderSubNavigation = function(root) {
       elem.data(self.options.asyncNav.indicator) &&
       sidenav
     ) {
-      $.getJSON(fetchUrl, function(data) {
+      $.getJSON(fetchUrl, function (data) {
         if (data.length > 0) {
           loop(elem, data)
         }
@@ -238,21 +238,18 @@ MobileNavigation.prototype.renderSubNavigation = function(root) {
  *
  * Copies the <li> from source to destination
  */
-MobileNavigation.prototype.copyNav = function(source, destination, params) {
+MobileNavigation.prototype.copyNav = function (source, destination, params) {
   var defaultParams = {
     // skips source items that match any of these selectors
-    skip: ''
+    skip: '',
   }
   params = params
     ? $.extend({}, defaultParams, params)
     : $.extend({}, defaultParams)
 
-  $(source).each(function() {
+  $(source).each(function () {
     if (!$(this).is(params.skip)) {
-      $(this)
-        .children()
-        .clone()
-        .appendTo(destination)
+      $(this).children().clone().appendTo(destination)
     }
   })
 }
@@ -264,11 +261,8 @@ MobileNavigation.prototype.copyNav = function(source, destination, params) {
  *
  * Moves <li> items containing primary <a> from source to destination
  */
-MobileNavigation.prototype.movePrimaries = function(source, destination) {
-  source
-    .find(this.options.primaryClass)
-    .parent()
-    .appendTo(destination)
+MobileNavigation.prototype.movePrimaries = function (source, destination) {
+  source.find(this.options.primaryClass).parent().appendTo(destination)
 }
 
 /**
@@ -278,7 +272,7 @@ MobileNavigation.prototype.movePrimaries = function(source, destination) {
  * Modifies the given dropdown s.th. the affix refreshes on open/close and that clicks outside of dropdown
  * do not close the dropdown.
  */
-MobileNavigation.prototype.attachDropdownEventHandlers = function(el) {
+MobileNavigation.prototype.attachDropdownEventHandlers = function (el) {
   // refresh affix on open/close
   el.on(
     'shown.bs.dropdown hidden.bs.dropdown',
@@ -287,15 +281,15 @@ MobileNavigation.prototype.attachDropdownEventHandlers = function(el) {
 
   // clicks outside dropdown should not close the dropdown
   el.on({
-    'shown.bs.dropdown': function() {
+    'shown.bs.dropdown': function () {
       this.closable = false
     },
-    click: function() {
+    click: function () {
       this.closable = true
     },
-    'hide.bs.dropdown': function() {
+    'hide.bs.dropdown': function () {
       return this.closable
-    }
+    },
   })
 }
 

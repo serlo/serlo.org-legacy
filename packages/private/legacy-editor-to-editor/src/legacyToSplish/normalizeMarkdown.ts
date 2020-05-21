@@ -46,20 +46,20 @@ const blockquoteRegEx = new RegExp(
 const extractCode = (normalizedObj: NormalizedObject) =>
   extract(
     codeRegEx,
-    match => ({
+    (match) => ({
       name: 'code',
       language: match[2].trim(),
-      src: match[3]
+      src: match[3],
     }),
     normalizedObj
   )
 const extractSpoilers = (normalizedObj: NormalizedObject) =>
   extract(
     spoilerRegEx,
-    match => ({
+    (match) => ({
       name: 'spoiler',
       title: match[1],
-      content: normalizeMarkdown(match[2])
+      content: normalizeMarkdown(match[2]),
     }),
     normalizedObj
   )
@@ -67,9 +67,9 @@ const extractSpoilers = (normalizedObj: NormalizedObject) =>
 const extractTable = (normalizedObj: NormalizedObject) =>
   extract(
     tableRegEx,
-    match => ({
+    (match) => ({
       name: 'table',
-      src: match[0]
+      src: match[0],
     }),
     normalizedObj
   )
@@ -77,10 +77,10 @@ const extractTable = (normalizedObj: NormalizedObject) =>
 const extractInjections = (normalizedObj: NormalizedObject) =>
   extract(
     injectionRegEx,
-    match => ({
+    (match) => ({
       name: 'injection',
       description: match[1],
-      src: match[2]
+      src: match[2],
     }),
     normalizedObj
   )
@@ -88,10 +88,10 @@ const extractInjections = (normalizedObj: NormalizedObject) =>
 const extractGeogebra = (normalizedObj: NormalizedObject) =>
   extract(
     geogebraInjectionRegEx,
-    match => ({
+    (match) => ({
       name: 'geogebra',
       description: match[1],
-      src: match[2]
+      src: match[2],
     }),
     normalizedObj
   )
@@ -99,12 +99,12 @@ const extractGeogebra = (normalizedObj: NormalizedObject) =>
 const extractLinkedImages = (normalizedObj: NormalizedObject) =>
   extract(
     linkedImagesRegEx,
-    match => ({
+    (match) => ({
       name: 'image',
       description: match[1],
       src: match[2],
       title: match[4],
-      href: match[5]
+      href: match[5],
     }),
     normalizedObj
   )
@@ -112,11 +112,11 @@ const extractLinkedImages = (normalizedObj: NormalizedObject) =>
 const extractImages = (normalizedObj: NormalizedObject) =>
   extract(
     imagesRegEx,
-    match => ({
+    (match) => ({
       name: 'image',
       description: match[1],
       src: match[2],
-      title: match[4]
+      title: match[4],
     }),
     normalizedObj
   )
@@ -124,9 +124,9 @@ const extractImages = (normalizedObj: NormalizedObject) =>
 const extractBlockquote = (normalizedObj: NormalizedObject) =>
   extract(
     blockquoteRegEx,
-    match => ({
+    (match) => ({
       name: 'blockquote',
-      content: normalizeMarkdown(match[1].replace(/(^|\n)>/g, '$1'))
+      content: normalizeMarkdown(match[1].replace(/(^|\n)>/g, '$1')),
     }),
     normalizedObj
   )
@@ -134,7 +134,7 @@ const extractBlockquote = (normalizedObj: NormalizedObject) =>
 const normalizeMarkdown = (markdown: string) => {
   let normalizedObj: NormalizedObject = {
     normalized: markdown,
-    elements: []
+    elements: [],
   }
   normalizedObj = extractCode(normalizedObj)
   normalizedObj = extractSpoilers(normalizedObj)
@@ -162,7 +162,7 @@ const extract = (
   }
   return {
     normalized: normalized,
-    elements: elements
+    elements: elements,
   }
 }
 

@@ -32,7 +32,7 @@ const contentApiQueryKeys = [
   'hideBanner',
   'hideHorizon',
   'hideFooter',
-  'fullWidth'
+  'fullWidth',
 ]
 
 export const initContentApi = () => {
@@ -48,7 +48,7 @@ export const initContentApi = () => {
   )
   const contentApiQueryString = stringifyQueryParams(contentApiQueryParams)
 
-  $links.each(function() {
+  $links.each(function () {
     const $link = $(this)
     const url = $link.attr('href')
     const target = $link.attr('target')
@@ -63,7 +63,7 @@ export const initContentApi = () => {
   })
 }
 
-const parseQueryParams = url => {
+const parseQueryParams = (url) => {
   const queryString = url.replace(/^.*?\?/, '').replace(/#.*?$/, '')
 
   if (!queryString) {
@@ -71,12 +71,12 @@ const parseQueryParams = url => {
   }
 
   const rawParams = queryString.split('&')
-  const params = R.map(param => param.split('='), rawParams)
+  const params = R.map((param) => param.split('='), rawParams)
 
   return R.fromPairs(params)
 }
 
-const stringifyQueryParams = params => {
+const stringifyQueryParams = (params) => {
   const rawParams = R.map(([key, value]) => {
     return value ? `${key}=${value}` : key
   }, R.toPairs(params))

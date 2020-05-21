@@ -44,21 +44,21 @@ export function initEntityEditor(
         getCsrfToken: getCsrfToken,
         onError: (error, context) => {
           console.log('edtr-io error', error, context)
-          Sentry.withScope(scope => {
+          Sentry.withScope((scope) => {
             scope.setTag('edtr-io', 'true')
             scope.setExtras(context)
             Sentry.captureException(error)
           })
         },
-        onSave: data => {
+        onSave: (data) => {
           return new Promise((resolve, reject) => {
             axios
               .post(window.location.pathname, data, {
                 headers: {
-                  'X-Requested-with': 'XMLHttpRequest'
-                }
+                  'X-Requested-with': 'XMLHttpRequest',
+                },
               })
-              .then(value => {
+              .then((value) => {
                 if (value.data.success) {
                   resolve()
                   window.location = value.data.redirect
@@ -67,12 +67,12 @@ export function initEntityEditor(
                   reject()
                 }
               })
-              .catch(value => {
+              .catch((value) => {
                 console.log(value)
                 reject(value)
               })
           })
-        }
+        },
       }}
     />,
     element
@@ -81,7 +81,7 @@ export function initEntityEditor(
 
 function DynamicComponent<P>({
   load,
-  props
+  props,
 }: {
   load: () => Promise<React.ComponentType<P>>
   props: P
@@ -90,7 +90,7 @@ function DynamicComponent<P>({
     P
   > | null>(null)
   React.useEffect(() => {
-    load().then(Component => {
+    load().then((Component) => {
       // Has to be a function. Otherwise, React will interpret the Component as a change handler and try to call it.
       setComponent(() => Component)
     })

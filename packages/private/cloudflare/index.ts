@@ -26,7 +26,7 @@ export const accountId = '3bfabc4463c2c3c340f7301d22ed18c0'
 
 export async function uploadWorker({
   name,
-  body
+  body,
 }: {
   name: string
   body: string
@@ -38,11 +38,11 @@ export async function uploadWorker({
         headers: {
           'X-Auth-Email': process.env.CF_EMAIL,
           'X-Auth-Key': process.env.CF_KEY,
-          'Content-Type': 'application/javascript'
+          'Content-Type': 'application/javascript',
         },
-        body
+        body,
       },
-      error => {
+      (error) => {
         if (error) {
           reject(error)
           return
@@ -56,7 +56,7 @@ export async function uploadWorker({
 
 export async function shouldDeployPackage({
   name,
-  version
+  version,
 }: {
   name: string
   version: string
@@ -71,9 +71,9 @@ export async function shouldDeployPackage({
       {
         headers: {
           'X-Auth-Email': process.env.CF_EMAIL,
-          'X-Auth-Key': process.env.CF_KEY
+          'X-Auth-Key': process.env.CF_KEY,
         },
-        body: `${name}@${version}`
+        body: `${name}@${version}`,
       },
       (error, res) => {
         if (error) {
@@ -89,25 +89,25 @@ export async function shouldDeployPackage({
 
 export async function publishPackage({
   name,
-  version
+  version,
 }: {
   name: string
   version: string
 }) {
   const environments = getEnvironments()
   await Promise.all(
-    environments.map(env => {
+    environments.map((env) => {
       return new Promise((resolve, reject) => {
         request.put(
           `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${name}@${env}`,
           {
             headers: {
               'X-Auth-Email': process.env.CF_EMAIL,
-              'X-Auth-Key': process.env.CF_KEY
+              'X-Auth-Key': process.env.CF_KEY,
             },
-            body: `${name}@${version}`
+            body: `${name}@${version}`,
           },
-          error => {
+          (error) => {
             if (error) {
               reject(error)
               return

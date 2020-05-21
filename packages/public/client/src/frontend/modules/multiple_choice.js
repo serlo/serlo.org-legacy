@@ -26,12 +26,12 @@ import play from './sounds'
 
 var MultipleChoice
 
-MultipleChoice = function() {
+MultipleChoice = function () {
   function checkDimensions($self) {
     var totalWidth = 0
     var changed = false
 
-    $('.multiple-choice-answer-content', $self).each(function() {
+    $('.multiple-choice-answer-content', $self).each(function () {
       totalWidth += $(this).width()
       if (totalWidth > $self.width() || $(this).height() > 35) {
         changed = true
@@ -46,7 +46,7 @@ MultipleChoice = function() {
   function handleResize($self) {
     if (!$self.hasClass('extended')) {
       typeset($self.get(0))
-      queue(function() {
+      queue(function () {
         if (checkDimensions($self)) {
           reprocess($self.get(0))
         }
@@ -54,12 +54,12 @@ MultipleChoice = function() {
     }
   }
 
-  return $(this).each(function() {
+  return $(this).each(function () {
     var $self = $(this)
     var $group = $('.multiple-choice-group', $self)
 
     handleResize($self)
-    $(window).bind('change-width', function() {
+    $(window).bind('change-width', function () {
       handleResize($self)
     })
 
@@ -67,19 +67,19 @@ MultipleChoice = function() {
       '.multiple-choice-answer-feedback, .multiple-choice-group-failure, .multiple-choice-group-success',
       $group
     ).collapse({
-      toggle: false
+      toggle: false,
     })
 
-    $self.click(function() {
+    $self.click(function () {
       $self.addClass('active')
     })
 
-    $('.multiple-choice-answer-content', $self).click(function(e) {
+    $('.multiple-choice-answer-content', $self).click(function (e) {
       e.preventDefault()
       $(this).toggleClass('active')
     })
 
-    $('#content-layout').click(function(event) {
+    $('#content-layout').click(function (event) {
       if (
         $self.hasClass('active') &&
         !$(event.target).closest($self).length &&
@@ -93,7 +93,7 @@ MultipleChoice = function() {
       }
     })
 
-    $group.submit(function(e) {
+    $group.submit(function (e) {
       e.preventDefault()
       var mistakes = 0
       var missingSolutions = 0
@@ -112,7 +112,7 @@ MultipleChoice = function() {
         $group
       )
 
-      $('.multiple-choice-answer-content', this).each(function(k, v) {
+      $('.multiple-choice-answer-content', this).each(function (k, v) {
         var $option = $(v)
         var answer =
           Boolean($option.hasClass('active')) ||
@@ -168,7 +168,7 @@ MultipleChoice = function() {
   function changeClass($element, oldClasses, newClasses, time) {
     $element.removeClass(oldClasses).addClass(newClasses)
     if (time) {
-      setTimeout(function() {
+      setTimeout(function () {
         $element.removeClass(newClasses).addClass(oldClasses)
       }, time)
     }

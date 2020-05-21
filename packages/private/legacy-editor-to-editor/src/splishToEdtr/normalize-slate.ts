@@ -26,13 +26,13 @@ import {
   ValueJSON,
   DocumentJSON,
   InlineJSON,
-  TextJSON
+  TextJSON,
 } from 'slate'
 
 export function normalize(value: ValueJSON): ValueJSON {
   return {
     ...value,
-    document: value.document ? normalizeNode(value.document)[0] : undefined
+    document: value.document ? normalizeNode(value.document)[0] : undefined,
   }
 }
 

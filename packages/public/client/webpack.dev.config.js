@@ -6,7 +6,7 @@ const port = 8081
 module.exports = R.mergeDeepRight(baseConfig, {
   mode: 'development',
   output: {
-    publicPath: `http://localhost:${port}/`
+    publicPath: `http://localhost:${port}/`,
   },
   devtool: 'cheap-module-source-map',
   devServer: {
@@ -14,10 +14,10 @@ module.exports = R.mergeDeepRight(baseConfig, {
     disableHostCheck: true,
     inline: false,
     headers: {
-      'Access-Control-Allow-Origin': '*'
+      'Access-Control-Allow-Origin': '*',
     },
     host: '0.0.0.0',
     port,
-    stats: 'errors-only'
-  }
+    stats: 'errors-only',
+  },
 })

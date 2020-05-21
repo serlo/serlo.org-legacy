@@ -35,7 +35,7 @@ var ImagePlugin, titleRegexp, hrefRegexp
 titleRegexp = new RegExp(/\[[^\]]*\]\(/)
 hrefRegexp = new RegExp(/\([^)]*\)/)
 
-ImagePlugin = function(fileuploadOptions) {
+ImagePlugin = function (fileuploadOptions) {
   this.state = 'image'
   this.init(fileuploadOptions)
 }
@@ -43,7 +43,7 @@ ImagePlugin = function(fileuploadOptions) {
 ImagePlugin.prototype = new EditorPlugin()
 ImagePlugin.prototype.constructor = ImagePlugin
 
-ImagePlugin.prototype.init = function(fileuploadOptions) {
+ImagePlugin.prototype.init = function (fileuploadOptions) {
   var that = this
 
   that.fileuploadOptions = fileuploadOptions || {}
@@ -53,15 +53,15 @@ ImagePlugin.prototype.init = function(fileuploadOptions) {
   that.data.name = 'Image'
 }
 
-ImagePlugin.prototype.updateContentString = function() {
+ImagePlugin.prototype.updateContentString = function () {
   this.data.content = '![' + this.data.title + '](' + this.data.href + ')'
 }
 
-ImagePlugin.prototype.onError = function(err) {
+ImagePlugin.prototype.onError = function (err) {
   this.$uploadStatus.text(err.join('\n'))
 }
 
-ImagePlugin.prototype.activate = function(token) {
+ImagePlugin.prototype.activate = function (token) {
   var that = this
   var title
   var href
@@ -75,20 +75,20 @@ ImagePlugin.prototype.activate = function(token) {
 
   that.$el = $(that.template(that.data))
 
-  that.$el.on('change', '.title', function() {
+  that.$el.on('change', '.title', function () {
     that.setData('title', this.value)
   })
 
-  that.$el.on('change', '.href', function() {
+  that.$el.on('change', '.href', function () {
     that.setData('href', this.value)
   })
 
-  that.$el.on('click', '.btn-save', function(e) {
+  that.$el.on('click', '.btn-save', function (e) {
     e.preventDefault()
     that.trigger('save', that)
   })
 
-  that.$el.on('click', '.btn-cancel', function(e) {
+  that.$el.on('click', '.btn-cancel', function (e) {
     e.preventDefault()
     that.trigger('close')
   })
@@ -99,13 +99,13 @@ ImagePlugin.prototype.activate = function(token) {
   // the upload form
   that.$upload = $('#fileupload', that.$el)
 
-  that.$upload.bind('fileuploadsubmit', function(e, data) {
+  that.$upload.bind('fileuploadsubmit', function (e, data) {
     var $csrf = $('input[name="csrf"]')
     data.formData = that.$upload.serializeArray()
     if ($csrf) {
       data.formData.push({
         name: 'csrf',
-        value: $csrf.val()
+        value: $csrf.val(),
       })
     } else {
       that.$uploadStatus.text(t('An error occured: %s', 'Form not valid'))
@@ -116,7 +116,7 @@ ImagePlugin.prototype.activate = function(token) {
   // initialize fileupload
   that.$upload.fileupload(
     _.extend({}, that.fileuploadOptions, {
-      add: function(e, data) {
+      add: function (e, data) {
         that.$el.addClass('uploading')
         that.$uploadStatus.text(t('Uploading.'))
 
@@ -152,12 +152,12 @@ ImagePlugin.prototype.activate = function(token) {
           data.submit()
         }
       },
-      error: function() {
+      error: function () {
         that.$el.removeClass('uploading')
         that.$uploadStatus.text(t('An error occured: %s', arguments[2]))
         Common.genericError(arguments)
       },
-      done: function() {
+      done: function () {
         var upload = arguments[1]
         that.$el.removeClass('uploading')
 
@@ -174,7 +174,7 @@ ImagePlugin.prototype.activate = function(token) {
           Common.genericError()
           that.$uploadStatus.text(t('An error occured.'))
         }
-      }
+      },
     })
   )
 }

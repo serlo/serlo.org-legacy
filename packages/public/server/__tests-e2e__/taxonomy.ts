@@ -31,25 +31,25 @@ import {
   click,
   clickForNewPage,
   login,
-  randomText
+  randomText,
 } from './_utils'
 
 test('view topic page with subtopics', async () => {
   const topic = await goto('/math/example-content').then(getMainContent)
 
   await expect(topic).toMatchElement('h1', {
-    text: 'Example content'
+    text: 'Example content',
   })
 
   await expect(
-    topic.$$('h2').then(h => Promise.all(h.map(getText)))
+    topic.$$('h2').then((h) => Promise.all(h.map(getText)))
   ).resolves.toEqual(['Example topic 1', 'Example topic 2', 'Example topic 3'])
 
   await expect(topic).toMatchElement('a', {
-    text: 'Example article'
+    text: 'Example article',
   })
   await expect(topic).toMatchElement('a', {
-    text: 'Example topic folder'
+    text: 'Example topic folder',
   })
   await expect(topic).toHaveTitle('Example content (topic)')
 })
@@ -63,7 +63,7 @@ test('view topic page with entites and topic folders', async () => {
   await expect(topic).toMatchElement('h2', { text: 'Exercises' })
   await expect(topic).toMatchElement('a', { text: 'Example article' })
   await expect(topic).toMatchElement('a', {
-    text: 'Example topic folder'
+    text: 'Example topic folder',
   })
   await expect(topic).toHaveTitle('Example topic 1 (topic)')
 })
@@ -89,10 +89,10 @@ test('navigating through the taxonomy', async () => {
 })
 
 describe('Creating taxonomy element', () => {
-  describe.each(['admin', 'english_langhelper'])('user is %p', user => {
+  describe.each(['admin', 'english_langhelper'])('user is %p', (user) => {
     test.each(['topic', 'topic-folder'])(
       'taxonomy type is %p',
-      async taxonomyType => {
+      async (taxonomyType) => {
         const title = randomText('Test ' + taxonomyType)
         const description = randomText()
 
@@ -110,12 +110,14 @@ describe('Creating taxonomy element', () => {
           '#content-layout > .pull-right .dropdown-toggle'
         ).then(click)
         const createPage = await getByText(organizeRoot, taxonomyType, {
-          selector: '#content-layout > .pull-right a'
+          selector: '#content-layout > .pull-right a',
         }).then(clickForNewPage)
 
-        await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+        await getByPlaceholderText(createPage, 'Titel').then((e) =>
+          e.type(title)
+        )
         await getByItemProp(createPage, 'articleBody').then(click)
-        await getByItemProp(createPage, 'articleBody').then(e =>
+        await getByItemProp(createPage, 'articleBody').then((e) =>
           e.type(description)
         )
         const success = await elements
@@ -123,7 +125,7 @@ describe('Creating taxonomy element', () => {
           .then(clickForNewPage)
 
         await expect(success).toMatchElement('p', {
-          text: 'The node has been added successfully!'
+          text: 'The node has been added successfully!',
         })
 
         rootTopic = await getBySelector(

@@ -24,7 +24,7 @@ test.each([
   ['de', 'Serlo – Die freie Lernplattform'],
   ['en', 'Serlo – The Open Learning Platform'],
   ['es', 'Serlo – La Plataforma para el Aprendizaje Abierto'],
-  ['hi', 'सेर्लो – ओपन लर्निंग प्लेटफॉर्म']
+  ['hi', 'सेर्लो – ओपन लर्निंग प्लेटफॉर्म'],
 ])(
   'Language version %p has correct document title',
   async (languageCode, title) => {

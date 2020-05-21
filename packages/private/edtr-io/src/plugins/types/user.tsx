@@ -25,13 +25,13 @@ import * as React from 'react'
 import { Controls, editorContent } from './common'
 
 export const userTypeState = object({
-  description: editorContent()
+  description: editorContent(),
 })
 
 export const userTypePlugin: EditorPlugin<typeof userTypeState> = {
   Component: UserTypeEditor,
   state: userTypeState,
-  config: {}
+  config: {},
 }
 
 function UserTypeEditor(props: EditorPluginProps<typeof userTypeState>) {

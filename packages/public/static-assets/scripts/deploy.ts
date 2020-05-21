@@ -46,7 +46,7 @@ async function run() {
 
     const shouldDeploy = await shouldDeployPackage({
       name,
-      version
+      version,
     })
     if (!shouldDeploy) {
       signale.info(`Skipping deployment of ${name}@${version}`)
@@ -59,13 +59,13 @@ async function run() {
     uploadPackage({
       source: srcPath,
       name,
-      version
+      version,
     })
 
     signale.pending('Publishing package…')
     await publishPackage({
       name,
-      version
+      version,
     })
 
     signale.success(`Successfully deployed ${name}@${version}`)

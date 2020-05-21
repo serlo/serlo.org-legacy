@@ -30,10 +30,10 @@ var defaults = {
   // Sidebar Breakpoint Grid
   sidebarBreakPoint: 980,
   // Navigation Breakpoint Grid
-  navigationBreakPoint: 1140
+  navigationBreakPoint: 1140,
 }
 
-SideElement = function(options) {
+SideElement = function (options) {
   this.options = options
     ? $.extend({}, defaults, options)
     : $.extend({}, defaults)
@@ -45,13 +45,13 @@ SideElement = function(options) {
   this.attachHandler()
 }
 
-SideElement.prototype.attachHandler = function() {
+SideElement.prototype.attachHandler = function () {
   var that = this
 
-  that.$elements.each(function() {
+  that.$elements.each(function () {
     var $element = $(this)
 
-    $('.layout-toggle', $element).click(function() {
+    $('.layout-toggle', $element).click(function () {
       that.$elements.not($element).removeClass(that.options.visibleClass)
 
       $element.toggleClass(that.options.visibleClass)
@@ -59,16 +59,16 @@ SideElement.prototype.attachHandler = function() {
   })
 
   that.$window.resize(
-    _.debounce(function() {
+    _.debounce(function () {
       that.$elements.removeClass(that.options.visibleClass)
     }, 300)
   )
 }
 
 const sideelement = {
-  init: function(options) {
+  init: function (options) {
     return new SideElement(options)
-  }
+  },
 }
 
 export default sideelement

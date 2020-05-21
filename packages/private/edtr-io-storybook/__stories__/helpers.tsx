@@ -62,7 +62,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
     {
       English: 'en',
       German: 'de',
-      DEBUG: 'cimode'
+      DEBUG: 'cimode',
     },
     'en'
   )
@@ -70,7 +70,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     initI18n({
       language,
-      resources: require('i18next-resource-store-loader!@serlo/i18n/resources')
+      resources: require('i18next-resource-store-loader!@serlo/i18n/resources'),
     }).then(() => {
       setReady(true)
     })
@@ -94,7 +94,7 @@ export function Container({ children }: React.PropsWithChildren<{}>) {
         <div
           className="wrap has-navigation has-context"
           style={{
-            marginBottom: '-183px'
+            marginBottom: '-183px',
           }}
         >
           <header id="header">
@@ -359,7 +359,7 @@ export function Container({ children }: React.PropsWithChildren<{}>) {
                 id="subject-nav-sticky-wrapper"
                 className="sticky-wrapper"
                 style={{
-                  height: '45px'
+                  height: '45px',
                 }}
               >
                 <nav id="subject-nav">
@@ -469,7 +469,7 @@ export function Container({ children }: React.PropsWithChildren<{}>) {
 
 export function mockSave(data: unknown): Promise<void> {
   console.log(data)
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve()
     }, 1000)

@@ -36,10 +36,10 @@ function setupCanvas(svgElement) {
   var longClick = [0, 0]
 
   svgElement.parentNode.addEventListener('mousemove', msMove, {
-    passive: false
+    passive: false,
   })
   svgElement.parentNode.addEventListener('touchmove', msMove, {
-    passive: false
+    passive: false,
   })
   svgElement.parentNode.addEventListener('mouseup', msUp, { passive: false })
   svgElement.parentNode.addEventListener('touchend', msUp, { passive: false })
@@ -263,7 +263,7 @@ function setupCanvas(svgElement) {
 
     // layout old and new container
     if (oldContainer !== target) {
-      setTimeout(function() {
+      setTimeout(function () {
         layout(oldContainer)
       }, 1)
       innerLayout(obj)
@@ -614,7 +614,7 @@ function setupCanvas(svgElement) {
   // select root expression after 500ms stable click on sub expression
   function initLongClick(x, y) {
     longClick = [x, y]
-    setTimeout(function() {
+    setTimeout(function () {
       longClickAction(x, y)
     }, 500)
   }
@@ -666,10 +666,7 @@ function setTransform(obj, m) {
 
 // Replacement for the deprecated function
 function getTransformToElement(obj, target) {
-  return target
-    .getScreenCTM()
-    .inverse()
-    .multiply(obj.getScreenCTM())
+  return target.getScreenCTM().inverse().multiply(obj.getScreenCTM())
 }
 
 function getCurrentValue() {
@@ -678,7 +675,7 @@ function getCurrentValue() {
 
 const TouchOp = {
   setupCanvas: setupCanvas,
-  getCurrentValue: getCurrentValue
+  getCurrentValue: getCurrentValue,
 }
 
 export default TouchOp

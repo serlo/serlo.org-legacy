@@ -41,7 +41,7 @@ hrefRegexp = new RegExp(/\([^)]*\)/)
 // seem to have a 'ready' event..
 function waitForGgbApplet(context, fn) {
   var threshold = 0
-  var timeout = setInterval(function() {
+  var timeout = setInterval(function () {
     threshold += 100
     if (context.ggbApplet) {
       clearTimeout(timeout)
@@ -61,7 +61,7 @@ function browserSupported() {
   return !!window.Blob && !!window.FormData && !!window.Uint8Array
 }
 
-GeogebraInjectionPlugin = function() {
+GeogebraInjectionPlugin = function () {
   this.state = 'geogebra-injection'
 
   this.init()
@@ -70,14 +70,14 @@ GeogebraInjectionPlugin = function() {
 GeogebraInjectionPlugin.prototype = new EditorPlugin()
 GeogebraInjectionPlugin.prototype.constructor = GeogebraInjectionPlugin
 
-GeogebraInjectionPlugin.prototype.init = function() {
+GeogebraInjectionPlugin.prototype.init = function () {
   this.template = _.template(pluginHtmlTemplate)
 
   this.data = {}
   this.data.name = 'Geogebra'
 
   if (!browserSupported()) {
-    this.activate = function() {
+    this.activate = function () {
       SystemNotification.notify(
         t('You need to update your browser to use the Geogebra plugin.'),
         'error'
@@ -86,7 +86,7 @@ GeogebraInjectionPlugin.prototype.init = function() {
   }
 }
 
-GeogebraInjectionPlugin.prototype.activate = function(token, data) {
+GeogebraInjectionPlugin.prototype.activate = function (token, data) {
   var that = this
   var title
   var href
@@ -104,11 +104,11 @@ GeogebraInjectionPlugin.prototype.activate = function(token, data) {
 
   that.$el = $(that.template(that.data))
 
-  that.$el.on('click', '.btn-save', function() {
+  that.$el.on('click', '.btn-save', function () {
     that.save($(this).hasClass('save-as-image'))
   })
 
-  that.$el.on('click', '.btn-cancel', function(e) {
+  that.$el.on('click', '.btn-cancel', function (e) {
     e.preventDefault()
     that.trigger('close')
   })
@@ -118,7 +118,7 @@ GeogebraInjectionPlugin.prototype.activate = function(token, data) {
   // that.makeRezisable();
 }
 
-GeogebraInjectionPlugin.prototype.render = function() {
+GeogebraInjectionPlugin.prototype.render = function () {
   var that = this
 
   that.ggbApplet = null
@@ -137,9 +137,9 @@ GeogebraInjectionPlugin.prototype.render = function() {
     }
 
     $.ajax({
-      url: xmlUrl
+      url: xmlUrl,
     })
-      .then(function(xml) {
+      .then(function (xml) {
         that.ggbApplet.setXML(xml.documentElement.outerHTML)
         that.ggbApplet.startEditing()
       })
@@ -151,10 +151,10 @@ GeogebraInjectionPlugin.prototype.render = function() {
   that.$iframe.css({
     height: 720,
     width: '100%',
-    borderWidth: 0
+    borderWidth: 0,
   })
 
-  waitForGgbApplet(that.$iframe[0].contentWindow, function(err, applet) {
+  waitForGgbApplet(that.$iframe[0].contentWindow, function (err, applet) {
     if (err) {
       SystemNotification.notify(
         t('Geogebra plugin could not be loaded, please try again.')
@@ -175,12 +175,12 @@ GeogebraInjectionPlugin.prototype.render = function() {
   })
 }
 
-GeogebraInjectionPlugin.prototype.deactivate = function() {
+GeogebraInjectionPlugin.prototype.deactivate = function () {
   this.isActive = false
   this.$el.detach()
 }
 
-GeogebraInjectionPlugin.prototype.save = function(asImage) {
+GeogebraInjectionPlugin.prototype.save = function (asImage) {
   if (!this.ggbApplet) {
     return
   }
@@ -201,7 +201,7 @@ GeogebraInjectionPlugin.prototype.save = function(asImage) {
       type: 'POST',
       data: formData,
       processData: false,
-      contentType: false
+      contentType: false,
     }).error(Common.genericError)
   }
 
@@ -224,7 +224,7 @@ GeogebraInjectionPlugin.prototype.save = function(asImage) {
     'geogebra.xml'
   )
 
-  uploadFile(formData).then(function(attachment) {
+  uploadFile(formData).then(function (attachment) {
     if (asImage) {
       // Prepare Image File Upload
       context = that.ggbApplet.getContext2D()
@@ -237,11 +237,11 @@ GeogebraInjectionPlugin.prototype.save = function(asImage) {
       )
 
       // Append image to newly created attachment
-      uploadFile(formData, '/attachment/upload/' + attachment.id).then(function(
-        attachment
-      ) {
-        proceedSave(attachment)
-      })
+      uploadFile(formData, '/attachment/upload/' + attachment.id).then(
+        function (attachment) {
+          proceedSave(attachment)
+        }
+      )
     } else {
       proceedSave(attachment)
     }
@@ -264,7 +264,7 @@ GeogebraInjectionPlugin.prototype.save = function(asImage) {
   // this.trigger('save', this);
 }
 
-GeogebraInjectionPlugin.prototype.createUploadFormData = function(
+GeogebraInjectionPlugin.prototype.createUploadFormData = function (
   data,
   type,
   filename
@@ -278,7 +278,7 @@ GeogebraInjectionPlugin.prototype.createUploadFormData = function(
   }
 
   file = new Blob([new Uint8Array(array)], {
-    type: type
+    type: type,
   })
 
   formdata = new FormData()

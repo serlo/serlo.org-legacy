@@ -31,7 +31,7 @@ import rowHtmlTemplate from './templates/layout/row.html'
 var Row
 var rowTemplate = _.template(rowHtmlTemplate)
 
-Row = function(columns, index, data, layouts) {
+Row = function (columns, index, data, layouts) {
   var that = this
   eventScope(that)
 
@@ -42,10 +42,10 @@ Row = function(columns, index, data, layouts) {
   that.columns = []
 
   that.$el = $(rowTemplate())
-  that.$el.mouseenter(function(e) {
+  that.$el.mouseenter(function (e) {
     that.onMouseEnter(e)
   })
-  that.$el.mouseleave(function(e) {
+  that.$el.mouseleave(function (e) {
     that.onMouseLeave(e)
   })
 
@@ -55,23 +55,23 @@ Row = function(columns, index, data, layouts) {
   )
   that.$up = $('<a href="#" class="btn btn-xs btn-default">')
     .attr({
-      title: t('Move up')
+      title: t('Move up'),
     })
-    .click(function() {
+    .click(function () {
       that.trigger('move-up')
     })
     .html('<i class="fa fa-chevron-up"/>')
 
   that.$down = $('<a href="#" class="btn btn-xs btn-default">')
     .attr({
-      title: t('Move down')
+      title: t('Move down'),
     })
-    .click(function() {
+    .click(function () {
       that.trigger('move-down')
     })
     .html('<i class="fa fa-chevron-down"/>')
 
-  that.$remove.click(function(e) {
+  that.$remove.click(function (e) {
     e.preventDefault()
     that.trigger('remove', that)
   })
@@ -80,15 +80,15 @@ Row = function(columns, index, data, layouts) {
   that.$actions.append(that.$up)
   that.$actions.append(that.$down)
 
-  _.each(columns, function(width, index) {
+  _.each(columns, function (width, index) {
     var column = new Column(width, that.data[index])
 
-    column.addEventListener('select', function(column) {
+    column.addEventListener('select', function (column) {
       that.activeColumn = index
       that.trigger('select', column)
     })
 
-    column.addEventListener('update', function(column) {
+    column.addEventListener('update', function (column) {
       that.trigger('update', column)
     })
 
@@ -100,18 +100,18 @@ Row = function(columns, index, data, layouts) {
 
   that.layoutAdd = new LayoutAdd(layouts)
 
-  that.layoutAdd.addEventListener('add-layout', function(layout) {
+  that.layoutAdd.addEventListener('add-layout', function (layout) {
     that.trigger('add-layout', layout)
   })
 
   that.$el.prepend(that.layoutAdd.$el)
 }
 
-Row.prototype.onMouseEnter = function() {
+Row.prototype.onMouseEnter = function () {
   this.$el.append(this.$actions)
 }
 
-Row.prototype.onMouseLeave = function() {
+Row.prototype.onMouseLeave = function () {
   this.$actions.detach()
 }
 

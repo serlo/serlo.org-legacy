@@ -29,7 +29,7 @@ import {
   Controls,
   editorContent,
   HeaderInput,
-  entityType
+  entityType,
 } from './common'
 import { RevisionHistory } from './helpers/settings'
 
@@ -39,7 +39,7 @@ export const videoTypeState = entityType(
     content: string(),
     title: string(),
     description: editorContent(),
-    reasoning: editorContent()
+    reasoning: editorContent(),
   },
   {}
 )
@@ -49,7 +49,7 @@ const videoPlugin = createVideoPlugin()
 export const videoTypePlugin: EditorPlugin<typeof videoTypeState> = {
   Component: VideoTypeEditor,
   state: videoTypeState,
-  config: {}
+  config: {},
 }
 
 function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
@@ -86,17 +86,17 @@ function VideoTypeEditor(props: EditorPluginProps<typeof videoTypeState>) {
             {...props}
             state={{
               src: props.state.content,
-              alt: props.state.title
+              alt: props.state.title,
             }}
             config={{
               i18n: {
                 src: {
-                  label: i18n.t('video::URL')
+                  label: i18n.t('video::URL'),
                 },
                 alt: {
-                  label: i18n.t('video::Title for search engines')
-                }
-              }
+                  label: i18n.t('video::Title for search engines'),
+                },
+              },
             }}
           />
         </section>

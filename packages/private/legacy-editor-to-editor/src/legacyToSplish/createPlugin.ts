@@ -29,27 +29,27 @@ import { ContentCell, Splish, Plugin } from '../splishToEdtr/types'
 const createPlugins = ({ normalized, elements }: NormalizedObject) => {
   const split = normalized
     .split(/(§\d+§)/)
-    .map(s => s.trim())
-    .filter(s => s !== '')
+    .map((s) => s.trim())
+    .filter((s) => s !== '')
 
   if (!split.length) {
     return [
       {
-        cells: [markdownToSlate('')]
-      }
+        cells: [markdownToSlate('')],
+      },
     ]
   }
-  return split.map(markdown => {
+  return split.map((markdown) => {
     const elementIDMatch = /§(\d+)§/.exec(markdown)
     if (elementIDMatch !== null) {
       // explicitly cast the matched number for typescript
       const i = parseInt(elementIDMatch[1])
       return {
-        cells: [createPluginCell(elements[i])]
+        cells: [createPluginCell(elements[i])],
       }
     } else {
       return {
-        cells: [markdownToSlate(markdown)]
+        cells: [markdownToSlate(markdown)],
       }
     }
   })
@@ -61,19 +61,19 @@ const createPluginCell = (elem: Element): ContentCell<SplishPluginState> => {
         content: {
           plugin: {
             name: Plugin.Table,
-            version: '0.0.0'
+            version: '0.0.0',
           },
           state: {
-            src: elem.src
-          }
-        }
+            src: elem.src,
+          },
+        },
       }
     case 'spoiler':
       return {
         content: {
           plugin: {
             name: Plugin.Spoiler,
-            version: '0.0.0'
+            version: '0.0.0',
           },
           state: {
             title: elem.title,
@@ -84,20 +84,20 @@ const createPluginCell = (elem: Element): ContentCell<SplishPluginState> => {
                 cells: [
                   {
                     id: v4(),
-                    rows: createPlugins(elem.content)
-                  }
-                ]
-              }
-            }
-          }
-        }
+                    rows: createPlugins(elem.content),
+                  },
+                ],
+              },
+            },
+          },
+        },
       }
     case 'blockquote':
       return {
         content: {
           plugin: {
             name: Plugin.Blockquote,
-            version: '0.0.0'
+            version: '0.0.0',
           },
           state: {
             child: {
@@ -107,46 +107,46 @@ const createPluginCell = (elem: Element): ContentCell<SplishPluginState> => {
                 cells: [
                   {
                     id: v4(),
-                    rows: createPlugins(elem.content)
-                  }
-                ]
-              }
-            }
-          }
-        }
+                    rows: createPlugins(elem.content),
+                  },
+                ],
+              },
+            },
+          },
+        },
       }
     case 'injection':
       return {
         content: {
           plugin: {
             name: Plugin.Injection,
-            version: '0.0.0'
+            version: '0.0.0',
           },
           state: {
             description: elem.description,
-            src: elem.src
-          }
-        }
+            src: elem.src,
+          },
+        },
       }
     case 'geogebra':
       return {
         content: {
           plugin: {
             name: Plugin.Geogebra,
-            version: '0.0.0'
+            version: '0.0.0',
           },
           state: {
             description: elem.description,
-            src: elem.src
-          }
-        }
+            src: elem.src,
+          },
+        },
       }
     case 'image':
       return {
         content: {
           plugin: {
             name: Plugin.Image,
-            version: '0.0.0'
+            version: '0.0.0',
           },
           state: {
             description: elem.description,
@@ -154,21 +154,21 @@ const createPluginCell = (elem: Element): ContentCell<SplishPluginState> => {
             src: elem.src,
             href: (elem as LinkedImagesTMP).href
               ? (elem as LinkedImagesTMP).href
-              : undefined
-          }
-        }
+              : undefined,
+          },
+        },
       }
     case 'code':
       return {
         content: {
           plugin: {
-            name: 'code'
+            name: 'code',
           },
           state: {
             language: elem.language,
-            src: elem.src
-          }
-        }
+            src: elem.src,
+          },
+        },
       }
   }
 }

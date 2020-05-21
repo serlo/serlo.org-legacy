@@ -19,15 +19,15 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-var Parser = function() {}
+var Parser = function () {}
 
-Parser.prototype.setConverter = function(converter, convertFunctionName) {
-  this.converter = function(value) {
+Parser.prototype.setConverter = function (converter, convertFunctionName) {
+  this.converter = function (value) {
     return converter[convertFunctionName](value)
   }
 }
 
-Parser.prototype.parse = function(value) {
+Parser.prototype.parse = function (value) {
   return this.converter ? this.converter(value) : value
 }
 

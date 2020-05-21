@@ -5,7 +5,7 @@
 // Copyright (c) 2011 Christoph Dorn <christoph@christophdorn.com> (http://www.christophdorn.com)
 // Date: 2013-09-15T16:12Z
 
-;(function(expose) {
+;(function (expose) {
   var MarkdownHelpers = {}
 
   // For Spidermonkey based engines
@@ -35,7 +35,7 @@
     )
   }
 
-  MarkdownHelpers.mk_block = function(block, trail, line) {
+  MarkdownHelpers.mk_block = function (block, trail, line) {
     // Be helpful for default case in tests.
     if (arguments.length === 1) trail = '\n\n'
 
@@ -54,7 +54,7 @@
 
   var isArray = (MarkdownHelpers.isArray =
     Array.isArray ||
-    function(obj) {
+    function (obj) {
       return Object.prototype.toString.call(obj) === '[object Array]'
     })
 
@@ -112,7 +112,7 @@
    *
    *  [JsonML]: http://jsonml.org/ "JSON Markup Language"
    **/
-  var Markdown = function(dialect) {
+  var Markdown = function (dialect) {
     switch (typeof dialect) {
       case 'undefined':
         this.dialect = Markdown.dialects.Gruber
@@ -151,7 +151,7 @@
    *
    *  Parse `markdown` and return a markdown document as a Markdown.JsonML tree.
    **/
-  Markdown.parse = function(source, dialect) {
+  Markdown.parse = function (source, dialect) {
     // dialect will default if undefined
     var md = new Markdown(dialect)
     return md.toTree(source)
@@ -271,7 +271,7 @@
   }
 
   // Noop by default
-  Markdown.prototype.debug = function() {
+  Markdown.prototype.debug = function () {
     var args = Array.prototype.slice.call(arguments)
     args.unshift(this.debug_indent)
     if (typeof print !== 'undefined') print.apply(print, args)
@@ -280,7 +280,7 @@
     }
   }
 
-  Markdown.prototype.loop_re_over_block = function(re, block, cb) {
+  Markdown.prototype.loop_re_over_block = function (re, block, cb) {
     // Dont use /g regexps with this
     var m,
       b = block.valueOf()
@@ -293,7 +293,7 @@
   }
 
   // Build default order from insertion order.
-  Markdown.buildBlockOrder = function(d) {
+  Markdown.buildBlockOrder = function (d) {
     var ord = []
     for (var i in d) {
       if (i === '__order__' || i === '__call__') continue
@@ -303,7 +303,7 @@
   }
 
   // Build patterns for inline matcher
-  Markdown.buildInlinePatterns = function(d) {
+  Markdown.buildInlinePatterns = function (d) {
     var patterns = []
 
     for (var i in d) {
@@ -318,7 +318,7 @@
     // print("patterns:", uneval( patterns ) );
 
     var fn = d.__call__
-    d.__call__ = function(text, pattern) {
+    d.__call__ = function (text, pattern) {
       if (pattern !== undefined) return fn.call(this, text, pattern)
       else return fn.call(this, text, patterns)
     }
@@ -339,7 +339,7 @@
    *    output, or just its children. The default `false` is to not include the
    *    root itself.
    */
-  Markdown.renderJsonML = function(jsonml, options) {
+  Markdown.renderJsonML = function (jsonml, options) {
     options = options || {}
     // include the root element in the rendered output?
     options.root = options.root || false
@@ -601,7 +601,7 @@
   }
 
   var DialectHelpers = {}
-  DialectHelpers.inline_until_char = function(text, want) {
+  DialectHelpers.inline_until_char = function (text, want) {
     var consumed = 0,
       nodes = []
 
@@ -628,7 +628,7 @@
   }
 
   // Helper function to make sub-classing a dialect easier
-  DialectHelpers.subclassDialect = function(d) {
+  DialectHelpers.subclassDialect = function (d) {
     function Block() {}
     Block.prototype = d.block
     function Inline() {}
@@ -710,7 +710,7 @@
 
         block_search: do {
           // Now pull out the rest of the lines
-          var b = this.loop_re_over_block(re, block.valueOf(), function(m) {
+          var b = this.loop_re_over_block(re, block.valueOf(), function (m) {
             ret.push(m[1])
           })
 
@@ -775,7 +775,7 @@
       //    first item at the indent. Subsequent changes are ignored unless they
       //    are for nested lists
       //
-      lists: (function() {
+      lists: (function () {
         // Use a closure to hide a few variables.
         var any_list = '[*+-]|\\d+\\.',
           bullet_list = /[*+-]/,
@@ -876,7 +876,7 @@
         }
 
         // The matcher function
-        return function(block, next) {
+        return function (block, next) {
           var m = block.match(is_list_re)
           if (!m) return undefined
 
@@ -911,7 +911,7 @@
               line_no++
             ) {
               nl = ''
-              var l = lines[line_no].replace(/^\n/, function(n) {
+              var l = lines[line_no].replace(/^\n/, function (n) {
                 nl = n
                 return ''
               })
@@ -1097,13 +1097,13 @@
         // make a references hash if it doesn't exist
         if (attrs.references === undefined) attrs.references = {}
 
-        var b = this.loop_re_over_block(re, block, function(m) {
+        var b = this.loop_re_over_block(re, block, function (m) {
           if (m[2] && m[2][0] === '<' && m[2][m[2].length - 1] === '>') {
             m[2] = m[2].substring(1, m[2].length - 1)
           }
 
           var ref = (attrs.references[m[1].toLowerCase()] = {
-            href: m[2]
+            href: m[2],
           })
 
           if (m[4] !== undefined) ref.title = m[4]
@@ -1118,7 +1118,7 @@
       para: function para(block) {
         // everything's a para!
         return [['para'].concat(this.processInline(block))]
-      }
+      },
     },
 
     inline: {
@@ -1187,8 +1187,8 @@
 
       // These characters are intersting elsewhere, so have rules for them so that
       // chunks of plain text blocks don't include them
-      ']': function() {},
-      '}': function() {},
+      ']': function () {},
+      '}': function () {},
 
       __escape__: /^\\[\\`\*_{}\[\]()#\+.!\-]/,
 
@@ -1234,7 +1234,7 @@
           // found till after. Check it in md tree->hmtl tree conversion
           return [
             m[0].length,
-            ['img_ref', { alt: m[1], ref: m[2].toLowerCase(), original: m[0] }]
+            ['img_ref', { alt: m[1], ref: m[2].toLowerCase(), original: m[0] }],
           ]
         }
 
@@ -1314,7 +1314,7 @@
           // [links][] uses links as its reference
           attrs = {
             ref: (m[1] || String(children)).toLowerCase(),
-            original: orig.substr(0, consumed)
+            original: orig.substr(0, consumed),
           }
 
           link = ['link_ref', attrs].concat(children)
@@ -1330,7 +1330,7 @@
         if (children.length === 1 && typeof children[0] === 'string') {
           attrs = {
             ref: children[0].toLowerCase(),
-            original: orig.substr(0, consumed)
+            original: orig.substr(0, consumed),
           }
           link = ['link_ref', attrs, children[0]]
           return [consumed, link]
@@ -1353,7 +1353,7 @@
           } else if (m[2] === 'mailto') {
             return [
               m[0].length,
-              ['link', { href: m[1] }, m[1].substr('mailto:'.length)]
+              ['link', { href: m[1] }, m[1].substr('mailto:'.length)],
             ]
           } else return [m[0].length, ['link', { href: m[1] }, m[1]]]
         }
@@ -1375,8 +1375,8 @@
 
       '  \n': function lineBreak() {
         return [3, ['linebreak']]
-      }
-    }
+      },
+    },
   }
 
   // Meta Helper/generator method for em and strong handling
@@ -1389,7 +1389,7 @@
       this.name = 'close_' + md
     }
 
-    return function(text) {
+    return function (text) {
       if (this[state_slot][0] === md) {
         // Most recent em is of this type
         // D:this.debug("closing", md);
@@ -1613,7 +1613,7 @@
   // can be unpredictable
 
   Maruku.block.table = function table(block) {
-    var _split_on_unescaped = function(s, ch) {
+    var _split_on_unescaped = function (s, ch) {
       ch = ch || '\\s'
       if (ch.match(/^[\\|\[\]{}?*.+^$]$/)) ch = '\\' + ch
       var res = [],
@@ -1648,7 +1648,7 @@
 
     // process alignment
     var html_attrs = []
-    forEach(m[2], function(s) {
+    forEach(m[2], function (s) {
       if (s.match(/^\s*-+:\s*$/)) html_attrs.push({ align: 'right' })
       else if (s.match(/^\s*:-+\s*$/)) html_attrs.push({ align: 'left' })
       else if (s.match(/^\s*:-+:\s*$/)) html_attrs.push({ align: 'center' })
@@ -1666,7 +1666,7 @@
     // now for body contents
     forEach(
       m[3].replace(/\|\s*$/gm, '').split('\n'),
-      function(row) {
+      function (row) {
         var html_row = ['tr']
         row = _split_on_unescaped(row, '|')
         for (i = 0; i < row.length; i++) {
@@ -1725,7 +1725,7 @@
   expose.toHTMLTree = Markdown.toHTMLTree
   expose.renderJsonML = Markdown.renderJsonML
 })(
-  (function() {
+  (function () {
     window.markdown = {}
     return window.markdown
   })()

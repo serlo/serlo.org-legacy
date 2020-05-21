@@ -34,11 +34,11 @@ app.use(bodyParser.json())
 
 app.post('/', (req: { body: { state: string; language: string } }, res) => {
   render({ state: req.body.state, language: req.body.language })
-    .then(html => {
+    .then((html) => {
       console.log('request successful')
       res.status(200).send({ html })
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('request failed', err)
       res.sendStatus(500)
     })

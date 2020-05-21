@@ -28,7 +28,7 @@ import {
   editorContent,
   entity,
   HeaderInput,
-  entityType
+  entityType,
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
 
@@ -39,7 +39,7 @@ export const articleTypeState = entityType(
     content: editorContent(),
     reasoning: editorContent(),
     meta_title: string(),
-    meta_description: string()
+    meta_description: string(),
   },
   {}
 )
@@ -47,7 +47,7 @@ export const articleTypeState = entityType(
 export const articleTypePlugin: EditorPlugin<typeof articleTypeState> = {
   Component: ArticleTypeEditor,
   state: articleTypeState,
-  config: {}
+  config: {},
 }
 
 function ArticleTypeEditor(props: EditorPluginProps<typeof articleTypeState>) {

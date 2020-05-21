@@ -27,7 +27,7 @@ import {
   EditorPluginProps,
   child,
   object,
-  optional
+  optional,
 } from '@edtr-io/plugin'
 import { getDocument } from '@edtr-io/store'
 import { Icon, faRandom, faTrashAlt } from '@edtr-io/ui'
@@ -40,7 +40,7 @@ const exerciseState = object({
   content: child({ plugin: 'rows' }),
   interactive: optional(
     child<'scMcExercise' | 'inputExercise'>({ plugin: 'scMcExercise' })
-  )
+  ),
 })
 
 export type ExerciseState = typeof exerciseState
@@ -49,11 +49,11 @@ export type ExerciseProps = EditorPluginProps<ExerciseState>
 export const exercisePlugin: EditorPlugin<ExerciseState> = {
   Component: ExerciseEditor,
   state: exerciseState,
-  config: {}
+  config: {},
 }
 
 const ButtonContainer = styled.div({
-  display: 'flex'
+  display: 'flex',
 })
 
 const interactivePlugins: {
@@ -68,7 +68,7 @@ const interactivePlugins: {
     },
     title(i18n) {
       return i18n.t('exercise::Choice exercise')
-    }
+    },
   },
   {
     name: 'inputExercise',
@@ -77,8 +77,8 @@ const interactivePlugins: {
     },
     title(i18n) {
       return i18n.t('exercise::Input exercise')
-    }
-  }
+    },
+  },
 ]
 
 const InlineOptionsWrapper = styled.div({
@@ -87,13 +87,13 @@ const InlineOptionsWrapper = styled.div({
   right: '0',
   padding: '30px',
   zIndex: 95,
-  whiteSpace: 'nowrap'
+  whiteSpace: 'nowrap',
 })
 
 const InlineOptionsContentWrapper = styled.div({
   boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
   backgroundColor: 'rgba(255, 255, 255, 0.95)',
-  borderRadius: '4px'
+  borderRadius: '4px',
 })
 
 function InlineOptions(props: React.PropsWithChildren<{}>) {
@@ -111,8 +111,8 @@ const Option = styled.div({
   width: '100%',
   minWidth: '150px',
   '&:hover': {
-    color: 'rgb(70, 155, 255)'
-  }
+    color: 'rgb(70, 155, 255)',
+  },
 })
 
 function ExerciseEditor({ editable, state }: ExerciseProps) {
@@ -160,11 +160,11 @@ function ExerciseEditor({ editable, state }: ExerciseProps) {
                   <InlineOptions>
                     {interactivePlugins
                       .filter(
-                        plugin =>
+                        (plugin) =>
                           !interactive ||
                           plugin.name !== getCurrentInteractivePlugin()
                       )
-                      .map(plugin => {
+                      .map((plugin) => {
                         return (
                           <Option
                             key={plugin.name}
@@ -183,7 +183,7 @@ function ExerciseEditor({ editable, state }: ExerciseProps) {
               {children}
             </React.Fragment>
           )
-        }
+        },
       })
     }
 
@@ -194,13 +194,13 @@ function ExerciseEditor({ editable, state }: ExerciseProps) {
             <em>{i18n.t('exercise::Add an optional interactive exercise:')}</em>
           </p>
           <ButtonContainer>
-            {interactivePlugins.map(plugin => {
+            {interactivePlugins.map((plugin) => {
               return (
                 <AddButton
                   key={plugin.name}
                   onClick={() => {
                     interactive.create({
-                      plugin: plugin.name
+                      plugin: plugin.name,
                     })
                   }}
                 >

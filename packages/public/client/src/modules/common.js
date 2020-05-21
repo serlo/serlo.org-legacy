@@ -27,9 +27,9 @@ var Common = {}
 var intervals
 var slice = Array.prototype.slice
 
-Common.log = (function() {
+Common.log = (function () {
   var history = []
-  return function() {
+  return function () {
     history.push(arguments)
     if (window.console) {
       console.log(Array.prototype.slice.call(arguments))
@@ -47,15 +47,15 @@ Common.KeyCode = {
   entf: 46,
   esc: 27,
   shift: 16,
-  cmd: 91
+  cmd: 91,
 }
 
-Common.CarbonCopy = function(element) {
+Common.CarbonCopy = function (element) {
   if (!(element instanceof Array) && !(element instanceof Object)) {
     return element
   }
 
-  var copy = (function() {
+  var copy = (function () {
     if (element instanceof Array) {
       return slice.call(element, 0)
     }
@@ -67,25 +67,25 @@ Common.CarbonCopy = function(element) {
     throw new Error('Cant copy element')
   })()
 
-  _.each(copy, function(item, i) {
+  _.each(copy, function (item, i) {
     copy[i] = Common.CarbonCopy(item)
   })
 
   return copy
 }
 
-Common.sortArrayByObjectKey = function(key, array, ascending) {
+Common.sortArrayByObjectKey = function (key, array, ascending) {
   ascending = ascending || false
-  return array.sort(function(a, b) {
+  return array.sort(function (a, b) {
     return (
       (a[key] < b[key] ? -1 : a[key] > b[key] ? 1 : 0) * (ascending ? 1 : -1)
     )
   })
 }
 
-Common.findObjectByKey = function(key, value, object) {
+Common.findObjectByKey = function (key, value, object) {
   var item
-  _.each(object, function(val) {
+  _.each(object, function (val) {
     if (val[key] === value) {
       item = val
     }
@@ -93,7 +93,7 @@ Common.findObjectByKey = function(key, value, object) {
   return item
 }
 
-Common.genericError = function() {
+Common.genericError = function () {
   if (console && 'trace' in console) {
     console.trace()
   }
@@ -109,8 +109,8 @@ Common.genericError = function() {
  * perf tests: http://bit.ly/q3zpG3
  * Released under an MIT license.
  */
-Common.memoize = function(fn) {
-  return function() {
+Common.memoize = function (fn) {
+  return function () {
     var args = Array.prototype.slice.call(arguments)
     var hash = ''
     var i = args.length
@@ -132,24 +132,24 @@ Common.memoize = function(fn) {
   }
 }
 
-Common.expr = function(statement) {
+Common.expr = function (statement) {
   return statement
 }
 
-Common.trim = function(str) {
+Common.trim = function (str) {
   return str.replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
 }
 
 intervals = {}
 
-Common.setInterval = function(fn, timeout) {
+Common.setInterval = function (fn, timeout) {
   var interval = +new Date()
 
   intervals[interval] = true
 
   function loop() {
     if (intervals[interval]) {
-      setTimeout(function() {
+      setTimeout(function () {
         requestAnimationFrame(loop)
       }, timeout)
 
@@ -162,7 +162,7 @@ Common.setInterval = function(fn, timeout) {
   return interval
 }
 
-Common.clearInterval = function(interval) {
+Common.clearInterval = function (interval) {
   if (intervals[interval]) {
     delete intervals[interval]
   }

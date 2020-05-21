@@ -26,12 +26,12 @@ import play from './sounds'
 
 var SingleChoice
 
-SingleChoice = function() {
+SingleChoice = function () {
   function checkDimensions($self) {
     var totalWidth = 0
     var changed = false
 
-    $('.single-choice-answer-content', $self).each(function() {
+    $('.single-choice-answer-content', $self).each(function () {
       totalWidth += $(this).width()
       if (totalWidth > $self.width() || $(this).height() > 35) {
         changed = true
@@ -46,7 +46,7 @@ SingleChoice = function() {
   function handleResize($self) {
     if (!$self.hasClass('extended')) {
       typeset($self.get(0))
-      queue(function() {
+      queue(function () {
         if (checkDimensions($self)) {
           reprocess($self.get(0))
         }
@@ -54,32 +54,30 @@ SingleChoice = function() {
     }
   }
 
-  return $(this).each(function() {
+  return $(this).each(function () {
     var $self = $(this)
     var $singleChoice = $('.single-choice-group', $self)
 
     handleResize($self)
-    $(window).bind('change-width', function() {
+    $(window).bind('change-width', function () {
       handleResize($self)
     })
 
     $('.single-choice-answer-feedback', $singleChoice).collapse({
-      toggle: false
+      toggle: false,
     })
 
-    $self.click(function() {
+    $self.click(function () {
       $self.addClass('active')
     })
 
-    $('.single-choice-answer-content', $self).click(function(e) {
+    $('.single-choice-answer-content', $self).click(function (e) {
       e.preventDefault()
       $(this).addClass('active')
-      $('.single-choice-answer-content', $self)
-        .not(this)
-        .removeClass('active')
+      $('.single-choice-answer-content', $self).not(this).removeClass('active')
     })
 
-    $('#content-layout').click(function(event) {
+    $('#content-layout').click(function (event) {
       if (
         $self.hasClass('active') &&
         !$(event.target).closest($self).length &&
@@ -93,7 +91,7 @@ SingleChoice = function() {
       }
     })
 
-    $singleChoice.submit(function(e) {
+    $singleChoice.submit(function (e) {
       e.preventDefault()
       var $selected = $('.single-choice-answer-content.active', this)
       var $submit = $('.single-choice-submit', $singleChoice)
@@ -132,7 +130,7 @@ SingleChoice = function() {
   function changeClass($element, oldClasses, newClasses, time) {
     $element.removeClass(oldClasses).addClass(newClasses)
     if (time) {
-      setTimeout(function() {
+      setTimeout(function () {
         $element.removeClass(newClasses).addClass(oldClasses)
       }, time)
     }

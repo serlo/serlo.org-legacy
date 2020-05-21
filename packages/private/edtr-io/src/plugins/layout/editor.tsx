@@ -33,15 +33,15 @@ const LayoutContainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
-  alignItems: 'flex-start'
+  alignItems: 'flex-start',
 })
 
 const ChildContainer = styled.div<{ width: number }>(({ width }) => {
   return {
     width: `${(width / 12) * 100}%`,
     '@media (max-width: 480px)': {
-      width: '100%'
-    }
+      width: '100%',
+    },
   }
 })
 const ConvertInfo = styled.div({
@@ -49,7 +49,7 @@ const ConvertInfo = styled.div({
   backgroundColor: '#f2dede',
   color: '#a94442',
   border: '1px solid #ebccd1',
-  textAlign: 'center'
+  textAlign: 'center',
 })
 
 const ButtonContainer = styled.div({ display: 'flex', flexDirection: 'row' })
@@ -60,15 +60,15 @@ const ConvertButton = styled.button({
   border: 'none',
   outline: 'none',
   backgroundColor: 'white',
-  '&:hover': { backgroundColor: '#ebccd1' }
+  '&:hover': { backgroundColor: '#ebccd1' },
 })
 
-export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
-  typeof layoutState
-> & {
-  insert?: (options?: DocumentState) => void
-  remove?: () => void
-}> = props => {
+export const LayoutRenderer: React.FunctionComponent<
+  EditorPluginProps<typeof layoutState> & {
+    insert?: (options?: DocumentState) => void
+    remove?: () => void
+  }
+> = (props) => {
   const store = useScopedStore()
   const i18n = useI18n()
 
@@ -106,12 +106,12 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
   function convertToRow() {
     const documents: DocumentState[] = []
 
-    props.state.forEach(item => {
+    props.state.forEach((item) => {
       const element = serializeDocument(item.child.id)(store.getState())
 
       if (!element) return
       if (element.plugin === 'rows') {
-        ;(element as RowsPlugin).state.forEach(rowsItem => {
+        ;(element as RowsPlugin).state.forEach((rowsItem) => {
           documents.push(rowsItem)
         })
       } else {
@@ -123,7 +123,7 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
       replace({
         id: props.id,
         plugin: 'rows',
-        state: documents
+        state: documents,
       })
     )
   }
@@ -142,18 +142,18 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
     if (isMultimediaColumn(columns[0])) {
       replaceWithMultimediaExplanation({
         explanationColumn: columns[1],
-        multimediaColumn: columns[0]
+        multimediaColumn: columns[0],
       })
     } else {
       replaceWithMultimediaExplanation({
         explanationColumn: columns[0],
-        multimediaColumn: columns[1]
+        multimediaColumn: columns[1],
       })
     }
 
     function replaceWithMultimediaExplanation({
       explanationColumn,
-      multimediaColumn
+      multimediaColumn,
     }: {
       explanationColumn: Column
       multimediaColumn: Column
@@ -173,8 +173,8 @@ export const LayoutRenderer: React.FunctionComponent<EditorPluginProps<
             explanation,
             multimedia: multimedia.state[0],
             illustrating: true,
-            width: 50
-          }
+            width: 50,
+          },
         })
       )
     }

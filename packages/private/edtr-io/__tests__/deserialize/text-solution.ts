@@ -33,11 +33,11 @@ test('initial', () => {
         plugin: 'rows',
         state: [
           {
-            plugin: 'text'
-          }
-        ]
-      }
-    }
+            plugin: 'text',
+          },
+        ],
+      },
+    },
   })
 })
 
@@ -53,11 +53,11 @@ function createTextSolutionState(
         title: 'License',
         url: 'https://example.com',
         agreement: 'Agreement',
-        iconHref: 'iconHref'
+        iconHref: 'iconHref',
       },
-      content
+      content,
     },
-    type: 'text-solution'
+    type: 'text-solution',
   }
 }
 

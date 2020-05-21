@@ -24,7 +24,7 @@ import {
   EditorPluginProps,
   object,
   scalar,
-  string
+  string,
 } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
 import { useI18n } from '@serlo/i18n'
@@ -32,16 +32,16 @@ import * as React from 'react'
 
 export const errorState = object({
   plugin: string(),
-  state: scalar<unknown>({})
+  state: scalar<unknown>({}),
 })
 
 const Error = styled.div({
   backgroundColor: 'rgb(204,0,0)',
-  color: '#fff'
+  color: '#fff',
 })
 export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
   typeof errorState
->> = props => {
+>> = (props) => {
   const i18n = useI18n()
 
   return (
@@ -53,7 +53,7 @@ export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
         {i18n.t(
           "error::The plugin of type `{{plugin}}` couldn't be converted",
           {
-            plugin: props.state.plugin.value
+            plugin: props.state.plugin.value,
           }
         )}
       </p>
@@ -65,5 +65,5 @@ export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
 export const errorPlugin: EditorPlugin<typeof errorState> = {
   Component: ErrorRenderer,
   state: errorState,
-  config: {}
+  config: {},
 }

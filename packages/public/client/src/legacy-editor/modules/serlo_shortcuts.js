@@ -39,10 +39,10 @@ commandWrapper = {
   backspace: Common.KeyCode.backspace,
   entf: Common.KeyCode.entf,
   esc: Common.KeyCode.esc,
-  shift: Common.KeyCode.shift
+  shift: Common.KeyCode.shift,
 }
 
-checkWrapper = Common.memoize(function(keyCode) {
+checkWrapper = Common.memoize(function (keyCode) {
   var key
   var result = keyCode
 
@@ -87,13 +87,13 @@ function triggerShortcut(e) {
   this.trigger('always', commands, e)
 }
 
-Shortcuts = function() {
+Shortcuts = function () {
   var that = this
 
   eventScope(that)
 
   $(window).keydown(
-    _.throttle(function(e) {
+    _.throttle(function (e) {
       triggerShortcut.call(that, e)
     }, 150)
   )

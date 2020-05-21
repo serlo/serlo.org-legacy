@@ -40,25 +40,25 @@ var allowedAttributes = {
   h3: 'id',
   h4: 'id',
   h5: 'id',
-  h6: 'id'
+  h6: 'id',
 }
 var forceProtocol = false
 var testAllowed = new RegExp('^(' + allowedTags.toLowerCase() + ')$')
 var findTags = /<(\/?)\s*([\w:-]+)([^>]*)>/g
 var findAttribs = /(\s*)([\w:-]+)\s*=\s*(?:(?:(["'])([^\3]+?)(?:\3))|([^\s]+))/g
 
-var htmlstrip = function() {
+var htmlstrip = function () {
   var filter
 
-  filter = function(text) {
+  filter = function (text) {
     return stripUnwantedHTML(text)
   }
 
   return [
     {
       type: 'output',
-      filter: filter
-    }
+      filter: filter,
+    },
   ]
 }
 
@@ -76,7 +76,7 @@ function stripUnwantedHTML(html) {
   }
 
   // find and match html tags
-  return html.replace(findTags, function(original, lslash, tag, params) {
+  return html.replace(findTags, function (original, lslash, tag, params) {
     var tagAttr
     var wildcardAttr
     var rslash = (params.substr(-1) === '/' && '/') || ''
@@ -101,7 +101,7 @@ function stripUnwantedHTML(html) {
       }
 
       // find and remove unwanted attributes
-      params = params.replace(findAttribs, function(
+      params = params.replace(findAttribs, function (
         original,
         space,
         name,

@@ -29,7 +29,7 @@ var Column
 var columnTemplate = _.template(columnHtmlTemplate)
 var emptyColumnHtml = '<p>' + t('Click to edit') + '</p>'
 
-Column = function(width, data) {
+Column = function (width, data) {
   var that = this
   eventScope(that)
 
@@ -37,25 +37,25 @@ Column = function(width, data) {
 
   that.$el = $(
     columnTemplate({
-      width: width
+      width: width,
     })
   )
 
   that.type = width
 
   // prevent links from being clicked
-  that.$el.on('click', 'a', function(e) {
+  that.$el.on('click', 'a', function (e) {
     e.preventDefault()
   })
 
-  that.$el.click(function(e) {
+  that.$el.click(function (e) {
     e.preventDefault()
     e.stopPropagation()
     that.trigger('select', that)
   })
 }
 
-Column.prototype.update = function(data, html) {
+Column.prototype.update = function (data, html) {
   var patch
 
   this.data = data
@@ -63,18 +63,18 @@ Column.prototype.update = function(data, html) {
 
   patch = this.$el.quickdiff('patch', $('<div></div>').html(html), [
     'mathSpan',
-    'mathSpanInline'
+    'mathSpanInline',
   ])
 
   this.trigger('update', this)
   return patch
 }
 
-Column.prototype.set = function(html) {
+Column.prototype.set = function (html) {
   this.$el.html(html || emptyColumnHtml)
 }
 
-Column.prototype.focus = function() {
+Column.prototype.focus = function () {
   this.$el.focus().trigger('click')
 }
 

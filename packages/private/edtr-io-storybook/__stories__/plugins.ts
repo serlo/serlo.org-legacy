@@ -32,10 +32,10 @@ addContentTypeStories('Error', 'article', {
     state: {
       plugin: 'type',
       state: {
-        foo: 'bar'
-      }
-    }
-  })
+        foo: 'bar',
+      },
+    },
+  }),
 })
 
 addContentTypeStories('Plugins/Layout/image on right', 'article', {
@@ -58,14 +58,15 @@ addContentTypeStories('Plugins/Layout/image on right', 'article', {
                   type: 'p',
                   children: [
                     {
-                      text: 'Dies ist der Text des künftigen Multimedia-Plugins'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+                      text:
+                        'Dies ist der Text des künftigen Multimedia-Plugins',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       },
       {
         width: 6,
@@ -77,17 +78,17 @@ addContentTypeStories('Plugins/Layout/image on right', 'article', {
               state: {
                 src:
                   'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
-                alt: 'Edtr.io Logo'
-              }
-            }
-          ]
-        }
-      }
-    ]
+                alt: 'Edtr.io Logo',
+              },
+            },
+          ],
+        },
+      },
+    ],
   }),
   reasoning: '',
   meta_title: '',
-  meta_description: ''
+  meta_description: '',
 })
 
 addContentTypeStories('Plugins/Layout/image on left', 'article', {
@@ -108,11 +109,11 @@ addContentTypeStories('Plugins/Layout/image on left', 'article', {
               state: {
                 src:
                   'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
-                alt: 'Edtr.io Logo'
-              }
-            }
-          ]
-        }
+                alt: 'Edtr.io Logo',
+              },
+            },
+          ],
+        },
       },
       {
         width: 6,
@@ -126,18 +127,19 @@ addContentTypeStories('Plugins/Layout/image on left', 'article', {
                   type: 'p',
                   children: [
                     {
-                      text: 'Dies ist der Text des künftigen Multimedia-Plugins'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    ]
+                      text:
+                        'Dies ist der Text des künftigen Multimedia-Plugins',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    ],
   }),
   reasoning: '',
   meta_title: '',
-  meta_description: ''
+  meta_description: '',
 })

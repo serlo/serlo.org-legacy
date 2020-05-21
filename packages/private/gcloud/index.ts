@@ -27,7 +27,7 @@ const bucket = 'packages.serlo.org'
 export function uploadPackage({
   source,
   name,
-  version
+  version,
 }: {
   source: string
   name: string
@@ -43,7 +43,7 @@ export function uploadPackage({
     return
   }
   spawnSync('gsutil', ['-m', 'cp', '-r', path.join(source, '*'), dest], {
-    stdio: 'inherit'
+    stdio: 'inherit',
   })
 
   function trimSlashes(p: string) {

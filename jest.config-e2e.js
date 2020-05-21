@@ -28,8 +28,8 @@ module.exports = mergeConfigs([
   tsPreset,
   {
     testRegex: '/__tests-e2e__/[^_].*\\.[jt]sx?$',
-    setupFilesAfterEnv: ['<rootDir>/jest.setup-e2e.ts']
-  }
+    setupFilesAfterEnv: ['<rootDir>/jest.setup-e2e.ts'],
+  },
 ])
 
 function mergeConfigs(configs) {

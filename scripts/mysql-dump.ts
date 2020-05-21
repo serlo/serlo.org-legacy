@@ -11,7 +11,7 @@ import * as path from 'path'
 import * as process from 'process'
 import {
   ConcatenateInsertCommands,
-  IgnoreInsecurePasswordWarning
+  IgnoreInsecurePasswordWarning,
 } from './transform'
 
 // Currently we have wrongly encoded characters in the DB and the dump only
@@ -43,7 +43,7 @@ const mysqldumpCommand = [
   '--skip-dump-date',
   '--default-character-set=utf8',
   '--databases',
-  'serlo'
+  'serlo',
 ]
 const dockerComposeArgs = ['exec', '-T', 'mysql'].concat(mysqldumpCommand)
 const mysqldump = spawn('docker-compose', dockerComposeArgs)
@@ -56,7 +56,7 @@ mysqldump.stderr
   .pipe(new IgnoreInsecurePasswordWarning('utf8'))
   .pipe(process.stderr)
 
-mysqldump.on('error', error => {
+mysqldump.on('error', (error) => {
   console.error('ERROR: ' + error)
 })
 

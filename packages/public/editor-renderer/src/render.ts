@@ -28,7 +28,7 @@ import {
   isEdtr,
   Edtr,
   Legacy,
-  Splish
+  Splish,
 } from '@serlo/legacy-editor-to-editor'
 // @ts-ignore
 import backend from 'i18next-fs-backend'
@@ -36,7 +36,7 @@ import * as path from 'path'
 
 export async function render({
   state: input,
-  language
+  language,
 }: {
   state: string
   language: string
@@ -66,14 +66,14 @@ export async function render({
           'resources',
           '{{lng}}',
           '{{ns}}.json'
-        )
+        ),
       },
-      language
+      language,
     })
     const plugins = createPlugins({
       getCsrfToken: () => '',
       registry: [],
-      i18n
+      i18n,
     })
     return wrapOutput(coreRender({ plugins, state }))
   } catch (e) {
