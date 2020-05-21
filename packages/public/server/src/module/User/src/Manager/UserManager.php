@@ -49,7 +49,9 @@ class UserManager implements UserManagerInterface
     public function getUser($id)
     {
         $user = $this->getObjectManager()->find(
-            $this->getClassResolver()->resolveClassName('User\Entity\UserInterface'),
+            $this->getClassResolver()->resolveClassName(
+                'User\Entity\UserInterface'
+            ),
             $id
         );
         if (!$user) {
@@ -80,14 +82,14 @@ class UserManager implements UserManagerInterface
 
     public function findUserByToken($username)
     {
-        $user = $this->getUserEntityRepository()->findOneBy(
-            [
-                'token' => $username,
-            ]
-        );
+        $user = $this->getUserEntityRepository()->findOneBy([
+            'token' => $username,
+        ]);
 
         if (!$user) {
-            throw new UserNotFoundException(sprintf('User %s not found', $username));
+            throw new UserNotFoundException(
+                sprintf('User %s not found', $username)
+            );
         }
 
         return $user;
@@ -95,14 +97,14 @@ class UserManager implements UserManagerInterface
 
     public function findUserByUsername($username)
     {
-        $user = $this->getUserEntityRepository()->findOneBy(
-            [
-                'username' => $username,
-            ]
-        );
+        $user = $this->getUserEntityRepository()->findOneBy([
+            'username' => $username,
+        ]);
 
         if (!$user) {
-            throw new UserNotFoundException(sprintf('User %s not found', $username));
+            throw new UserNotFoundException(
+                sprintf('User %s not found', $username)
+            );
         }
 
         return $user;
@@ -110,14 +112,14 @@ class UserManager implements UserManagerInterface
 
     public function findUserByEmail($email)
     {
-        $user = $this->getUserEntityRepository()->findOneBy(
-            [
-                'email' => $email,
-            ]
-        );
+        $user = $this->getUserEntityRepository()->findOneBy([
+            'email' => $email,
+        ]);
 
         if (!$user) {
-            throw new UserNotFoundException(sprintf('User with email %s not found', $email));
+            throw new UserNotFoundException(
+                sprintf('User with email %s not found', $email)
+            );
         }
 
         return $user;
@@ -146,7 +148,9 @@ class UserManager implements UserManagerInterface
 
     public function findAllUsers($page = 0, $limit = 50)
     {
-        $className = $this->getClassResolver()->resolveClassName('User\Entity\UserInterface');
+        $className = $this->getClassResolver()->resolveClassName(
+            'User\Entity\UserInterface'
+        );
         $dql = 'SELECT u FROM ' . $className . ' u ' . 'ORDER BY u.id DESC';
         $paginator = new DoctrinePaginatorFactory($this->objectManager);
         $paginator = $paginator->createPaginator($dql, $page, $limit);
@@ -180,7 +184,6 @@ class UserManager implements UserManagerInterface
         $this->persist($user);
     }
 
-
     public function flush()
     {
         $this->getObjectManager()->flush();
@@ -190,7 +193,9 @@ class UserManager implements UserManagerInterface
     protected function getUserEntityRepository()
     {
         return $this->getObjectManager()->getRepository(
-            $this->getClassResolver()->resolveClassName('User\Entity\UserInterface')
+            $this->getClassResolver()->resolveClassName(
+                'User\Entity\UserInterface'
+            )
         );
     }
 

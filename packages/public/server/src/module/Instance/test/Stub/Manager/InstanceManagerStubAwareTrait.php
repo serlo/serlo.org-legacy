@@ -32,6 +32,9 @@ trait InstanceManagerStubAwareTrait
     {
         $serviceManager = $this->getApplicationServiceLocator();
         $this->instanceManager = new InstanceManagerStub();
-        $serviceManager->setService('Instance\Manager\InstanceManager', $this->instanceManager);
+        $serviceManager->setService(
+            'Instance\Manager\InstanceManager',
+            $this->instanceManager
+        );
     }
 }

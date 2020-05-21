@@ -38,22 +38,22 @@ class ParameterKeyForm extends Form
         $this->add(new CsrfToken());
 
         $hydrator = new ObjectHydrator($entityManager);
-        $filter   = new InputFilter();
+        $filter = new InputFilter();
 
         $this->setHydrator($hydrator);
         $this->setInputFilter($filter);
 
-        $this->add((new Text('name')));
+        $this->add(new Text('name'));
 
         $this->add(
-            (new Submit('submit'))->setValue('Save')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $filter->add(
-            [
-                'name'     => 'name',
-                'required' => true,
-            ]
-        );
+        $filter->add([
+            'name' => 'name',
+            'required' => true,
+        ]);
     }
 }

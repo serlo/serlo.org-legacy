@@ -26,13 +26,13 @@ import {
   toHaveTitle,
   toHaveUrlPath,
   toHaveCollapsable,
-  toHaveSystemNotification
+  toHaveSystemNotification,
 } from './packages/public/server/__tests-e2e__/_utils'
 
 setTimeout(60)
 
 beforeAll(() => {
-  page.on('dialog', dialog => {
+  page.on('dialog', (dialog) => {
     if (dialog.type() === 'beforeunload') {
       dialog.accept()
     }
@@ -49,7 +49,7 @@ expect.extend({
   toHaveTitle,
   toHaveUrlPath,
   toHaveCollapsable,
-  toHaveSystemNotification
+  toHaveSystemNotification,
 })
 
 declare global {

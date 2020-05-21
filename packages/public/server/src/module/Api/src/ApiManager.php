@@ -76,10 +76,7 @@ class ApiManager
                 )
             }
 MUTATION;
-        $this->executeQuery(
-            $query,
-            $this->getAliasData($alias)
-        );
+        $this->executeQuery($query, $this->getAliasData($alias));
     }
 
     private function executeQuery(string $query, array $variables)
@@ -104,23 +101,31 @@ MUTATION;
             'Content-Type: application/json',
         ]);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-            'query' => $query,
-            'variables' => $variables,
-        ]));
+        curl_setopt(
+            $ch,
+            CURLOPT_POSTFIELDS,
+            json_encode([
+                'query' => $query,
+                'variables' => $variables,
+            ])
+        );
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = json_decode(curl_exec($ch), true);
 
         if (isset($response['errors'])) {
-            $this->sentry->captureMessage('GraphQL Mutation failed', [], [
-                'tags' => ['api' => true],
-                'extra' => [
-                    'query' => print_r($query, true),
-                    'variables' => print_r($variables, true),
-                    'errors' => print_r($response['errors'], true),
-                ],
-            ]);
+            $this->sentry->captureMessage(
+                'GraphQL Mutation failed',
+                [],
+                [
+                    'tags' => ['api' => true],
+                    'extra' => [
+                        'query' => print_r($query, true),
+                        'variables' => print_r($variables, true),
+                        'errors' => print_r($response['errors'], true),
+                    ],
+                ]
+            );
         }
     }
 
@@ -151,10 +156,7 @@ MUTATION;
                 _removeLicense(id: \$id)
             }
 MUTATION;
-        $this->executeQuery(
-            $query,
-            ['id' => $id]
-        );
+        $this->executeQuery($query, ['id' => $id]);
     }
 
     public function setLicense(LicenseInterface $license)
@@ -182,10 +184,7 @@ MUTATION;
                 )
             }
 MUTATION;
-        $this->executeQuery(
-            $query,
-            $this->getLicenseData($license)
-        );
+        $this->executeQuery($query, $this->getLicenseData($license));
     }
 
     public function getLicenseData(LicenseInterface $license)
@@ -209,10 +208,7 @@ MUTATION;
                 _removeUuid(id: \$id)
             }
 MUTATION;
-        $this->executeQuery(
-            $query,
-            ['id' => $id]
-        );
+        $this->executeQuery($query, ['id' => $id]);
     }
 
     public function setUuid(UuidInterface $uuid)
@@ -320,10 +316,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
-        );
+        $this->executeQuery($query, $this->getUuidData($entity));
     }
 
     public function setArticle(EntityInterface $entity)
@@ -352,10 +345,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
-        );
+        $this->executeQuery($query, $this->getUuidData($entity));
     }
 
     public function setCourse(EntityInterface $entity)
@@ -386,10 +376,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
-        );
+        $this->executeQuery($query, $this->getUuidData($entity));
     }
 
     public function setCoursePage(EntityInterface $entity)
@@ -418,10 +405,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
-        );
+        $this->executeQuery($query, $this->getUuidData($entity));
     }
 
     public function setEvent(EntityInterface $entity)
@@ -450,10 +434,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
-        );
+        $this->executeQuery($query, $this->getUuidData($entity));
     }
 
     public function setExercise(EntityInterface $entity)
@@ -484,10 +465,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
-        );
+        $this->executeQuery($query, $this->getUuidData($entity));
     }
 
     public function setExerciseGroup(EntityInterface $entity)
@@ -518,10 +496,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
-        );
+        $this->executeQuery($query, $this->getUuidData($entity));
     }
 
     public function setGroupedExercise(EntityInterface $entity)
@@ -552,10 +527,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
-        );
+        $this->executeQuery($query, $this->getUuidData($entity));
     }
 
     public function setSolution(EntityInterface $entity)
@@ -584,10 +556,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
-        );
+        $this->executeQuery($query, $this->getUuidData($entity));
     }
 
     public function setVideo(EntityInterface $entity)
@@ -616,10 +585,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($entity)
-        );
+        $this->executeQuery($query, $this->getUuidData($entity));
     }
 
     public function setAppletRevision(RevisionInterface $revision)
@@ -654,10 +620,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setArticleRevision(RevisionInterface $revision)
@@ -690,10 +653,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setCourseRevision(RevisionInterface $revision)
@@ -724,10 +684,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setCoursePageRevision(RevisionInterface $revision)
@@ -756,10 +713,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setEventRevision(RevisionInterface $revision)
@@ -792,10 +746,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setExerciseRevision(RevisionInterface $revision)
@@ -822,10 +773,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setExerciseGroupRevision(RevisionInterface $revision)
@@ -852,10 +800,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setGroupedExerciseRevision(RevisionInterface $revision)
@@ -882,10 +827,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setSolutionRevision(RevisionInterface $revision)
@@ -912,10 +854,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setVideoRevision(RevisionInterface $revision)
@@ -946,10 +885,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setPage(PageRepositoryInterface $page)
@@ -974,10 +910,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($page)
-        );
+        $this->executeQuery($query, $this->getUuidData($page));
     }
 
     public function setPageRevision(PageRevisionInterface $revision)
@@ -1004,10 +937,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($revision)
-        );
+        $this->executeQuery($query, $this->getUuidData($revision));
     }
 
     public function setUser(UserInterface $user)
@@ -1032,10 +962,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($user)
-        );
+        $this->executeQuery($query, $this->getUuidData($user));
     }
 
     public function setTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm)
@@ -1068,10 +995,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery(
-            $query,
-            $this->getUuidData($taxonomyTerm)
-        );
+        $this->executeQuery($query, $this->getUuidData($taxonomyTerm));
     }
 
     private function toCamelCase($value)
@@ -1093,7 +1017,11 @@ MUTATION;
     public function getUuidData(UuidInterface $uuid)
     {
         try {
-            $alias = '/' . $this->getAliasManager()->findAliasByObject($uuid, false)->getAlias();
+            $alias =
+                '/' .
+                $this->getAliasManager()
+                    ->findAliasByObject($uuid, false)
+                    ->getAlias();
         } catch (Exception $e) {
             $alias = null;
         }
@@ -1109,37 +1037,63 @@ MUTATION;
             $data['type'] = $this->normalizeType($uuid->getType()->getName());
             $data['instance'] = $uuid->getInstance()->getSubdomain();
             $data['date'] = $this->normalizeDate($uuid->getTimestamp());
-            $data['currentRevisionId'] = $uuid->getCurrentRevision() ? $uuid->getCurrentRevision()->getId() : null;
-            $data['licenseId'] = $uuid->getLicense() ? $uuid->getLicense()->getId() : null;
-            $data['taxonomyTermIds'] = $uuid->getTaxonomyTerms()->map(function (TaxonomyTermInterface $term) {
-                return $term->getId();
-            })->toArray();
+            $data['currentRevisionId'] = $uuid->getCurrentRevision()
+                ? $uuid->getCurrentRevision()->getId()
+                : null;
+            $data['licenseId'] = $uuid->getLicense()
+                ? $uuid->getLicense()->getId()
+                : null;
+            $data['taxonomyTermIds'] = $uuid
+                ->getTaxonomyTerms()
+                ->map(function (TaxonomyTermInterface $term) {
+                    return $term->getId();
+                })
+                ->toArray();
 
-            $parentIds = $uuid->getParents('link')->map(function (EntityInterface $parent) {
-                return $parent->getId();
-            })->toArray();
+            $parentIds = $uuid
+                ->getParents('link')
+                ->map(function (EntityInterface $parent) {
+                    return $parent->getId();
+                })
+                ->toArray();
             if (count($parentIds) > 0) {
                 $data['parentId'] = $parentIds[0];
             }
 
             if ($data['type'] === 'course') {
-                $data['pageIds'] = $uuid->getChildren('link')->map(function (EntityInterface $child) {
-                    return $child->getId();
-                })->toArray();
+                $data['pageIds'] = $uuid
+                    ->getChildren('link')
+                    ->map(function (EntityInterface $child) {
+                        return $child->getId();
+                    })
+                    ->toArray();
             }
             if ($data['type'] === 'exerciseGroup') {
-                $data['exerciseIds'] = $uuid->getChildren('link')->map(function (EntityInterface $child) {
-                    return $child->getId();
-                })->toArray();
+                $data['exerciseIds'] = $uuid
+                    ->getChildren('link')
+                    ->map(function (EntityInterface $child) {
+                        return $child->getId();
+                    })
+                    ->toArray();
             }
 
-            if ($data['type'] === 'exercise' || $data['type'] === 'groupedExercise') {
-                $solutionIds = $uuid->getChildren('link')->filter(function (EntityInterface $child) {
-                    return $child->getType()->getName() === 'text-solution';
-                })->map(function (EntityInterface $child) {
-                    return $child->getId();
-                })->toArray();
-                $data['solutionId'] = count($solutionIds) > 0 ? array_values($solutionIds)[0] : null;
+            if (
+                $data['type'] === 'exercise' ||
+                $data['type'] === 'groupedExercise'
+            ) {
+                $solutionIds = $uuid
+                    ->getChildren('link')
+                    ->filter(function (EntityInterface $child) {
+                        return $child->getType()->getName() === 'text-solution';
+                    })
+                    ->map(function (EntityInterface $child) {
+                        return $child->getId();
+                    })
+                    ->toArray();
+                $data['solutionId'] =
+                    count($solutionIds) > 0
+                        ? array_values($solutionIds)[0]
+                        : null;
             }
         }
 
@@ -1203,7 +1157,9 @@ MUTATION;
         if ($uuid instanceof PageRepositoryInterface) {
             $data['discriminator'] = 'page';
             $data['instance'] = $uuid->getInstance()->getSubdomain();
-            $data['currentRevisionId'] = $uuid->getCurrentRevision() ? $uuid->getCurrentRevision()->getId() : null;
+            $data['currentRevisionId'] = $uuid->getCurrentRevision()
+                ? $uuid->getCurrentRevision()->getId()
+                : null;
             $data['licenseId'] = $uuid->getLicense()->getId();
         }
 
@@ -1220,7 +1176,9 @@ MUTATION;
             $data['discriminator'] = 'user';
             $data['username'] = $uuid->getUsername();
             $data['date'] = $this->normalizeDate($uuid->getDate());
-            $data['lastLogin'] = $uuid->getLastLogin() ? $this->normalizeDate($uuid->getLastLogin()) : null;
+            $data['lastLogin'] = $uuid->getLastLogin()
+                ? $this->normalizeDate($uuid->getLastLogin())
+                : null;
             $data['description'] = $uuid->getDescription();
         }
 
@@ -1237,12 +1195,18 @@ MUTATION;
             $parent = $uuid->getParent();
             $data['parentId'] = isset($parent) ? $parent->getId() : null;
 
-            $associated = $uuid->getAssociated('entities')->map(function (UuidInterface $uuid) {
-                return $uuid->getId();
-            })->toArray();
-            $children = $uuid->getChildren()->map(function (TaxonomyTermInterface $uuid) {
-                return $uuid->getId();
-            })->toArray();
+            $associated = $uuid
+                ->getAssociated('entities')
+                ->map(function (UuidInterface $uuid) {
+                    return $uuid->getId();
+                })
+                ->toArray();
+            $children = $uuid
+                ->getChildren()
+                ->map(function (TaxonomyTermInterface $uuid) {
+                    return $uuid->getId();
+                })
+                ->toArray();
             $data['childrenIds'] = array_merge($associated, $children);
         }
 

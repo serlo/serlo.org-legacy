@@ -39,10 +39,15 @@ class ApiControllerFactory implements FactoryInterface
     {
         /* @var $serviceLocator AbstractPluginManager */
         $serviceManager = $serviceLocator->getServiceLocator();
-        $entityManager  = $serviceManager->get('Entity\Manager\EntityManager');
-        $normalizer     = $serviceManager->get('Normalizer\Normalizer');
-        $renderService  = $serviceManager->get('Renderer\Renderer');
+        $entityManager = $serviceManager->get('Entity\Manager\EntityManager');
+        $normalizer = $serviceManager->get('Normalizer\Normalizer');
+        $renderService = $serviceManager->get('Renderer\Renderer');
         $moduleOptions = $serviceManager->get('Entity\Options\ModuleOptions');
-        return new ApiController($entityManager, $normalizer, $renderService, $moduleOptions);
+        return new ApiController(
+            $entityManager,
+            $normalizer,
+            $renderService,
+            $moduleOptions
+        );
     }
 }

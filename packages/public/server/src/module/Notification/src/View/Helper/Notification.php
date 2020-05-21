@@ -67,9 +67,9 @@ class Notification extends AbstractHelper
         TwigRenderer $renderer,
         UserManagerInterface $userManager
     ) {
-        $this->storage             = $storage;
+        $this->storage = $storage;
         $this->notificationManager = $notificationManager;
-        $this->userManager         = $userManager;
+        $this->userManager = $userManager;
         $this->template = 'notification/notifications';
         $this->renderer = $renderer;
     }
@@ -79,10 +79,12 @@ class Notification extends AbstractHelper
         $this->aggregatedUsers = [];
         foreach ($users as $actor) {
             if (!$actor instanceof \User\Entity\UserInterface) {
-                throw new \User\Exception\RuntimeException(sprintf(
-                    'Expected UserInterface but got %s',
-                    gettype($actor)
-                ));
+                throw new \User\Exception\RuntimeException(
+                    sprintf(
+                        'Expected UserInterface but got %s',
+                        gettype($actor)
+                    )
+                );
             }
 
             if (!in_array($actor, $this->aggregatedUsers)) {
@@ -105,17 +107,17 @@ class Notification extends AbstractHelper
 
     public function getSeen(Collection $collection)
     {
-        return $collection->filter(
-            function (NotificationInterface $notification) {
-                return !$notification->getSeen();
-            }
-        );
+        return $collection->filter(function (
+            NotificationInterface $notification
+        ) {
+            return !$notification->getSeen();
+        });
     }
 
     public function render($limit = 25)
     {
-        $user   = $this->userManager->getUserFromAuthenticator();
-        $key    = hash('sha256', serialize($user));
+        $user = $this->userManager->getUserFromAuthenticator();
+        $key = hash('sha256', serialize($user));
         $output = '';
 
         if ($this->storage->hasItem($key)) {
@@ -123,8 +125,13 @@ class Notification extends AbstractHelper
         }
 
         if ($user) {
-            $notifications = $this->notificationManager->findNotificationsBySubscriber($user, $limit);
-            $output        = $this->renderer->render($this->template, ['notifications' => $notifications]);
+            $notifications = $this->notificationManager->findNotificationsBySubscriber(
+                $user,
+                $limit
+            );
+            $output = $this->renderer->render($this->template, [
+                'notifications' => $notifications,
+            ]);
             $this->storage->setItem($key, $output);
         }
 

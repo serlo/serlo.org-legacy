@@ -68,14 +68,18 @@ class PersistentParameterFilter implements FilterInterface
         if ($value instanceof Collection) {
             return $value->filter($passes);
         } elseif ($value instanceof \Iterator) {
-            return new ArrayIterator(array_filter(iterator_to_array($value), $passes));
+            return new ArrayIterator(
+                array_filter(iterator_to_array($value), $passes)
+            );
         } elseif (is_array($value)) {
             return array_filter($value, $passes);
         } else {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected Collection or array but got %s',
-                is_object($value) ? get_class($value) : gettype($value)
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected Collection or array but got %s',
+                    is_object($value) ? get_class($value) : gettype($value)
+                )
+            );
         }
     }
 }

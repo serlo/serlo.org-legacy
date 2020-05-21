@@ -38,7 +38,9 @@ class NavigationStorageInvalidatorFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator AbstractPluginManager */
-        $storage = $serviceLocator->getServiceLocator()->get('Navigation\\Storage\Storage');
+        $storage = $serviceLocator
+            ->getServiceLocator()
+            ->get('Navigation\\Storage\Storage');
         return new NavigationStorageInvalidator($storage);
     }
 }

@@ -28,7 +28,7 @@ import {
   Controls,
   editorContent,
   HeaderInput,
-  entityType
+  entityType,
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
 
@@ -37,7 +37,7 @@ export const coursePageTypeState = entityType(
     ...entity,
     icon: string('explanation'),
     title: string(''),
-    content: editorContent()
+    content: editorContent(),
   },
   {}
 )
@@ -49,8 +49,8 @@ export const coursePageTypePlugin: EditorPlugin<
   Component: CoursePageTypeEditor,
   state: coursePageTypeState,
   config: {
-    skipControls: false
-  }
+    skipControls: false,
+  },
 }
 
 function CoursePageTypeEditor(
@@ -84,16 +84,16 @@ function CoursePageTypeEditor(
             options={[
               {
                 label: i18n.t('coursePage::Explanation'),
-                value: 'explanation'
+                value: 'explanation',
               },
               {
                 label: i18n.t('coursePage::Video'),
-                value: 'play'
+                value: 'play',
               },
               {
                 label: i18n.t('coursePage::Question'),
-                value: 'question'
-              }
+                value: 'question',
+              },
             ]}
           />
         </Settings>

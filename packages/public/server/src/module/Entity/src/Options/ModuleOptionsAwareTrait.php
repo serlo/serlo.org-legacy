@@ -24,7 +24,6 @@ namespace Entity\Options;
 
 trait ModuleOptionsAwareTrait
 {
-
     /**
      * @var ModuleOptions
      */

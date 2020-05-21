@@ -108,23 +108,31 @@ class Entity extends Uuid implements EntityInterface
         $this->revisions->add($revision);
     }
 
-    public function addTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm, TaxonomyTermNodeInterface $node = null)
-    {
+    public function addTaxonomyTerm(
+        TaxonomyTermInterface $taxonomyTerm,
+        TaxonomyTermNodeInterface $node = null
+    ) {
         if ($node === null) {
-            throw new Exception\InvalidArgumentException('Missing parameter node');
+            throw new Exception\InvalidArgumentException(
+                'Missing parameter node'
+            );
         }
         $this->termTaxonomyEntities->add($node);
     }
 
     public function countUnrevised()
     {
-        $current = $this->getCurrentRevision() ? $this->getCurrentRevision()->getId() : 0;
+        $current = $this->getCurrentRevision()
+            ? $this->getCurrentRevision()->getId()
+            : 0;
 
-        return $this->revisions->matching(
-            Criteria::create()->where(Criteria::expr()->gt('id', $current))->andWhere(
-                Criteria::expr()->eq('trashed', false)
+        return $this->revisions
+            ->matching(
+                Criteria::create()
+                    ->where(Criteria::expr()->gt('id', $current))
+                    ->andWhere(Criteria::expr()->eq('trashed', false))
             )
-        )->count();
+            ->count();
     }
 
     public function createLink()
@@ -150,9 +158,15 @@ class Entity extends Uuid implements EntityInterface
         $collection = new ArrayCollection();
 
         foreach ($this->getChildLinks() as $link) {
-            $childTypeName = $link->getChild()->getType()->getName();
-            if ($link->getType()->getName() === $linkType
-                && ($childType === null || ($childType !== null && $childTypeName === $childType))) {
+            $childTypeName = $link
+                ->getChild()
+                ->getType()
+                ->getName();
+            if (
+                $link->getType()->getName() === $linkType &&
+                ($childType === null ||
+                    ($childType !== null && $childTypeName === $childType))
+            ) {
                 $collection->add($link->getChild());
             }
         }
@@ -160,13 +174,15 @@ class Entity extends Uuid implements EntityInterface
         return $collection;
     }
 
-
     public function getValidChildren($linkType, $childType = null)
     {
         $filterchain = new FilterChain();
-        $filterchain->attach(new HasCurrentRevisionCollectionFilter())
+        $filterchain
+            ->attach(new HasCurrentRevisionCollectionFilter())
             ->attach(new NotTrashedCollectionFilter());
-        $elements = $filterchain->filter($this->getChildren($linkType, $childType))->getValues();
+        $elements = $filterchain
+            ->filter($this->getChildren($linkType, $childType))
+            ->getValues();
         return new ArrayCollection($elements);
     }
 
@@ -205,9 +221,15 @@ class Entity extends Uuid implements EntityInterface
         $collection = new ArrayCollection();
 
         foreach ($this->getParentLinks() as $link) {
-            $childTypeName = $link->getChild()->getType()->getName();
-            if ($link->getType()->getName() === $linkType
-                && ($parentType === null || ($parentType !== null && $childTypeName === $parentType))) {
+            $childTypeName = $link
+                ->getChild()
+                ->getType()
+                ->getName();
+            if (
+                $link->getType()->getName() === $linkType &&
+                ($parentType === null ||
+                    ($parentType !== null && $childTypeName === $parentType))
+            ) {
                 $collection->add($link->getParent());
             }
         }
@@ -217,7 +239,10 @@ class Entity extends Uuid implements EntityInterface
 
     public function getNextValidSibling($linkType, EntityInterface $previous)
     {
-        $children = $this->getValidChildren($linkType, $previous->getType()->getName());
+        $children = $this->getValidChildren(
+            $linkType,
+            $previous->getType()->getName()
+        );
 
         // Checks if the given entity is a child at all
         if (($index = $children->indexOf($previous)) === false) {
@@ -231,9 +256,14 @@ class Entity extends Uuid implements EntityInterface
         return null;
     }
 
-    public function getPreviousValidSibling($linkType, EntityInterface $following)
-    {
-        $children = $this->getValidChildren($linkType, $following->getType()->getName());
+    public function getPreviousValidSibling(
+        $linkType,
+        EntityInterface $following
+    ) {
+        $children = $this->getValidChildren(
+            $linkType,
+            $following->getType()->getName()
+        );
 
         if (($index = $children->indexOf($following)) === false) {
             return null;
@@ -269,9 +299,11 @@ class Entity extends Uuid implements EntityInterface
                 return $parent->getSubjects();
             }, $this->getParents('link')->toArray());
         } else {
-            $subjects = $this->getTaxonomyTerms()->map(function ($term) {
-                return $term->getSecondLevelAncestor();
-            })->toArray();
+            $subjects = $this->getTaxonomyTerms()
+                ->map(function ($term) {
+                    return $term->getSecondLevelAncestor();
+                })
+                ->toArray();
         }
 
         return array_unique($subjects, SORT_REGULAR);
@@ -302,10 +334,14 @@ class Entity extends Uuid implements EntityInterface
         $this->revisions->removeElement($revision);
     }
 
-    public function removeTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm, TaxonomyTermNodeInterface $node = null)
-    {
+    public function removeTaxonomyTerm(
+        TaxonomyTermInterface $taxonomyTerm,
+        TaxonomyTermNodeInterface $node = null
+    ) {
         if ($node === null) {
-            throw new Exception\InvalidArgumentException('Missing parameter node');
+            throw new Exception\InvalidArgumentException(
+                'Missing parameter node'
+            );
         }
         $this->termTaxonomyEntities->removeElement($node);
     }

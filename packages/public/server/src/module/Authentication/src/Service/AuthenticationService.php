@@ -35,7 +35,6 @@ use Zend\Stdlib\ResponseInterface;
 
 class AuthenticationService extends ZendAuthenticationService
 {
-
     /**
      * @var SessionConfig
      */
@@ -71,15 +70,15 @@ class AuthenticationService extends ZendAuthenticationService
         parent::__construct($storage, $adapter);
 
         if (!$response instanceof Response) {
-            $response = new Response;
+            $response = new Response();
         }
 
         if (!$request instanceof Request) {
-            $request = new Request;
+            $request = new Request();
         }
 
-        $this->response      = $response;
-        $this->request       = $request;
+        $this->response = $response;
+        $this->request = $request;
         $this->sessionConfig = $sessionConfig;
     }
 
@@ -89,8 +88,8 @@ class AuthenticationService extends ZendAuthenticationService
 
         if ($result->isValid()) {
             // Set authentication indicator cookie
-            $lifetime = (int)$this->sessionConfig->getCookieLifetime();
-            $expires  = $lifetime !== 0 ? time() + $lifetime : null;
+            $lifetime = (int) $this->sessionConfig->getCookieLifetime();
+            $expires = $lifetime !== 0 ? time() + $lifetime : null;
             $lifetime = $lifetime !== 0 ? $lifetime : null;
             $this->setCookie(true, $expires, $lifetime);
         }
@@ -134,7 +133,10 @@ class AuthenticationService extends ZendAuthenticationService
             return false;
         }
 
-        if ($cookie->offsetExists($this->cookieName) && $cookie->offsetGet($this->cookieName)) {
+        if (
+            $cookie->offsetExists($this->cookieName) &&
+            $cookie->offsetGet($this->cookieName)
+        ) {
             return true;
         }
 
@@ -144,7 +146,10 @@ class AuthenticationService extends ZendAuthenticationService
         }
 
         foreach ($cookies as $cookie) {
-            if ($cookie->getName() === $this->cookieName && $cookie->getValue() === true) {
+            if (
+                $cookie->getName() === $this->cookieName &&
+                $cookie->getValue() === true
+            ) {
                 return true;
             }
         }
@@ -154,7 +159,7 @@ class AuthenticationService extends ZendAuthenticationService
     protected function setCookie($value, $expires = null, $lifetime = null)
     {
         $cookie = new SetCookie(
-            (string)$this->cookieName,
+            (string) $this->cookieName,
             $value,
             $expires,
             $this->cookiePath,

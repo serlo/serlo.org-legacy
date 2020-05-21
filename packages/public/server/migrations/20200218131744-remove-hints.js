@@ -24,7 +24,7 @@
  * Removes all entities of type `text-hint` from the database.
  * THIS IS AN IRREVERSIBLE MIGRATION!
  */
-exports.up = function(db, cb) {
+exports.up = function (db, cb) {
   db.all("SELECT id FROM type WHERE name = 'text-hint'", (err, results) => {
     if (err) {
       return cb(err)
@@ -42,10 +42,10 @@ exports.up = function(db, cb) {
   })
 }
 
-exports.down = function(db, cb) {
+exports.down = function (db, cb) {
   cb()
 }
 
 exports._meta = {
-  version: 1
+  version: 1,
 }

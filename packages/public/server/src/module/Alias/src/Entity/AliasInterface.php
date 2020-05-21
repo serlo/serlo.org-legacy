@@ -28,7 +28,6 @@ use Uuid\Entity\UuidInterface;
 
 interface AliasInterface extends InstanceAwareInterface
 {
-
     /**
      * Returns the ID
      *

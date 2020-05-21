@@ -29,7 +29,7 @@ export function initChangeDimensionEvents() {
 
   notifyParent({
     contentHeight: cachedContentHeight,
-    contentWidth: cachedContentWidth
+    contentWidth: cachedContentWidth,
   })
 
   const handleResize = debounce(() => {
@@ -92,7 +92,7 @@ export function initChangeDimensionEvents() {
     window.parent.postMessage(
       {
         context: 'serlo',
-        ...data
+        ...data,
       },
       '*'
     )

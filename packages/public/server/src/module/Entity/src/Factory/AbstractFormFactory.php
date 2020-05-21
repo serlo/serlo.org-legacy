@@ -39,7 +39,9 @@ abstract class AbstractFormFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $license   = $this->getLicenseManager($serviceLocator)->getDefaultLicense();
+        $license = $this->getLicenseManager(
+            $serviceLocator
+        )->getDefaultLicense();
         $className = $this->getClassName();
         return new $className($license);
     }

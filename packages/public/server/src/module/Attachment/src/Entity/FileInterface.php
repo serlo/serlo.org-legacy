@@ -26,7 +26,6 @@ use Instance\Entity\InstanceProviderInterface;
 
 interface FileInterface extends InstanceProviderInterface
 {
-
     /**
      * @return int
      */

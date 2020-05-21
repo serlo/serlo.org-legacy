@@ -37,10 +37,14 @@ class TwigNavigationHelperFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $serviceLocator = $serviceLocator->getServiceLocator();
-        $storage        = $serviceLocator->get('Navigation\Storage\NavigationHelperStorage');
-        $pluginManager  = $serviceLocator->get('Zend\View\Helper\Navigation\PluginManager');
-        $renderer       = $serviceLocator->get('ZfcTwig\View\TwigRenderer');
-        $helper         = new Navigation($storage);
+        $storage = $serviceLocator->get(
+            'Navigation\Storage\NavigationHelperStorage'
+        );
+        $pluginManager = $serviceLocator->get(
+            'Zend\View\Helper\Navigation\PluginManager'
+        );
+        $renderer = $serviceLocator->get('ZfcTwig\View\TwigRenderer');
+        $helper = new Navigation($storage);
         $helper->setView($renderer);
         $helper->setPluginManager($pluginManager);
         return $helper;

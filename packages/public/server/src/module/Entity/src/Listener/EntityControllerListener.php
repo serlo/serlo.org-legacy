@@ -34,10 +34,7 @@ class EntityControllerListener extends AbstractSharedListenerAggregate
         $events->attach(
             $this->getMonitoredClass(),
             'create.postFlush',
-            [
-                $this,
-                'onCreate',
-            ],
+            [$this, 'onCreate'],
             -1000
         );
     }
@@ -54,12 +51,12 @@ class EntityControllerListener extends AbstractSharedListenerAggregate
 
         $result = new UrlResult();
         $result->setResult(
-            $e->getTarget()->url()->fromRoute(
-                'entity/repository/add-revision',
-                [
+            $e
+                ->getTarget()
+                ->url()
+                ->fromRoute('entity/repository/add-revision', [
                     'entity' => $entity->getId(),
-                ]
-            )
+                ])
         );
 
         return $result;

@@ -78,9 +78,13 @@ class Taxonomy implements TaxonomyInterface
     public function getChildren()
     {
         $collection = new ArrayCollection();
-        $terms      = $this->getTerms();
+        $terms = $this->getTerms();
         foreach ($terms as $entity) {
-            if (!$entity->hasParent() || ($entity->hasParent() && $entity->getParent()->getTaxonomy() !== $this)) {
+            if (
+                !$entity->hasParent() ||
+                ($entity->hasParent() &&
+                    $entity->getParent()->getTaxonomy() !== $this)
+            ) {
                 $collection->add($entity);
             }
         }

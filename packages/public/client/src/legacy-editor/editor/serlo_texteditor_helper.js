@@ -28,13 +28,13 @@ import t from '../../modules/translator'
 
 var TextEditorHelper
 
-TextEditorHelper = function(textEditor, settings) {
+TextEditorHelper = function (textEditor, settings) {
   var that = this
 
   that.settings = $.extend(
     {
       cursorDelta: 0,
-      icon: undefined
+      icon: undefined,
     },
     settings
   )
@@ -43,18 +43,16 @@ TextEditorHelper = function(textEditor, settings) {
 
   that.textEditor = textEditor
 
-  that.$el = $('<a>')
-    .addClass('btn btn-default helper')
-    .attr({
-      href: '#',
-      title: that.settings.title
-    })
+  that.$el = $('<a>').addClass('btn btn-default helper').attr({
+    href: '#',
+    title: that.settings.title,
+  })
 
   if (that.settings.description) {
     that.$el.attr({
       'data-toggle': 'tooltip',
       'data-placement': 'bottom',
-      title: that.settings.description
+      title: that.settings.description,
     })
   }
 
@@ -64,13 +62,13 @@ TextEditorHelper = function(textEditor, settings) {
     that.$el.html(settings.title)
   }
 
-  that.$el.click(function(e) {
+  that.$el.click(function (e) {
     e.preventDefault()
     that.action()
   })
 
   if (that.settings.shortcut) {
-    that.addEventListener(that.settings.shortcut, function(e) {
+    that.addEventListener(that.settings.shortcut, function (e) {
       e.stopPropagation()
       e.preventDefault()
       that.action()
@@ -78,7 +76,7 @@ TextEditorHelper = function(textEditor, settings) {
   }
 }
 
-TextEditorHelper.prototype.action = function() {
+TextEditorHelper.prototype.action = function () {
   if (this.textEditor.options.readOnly === false) {
     if (this.settings.action) {
       return this.settings.action.apply(this, arguments)
@@ -104,7 +102,7 @@ TextEditorHelper.prototype.action = function() {
 
     if (this.settings.selectionDelta) {
       head = {
-        line: cursor.line
+        line: cursor.line,
       }
 
       if (this.settings.selectionDelta === 'selection') {
@@ -119,7 +117,7 @@ TextEditorHelper.prototype.action = function() {
   }
 }
 
-TextEditorHelper.Bold = function(textEditor) {
+TextEditorHelper.Bold = function (textEditor) {
   return new TextEditorHelper(textEditor, {
     title: 'Bold',
     icon: 'bold',
@@ -128,11 +126,11 @@ TextEditorHelper.Bold = function(textEditor) {
     cursorDelta: 2,
     selectionDelta: 'selection',
     shortcut: 'cmd+66',
-    description: t('Make selected text bold')
+    description: t('Make selected text bold'),
   })
 }
 
-TextEditorHelper.Italic = function(textEditor) {
+TextEditorHelper.Italic = function (textEditor) {
   return new TextEditorHelper(textEditor, {
     title: 'Italic',
     icon: 'italic',
@@ -141,11 +139,11 @@ TextEditorHelper.Italic = function(textEditor) {
     cursorDelta: 1,
     selectionDelta: 'selection',
     shortcut: 'cmd+73',
-    description: t('Make selected text italic')
+    description: t('Make selected text italic'),
   })
 }
 
-TextEditorHelper.List = function(textEditor) {
+TextEditorHelper.List = function (textEditor) {
   return new TextEditorHelper(textEditor, {
     title: 'List',
     icon: 'list',
@@ -153,11 +151,11 @@ TextEditorHelper.List = function(textEditor) {
     replaceAfter: '\n* ',
     cursorDelta: 2,
     selectionDelta: 'selection',
-    description: t('Insert a list')
+    description: t('Insert a list'),
   })
 }
 
-TextEditorHelper.Link = function(textEditor) {
+TextEditorHelper.Link = function (textEditor) {
   return new TextEditorHelper(textEditor, {
     title: 'Link',
     icon: 'link',
@@ -165,11 +163,11 @@ TextEditorHelper.Link = function(textEditor) {
     replaceAfter: ']()',
     cursorDelta: 1,
     selectionDelta: 'selection',
-    description: t('Insert a link')
+    description: t('Insert a link'),
   })
 }
 
-TextEditorHelper.Injection = function(textEditor) {
+TextEditorHelper.Injection = function (textEditor) {
   return new TextEditorHelper(textEditor, {
     title: 'Injection',
     icon: 'code',
@@ -177,11 +175,11 @@ TextEditorHelper.Injection = function(textEditor) {
     replaceAfter: ']()',
     cursorDelta: 2,
     selectionDelta: 'selection',
-    description: t('Insert an injection or geogebra')
+    description: t('Insert an injection or geogebra'),
   })
 }
 
-TextEditorHelper.Strike = function(textEditor) {
+TextEditorHelper.Strike = function (textEditor) {
   return new TextEditorHelper(textEditor, {
     title: 'Strike',
     icon: 'strikethrough',
@@ -189,11 +187,11 @@ TextEditorHelper.Strike = function(textEditor) {
     replaceAfter: '~~',
     cursorDelta: 2,
     selectionDelta: 'selection',
-    description: t('Strike selected text')
+    description: t('Strike selected text'),
   })
 }
 
-TextEditorHelper.Image = function(textEditor) {
+TextEditorHelper.Image = function (textEditor) {
   return new TextEditorHelper(textEditor, {
     title: 'Image',
     icon: 'picture-o',
@@ -201,22 +199,22 @@ TextEditorHelper.Image = function(textEditor) {
     replaceAfter: ']()',
     cursorDelta: 2,
     selectionDelta: 'selection',
-    description: t('Insert an image')
+    description: t('Insert an image'),
   })
 }
 
-TextEditorHelper.Formula = function(textEditor) {
+TextEditorHelper.Formula = function (textEditor) {
   return new TextEditorHelper(textEditor, {
     title: 'ƒ<i><sub>(x)</sub></i>',
     replaceBefore: '$$',
     replaceAfter: '$$',
     cursorDelta: 2,
     selectionDelta: 'selection',
-    description: t('Insert a formula')
+    description: t('Insert a formula'),
   })
 }
 
-TextEditorHelper.Undo = function(textEditor) {
+TextEditorHelper.Undo = function (textEditor) {
   var that = this
   that.title = 'Undo'
   that.$el = $(
@@ -224,13 +222,13 @@ TextEditorHelper.Undo = function(textEditor) {
       that.title +
       '">'
   ).html('<i class="fa fa-undo"></i>')
-  that.$el.click(function(e) {
+  that.$el.click(function (e) {
     e.preventDefault()
     textEditor.undo()
   })
 }
 
-TextEditorHelper.Redo = function(textEditor) {
+TextEditorHelper.Redo = function (textEditor) {
   var that = this
   that.title = 'Redo'
   that.$el = $(
@@ -238,13 +236,13 @@ TextEditorHelper.Redo = function(textEditor) {
       that.title +
       '">'
   ).html('<i class="fa fa-redo"></i>')
-  that.$el.click(function(e) {
+  that.$el.click(function (e) {
     e.preventDefault()
     textEditor.redo()
   })
 }
 
-TextEditorHelper.Fullscreen = function() {
+TextEditorHelper.Fullscreen = function () {
   var that = this
   var fullScreenElement
 
@@ -262,7 +260,7 @@ TextEditorHelper.Fullscreen = function() {
         '">'
     ).html('<i class="fa fa-expand"></i>')
 
-    that.$el.click(function(e) {
+    that.$el.click(function (e) {
       e.preventDefault()
       if (fullScreenElement.requestFullScreen) {
         fullScreenElement.requestFullScreen()
@@ -275,7 +273,7 @@ TextEditorHelper.Fullscreen = function() {
   }
 }
 
-TextEditorHelper.HidePlugins = function(textEditor) {
+TextEditorHelper.HidePlugins = function (textEditor) {
   var that = this
   that.title = t('Hide Plugins')
   that.editor = textEditor
@@ -284,13 +282,13 @@ TextEditorHelper.HidePlugins = function(textEditor) {
     '<span class="btn-label"><span class="fa fa-eye-slash"></span></span>' +
       that.title
   )
-  that.$el.click(function(e) {
+  that.$el.click(function (e) {
     e.preventDefault()
     that.action()
   })
 }
 
-TextEditorHelper.HidePlugins.prototype.action = function() {
+TextEditorHelper.HidePlugins.prototype.action = function () {
   this.active = this.editor.hidePlugins = !this.active
   // this.$el.toggleClass('active', this.active);
   if (this.active) {
@@ -306,7 +304,7 @@ TextEditorHelper.HidePlugins.prototype.action = function() {
   }
 }
 
-TextEditorHelper.Spoiler = function(textEditor) {
+TextEditorHelper.Spoiler = function (textEditor) {
   var titleText = t('Title')
   return new TextEditorHelper(textEditor, {
     title: 'Spoiler',
@@ -315,7 +313,7 @@ TextEditorHelper.Spoiler = function(textEditor) {
     cursorDelta: 4,
     icon: 'caret-square-o-down',
     selectionDelta: titleText.length,
-    description: t('Insert a spoiler')
+    description: t('Insert a spoiler'),
   })
 }
 

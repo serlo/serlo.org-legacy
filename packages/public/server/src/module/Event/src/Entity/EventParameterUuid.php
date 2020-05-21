@@ -55,10 +55,12 @@ class EventParameterUuid implements InstanceProviderInterface
      * @param EventParameterInterface $eventParameter
      * @param UuidInterface           $uuid
      */
-    public function __construct(EventParameterInterface $eventParameter, UuidInterface $uuid)
-    {
+    public function __construct(
+        EventParameterInterface $eventParameter,
+        UuidInterface $uuid
+    ) {
         $this->eventParameter = $eventParameter;
-        $this->uuid           = $uuid;
+        $this->uuid = $uuid;
     }
 
     /**

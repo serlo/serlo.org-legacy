@@ -49,10 +49,7 @@ class IsolationBypassedListener extends AbstractSharedListenerAggregate
         $events->attach(
             $this->getMonitoredClass(),
             'isolationBypassed',
-            [
-                $this,
-                'onBypass',
-            ],
+            [$this, 'onBypass'],
             -1000
         );
     }
@@ -65,10 +62,12 @@ class IsolationBypassedListener extends AbstractSharedListenerAggregate
     {
         $target = $e->getTarget();
         if (!$target instanceof InstanceProviderInterface) {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected instance of InstanceProviderInterface but got %s.',
-                is_object($target) ? get_class($target) : gettype($target)
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected instance of InstanceProviderInterface but got %s.',
+                    is_object($target) ? get_class($target) : gettype($target)
+                )
+            );
         }
 
         $this->instanceManager->switchInstance($target->getInstance());

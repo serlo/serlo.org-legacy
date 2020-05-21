@@ -33,7 +33,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class DiscussionManagerFactory implements FactoryInterface
 {
-    use AuthorizationServiceFactoryTrait, ClassResolverFactoryTrait, TaxonomyManagerFactoryTrait,
+    use AuthorizationServiceFactoryTrait,
+        ClassResolverFactoryTrait,
+        TaxonomyManagerFactoryTrait,
         EntityManagerFactoryTrait;
 
     /**
@@ -45,9 +47,13 @@ class DiscussionManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $authorizationService = $this->getAuthorizationService($serviceLocator);
-        $classResolver        = $this->getClassResolver($serviceLocator);
-        $objectManager        = $this->getEntityManager($serviceLocator);
-        $discussionManager    = new DiscussionManager($authorizationService, $classResolver, $objectManager);
+        $classResolver = $this->getClassResolver($serviceLocator);
+        $objectManager = $this->getEntityManager($serviceLocator);
+        $discussionManager = new DiscussionManager(
+            $authorizationService,
+            $classResolver,
+            $objectManager
+        );
         return $discussionManager;
     }
 }

@@ -25,7 +25,7 @@ import {
   object,
   EditorPlugin,
   EditorPluginProps,
-  string
+  string,
 } from '@edtr-io/plugin'
 
 import { EquationsEditor } from './editor'
@@ -35,11 +35,11 @@ const stepProps = object({
   left: child({ plugin: 'text' }),
   sign: string(Sign.Equals),
   right: child({ plugin: 'text' }),
-  transform: child({ plugin: 'text' })
+  transform: child({ plugin: 'text' }),
 })
 
 const equationsState = object({
-  steps: list(stepProps, 1)
+  steps: list(stepProps, 1),
 })
 
 export type EquationsState = typeof equationsState
@@ -48,5 +48,5 @@ export type EquationsProps = EditorPluginProps<EquationsState>
 export const equationsPlugin: EditorPlugin<EquationsState> = {
   Component: EquationsEditor,
   config: {},
-  state: equationsState
+  state: equationsState,
 }

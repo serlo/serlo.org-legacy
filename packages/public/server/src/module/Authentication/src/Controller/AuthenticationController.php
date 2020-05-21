@@ -48,8 +48,8 @@ class AuthenticationController extends AbstractActionController
         UserManagerInterface $userManager
     ) {
         $this->authenticationService = $authenticationService;
-        $this->userManager           = $userManager;
-        $this->roleService           = $roleService;
+        $this->userManager = $userManager;
+        $this->roleService = $roleService;
     }
 
     public function activateAction()
@@ -60,7 +60,9 @@ class AuthenticationController extends AbstractActionController
 
         if ($this->params('token', false)) {
             try {
-                $user = $this->getUserManager()->findUserByToken($this->params('token'));
+                $user = $this->getUserManager()->findUserByToken(
+                    $this->params('token')
+                );
                 $role = $this->getRoleService()->findRoleByName('login');
 
                 if (!$user->hasRole($role)) {
@@ -68,9 +70,13 @@ class AuthenticationController extends AbstractActionController
                 }
 
                 $this->getUserManager()->generateUserToken($user->getId());
-                $this->getEventManager()->trigger('activated', $this, ['user' => $user]);
+                $this->getEventManager()->trigger('activated', $this, [
+                    'user' => $user,
+                ]);
                 $this->getUserManager()->flush();
-                $this->flashMessenger()->addSuccessMessage('Your account has been activated, you may now log in.');
+                $this->flashMessenger()->addSuccessMessage(
+                    'Your account has been activated, you may now log in.'
+                );
 
                 return $this->redirect()->toRoute('authentication/login');
             } catch (UserNotFoundException $e) {
@@ -81,7 +87,7 @@ class AuthenticationController extends AbstractActionController
                 return $this->redirect()->toRoute('authentication/activate');
             }
         } else {
-            $form     = new ActivateForm();
+            $form = new ActivateForm();
             $messages = [];
 
             if ($this->getRequest()->isPost()) {
@@ -90,13 +96,19 @@ class AuthenticationController extends AbstractActionController
                 if ($form->isValid()) {
                     $data = $form->getData();
                     try {
-                        $user = $this->getUserManager()->findUserByEmail($data['email']);
-                        $this->getEventManager()->trigger('activate', $this, ['user' => $user]);
+                        $user = $this->getUserManager()->findUserByEmail(
+                            $data['email']
+                        );
+                        $this->getEventManager()->trigger('activate', $this, [
+                            'user' => $user,
+                        ]);
                         $this->flashMessenger()->addSuccessMessage(
                             'Your have been sent an activation email. Please check your spam folder as well.'
                         );
 
-                        return $this->redirect()->toRoute('authentication/login');
+                        return $this->redirect()->toRoute(
+                            'authentication/login'
+                        );
                     } catch (UserNotFoundException $e) {
                         $messages[] = 'No such user could be found.';
                     }
@@ -104,7 +116,7 @@ class AuthenticationController extends AbstractActionController
             }
 
             $view = new ViewModel([
-                'form'     => $form,
+                'form' => $form,
                 'messages' => $messages,
             ]);
             $view->setTemplate('authentication/activate');
@@ -115,14 +127,14 @@ class AuthenticationController extends AbstractActionController
 
     public function changePasswordAction()
     {
-        $form     = new ChangePasswordForm();
-        $user     = $this->getUserManager()->getUserFromAuthenticator();
+        $form = new ChangePasswordForm();
+        $user = $this->getUserManager()->getUserFromAuthenticator();
         $messages = [];
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
-                $data    = $form->getData();
+                $data = $form->getData();
                 $adapter = $this->getAuthenticationService()->getAdapter();
                 $adapter->setIdentity($user->getEmail());
                 $adapter->setCredential($data['currentPassword']);
@@ -131,7 +143,9 @@ class AuthenticationController extends AbstractActionController
                     $user->setPassword($data['password']);
                     $this->getUserManager()->persist($user);
                     $this->getUserManager()->flush();
-                    $this->flashmessenger()->addSuccessMessage('Your password has successfully been changed.');
+                    $this->flashmessenger()->addSuccessMessage(
+                        'Your password has successfully been changed.'
+                    );
                     return $this->redirect()->toRoute('user/me');
                 }
                 $messages = $result->getMessages();
@@ -139,8 +153,8 @@ class AuthenticationController extends AbstractActionController
         }
 
         $view = new ViewModel([
-            'user'     => $user,
-            'form'     => $form,
+            'user' => $user,
+            'form' => $form,
             'messages' => $messages,
         ]);
 
@@ -155,7 +169,7 @@ class AuthenticationController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
-        $form     = new Login($this->getServiceLocator()->get('MvcTranslator'));
+        $form = new Login($this->getServiceLocator()->get('MvcTranslator'));
         $messages = [];
 
         $this->layout('layout/1-col');
@@ -165,7 +179,7 @@ class AuthenticationController extends AbstractActionController
             $form->setData($post);
 
             if ($form->isValid()) {
-                $data    = $form->getData();
+                $data = $form->getData();
                 $adapter = $this->getAuthenticationService()->getAdapter();
                 $storage = $this->getAuthenticationService()->getStorage();
 
@@ -176,13 +190,18 @@ class AuthenticationController extends AbstractActionController
                 $result = $this->getAuthenticationService()->authenticate();
 
                 if ($result->isValid()) {
-                    $user = $this->getUserManager()->getUser($result->getIdentity()->getId());
+                    $user = $this->getUserManager()->getUser(
+                        $result->getIdentity()->getId()
+                    );
 
                     $user->updateLoginData();
                     $this->getUserManager()->persist($user);
                     $this->getUserManager()->flush();
 
-                    $url = $this->params()->fromQuery('redir', $this->referer()->fromStorage());
+                    $url = $this->params()->fromQuery(
+                        'redir',
+                        $this->referer()->fromStorage()
+                    );
 
                     return $this->redirect()->toUrl($url);
                 }
@@ -193,9 +212,9 @@ class AuthenticationController extends AbstractActionController
         }
 
         $view = new ViewModel([
-            'form'          => $form,
+            'form' => $form,
             'errorMessages' => $messages,
-            'redir'         => $this->params()->fromQuery('redir'),
+            'redir' => $this->params()->fromQuery('redir'),
         ]);
 
         $view->setTemplate('authentication/login');
@@ -216,7 +235,7 @@ class AuthenticationController extends AbstractActionController
         }
 
         $messages = [];
-        $view     = new ViewModel();
+        $view = new ViewModel();
 
         $this->layout('layout/1-col');
 
@@ -230,10 +249,18 @@ class AuthenticationController extends AbstractActionController
                 $form->setData($data);
                 if ($form->isValid()) {
                     try {
-                        $user = $this->getUserManager()->findUserByEmail($data['email']);
+                        $user = $this->getUserManager()->findUserByEmail(
+                            $data['email']
+                        );
 
-                        $this->getUserManager()->generateUserToken($user->getId());
-                        $this->getEventManager()->trigger('restore-password', $this, ['user' => $user]);
+                        $this->getUserManager()->generateUserToken(
+                            $user->getId()
+                        );
+                        $this->getEventManager()->trigger(
+                            'restore-password',
+                            $this,
+                            ['user' => $user]
+                        );
                         $this->getUserManager()->flush();
                         $this->flashmessenger()->addSuccessMessage(
                             'You have been sent an email with instructions on how to restore your password! Please check your spam folder as well.'
@@ -241,15 +268,18 @@ class AuthenticationController extends AbstractActionController
 
                         return $this->redirect()->toRoute('home');
                     } catch (UserNotFoundException $e) {
-                        $messages[] = 'Sorry, this email address does not seem to be registered yet.';
+                        $messages[] =
+                            'Sorry, this email address does not seem to be registered yet.';
                     }
                 }
             }
         } else {
-            $form  = new LostPassword();
+            $form = new LostPassword();
             $token = $this->params('token');
-            $url   = $this->url()->fromRoute('authentication/password/restore', ['token' => $token]);
-            $user  = $this->getUserManager()->findUserByToken($token);
+            $url = $this->url()->fromRoute('authentication/password/restore', [
+                'token' => $token,
+            ]);
+            $user = $this->getUserManager()->findUserByToken($token);
 
             $view->setTemplate('authentication/reset-password/restore');
             $form->setAttribute('action', $url);
@@ -260,7 +290,10 @@ class AuthenticationController extends AbstractActionController
                 if ($form->isValid()) {
                     $data = $form->getData();
 
-                    $this->getUserManager()->updateUserPassword($user->getId(), $data['password']);
+                    $this->getUserManager()->updateUserPassword(
+                        $user->getId(),
+                        $data['password']
+                    );
                     $this->getUserManager()->flush();
 
                     return $this->redirect()->toRoute('authentication/login');

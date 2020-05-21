@@ -33,7 +33,9 @@ class DebuggerControllerFactory extends AbstractControllerFactory
     protected function createController(ServiceLocatorInterface $serviceManager)
     {
         /** @var AssertGrantedServiceInterface $assertGrantedService */
-        $assertGrantedService = $serviceManager->get(AssertGrantedServiceInterface::class);
+        $assertGrantedService = $serviceManager->get(
+            AssertGrantedServiceInterface::class
+        );
         return new DebuggerController($assertGrantedService);
     }
 }

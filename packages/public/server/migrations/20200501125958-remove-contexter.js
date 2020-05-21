@@ -24,18 +24,18 @@
  * Removes all rows & permissions from the database that were used by the Contexter module
  * THIS IS AN IRREVERSIBLE MIGRATION!
  */
-exports.up = function(db, cb) {
-  db.dropTable('context_route_parameter', err => {
+exports.up = function (db, cb) {
+  db.dropTable('context_route_parameter', (err) => {
     if (err) {
       return cb(err)
     }
 
-    db.dropTable('context_route', err => {
+    db.dropTable('context_route', (err) => {
       if (err) {
         return cb(err)
       }
 
-      db.dropTable('context', err => {
+      db.dropTable('context', (err) => {
         if (err) {
           return cb(err)
         }
@@ -46,10 +46,10 @@ exports.up = function(db, cb) {
   })
 }
 
-exports.down = function(db, cb) {
+exports.down = function (db, cb) {
   cb()
 }
 
 exports._meta = {
-  version: 1
+  version: 1,
 }

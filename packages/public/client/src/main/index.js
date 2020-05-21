@@ -96,12 +96,12 @@ async function setLanguage() {
   const language = $('html').attr('lang') || 'en'
 
   t.config({
-    language
+    language,
   })
   moment.locale(language)
   await initI18n({
     language,
-    resources: require('i18next-resource-store-loader!@serlo/i18n/resources')
+    resources: require('i18next-resource-store-loader!@serlo/i18n/resources'),
   })
 }
 
@@ -122,10 +122,10 @@ const initFooter = () => {
 
   $footerPush.css('height', $footer.height())
   $wrap.css('margin-bottom', -$footer.height())
-  setTimeout(function() {
+  setTimeout(function () {
     $sideContextCourse.css('max-height', $contentLayout.outerHeight())
   }, 300)
-  $(window).bind('change-width', function() {
+  $(window).bind('change-width', function () {
     $footerPush.css('height', $footer.height())
     $wrap.css('margin-bottom', -$footer.height())
     $sideContextCourse.css('max-height', $contentLayout.outerHeight())
@@ -134,11 +134,11 @@ const initFooter = () => {
   })
 }
 
-const initSubjectNav = $context => {
+const initSubjectNav = ($context) => {
   let opened = false
   const $dropdown = $('#subject-nav .subject-dropdown')
 
-  $dropdown.click(e => {
+  $dropdown.click((e) => {
     // stop bubbling so that outside click won't close it
     e.stopPropagation()
   })
@@ -149,7 +149,7 @@ const initSubjectNav = $context => {
     $context.unbind('click', closeDropdown)
   }
 
-  $('.subject-dropdown-toggle', $dropdown).click(e => {
+  $('.subject-dropdown-toggle', $dropdown).click((e) => {
     e.preventDefault()
     opened = !opened
     $dropdown.toggleClass('open', opened)
@@ -174,16 +174,16 @@ function init($context) {
     $('#subject-nav').sticky()
   }
 
-  Content.add($context => {
+  Content.add(($context) => {
     initContent($context)
     $('.sortable', $context).SortableList()
     $('.timeago', $context).TimeAgo()
     $('.dialog', $context).SerloModals()
     $('.datepicker', $context).datepicker({
-      format: 'yyyy-mm-dd'
+      format: 'yyyy-mm-dd',
     })
     $('.input-daterange', $context).datepicker({
-      format: 'yyyy-mm-dd'
+      format: 'yyyy-mm-dd',
     })
     $('.spoiler', $context).Spoiler()
     $('.injection', $context).Injections()
@@ -201,7 +201,7 @@ function init($context) {
         {
           initialState: $editor.data('state'),
           type: $editor.data('type'),
-          mayCheckout: $editor.data('may-checkout') === 1
+          mayCheckout: $editor.data('may-checkout') === 1,
         },
         $editor.get(0)
       )
@@ -214,21 +214,21 @@ function init($context) {
     $('.text-exercise:has(.single-choice-group)', $context).SingleChoice()
     $('.text-exercise:has(.multiple-choice-group)', $context).MultipleChoice()
     autosize($('textarea.autosize'))
-    $('.r img', $context).each(function() {
+    $('.r img', $context).each(function () {
       var $that = $(this)
       $that.magnificPopup({
         type: 'image',
         closeOnContentClick: true,
         fixedContentPos: false,
         items: {
-          src: $that.attr('src') || $that.data('cfsrc') // CloudFlare Mirage lazy loading
+          src: $that.attr('src') || $that.data('cfsrc'), // CloudFlare Mirage lazy loading
         },
         image: {
-          verticalFit: true
+          verticalFit: true,
         },
-        disableOn: function() {
+        disableOn: function () {
           return $that.parents('a').length <= 0
-        }
+        },
       })
     })
     typeset()
@@ -236,7 +236,7 @@ function init($context) {
 
   // Tooltips opt in
   $('[data-toggle="tooltip"]').tooltip({
-    container: 'body'
+    container: 'body',
   })
   Common.addEventListener('new context', Content.init)
 
@@ -247,10 +247,10 @@ function init($context) {
   let ajaxOverlay
   ajaxOverlay = new AjaxOverlay({
     on: {
-      contentOpened: function() {
+      contentOpened: function () {
         Content.init(this.$el)
       },
-      error: function(err) {
+      error: function (err) {
         ajaxOverlay.shutDownAjaxContent()
         SystemNotification.error(
           t(
@@ -258,8 +258,8 @@ function init($context) {
             err.status + ' ' + err.statusText
           )
         )
-      }
-    }
+      },
+    },
   })
 
   Common.trigger('new context', $context)

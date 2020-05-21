@@ -67,10 +67,12 @@ class PersistentEmptyFilter implements FilterInterface
         } elseif (is_array($value)) {
             return array_filter($value, $passes);
         } else {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected Collection or array but got %s',
-                is_object($value) ? get_class($value) : gettype($value)
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected Collection or array but got %s',
+                    is_object($value) ? get_class($value) : gettype($value)
+                )
+            );
         }
     }
 }

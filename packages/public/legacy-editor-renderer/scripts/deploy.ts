@@ -27,7 +27,7 @@ import * as util from 'util'
 const root = path.join(__dirname, '..')
 const packageJsonPath = path.join(root, 'package.json')
 
-const fsOptions = { encoding: 'utf-8' }
+const fsOptions: { encoding: BufferEncoding } = { encoding: 'utf-8' }
 
 const readFile = util.promisify(fs.readFile)
 
@@ -39,7 +39,7 @@ async function run() {
     name: 'serlo-org-legacy-editor-renderer',
     version,
     Dockerfile: path.join(root, 'Dockerfile'),
-    context: '../../..'
+    context: '../../..',
   })
 }
 

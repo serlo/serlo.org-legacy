@@ -28,7 +28,9 @@ class RedirectHelper extends Redirect
 {
     public function toReferer($default = '/')
     {
-        $referer = $this->getController()->getRequest()->getHeader('Referer');
+        $referer = $this->getController()
+            ->getRequest()
+            ->getHeader('Referer');
         $referer = $referer ? $referer->getUri() : $default;
 
         return $this->toUrl($referer);

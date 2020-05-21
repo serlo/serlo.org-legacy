@@ -42,7 +42,7 @@ class UserSessionStorageFactory implements FactoryInterface
     {
         $classResolver = $this->getClassResolver($serviceLocator);
         $entityManager = $this->getEntityManager($serviceLocator);
-        $service       = new UserSessionStorage($classResolver, $entityManager);
+        $service = new UserSessionStorage($classResolver, $entityManager);
 
         return $service;
     }

@@ -45,12 +45,18 @@ class HydraControllerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator AbstractPluginManager */
-        $serviceManager        = $serviceLocator->getServiceLocator();
-        $userManager           = $this->getUserManager($serviceManager);
+        $serviceManager = $serviceLocator->getServiceLocator();
+        $userManager = $this->getUserManager($serviceManager);
         /* @var $hydraService HydraService */
-        $hydraService          = $serviceManager->get(HydraService::class);
-        $authenticationService = $this->getAuthenticationService($serviceManager);
-        $controller            = new HydraController($hydraService, $authenticationService, $userManager);
+        $hydraService = $serviceManager->get(HydraService::class);
+        $authenticationService = $this->getAuthenticationService(
+            $serviceManager
+        );
+        $controller = new HydraController(
+            $hydraService,
+            $authenticationService,
+            $userManager
+        );
 
         return $controller;
     }

@@ -25,5 +25,5 @@ export const license = {
   iconHref: 'https://i.creativecommons.org/l/by-sa/4.0/88x31.png',
   id: 1,
   title: 'Dieses Werk steht unter der freien Lizenz cc-by-sa-4.0',
-  url: 'https://creativecommons.org/licenses/by-sa/4.0/'
+  url: 'https://creativecommons.org/licenses/by-sa/4.0/',
 }

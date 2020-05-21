@@ -27,23 +27,32 @@ use Notification\SubscriptionManagerInterface;
 use Zend\EventManager\SharedListenerAggregateInterface;
 use Notification\SubscriptionManagerAwareTrait;
 
-abstract class AbstractListener extends AbstractSharedListenerAggregate implements SharedListenerAggregateInterface
+abstract class AbstractListener
+    extends AbstractSharedListenerAggregate
+    implements SharedListenerAggregateInterface
 {
     use SubscriptionManagerAwareTrait;
 
-    public function __construct(SubscriptionManagerInterface $subscriptionManager)
-    {
+    public function __construct(
+        SubscriptionManagerInterface $subscriptionManager
+    ) {
         if (!class_exists($this->getMonitoredClass())) {
-            throw new \RuntimeException(sprintf(
-                'The class you are trying to attach to does not exist: %s',
-                $this->getMonitoredClass()
-            ));
+            throw new \RuntimeException(
+                sprintf(
+                    'The class you are trying to attach to does not exist: %s',
+                    $this->getMonitoredClass()
+                )
+            );
         }
         $this->subscriptionManager = $subscriptionManager;
     }
 
     public function subscribe($user, $object, $notifyMailman)
     {
-        $this->getSubscriptionManager()->subscribe($user, $object, $notifyMailman);
+        $this->getSubscriptionManager()->subscribe(
+            $user,
+            $object,
+            $notifyMailman
+        );
     }
 }

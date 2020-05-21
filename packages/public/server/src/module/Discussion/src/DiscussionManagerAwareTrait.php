@@ -24,7 +24,6 @@ namespace Discussion;
 
 trait DiscussionManagerAwareTrait
 {
-
     /**
      * @var DiscussionManagerInterface
      */
@@ -42,8 +41,9 @@ trait DiscussionManagerAwareTrait
      * @param DiscussionManagerInterface $discussionManager
      * @return self
      */
-    public function setDiscussionManager(DiscussionManagerInterface $discussionManager)
-    {
+    public function setDiscussionManager(
+        DiscussionManagerInterface $discussionManager
+    ) {
         $this->discussionManager = $discussionManager;
 
         return $this;

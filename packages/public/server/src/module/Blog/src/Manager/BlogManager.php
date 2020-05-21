@@ -61,10 +61,10 @@ class BlogManager implements BlogManagerInterface
         InstanceManagerInterface $instanceManager,
         AuthorizationService $authorizationService
     ) {
-        $this->classResolver   = $classResolver;
+        $this->classResolver = $classResolver;
         $this->taxonomyManager = $taxonomyManager;
         $this->instanceManager = $instanceManager;
-        $this->objectManager   = $objectManager;
+        $this->objectManager = $objectManager;
         $this->setAuthorizationService($authorizationService);
     }
 
@@ -77,7 +77,10 @@ class BlogManager implements BlogManagerInterface
 
     public function findAllBlogs(InstanceInterface $instanceService)
     {
-        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName('blog', $instanceService);
+        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName(
+            'blog',
+            $instanceService
+        );
         foreach ($taxonomy->getChildren() as $child) {
             $this->assertGranted('blog.get', $child);
         }
@@ -86,12 +89,16 @@ class BlogManager implements BlogManagerInterface
 
     public function getPost($id)
     {
-        $className = $this->getClassResolver()->resolveClassName('Blog\Entity\PostInterface');
-        $post      = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Blog\Entity\PostInterface'
+        );
+        $post = $this->getObjectManager()->find($className, $id);
         $this->assertGranted('blog.post.get', $post);
 
         if (!is_object($post)) {
-            throw new Exception\PostNotFoundException(sprintf('Could not find post "%d"', $id));
+            throw new Exception\PostNotFoundException(
+                sprintf('Could not find post "%d"', $id)
+            );
         }
 
         return $post;
@@ -124,14 +131,18 @@ class BlogManager implements BlogManagerInterface
     protected function bind(PostInterface $comment, FormInterface $form)
     {
         if (!$form->isValid()) {
-            throw new Exception\RuntimeException(print_r($form->getMessages(), true));
+            throw new Exception\RuntimeException(
+                print_r($form->getMessages(), true)
+            );
         }
-        $data        = $form->getData(FormInterface::VALUES_AS_ARRAY);
+        $data = $form->getData(FormInterface::VALUES_AS_ARRAY);
         $processForm = clone $form;
         $processForm->bind($comment);
         $processForm->setData($data);
         if (!$processForm->isValid()) {
-            throw new Exception\RuntimeException(print_r($processForm->getMessages(), true));
+            throw new Exception\RuntimeException(
+                print_r($processForm->getMessages(), true)
+            );
         }
         return $comment;
     }

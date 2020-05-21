@@ -29,7 +29,6 @@ use Uuid\Entity\UuidInterface;
 
 interface SubscriptionManagerInterface extends Flushable
 {
-
     /**
      * @param UuidInterface $uuid
      * @return SubscriptionInterface[]
@@ -41,7 +40,10 @@ interface SubscriptionManagerInterface extends Flushable
      * @param UuidInterface $object
      * @return SubscriptionInterface
      */
-    public function findSubscription(UserInterface $user, UuidInterface $object);
+    public function findSubscription(
+        UserInterface $user,
+        UuidInterface $object
+    );
 
     /**
      * @param UserInterface $user
@@ -59,7 +61,10 @@ interface SubscriptionManagerInterface extends Flushable
      * @param UuidInterface $object
      * @return bool
      */
-    public function isUserSubscribed(UserInterface $user, UuidInterface $object);
+    public function isUserSubscribed(
+        UserInterface $user,
+        UuidInterface $object
+    );
 
     /**
      * @param UserInterface $user
@@ -67,7 +72,11 @@ interface SubscriptionManagerInterface extends Flushable
      * @param bool          $notifyMailman
      * @return void
      */
-    public function update(UserInterface $user, UuidInterface $object, $notifyMailman);
+    public function update(
+        UserInterface $user,
+        UuidInterface $object,
+        $notifyMailman
+    );
 
     /**
      * @param UserInterface $user
@@ -75,7 +84,11 @@ interface SubscriptionManagerInterface extends Flushable
      * @param bool          $notifyMailman
      * @return void
      */
-    public function subscribe(UserInterface $user, UuidInterface $object, $notifyMailman);
+    public function subscribe(
+        UserInterface $user,
+        UuidInterface $object,
+        $notifyMailman
+    );
 
     /**
      * @param UserInterface $user

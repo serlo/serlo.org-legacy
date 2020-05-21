@@ -32,7 +32,7 @@ import {
   isVisible,
   saveRevision,
   addContent,
-  openDropdownMenu
+  openDropdownMenu,
 } from '../_utils'
 
 import {
@@ -40,7 +40,7 @@ import {
   pages,
   viewports,
   notifications,
-  elements
+  elements,
 } from '../_config'
 
 describe('view exercises', () => {
@@ -48,29 +48,29 @@ describe('view exercises', () => {
     exercise: {
       id: '35573',
       content: 'Example test exercise',
-      solutionContent: 'Example solution'
+      solutionContent: 'Example solution',
     },
     exerciseGroup: {
       id: '35580',
-      content: 'Example group exercise'
+      content: 'Example group exercise',
     },
     groupedExercises: [
       {
         id: '35581',
         content: 'Subexercise 1',
-        solutionContent: 'Solution subexercise 1'
+        solutionContent: 'Solution subexercise 1',
       },
       {
         id: '35584',
         content: 'Subexercise 2',
-        solutionContent: 'Solution subexercise 2'
+        solutionContent: 'Solution subexercise 2',
       },
       {
         id: '35586',
         content: 'Subexercise 3',
-        solutionContent: 'Solution subexercise 3'
-      }
-    ]
+        solutionContent: 'Solution subexercise 3',
+      },
+    ],
   }
 
   beforeEach(async () => {
@@ -94,7 +94,7 @@ describe('view exercises', () => {
     describe('text exercise has no heading on content-api requests', () => {
       test.each(exampleApiParameters)(
         'parameter %p is set',
-        async contentApiParam => {
+        async (contentApiParam) => {
           const page = await goto(`${path}?${contentApiParam}`)
           await expect(page).not.toMatchElement('h1')
         }
@@ -109,11 +109,11 @@ describe('view exercises', () => {
       const page = await goto(path)
       await expect(page).not.toMatchElement('h1')
       await expect(page).toMatchElement('*', {
-        text: data.exerciseGroup.content
+        text: data.exerciseGroup.content,
       })
       for (const groupedExercise of data.groupedExercises) {
         await expect(page).toMatchElement('*', {
-          text: groupedExercise.content
+          text: groupedExercise.content,
         })
       }
 
@@ -131,7 +131,7 @@ describe('view exercises', () => {
     describe('text exercise group has no heading on content-api requests', () => {
       test.each(exampleApiParameters)(
         'parameter %p is set',
-        async contentApiParam => {
+        async (contentApiParam) => {
           const page = await goto(`${path}?${contentApiParam}`)
           await expect(page).not.toMatchElement('h1')
         }
@@ -154,21 +154,21 @@ describe('view exercises', () => {
       const page = await goto(path)
       await expect(page).toMatchElement('h1', { text: id })
       await expect(page).not.toMatchElement('*', {
-        text: data.exerciseGroup.content
+        text: data.exerciseGroup.content,
       })
 
       const exerciseGroup = await elements
         .getBackLink(page)
         .then(clickForNewPage)
       await expect(exerciseGroup).toMatchElement('*', {
-        text: data.exerciseGroup.content
+        text: data.exerciseGroup.content,
       })
     })
 
     describe('grouped exercise has no heading on content-api requests', () => {
       test.each(exampleApiParameters)(
         'parameter %p is set',
-        async contentApiParam => {
+        async (contentApiParam) => {
           const page = await goto(`${path}?${contentApiParam}`)
           await expect(page).not.toMatchElement('h1', { text: id })
         }
@@ -178,7 +178,7 @@ describe('view exercises', () => {
 })
 
 describe('create text-exercise', () => {
-  test.each(['admin', 'english_langhelper'])('user is %p', async user => {
+  test.each(['admin', 'english_langhelper'])('user is %p', async (user) => {
     const exercise = randomText('exercise content')
     const solution = randomText('solution')
 
@@ -188,7 +188,7 @@ describe('create text-exercise', () => {
       addContent('text-exercise')
     )
 
-    await getByRole(createPage, 'textbox').then(e => e.type(exercise))
+    await getByRole(createPage, 'textbox').then((e) => e.type(exercise))
 
     await getByText(createPage, 'Lösung hinzufügen').then(click)
     await typeIntoEditor(createPage, 2, solution)
@@ -196,7 +196,7 @@ describe('create text-exercise', () => {
     const success = await saveRevision(createPage)
 
     expect(success).toMatchElement('p', {
-      text: 'Your revision has been saved and is available'
+      text: 'Your revision has been saved and is available',
     })
 
     await expect(success).toHaveTitle('Math text-exercise')
@@ -207,7 +207,7 @@ describe('create text-exercise', () => {
 })
 
 describe('create grouped text-exercise', () => {
-  test.each(['admin', 'english_langhelper'])('user is %p', async user => {
+  test.each(['admin', 'english_langhelper'])('user is %p', async (user) => {
     const exercise = randomText('exercise content')
     const subexercise1 = randomText('subexercise1')
     const subexercise2 = randomText('subexercise2')
@@ -219,7 +219,7 @@ describe('create grouped text-exercise', () => {
       addContent('text-exercise-group')
     )
 
-    await getByRole(createPage, 'textbox').then(e => e.type(exercise))
+    await getByRole(createPage, 'textbox').then((e) => e.type(exercise))
 
     await getByText(createPage, 'Teilaufgabe hinzufügen').then(click)
     await typeIntoEditor(createPage, 1, subexercise1)

@@ -40,9 +40,11 @@ class UserAuthAdapter implements AdapterInterface
      * @param HashServiceInterface $hashService
      * @param ObjectManager        $objectManager
      */
-    public function __construct(HashServiceInterface $hashService, ObjectManager $objectManager)
-    {
-        $this->hashService   = $hashService;
+    public function __construct(
+        HashServiceInterface $hashService,
+        ObjectManager $objectManager
+    ) {
+        $this->hashService = $hashService;
         $this->objectManager = $objectManager;
     }
 
@@ -72,40 +74,56 @@ class UserAuthAdapter implements AdapterInterface
      */
     public function authenticate()
     {
-        $userRepository = $this->getObjectManager()->getRepository('User\Entity\User');
+        $userRepository = $this->getObjectManager()->getRepository(
+            'User\Entity\User'
+        );
         $user = $userRepository->findOneBy(['email' => $this->email]);
         if (!$user) {
             $user = $userRepository->findOneBy(['username' => $this->email]);
         }
-        $role = $this->getObjectManager()->getRepository('User\Entity\Role')->findOneBy(['name' => 'login']);
+        $role = $this->getObjectManager()
+            ->getRepository('User\Entity\Role')
+            ->findOneBy(['name' => 'login']);
 
         if ($user && $role) {
             $hashedPassword = $user->getPassword();
-            $password       = $this->getHashService()->hashPassword(
+            $password = $this->getHashService()->hashPassword(
                 $this->password,
                 $this->getHashService()->findSalt($hashedPassword)
             );
             if ($password === $hashedPassword) {
                 if ($user->isTrashed()) {
-                    return new Result(RESULT::FAILURE_IDENTITY_NOT_FOUND, $this->email, [
-                        'Ihr Benutzerkonto wurde gelöscht.',
-                    ]);
+                    return new Result(
+                        RESULT::FAILURE_IDENTITY_NOT_FOUND,
+                        $this->email,
+                        ['Ihr Benutzerkonto wurde gelöscht.']
+                    );
                 } elseif (!$user->hasRole($role)) {
-                    return new Result(RESULT::FAILURE_IDENTITY_NOT_FOUND, $this->email, [
-                        'Sie haben ihren Account noch nicht aktiviert.',
-                    ]);
+                    return new Result(
+                        RESULT::FAILURE_IDENTITY_NOT_FOUND,
+                        $this->email,
+                        ['Sie haben ihren Account noch nicht aktiviert.']
+                    );
                 } else {
                     return new Result(RESULT::SUCCESS, $user);
                 }
             } else {
-                return new Result(RESULT::FAILURE_CREDENTIAL_INVALID, $this->email, [
-                    'Mit dieser Kombination ist bei uns kein Benutzer registriert.',
-                ]);
+                return new Result(
+                    RESULT::FAILURE_CREDENTIAL_INVALID,
+                    $this->email,
+                    [
+                        'Mit dieser Kombination ist bei uns kein Benutzer registriert.',
+                    ]
+                );
             }
         } else {
-            return new Result(RESULT::FAILURE_IDENTITY_NOT_FOUND, $this->email, [
-                'Mit dieser Kombination ist bei uns kein Benutzer registriert.',
-            ]);
+            return new Result(
+                RESULT::FAILURE_IDENTITY_NOT_FOUND,
+                $this->email,
+                [
+                    'Mit dieser Kombination ist bei uns kein Benutzer registriert.',
+                ]
+            );
         }
     }
 }

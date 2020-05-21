@@ -21,39 +21,40 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 return [
-    'router'          => [
+    'router' => [
         'routes' => [
-            'home'        => [
-                'type'    => 'Zend\Mvc\Router\Http\Literal',
+            'home' => [
+                'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => [
-                    'route'    => '/',
+                    'route' => '/',
                     'defaults' => [
-                        'controller' => 'Application\Controller\IndexController',
-                        'action'     => 'index',
+                        'controller' =>
+                            'Application\Controller\IndexController',
+                        'action' => 'index',
                     ],
                 ],
             ],
             'application' => [
-                'type'          => 'Literal',
-                'options'       => [
-                    'route'    => '/application',
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/application',
                     'defaults' => [
                         '__NAMESPACE__' => 'Application\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
+                        'controller' => 'Index',
+                        'action' => 'index',
                     ],
                 ],
                 'may_terminate' => true,
-                'child_routes'  => [
+                'child_routes' => [
                     'default' => [
-                        'type'    => 'Segment',
+                        'type' => 'Segment',
                         'options' => [
-                            'route'       => '/[:controller[/:action]]',
+                            'route' => '/[:controller[/:action]]',
                             'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ],
-                            'defaults'    => [],
+                            'defaults' => [],
                         ],
                     ],
                 ],
@@ -65,14 +66,12 @@ return [
             'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
         ],
     ],
-    'di'              => [
-        'allowed_controllers' => [
-            'Application\Controller\IndexController',
-        ],
-        'definition'          => [
+    'di' => [
+        'allowed_controllers' => ['Application\Controller\IndexController'],
+        'definition' => [
             'class' => [
                 'Application\Controller\IndexController' => [
-                    'setInstanceManager'   => [
+                    'setInstanceManager' => [
                         'required' => true,
                     ],
                 ],

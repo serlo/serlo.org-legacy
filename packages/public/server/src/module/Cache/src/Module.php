@@ -36,12 +36,14 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
 
     public function onBootstrap(EventInterface $e)
     {
-        $application    = $e->getApplication();
+        $application = $e->getApplication();
         $serviceManager = $application->getServiceManager();
-        $listener       = $serviceManager->get('StrokerCache\Listener\CacheListener');
+        $listener = $serviceManager->get('StrokerCache\Listener\CacheListener');
 
         /* @var $authService AuthenticationService */
-        $authService = $serviceManager->get('Zend\Authentication\AuthenticationService');
+        $authService = $serviceManager->get(
+            'Zend\Authentication\AuthenticationService'
+        );
         if ($authService->hasIdentity()) {
             $application->getEventManager()->detach($listener);
         }

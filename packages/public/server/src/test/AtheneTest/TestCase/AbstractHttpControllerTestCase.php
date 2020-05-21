@@ -27,7 +27,8 @@ use InstanceTest\Stub\Manager\InstanceManagerStubAwareTrait;
 use Zend\Http\Response;
 use Zend\Stdlib\ResponseInterface;
 
-abstract class AbstractHttpControllerTestCase extends \Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase
+abstract class AbstractHttpControllerTestCase extends
+    \Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase
 {
     use InstanceManagerStubAwareTrait;
 
@@ -51,7 +52,10 @@ abstract class AbstractHttpControllerTestCase extends \Zend\Test\PHPUnit\Control
         $this->assertResponseStatusCode(200);
 
         $headers = $response->getHeaders();
-        $this->assertEquals('application/json; charset=utf-8', $headers->get('Content-Type')->getFieldValue());
+        $this->assertEquals(
+            'application/json; charset=utf-8',
+            $headers->get('Content-Type')->getFieldValue()
+        );
 
         $body = json_decode($response->getBody(), true);
         $this->assertEquals($expected, $body);
@@ -60,14 +64,11 @@ abstract class AbstractHttpControllerTestCase extends \Zend\Test\PHPUnit\Control
     protected function setUp()
     {
         $config = include __DIR__ . '/../../../config/application.config.php';
-        $config['modules'] = array_merge(
-            $this->modules,
-            [
-                'Common',
-                'Log',
-                'Ui',
-            ]
-        );
+        $config['modules'] = array_merge($this->modules, [
+            'Common',
+            'Log',
+            'Ui',
+        ]);
         $this->setApplicationConfig($config);
 
         parent::setUp();

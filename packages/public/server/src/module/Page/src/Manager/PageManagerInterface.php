@@ -42,7 +42,11 @@ interface PageManagerInterface extends Flushable
      * @param UserInterface           $user
      * @return PageRepositoryInterface
      */
-    public function createRevision(PageRepositoryInterface $repository, array $data, UserInterface $user);
+    public function createRevision(
+        PageRepositoryInterface $repository,
+        array $data,
+        UserInterface $user
+    );
 
     /**
      * @param FormInterface           $form

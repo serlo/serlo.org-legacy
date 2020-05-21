@@ -31,8 +31,10 @@ class EntityHelperFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $serviceLocator = $serviceLocator->getServiceLocator();
-        $instance       = new EntityHelper();
-        $instance->setModuleOptions($serviceLocator->get('Entity\Options\ModuleOptions'));
+        $instance = new EntityHelper();
+        $instance->setModuleOptions(
+            $serviceLocator->get('Entity\Options\ModuleOptions')
+        );
 
         return $instance;
     }

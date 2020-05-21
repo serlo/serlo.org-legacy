@@ -60,16 +60,23 @@ class EntityHelper extends AbstractHelper
 
     public function getVisible(Collection $entities)
     {
-        return $entities->filter(
-            function (EntityInterface $e) {
-                if ($this->getView()->isGranted('login') && in_array($e->getType()->getName(), ['course', 'article', 'video', 'applet'])) {
-                    $unrevised = ($e->hasHead() && $e->isUnrevised());
-                    return !$e->isTrashed() && ($e->hasCurrentRevision() || $unrevised);
-                } else {
-                    return !$e->isTrashed() && $e->hasCurrentRevision();
-                }
+        return $entities->filter(function (EntityInterface $e) {
+            if (
+                $this->getView()->isGranted('login') &&
+                in_array($e->getType()->getName(), [
+                    'course',
+                    'article',
+                    'video',
+                    'applet',
+                ])
+            ) {
+                $unrevised = $e->hasHead() && $e->isUnrevised();
+                return !$e->isTrashed() &&
+                    ($e->hasCurrentRevision() || $unrevised);
+            } else {
+                return !$e->isTrashed() && $e->hasCurrentRevision();
             }
-        );
+        });
     }
 
     public function asTypeCollection(Collection $entities)

@@ -24,12 +24,12 @@ return [
     'zfc_rbac' => [
         'guards' => [
             'ZfcRbac\Guard\RouteGuard' => [
-                'related-content/manage'       => ['moderator'],
+                'related-content/manage' => ['moderator'],
                 'related-content/add-internal' => ['moderator'],
                 'related-content/add-external' => ['moderator'],
                 'related-content/add-category' => ['moderator'],
-                'related-content/remove'       => ['moderator'],
-                'related-content/order'        => ['moderator'],
+                'related-content/remove' => ['moderator'],
+                'related-content/order' => ['moderator'],
             ],
         ],
     ],

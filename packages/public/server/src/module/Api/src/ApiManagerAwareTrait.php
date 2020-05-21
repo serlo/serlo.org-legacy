@@ -25,7 +25,6 @@ namespace Api;
 
 trait ApiManagerAwareTrait
 {
-
     /**
      * @var ApiManager
      */

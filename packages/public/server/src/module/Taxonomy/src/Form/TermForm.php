@@ -42,57 +42,53 @@ class TermForm extends Form
         $this->setInputFilter($filter);
         $this->setHydrator($taxonomyTermHydrator);
 
-        $this->add(
-            [
-                'name'       => 'parent',
-                'attributes' => [
-                    'type' => 'hidden',
-                ],
-            ]
-        );
+        $this->add([
+            'name' => 'parent',
+            'attributes' => [
+                'type' => 'hidden',
+            ],
+        ]);
 
-        $this->add(
-            [
-                'name'       => 'position',
-                'attributes' => [
-                    'type' => 'hidden',
-                ],
-            ]
-        );
+        $this->add([
+            'name' => 'position',
+            'attributes' => [
+                'type' => 'hidden',
+            ],
+        ]);
 
-        $this->add(
-            [
-                'name'       => 'taxonomy',
-                'attributes' => [
-                    'type' => 'hidden',
-                ],
-            ]
-        );
+        $this->add([
+            'name' => 'taxonomy',
+            'attributes' => [
+                'type' => 'hidden',
+            ],
+        ]);
 
         $this->add(new TermFieldset());
 
-        $this->add((new Textarea('description'))->setAttribute('id', 'description')->setLabel('description:'));
+        $this->add(
+            (new Textarea('description'))
+                ->setAttribute('id', 'description')
+                ->setLabel('description:')
+        );
 
         $this->add(
-            (new Submit('submit'))->setValue('Save')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $filter->add(
-            [
-                'name'     => 'description',
-                'required' => false,
-                'filters'  => [
-                    [
-                        'name' => 'StripTags',
-                    ],
+        $filter->add([
+            'name' => 'description',
+            'required' => false,
+            'filters' => [
+                [
+                    'name' => 'StripTags',
                 ],
-            ]
-        );
-        $filter->add(
-            [
-                'name'     => 'taxonomy',
-                'required' => true,
-            ]
-        );
+            ],
+        ]);
+        $filter->add([
+            'name' => 'taxonomy',
+            'required' => true,
+        ]);
     }
 }

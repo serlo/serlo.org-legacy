@@ -29,9 +29,11 @@ use Taxonomy\Entity\TaxonomyTermInterface;
 use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 
-interface PostInterface extends UuidInterface, TaxonomyTermAwareInterface, InstanceAwareInterface
+interface PostInterface extends
+    UuidInterface,
+    TaxonomyTermAwareInterface,
+    InstanceAwareInterface
 {
-
     /**
      * Gets the id.
      *

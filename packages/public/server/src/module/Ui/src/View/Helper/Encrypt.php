@@ -33,17 +33,33 @@ class Encrypt extends AbstractHelper
     public function __invoke($string)
     {
         return base64_encode(
-            openssl_encrypt($string, $this->method, md5($this->key), 0, $this->getIv())
+            openssl_encrypt(
+                $string,
+                $this->method,
+                md5($this->key),
+                0,
+                $this->getIv()
+            )
         );
     }
 
     public function decrypt($encrypted)
     {
-        return openssl_decrypt(base64_decode($encrypted), $this->method, md5($this->key), 0, $this->getIv());
+        return openssl_decrypt(
+            base64_decode($encrypted),
+            $this->method,
+            md5($this->key),
+            0,
+            $this->getIv()
+        );
     }
 
     private function getIv()
     {
-        return substr(md5(md5($this->key)), 0, openssl_cipher_iv_length($this->method));
+        return substr(
+            md5(md5($this->key)),
+            0,
+            openssl_cipher_iv_length($this->method)
+        );
     }
 }

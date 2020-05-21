@@ -31,7 +31,7 @@ import {
   serializedChild,
   HeaderInput,
   OptionalChild,
-  entityType
+  entityType,
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
 
@@ -41,17 +41,17 @@ export const courseTypeState = entityType(
     title: string(),
     description: editorContent(),
     reasoning: editorContent(),
-    meta_description: string()
+    meta_description: string(),
   },
   {
-    'course-page': list(serializedChild('type-course-page'))
+    'course-page': list(serializedChild('type-course-page')),
   }
 )
 
 export const courseTypePlugin: EditorPlugin<typeof courseTypeState> = {
   Component: CourseTypeEditor,
   state: courseTypeState,
-  config: {}
+  config: {},
 }
 
 function CourseTypeEditor(props: EditorPluginProps<typeof courseTypeState>) {

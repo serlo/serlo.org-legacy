@@ -30,17 +30,22 @@ use Zend\View\Model\ViewModel;
 
 class DiscussionsController extends AbstractController
 {
-    use TaxonomyManagerAwareTrait, InstanceManagerAwareTrait, UserManagerAwareTrait;
+    use TaxonomyManagerAwareTrait,
+        InstanceManagerAwareTrait,
+        UserManagerAwareTrait;
 
     public function indexAction()
     {
-        $instance    = $this->getInstanceManager()->getInstanceFromRequest();
-        $page        = $this->params()->fromQuery('page', 1);
-        $discussions = $this->getDiscussionManager()->findDiscussionsByInstance($instance, $page);
+        $instance = $this->getInstanceManager()->getInstanceFromRequest();
+        $page = $this->params()->fromQuery('page', 1);
+        $discussions = $this->getDiscussionManager()->findDiscussionsByInstance(
+            $instance,
+            $page
+        );
 
         $view = new ViewModel([
             'discussions' => $discussions,
-            'user'        => $this->getUserManager()->getUserFromAuthenticator(),
+            'user' => $this->getUserManager()->getUserFromAuthenticator(),
         ]);
 
         $view->setTemplate('discussion/discussions/index');

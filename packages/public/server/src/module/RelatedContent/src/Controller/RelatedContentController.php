@@ -46,9 +46,16 @@ class RelatedContentController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $data = $form->getData();
-                $this->getRelatedContentManager()->addCategory((int)$this->params('id'), $data['title']);
-                $this->getRelatedContentManager()->getObjectManager()->flush();
-                $this->redirect()->toRoute('related-content/manage', ['id' => $this->params('id')]);
+                $this->getRelatedContentManager()->addCategory(
+                    (int) $this->params('id'),
+                    $data['title']
+                );
+                $this->getRelatedContentManager()
+                    ->getObjectManager()
+                    ->flush();
+                $this->redirect()->toRoute('related-content/manage', [
+                    'id' => $this->params('id'),
+                ]);
             }
         }
         $view->setTemplate('related-content/add-category');
@@ -58,22 +65,30 @@ class RelatedContentController extends AbstractActionController
 
     public function addExternalAction()
     {
-        $container  = $this->getContainer();
+        $container = $this->getContainer();
         if (!$container) {
             return false;
         }
 
-        $form      = new ExternalForm();
-        $view      = new ViewModel(['form' => $form]);
+        $form = new ExternalForm();
+        $view = new ViewModel(['form' => $form]);
         $this->assertGranted('related.content.create', $container);
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $data = $form->getData();
-                $this->getRelatedContentManager()->addExternal($container->getId(), $data['title'], $data['url']);
-                $this->getRelatedContentManager()->getObjectManager()->flush();
-                $this->redirect()->toRoute('related-content/manage', ['id' => $this->params('id')]);
+                $this->getRelatedContentManager()->addExternal(
+                    $container->getId(),
+                    $data['title'],
+                    $data['url']
+                );
+                $this->getRelatedContentManager()
+                    ->getObjectManager()
+                    ->flush();
+                $this->redirect()->toRoute('related-content/manage', [
+                    'id' => $this->params('id'),
+                ]);
             }
         }
         $view->setTemplate('related-content/add-external');
@@ -83,13 +98,13 @@ class RelatedContentController extends AbstractActionController
 
     public function addInternalAction()
     {
-        $container  = $this->getContainer();
+        $container = $this->getContainer();
         if (!$container) {
             return false;
         }
 
-        $form      = new InternalForm();
-        $view      = new ViewModel(['form' => $form]);
+        $form = new InternalForm();
+        $view = new ViewModel(['form' => $form]);
         $this->assertGranted('related.content.create', $container);
 
         if ($this->getRequest()->isPost()) {
@@ -101,8 +116,12 @@ class RelatedContentController extends AbstractActionController
                     $data['title'],
                     $data['reference']
                 );
-                $this->getRelatedContentManager()->getObjectManager()->flush();
-                $this->redirect()->toRoute('related-content/manage', ['id' => $this->params('id')]);
+                $this->getRelatedContentManager()
+                    ->getObjectManager()
+                    ->flush();
+                $this->redirect()->toRoute('related-content/manage', [
+                    'id' => $this->params('id'),
+                ]);
             }
         }
         $view->setTemplate('related-content/add-internal');
@@ -112,7 +131,7 @@ class RelatedContentController extends AbstractActionController
 
     public function getContainer($id = null)
     {
-        $id = $id ? : $this->params('id');
+        $id = $id ?: $this->params('id');
         try {
             return $this->getRelatedContentManager()->getContainer($id);
         } catch (NotFoundException $e) {
@@ -123,16 +142,18 @@ class RelatedContentController extends AbstractActionController
 
     public function manageAction()
     {
-        $container  = $this->getContainer();
+        $container = $this->getContainer();
         if (!$container) {
             return false;
         }
 
-        $aggregated = $this->getRelatedContentManager()->aggregateRelatedContent($this->params('id'));
-        $view       = new ViewModel([
+        $aggregated = $this->getRelatedContentManager()->aggregateRelatedContent(
+            $this->params('id')
+        );
+        $view = new ViewModel([
             'aggregated' => $aggregated,
-            'container'  => $container,
-            'form'       => new CsrfForm('remove-related-element'),
+            'container' => $container,
+            'form' => new CsrfForm('remove-related-element'),
         ]);
         $view->setTemplate('related-content/manage');
         $this->layout('layout/1-col');
@@ -144,11 +165,16 @@ class RelatedContentController extends AbstractActionController
         $position = 1;
         if ($this->getRequest()->isPost()) {
             foreach ($this->params()->fromPost('sortable', []) as $holder) {
-                $this->getRelatedContentManager()->positionHolder((int)$holder['id'], (int)$position);
+                $this->getRelatedContentManager()->positionHolder(
+                    (int) $holder['id'],
+                    (int) $position
+                );
                 $position++;
             }
         }
-        $this->getRelatedContentManager()->getObjectManager()->flush();
+        $this->getRelatedContentManager()
+            ->getObjectManager()
+            ->flush();
 
         return false;
     }
@@ -159,10 +185,16 @@ class RelatedContentController extends AbstractActionController
             $form = new CsrfForm('remove-related-element');
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $this->getRelatedContentManager()->removeRelatedContent((int)$this->params('id'));
-                $this->getRelatedContentManager()->getObjectManager()->flush();
+                $this->getRelatedContentManager()->removeRelatedContent(
+                    (int) $this->params('id')
+                );
+                $this->getRelatedContentManager()
+                    ->getObjectManager()
+                    ->flush();
             } else {
-                $this->flashMessenger()->addErrorMessage('The element could not be removed (validation failed)');
+                $this->flashMessenger()->addErrorMessage(
+                    'The element could not be removed (validation failed)'
+                );
             }
         }
         return $this->redirect()->toReferer();

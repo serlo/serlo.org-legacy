@@ -28,12 +28,14 @@ use Session\Controller\SessionController;
 return [
     'service_manager' => [
         'factories' => [
-            'Zend\Session\SaveHandler\SaveHandlerInterface' => __NAMESPACE__ . '\Factory\SaveHandlerFactory',
+            'Zend\Session\SaveHandler\SaveHandlerInterface' =>
+                __NAMESPACE__ . '\Factory\SaveHandlerFactory',
         ],
     ],
     'controllers' => [
         'factories' => [
-            'Session\Controller\SessionController' => __NAMESPACE__ . '\Factory\SessionControllerFactory',
+            'Session\Controller\SessionController' =>
+                __NAMESPACE__ . '\Factory\SessionControllerFactory',
         ],
     ],
     'router' => [

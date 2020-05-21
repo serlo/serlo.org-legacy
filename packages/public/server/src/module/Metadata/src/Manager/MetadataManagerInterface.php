@@ -28,7 +28,6 @@ use Doctrine\Common\Collections\Collection;
 
 interface MetadataManagerInterface
 {
-
     /**
      * @param int $id
      * @return Entity\MetadataInterface
@@ -68,5 +67,9 @@ interface MetadataManagerInterface
      * @param string                     $value
      * @return Entity\MetadataInterface
      */
-    public function findMetadataByObjectAndKeyAndValue(UuidInterface $object, $key, $value);
+    public function findMetadataByObjectAndKeyAndValue(
+        UuidInterface $object,
+        $key,
+        $value
+    );
 }

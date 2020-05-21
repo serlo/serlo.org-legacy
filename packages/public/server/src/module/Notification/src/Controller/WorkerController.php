@@ -67,10 +67,15 @@ class WorkerController extends AbstractActionController
                 try {
                     $this->notificationWorker->run($user);
                     $this->notificationWorker->getObjectManager()->flush();
-                    $this->logger->info('Notification worker finished successfully.');
+                    $this->logger->info(
+                        'Notification worker finished successfully.'
+                    );
                     $response->setStatusCode(200);
                 } catch (\Exception $e) {
-                    $this->logger->err('Notification worker failed with message ' . $e->getMessage());
+                    $this->logger->err(
+                        'Notification worker failed with message ' .
+                            $e->getMessage()
+                    );
                     $response->setStatusCode(500);
                 }
             } else {

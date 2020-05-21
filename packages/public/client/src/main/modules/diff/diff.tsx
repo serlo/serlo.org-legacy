@@ -63,8 +63,8 @@ export function initDiff() {
             Keine Änderungen
         </div>
     </td>
-</tr>`
-        }
+</tr>`,
+        },
       })
 
       const sideBySideHtml = Diff2Html.getPrettyHtml(diff, {
@@ -72,7 +72,7 @@ export function initDiff() {
         showFiles: false,
         matching: 'lines',
         maxLineSizeInBlockForComparison: 1000,
-        outputFormat: 'side-by-side'
+        outputFormat: 'side-by-side',
       })
       const modal = $('<div>').attr('id', `side-by-side-${title}`)
       $(el).append(modal)
@@ -83,7 +83,7 @@ export function initDiff() {
 }
 
 const Wrapper = styled.div({
-  textAlign: 'right'
+  textAlign: 'right',
 })
 const Modal = styled.div({
   position: 'fixed',
@@ -92,7 +92,7 @@ const Modal = styled.div({
   backgroundColor: 'rgba(100,100,100,0.6)',
   zIndex: 1000,
   width: '100%',
-  height: '100%'
+  height: '100%',
 })
 const ModalInner = styled.div({
   backgroundColor: '#fff',
@@ -101,7 +101,7 @@ const ModalInner = styled.div({
   padding: '20px',
   width: '90%',
   height: '90%',
-  overflow: 'scroll'
+  overflow: 'scroll',
 })
 function SideBySide(props: { diffHtml: string }) {
   const [open, setOpen] = React.useState(false)
@@ -112,7 +112,7 @@ function SideBySide(props: { diffHtml: string }) {
 
     $(ref.current)
       .find('.d2h-file-side-diff')
-      .on('scroll', function() {
+      .on('scroll', function () {
         const $this = $(this)
         const scrollPosition = $this.scrollLeft()
         if (scrollPosition) {
@@ -172,7 +172,7 @@ function prettify(
       const oldEdtr = isEdtr(parsed) ? parsed : convert(parsed)
       return [
         JSON.stringify(cleanEdtrState(oldEdtr), null, 1),
-        JSON.stringify(cleanEdtrState(parsedNew), null, 1)
+        JSON.stringify(cleanEdtrState(parsedNew), null, 1),
       ]
     }
     return [JSON.stringify(parsed, null, 2), JSON.stringify(parsedNew, null, 1)]

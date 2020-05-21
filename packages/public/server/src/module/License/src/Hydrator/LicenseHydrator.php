@@ -32,19 +32,21 @@ class LicenseHydrator implements HydratorInterface
     {
         /* @var $object Entity\LicenseInterface */
         if (!$object instanceof Entity\LicenseInterface) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected parameter 1 to be an instance of LicenseInterface but got `%s`',
-                get_class($object)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected parameter 1 to be an instance of LicenseInterface but got `%s`',
+                    get_class($object)
+                )
+            );
         }
 
         return [
-            'title'     => $object->getTitle(),
-            'url'       => $object->getUrl(),
-            'content'   => $object->getContent(),
-            'iconHref'  => $object->getIconHref(),
+            'title' => $object->getTitle(),
+            'url' => $object->getUrl(),
+            'content' => $object->getContent(),
+            'iconHref' => $object->getIconHref(),
             'agreement' => $object->getAgreement(),
-            'default'   => $object->isDefault(),
+            'default' => $object->isDefault(),
         ];
     }
 
@@ -52,10 +54,12 @@ class LicenseHydrator implements HydratorInterface
     {
         /* @var $object Entity\LicenseInterface */
         if (!$object instanceof Entity\LicenseInterface) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected parameter 1 to be an instance of LicenseInterface but got `%s`',
-                get_class($object)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected parameter 1 to be an instance of LicenseInterface but got `%s`',
+                    get_class($object)
+                )
+            );
         }
 
         $object->setContent($data['content']);

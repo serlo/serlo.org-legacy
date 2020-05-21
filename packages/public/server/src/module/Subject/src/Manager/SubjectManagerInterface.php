@@ -29,7 +29,6 @@ use Taxonomy\Entity\TaxonomyTermInterface;
 
 interface SubjectManagerInterface
 {
-
     /**
      * @param string            $name
      * @param InstanceInterface $instance

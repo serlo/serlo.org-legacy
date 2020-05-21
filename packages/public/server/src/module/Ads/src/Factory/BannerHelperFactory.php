@@ -37,11 +37,13 @@ class BannerHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator  = $serviceLocator->getServiceLocator();
-        $instanceManager = $serviceLocator->get('Instance\Manager\InstanceManager');
-        $adsManager      = $serviceLocator->get('Ads\Manager\AdsManager');
-        $request               = $serviceLocator->get('Request');
-        $viewHelper      = new Banner($request);
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $instanceManager = $serviceLocator->get(
+            'Instance\Manager\InstanceManager'
+        );
+        $adsManager = $serviceLocator->get('Ads\Manager\AdsManager');
+        $request = $serviceLocator->get('Request');
+        $viewHelper = new Banner($request);
         $viewHelper->setAdsManager($adsManager);
         $viewHelper->setInstanceManager($instanceManager);
 

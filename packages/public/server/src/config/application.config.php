@@ -91,10 +91,7 @@ return [
         // If a string key is provided, the listener will consider that a module
         // namespace, the value of that key the specific path to that module's
         // Module class.
-        'module_paths'             => [
-            __DIR__ . '/../module',
-            __DIR__ . '/../vendor',
-        ],
+        'module_paths' => [__DIR__ . '/../module', __DIR__ . '/../vendor'],
         // An array of paths from which to glob configuration files after
         // modules are loaded. These effectively override configuration
         // provided by modules themselves. Paths may use GLOB_BRACE notation.
@@ -103,7 +100,7 @@ return [
         // config/autoload/*.global.php
         // config/autoload/local.php
         // config/autoload/*.local.php
-        'config_glob_paths'        => [
+        'config_glob_paths' => [
             sprintf('config/autoload/{,*.}{global,%s,local}.php', $env),
             'config/instance/{,*.}{global,local}.php',
             'config/instance/navigation/*.php',
@@ -111,18 +108,18 @@ return [
         // Whether or not to enable a configuration cache.
         // If enabled, the merged configuration will be cached and used in
         // subsequent requests.
-        'config_cache_enabled'     => $configCache,
+        'config_cache_enabled' => $configCache,
         // The key used to create the configuration cache file name.
 
-        'config_cache_key'         => "2245023265ae4cf87d02c8b6ba994139",
+        'config_cache_key' => '2245023265ae4cf87d02c8b6ba994139',
         // Whether or not to enable a module class map cache.
         // If enabled, creates a module class map cache which will be used
         // by in future requests, to reduce the autoloading process.
         'module_map_cache_enabled' => $moduleCache,
         // The key used to create the class map cache file name.
-        'module_map_cache_key'     => "496fe9daf9bed5ab03314f04518b9268",
+        'module_map_cache_key' => '496fe9daf9bed5ab03314f04518b9268',
         // The path in which to cache merged configuration.
-        'cache_dir'                => __DIR__ . "/../data",
+        'cache_dir' => __DIR__ . '/../data',
         // Whether or not to enable modules dependency checking.
         // Enabled by default, prevents usage of modules that depend on other modules
         // that weren't loaded.

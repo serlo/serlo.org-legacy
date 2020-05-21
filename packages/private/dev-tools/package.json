@@ -23,6 +23,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",
+    "@prettier/plugin-php": "^0.14.0",
     "@splish-me/copyright-headers": "^0.0.2",
     "@types/glob": "^7.0.0",
     "@types/jest": "^25.0.0",
@@ -35,7 +36,7 @@
     "jest": "^26.0.0",
     "nodemon": "^2.0.0",
     "npm-run-all": "^4.0.0",
-    "prettier": "^1.0.0",
+    "prettier": "^2.0.0",
     "signale": "^1.0.0",
     "ts-node": "^8.0.0",
     "typescript": "^3.0.0"

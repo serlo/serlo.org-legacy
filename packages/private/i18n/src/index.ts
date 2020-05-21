@@ -24,7 +24,7 @@ import i18n, {
   Module,
   Newable,
   Resource,
-  ThirdPartyModule
+  ThirdPartyModule,
 } from 'i18next'
 import { initReactI18next, useTranslation } from 'react-i18next'
 
@@ -32,7 +32,7 @@ export { i18n, I18n }
 
 export async function initI18n({
   resources,
-  language
+  language,
 }: {
   resources: Resource
   language: string
@@ -43,14 +43,14 @@ export async function initI18n({
     keySeparator: '::',
     fallbackLng: 'en',
     lng: language,
-    resources
+    resources,
   })
 }
 
 export async function initI18nWithBackend<B extends Module>({
   backend,
   options,
-  language
+  language,
 }: {
   backend: B | Newable<B> | ThirdPartyModule[] | Newable<ThirdPartyModule>[]
   options?: object
@@ -66,7 +66,7 @@ export async function initI18nWithBackend<B extends Module>({
       keySeparator: '::',
       fallbackLng: 'en',
       lng: language,
-      backend: options
+      backend: options,
     })
 }
 

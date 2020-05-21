@@ -44,23 +44,37 @@ class AdForm extends Form implements AttachmentFieldsetProvider
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'form-horizontal');
 
-        $this->add((new Text('title'))->setLabel('Title:'))->setAttribute('required', 'required');
-        $this->add((new Url('url'))->setLabel('Url:'))->setAttribute('required', 'required');
-        $this->add((new Textarea('content'))->setLabel('Content:'))->setAttribute('required', 'required');
+        $this->add((new Text('title'))->setLabel('Title:'))->setAttribute(
+            'required',
+            'required'
+        );
+        $this->add((new Url('url'))->setLabel('Url:'))->setAttribute(
+            'required',
+            'required'
+        );
         $this->add(
-            (new Select('frequency'))->setValueOptions(
-                [
+            (new Textarea('content'))->setLabel('Content:')
+        )->setAttribute('required', 'required');
+        $this->add(
+            (new Select('frequency'))
+                ->setValueOptions([
                     '0' => 'Never',
                     '1' => 'Less',
                     '2' => 'Normal',
                     '3' => 'More',
-                ]
-            )->setAttribute('required', 'required')->setLabel('frequency')
+                ])
+                ->setAttribute('required', 'required')
+                ->setLabel('frequency')
         );
-        $this->add((new Checkbox('banner'))->setLabel('Banner'))->setAttribute('required', 'required');
+        $this->add((new Checkbox('banner'))->setLabel('Banner'))->setAttribute(
+            'required',
+            'required'
+        );
         $this->add(new AttachmentFieldset(false));
         $this->add(
-            (new Submit('submit'))->setValue('Save')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
         $filter = new AdFilter();

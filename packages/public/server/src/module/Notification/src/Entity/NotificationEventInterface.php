@@ -26,7 +26,6 @@ use Event\Entity\EventLogInterface;
 
 interface NotificationEventInterface
 {
-
     /**
      * @return EventLogInterface
      */

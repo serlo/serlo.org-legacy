@@ -35,7 +35,10 @@ class NavigationService
 
     public function getNavigation($name)
     {
-        $container = $this->navigationManager->findContainerByNameAndInstance($name, $this->instanceManager->getInstanceFromRequest());
+        $container = $this->navigationManager->findContainerByNameAndInstance(
+            $name,
+            $this->instanceManager->getInstanceFromRequest()
+        );
         return array_map(function ($page) {
             return $this->formatPage($page);
         }, $container->getPages());
@@ -44,22 +47,31 @@ class NavigationService
     protected function formatPage(PageInterface $page)
     {
         return [
-            'parameters' => $this->array_flatten(array_map(function ($param) {
-                return $this->formatParameter($param);
-            }, $page->getParameters()->toArray())),
-            'children' => $page->getChildren()->map(function (PageInterface $child) {
-                return $this->formatPage($child);
-            })->toArray(),
+            'parameters' => $this->array_flatten(
+                array_map(function ($param) {
+                    return $this->formatParameter($param);
+                }, $page->getParameters()->toArray())
+            ),
+            'children' => $page
+                ->getChildren()
+                ->map(function (PageInterface $child) {
+                    return $this->formatPage($child);
+                })
+                ->toArray(),
         ];
     }
 
-    protected function formatParameter(ParameterInterface $parameter, $prefix = '')
-    {
+    protected function formatParameter(
+        ParameterInterface $parameter,
+        $prefix = ''
+    ) {
         $key = $prefix . $parameter->getKey()->getName();
         if ($parameter->hasChildren()) {
-            return $this->array_flatten(array_map(function ($param) use ($key) {
-                return $this->formatParameter($param, $key . '.');
-            }, $parameter->getChildren()->toArray()));
+            return $this->array_flatten(
+                array_map(function ($param) use ($key) {
+                    return $this->formatParameter($param, $key . '.');
+                }, $parameter->getChildren()->toArray())
+            );
         }
         return [
             $key => $parameter->getValue(),

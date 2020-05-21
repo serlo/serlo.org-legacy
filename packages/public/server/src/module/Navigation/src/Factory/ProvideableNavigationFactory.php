@@ -45,7 +45,7 @@ abstract class ProvideableNavigationFactory extends AbstractNavigationFactory
         try {
             return parent::createService($serviceLocator);
         } catch (Exception $e) {
-            var_dump(get_class($e) . ": " . $e->getMessage());
+            var_dump(get_class($e) . ': ' . $e->getMessage());
 
             return new Navigation([]);
         }
@@ -59,19 +59,28 @@ abstract class ProvideableNavigationFactory extends AbstractNavigationFactory
             $configuration = $serviceLocator->get('Config');
 
             if (!isset($configuration['navigation'])) {
-                throw new InvalidArgumentException('Could not find navigation configuration key');
+                throw new InvalidArgumentException(
+                    'Could not find navigation configuration key'
+                );
             }
 
             if (!isset($configuration['navigation'][$this->getName()])) {
-                throw new InvalidArgumentException(sprintf(
-                    'Failed to find a navigation container by the name "%s"',
-                    $this->getName()
-                ));
+                throw new InvalidArgumentException(
+                    sprintf(
+                        'Failed to find a navigation container by the name "%s"',
+                        $this->getName()
+                    )
+                );
             }
 
-            $pages       = $this->getPagesFromConfig($configuration['navigation'][$this->getName()]);
-            $container   = $this->provideContainer($configuration);
-            $pages       = ArrayUtils::merge($pages, $this->getPagesFromConfig($container));
+            $pages = $this->getPagesFromConfig(
+                $configuration['navigation'][$this->getName()]
+            );
+            $container = $this->provideContainer($configuration);
+            $pages = ArrayUtils::merge(
+                $pages,
+                $this->getPagesFromConfig($container)
+            );
             $this->pages = $this->preparePages($serviceLocator, $pages);
         }
 
@@ -92,7 +101,10 @@ abstract class ProvideableNavigationFactory extends AbstractNavigationFactory
         foreach ($pages as &$page) {
             $page['identifier'] = hash('md5', print_r($page, true));
 
-            $hasMvc = isset($page['action']) || isset($page['controller']) || isset($page['route']);
+            $hasMvc =
+                isset($page['action']) ||
+                isset($page['controller']) ||
+                isset($page['route']);
             if ($hasMvc) {
                 if (!isset($page['routeMatch']) && $routeMatch) {
                     $page['routeMatch'] = $routeMatch;
@@ -103,7 +115,12 @@ abstract class ProvideableNavigationFactory extends AbstractNavigationFactory
             }
 
             if (isset($page['pages']) && is_array($page['pages'])) {
-                $page['pages'] = $this->injectComponents($page['pages'], $routeMatch, $router, $request);
+                $page['pages'] = $this->injectComponents(
+                    $page['pages'],
+                    $routeMatch,
+                    $router,
+                    $request
+                );
             }
 
             if (isset($page['provider'])) {
@@ -115,14 +132,14 @@ abstract class ProvideableNavigationFactory extends AbstractNavigationFactory
                 }
 
                 $className = $page['provider'];
-                $provider  = $this->serviceLocator->get($className);
+                $provider = $this->serviceLocator->get($className);
 
                 try {
                     $pagesFromProvider = $this->injectComponentsFromProvider(
                         $provider,
                         $routeMatch,
                         $router,
-                        (array)$options
+                        (array) $options
                     );
 
                     if (isset($page['pages'])) {
@@ -146,19 +163,23 @@ abstract class ProvideableNavigationFactory extends AbstractNavigationFactory
 
     protected function provideContainer(array $configuration)
     {
-        $providers  = $configuration['navigation']['providers'];
+        $providers = $configuration['navigation']['providers'];
         $containers = [];
 
         foreach ($providers as $provider) {
             $provider = $this->serviceLocator->get($provider);
             if (!$provider instanceof ContainerProviderInterface) {
-                throw new InvalidArgumentException(sprintf(
-                    'Expected %s but got %s',
-                    is_object($provider) ? get_class($provider) : gettype($provider)
-                ));
+                throw new InvalidArgumentException(
+                    sprintf(
+                        'Expected %s but got %s',
+                        is_object($provider)
+                            ? get_class($provider)
+                            : gettype($provider)
+                    )
+                );
             }
             $providedConfig = $provider->provide($this->getName());
-            $containers     = ArrayUtils::merge($containers, $providedConfig);
+            $containers = ArrayUtils::merge($containers, $providedConfig);
         }
 
         return $containers;
@@ -170,7 +191,7 @@ abstract class ProvideableNavigationFactory extends AbstractNavigationFactory
         Router $router = null,
         array $options = []
     ) {
-        $pages  = $provider->provide($options);
+        $pages = $provider->provide($options);
         $return = $this->injectComponents($pages, $routeMatch, $router);
 
         return $return;

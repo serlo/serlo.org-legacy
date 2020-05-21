@@ -22,12 +22,12 @@
 /* global define */
 var _EncodeCode
 var serloSpecificCharsToEscape
-var latex = function() {
+var latex = function () {
   var filter
 
-  filter = function(text) {
+  filter = function (text) {
     // text = text.replace(/(^|[^\\])(%%)([^\r]*?[^%])\2(?!%)/gm,
-    text = text.replace(/(^|[^\\])(%%)([^\r]*?[^%])(%%?%)/gm, function(
+    text = text.replace(/(^|[^\\])(%%)([^\r]*?[^%])(%%?%)/gm, function (
       wholeMatch,
       m1,
       m2,
@@ -51,7 +51,7 @@ var latex = function() {
       return m1 + '<span class="mathInline">%%' + c + '%%</span>'
     })
 
-    text = text.replace(/(^|[^\\])(¨D¨D)([^\r]*?[^~])\2(?!¨D)/gm, function(
+    text = text.replace(/(^|[^\\])(¨D¨D)([^\r]*?[^~])\2(?!¨D)/gm, function (
       wholeMatch,
       m1,
       m2,
@@ -73,13 +73,13 @@ var latex = function() {
   return [
     {
       type: 'lang',
-      filter: filter
-    }
+      filter: filter,
+    },
   ]
 }
 
 // FROM shodown.js
-_EncodeCode = function(text) {
+_EncodeCode = function (text) {
   //
   // Encode/escape certain characters inside Markdown code runs.
   // The point is that in code, these characters are literals,
@@ -97,7 +97,7 @@ _EncodeCode = function(text) {
   return text
 }
 
-serloSpecificCharsToEscape = (function() {
+serloSpecificCharsToEscape = (function () {
   var regexp = ''
   var chars = ['*', '`', '_', '{', '}', '[', ']', '<', '\\']
   var replacements = {}
@@ -117,7 +117,7 @@ serloSpecificCharsToEscape = (function() {
 
   return {
     regexp: regexp,
-    replace: replace
+    replace: replace,
   }
 })()
 

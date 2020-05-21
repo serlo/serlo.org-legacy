@@ -29,41 +29,40 @@ return [
     'class_resolver' => [
         'Term\Entity\TermEntityInterface' => 'Term\Entity\TermEntity',
     ],
-    'di'             => [
+    'di' => [
         'definition' => [
             'class' => [
                 'Term\Manager\TermManager' => [
-                    'setObjectManager'   => [
+                    'setObjectManager' => [
                         'required' => true,
                     ],
-                    'setServiceLocator'  => [
+                    'setServiceLocator' => [
                         'required' => true,
                     ],
                     'setInstanceManager' => [
                         'required' => true,
                     ],
-                    'setClassResolver'   => [
+                    'setClassResolver' => [
                         'required' => true,
                     ],
                 ],
             ],
         ],
-        'instance'   => [
+        'instance' => [
             'preferences' => [
-                'Term\Manager\TermManagerInterface' => 'Term\Manager\TermManager',
+                'Term\Manager\TermManagerInterface' =>
+                    'Term\Manager\TermManager',
             ],
         ],
     ],
-    'doctrine'       => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],

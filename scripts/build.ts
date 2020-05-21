@@ -10,7 +10,7 @@ exec()
   .then(() => {
     process.exit(0)
   })
-  .catch(error => {
+  .catch((error) => {
     console.error(error)
     process.exit(1)
   })
@@ -40,7 +40,7 @@ async function exec() {
       'yarn',
       ['tsdx', 'build', '--tsconfig', 'tsconfig.prod.json'],
       {
-        stdio: 'inherit'
+        stdio: 'inherit',
       }
     )
     if (status !== 0) {

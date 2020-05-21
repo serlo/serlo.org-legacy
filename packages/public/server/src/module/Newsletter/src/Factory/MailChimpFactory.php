@@ -22,7 +22,7 @@
  */
 namespace Newsletter\Factory;
 
-use \DrewM\MailChimp\MailChimp;
+use DrewM\MailChimp\MailChimp;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

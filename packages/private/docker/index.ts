@@ -27,7 +27,7 @@ export function buildDockerImage({
   name,
   version,
   Dockerfile,
-  context
+  context,
 }: DockerImageOptions) {
   if (!semver.valid(version)) {
     return
@@ -44,7 +44,7 @@ export function buildDockerImage({
       '--filter',
       `tags=${version}`,
       '--format',
-      'json'
+      'json',
     ],
     { stdio: 'pipe' }
   )
@@ -63,19 +63,19 @@ export function buildDockerImage({
       'build',
       '-f',
       Dockerfile,
-      ...R.flatten(getTags(version).map(tag => ['-t', `${name}:${tag}`])),
-      context
+      ...R.flatten(getTags(version).map((tag) => ['-t', `${name}:${tag}`])),
+      context,
     ],
     {
-      stdio: 'inherit'
+      stdio: 'inherit',
     }
   )
 
-  const remoteTags = R.map(tag => `${remoteName}:${tag}`, getTags(version))
-  remoteTags.forEach(remoteTag => {
+  const remoteTags = R.map((tag) => `${remoteName}:${tag}`, getTags(version))
+  remoteTags.forEach((remoteTag) => {
     console.log('Pushing', remoteTag)
     spawnSync('docker', ['tag', `${name}:latest`, remoteTag], {
-      stdio: 'inherit'
+      stdio: 'inherit',
     })
     spawnSync('docker', ['push', remoteTag], { stdio: 'inherit' })
   })
@@ -86,7 +86,9 @@ function getTags(version: string) {
     'latest',
     semver.major(version),
     `${semver.major(version)}.${semver.minor(version)}`,
-    `${semver.major(version)}.${semver.minor(version)}.${semver.patch(version)}`
+    `${semver.major(version)}.${semver.minor(version)}.${semver.patch(
+      version
+    )}`,
   ]
 }
 

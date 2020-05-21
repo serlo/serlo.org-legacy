@@ -35,8 +35,9 @@ class DebuggerController extends AbstractActionController
     /** @var AssertGrantedServiceInterface */
     protected $assertGrantedService;
 
-    public function __construct(AssertGrantedServiceInterface $assertGrantedService)
-    {
+    public function __construct(
+        AssertGrantedServiceInterface $assertGrantedService
+    ) {
         $this->assertGrantedService = $assertGrantedService;
     }
 

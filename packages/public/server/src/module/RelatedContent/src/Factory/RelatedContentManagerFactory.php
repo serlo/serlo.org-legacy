@@ -39,13 +39,20 @@ class RelatedContentManagerFactory implements FactoryInterface
 
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $classResolver        = $this->getClassResolver($serviceLocator);
+        $classResolver = $this->getClassResolver($serviceLocator);
         $authorizationService = $this->getAuthorizationService($serviceLocator);
-        $uuidManager          = $this->getUuidManager($serviceLocator);
-        $objectManager        = $this->getEntityManager($serviceLocator);
-        $router               = $serviceLocator->get('router');
-        $instanceManager      = $this->getInstanceManager($serviceLocator);
-        $instance             = new RelatedContentManager($authorizationService, $classResolver, $instanceManager, $router, $objectManager, $uuidManager);
+        $uuidManager = $this->getUuidManager($serviceLocator);
+        $objectManager = $this->getEntityManager($serviceLocator);
+        $router = $serviceLocator->get('router');
+        $instanceManager = $this->getInstanceManager($serviceLocator);
+        $instance = new RelatedContentManager(
+            $authorizationService,
+            $classResolver,
+            $instanceManager,
+            $router,
+            $objectManager,
+            $uuidManager
+        );
 
         return $instance;
     }

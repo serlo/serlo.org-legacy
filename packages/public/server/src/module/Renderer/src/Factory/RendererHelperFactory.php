@@ -39,8 +39,8 @@ class RendererHelperFactory implements FactoryInterface
     {
         $serviceLocator = $serviceLocator->getServiceLocator();
         /** @var Renderer $renderer */
-        $renderer       = $serviceLocator->get('Renderer\Renderer');
-        $plugin         = new RendererHelper($renderer);
+        $renderer = $serviceLocator->get('Renderer\Renderer');
+        $plugin = new RendererHelper($renderer);
 
         return $plugin;
     }

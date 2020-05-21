@@ -36,7 +36,7 @@ class TrackingHelperOptionsFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config  = $serviceLocator->get('config');
+        $config = $serviceLocator->get('config');
         $options = isset($config['tracking']) ? $config['tracking'] : [];
         return new TrackingHelperOptions($options);
     }

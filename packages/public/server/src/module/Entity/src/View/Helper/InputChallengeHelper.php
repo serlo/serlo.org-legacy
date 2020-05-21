@@ -42,11 +42,13 @@ class InputChallengeHelper extends AbstractHelper
     public function fetchInput(EntityInterface $entity)
     {
         foreach ($entity->getValidChildren('link') as $child) {
-            if (in_array($child->getType()->getName(), [
-                'input-string-normalized-match-challenge',
-                'input-number-exact-match-challenge',
-                'input-expression-equal-match-challenge',
-            ])) {
+            if (
+                in_array($child->getType()->getName(), [
+                    'input-string-normalized-match-challenge',
+                    'input-number-exact-match-challenge',
+                    'input-expression-equal-match-challenge',
+                ])
+            ) {
                 return $child;
             }
         }
@@ -70,7 +72,9 @@ class InputChallengeHelper extends AbstractHelper
                     'entity' => $child,
                     'type' => $child->getType()->getName(),
                     'solution' => $revision->get('solution'),
-                    'feedback' => $this->view->renderer()->toHtml($revision->get('feedback')),
+                    'feedback' => $this->view
+                        ->renderer()
+                        ->toHtml($revision->get('feedback')),
                 ];
             }
         }

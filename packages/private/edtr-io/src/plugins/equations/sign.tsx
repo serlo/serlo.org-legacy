@@ -27,7 +27,7 @@ export enum Sign {
   GreaterThanOrEqual = 'greater-than-or-equal',
   LessThan = 'less-than',
   LessThanOrEqual = 'less-than-or-equal',
-  AlmostEqualTo = 'almost-equal-to'
+  AlmostEqualTo = 'almost-equal-to',
 }
 
 export function renderSignToString(sign: Sign): string {

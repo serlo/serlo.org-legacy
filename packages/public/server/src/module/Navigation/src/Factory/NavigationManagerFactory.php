@@ -46,11 +46,17 @@ class NavigationManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $authorizationService = $this->getAuthorizationService($serviceLocator);
-        $classResolver        = $this->getClassResolver($serviceLocator);
-        $entityManager        = $this->getEntityManager($serviceLocator);
-        $instanceManager      = $this->getInstanceManager($serviceLocator);
-        $typeManager          = $this->getTypeManager($serviceLocator);
-        $instance             = new NavigationManager($authorizationService, $classResolver, $instanceManager, $entityManager, $typeManager);
+        $classResolver = $this->getClassResolver($serviceLocator);
+        $entityManager = $this->getEntityManager($serviceLocator);
+        $instanceManager = $this->getInstanceManager($serviceLocator);
+        $typeManager = $this->getTypeManager($serviceLocator);
+        $instance = new NavigationManager(
+            $authorizationService,
+            $classResolver,
+            $instanceManager,
+            $entityManager,
+            $typeManager
+        );
 
         return $instance;
     }

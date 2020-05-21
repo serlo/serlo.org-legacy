@@ -24,7 +24,6 @@ namespace Type;
 
 interface TypeManagerAwareInterface
 {
-
     /**
      * Gets the type manager
      *

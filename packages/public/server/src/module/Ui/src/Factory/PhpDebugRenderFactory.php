@@ -37,8 +37,12 @@ class PhpDebugRenderFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $service = new PhpDebugRenderer();
-        $service->setResolver($serviceLocator->get('Zend\View\Resolver\AggregateResolver'));
-        $service->setHelperPluginManager($serviceLocator->get('ViewHelperManager'));
+        $service->setResolver(
+            $serviceLocator->get('Zend\View\Resolver\AggregateResolver')
+        );
+        $service->setHelperPluginManager(
+            $serviceLocator->get('ViewHelperManager')
+        );
         return $service;
     }
 }

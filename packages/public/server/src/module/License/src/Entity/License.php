@@ -175,6 +175,6 @@ class License implements LicenseInterface
      */
     public function setDefault($default)
     {
-        $this->default = (boolean)$default;
+        $this->default = (bool) $default;
     }
 }

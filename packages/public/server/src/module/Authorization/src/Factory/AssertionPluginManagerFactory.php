@@ -59,7 +59,9 @@ class AssertionPluginManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Config')['zfc_rbac']['assertion_manager'];
+        $config = $serviceLocator->get('Config')['zfc_rbac'][
+            'assertion_manager'
+        ];
 
         $pluginManager = new AssertionPluginManager(new Config($config));
         $pluginManager->setServiceLocator($serviceLocator);

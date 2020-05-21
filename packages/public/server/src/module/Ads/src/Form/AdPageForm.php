@@ -38,9 +38,14 @@ class AdPageForm extends Form
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'form-horizontal');
 
-        $this->add((new Text('id'))->setLabel('Page ID:'))
-            ->setAttribute('required', 'required');
-        $this->add((new Submit('submit'))->setValue('Save')
-            ->setAttribute('class', 'btn btn-success pull-right'));
+        $this->add((new Text('id'))->setLabel('Page ID:'))->setAttribute(
+            'required',
+            'required'
+        );
+        $this->add(
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-success pull-right')
+        );
     }
 }

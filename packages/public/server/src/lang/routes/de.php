@@ -21,7 +21,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 return [
-    'subject'    => 'fach',
-    'topic'      => 'thema',
+    'subject' => 'fach',
+    'topic' => 'thema',
     'curriculum' => 'lehrplan',
 ];

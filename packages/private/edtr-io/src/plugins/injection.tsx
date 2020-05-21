@@ -37,7 +37,7 @@ export const injectionState = string()
 export const injectionPlugin: EditorPlugin<typeof injectionState> = {
   Component: InjectionEditor,
   state: injectionState,
-  config: {}
+  config: {},
 }
 
 export function InjectionRenderer(props: { src: string }) {
@@ -51,8 +51,8 @@ export function InjectionRenderer(props: { src: string }) {
     axios
       .get<{ response: string }>(src, {
         headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        }
+          'X-Requested-With': 'XMLHttpRequest',
+        },
       })
       .then(({ data }) => {
         setLoaded(data.response)
@@ -105,7 +105,7 @@ function createURL(id: string) {
 const PlaceholderWrapper = styled.div({
   position: 'relative',
   width: '100%',
-  textAlign: 'center'
+  textAlign: 'center',
 })
 
 function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
@@ -131,7 +131,7 @@ function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
       {cache ? (
         <PreviewOverlay
           focused={props.focused || false}
-          onChange={nextActive => {
+          onChange={(nextActive) => {
             setPreview(nextActive)
             if (nextActive) {
               setCache(props.state.value)
@@ -151,7 +151,7 @@ function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
             label={i18n.t('injection::Serlo ID:')}
             placeholder="123456"
             value={props.state.value}
-            onChange={e => {
+            onChange={(e) => {
               props.state.set(e.target.value)
             }}
             width="30%"
@@ -166,7 +166,7 @@ function InjectionEditor(props: EditorPluginProps<typeof injectionState>) {
             label={i18n.t('injection::Serlo ID:')}
             placeholder="123456"
             value={props.state.value}
-            onChange={e => {
+            onChange={(e) => {
               props.state.set(e.target.value)
             }}
           />

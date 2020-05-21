@@ -24,7 +24,6 @@ namespace License\Manager;
 
 interface LicenseManagerAwareInterface
 {
-
     /**
      * @return LicenseManagerInterface $licenseManager
      */

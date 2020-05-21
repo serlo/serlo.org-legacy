@@ -42,12 +42,14 @@ class Tracking extends AbstractHelper
      * @param InstanceManagerInterface $instanceManager
      * @param TrackingHelperOptions    $options
      */
-    public function __construct(InstanceManagerInterface $instanceManager, TrackingHelperOptions $options)
-    {
+    public function __construct(
+        InstanceManagerInterface $instanceManager,
+        TrackingHelperOptions $options
+    ) {
         $this->instanceManager = $instanceManager;
-        $instance              = $instanceManager->getInstanceFromRequest();
-        $name                  = strtolower($instance->getName());
-        $this->options         = $options->getInstance($name);
+        $instance = $instanceManager->getInstanceFromRequest();
+        $name = strtolower($instance->getName());
+        $this->options = $options->getInstance($name);
     }
 
     /**

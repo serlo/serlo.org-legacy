@@ -30,7 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Holder implements HolderInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -80,11 +79,7 @@ class Holder implements HolderInterface
 
     public function getSpecific()
     {
-        $keys = [
-            'internal',
-            'external',
-            'category',
-        ];
+        $keys = ['internal', 'external', 'category'];
         foreach ($keys as $key) {
             if (is_object($this->$key)) {
                 return $this->$key;

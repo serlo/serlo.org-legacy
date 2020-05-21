@@ -31,8 +31,11 @@ trait AuthenticationServiceFactoryTrait
      * @param ServiceLocatorInterface $serviceLocator
      * @return AuthenticationService
      */
-    protected function getAuthenticationService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $serviceLocator->get('Zend\Authentication\AuthenticationService');
+    protected function getAuthenticationService(
+        ServiceLocatorInterface $serviceLocator
+    ) {
+        return $serviceLocator->get(
+            'Zend\Authentication\AuthenticationService'
+        );
     }
 }

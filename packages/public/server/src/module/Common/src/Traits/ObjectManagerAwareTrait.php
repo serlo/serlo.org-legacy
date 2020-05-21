@@ -26,7 +26,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 trait ObjectManagerAwareTrait
 {
-
     /**
      * @var ObjectManager
      */

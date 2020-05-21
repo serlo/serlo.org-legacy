@@ -48,8 +48,8 @@ class LinkService implements LinkServiceInterface
         $this->isValidChild($parent, $child, $parentOptions);
 
         $typeName = $parentOptions->getLinkType();
-        $type     = $this->getTypeManager()->findTypeByName($typeName);
-        $link     = $parent->createLink();
+        $type = $this->getTypeManager()->findTypeByName($typeName);
+        $link = $parent->createLink();
 
         if ($position === null) {
             $position = $parent->getChildLinks()->count();
@@ -60,14 +60,10 @@ class LinkService implements LinkServiceInterface
         $link->setType($type);
         $link->setPosition($position);
 
-        $this->getEventManager()->trigger(
-            'link',
-            $this,
-            [
-                'entity' => $child,
-                'parent' => $parent,
-            ]
-        );
+        $this->getEventManager()->trigger('link', $this, [
+            'entity' => $child,
+            'parent' => $parent,
+        ]);
 
         $this->getObjectManager()->persist($link);
 
@@ -85,18 +81,14 @@ class LinkService implements LinkServiceInterface
         $this->assertGranted($parentOptions->getPermission('purge'), $child);
 
         $typeName = $parentOptions->getLinkType();
-        $type     = $this->getTypeManager()->findTypeByName($typeName);
-        $link     = $this->findLinkByChild($parent, $child->getId(), $type);
+        $type = $this->getTypeManager()->findTypeByName($typeName);
+        $link = $this->findLinkByChild($parent, $child->getId(), $type);
 
         if (is_object($link)) {
-            $this->getEventManager()->trigger(
-                'unlink',
-                $this,
-                [
-                    'entity' => $child,
-                    'parent' => $parent,
-                ]
-            );
+            $this->getEventManager()->trigger('unlink', $this, [
+                'entity' => $child,
+                'parent' => $parent,
+            ]);
 
             $this->getObjectManager()->remove($link);
         }
@@ -104,10 +96,13 @@ class LinkService implements LinkServiceInterface
         return $this;
     }
 
-    public function sortChildren(LinkableInterface $parent, $typeName, array $children)
-    {
+    public function sortChildren(
+        LinkableInterface $parent,
+        $typeName,
+        array $children
+    ) {
         $type = $this->getTypeManager()->findTypeByName($typeName);
-        $i    = 0;
+        $i = 0;
 
         foreach ($children as $child) {
             if ($child instanceof LinkableInterface) {
@@ -126,10 +121,13 @@ class LinkService implements LinkServiceInterface
         return $this;
     }
 
-    public function sortParents(LinkableInterface $child, $typeName, array $parents)
-    {
+    public function sortParents(
+        LinkableInterface $child,
+        $typeName,
+        array $parents
+    ) {
         $type = $this->getTypeManager()->findTypeByName($typeName);
-        $i    = 0;
+        $i = 0;
 
         foreach ($parents as $parent) {
             if ($parent instanceof LinkableInterface) {
@@ -147,11 +145,17 @@ class LinkService implements LinkServiceInterface
         return $this;
     }
 
-    protected function findLinkByChild(LinkableInterface $element, $childId, TypeInterface $type)
-    {
+    protected function findLinkByChild(
+        LinkableInterface $element,
+        $childId,
+        TypeInterface $type
+    ) {
         /* @var $link LinkInterface */
         foreach ($element->getChildLinks() as $link) {
-            if ($link->getChild()->getId() == $childId && $link->getType() === $type) {
+            if (
+                $link->getChild()->getId() == $childId &&
+                $link->getType() === $type
+            ) {
                 return $link;
             }
         }
@@ -159,11 +163,17 @@ class LinkService implements LinkServiceInterface
         return null;
     }
 
-    protected function findLinkByParent(LinkableInterface $element, $parentId, TypeInterface $type)
-    {
+    protected function findLinkByParent(
+        LinkableInterface $element,
+        $parentId,
+        TypeInterface $type
+    ) {
         /* @var $link LinkInterface */
         foreach ($element->getParentLinks() as $link) {
-            if ($link->getParent()->getId() === $parentId && $link->getType() === $type) {
+            if (
+                $link->getParent()->getId() === $parentId &&
+                $link->getType() === $type
+            ) {
                 return $link;
             }
         }
@@ -171,24 +181,35 @@ class LinkService implements LinkServiceInterface
         return null;
     }
 
-    protected function isValidChild(LinkableInterface $parent, LinkableInterface $child, LinkOptionsInterface $options)
-    {
-        $childType  = $child->getType()->getName();
+    protected function isValidChild(
+        LinkableInterface $parent,
+        LinkableInterface $child,
+        LinkOptionsInterface $options
+    ) {
+        $childType = $child->getType()->getName();
         $parentType = $parent->getType()->getName();
 
         if (!$options->isChildAllowed($childType)) {
-            throw new Exception\RuntimeException(sprintf('Child type "%s" is not allowed.', $childType));
+            throw new Exception\RuntimeException(
+                sprintf('Child type "%s" is not allowed.', $childType)
+            );
         }
 
         if (!$options->allowsManyChildren($childType)) {
             /* @var $childLink \Link\Entity\LinkInterface */
             foreach ($parent->getChildLinks() as $childLink) {
-                if ($childLink->getChild()->getType()->getName() == $childType
+                if (
+                    $childLink
+                        ->getChild()
+                        ->getType()
+                        ->getName() == $childType
                 ) {
-                    throw new Exception\RuntimeException(sprintf(
-                        'Child type "%s" does not allow multiple children.',
-                        $childType
-                    ));
+                    throw new Exception\RuntimeException(
+                        sprintf(
+                            'Child type "%s" does not allow multiple children.',
+                            $childType
+                        )
+                    );
                 }
             }
         }

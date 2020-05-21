@@ -36,8 +36,10 @@ class SubjectHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $plugin        = new SubjectHelper();
-        $moduleOptions = $serviceLocator->getServiceLocator()->get('Subject\Options\ModuleOptions');
+        $plugin = new SubjectHelper();
+        $moduleOptions = $serviceLocator
+            ->getServiceLocator()
+            ->get('Subject\Options\ModuleOptions');
         $plugin->setModuleOptions($moduleOptions);
 
         return $plugin;

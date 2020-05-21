@@ -35,7 +35,11 @@ interface AttachmentManagerInterface extends Flushable
      * @param int                        $appendId
      * @return ContainerInterface
      */
-    public function attach(AttachmentFieldsetProvider $form, $type = 'file', $appendId = null);
+    public function attach(
+        AttachmentFieldsetProvider $form,
+        $type = 'file',
+        $appendId = null
+    );
 
     /**
      * @param int $id

@@ -41,7 +41,6 @@ class HydraController extends AbstractActionController
      */
     protected $hydraService;
 
-
     public function __construct(
         HydraService $hydraService,
         AuthenticationService $authenticationService,
@@ -62,10 +61,13 @@ class HydraController extends AbstractActionController
 
             // if hydra knows the user already, accept without login
             if ($loginResponse['skip']) {
-                $acceptResponse = $this->hydraService->acceptLoginRequest($challenge, [
-                    // All we need to do is to confirm that we indeed want to log in the user.
-                    'subject' => $loginResponse['subject'],
-                ]);
+                $acceptResponse = $this->hydraService->acceptLoginRequest(
+                    $challenge,
+                    [
+                        // All we need to do is to confirm that we indeed want to log in the user.
+                        'subject' => $loginResponse['subject'],
+                    ]
+                );
 
                 return $this->redirect()->toUrl($acceptResponse['redirect_to']);
             }
@@ -73,9 +75,12 @@ class HydraController extends AbstractActionController
             // if user is already logged in, accept request
             $user = $this->getUserManager()->getUserFromAuthenticator();
             if ($user) {
-                $acceptResponse = $this->hydraService->acceptLoginRequest($challenge, [
-                    'subject' => "" . $user->getId(),
-                ]);
+                $acceptResponse = $this->hydraService->acceptLoginRequest(
+                    $challenge,
+                    [
+                        'subject' => '' . $user->getId(),
+                    ]
+                );
 
                 return $this->redirect()->toUrl($acceptResponse['redirect_to']);
             }
@@ -103,19 +108,26 @@ class HydraController extends AbstractActionController
                 $result = $this->getAuthenticationService()->authenticate();
 
                 if ($result->isValid()) {
-                    $user = $this->getUserManager()->getUser($result->getIdentity()->getId());
+                    $user = $this->getUserManager()->getUser(
+                        $result->getIdentity()->getId()
+                    );
 
                     $user->updateLoginData();
                     $this->getUserManager()->persist($user);
                     $this->getUserManager()->flush();
 
                     // accepted login, tell hydra
-                    $acceptResponse = $this->hydraService->acceptLoginRequest($challenge, [
-                        'subject' => "" .$user->getId(),
-                        'remember' => $data['remember'] == 1,
-                        'remember_for' => 60 * 60, // seconds
-                    ]);
-                    return $this->redirect()->toUrl($acceptResponse['redirect_to']);
+                    $acceptResponse = $this->hydraService->acceptLoginRequest(
+                        $challenge,
+                        [
+                            'subject' => '' . $user->getId(),
+                            'remember' => $data['remember'] == 1,
+                            'remember_for' => 60 * 60, // seconds
+                        ]
+                    );
+                    return $this->redirect()->toUrl(
+                        $acceptResponse['redirect_to']
+                    );
                 }
                 $messages = $result->getMessages();
             }
@@ -124,7 +136,7 @@ class HydraController extends AbstractActionController
         // show login form if GET and no skip or if post and failed login
 
         $view = new ViewModel([
-            'form'          => $form,
+            'form' => $form,
             'errorMessages' => $messages,
             'loginChallenge' => $challenge,
         ]);
@@ -145,21 +157,30 @@ class HydraController extends AbstractActionController
         $user = $this->getUserManager()->getUser($consentResponse['subject']);
         $requestedScope = $consentResponse['requested_scope'];
 
-        $acceptResponse = $this->hydraService->acceptConsentRequest($challenge, [
-            'grant_scope' => $consentResponse['requested_scope'],
-            'grant_access_token_audience' => $consentResponse['requested_access_token_audience'],
-            'remember' => true,
-            'remember_for' => 60 * 60, // seconds
-            'session' => [
-                'id_token' => array_merge([
-                    'id' => $user->getId(),
-                    'username' => $user->getUsername(),
-                ], in_array('email', $requestedScope) ? [
-                    'email' => $user->getEmail(),
-                    'email_verified' => true, // if email were not verified, then login wouldn't work
-                ] : []),
-            ],
-        ]);
+        $acceptResponse = $this->hydraService->acceptConsentRequest(
+            $challenge,
+            [
+                'grant_scope' => $consentResponse['requested_scope'],
+                'grant_access_token_audience' =>
+                    $consentResponse['requested_access_token_audience'],
+                'remember' => true,
+                'remember_for' => 60 * 60, // seconds
+                'session' => [
+                    'id_token' => array_merge(
+                        [
+                            'id' => $user->getId(),
+                            'username' => $user->getUsername(),
+                        ],
+                        in_array('email', $requestedScope)
+                            ? [
+                                'email' => $user->getEmail(),
+                                'email_verified' => true, // if email were not verified, then login wouldn't work
+                            ]
+                            : []
+                    ),
+                ],
+            ]
+        );
 
         return $this->redirect()->toUrl($acceptResponse['redirect_to']);
     }

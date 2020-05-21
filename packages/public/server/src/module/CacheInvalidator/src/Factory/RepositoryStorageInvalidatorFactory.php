@@ -38,8 +38,12 @@ class RepositoryStorageInvalidatorFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator AbstractPluginManager */
-        $storage      = $serviceLocator->getServiceLocator()->get('StrokerCache\Storage\CacheStorage');
-        $cacheService = $serviceLocator->getServiceLocator()->get('strokerCache\Service\CacheService');
+        $storage = $serviceLocator
+            ->getServiceLocator()
+            ->get('StrokerCache\Storage\CacheStorage');
+        $cacheService = $serviceLocator
+            ->getServiceLocator()
+            ->get('strokerCache\Service\CacheService');
         return new RepositoryStorageInvalidator($cacheService, $storage);
     }
 }

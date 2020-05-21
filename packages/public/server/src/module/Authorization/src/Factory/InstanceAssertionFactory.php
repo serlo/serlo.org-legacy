@@ -30,11 +30,21 @@ class InstanceAssertionFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator    = $serviceLocator->getServiceLocator();
-        $instanceManager   = $serviceLocator->get('Instance\Manager\InstanceManager');
-        $permissionService = $serviceLocator->get('Authorization\Service\PermissionService');
-        $traversalStrategy = $serviceLocator->get('Rbac\Rbac')->getTraversalStrategy();
-        $instance          = new InstanceAssertion($instanceManager, $permissionService, $traversalStrategy);
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $instanceManager = $serviceLocator->get(
+            'Instance\Manager\InstanceManager'
+        );
+        $permissionService = $serviceLocator->get(
+            'Authorization\Service\PermissionService'
+        );
+        $traversalStrategy = $serviceLocator
+            ->get('Rbac\Rbac')
+            ->getTraversalStrategy();
+        $instance = new InstanceAssertion(
+            $instanceManager,
+            $permissionService,
+            $traversalStrategy
+        );
 
         return $instance;
     }

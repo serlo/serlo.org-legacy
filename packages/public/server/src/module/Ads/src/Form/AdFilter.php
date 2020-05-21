@@ -28,46 +28,42 @@ class AdFilter extends InputFilter
 {
     public function __construct()
     {
-        $this->add(
-            [
-                'name'       => 'title',
-                'required'   => true,
-                'filters'    => [
-                    [
-                        'name' => 'StripTags',
-                        'options' => [
-                            'allowTags' => 'a',
-                            'allowAttribs' => 'href',
-                        ],
+        $this->add([
+            'name' => 'title',
+            'required' => true,
+            'filters' => [
+                [
+                    'name' => 'StripTags',
+                    'options' => [
+                        'allowTags' => 'a',
+                        'allowAttribs' => 'href',
                     ],
                 ],
-                'validators' => [
-                    [
-                        'name' => 'NotEmpty',
-                    ],
+            ],
+            'validators' => [
+                [
+                    'name' => 'NotEmpty',
                 ],
-            ]
-        );
+            ],
+        ]);
 
-        $this->add(
-            [
-                'name'       => 'content',
-                'required'   => true,
-                'filters'    => [
-                    [
-                        'name' => 'StripTags',
-                        'options' => [
-                            'allowTags' => ['br','a'],
-                            'allowAttribs' => ['href'],
-                        ],
+        $this->add([
+            'name' => 'content',
+            'required' => true,
+            'filters' => [
+                [
+                    'name' => 'StripTags',
+                    'options' => [
+                        'allowTags' => ['br', 'a'],
+                        'allowAttribs' => ['href'],
                     ],
                 ],
-                'validators' => [
-                    [
-                        'name' => 'NotEmpty',
-                    ],
+            ],
+            'validators' => [
+                [
+                    'name' => 'NotEmpty',
                 ],
-            ]
-        );
+            ],
+        ]);
     }
 }

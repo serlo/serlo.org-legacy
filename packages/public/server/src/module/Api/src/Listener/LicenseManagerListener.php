@@ -65,37 +65,25 @@ class LicenseManagerListener extends AbstractListener
         $events->attach(
             $this->getMonitoredClass(),
             'inject',
-            [
-                $this,
-                'onInjectLicense',
-            ],
+            [$this, 'onInjectLicense'],
             2
         );
         $events->attach(
             $this->getMonitoredClass(),
             'create',
-            [
-                $this,
-                'onChange',
-            ],
+            [$this, 'onChange'],
             2
         );
         $events->attach(
             $this->getMonitoredClass(),
             'remove',
-            [
-                $this,
-                'onRemove',
-            ],
+            [$this, 'onRemove'],
             2
         );
         $events->attach(
             $this->getMonitoredClass(),
             'update',
-            [
-                $this,
-                'onChange',
-            ],
+            [$this, 'onChange'],
             2
         );
     }

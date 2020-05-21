@@ -52,9 +52,9 @@ class TaxonomyTermHydrator implements HydratorInterface
         UuidManagerInterface $uuidManager,
         TaxonomyManagerInterface $taxonomyManager
     ) {
-        $this->termManager     = $termManager;
-        $this->moduleOptions   = $moduleOptions;
-        $this->uuidManager     = $uuidManager;
+        $this->termManager = $termManager;
+        $this->moduleOptions = $moduleOptions;
+        $this->uuidManager = $uuidManager;
         $this->taxonomyManager = $taxonomyManager;
     }
 
@@ -68,22 +68,26 @@ class TaxonomyTermHydrator implements HydratorInterface
         $term = $object->getTerm();
 
         return [
-            'id'          => is_object($object) ? $object->getId() : null,
-            'term'        => [
-                'id'   => is_object($term) ? $term->getId() : null,
+            'id' => is_object($object) ? $object->getId() : null,
+            'term' => [
+                'id' => is_object($term) ? $term->getId() : null,
                 'name' => is_object($term) ? $term->getName() : null,
             ],
-            'taxonomy'    => is_object($object->getTaxonomy()) ? $object->getTaxonomy()->getId() : null,
-            'parent'      => is_object($object->getParent()) ? $object->getParent()->getId() : null,
+            'taxonomy' => is_object($object->getTaxonomy())
+                ? $object->getTaxonomy()->getId()
+                : null,
+            'parent' => is_object($object->getParent())
+                ? $object->getParent()->getId()
+                : null,
             'description' => $object->getDescription(),
-            'position'    => $object->getPosition(),
+            'position' => $object->getPosition(),
         ];
     }
 
     public function hydrate(array $data, $object)
     {
         $oldParent = $object->getParent();
-        $data      = $this->validate($data);
+        $data = $this->validate($data);
 
         foreach ($data as $key => $value) {
             $setter = 'set' . ucfirst($key);
@@ -103,35 +107,43 @@ class TaxonomyTermHydrator implements HydratorInterface
     protected function validate(array $data)
     {
         $taxonomy = $data['taxonomy'];
-        $parent   = isset($data['parent']) ? $data['parent'] : null;
+        $parent = isset($data['parent']) ? $data['parent'] : null;
         if (!is_object($taxonomy)) {
-            $taxonomy = $data['taxonomy'] = $this->taxonomyManager->getTaxonomy($taxonomy);
+            $taxonomy = $data['taxonomy'] = $this->taxonomyManager->getTaxonomy(
+                $taxonomy
+            );
         }
         if ($parent && !is_object($parent)) {
-            $parent = $data['parent'] = $this->taxonomyManager->getTerm($parent);
+            $parent = $data['parent'] = $this->taxonomyManager->getTerm(
+                $parent
+            );
         }
         $options = $this->getModuleOptions()->getType($taxonomy->getName());
 
         if ($parent === null && !$options->isRootable()) {
-            throw new RuntimeException(sprintf(
-                'Taxonomy "%s" is not rootable.',
-                $taxonomy->getName()
-            ));
+            throw new RuntimeException(
+                sprintf('Taxonomy "%s" is not rootable.', $taxonomy->getName())
+            );
         } elseif ($parent instanceof TaxonomyTermInterface) {
-            $parentType    = $parent->getTaxonomy()->getName();
-            $objectType    = $taxonomy->getName();
+            $parentType = $parent->getTaxonomy()->getName();
+            $objectType = $taxonomy->getName();
             $objectOptions = $this->getModuleOptions()->getType($objectType);
 
             if (!$objectOptions->isParentAllowed($parentType)) {
-                throw new RuntimeException(sprintf(
-                    'Parent "%s" does not allow child "%s"',
-                    $parentType,
-                    $objectType
-                ));
+                throw new RuntimeException(
+                    sprintf(
+                        'Parent "%s" does not allow child "%s"',
+                        $parentType,
+                        $objectType
+                    )
+                );
             }
         }
 
-        $data['term'] = $this->getTermManager()->createTerm($data['term']['name'], $taxonomy->getInstance());
+        $data['term'] = $this->getTermManager()->createTerm(
+            $data['term']['name'],
+            $taxonomy->getInstance()
+        );
 
         return $data;
     }

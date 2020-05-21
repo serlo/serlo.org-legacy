@@ -28,9 +28,9 @@ test('Simple real state', () => {
     state: [
       {
         plugin: 'text',
-        state: [{ type: 'p', children: [{ text: 'Einzelkindern' }] }]
-      }
-    ]
+        state: [{ type: 'p', children: [{ text: 'Einzelkindern' }] }],
+      },
+    ],
   }
 
   expect(migrateState(state)).toEqual({
@@ -41,12 +41,12 @@ test('Simple real state', () => {
         state: [
           {
             plugin: 'text',
-            state: [{ type: 'p', children: [{ text: 'Einzelkindern' }] }]
-          }
-        ]
+            state: [{ type: 'p', children: [{ text: 'Einzelkindern' }] }],
+          },
+        ],
       },
-      interactive: undefined
-    }
+      interactive: undefined,
+    },
   })
 })
 
@@ -65,19 +65,19 @@ test('Real state with sc-mc-exercise', () => {
                 type: 'math',
                 src: 'A',
                 inline: true,
-                children: [{ text: 'A' }]
+                children: [{ text: 'A' }],
               },
               { text: ' von einem Kreis mit Radius ' },
               {
                 type: 'math',
                 src: 'r',
                 inline: true,
-                children: [{ text: 'r' }]
+                children: [{ text: 'r' }],
               },
-              { text: '?' }
-            ]
-          }
-        ]
+              { text: '?' },
+            ],
+          },
+        ],
       },
       {
         plugin: 'scMcExercise',
@@ -96,20 +96,20 @@ test('Real state with sc-mc-exercise', () => {
                         type: 'math',
                         src: 'A=\\pi \\cdot r^2',
                         inline: true,
-                        children: [{ text: 'A=\\pi \\cdot r^2' }]
+                        children: [{ text: 'A=\\pi \\cdot r^2' }],
                       },
-                      { text: '' }
-                    ]
-                  }
-                ]
+                      { text: '' },
+                    ],
+                  },
+                ],
               },
               isCorrect: true,
               feedback: {
                 plugin: 'text',
                 state: [
-                  { type: 'p', children: [{ text: 'Richtig! Sehr gut!' }] }
-                ]
-              }
+                  { type: 'p', children: [{ text: 'Richtig! Sehr gut!' }] },
+                ],
+              },
             },
             {
               content: {
@@ -123,12 +123,12 @@ test('Real state with sc-mc-exercise', () => {
                         type: 'math',
                         src: 'A=\\pi^2 \\cdot r',
                         inline: true,
-                        children: [{ text: 'A=\\pi^2 \\cdot r' }]
+                        children: [{ text: 'A=\\pi^2 \\cdot r' }],
                       },
-                      { text: '' }
-                    ]
-                  }
-                ]
+                      { text: '' },
+                    ],
+                  },
+                ],
               },
               isCorrect: false,
               feedback: {
@@ -137,11 +137,11 @@ test('Real state with sc-mc-exercise', () => {
                   {
                     type: 'p',
                     children: [
-                      { text: 'Fast! Aber leider trotzdem falsch. :(' }
-                    ]
-                  }
-                ]
-              }
+                      { text: 'Fast! Aber leider trotzdem falsch. :(' },
+                    ],
+                  },
+                ],
+              },
             },
             {
               content: {
@@ -155,20 +155,20 @@ test('Real state with sc-mc-exercise', () => {
                         type: 'math',
                         src: 'A=\\dfrac{r}{2}\\cdot \\pi',
                         inline: true,
-                        children: [{ text: 'A=\\dfrac{r}{2}\\cdot \\pi' }]
+                        children: [{ text: 'A=\\dfrac{r}{2}\\cdot \\pi' }],
                       },
-                      { text: '' }
-                    ]
-                  }
-                ]
+                      { text: '' },
+                    ],
+                  },
+                ],
               },
               isCorrect: false,
               feedback: {
                 plugin: 'text',
                 state: [
-                  { type: 'p', children: [{ text: 'Das ist leider falsch.' }] }
-                ]
-              }
+                  { type: 'p', children: [{ text: 'Das ist leider falsch.' }] },
+                ],
+              },
             },
             {
               content: {
@@ -182,12 +182,12 @@ test('Real state with sc-mc-exercise', () => {
                         type: 'math',
                         src: 'A = 2\\cdot \\pi \\cdot r',
                         inline: true,
-                        children: [{ text: 'A = 2\\cdot \\pi \\cdot r' }]
+                        children: [{ text: 'A = 2\\cdot \\pi \\cdot r' }],
                       },
-                      { text: '' }
-                    ]
-                  }
-                ]
+                      { text: '' },
+                    ],
+                  },
+                ],
               },
               isCorrect: false,
               feedback: {
@@ -201,20 +201,20 @@ test('Real state with sc-mc-exercise', () => {
                         type: 'math',
                         src: 'U=2\\pi r',
                         inline: true,
-                        children: [{ text: 'U=2\\pi r' }]
+                        children: [{ text: 'U=2\\pi r' }],
                       },
                       { text: ' ist der ' },
                       { text: 'Umfang', strong: true },
-                      { text: ' von einem Kreis.' }
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
-    ]
+                      { text: ' von einem Kreis.' },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    ],
   }
 
   expect(migrateState(state)).toEqual({
@@ -234,21 +234,21 @@ test('Real state with sc-mc-exercise', () => {
                     type: 'math',
                     src: 'A',
                     inline: true,
-                    children: [{ text: 'A' }]
+                    children: [{ text: 'A' }],
                   },
                   { text: ' von einem Kreis mit Radius ' },
                   {
                     type: 'math',
                     src: 'r',
                     inline: true,
-                    children: [{ text: 'r' }]
+                    children: [{ text: 'r' }],
                   },
-                  { text: '?' }
-                ]
-              }
-            ]
-          }
-        ]
+                  { text: '?' },
+                ],
+              },
+            ],
+          },
+        ],
       },
       interactive: {
         plugin: 'scMcExercise',
@@ -267,20 +267,20 @@ test('Real state with sc-mc-exercise', () => {
                         type: 'math',
                         src: 'A=\\pi \\cdot r^2',
                         inline: true,
-                        children: [{ text: 'A=\\pi \\cdot r^2' }]
+                        children: [{ text: 'A=\\pi \\cdot r^2' }],
                       },
-                      { text: '' }
-                    ]
-                  }
-                ]
+                      { text: '' },
+                    ],
+                  },
+                ],
               },
               isCorrect: true,
               feedback: {
                 plugin: 'text',
                 state: [
-                  { type: 'p', children: [{ text: 'Richtig! Sehr gut!' }] }
-                ]
-              }
+                  { type: 'p', children: [{ text: 'Richtig! Sehr gut!' }] },
+                ],
+              },
             },
             {
               content: {
@@ -294,12 +294,12 @@ test('Real state with sc-mc-exercise', () => {
                         type: 'math',
                         src: 'A=\\pi^2 \\cdot r',
                         inline: true,
-                        children: [{ text: 'A=\\pi^2 \\cdot r' }]
+                        children: [{ text: 'A=\\pi^2 \\cdot r' }],
                       },
-                      { text: '' }
-                    ]
-                  }
-                ]
+                      { text: '' },
+                    ],
+                  },
+                ],
               },
               isCorrect: false,
               feedback: {
@@ -308,11 +308,11 @@ test('Real state with sc-mc-exercise', () => {
                   {
                     type: 'p',
                     children: [
-                      { text: 'Fast! Aber leider trotzdem falsch. :(' }
-                    ]
-                  }
-                ]
-              }
+                      { text: 'Fast! Aber leider trotzdem falsch. :(' },
+                    ],
+                  },
+                ],
+              },
             },
             {
               content: {
@@ -326,20 +326,20 @@ test('Real state with sc-mc-exercise', () => {
                         type: 'math',
                         src: 'A=\\dfrac{r}{2}\\cdot \\pi',
                         inline: true,
-                        children: [{ text: 'A=\\dfrac{r}{2}\\cdot \\pi' }]
+                        children: [{ text: 'A=\\dfrac{r}{2}\\cdot \\pi' }],
                       },
-                      { text: '' }
-                    ]
-                  }
-                ]
+                      { text: '' },
+                    ],
+                  },
+                ],
               },
               isCorrect: false,
               feedback: {
                 plugin: 'text',
                 state: [
-                  { type: 'p', children: [{ text: 'Das ist leider falsch.' }] }
-                ]
-              }
+                  { type: 'p', children: [{ text: 'Das ist leider falsch.' }] },
+                ],
+              },
             },
             {
               content: {
@@ -353,12 +353,12 @@ test('Real state with sc-mc-exercise', () => {
                         type: 'math',
                         src: 'A = 2\\cdot \\pi \\cdot r',
                         inline: true,
-                        children: [{ text: 'A = 2\\cdot \\pi \\cdot r' }]
+                        children: [{ text: 'A = 2\\cdot \\pi \\cdot r' }],
                       },
-                      { text: '' }
-                    ]
-                  }
-                ]
+                      { text: '' },
+                    ],
+                  },
+                ],
               },
               isCorrect: false,
               feedback: {
@@ -372,19 +372,19 @@ test('Real state with sc-mc-exercise', () => {
                         type: 'math',
                         src: 'U=2\\pi r',
                         inline: true,
-                        children: [{ text: 'U=2\\pi r' }]
+                        children: [{ text: 'U=2\\pi r' }],
                       },
                       { text: ' ist der ' },
                       { text: 'Umfang', strong: true },
-                      { text: ' von einem Kreis.' }
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
-    }
+                      { text: ' von einem Kreis.' },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    },
   })
 })

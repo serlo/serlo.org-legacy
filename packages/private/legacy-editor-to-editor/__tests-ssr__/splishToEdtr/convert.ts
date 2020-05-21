@@ -24,7 +24,7 @@ import { serializer } from '@edtr-io/plugin-text'
 import {
   convert,
   convertLegacyToSplish,
-  convertSplishToEdtrIO
+  convertSplishToEdtrIO,
 } from '@serlo/legacy-editor-to-editor'
 import { expect, expectSplishSlate } from '../common'
 import { htmlToSlate } from '../../src/splishToEdtr/convertSlate'
@@ -42,25 +42,25 @@ const cases: {
       [
         {
           col: 24,
-          content: '## Lorem ipsum'
-        }
+          content: '## Lorem ipsum',
+        },
       ],
       [
         {
           col: 16,
-          content: 'dolor **sit** amet.'
+          content: 'dolor **sit** amet.',
         },
         {
           col: 8,
-          content: 'consecetur'
-        }
+          content: 'consecetur',
+        },
       ],
       [
         {
           col: 24,
-          content: 'markdown with ![image](url)'
-        }
-      ]
+          content: 'markdown with ![image](url)',
+        },
+      ],
     ],
     splish: {
       cells: [
@@ -75,12 +75,12 @@ const cases: {
                       cells: [
                         expectSplishSlate(
                           '<h2 id="loremipsum">Lorem ipsum</h2>'
-                        )
-                      ]
-                    }
-                  ]
-                }
-              ]
+                        ),
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
             {
               cells: [
@@ -91,20 +91,20 @@ const cases: {
                       cells: [
                         expectSplishSlate(
                           '<p>dolor <strong>sit</strong> amet.</p>'
-                        )
-                      ]
-                    }
-                  ]
+                        ),
+                      ],
+                    },
+                  ],
                 },
                 {
                   size: 4,
                   rows: [
                     {
-                      cells: [expectSplishSlate('<p>consecetur</p>')]
-                    }
-                  ]
-                }
-              ]
+                      cells: [expectSplishSlate('<p>consecetur</p>')],
+                    },
+                  ],
+                },
+              ],
             },
             {
               cells: [
@@ -112,7 +112,7 @@ const cases: {
                   size: 12,
                   rows: [
                     {
-                      cells: [expectSplishSlate('<p>markdown with</p>')]
+                      cells: [expectSplishSlate('<p>markdown with</p>')],
                     },
                     {
                       cells: [
@@ -120,30 +120,32 @@ const cases: {
                           content: {
                             plugin: {
                               name: Plugin.Image,
-                              version: '0.0.0'
+                              version: '0.0.0',
                             },
                             state: {
                               description: 'image',
-                              src: 'url'
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                              src: 'url',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
     edtrIO: {
       plugin: 'rows',
       state: [
         {
           plugin: 'text',
-          state: serializer.serialize(htmlToSlate('<h2 id="loremipsum">Lorem ipsum</h2>'))
+          state: serializer.serialize(
+            htmlToSlate('<h2 id="loremipsum">Lorem ipsum</h2>')
+          ),
         },
         {
           plugin: 'layout',
@@ -154,13 +156,13 @@ const cases: {
                 state: [
                   {
                     plugin: 'text',
-                    state: serializer.serialize(htmlToSlate(
-                      '<p>dolor <strong>sit</strong> amet.</p>'
-                    ))
-                  }
-                ]
+                    state: serializer.serialize(
+                      htmlToSlate('<p>dolor <strong>sit</strong> amet.</p>')
+                    ),
+                  },
+                ],
               },
-              width: 8
+              width: 8,
             },
             {
               child: {
@@ -168,31 +170,33 @@ const cases: {
                 state: [
                   {
                     plugin: 'text',
-                    state: serializer.serialize(htmlToSlate('<p>consecetur</p>'))
-                  }
-                ]
+                    state: serializer.serialize(
+                      htmlToSlate('<p>consecetur</p>')
+                    ),
+                  },
+                ],
               },
-              width: 4
-            }
-          ]
+              width: 4,
+            },
+          ],
         },
         {
           plugin: 'text',
-          state: serializer.serialize(htmlToSlate('<p>markdown with</p>'))
+          state: serializer.serialize(htmlToSlate('<p>markdown with</p>')),
         },
         {
           plugin: 'image',
           state: {
             alt: 'image',
-            src: 'url'
-          }
-        }
-      ]
-    }
-  }
+            src: 'url',
+          },
+        },
+      ],
+    },
+  },
 ]
 
-cases.forEach(testcase => {
+cases.forEach((testcase) => {
   describe('Transformes Serlo Layout to new Layout', () => {
     it(testcase.description, () => {
       expect(
@@ -200,7 +204,11 @@ cases.forEach(testcase => {
         'to equal',
         testcase.splish
       )
-      expect(convertSplishToEdtrIO(testcase.splish), 'to equal', testcase.edtrIO)
+      expect(
+        convertSplishToEdtrIO(testcase.splish),
+        'to equal',
+        testcase.edtrIO
+      )
       expect(convert(testcase.legacy), 'to equal', testcase.edtrIO)
     })
   })

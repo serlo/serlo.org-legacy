@@ -26,7 +26,7 @@ import S from 'string'
 
 import play from './sounds'
 
-var InputChallenge = function($container) {
+var InputChallenge = function ($container) {
   var type
   var solution
   var feedback
@@ -47,15 +47,15 @@ var InputChallenge = function($container) {
     {
       type: type,
       solution: solution,
-      feedback: feedback
-    }
+      feedback: feedback,
+    },
   ].concat(wrongInputs)
 
-  $container.click(function() {
+  $container.click(function () {
     $container.addClass('active')
   })
 
-  $('#content-layout').click(function(e) {
+  $('#content-layout').click(function (e) {
     if (
       $container.hasClass('active') &&
       !$(e.target).closest($container).length &&
@@ -69,14 +69,14 @@ var InputChallenge = function($container) {
   self.init()
 }
 
-InputChallenge.prototype.init = function() {
+InputChallenge.prototype.init = function () {
   var self = this
 
   self.$feedback.collapse({
-    toggle: false
+    toggle: false,
   })
 
-  self.$form.submit(function(e) {
+  self.$form.submit(function (e) {
     var index, input, isCorrect, feedback
 
     e.preventDefault()
@@ -88,7 +88,7 @@ InputChallenge.prototype.init = function() {
 
     feedback = input.feedback || (isCorrect ? 'Right!' : 'Wrong.')
 
-    self.$feedback.fadeOut(500, function() {
+    self.$feedback.fadeOut(500, function () {
       self.$feedback.html(feedback).fadeIn(500)
       typeset(self.$feedback.get(0))
       if (isCorrect) {
@@ -108,7 +108,7 @@ InputChallenge.prototype.init = function() {
   })
 }
 
-InputChallenge.prototype.matchesInput = function(input) {
+InputChallenge.prototype.matchesInput = function (input) {
   try {
     var solution = this.normalize(input, input.solution)
     var submission = this.normalize(input, this.$input.val())
@@ -125,8 +125,8 @@ InputChallenge.prototype.matchesInput = function(input) {
   }
 }
 
-InputChallenge.prototype.normalize = function(input, string) {
-  var normalizeNumber = function(string) {
+InputChallenge.prototype.normalize = function (input, string) {
+  var normalizeNumber = function (string) {
     return S(string).replaceAll(',', '.').s
   }
   var temp = S(string).collapseWhitespace()
@@ -146,14 +146,14 @@ InputChallenge.prototype.normalize = function(input, string) {
 function changeClass($element, oldClasses, newClasses, time) {
   $element.removeClass(oldClasses).addClass(newClasses)
   if (time) {
-    setTimeout(function() {
+    setTimeout(function () {
       $element.removeClass(newClasses).addClass(oldClasses)
     }, time)
   }
 }
 
-$.fn.InputChallenge = function() {
-  return $(this).each(function() {
+$.fn.InputChallenge = function () {
+  return $(this).each(function () {
     // eslint-disable-next-line no-new
     new InputChallenge($(this))
   })

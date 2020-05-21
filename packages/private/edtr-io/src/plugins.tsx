@@ -27,7 +27,7 @@ import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
 import {
   createInputExercisePlugin,
-  InputExerciseType
+  InputExerciseType,
 } from '@edtr-io/plugin-input-exercise'
 import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
 import { createRowsPlugin, RowsConfig } from '@edtr-io/plugin-rows'
@@ -64,7 +64,7 @@ import { tablePlugin } from './plugins/table'
 export function createPlugins({
   getCsrfToken,
   i18n,
-  registry
+  registry,
 }: {
   getCsrfToken: () => string
   i18n: i18n
@@ -74,43 +74,43 @@ export function createPlugins({
     anchor: createAnchorPlugin({
       i18n: {
         label: i18n.t('anchor::Identifier'),
-        placeholder: i18n.t('anchor::ID of the anchor')
-      }
+        placeholder: i18n.t('anchor::ID of the anchor'),
+      },
     }),
     blockquote: createBlockquotePlugin({
       content: {
-        plugin: 'text'
-      }
+        plugin: 'text',
+      },
     }),
     error: errorPlugin,
     equations: equationsPlugin,
     exercise: exercisePlugin,
     geogebra: createGeogebraPlugin({
       i18n: {
-        label: i18n.t('geogebra::GeoGebra URL or ID')
-      }
+        label: i18n.t('geogebra::GeoGebra URL or ID'),
+      },
     }),
     highlight: createHighlightPlugin({
       i18n: {
         code: {
           label: i18n.t('highlight::Click here and enter your source code…'),
-          placeholder: i18n.t('highlight::Enter your source code here')
+          placeholder: i18n.t('highlight::Enter your source code here'),
         },
         language: {
           label: i18n.t('highlight::Language'),
-          placeholder: i18n.t('highlight::Enter language')
+          placeholder: i18n.t('highlight::Enter language'),
         },
         showLineNumbers: {
-          label: i18n.t('highlight::Show line numbers')
-        }
-      }
+          label: i18n.t('highlight::Show line numbers'),
+        },
+      },
     }),
     image: createImagePlugin(getCsrfToken),
     important: createImportantPlugin(),
     injection: injectionPlugin,
     inputExercise: createInputExercisePlugin({
       feedback: {
-        plugin: 'text'
+        plugin: 'text',
       },
       i18n: {
         types: {
@@ -122,26 +122,26 @@ export function createPlugins({
           ),
           [InputExerciseType.InputExpressionEqualMatchChallenge]: i18n.t(
             'inputExercise::Mathematical expression'
-          )
+          ),
         },
         type: {
-          label: i18n.t('inputExercise::Choose the exercise type')
+          label: i18n.t('inputExercise::Choose the exercise type'),
         },
         unit: {
-          label: i18n.t('inputExercise::Unit')
+          label: i18n.t('inputExercise::Unit'),
         },
         answer: {
           addLabel: i18n.t('inputExercise::Add answer'),
           value: {
-            placeholder: i18n.t('inputExercise::Enter the value')
-          }
+            placeholder: i18n.t('inputExercise::Enter the value'),
+          },
         },
         inputPlaceholder: i18n.t('inputExercise::Your solution'),
         fallbackFeedback: {
           correct: i18n.t('inputExercise::Correct'),
-          wrong: i18n.t('inputExercise::Wrong')
-        }
-      }
+          wrong: i18n.t('inputExercise::Wrong'),
+        },
+      },
     }),
     layout: layoutPlugin,
     multimedia: createMultimediaExplanationPlugin({
@@ -149,16 +149,16 @@ export function createPlugins({
       plugins: [
         {
           name: 'image',
-          title: i18n.t('multimedia::Image')
+          title: i18n.t('multimedia::Image'),
         },
         {
           name: 'video',
-          title: i18n.t('multimedia::Video')
+          title: i18n.t('multimedia::Video'),
         },
         {
           name: 'geogebra',
-          title: i18n.t('multimedia::GeoGebra Applet')
-        }
+          title: i18n.t('multimedia::GeoGebra Applet'),
+        },
       ],
       i18n: {
         changeMultimediaType: i18n.t('multimedia::Change the multimedia type'),
@@ -166,28 +166,28 @@ export function createPlugins({
           label: i18n.t('multimedia::How important is the multimedia content?'),
           values: {
             illustrating: i18n.t('multimedia::It is illustrating'),
-            explaining: i18n.t('multimedia::It is essential')
-          }
-        }
-      }
+            explaining: i18n.t('multimedia::It is essential'),
+          },
+        },
+      },
     }),
     rows: createRowsPlugin({
       content: { plugin: 'text' },
       plugins: registry,
       i18n: {
         menu: {
-          searchPlaceholder: i18n.t('rows::Search for tools…')
+          searchPlaceholder: i18n.t('rows::Search for tools…'),
         },
         settings: {
           duplicateLabel: i18n.t('rows::Duplicate'),
           removeLabel: i18n.t('rows::Remove'),
-          closeLabel: i18n.t('rows::Close')
+          closeLabel: i18n.t('rows::Close'),
         },
         toolbar: {
-          dragLabel: i18n.t('rows::Drag the element within the document')
+          dragLabel: i18n.t('rows::Drag the element within the document'),
         },
-        addLabel: i18n.t('rows::Add an element')
-      }
+        addLabel: i18n.t('rows::Add an element'),
+      },
     }),
     scMcExercise: createScMcExercisePlugin({
       content: { plugin: 'text' },
@@ -195,25 +195,25 @@ export function createPlugins({
       i18n: {
         types: {
           singleChoice: i18n.t('scMcExercise::Single-choice'),
-          multipleChoice: i18n.t('scMcExercise::Multiple-choice')
+          multipleChoice: i18n.t('scMcExercise::Multiple-choice'),
         },
         isSingleChoice: {
-          label: i18n.t('scMcExercise::Choose the exercise type')
+          label: i18n.t('scMcExercise::Choose the exercise type'),
         },
         answer: {
           addLabel: i18n.t('scMcExercise::Add answer'),
           fallbackFeedback: {
-            wrong: i18n.t('scMcExercise::Wrong')
-          }
+            wrong: i18n.t('scMcExercise::Wrong'),
+          },
         },
         globalFeedback: {
           missingCorrectAnswers: i18n.t(
             'scMcExercise::Almost! You missed at least one correct answer'
           ),
           correct: i18n.t('scMcExercise::Correct'),
-          wrong: i18n.t('scMcExercise::Wrong')
-        }
-      }
+          wrong: i18n.t('scMcExercise::Wrong'),
+        },
+      },
     }),
     separator: separatorPlugin,
     solution: solutionPlugin,
@@ -221,9 +221,9 @@ export function createPlugins({
       content: { plugin: 'rows' },
       i18n: {
         title: {
-          placeholder: i18n.t('spoiler::Enter a title')
-        }
-      }
+          placeholder: i18n.t('spoiler::Enter a title'),
+        },
+      },
     }),
     table: tablePlugin,
     text: createTextPlugin({
@@ -231,31 +231,31 @@ export function createPlugins({
       blockquote: 'blockquote',
       i18n: {
         blockquote: {
-          toggleTitle: i18n.t('text::Quote')
+          toggleTitle: i18n.t('text::Quote'),
         },
         colors: {
           setColorTitle: i18n.t('text::Set color'),
           resetColorTitle: i18n.t('text::Reset color'),
           openMenuTitle: i18n.t('text::Colors'),
-          closeMenuTitle: i18n.t('text::Close sub menu')
+          closeMenuTitle: i18n.t('text::Close sub menu'),
         },
         headings: {
           setHeadingTitle(level: number) {
             return `${i18n.t('text::Heading')} ${level}`
           },
           openMenuTitle: i18n.t('text::Headings'),
-          closeMenuTitle: i18n.t('text::Close sub menu')
+          closeMenuTitle: i18n.t('text::Close sub menu'),
         },
         link: {
           toggleTitle: i18n.t('text::Link (Strg + K)'),
           placeholder: i18n.t('text::Enter URL'),
-          openInNewTabTitle: i18n.t('text::Open in new tab')
+          openInNewTabTitle: i18n.t('text::Open in new tab'),
         },
         list: {
           toggleOrderedList: i18n.t('text::Ordered list'),
           toggleUnorderedList: i18n.t('text::Unordered list'),
           openMenuTitle: i18n.t('text::Lists'),
-          closeMenuTitle: i18n.t('text::Close sub menu')
+          closeMenuTitle: i18n.t('text::Close sub menu'),
         },
         math: {
           toggleTitle: i18n.t('text::Math formula (Strg + M)'),
@@ -266,7 +266,7 @@ export function createPlugins({
             latex: i18n.t('text::LaTeX'),
             noVisualEditorAvailableMessage: i18n.t(
               'text::Only LaTeX editor available'
-            )
+            ),
           },
           helpText(
             KeySpan: React.ComponentType<{ children: React.ReactNode }>
@@ -309,26 +309,26 @@ export function createPlugins({
                 </p>
               </>
             )
-          }
+          },
         },
         richText: {
           toggleStrongTitle: i18n.t('text::Bold (Strg + B)'),
-          toggleEmphasizeTitle: i18n.t('text::Italic (Strg + I)')
+          toggleEmphasizeTitle: i18n.t('text::Italic (Strg + I)'),
         },
         suggestions: {
-          noResultsMessage: i18n.t('text::No items found')
-        }
-      }
+          noResultsMessage: i18n.t('text::No items found'),
+        },
+      },
     }),
     video: createVideoPlugin({
       i18n: {
         src: {
-          label: i18n.t('video::Video URL')
+          label: i18n.t('video::Video URL'),
         },
         alt: {
-          label: i18n.t('video::Description')
-        }
-      } as VideoConfig['i18n'] // TODO: upstream bug in typing
+          label: i18n.t('video::Description'),
+        },
+      } as VideoConfig['i18n'], // TODO: upstream bug in typing
     }),
 
     // Internal plugins for our content types
@@ -344,6 +344,6 @@ export function createPlugins({
     'type-text-exercise-group': textExerciseGroupTypePlugin,
     'type-text-solution': textSolutionTypePlugin,
     'type-user': userTypePlugin,
-    'type-video': videoTypePlugin
+    'type-video': videoTypePlugin,
   }
 }

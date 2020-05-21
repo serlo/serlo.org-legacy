@@ -44,11 +44,14 @@ abstract class AbstractListener extends AbstractSharedListenerAggregate
      * @param MailRendererInterface $mailRenderer
      * @param Translator        $translator
      */
-    public function __construct(MailmanInterface $mailman, MailRendererInterface $mailRenderer, Translator $translator)
-    {
-        $this->mailman    = $mailman;
+    public function __construct(
+        MailmanInterface $mailman,
+        MailRendererInterface $mailRenderer,
+        Translator $translator
+    ) {
+        $this->mailman = $mailman;
         $this->translator = $translator;
-        $this->renderer   = $mailRenderer;
+        $this->renderer = $mailRenderer;
     }
 
     /**

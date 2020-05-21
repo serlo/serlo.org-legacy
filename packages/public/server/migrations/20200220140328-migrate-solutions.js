@@ -24,7 +24,7 @@
  * Migrates the Edtr.io states of all entities of type `text-solution`.
  * THIS IS AN IRREVERSIBLE MIGRATION!
  */
-exports.up = function(db, cb) {
+exports.up = function (db, cb) {
   db.all(
     `
       SELECT erf.id, erf.value
@@ -53,7 +53,7 @@ exports.up = function(db, cb) {
     db.runSql(
       `UPDATE entity_revision_field SET value = ? WHERE id = ?`,
       [JSON.stringify(migrateState(state)), field.id],
-      err => {
+      (err) => {
         if (err) {
           return cb(err)
         }
@@ -63,12 +63,12 @@ exports.up = function(db, cb) {
   }
 }
 
-exports.down = function(db, cb) {
+exports.down = function (db, cb) {
   cb()
 }
 
 exports._meta = {
-  version: 1
+  version: 1,
 }
 
 function migrateState(state) {
@@ -85,7 +85,7 @@ function migrateState(state) {
     if (strategy && strategy.plugin === 'rows') {
       children.push(...strategy.state)
     }
-    solutionSteps.forEach(step => {
+    solutionSteps.forEach((step) => {
       if (step.content && step.content.plugin === 'rows') {
         children.push(...step.content.state)
       }
@@ -101,13 +101,13 @@ function migrateState(state) {
     state: {
       prerequisite: undefined,
       strategy: {
-        plugin: 'text'
+        plugin: 'text',
       },
       steps: {
         plugin: 'rows',
-        state: [].concat(...stepsState)
-      }
-    }
+        state: [].concat(...stepsState),
+      },
+    },
   }
 }
 

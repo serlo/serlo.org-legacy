@@ -36,7 +36,6 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractGetterSetterTestCase extends TestCase
 {
-
     /**
      * example: for auto testing getTitle() and setTitle($title) return array("title" => "title")
      *
@@ -65,7 +64,6 @@ abstract class AbstractGetterSetterTestCase extends TestCase
         return $this;
     }
 
-
     protected function inject()
     {
         if (!is_array($this->data)) {
@@ -74,12 +72,13 @@ abstract class AbstractGetterSetterTestCase extends TestCase
 
         foreach ($this->data as $key => $value) {
             $method = 'set' . ucfirst($key);
-            $this->assertSame($this->getObject(), $this->getObject()
-                ->$method($value));
+            $this->assertSame(
+                $this->getObject(),
+                $this->getObject()->$method($value)
+            );
         }
         return $this;
     }
-
 
     public function testSetter()
     {

@@ -60,9 +60,11 @@ class Subscribe extends AbstractHelper
      * @param UserManagerInterface         $userManager
      * @param SubscriptionManagerInterface $subscriptionManager
      */
-    public function __construct(UserManagerInterface $userManager, SubscriptionManagerInterface $subscriptionManager)
-    {
-        $this->userManager         = $userManager;
+    public function __construct(
+        UserManagerInterface $userManager,
+        SubscriptionManagerInterface $subscriptionManager
+    ) {
+        $this->userManager = $userManager;
         $this->subscriptionManager = $subscriptionManager;
     }
 
@@ -72,8 +74,8 @@ class Subscribe extends AbstractHelper
      */
     public function __invoke(UuidInterface $object)
     {
-        $user               = $this->userManager->getUserFromAuthenticator();
-        $this->object       = $object;
+        $user = $this->userManager->getUserFromAuthenticator();
+        $this->object = $object;
         $this->emailsActive = false;
         $this->isSubscribed = false;
 
@@ -81,13 +83,19 @@ class Subscribe extends AbstractHelper
             return $this;
         }
 
-        $this->isSubscribed = $this->subscriptionManager->isUserSubscribed($user, $object);
+        $this->isSubscribed = $this->subscriptionManager->isUserSubscribed(
+            $user,
+            $object
+        );
 
         if (!$this->isSubscribed) {
             return $this;
         }
 
-        $subscription       = $this->subscriptionManager->findSubscription($user, $object);
+        $subscription = $this->subscriptionManager->findSubscription(
+            $user,
+            $object
+        );
         $this->emailsActive = $subscription->getNotifyMailman();
 
         return $this;
@@ -99,12 +107,12 @@ class Subscribe extends AbstractHelper
     public function button()
     {
         /* @var Partial */
-        $partial  = $this->getView()->plugin('partial');
+        $partial = $this->getView()->plugin('partial');
         $template = $this->isSubscribed ? 'opt-out' : 'opt-in';
-        return $partial(
-            'notification/subscription/' . $template . '/button',
-            ['object' => $this->object->getId(), 'emailsActive' => $this->emailsActive]
-        );
+        return $partial('notification/subscription/' . $template . '/button', [
+            'object' => $this->object->getId(),
+            'emailsActive' => $this->emailsActive,
+        ]);
     }
 
     /**
@@ -113,11 +121,14 @@ class Subscribe extends AbstractHelper
     public function menuItem()
     {
         /* @var Partial */
-        $partial  = $this->getView()->plugin('partial');
+        $partial = $this->getView()->plugin('partial');
         $template = $this->isSubscribed ? 'opt-out' : 'opt-in';
         return $partial(
             'notification/subscription/' . $template . '/menu-item',
-            ['object' => $this->object->getId(), 'emailsActive' => $this->emailsActive]
+            [
+                'object' => $this->object->getId(),
+                'emailsActive' => $this->emailsActive,
+            ]
         );
     }
 
@@ -127,11 +138,14 @@ class Subscribe extends AbstractHelper
     public function subMenuItem()
     {
         /* @var Partial */
-        $partial  = $this->getView()->plugin('partial');
+        $partial = $this->getView()->plugin('partial');
         $template = $this->isSubscribed ? 'opt-out' : 'opt-in';
         return $partial(
             'notification/subscription/' . $template . '/sub-menu-item',
-            ['object' => $this->object->getId(), 'emailsActive' => $this->emailsActive]
+            [
+                'object' => $this->object->getId(),
+                'emailsActive' => $this->emailsActive,
+            ]
         );
     }
 }

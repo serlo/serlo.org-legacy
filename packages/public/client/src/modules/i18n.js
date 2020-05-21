@@ -40,7 +40,7 @@ i18n.de = {
   "You're almost done!": 'Du hast es fast geschafft!',
   'Show overview': 'Übersicht anzeigen',
   'Show %d contents for "%s"': '',
-  Abort: 'Abbrechen'
+  Abort: 'Abbrechen',
 }
 
 i18n.en = {
@@ -60,7 +60,7 @@ i18n.en = {
   "You're almost done!": '',
   'Show overview': '',
   'Show %d contents for "%s"': '',
-  Abort: ''
+  Abort: '',
 }
 
 export default i18n

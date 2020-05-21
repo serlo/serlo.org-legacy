@@ -38,7 +38,7 @@ class MetadataHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator  = $serviceLocator->getServiceLocator();
+        $serviceLocator = $serviceLocator->getServiceLocator();
         $metadataManager = $this->getMetadataManager($serviceLocator);
         return new MetadataHelper($metadataManager);
     }

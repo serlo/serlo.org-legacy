@@ -23,7 +23,7 @@ import {
   useScopedDispatch,
   useScopedSelector,
   useScopedStore,
-  PluginToolbarButton
+  PluginToolbarButton,
 } from '@edtr-io/core'
 import {
   StateType,
@@ -37,14 +37,14 @@ import {
   child,
   number,
   object,
-  string
+  string,
 } from '@edtr-io/plugin'
 import {
   getDocument,
   getPendingChanges,
   redo,
   serializeRootDocument,
-  undo
+  undo,
 } from '@edtr-io/store'
 import { Icon, faTrashAlt, styled } from '@edtr-io/ui'
 import { useI18n } from '@serlo/i18n'
@@ -67,22 +67,22 @@ export const licenseState = object({
   title: string(),
   url: string(),
   agreement: string(),
-  iconHref: string()
+  iconHref: string(),
 })
 
 export const uuid = {
-  id: number()
+  id: number(),
 }
 
 export const license = {
-  license: licenseState
+  license: licenseState,
 }
 
 export const entity = {
   ...uuid,
   ...license,
   revision: number(),
-  changes: string()
+  changes: string(),
 }
 
 export type Uuid = StateTypesSerializedType<typeof uuid>
@@ -97,8 +97,8 @@ export const HeaderInput = styled.input({
   borderBottom: '2px solid transparent',
   '&:focus': {
     outline: 'none',
-    borderColor: '#007ec1'
-  }
+    borderColor: '#007ec1',
+  },
 })
 
 export function Controls(props: OwnProps) {
@@ -120,7 +120,7 @@ export function Controls(props: OwnProps) {
   const [emailSubscription, setEmailSubscription] = React.useState(true)
   const [
     notificationSubscription,
-    setNotificationSubscription
+    setNotificationSubscription,
   ] = React.useState(true)
   const [autoCheckout, setAutoCheckout] = React.useState(false)
 
@@ -211,7 +211,7 @@ export function Controls(props: OwnProps) {
             setVisibility(true)
           },
           disabled: !hasPendingChanges,
-          children: <span className="fa fa-save" />
+          children: <span className="fa fa-save" />,
         }
       : {
           onClick() {
@@ -222,7 +222,7 @@ export function Controls(props: OwnProps) {
             <span className="fa fa-spinner fa-spin" />
           ) : (
             <span className="fa fa-save" />
-          )
+          ),
         }
 
     return <button className="btn btn-success" {...buttonProps} />
@@ -266,16 +266,16 @@ export function Controls(props: OwnProps) {
           ? {
               subscription: {
                 subscribe: notificationSubscription ? 1 : 0,
-                mailman: emailSubscription ? 1 : 0
-              }
+                mailman: emailSubscription ? 1 : 0,
+              },
             }
           : {}),
         ...(mayCheckout
           ? {
-              checkout: autoCheckout
+              checkout: autoCheckout,
             }
-          : {})
-      }
+          : {}),
+      },
     })
       .then(() => {
         storeState(undefined)
@@ -331,7 +331,7 @@ export function Controls(props: OwnProps) {
         <BSFormControl
           componentClass="textarea"
           value={changes.value}
-          onChange={e => {
+          onChange={(e) => {
             const { value } = e.target as HTMLTextAreaElement
             changes.set(value)
           }}
@@ -345,7 +345,7 @@ export function Controls(props: OwnProps) {
     return (
       <BSCheckbox
         checked={autoCheckout}
-        onChange={e => {
+        onChange={(e) => {
           const { checked } = e.target as HTMLInputElement
           setAutoCheckout(checked)
         }}
@@ -361,7 +361,7 @@ export function Controls(props: OwnProps) {
     return (
       <BSCheckbox
         checked={agreement}
-        onChange={e => {
+        onChange={(e) => {
           const { checked } = e.target as HTMLInputElement
           setAgreement(checked)
         }}
@@ -378,7 +378,7 @@ export function Controls(props: OwnProps) {
       <React.Fragment>
         <BSCheckbox
           checked={notificationSubscription}
-          onChange={e => {
+          onChange={(e) => {
             const { checked } = e.target as HTMLInputElement
             setNotificationSubscription(checked)
           }}
@@ -387,7 +387,7 @@ export function Controls(props: OwnProps) {
         </BSCheckbox>
         <BSCheckbox
           checked={emailSubscription}
-          onChange={e => {
+          onChange={(e) => {
             const { checked } = e.target as HTMLInputElement
             setEmailSubscription(checked)
           }}
@@ -435,9 +435,9 @@ export function entityType<
               }
             }, previousState) as StateTypesValueType<Ds & Childs>
           })
-        }
+        },
       }
-    }
+    },
   }
 }
 
@@ -452,7 +452,7 @@ export function serialized<S extends StateType>(type: S) {
       helpers: Parameters<typeof type.deserialize>[1]
     ) {
       return type.deserialize(JSON.parse(serialized), helpers)
-    }
+    },
   }
 }
 
@@ -474,7 +474,7 @@ export function editorContent(
       helpers: Parameters<typeof originalChild.deserialize>[1]
     ) {
       return originalChild.deserialize(JSON.parse(serialized), helpers)
-    }
+    },
   }
 }
 
@@ -498,11 +498,11 @@ export function serializedChild(
       return originalChild.deserialize(
         {
           plugin,
-          state: serialized
+          state: serialized,
         },
         helpers
       )
-    }
+    },
   }
 }
 
@@ -524,7 +524,7 @@ export function optionalSerializedChild(
       onChange: (updater: StateUpdater<string | null>) => void
     ) {
       return {
-        ...child.init(state, updater => {
+        ...child.init(state, (updater) => {
           onChange((oldId, helpers) => {
             return updater(oldId || '', helpers)
           })
@@ -539,7 +539,7 @@ export function optionalSerializedChild(
         },
         remove() {
           onChange(() => null)
-        }
+        },
       }
     },
     serialize(
@@ -561,7 +561,7 @@ export function optionalSerializedChild(
     },
     getFocusableChildren(child) {
       return child ? [{ id: child }] : []
-    }
+    },
   }
 }
 
@@ -590,7 +590,7 @@ export function OptionalChild(props: {
           {children}
         </React.Fragment>
       )
-    }
+    },
   })
   return (
     <React.Fragment>

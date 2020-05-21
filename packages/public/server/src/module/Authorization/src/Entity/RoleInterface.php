@@ -82,7 +82,9 @@ interface RoleInterface extends HierarchicalRoleInterface
      * @param ParametrizedPermissionInterface $permission
      * @return mixed
      */
-    public function removePermission(ParametrizedPermissionInterface $permission);
+    public function removePermission(
+        ParametrizedPermissionInterface $permission
+    );
 
     /**
      * @param UserInterface $user

@@ -40,7 +40,11 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         /* @var $sessionManager SessionManager */
         $serviceLocator = $e->getApplication()->getServiceManager();
         $sessionManager = $serviceLocator->get('Zend\Session\SessionManager');
-        $sessionManager->setSaveHandler($serviceLocator->get('Zend\Session\SaveHandler\SaveHandlerInterface'));
+        $sessionManager->setSaveHandler(
+            $serviceLocator->get(
+                'Zend\Session\SaveHandler\SaveHandlerInterface'
+            )
+        );
         AbstractContainer::setDefaultManager($sessionManager);
     }
 }

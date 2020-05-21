@@ -27,7 +27,7 @@ use Token\Provider\ProviderInterface;
 
 class Tokenizer implements TokenizerInterface
 {
-    use\Zend\ServiceManager\ServiceLocatorAwareTrait;
+    use \Zend\ServiceManager\ServiceLocatorAwareTrait;
 
     /**
      * @var Provider\ProviderInterface
@@ -54,7 +54,7 @@ class Tokenizer implements TokenizerInterface
 
     public function transliterate($provider, $object, $tokenString)
     {
-        if (! is_object($provider)) {
+        if (!is_object($provider)) {
             $provider = $this->getServiceLocator()->get($provider);
         }
 
@@ -84,8 +84,14 @@ class Tokenizer implements TokenizerInterface
     protected function transliterateToken($token)
     {
         $data = $this->getProvider()->getData();
-        if (! array_key_exists($token, $data)) {
-            throw new \Token\Exception\RuntimeException(sprintf('Token `%s` not provided by `%s`', $token, get_class($this->getProvider())));
+        if (!array_key_exists($token, $data)) {
+            throw new \Token\Exception\RuntimeException(
+                sprintf(
+                    'Token `%s` not provided by `%s`',
+                    $token,
+                    get_class($this->getProvider())
+                )
+            );
         }
         return $data[$token];
     }

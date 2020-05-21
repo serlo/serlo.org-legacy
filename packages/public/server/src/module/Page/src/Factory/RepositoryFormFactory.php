@@ -31,7 +31,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RepositoryFormFactory implements FactoryInterface
 {
-    use EntityManagerFactoryTrait, ClassResolverFactoryTrait, TaxonomyManagerFactoryTrait;
+    use EntityManagerFactoryTrait,
+        ClassResolverFactoryTrait,
+        TaxonomyManagerFactoryTrait;
 
     /**
      * Create service
@@ -41,8 +43,10 @@ class RepositoryFormFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $entityManager   = $this->getEntityManager($serviceLocator);
-        $page            = $this->getClassResolver($serviceLocator)->resolve('Page\Entity\PageRepositoryInterface');
+        $entityManager = $this->getEntityManager($serviceLocator);
+        $page = $this->getClassResolver($serviceLocator)->resolve(
+            'Page\Entity\PageRepositoryInterface'
+        );
         $taxonomyManager = $this->getTaxonomyManager($serviceLocator);
         return new RepositoryForm($entityManager, $page, $taxonomyManager);
     }

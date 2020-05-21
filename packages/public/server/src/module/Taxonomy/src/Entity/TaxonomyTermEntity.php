@@ -31,7 +31,6 @@ use Entity\Entity\EntityInterface;
  */
 class TaxonomyTermEntity implements TaxonomyTermNodeInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -64,8 +63,10 @@ class TaxonomyTermEntity implements TaxonomyTermNodeInterface
      */
     protected $position;
 
-    public function __construct(TaxonomyTermInterface $termTaxonomy, EntityInterface $entity)
-    {
+    public function __construct(
+        TaxonomyTermInterface $termTaxonomy,
+        EntityInterface $entity
+    ) {
         $this->setTaxonomyTerm($termTaxonomy);
         $this->setObject($entity);
         $this->setPosition(0);

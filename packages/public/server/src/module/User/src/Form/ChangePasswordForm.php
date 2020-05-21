@@ -41,46 +41,47 @@ class ChangePasswordForm extends Form
         $inputFilter = new InputFilter();
         $this->setInputFilter($inputFilter);
 
-        $this->add((new Password('currentPassword'))->setLabel('Current password:'));
+        $this->add(
+            (new Password('currentPassword'))->setLabel('Current password:')
+        );
         $this->add((new Password('password'))->setLabel('New password:'));
-        $this->add((new Password('passwordConfirm'))->setLabel('Confirm password:'));
+        $this->add(
+            (new Password('passwordConfirm'))->setLabel('Confirm password:')
+        );
 
         $this->add(
-            (new Submit('submit'))->setValue('Update')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Update')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-
-        $inputFilter->add(
-            [
-                'name'       => 'passwordConfirm',
-                'required'   => true,
-                'validators' => [
-                    [
-                        'name'    => 'stringLength',
-                        'options' => [
-                            'min' => 6,
-                        ],
-                    ],
-                    [
-                        'name'    => 'identical',
-                        'options' => [
-                            'token' => 'password',
-                        ],
+        $inputFilter->add([
+            'name' => 'passwordConfirm',
+            'required' => true,
+            'validators' => [
+                [
+                    'name' => 'stringLength',
+                    'options' => [
+                        'min' => 6,
                     ],
                 ],
-            ]
-        );
-
-        $inputFilter->add(
-            [
-                'name'     => 'password',
-                'required' => true,
-                'filters'  => [
-                    [
-                        'name' => 'Authentication\HashFilter',
+                [
+                    'name' => 'identical',
+                    'options' => [
+                        'token' => 'password',
                     ],
                 ],
-            ]
-        );
+            ],
+        ]);
+
+        $inputFilter->add([
+            'name' => 'password',
+            'required' => true,
+            'filters' => [
+                [
+                    'name' => 'Authentication\HashFilter',
+                ],
+            ],
+        ]);
     }
 }

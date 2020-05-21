@@ -34,7 +34,7 @@ config = {
   // with debugging active,
   // the translator will log
   //  untranslated strings
-  debug: false
+  debug: false,
 }
 
 /**
@@ -63,7 +63,7 @@ function mayTranslate(string) {
  * @return {String} The string, with placeholders replaced by replacement partials
  **/
 function replace(string, replacements) {
-  _.each(replacements, function(partial) {
+  _.each(replacements, function (partial) {
     switch (typeof partial) {
       case 'string':
         string = string.replace(/%s/, partial)
@@ -86,7 +86,7 @@ function replace(string, replacements) {
  * @param {String} String replacements
  * @return {String} The translated string or the original
  **/
-t = Common.memoize(function() {
+t = Common.memoize(function () {
   var args = Array.prototype.slice.call(arguments)
   var string = args.shift()
 
@@ -99,11 +99,11 @@ t = Common.memoize(function() {
  *
  * sets configurations
  **/
-t.config = function(configuration) {
+t.config = function (configuration) {
   _.extend(config, configuration)
 }
 
-t.getLanguage = function() {
+t.getLanguage = function () {
   return config.language
 }
 

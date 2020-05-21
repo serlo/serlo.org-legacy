@@ -39,10 +39,13 @@ class TaxonomyTermHydratorPluginFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator  = $serviceLocator->getServiceLocator();
-        $objectManager   = $this->getEntityManager($serviceLocator);
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $objectManager = $this->getEntityManager($serviceLocator);
         $taxonomyManager = $this->getTaxonomyManager($serviceLocator);
-        $plugin          = new TaxonomyTermHydratorPlugin($objectManager, $taxonomyManager);
+        $plugin = new TaxonomyTermHydratorPlugin(
+            $objectManager,
+            $taxonomyManager
+        );
         return $plugin;
     }
 }

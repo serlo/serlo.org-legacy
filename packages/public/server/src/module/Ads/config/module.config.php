@@ -23,67 +23,70 @@
 namespace Ads;
 
 return [
-    'router'          => [
+    'router' => [
         'routes' => [
             'ads' => [
-                'type'    => 'literal',
+                'type' => 'literal',
                 'may_terminate' => true,
-                'options'       => [
-                    'route'    => '/horizon',
+                'options' => [
+                    'route' => '/horizon',
                     'defaults' => [
                         'controller' => 'Ads\Controller\AdsController',
-                        'action'     => 'index',
+                        'action' => 'index',
                     ],
                 ],
-                'child_routes'  => [
-                    'add'   => [
-                        'type'    => 'literal',
+                'child_routes' => [
+                    'add' => [
+                        'type' => 'literal',
                         'options' => [
-                            'route'    => '/add',
+                            'route' => '/add',
                             'defaults' => [
                                 'controller' => 'Ads\Controller\AdsController',
-                                'action'     => 'add',
+                                'action' => 'add',
                             ],
                         ],
                     ],
-                    'ad'    => [
-                        'type'         => 'segment',
-                        'options'      => [
-                            'route'    => '/:id',
+                    'ad' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/:id',
                             'defaults' => [
                                 'controller' => 'Ads\Controller\AdsController',
-                                'action'     => 'add',
+                                'action' => 'add',
                             ],
                         ],
                         'child_routes' => [
                             'delete' => [
-                                'type'    => 'literal',
+                                'type' => 'literal',
                                 'options' => [
-                                    'route'    => '/delete',
+                                    'route' => '/delete',
                                     'defaults' => [
-                                        'controller' => 'Ads\Controller\AdsController',
-                                        'action'     => 'delete',
+                                        'controller' =>
+                                            'Ads\Controller\AdsController',
+                                        'action' => 'delete',
                                     ],
                                 ],
                             ],
-                            'out'    => [
-                                'type'    => 'literal',
+                            'out' => [
+                                'type' => 'literal',
                                 'may_terminate' => true,
-                                'options'       => [
-                                    'route'    => '/out',
+                                'options' => [
+                                    'route' => '/out',
                                     'defaults' => [
-                                        'controller' => 'Ads\Controller\AdsController',
-                                        'action'     => 'out',
+                                        'controller' =>
+                                            'Ads\Controller\AdsController',
+                                        'action' => 'out',
                                     ],
                                 ],
                             ],
-                            'edit'   => [
-                                'type'    => 'literal',
+                            'edit' => [
+                                'type' => 'literal',
                                 'options' => [
-                                    'route'    => '/edit',
+                                    'route' => '/edit',
                                     'defaults' => [
-                                        'controller' => 'Ads\Controller\AdsController',
-                                        'action'     => 'edit',
+                                        'controller' =>
+                                            'Ads\Controller\AdsController',
+                                        'action' => 'edit',
                                     ],
                                 ],
                             ],
@@ -93,46 +96,45 @@ return [
             ],
         ],
     ],
-    'zfc_rbac'        => [
+    'zfc_rbac' => [
         'assertion_map' => [
             'ad.create' => 'Authorization\Assertion\RequestInstanceAssertion',
             'ad.update' => 'Authorization\Assertion\InstanceAssertion',
-            'ad.get'    => 'Authorization\Assertion\InstanceAssertion',
+            'ad.get' => 'Authorization\Assertion\InstanceAssertion',
             'ad.remove' => 'Authorization\Assertion\InstanceAssertion',
         ],
     ],
-    'view_helpers'    => [
+    'view_helpers' => [
         'factories' => [
             'horizon' => __NAMESPACE__ . '\Factory\HorizonHelperFactory',
-            'banner'  => __NAMESPACE__ . '\Factory\BannerHelperFactory',
+            'banner' => __NAMESPACE__ . '\Factory\BannerHelperFactory',
         ],
     ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Manager\AdsManager' => __NAMESPACE__ . '\Factory\AdsManagerFactory',
+            __NAMESPACE__ . '\Manager\AdsManager' =>
+                __NAMESPACE__ . '\Factory\AdsManagerFactory',
         ],
     ],
-    'class_resolver'  => [
-        'Ads\Entity\AdInterface'     => 'Ads\Entity\Ad',
+    'class_resolver' => [
+        'Ads\Entity\AdInterface' => 'Ads\Entity\Ad',
         'Ads\Entity\AdPageInterface' => 'Ads\Entity\AdPage',
     ],
-    'di'              => [
-        'allowed_controllers' => [
-            __NAMESPACE__ . '\Controller\AdsController',
-        ],
-        'definition'          => [
+    'di' => [
+        'allowed_controllers' => [__NAMESPACE__ . '\Controller\AdsController'],
+        'definition' => [
             'class' => [
                 'Ads\Controller\AdsController' => [
-                    'setObjectManager'     => [
+                    'setObjectManager' => [
                         'required' => 'true',
                     ],
-                    'setInstanceManager'   => [
+                    'setInstanceManager' => [
                         'required' => 'true',
                     ],
-                    'setUserManager'       => [
+                    'setUserManager' => [
                         'required' => 'true',
                     ],
-                    'setAdsManager'        => [
+                    'setAdsManager' => [
                         'required' => true,
                     ],
                     'setAttachmentManager' => [
@@ -144,22 +146,21 @@ return [
                 ],
             ],
         ],
-        'instance'            => [
+        'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\Manager\AdsManagerInterface' => __NAMESPACE__ . '\Manager\AdsManager',
+                __NAMESPACE__ . '\Manager\AdsManagerInterface' =>
+                    __NAMESPACE__ . '\Manager\AdsManager',
             ],
         ],
     ],
-    'doctrine'        => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],

@@ -41,10 +41,15 @@ class LostPassword extends Form
         $this->setInputFilter($inputFilter);
 
         $this->add((new Password('password'))->setLabel('New password:'));
-        $this->add((new Password('passwordConfirm'))->setLabel('Repeat new password:'));
+        $this->add(
+            (new Password('passwordConfirm'))->setLabel('Repeat new password:')
+        );
 
-        $this->add((new Submit('submit'))->setValue('Update')
-            ->setAttribute('class', 'btn btn-success pull-right'));
+        $this->add(
+            (new Submit('submit'))
+                ->setValue('Update')
+                ->setAttribute('class', 'btn btn-success pull-right')
+        );
 
         $inputFilter->add([
             'name' => 'passwordConfirm',

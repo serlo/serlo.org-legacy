@@ -24,7 +24,6 @@ namespace Instance\Entity;
 
 interface InstanceInterface
 {
-
     /**
      * @return string
      */

@@ -37,42 +37,36 @@ class MoveForm extends Form
         $filter = new InputFilter();
         $this->setInputFilter($filter);
 
-        $this->add(
-            [
-                'name'       => 'to',
-                'attributes' => [
-                    'type'        => 'text',
-                    'tabindex'    => 1,
-                    'placeholder' => 'ID (e.g.: 123)',
-                ],
-                'options'    => [
-                    'label' => 'Move to: ',
-                ],
-            ]
-        );
+        $this->add([
+            'name' => 'to',
+            'attributes' => [
+                'type' => 'text',
+                'tabindex' => 1,
+                'placeholder' => 'ID (e.g.: 123)',
+            ],
+            'options' => [
+                'label' => 'Move to: ',
+            ],
+        ]);
 
-        $this->add(
-            [
-                'name'       => 'submit',
-                'attributes' => [
-                    'type'     => 'submit',
-                    'value'    => 'Move',
-                    'tabindex' => 2,
-                    'class'    => 'btn btn-success pull-right',
-                ],
-            ]
-        );
+        $this->add([
+            'name' => 'submit',
+            'attributes' => [
+                'type' => 'submit',
+                'value' => 'Move',
+                'tabindex' => 2,
+                'class' => 'btn btn-success pull-right',
+            ],
+        ]);
 
-        $filter->add(
-            [
-                'name'       => 'to',
-                'required'   => true,
-                'validators' => [
-                    [
-                        'name' => 'int',
-                    ],
+        $filter->add([
+            'name' => 'to',
+            'required' => true,
+            'validators' => [
+                [
+                    'name' => 'int',
                 ],
-            ]
-        );
+            ],
+        ]);
     }
 }

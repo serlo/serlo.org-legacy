@@ -32,7 +32,7 @@ export {
   Legacy,
   Splish,
   isSplish,
-  isEdtr
+  isEdtr,
 } from './types'
 
 export function convertRow(row: Row): (LayoutPlugin | OtherPlugin)[] {
@@ -49,11 +49,11 @@ export function convertRow(row: Row): (LayoutPlugin | OtherPlugin)[] {
             width: cell.size || 12,
             child: {
               plugin: 'rows',
-              state: convertCell(cell)
-            }
+              state: convertCell(cell),
+            },
           }
-        })
-      }
+        }),
+      },
     ]
   }
 

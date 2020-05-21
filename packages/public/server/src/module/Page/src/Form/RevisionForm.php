@@ -54,7 +54,9 @@ class RevisionForm extends Form
         $this->add(new AgreementFieldset($license));
 
         $submit = new Submit('submit');
-        $submit->setValue('Save')->setAttribute('class', 'btn btn-success pull-right');
+        $submit
+            ->setValue('Save')
+            ->setAttribute('class', 'btn btn-success pull-right');
         $this->add($submit);
 
         $filter->add(['name' => 'content', 'required' => true]);

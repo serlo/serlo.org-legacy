@@ -32,16 +32,12 @@ return [
             ],
         ],
     ],
-    'taxonomy'      => [
+    'taxonomy' => [
         'types' => [
             'blog' => [
-                'allowed_associations' => [
-                    'Blog\Entity\PostInterface',
-                ],
-                'allowed_parents'      => [
-                    'root',
-                ],
-                'rootable'             => false,
+                'allowed_associations' => ['Blog\Entity\PostInterface'],
+                'allowed_parents' => ['root'],
+                'rootable' => false,
             ],
         ],
     ],

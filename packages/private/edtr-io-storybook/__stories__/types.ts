@@ -31,7 +31,7 @@ addContentTypeStories('Applet', 'applet', {
   content: '',
   reasoning: '',
   meta_title: '',
-  meta_description: ''
+  meta_description: '',
 })
 
 addContentTypeStories('Article', 'article', {
@@ -42,7 +42,7 @@ addContentTypeStories('Article', 'article', {
   content: '',
   reasoning: '',
   meta_title: '',
-  meta_description: ''
+  meta_description: '',
 })
 
 addContentTypeStories('Course', 'course', {
@@ -59,7 +59,7 @@ addContentTypeStories('Course', 'course', {
       changes: '',
       title: 'Page 1',
       icon: 'explanation',
-      content: ''
+      content: '',
     },
     {
       id: 1339,
@@ -67,9 +67,9 @@ addContentTypeStories('Course', 'course', {
       changes: '',
       title: 'Page 2',
       icon: 'explanation',
-      content: ''
-    }
-  ]
+      content: '',
+    },
+  ],
 })
 
 addContentTypeStories('Course Page', 'course-page', {
@@ -78,7 +78,7 @@ addContentTypeStories('Course Page', 'course-page', {
   changes: '',
   title: 'Title',
   icon: 'explanation',
-  content: ''
+  content: '',
 })
 
 addContentTypeStories('Event', 'event', {
@@ -88,7 +88,7 @@ addContentTypeStories('Event', 'event', {
   title: 'Title',
   content: '',
   meta_title: '',
-  meta_description: ''
+  meta_description: '',
 })
 
 addContentTypeStories('Math Puzzle', 'math-puzzle', {
@@ -96,14 +96,14 @@ addContentTypeStories('Math Puzzle', 'math-puzzle', {
   license,
   changes: '',
   content: '',
-  source: ''
+  source: '',
 })
 
 addContentTypeStories('Page', 'page', {
   id: 1337,
   license,
   title: 'Title',
-  content: ''
+  content: '',
 })
 
 addContentTypeStories('Text Exercise', 'text-exercise', [
@@ -113,8 +113,8 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
       id: 1337,
       license,
       changes: '',
-      content: '{"plugin":"exercise"}'
-    }
+      content: '{"plugin":"exercise"}',
+    },
   },
   {
     name: 'w/ solution',
@@ -126,10 +126,10 @@ addContentTypeStories('Text Exercise', 'text-exercise', [
       'text-solution': {
         id: 1338,
         license,
-        content: '{"plugin":"solution"}'
-      }
-    }
-  }
+        content: '{"plugin":"solution"}',
+      },
+    },
+  },
 ])
 
 addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
@@ -142,7 +142,7 @@ addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
       id: 1338,
       license,
       changes: '',
-      content: '{"plugin":"exercise"}'
+      content: '{"plugin":"exercise"}',
     },
     {
       id: 1339,
@@ -153,8 +153,8 @@ addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
         id: 1340,
         license,
         changes: '',
-        content: '{"plugin":"solution"}'
-      }
+        content: '{"plugin":"solution"}',
+      },
     },
     {
       id: 1341,
@@ -165,15 +165,15 @@ addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
         id: 1343,
         license,
         changes: '',
-        content: '{"plugin":"solution"}'
-      }
-    }
-  ]
+        content: '{"plugin":"solution"}',
+      },
+    },
+  ],
 })
 
 addContentTypeStories('User', 'user', {
   id: 1337,
-  description: ''
+  description: '',
 })
 
 addContentTypeStories('Video', 'video', {
@@ -181,16 +181,16 @@ addContentTypeStories('Video', 'video', {
   license,
   title: 'Title',
   description: '',
-  content: 'https://www.youtube.com/watch?v=cIzM2XBduuY'
+  content: 'https://www.youtube.com/watch?v=cIzM2XBduuY',
 })
 
 addContentTypeStories('Taxonomy', 'taxonomy', {
   id: 1337,
   term: {
-    name: 'Term name'
+    name: 'Term name',
   },
   taxonomy: 1,
   parent: 2,
   position: 3,
-  description: ''
+  description: '',
 })

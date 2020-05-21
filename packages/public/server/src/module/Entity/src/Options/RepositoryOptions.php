@@ -24,9 +24,9 @@ namespace Entity\Options;
 
 use Zend\Stdlib\AbstractOptions;
 
-class RepositoryOptions extends AbstractOptions implements ComponentOptionsInterface
+class RepositoryOptions extends AbstractOptions implements
+    ComponentOptionsInterface
 {
-
     /**
      * @var string
      */

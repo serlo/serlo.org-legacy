@@ -35,7 +35,10 @@ class RepositoryManagerListener extends AbstractListener
         $user = $e->getParam('author');
 
         foreach ($data as $params) {
-            if (is_array($params) && array_key_exists('subscription', $params)) {
+            if (
+                is_array($params) &&
+                array_key_exists('subscription', $params)
+            ) {
                 $param = $params['subscription'];
                 if ($this->isTruthy($param['subscribe'])) {
                     $notifyMailman = $this->isTruthy($param['mailman']);
@@ -50,10 +53,7 @@ class RepositoryManagerListener extends AbstractListener
         $events->attach(
             $this->getMonitoredClass(),
             'commit',
-            [
-                $this,
-                'onCommitRevision',
-            ],
+            [$this, 'onCommitRevision'],
             2
         );
     }

@@ -27,7 +27,6 @@ use Mailman\Model\MailInterface;
 
 interface MailRendererInterface
 {
-
     /**
      * @param array $data
      * @return MailInterface

@@ -27,7 +27,6 @@ namespace Common\Guard;
  */
 trait IntGuardTrait
 {
-
     /**
      * Verify that the data is an int
      *
@@ -43,7 +42,7 @@ trait IntGuardTrait
     ) {
         if (!is_int($data)) {
             $message = sprintf(
-                "%s must be an integer, [%s] given",
+                '%s must be an integer, [%s] given',
                 $dataName,
                 is_object($data) ? get_class($data) : gettype($data)
             );

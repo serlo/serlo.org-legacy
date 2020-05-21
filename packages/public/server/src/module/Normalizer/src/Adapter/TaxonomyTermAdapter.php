@@ -28,7 +28,6 @@ use Taxonomy\Entity\TaxonomyTermInterface;
 
 class TaxonomyTermAdapter extends AbstractAdapter
 {
-
     /**
      * @return TaxonomyTermInterface
      */
@@ -59,11 +58,11 @@ class TaxonomyTermAdapter extends AbstractAdapter
 
     protected function getKeywords()
     {
-        $term     = $this->getObject();
+        $term = $this->getObject();
         $keywords = [];
         while ($term->hasParent()) {
             $keywords[] = $term->getName();
-            $term       = $term->getParent();
+            $term = $term->getParent();
         }
         return $keywords;
     }
@@ -94,7 +93,9 @@ class TaxonomyTermAdapter extends AbstractAdapter
                 return 'taxonomy/term/get';
         }
 
-        throw new RuntimeException(sprintf('No strategy found for %s', $object->getType()->getName()));
+        throw new RuntimeException(
+            sprintf('No strategy found for %s', $object->getType()->getName())
+        );
     }
 
     protected function getRouteParams()
@@ -118,7 +119,9 @@ class TaxonomyTermAdapter extends AbstractAdapter
                 return ['term' => $object->getId()];
         }
 
-        throw new RuntimeException(sprintf('No strategy found for %s', $object->getType()->getName()));
+        throw new RuntimeException(
+            sprintf('No strategy found for %s', $object->getType()->getName())
+        );
     }
 
     protected function getTitle()
@@ -137,8 +140,8 @@ class TaxonomyTermAdapter extends AbstractAdapter
 
         //add "(Lehrplan)" etc
         if ($type !== 'topic-folder') {
-            if (strlen($title) < ($maxStringLen-strlen($typeName))) {
-                $title .=  ' (' . $typeName . ')';
+            if (strlen($title) < $maxStringLen - strlen($typeName)) {
+                $title .= ' (' . $typeName . ')';
             }
         }
 
@@ -147,7 +150,9 @@ class TaxonomyTermAdapter extends AbstractAdapter
 
     protected function getType()
     {
-        return $this->getObject()->getTaxonomy()->getName();
+        return $this->getObject()
+            ->getTaxonomy()
+            ->getName();
     }
     protected function isTrashed()
     {

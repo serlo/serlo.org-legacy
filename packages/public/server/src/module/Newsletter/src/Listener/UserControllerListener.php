@@ -27,7 +27,7 @@ use Newsletter\MailChimpAwareTrait;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Http\PhpEnvironment\RemoteAddress;
-use \DrewM\MailChimp\MailChimp;
+use DrewM\MailChimp\MailChimp;
 
 class UserControllerListener extends AbstractSharedListenerAggregate
 {
@@ -43,7 +43,10 @@ class UserControllerListener extends AbstractSharedListenerAggregate
 
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach($this->getMonitoredClass(), 'register', [$this, 'onRegister']);
+        $events->attach($this->getMonitoredClass(), 'register', [
+            $this,
+            'onRegister',
+        ]);
     }
 
     /**
@@ -59,42 +62,42 @@ class UserControllerListener extends AbstractSharedListenerAggregate
         }
 
         /* @var $user \User\Entity\UserInterface */
-        $user            = $e->getParam('user');
-        $data            = $e->getParam('data');
-        $email           = $user->getEmail();
-        $username        = $user->getUsername();
-        $timestamp       = date('c');
-        $ip              = (new RemoteAddress())->getIpAddress();
+        $user = $e->getParam('user');
+        $data = $e->getParam('data');
+        $email = $user->getEmail();
+        $username = $user->getUsername();
+        $timestamp = date('c');
+        $ip = (new RemoteAddress())->getIpAddress();
         $newsletterOptIn = $data['newsletterOptIn'];
-        $firstName       = $data['firstName'];
-        $lastName        = $data['lastName'];
-        $interests       = $data['interests'];
+        $firstName = $data['firstName'];
+        $lastName = $data['lastName'];
+        $interests = $data['interests'];
 
         if (!$newsletterOptIn) {
             return;
         }
 
-        $request = array(
-            'email_address'    => $email,
-            'status'           => 'subscribed',
-            'merge_fields'     => array(
-                'FNAME'   => $firstName,
-                'LNAME'   => $lastName,
-                'UNAME'   => $username,
+        $request = [
+            'email_address' => $email,
+            'status' => 'subscribed',
+            'merge_fields' => [
+                'FNAME' => $firstName,
+                'LNAME' => $lastName,
+                'UNAME' => $username,
                 'MMERGE6' => $timestamp,
-            ),
-            'ip_signup'        => $ip,
+            ],
+            'ip_signup' => $ip,
             'timestamp_signup' => $timestamp,
-            'ip_opt'           => $ip,
-            'timestamp_opt'    => $timestamp,
-        );
+            'ip_opt' => $ip,
+            'timestamp_opt' => $timestamp,
+        ];
 
         if ($interests) {
-            $request = array_merge($request, array(
-                'interests' => array(
+            $request = array_merge($request, [
+                'interests' => [
                     $this->getInterestsKey($interests) => true,
-                ),
-            ));
+                ],
+            ]);
         }
 
         $result = $this->mailChimp->post('lists/a7bb2bbc4f/members', $request);
@@ -103,11 +106,16 @@ class UserControllerListener extends AbstractSharedListenerAggregate
     private function getInterestsKey($interests)
     {
         switch ($interests) {
-            case 'parent': return 'dec9a97288';
-            case 'teacher': return '05a5ab768a';
-            case 'pupil': return 'bbffc7a064';
-            case 'student': return 'ebff3b63f6';
-            case 'other': return 'd251aad97e';
+            case 'parent':
+                return 'dec9a97288';
+            case 'teacher':
+                return '05a5ab768a';
+            case 'pupil':
+                return 'bbffc7a064';
+            case 'student':
+                return 'ebff3b63f6';
+            case 'other':
+                return 'd251aad97e';
         }
     }
 

@@ -29,7 +29,6 @@ use User\Entity\UserInterface;
 
 interface AdInterface extends InstanceAwareInterface
 {
-
     /**
      * Upcounts the click counter
      *

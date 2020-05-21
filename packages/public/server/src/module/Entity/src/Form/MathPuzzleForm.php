@@ -43,10 +43,10 @@ class MathPuzzleForm extends Form
 
         $this->add((new EditorState('content'))->setLabel('Content:'));
         $this->add(
-            (new Textarea('source'))->setAttribute('id', 'source')->setLabel('Source code:')->setAttribute(
-                'class',
-                'plain'
-            )
+            (new Textarea('source'))
+                ->setAttribute('id', 'source')
+                ->setLabel('Source code:')
+                ->setAttribute('class', 'plain')
         );
         $this->add(new Changes());
         $this->add(new AgreementFieldset($license));

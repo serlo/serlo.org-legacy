@@ -24,7 +24,6 @@ namespace Notification;
 
 trait NotificationManagerAwareTrait
 {
-
     /**
      * @var NotificationManagerInterface
      */
@@ -42,8 +41,9 @@ trait NotificationManagerAwareTrait
      * @param NotificationManagerInterface $notificationManager
      * @return self
      */
-    public function setNotificationManager(NotificationManagerInterface $notificationManager)
-    {
+    public function setNotificationManager(
+        NotificationManagerInterface $notificationManager
+    ) {
         $this->notificationManager = $notificationManager;
 
         return $this;

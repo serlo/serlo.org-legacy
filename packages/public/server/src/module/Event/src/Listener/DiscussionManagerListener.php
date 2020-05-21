@@ -53,7 +53,7 @@ class DiscussionManagerListener extends AbstractListener
     public function onArchive(Event $e)
     {
         $discussion = $e->getParam('discussion');
-        $instance   = $discussion->getInstance();
+        $instance = $discussion->getInstance();
         $this->logEvent('discussion/comment/archive', $instance, $discussion);
     }
 
@@ -65,16 +65,21 @@ class DiscussionManagerListener extends AbstractListener
      */
     public function onComment(Event $e)
     {
-        $instance   = $e->getParam('instance');
+        $instance = $e->getParam('instance');
         $discussion = $e->getParam('discussion');
-        $comment    = $e->getParam('comment');
-        $params     = [
+        $comment = $e->getParam('comment');
+        $params = [
             [
-                'name'  => 'discussion',
+                'name' => 'discussion',
                 'value' => $discussion,
             ],
         ];
-        $this->logEvent('discussion/comment/create', $instance, $comment, $params);
+        $this->logEvent(
+            'discussion/comment/create',
+            $instance,
+            $comment,
+            $params
+        );
     }
 
     /**
@@ -86,7 +91,7 @@ class DiscussionManagerListener extends AbstractListener
     public function onRestore(Event $e)
     {
         $discussion = $e->getParam('discussion');
-        $instance   = $discussion->getInstance();
+        $instance = $discussion->getInstance();
         $this->logEvent('discussion/restore', $instance, $discussion);
     }
 
@@ -98,11 +103,11 @@ class DiscussionManagerListener extends AbstractListener
      */
     public function onStart(Event $e)
     {
-        $instance   = $e->getParam('instance');
+        $instance = $e->getParam('instance');
         $discussion = $e->getParam('discussion');
-        $params     = [
+        $params = [
             [
-                'name'  => 'on',
+                'name' => 'on',
                 'value' => $e->getParam('on'),
             ],
         ];

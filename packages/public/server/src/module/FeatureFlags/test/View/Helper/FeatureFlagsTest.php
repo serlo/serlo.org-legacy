@@ -42,10 +42,13 @@ class FeatureFlagsTest extends TestCase
     public function setUp()
     {
         $this->logger = new MockSentry();
-        $this->service = new Service([
-            'foo' => true,
-            'bar' => false,
-        ], $this->logger);
+        $this->service = new Service(
+            [
+                'foo' => true,
+                'bar' => false,
+            ],
+            $this->logger
+        );
         $this->request = new Request();
         $this->helper = new FeatureFlags($this->service, $this->request);
     }
@@ -68,7 +71,9 @@ class FeatureFlagsTest extends TestCase
 
     public function testEnabledViaCookie()
     {
-        $this->request->getHeaders()->addHeaderLine('Cookie', 'feature-flag/bar=');
+        $this->request
+            ->getHeaders()
+            ->addHeaderLine('Cookie', 'feature-flag/bar=');
         $this->assertTrue($this->helper->isEnabled('bar'));
     }
 }

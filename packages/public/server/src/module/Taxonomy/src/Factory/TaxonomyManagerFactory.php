@@ -48,12 +48,19 @@ class TaxonomyManagerFactory implements FactoryInterface
     {
         /* @var $moduleOptions ModuleOptions */
         $authorizationService = $this->getAuthorizationService($serviceLocator);
-        $classResolver        = $this->getClassResolver($serviceLocator);
-        $objectManager        = $this->getEntityManager($serviceLocator);
-        $typeManager          = $this->getTypeManager($serviceLocator);
-        $instanceManager      = $this->getInstanceManager($serviceLocator);
-        $moduleOptions        = $serviceLocator->get('Taxonomy\Options\ModuleOptions');
-        $service              = new TaxonomyManager($authorizationService, $classResolver, $moduleOptions, $instanceManager, $objectManager, $typeManager);
+        $classResolver = $this->getClassResolver($serviceLocator);
+        $objectManager = $this->getEntityManager($serviceLocator);
+        $typeManager = $this->getTypeManager($serviceLocator);
+        $instanceManager = $this->getInstanceManager($serviceLocator);
+        $moduleOptions = $serviceLocator->get('Taxonomy\Options\ModuleOptions');
+        $service = new TaxonomyManager(
+            $authorizationService,
+            $classResolver,
+            $moduleOptions,
+            $instanceManager,
+            $objectManager,
+            $typeManager
+        );
         return $service;
     }
 }

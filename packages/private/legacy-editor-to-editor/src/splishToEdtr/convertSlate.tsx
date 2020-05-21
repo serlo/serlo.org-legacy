@@ -57,17 +57,17 @@ export function convertOldSlate(value: ValueJSON) {
       listSerializer,
       paragraphSerializer,
       richTextSerializer,
-      katexSerializer
+      katexSerializer,
     ],
     defaultBlock: { type: paragraphNode },
     parseHtml: (html: string) => {
       return parseFragment(html) as HTMLElement
-    }
+    },
   })
 
   return htmlToSlate(
     serializer.serialize(Value.fromJSON(value), {
-      render: true
+      render: true,
     })
   )
 }
@@ -85,7 +85,7 @@ export function htmlToSlate(html: string) {
           if (el.tagName && el.tagName.toLowerCase() === 'br') {
             return {
               object: 'text',
-              text: '\n'
+              text: '\n',
             }
           }
 
@@ -96,16 +96,16 @@ export function htmlToSlate(html: string) {
             return {
               object: 'text',
               // @ts-ignore
-              text: el.value
+              text: el.value,
             }
           }
-        }
-      }
+        },
+      },
     ],
     defaultBlock: { type: paragraphNode },
     parseHtml: (html: string) => {
       return parseFragment(html) as HTMLElement
-    }
+    },
   })
 
   return normalize(deserializer.deserialize(html, { toJSON: true }))
@@ -123,10 +123,10 @@ const headingDeserializer: Rule = {
       return {
         object: 'block',
         type: createHeadingNode(level),
-        nodes: next(el.childNodes)
+        nodes: next(el.childNodes),
       }
     }
-  }
+  },
 }
 
 const linkDeserializer: Rule = {
@@ -140,11 +140,11 @@ const linkDeserializer: Rule = {
         type: linkNode,
         nodes: next(el.childNodes),
         data: {
-          href: attr ? attr.value : ''
-        }
+          href: attr ? attr.value : '',
+        },
       }
     }
-  }
+  },
 }
 
 const listDeserializer: Rule = {
@@ -154,13 +154,13 @@ const listDeserializer: Rule = {
         return {
           object: 'block',
           type: orderedListNode,
-          nodes: next(el.childNodes)
+          nodes: next(el.childNodes),
         }
       case 'ul':
         return {
           object: 'block',
           type: unorderedListNode,
-          nodes: next(el.childNodes)
+          nodes: next(el.childNodes),
         }
       case 'li':
         return {
@@ -170,12 +170,12 @@ const listDeserializer: Rule = {
             {
               object: 'block',
               type: listItemChildNode,
-              nodes: next(el.childNodes)
-            }
-          ]
+              nodes: next(el.childNodes),
+            },
+          ],
         }
     }
-  }
+  },
 }
 
 const paragraphDeserializer: Rule = {
@@ -184,10 +184,10 @@ const paragraphDeserializer: Rule = {
       return {
         object: 'block',
         type: paragraphNode,
-        nodes: next(el.childNodes)
+        nodes: next(el.childNodes),
       }
     }
-  }
+  },
 }
 
 const richTextDeserializer: Rule = {
@@ -198,17 +198,17 @@ const richTextDeserializer: Rule = {
         return {
           object: 'mark',
           type: strongMark,
-          nodes: next(el.childNodes)
+          nodes: next(el.childNodes),
         }
       case 'em':
       case 'i':
         return {
           object: 'mark',
           type: emphasizeMark,
-          nodes: next(el.childNodes)
+          nodes: next(el.childNodes),
         }
     }
-  }
+  },
 }
 
 const katexDeserializer: Rule = {
@@ -221,9 +221,9 @@ const katexDeserializer: Rule = {
           data: {
             //@ts-ignore
             formula: el.childNodes[0].value,
-            inline: false
+            inline: false,
           },
-          nodes: next(el.childNodes)
+          nodes: next(el.childNodes),
         }
       case 'katexinline':
         return {
@@ -232,14 +232,14 @@ const katexDeserializer: Rule = {
           data: {
             //@ts-ignore
             formula: el.childNodes[0].value,
-            inline: true
+            inline: true,
           },
-          nodes: next(el.childNodes)
+          nodes: next(el.childNodes),
         }
       default:
         return
     }
-  }
+  },
 }
 
 const headingSerializer: Rule = {
@@ -255,13 +255,13 @@ const headingSerializer: Rule = {
         return React.createElement(
           `h${level}`,
           {
-            node: obj
+            node: obj,
           },
           children
         )
       }
     }
-  }
+  },
 }
 
 const linkSerializer: Rule = {
@@ -272,7 +272,7 @@ const linkSerializer: Rule = {
       const href = obj.data.get('href')
       return <a href={href}>{children}</a>
     }
-  }
+  },
 }
 
 const listSerializer: Rule = {
@@ -287,7 +287,7 @@ const listSerializer: Rule = {
       case '@splish-me/li':
         return <li>{children}</li>
     }
-  }
+  },
 }
 const paragraphSerializer: Rule = {
   serialize(obj, children) {
@@ -295,7 +295,7 @@ const paragraphSerializer: Rule = {
     if (block.type === 'paragraph' || block.type === '@splish-me/p') {
       return <p>{children}</p>
     }
-  }
+  },
 }
 
 const richTextSerializer: Rule = {
@@ -309,7 +309,7 @@ const richTextSerializer: Rule = {
           return <em>{children}</em>
       }
     }
-  }
+  },
 }
 
 const katexSerializer: Rule = {
@@ -326,5 +326,5 @@ const katexSerializer: Rule = {
       // @ts-ignore
       return <katexinline>{formula}</katexinline>
     }
-  }
+  },
 }

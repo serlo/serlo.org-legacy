@@ -31,7 +31,7 @@ use ZfcRbac\Guard\ControllerGuard;
  */
 class HydratableControllerGuard extends ControllerGuard
 {
-    use\Zend\ServiceManager\ServiceLocatorAwareTrait;
+    use \Zend\ServiceManager\ServiceLocatorAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -42,7 +42,7 @@ class HydratableControllerGuard extends ControllerGuard
 
         foreach ($rules as $rule) {
             $controller = strtolower($rule['controller']);
-            $actions    = isset($rule['actions']) ? (array)$rule['actions'] : [];
+            $actions = isset($rule['actions']) ? (array) $rule['actions'] : [];
 
             if (empty($actions)) {
                 $this->rules[$controller][0] = $rule['role_provider'];
@@ -50,7 +50,8 @@ class HydratableControllerGuard extends ControllerGuard
             }
 
             foreach ($actions as $action) {
-                $this->rules[$controller][strtolower($action)] = $rule['role_provider'];
+                $this->rules[$controller][strtolower($action)] =
+                    $rule['role_provider'];
             }
         }
     }
@@ -62,7 +63,7 @@ class HydratableControllerGuard extends ControllerGuard
     {
         $routeMatch = $event->getRouteMatch();
         $controller = strtolower($routeMatch->getParam('controller'));
-        $action     = strtolower($routeMatch->getParam('action'));
+        $action = strtolower($routeMatch->getParam('action'));
 
         // If no rules apply, it is considered as granted or not based on the protection policy
         if (!isset($this->rules[$controller])) {

@@ -26,7 +26,6 @@ use Blog\Entity\PostInterface;
 
 class PostAdapter extends AbstractAdapter
 {
-
     /**
      * @return PostInterface
      */

@@ -30,12 +30,28 @@ class RoleControllerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $userManager       = $serviceLocator->getServiceLocator()->get('User\Manager\UserManager');
-        $permissionService = $serviceLocator->getServiceLocator()->get('Authorization\Service\PermissionService');
-        $roleService       = $serviceLocator->getServiceLocator()->get('Authorization\Service\RoleService');
-        $instanceManager   = $serviceLocator->getServiceLocator()->get('Instance\Manager\InstanceManager');
-        $roleForm          = $serviceLocator->getServiceLocator()->get('Authorization\Form\RoleForm');
-        $instance          = new RoleController($instanceManager, $permissionService, $roleService, $userManager, $roleForm);
+        $userManager = $serviceLocator
+            ->getServiceLocator()
+            ->get('User\Manager\UserManager');
+        $permissionService = $serviceLocator
+            ->getServiceLocator()
+            ->get('Authorization\Service\PermissionService');
+        $roleService = $serviceLocator
+            ->getServiceLocator()
+            ->get('Authorization\Service\RoleService');
+        $instanceManager = $serviceLocator
+            ->getServiceLocator()
+            ->get('Instance\Manager\InstanceManager');
+        $roleForm = $serviceLocator
+            ->getServiceLocator()
+            ->get('Authorization\Form\RoleForm');
+        $instance = new RoleController(
+            $instanceManager,
+            $permissionService,
+            $roleService,
+            $userManager,
+            $roleForm
+        );
 
         return $instance;
     }

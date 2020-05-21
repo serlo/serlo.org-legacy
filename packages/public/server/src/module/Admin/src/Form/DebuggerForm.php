@@ -38,9 +38,16 @@ class DebuggerForm extends Form
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'clearfix');
 
-        $this->add((new Textarea('message'))->setAttribute('id', 'message')->setAttribute('rows', '50')->setLabel('Message:'));
         $this->add(
-            (new Submit('submit'))->setValue('Go')->setAttribute('class', 'btn btn-success pull-right')
+            (new Textarea('message'))
+                ->setAttribute('id', 'message')
+                ->setAttribute('rows', '50')
+                ->setLabel('Message:')
+        );
+        $this->add(
+            (new Submit('submit'))
+                ->setValue('Go')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
     }
 }

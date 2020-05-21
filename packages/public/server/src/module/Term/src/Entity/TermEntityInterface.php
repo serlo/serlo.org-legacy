@@ -26,7 +26,6 @@ use Instance\Entity\InstanceAwareInterface;
 
 interface TermEntityInterface extends InstanceAwareInterface
 {
-
     /**
      * @return int $id
      */

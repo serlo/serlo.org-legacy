@@ -41,6 +41,6 @@ abstract class AbstractStrategy implements StrategyInterface
         $response->getHeaders()->addHeaderLine('Location', $url);
         $response->setStatusCode(302);
         $response->sendHeaders();
-        exit;
+        exit();
     }
 }

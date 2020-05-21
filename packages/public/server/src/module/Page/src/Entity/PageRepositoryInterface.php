@@ -31,8 +31,12 @@ use Taxonomy\Entity\TaxonomyTermInterface;
 use Uuid\Entity\UuidInterface;
 use Versioning\Entity\RepositoryInterface;
 
-interface PageRepositoryInterface extends RepositoryInterface, LicenseAwareInterface, InstanceAwareInterface, UuidInterface,
-            TaxonomyTermAwareInterface
+interface PageRepositoryInterface extends
+    RepositoryInterface,
+    LicenseAwareInterface,
+    InstanceAwareInterface,
+    UuidInterface,
+    TaxonomyTermAwareInterface
 {
     /**
      * @return RoleInterface[]|Collection

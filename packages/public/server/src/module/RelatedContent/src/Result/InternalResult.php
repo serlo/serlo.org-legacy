@@ -28,7 +28,7 @@ use RelatedContent\Exception;
 
 class InternalResult extends AbstractResult
 {
-    use\Common\Traits\RouterAwareTrait;
+    use \Common\Traits\RouterAwareTrait;
 
     /**
      * @return InternalInterface
@@ -41,10 +41,12 @@ class InternalResult extends AbstractResult
     public function setObject(TypeInterface $object)
     {
         if (!$object instanceof InternalInterface) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected InternalInterface but got `%s`',
-                get_class($object)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected InternalInterface but got `%s`',
+                    get_class($object)
+                )
+            );
         }
 
         return parent::setObject($object);
@@ -64,7 +66,9 @@ class InternalResult extends AbstractResult
     {
         return $this->getRouter()->assemble(
             [
-                'uuid' => $this->getObject()->getReference()->getId(),
+                'uuid' => $this->getObject()
+                    ->getReference()
+                    ->getId(),
             ],
             [
                 'name' => 'uuid/get',

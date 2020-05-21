@@ -28,7 +28,6 @@ use RelatedContent\Exception;
 
 class ExternalResult extends AbstractResult
 {
-
     /**
      * @return ExternalInterface
      */
@@ -40,10 +39,12 @@ class ExternalResult extends AbstractResult
     public function setObject(TypeInterface $object)
     {
         if (!$object instanceof ExternalInterface) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected ExternalInterface but got `%s`',
-                get_class($object)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected ExternalInterface but got `%s`',
+                    get_class($object)
+                )
+            );
         }
         return parent::setObject($object);
     }

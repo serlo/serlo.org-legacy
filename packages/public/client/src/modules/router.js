@@ -36,7 +36,7 @@ function post(path, params, method) {
 
   $form = $('<form>').attr({
     method: method,
-    action: path
+    action: path,
   })
 
   for (key in params) {
@@ -45,7 +45,7 @@ function post(path, params, method) {
         .attr({
           type: 'hidden',
           name: key,
-          value: params[key]
+          value: params[key],
         })
         .appendTo($form)
     }
@@ -65,15 +65,15 @@ function reload() {
 }
 
 Router = {
-  navigate: function(url) {
+  navigate: function (url) {
     navigate(url)
   },
-  post: function(url, params, method) {
+  post: function (url, params, method) {
     post(url, params, method)
   },
-  reload: function() {
+  reload: function () {
     reload()
-  }
+  },
 }
 
 export default Router

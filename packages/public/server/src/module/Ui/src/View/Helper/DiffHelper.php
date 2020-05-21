@@ -34,7 +34,7 @@ class DiffHelper extends AbstractHelper
     public function cleanMarkdown($markdown)
     {
         $pattern = '@[{"col":[0-9]+,"content":"@is';
-        $markdown  = preg_replace($pattern, "", $markdown);
+        $markdown = preg_replace($pattern, '', $markdown);
         $pattern = '@"},|"}],|"}]]@is';
         $markdown = preg_replace($pattern, "\n", $markdown);
         return preg_replace('@\\n|\\\\n@is', "\n", $markdown);

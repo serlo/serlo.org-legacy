@@ -42,8 +42,11 @@ class SelectUserForm extends Form
 
         $this->add((new Email('email'))->setLabel('Email:'));
 
-        $this->add((new Submit('submit'))->setValue('Restore')
-            ->setAttribute('class', 'btn btn-success pull-right'));
+        $this->add(
+            (new Submit('submit'))
+                ->setValue('Restore')
+                ->setAttribute('class', 'btn btn-success pull-right')
+        );
 
         $filter->add([
             'name' => 'email',

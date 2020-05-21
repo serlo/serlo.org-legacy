@@ -50,7 +50,9 @@ class InstanceAwareRepository extends EntityRepository
         if ($this->instanceFiltering) {
             /* @var $entityManager InstanceAwareEntityManager */
             $entityManager = $this->_em;
-            $query->andWhere(sprintf('%s.%s = :tenant', $alias, $this->instanceField));
+            $query->andWhere(
+                sprintf('%s.%s = :tenant', $alias, $this->instanceField)
+            );
             $query->setParameter('tenant', $entityManager->getInstance());
         }
 
@@ -63,7 +65,11 @@ class InstanceAwareRepository extends EntityRepository
     public function find($id, $lockMode = LockMode::NONE, $lockVersion = null)
     {
         // Check identity map first
-        if ($entity = $this->_em->getUnitOfWork()->tryGetById($id, $this->_class->rootEntityName)) {
+        if (
+            $entity = $this->_em
+                ->getUnitOfWork()
+                ->tryGetById($id, $this->_class->rootEntityName)
+        ) {
             if (!($entity instanceof $this->_class->name)) {
                 return null;
             }
@@ -77,22 +83,32 @@ class InstanceAwareRepository extends EntityRepository
 
         if (!is_array($id) || count($id) <= 1) {
             // @todo FIXME: Not correct. Relies on specific order.
-            $value = is_array($id) ? array_values($id) : array($id);
+            $value = is_array($id) ? array_values($id) : [$id];
             $id = array_combine($this->_class->identifier, $value);
         }
 
         $id = $this->addInstanceFilter($id);
 
         if ($lockMode == LockMode::NONE) {
-            return $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load($id);
+            return $this->_em
+                ->getUnitOfWork()
+                ->getEntityPersister($this->_entityName)
+                ->load($id);
         } else {
             if ($lockMode == LockMode::OPTIMISTIC) {
                 if (!$this->_class->isVersioned) {
-                    throw OptimisticLockException::notVersioned($this->_entityName);
+                    throw OptimisticLockException::notVersioned(
+                        $this->_entityName
+                    );
                 }
-                $entity = $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load($id);
+                $entity = $this->_em
+                    ->getUnitOfWork()
+                    ->getEntityPersister($this->_entityName)
+                    ->load($id);
 
-                $this->_em->getUnitOfWork()->lock($entity, $lockMode, $lockVersion);
+                $this->_em
+                    ->getUnitOfWork()
+                    ->lock($entity, $lockMode, $lockVersion);
 
                 return $entity;
             } else {
@@ -100,13 +116,10 @@ class InstanceAwareRepository extends EntityRepository
                     throw TransactionRequiredException::transactionRequired();
                 }
 
-                return $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load(
-                    $id,
-                    null,
-                    null,
-                    array(),
-                    $lockMode
-                );
+                return $this->_em
+                    ->getUnitOfWork()
+                    ->getEntityPersister($this->_entityName)
+                    ->load($id, null, null, [], $lockMode);
             }
         }
     }
@@ -114,8 +127,13 @@ class InstanceAwareRepository extends EntityRepository
     /**
      * {@inheritDoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null, $instanceAware = true)
-    {
+    public function findBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null,
+        $instanceAware = true
+    ) {
         return parent::findBy(
             $instanceAware ? $this->addInstanceFilter($criteria) : $criteria,
             $orderBy,
@@ -151,7 +169,9 @@ class InstanceAwareRepository extends EntityRepository
         /* @var $entityManager InstanceAwareEntityManager */
         $entityManager = $this->_em;
         if ($this->instanceFiltering and $entityManager->getInstance()) {
-            $criteria[$this->instanceField] = $entityManager->getInstance()->getId();
+            $criteria[
+                $this->instanceField
+            ] = $entityManager->getInstance()->getId();
         }
 
         return $criteria;

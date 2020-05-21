@@ -31,7 +31,7 @@ const readFile = util.promisify(fs.readFile)
 const root = path.join(__dirname, '..')
 const srcPath = path.join(__dirname, '..', 'src')
 const packageJsonPath = path.join(root, 'package.json')
-const fsOptions = { encoding: 'utf-8' }
+const fsOptions: { encoding: BufferEncoding } = { encoding: 'utf-8' }
 const signale = new Signale({ interactive: true })
 
 run().then(() => {})
@@ -46,7 +46,7 @@ async function run() {
 
     const shouldDeploy = await shouldDeployPackage({
       name,
-      version
+      version,
     })
     if (!shouldDeploy) {
       signale.info(`Skipping deployment of ${name}@${version}`)
@@ -59,13 +59,13 @@ async function run() {
     uploadPackage({
       source: srcPath,
       name,
-      version
+      version,
     })
 
     signale.pending('Publishing package…')
     await publishPackage({
       name,
-      version
+      version,
     })
 
     signale.success(`Successfully deployed ${name}@${version}`)

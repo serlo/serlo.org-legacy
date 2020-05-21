@@ -25,7 +25,6 @@ namespace Ads\Manager;
 
 trait AdsManagerAwareTrait
 {
-
     /**
      * @var AdsManagerInterface
      */

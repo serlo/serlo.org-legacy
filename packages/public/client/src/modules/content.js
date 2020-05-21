@@ -28,18 +28,18 @@ function addInitializer(fn) {
 }
 
 function initializeContextual($context) {
-  _.each(initializers, function(init) {
+  _.each(initializers, function (init) {
     init($context)
   })
 }
 
 const Content = {
-  init: function($context) {
+  init: function ($context) {
     initializeContextual($context)
   },
-  add: function(fn) {
+  add: function (fn) {
     addInitializer(fn)
-  }
+  },
 }
 
 export default Content

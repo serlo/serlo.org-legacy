@@ -38,12 +38,12 @@ class RoleFieldset extends Fieldset implements InputFilterProviderInterface
 
     public function getInputFilterSpecification()
     {
-        return array(
-            'field' => array(
-                'required'   => false,
-                'filters'    => array(),
-                'validators' => array(),
-            ),
-        );
+        return [
+            'field' => [
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+        ];
     }
 }

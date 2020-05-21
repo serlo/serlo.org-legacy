@@ -40,14 +40,23 @@ class NavigationControllerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ServiceLocatorInterface */
-        $serviceLocator    = $serviceLocator->getServiceLocator();
-        $containerForm     = $serviceLocator->get('Navigation\Form\ContainerForm');
-        $pageForm          = $serviceLocator->get('Navigation\Form\PageForm');
-        $parameterForm     = $serviceLocator->get('Navigation\Form\ParameterForm');
-        $parameterKeyForm  = $serviceLocator->get('Navigation\Form\ParameterKeyForm');
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $containerForm = $serviceLocator->get('Navigation\Form\ContainerForm');
+        $pageForm = $serviceLocator->get('Navigation\Form\PageForm');
+        $parameterForm = $serviceLocator->get('Navigation\Form\ParameterForm');
+        $parameterKeyForm = $serviceLocator->get(
+            'Navigation\Form\ParameterKeyForm'
+        );
         $navigationManager = $this->getNavigationManager($serviceLocator);
-        $instanceManager   = $this->getInstanceManager($serviceLocator);
-        $controller        = new NavigationController($instanceManager, $navigationManager, $containerForm, $pageForm, $parameterForm, $parameterKeyForm);
+        $instanceManager = $this->getInstanceManager($serviceLocator);
+        $controller = new NavigationController(
+            $instanceManager,
+            $navigationManager,
+            $containerForm,
+            $pageForm,
+            $parameterForm,
+            $parameterKeyForm
+        );
 
         return $controller;
     }

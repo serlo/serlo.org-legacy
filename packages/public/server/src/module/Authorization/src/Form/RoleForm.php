@@ -42,36 +42,32 @@ class RoleForm extends Form
         $this->setInputFilter($inputFilter);
         $this->setHydrator(new DoctrineHydrator($objectManager));
 
-        $this->add(
-            [
-                'type'    => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
-                'name'    => 'children',
-                'options' => [
-                    'label'          => 'Inherits permissions from (be very careful!):',
-                    'object_manager' => $objectManager,
-                    'target_class'   => 'User\Entity\Role',
-                    'property'       => 'name',
-                ],
-            ]
-        );
+        $this->add([
+            'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
+            'name' => 'children',
+            'options' => [
+                'label' => 'Inherits permissions from (be very careful!):',
+                'object_manager' => $objectManager,
+                'target_class' => 'User\Entity\Role',
+                'property' => 'name',
+            ],
+        ]);
 
         $this->add((new Text('name'))->setLabel('Name:'));
 
         $this->add(
-            (new Submit('submit'))->setValue('Add')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Add')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $inputFilter->add(
-            [
-                'name'     => 'name',
-                'required' => true,
-            ]
-        );
-        $inputFilter->add(
-            [
-                'name'     => 'children',
-                'required' => false,
-            ]
-        );
+        $inputFilter->add([
+            'name' => 'name',
+            'required' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'children',
+            'required' => false,
+        ]);
     }
 }

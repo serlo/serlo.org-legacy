@@ -72,8 +72,8 @@ class InstanceManager implements InstanceManagerInterface
         $this->setAuthorizationService($authorizationService);
         $this->classResolver = $classResolver;
         $this->objectManager = $objectManager;
-        $this->options       = $options;
-        $this->strategy      = $strategy;
+        $this->options = $options;
+        $this->strategy = $strategy;
     }
 
     /**
@@ -81,12 +81,21 @@ class InstanceManager implements InstanceManagerInterface
      */
     public function findAllInstances()
     {
-        $className  = $this->getClassResolver()->resolveClassName('Instance\Entity\InstanceInterface');
-        $collection = $this->getObjectManager()->getRepository($className)->findAll();
-        $return     = new ArrayCollection();
+        $className = $this->getClassResolver()->resolveClassName(
+            'Instance\Entity\InstanceInterface'
+        );
+        $collection = $this->getObjectManager()
+            ->getRepository($className)
+            ->findAll();
+        $return = new ArrayCollection();
 
         foreach ($collection as $instance) {
-            if ($this->getAuthorizationService()->isGranted('instance.get', $instance)) {
+            if (
+                $this->getAuthorizationService()->isGranted(
+                    'instance.get',
+                    $instance
+                )
+            ) {
                 $return->add($instance);
             }
         }
@@ -100,15 +109,23 @@ class InstanceManager implements InstanceManagerInterface
     public function findInstanceByName($name)
     {
         if (!is_string($name)) {
-            throw new Exception\InvalidArgumentException(sprintf('Expected string but got %s', gettype($name)));
+            throw new Exception\InvalidArgumentException(
+                sprintf('Expected string but got %s', gettype($name))
+            );
         }
 
-        $className = $this->getClassResolver()->resolveClassName('Instance\Entity\InstanceInterface');
-        $criteria  = ['name' => $name];
-        $instance  = $this->getObjectManager()->getRepository($className)->findOneBy($criteria);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Instance\Entity\InstanceInterface'
+        );
+        $criteria = ['name' => $name];
+        $instance = $this->getObjectManager()
+            ->getRepository($className)
+            ->findOneBy($criteria);
 
         if (!is_object($instance)) {
-            throw new Exception\InstanceNotFoundException(sprintf('Instance %s could not be found', $name));
+            throw new Exception\InstanceNotFoundException(
+                sprintf('Instance %s could not be found', $name)
+            );
         }
 
         $this->assertGranted('instance.get', $instance);
@@ -122,15 +139,23 @@ class InstanceManager implements InstanceManagerInterface
     public function findInstanceBySubDomain($subDomain)
     {
         if (!is_string($subDomain)) {
-            throw new Exception\InvalidArgumentException(sprintf('Expected string but got %s', gettype($subDomain)));
+            throw new Exception\InvalidArgumentException(
+                sprintf('Expected string but got %s', gettype($subDomain))
+            );
         }
 
-        $className = $this->getClassResolver()->resolveClassName('Instance\Entity\InstanceInterface');
-        $criteria  = ['subdomain' => $subDomain];
-        $instance  = $this->getObjectManager()->getRepository($className)->findOneBy($criteria);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Instance\Entity\InstanceInterface'
+        );
+        $criteria = ['subdomain' => $subDomain];
+        $instance = $this->getObjectManager()
+            ->getRepository($className)
+            ->findOneBy($criteria);
 
         if (!is_object($instance)) {
-            throw new Exception\InstanceNotFoundException(sprintf('Instance %s could not be found', $subDomain));
+            throw new Exception\InstanceNotFoundException(
+                sprintf('Instance %s could not be found', $subDomain)
+            );
         }
 
         $this->assertGranted('instance.get', $instance);
@@ -151,11 +176,15 @@ class InstanceManager implements InstanceManagerInterface
      */
     public function getInstance($id)
     {
-        $className = $this->getClassResolver()->resolveClassName('Instance\Entity\InstanceInterface');
-        $instance  = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Instance\Entity\InstanceInterface'
+        );
+        $instance = $this->getObjectManager()->find($className, $id);
 
         if (!is_object($instance)) {
-            throw new Exception\InstanceNotFoundException(sprintf('Instance %s could not be found', $id));
+            throw new Exception\InstanceNotFoundException(
+                sprintf('Instance %s could not be found', $id)
+            );
         }
         $this->assertGranted('instance.get', $instance);
 

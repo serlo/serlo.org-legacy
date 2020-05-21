@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 12.x
       - run: yarn
-      - run: yarn lint:js:prettier
+      - run: yarn lint:prettier
   tsc:
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: 12.x
       - run: yarn
-      - run: yarn lint:js:tsc
+      - run: yarn lint:tsc
   test:
     runs-on: ubuntu-latest
     steps:

@@ -32,30 +32,29 @@ class Banner extends AbstractHelper
 
     protected $ads;
 
-
     /**
      * @var \Zend\Http\Request
      */
     protected $request;
 
-    public function __construct(
-        Request $request
-    ) {
+    public function __construct(Request $request)
+    {
         $this->request = $request;
     }
 
     public function __invoke()
     {
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $this->ads = $this->getAdsManager()->findShuffledAds($instance, 1, true);
+        $this->ads = $this->getAdsManager()->findShuffledAds(
+            $instance,
+            1,
+            true
+        );
 
         if (!$this->request->isXmlHttpRequest()) {
-            return $this->getView()->partial(
-                'ads/helper/banner-helper',
-                [
-                    'ads' => $this->ads,
-                ]
-            );
+            return $this->getView()->partial('ads/helper/banner-helper', [
+                'ads' => $this->ads,
+            ]);
         } else {
             return '';
         }

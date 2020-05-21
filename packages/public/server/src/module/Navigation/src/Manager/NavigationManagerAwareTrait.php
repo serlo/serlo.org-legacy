@@ -28,8 +28,9 @@ trait NavigationManagerAwareTrait
     /** @var NavigationManagerInterface */
     protected $navigationManager;
 
-    public function setNavigationManager(NavigationManagerInterface $navigationManager)
-    {
+    public function setNavigationManager(
+        NavigationManagerInterface $navigationManager
+    ) {
         $this->navigationManager = $navigationManager;
     }
 }

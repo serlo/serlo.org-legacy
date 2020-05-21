@@ -29,7 +29,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class InstanceAwareEntityManagerFactory extends AbstractFactory
 {
-
     /**
      * {@inheritDoc}
      * @return EntityManager
@@ -37,9 +36,9 @@ class InstanceAwareEntityManagerFactory extends AbstractFactory
     public function createService(ServiceLocatorInterface $sl)
     {
         /* @var $options \DoctrineORMModule\Options\EntityManager */
-        $options    = $this->getOptions($sl, 'entitymanager');
+        $options = $this->getOptions($sl, 'entitymanager');
         $connection = $sl->get($options->getConnection());
-        $config     = $sl->get($options->getConfiguration());
+        $config = $sl->get($options->getConfiguration());
 
         // initializing the resolver
         // @todo should actually attach it to a fetched event manager here, and not

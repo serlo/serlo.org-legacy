@@ -69,9 +69,9 @@ class CookieStrategy extends AbstractStrategy
         RouteMatch $routeMatch,
         AbstractContainer $container = null
     ) {
-        $this->container  = $container;
-        $this->response   = $response;
-        $this->router     = $router;
+        $this->container = $container;
+        $this->response = $response;
+        $this->router = $router;
         $this->routeMatch = $routeMatch;
     }
 
@@ -85,7 +85,9 @@ class CookieStrategy extends AbstractStrategy
             if (!$container->offsetExists('instance')) {
                 $this->instance = $instanceManager->getDefaultInstance();
             } else {
-                $this->instance = $instanceManager->getInstance($container->offsetGet('instance'));
+                $this->instance = $instanceManager->getInstance(
+                    $container->offsetGet('instance')
+                );
             }
         }
 
@@ -99,7 +101,9 @@ class CookieStrategy extends AbstractStrategy
     {
         $container = $this->getContainer();
         $container->offsetSet('instance', $instance->getId());
-        $url = $this->router->assemble($this->routeMatch->getParams(), ['name' => $this->routeMatch->getMatchedRouteName()]);
+        $url = $this->router->assemble($this->routeMatch->getParams(), [
+            'name' => $this->routeMatch->getMatchedRouteName(),
+        ]);
         $this->redirect($url);
     }
 

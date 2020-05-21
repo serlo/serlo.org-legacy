@@ -19,11 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-var LayoutBuilderConfiguration = function() {
+var LayoutBuilderConfiguration = function () {
   this.layouts = []
 }
 
-LayoutBuilderConfiguration.prototype.addLayout = function(layout) {
+LayoutBuilderConfiguration.prototype.addLayout = function (layout) {
   this.layouts.push(layout)
   return this
 }

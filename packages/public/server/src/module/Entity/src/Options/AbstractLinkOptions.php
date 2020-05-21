@@ -26,7 +26,9 @@ use Entity\Exception;
 use Link\Options\LinkOptionsInterface;
 use Zend\Stdlib\AbstractOptions;
 
-abstract class AbstractLinkOptions extends AbstractOptions implements ComponentOptionsInterface, LinkOptionsInterface
+abstract class AbstractLinkOptions extends AbstractOptions implements
+    ComponentOptionsInterface,
+    LinkOptionsInterface
 {
     /**
      * @var string
@@ -48,7 +50,7 @@ abstract class AbstractLinkOptions extends AbstractOptions implements ComponentO
      */
     protected $permissions = [
         'create' => 'entity.link.create',
-        'purge'  => 'entity.link.purge',
+        'purge' => 'entity.link.purge',
     ];
 
     /**
@@ -92,27 +94,35 @@ abstract class AbstractLinkOptions extends AbstractOptions implements ComponentO
     public function allowsManyParents($type)
     {
         if (!$this->isParentAllowed($type)) {
-            throw new Exception\RuntimeException(sprintf(
-                'Link type "%s" does not allow parent "%s".',
-                $this->getLinkType(),
-                $type
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Link type "%s" does not allow parent "%s".',
+                    $this->getLinkType(),
+                    $type
+                )
+            );
         }
 
-        return array_key_exists('multiple', $this->parents[$type]) ? $this->parents[$type]['multiple'] : false;
+        return array_key_exists('multiple', $this->parents[$type])
+            ? $this->parents[$type]['multiple']
+            : false;
     }
 
     public function allowsManyChildren($type)
     {
         if (!$this->isChildAllowed($type)) {
-            throw new Exception\RuntimeException(sprintf(
-                'Link "%s" does not allow child "%s".',
-                $this->getLinkType(),
-                $type
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Link "%s" does not allow child "%s".',
+                    $this->getLinkType(),
+                    $type
+                )
+            );
         }
 
-        return array_key_exists('multiple', $this->children[$type]) ? $this->children[$type]['multiple'] : false;
+        return array_key_exists('multiple', $this->children[$type])
+            ? $this->children[$type]['multiple']
+            : false;
     }
 
     public function isValid($key)
@@ -138,7 +148,9 @@ abstract class AbstractLinkOptions extends AbstractOptions implements ComponentO
     public function getPermission($type)
     {
         if (!isset($type, $this->permissions)) {
-            throw new Exception\RuntimeException(sprintf('Permission type "%s" not found', $type));
+            throw new Exception\RuntimeException(
+                sprintf('Permission type "%s" not found', $type)
+            );
         }
 
         return $this->permissions[$type];

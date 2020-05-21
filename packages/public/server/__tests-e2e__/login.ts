@@ -25,14 +25,14 @@ import {
   getByPlaceholderText,
   getBySelector,
   getByText,
-  goto
+  goto,
 } from './_utils'
 
 const examplePages = ['/', '/math', '/math/geometry/triangles']
 
 describe('login process', () => {
-  describe.each(users)('user is %p', user => {
-    test.each(examplePages)('start page is %p', async startPath => {
+  describe.each(users)('user is %p', (user) => {
+    test.each(examplePages)('start page is %p', async (startPath) => {
       await page.setViewport(viewports.desktop)
       const firstPage = await goto(startPath)
 
@@ -45,8 +45,8 @@ describe('login process', () => {
       expect(loginPage).toHaveUrlPath(pages.login.path)
 
       const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
-      await getByPlaceholderText(loginPage, inputUser).then(e => e.type(user))
-      await getByPlaceholderText(loginPage, inputPassword).then(e =>
+      await getByPlaceholderText(loginPage, inputUser).then((e) => e.type(user))
+      await getByPlaceholderText(loginPage, inputPassword).then((e) =>
         e.type(pages.login.defaultPassword)
       )
 

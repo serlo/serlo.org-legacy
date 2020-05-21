@@ -24,7 +24,6 @@ namespace Flag\Manager;
 
 interface FlagManagerAwareInterface
 {
-
     /**
      * @return FlagManagerInterface
      */

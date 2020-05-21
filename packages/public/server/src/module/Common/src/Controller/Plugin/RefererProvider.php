@@ -31,7 +31,9 @@ class RefererProvider extends AbstractPlugin
 
     public function toUrl($default = '/')
     {
-        $referer = $this->getController()->getRequest()->getHeader('Referer');
+        $referer = $this->getController()
+            ->getRequest()
+            ->getHeader('Referer');
         $referer = $referer ? $referer->getUri() : $default;
 
         return $referer;
@@ -51,7 +53,9 @@ class RefererProvider extends AbstractPlugin
     {
         $container = new Container($this->normalizeId($id));
 
-        return isset($container->ref) ? $container->ref : $this->toUrl($default);
+        return isset($container->ref)
+            ? $container->ref
+            : $this->toUrl($default);
     }
 
     protected function normalizeId($id)

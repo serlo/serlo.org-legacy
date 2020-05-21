@@ -33,14 +33,16 @@ use Zend\InputFilter\InputFilter;
 
 class ContainerForm extends Form
 {
-    public function __construct(EntityManager $entityManager, NavigationManagerInterface $navigationManager)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        NavigationManagerInterface $navigationManager
+    ) {
         parent::__construct('container');
         $this->add(new CsrfToken());
 
         $hydrator = new ObjectHydrator($entityManager);
-        $filter   = new InputFilter();
-        $types    = [];
+        $filter = new InputFilter();
+        $types = [];
 
         foreach ($navigationManager->getTypes() as $type) {
             $types[$type->getId()] = $type->getName();
@@ -50,39 +52,33 @@ class ContainerForm extends Form
         $this->setInputFilter($filter);
 
         $this->add(
-            (new Select('type'))->setLabel('Type:')->setOptions(
-                [
-                    'value_options' => $types,
-                ]
-            )
+            (new Select('type'))->setLabel('Type:')->setOptions([
+                'value_options' => $types,
+            ])
         );
-        $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'instance',
-                'options' => [
-                    'object_manager' => $entityManager,
-                    'target_class'   => 'Navigation\Entity\Container',
-                ],
-            ]
-        );
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'instance',
+            'options' => [
+                'object_manager' => $entityManager,
+                'target_class' => 'Navigation\Entity\Container',
+            ],
+        ]);
 
         $this->add(
-            (new Submit('submit'))->setValue('Save')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $filter->add(
-            [
-                'name'     => 'type',
-                'required' => true,
-            ]
-        );
+        $filter->add([
+            'name' => 'type',
+            'required' => true,
+        ]);
 
-        $filter->add(
-            [
-                'name'     => 'instance',
-                'required' => true,
-            ]
-        );
+        $filter->add([
+            'name' => 'instance',
+            'required' => true,
+        ]);
     }
 }

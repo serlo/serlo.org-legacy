@@ -23,30 +23,24 @@
 namespace Flag;
 
 return [
-    'zfc_rbac'        => [
+    'zfc_rbac' => [
         'assertion_map' => [
             'flag.create' => 'Authorization\Assertion\RequestInstanceAssertion',
-            'flag.get'    => 'Authorization\Assertion\InstanceAssertion',
+            'flag.get' => 'Authorization\Assertion\InstanceAssertion',
             'flag.purge' => 'Authorization\Assertion\InstanceAssertion',
         ],
     ],
-    'flag'            => [
-        'types' => [
-            'spam',
-            'offensive',
-            'other',
-        ],
+    'flag' => [
+        'types' => ['spam', 'offensive', 'other'],
     ],
-    'doctrine'        => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],
@@ -55,72 +49,76 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Options\ModuleOptions' => __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
+            __NAMESPACE__ . '\Options\ModuleOptions' =>
+                __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
         ],
     ],
-    'di'              => [
-        'allowed_controllers' => [
-            __NAMESPACE__ . '\Controller\FlagController',
-        ],
-        'definition'          => [
+    'di' => [
+        'allowed_controllers' => [__NAMESPACE__ . '\Controller\FlagController'],
+        'definition' => [
             'class' => [
-                __NAMESPACE__ . '\Manager\FlagManager'       => [],
+                __NAMESPACE__ . '\Manager\FlagManager' => [],
                 __NAMESPACE__ . '\Controller\FlagController' => [],
             ],
         ],
-        'instance'            => [
+        'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\Manager\FlagManagerInterface' => __NAMESPACE__ . '\Manager\FlagManager',
+                __NAMESPACE__ . '\Manager\FlagManagerInterface' =>
+                    __NAMESPACE__ . '\Manager\FlagManager',
             ],
         ],
     ],
-    'class_resolver'  => [
-        __NAMESPACE__ . '\Entity\FlagInterface'         => __NAMESPACE__ . '\Entity\Flag',
-        __NAMESPACE__ . '\Entity\TypeInterface'         => __NAMESPACE__ . '\Entity\Type',
-        __NAMESPACE__ . '\Service\FlagServiceInterface' => __NAMESPACE__ . '\Service\FlagService',
+    'class_resolver' => [
+        __NAMESPACE__ . '\Entity\FlagInterface' =>
+            __NAMESPACE__ . '\Entity\Flag',
+        __NAMESPACE__ . '\Entity\TypeInterface' =>
+            __NAMESPACE__ . '\Entity\Type',
+        __NAMESPACE__ . '\Service\FlagServiceInterface' =>
+            __NAMESPACE__ . '\Service\FlagService',
     ],
-    'router'          => [
+    'router' => [
         'routes' => [
             'flag' => [
-                'type'    => 'literal',
-                'options'      => [
-                    'route'    => '/flag',
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/flag',
                     'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\FlagController',
+                        'controller' =>
+                            __NAMESPACE__ . '\Controller\FlagController',
                     ],
                 ],
                 'child_routes' => [
                     'manage' => [
-                        'type'    => 'segment',
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/manage[/:type]',
+                            'route' => '/manage[/:type]',
                             'defaults' => [
                                 'action' => 'manage',
                             ],
                         ],
                     ],
-                    'add'    => [
-                        'type'    => 'segment',
+                    'add' => [
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/add/:id',
+                            'route' => '/add/:id',
                             'defaults' => [
                                 'action' => 'add',
                             ],
                         ],
                     ],
                     'detail' => [
-                        'type'    => 'segment',
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/detail/:id',
+                            'route' => '/detail/:id',
                             'defaults' => [
                                 'action' => 'detail',
                             ],
                         ],
                     ],
                     'remove' => [
-                        'type'    => 'segment',
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/remove/:id',
+                            'route' => '/remove/:id',
                             'defaults' => [
                                 'action' => 'remove',
                             ],

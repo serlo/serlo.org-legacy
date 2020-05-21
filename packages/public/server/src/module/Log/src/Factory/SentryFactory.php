@@ -40,10 +40,10 @@ class SentryFactory implements FactoryInterface
 
         $appRoot = dirname(__DIR__, 5);
         $client = new \Raven_Client(
-        // Deactivate sentry if no DSN is given
+            // Deactivate sentry if no DSN is given
             isset($sentryConfig['dsn']) ? $sentryConfig['dsn'] : null,
             [
-                'excluded_app_paths' => array($appRoot . '/src/data'),
+                'excluded_app_paths' => [$appRoot . '/src/data'],
                 'release' => 'serlo-org-server@' . $sentryConfig['version'],
                 'tags' => [
                     'php_version' => phpversion(),

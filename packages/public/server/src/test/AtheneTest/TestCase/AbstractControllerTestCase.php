@@ -38,16 +38,19 @@ abstract class AbstractControllerTestCase extends AbstractHttpControllerTestCase
 
     public function setUp()
     {
-//        $this->setApplicationConfig(
-//            include __DIR__ . '/../../../config/application.config.php'
-//        );
+        //        $this->setApplicationConfig(
+        //            include __DIR__ . '/../../../config/application.config.php'
+        //        );
 
         parent::setUp();
     }
 
     protected function preparePluginManager()
     {
-        if ($this->controller->getPluginManager() instanceof \PHPUnit_Framework_MockObject_MockObject) {
+        if (
+            $this->controller->getPluginManager() instanceof
+            \PHPUnit_Framework_MockObject_MockObject
+        ) {
             return $this->controller->getPluginManager();
         }
 

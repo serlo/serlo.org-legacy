@@ -93,7 +93,11 @@ class RepositoryController extends AbstractController
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                return $this->handleAddRevisionPost($entity, $form->getData(), true);
+                return $this->handleAddRevisionPost(
+                    $entity,
+                    $form->getData(),
+                    true
+                );
             }
         }
 
@@ -114,24 +118,40 @@ class RepositoryController extends AbstractController
 
         if ($this->getRequest()->isPost()) {
             $data = json_decode($this->getRequest()->getContent(), true);
-            $validated = $this->checkData($data, [
-                'changes' => $data['changes'],
-                'controls' => $data['controls'],
-                'csrf' => $data['csrf'],
-                'license' => [
-                    'agreement' => 1,
+            $validated = $this->checkData(
+                $data,
+                [
+                    'changes' => $data['changes'],
+                    'controls' => $data['controls'],
+                    'csrf' => $data['csrf'],
+                    'license' => [
+                        'agreement' => 1,
+                    ],
                 ],
-            ], $entity->getType()->getName());
+                $entity->getType()->getName()
+            );
 
             if ($validated['valid']) {
-                $autoCheckout = array_key_exists('checkout', $data['controls']) && $data['controls']['checkout'];
+                $autoCheckout =
+                    array_key_exists('checkout', $data['controls']) &&
+                    $data['controls']['checkout'];
                 $redirectUrl = '';
                 foreach ($validated['elements'] as $el) {
-                    $redirectUrl = $this->handleAddRevisionPost($el['entity'], $el['data'], $autoCheckout);
+                    $redirectUrl = $this->handleAddRevisionPost(
+                        $el['entity'],
+                        $el['data'],
+                        $autoCheckout
+                    );
                 }
-                return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
+                return new JsonModel([
+                    'success' => true,
+                    'redirect' => $redirectUrl,
+                ]);
             } else {
-                return new JsonModel(['success' => false, 'errors' => $validated['messages']]);
+                return new JsonModel([
+                    'success' => false,
+                    'errors' => $validated['messages'],
+                ]);
             }
         }
 
@@ -140,7 +160,10 @@ class RepositoryController extends AbstractController
         $view = new ViewModel([
             'state' => $state,
             'type' => $entity->getType()->getName(),
-            'mayCheckout' => $this->isGranted('entity.revision.checkout', $entity),
+            'mayCheckout' => $this->isGranted(
+                'entity.revision.checkout',
+                $entity
+            ),
         ]);
         $this->layout('layout/3-col');
         $view->setTemplate('entity/repository/update-revision');
@@ -154,15 +177,22 @@ class RepositoryController extends AbstractController
             $this->getResponse()->setStatusCode(404);
             return false;
         }
-        $revisions = $entity->getRevisions()->map(function (Revision $revision) use ($entity) {
-            return [
-                'id' => $revision->getId(),
-                'timestamp' => (new Timeago())->format($revision->getTimestamp()),
-                'author' => $revision->getAuthor()->getUsername(),
-                'changes' => $revision->get('changes'),
-                'active' => $entity->getCurrentRevision() ? $revision->getId() === $entity->getCurrentRevision()->getId() : false,
-            ];
-        });
+        $revisions = $entity
+            ->getRevisions()
+            ->map(function (Revision $revision) use ($entity) {
+                return [
+                    'id' => $revision->getId(),
+                    'timestamp' => (new Timeago())->format(
+                        $revision->getTimestamp()
+                    ),
+                    'author' => $revision->getAuthor()->getUsername(),
+                    'changes' => $revision->get('changes'),
+                    'active' => $entity->getCurrentRevision()
+                        ? $revision->getId() ===
+                            $entity->getCurrentRevision()->getId()
+                        : false,
+                ];
+            });
         return new JsonModel($revisions);
     }
 
@@ -175,7 +205,10 @@ class RepositoryController extends AbstractController
         }
 
         $state = $this->getData($entity, $this->params('revision'));
-        return new JsonModel(['state' => $state, 'type' => $entity->getType()->getName()]);
+        return new JsonModel([
+            'state' => $state,
+            'type' => $entity->getType()->getName(),
+        ]);
     }
 
     /**
@@ -192,7 +225,10 @@ class RepositoryController extends AbstractController
         $data = array_merge($data, $merges);
 
         // check children
-        $validateChild = function ($child, $merges, $childType) use (&$messages, &$validChildren) {
+        $validateChild = function ($child, $merges, $childType) use (
+            &$messages,
+            &$validChildren
+        ) {
             $validated = $this->isValid($child, $merges, $childType);
             if (!$validated['valid']) {
                 $validChildren = false;
@@ -222,8 +258,12 @@ class RepositoryController extends AbstractController
      * @param int|null $parentId id of the entity link parent. If data['id'] isn't set, then parentId needs to be specified for creating a new one.
      * @return array list of ['entity' =>(created or existing), 'data' => (revision data for the entity)] where new revisions need to be created
      */
-    protected function createEntitiesAndGetRevisionData($data, $merges, $type, $parentId = null)
-    {
+    protected function createEntitiesAndGetRevisionData(
+        $data,
+        $merges,
+        $type,
+        $parentId = null
+    ) {
         $elements = [];
         $data = array_merge($data, $merges);
         $id = $data['id']; // might be 0, then create a new entity.
@@ -235,17 +275,29 @@ class RepositoryController extends AbstractController
             // get the relevant data of this form and compare it to the previous data (ignoring $merges)
             $dataPartNext = $form->getData();
 
-            $entity = $id ? $this->getEntity($data['id']) : $this->createOrRecycleEntity($type, $parentId);
+            $entity = $id
+                ? $this->getEntity($data['id'])
+                : $this->createOrRecycleEntity($type, $parentId);
 
             if ($entity->hasHead()) {
-                $startedFromHead = $data['revision'] === $entity->getHead()->getId();
+                $startedFromHead =
+                    $data['revision'] === $entity->getHead()->getId();
 
                 // check for changes with previous revision data, ignoring $merges
-                $revision = $startedFromHead || !$entity->hasCurrentRevision() ? $entity->getHead() : $entity->getCurrentRevision();
+                $revision =
+                    $startedFromHead || !$entity->hasCurrentRevision()
+                        ? $entity->getHead()
+                        : $entity->getCurrentRevision();
                 $dataPartPrevious = $this->getRevisionData($revision);
                 // only check equality (==) not identity (===) to ignore different key order
-                if (array_merge($dataPartPrevious, $merges) != array_merge($dataPartNext, $merges)) {
-                    $elements[] = ['entity' => $entity, 'data' => $dataPartNext];
+                if (
+                    array_merge($dataPartPrevious, $merges) !=
+                    array_merge($dataPartNext, $merges)
+                ) {
+                    $elements[] = [
+                        'entity' => $entity,
+                        'data' => $dataPartNext,
+                    ];
                 }
             } else {
                 $elements[] = ['entity' => $entity, 'data' => $dataPartNext];
@@ -253,8 +305,16 @@ class RepositoryController extends AbstractController
             $id = $entity->getId();
         }
 
-        $createRevisionChild = function ($child, $merges, $type) use (&$elements, $id) {
-            $childElements = $this->createEntitiesAndGetRevisionData($child, $merges, $type, $id);
+        $createRevisionChild = function ($child, $merges, $type) use (
+            &$elements,
+            $id
+        ) {
+            $childElements = $this->createEntitiesAndGetRevisionData(
+                $child,
+                $merges,
+                $type,
+                $id
+            );
             $elements = array_merge($elements, $childElements);
         };
 
@@ -277,7 +337,9 @@ class RepositoryController extends AbstractController
             // Check if the parent allows multiple entities, otherwise use the existing and restore it if necessary.
             if ($this->moduleOptions->getType($type)->hasComponent('link')) {
                 /** @var LinkOptions $linkOptions */
-                $linkOptions = $this->moduleOptions->getType($parentType)->getComponent('link');
+                $linkOptions = $this->moduleOptions
+                    ->getType($parentType)
+                    ->getComponent('link');
                 if (!$linkOptions->allowsManyChildren($type)) {
                     /** @var EntityInterface $child */
                     $child = $existingChildren->first();
@@ -294,10 +356,12 @@ class RepositoryController extends AbstractController
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
         $entity = $this->getEntityManager()->createEntity(
             $type,
-            ['link' => [
-                'type' => 'link',
-                'child' => $parentId,
-            ]],
+            [
+                'link' => [
+                    'type' => 'link',
+                    'child' => $parentId,
+                ],
+            ],
             $instance
         );
         $this->getEntityManager()->flush();
@@ -317,7 +381,9 @@ class RepositoryController extends AbstractController
 
         if ($this->moduleOptions->getType($type)->hasComponent('link')) {
             /** @var LinkOptions $linkOptions */
-            $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
+            $linkOptions = $this->moduleOptions
+                ->getType($type)
+                ->getComponent('link');
             foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
                 if (isset($data[$allowedChild]) && $data[$allowedChild]) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
@@ -344,34 +410,58 @@ class RepositoryController extends AbstractController
     {
         $validated = $this->isValid($data, $merges, $type);
         if ($validated['valid']) {
-            return ['valid' => true, 'elements' => $this->createEntitiesAndGetRevisionData($data, $merges, $type)];
+            return [
+                'valid' => true,
+                'elements' => $this->createEntitiesAndGetRevisionData(
+                    $data,
+                    $merges,
+                    $type
+                ),
+            ];
         } else {
             return $validated;
         }
     }
 
-    protected function handleAddRevisionPost(EntityInterface $entity, $data, $autoCheckout)
-    {
-        $mayCheckout = $autoCheckout && $this->isGranted('entity.revision.checkout', $entity) && $data;
-        $revision = $this->getRepositoryManager()->commitRevision($entity, $data);
+    protected function handleAddRevisionPost(
+        EntityInterface $entity,
+        $data,
+        $autoCheckout
+    ) {
+        $mayCheckout =
+            $autoCheckout &&
+            $this->isGranted('entity.revision.checkout', $entity) &&
+            $data;
+        $revision = $this->getRepositoryManager()->commitRevision(
+            $entity,
+            $data
+        );
         /** @var Translator $translator */
         $translator = $this->serviceLocator->get('MvcTranslator');
         if ($mayCheckout) {
             $this->getRepositoryManager()->checkoutRevision($entity, $revision);
-            $successMessage = $translator->translate('Your revision has been saved and is available');
+            $successMessage = $translator->translate(
+                'Your revision has been saved and is available'
+            );
             $route = 'entity/page';
         } else {
-            $successMessage = $translator->translate('Your revision has been saved, it will be available once it gets approved');
+            $successMessage = $translator->translate(
+                'Your revision has been saved, it will be available once it gets approved'
+            );
             $route = 'entity/repository/history';
         }
         $this->getEntityManager()->flush();
         $this->flashMessenger()->addSuccessMessage($successMessage);
 
         if ($this->getRequest()->isXmlHttpRequest()) {
-            return $this->plugin('url')->fromRoute($route, ['entity' => $entity->getId()]);
+            return $this->plugin('url')->fromRoute($route, [
+                'entity' => $entity->getId(),
+            ]);
         }
 
-        return $this->redirect()->toRoute($route, ['entity' => $entity->getId()]);
+        return $this->redirect()->toRoute($route, [
+            'entity' => $entity->getId(),
+        ]);
     }
 
     public function checkoutAction()
@@ -387,10 +477,16 @@ class RepositoryController extends AbstractController
 
         $this->assertGranted('entity.revision.checkout', $entity);
 
-        $this->getRepositoryManager()->checkoutRevision($entity, $this->params('revision'), $reason);
+        $this->getRepositoryManager()->checkoutRevision(
+            $entity,
+            $this->params('revision'),
+            $reason
+        );
         $this->getRepositoryManager()->flush();
 
-        return $this->redirect()->toRoute('entity/page', ['entity' => $entity->getId()]);
+        return $this->redirect()->toRoute('entity/page', [
+            'entity' => $entity->getId(),
+        ]);
     }
 
     public function compareAction()
@@ -433,7 +529,9 @@ class RepositoryController extends AbstractController
             return false;
         }
 
-        $currentRevision = $entity->hasCurrentRevision() ? $entity->getCurrentRevision() : null;
+        $currentRevision = $entity->hasCurrentRevision()
+            ? $entity->getCurrentRevision()
+            : null;
         $this->assertGranted('entity.repository.history', $entity);
 
         $view = new ViewModel([
@@ -458,7 +556,11 @@ class RepositoryController extends AbstractController
         }
 
         $this->assertGranted('entity.revision.trash', $entity);
-        $this->getRepositoryManager()->rejectRevision($entity, $this->params('revision'), $reason);
+        $this->getRepositoryManager()->rejectRevision(
+            $entity,
+            $this->params('revision'),
+            $reason
+        );
         $this->getRepositoryManager()->flush();
 
         return $this->redirect()->toReferer();
@@ -491,10 +593,14 @@ class RepositoryController extends AbstractController
         }
 
         $license = $entity->getLicense();
-        $agreement = $license->getAgreement() ? $license->getAgreement() : $license->getTitle();
-        $form->get('license')->get('agreement')->setLabel($agreement);
+        $agreement = $license->getAgreement()
+            ? $license->getAgreement()
+            : $license->getTitle();
+        $form
+            ->get('license')
+            ->get('agreement')
+            ->setLabel($agreement);
         $form->get('changes')->setValue('');
-
 
         return $form;
     }
@@ -505,7 +611,10 @@ class RepositoryController extends AbstractController
      */
     protected function getFormFromType($type)
     {
-        $form = $this->moduleOptions->getType($type)->getComponent('repository')->getForm();
+        $form = $this->moduleOptions
+            ->getType($type)
+            ->getComponent('repository')
+            ->getForm();
         return $this->getServiceLocator()->get($form);
     }
 
@@ -536,7 +645,6 @@ class RepositoryController extends AbstractController
             ],
         ];
 
-
         // add revision data
         $revision = $this->getRevision($entity, $id);
         if (is_object($revision)) {
@@ -546,12 +654,16 @@ class RepositoryController extends AbstractController
         if ($this->moduleOptions->getType($type)->hasComponent('link')) {
             // add children
             /** @var LinkOptions $linkOptions */
-            $linkOptions = $this->moduleOptions->getType($type)->getComponent('link');
+            $linkOptions = $this->moduleOptions
+                ->getType($type)
+                ->getComponent('link');
             foreach ($linkOptions->getAllowedChildren() as $allowedChild) {
                 $chain = new FilterChain();
                 $chain->attach(new HasCurrentRevisionCollectionFilter());
                 $chain->attach(new NotTrashedCollectionFilter());
-                $children = $chain->filter($entity->getChildren('link', $allowedChild));
+                $children = $chain->filter(
+                    $entity->getChildren('link', $allowedChild)
+                );
 
                 if ($children->count()) {
                     if ($linkOptions->allowsManyChildren($allowedChild)) {
@@ -566,17 +678,31 @@ class RepositoryController extends AbstractController
                                 $data[$allowedChild][] = $this->getData($child);
                             } else {
                                 $filter = new NotTrashedCollectionFilter();
-                                $childRevisionId = $filter->filter($child->getRevisions())->first()->getId();
-                                $data[$allowedChild][] = $this->getData($child, $childRevisionId);
+                                $childRevisionId = $filter
+                                    ->filter($child->getRevisions())
+                                    ->first()
+                                    ->getId();
+                                $data[$allowedChild][] = $this->getData(
+                                    $child,
+                                    $childRevisionId
+                                );
                             }
                         }
                     } else {
                         if ($id === null) {
-                            $data[$allowedChild] = $this->getData($children->first());
+                            $data[$allowedChild] = $this->getData(
+                                $children->first()
+                            );
                         } else {
                             $filter = new NotTrashedCollectionFilter();
-                            $childRevisionId = $filter->filter($children->first()->getRevisions())->first()->getId();
-                            $data[$allowedChild] = $this->getData($children->first(), $childRevisionId);
+                            $childRevisionId = $filter
+                                ->filter($children->first()->getRevisions())
+                                ->first()
+                                ->getId();
+                            $data[$allowedChild] = $this->getData(
+                                $children->first(),
+                                $childRevisionId
+                            );
                         }
                     }
                 }
@@ -596,7 +722,10 @@ class RepositoryController extends AbstractController
             if ($id === null) {
                 return $entity->getCurrentRevision();
             } else {
-                return $this->getRepositoryManager()->findRevision($entity, $id);
+                return $this->getRepositoryManager()->findRevision(
+                    $entity,
+                    $id
+                );
             }
         } catch (RevisionNotFoundException $e) {
             return null;
@@ -608,8 +737,13 @@ class RepositoryController extends AbstractController
      * @param RevisionInterface $revision
      * @return RevisionInterface
      */
-    protected function getPreviousRevision(EntityInterface $entity, RevisionInterface $revision)
-    {
-        return $this->getRepositoryManager()->findPreviousRevision($entity, $revision);
+    protected function getPreviousRevision(
+        EntityInterface $entity,
+        RevisionInterface $revision
+    ) {
+        return $this->getRepositoryManager()->findPreviousRevision(
+            $entity,
+            $revision
+        );
     }
 }

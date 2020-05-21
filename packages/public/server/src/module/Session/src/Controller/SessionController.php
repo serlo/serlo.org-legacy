@@ -71,10 +71,14 @@ class SessionController extends AbstractActionController
                 try {
                     $lifetime = $this->config->getRememberMeSeconds();
                     $this->saveHandler->gc($lifetime);
-                    $this->logger->info('Session worker finished successfully.');
+                    $this->logger->info(
+                        'Session worker finished successfully.'
+                    );
                     $response->setStatusCode(200);
                 } catch (\Exception $e) {
-                    $this->logger->err('Session worker failed with message ' . $e->getMessage());
+                    $this->logger->err(
+                        'Session worker failed with message ' . $e->getMessage()
+                    );
                     $response->setStatusCode(500);
                 }
             } else {

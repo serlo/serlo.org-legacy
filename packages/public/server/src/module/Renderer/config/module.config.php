@@ -34,10 +34,11 @@ return [
     'service_manager' => [
         'factories' => [
             Renderer::class => RendererFactory::class,
-            __NAMESPACE__ . '\Storage\RendererStorage'   => RendererStorageFactory::class,
+            __NAMESPACE__ .
+            '\Storage\RendererStorage' => RendererStorageFactory::class,
         ],
     ],
-    'view_helpers'    => [
+    'view_helpers' => [
         'factories' => [
             'renderer' => RendererHelperFactory::class,
         ],

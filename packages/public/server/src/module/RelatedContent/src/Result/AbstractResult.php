@@ -41,7 +41,6 @@ abstract class AbstractResult implements ResultInterface
 
     public function getId()
     {
-        return $this->getObject()
-            ->getId();
+        return $this->getObject()->getId();
     }
 }

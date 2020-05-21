@@ -28,19 +28,15 @@ class RevisionFilter extends InputFilter
 {
     public function __construct()
     {
-        $this->add(
-            [
-                'name'     => 'title',
-                'required' => true,
-                'filters'  => [['name' => 'StripTags']],
-            ]
-        );
+        $this->add([
+            'name' => 'title',
+            'required' => true,
+            'filters' => [['name' => 'StripTags']],
+        ]);
 
-        $this->add(
-            [
-                'name'     => 'content',
-                'required' => true,
-            ]
-        );
+        $this->add([
+            'name' => 'content',
+            'required' => true,
+        ]);
     }
 }

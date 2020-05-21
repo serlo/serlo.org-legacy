@@ -37,7 +37,10 @@ class RequestInstanceAssertion extends InstanceAssertion
      */
     public function assert(AuthorizationResult $authorization, $context = null)
     {
-        if ($context instanceof InstanceProviderInterface or $context instanceof InstanceInterface) {
+        if (
+            $context instanceof InstanceProviderInterface or
+            $context instanceof InstanceInterface
+        ) {
             $instance = $context;
         } else {
             $instance = $this->instanceManager->getInstanceFromRequest();

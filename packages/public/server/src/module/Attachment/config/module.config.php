@@ -23,42 +23,45 @@
 namespace Attachment;
 
 return [
-    'zfc_rbac'           => [
+    'zfc_rbac' => [
         'assertion_map' => [
-            'attachment.append'  => 'Authorization\Assertion\InstanceAssertion',
-            'attachment.create'  => 'Authorization\Assertion\RequestInstanceAssertion',
-            'attachment.get'     => 'Authorization\Assertion\InstanceAssertion',
-            'attachment.trash'   => 'Authorization\Assertion\InstanceAssertion',
-            'attachment.purge'   => 'Authorization\Assertion\InstanceAssertion',
+            'attachment.append' => 'Authorization\Assertion\InstanceAssertion',
+            'attachment.create' =>
+                'Authorization\Assertion\RequestInstanceAssertion',
+            'attachment.get' => 'Authorization\Assertion\InstanceAssertion',
+            'attachment.trash' => 'Authorization\Assertion\InstanceAssertion',
+            'attachment.purge' => 'Authorization\Assertion\InstanceAssertion',
             'attachment.restore' => 'Authorization\Assertion\InstanceAssertion',
         ],
     ],
-    'class_resolver'     => [
+    'class_resolver' => [
         'Attachment\Entity\ContainerInterface' => 'Attachment\Entity\Container',
-        'Attachment\Entity\FileInterface'      => 'Attachment\Entity\File',
+        'Attachment\Entity\FileInterface' => 'Attachment\Entity\File',
     ],
     'attachment_manager' => [],
-    'service_manager'    => [
+    'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Manager\AttachmentManager' => __NAMESPACE__ . '\Factory\AttachmentManagerFactory',
-            __NAMESPACE__ . '\Options\ModuleOptions'     => __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
+            __NAMESPACE__ . '\Manager\AttachmentManager' =>
+                __NAMESPACE__ . '\Factory\AttachmentManagerFactory',
+            __NAMESPACE__ . '\Options\ModuleOptions' =>
+                __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
         ],
     ],
-    'uuid'               => [
+    'uuid' => [
         'permissions' => [
             'Attachment\Entity\Container' => [
-                'trash'   => 'attachment.trash',
+                'trash' => 'attachment.trash',
                 'restore' => 'attachment.restore',
-                'purge'   => 'attachment.purge',
+                'purge' => 'attachment.purge',
             ],
         ],
     ],
-    'di'                 => [
+    'di' => [
         'allowed_controllers' => [
             'Attachment\Controller\AttachmentController',
             'Taxonomy\Controller\TaxonomyController',
         ],
-        'definition'          => [
+        'definition' => [
             'class' => [
                 'Attachment\Controller\AttachmentController' => [
                     'setAttachmentManager' => [
@@ -67,61 +70,61 @@ return [
                 ],
             ],
         ],
-        'instance'            => [
+        'instance' => [
             'preferences' => [
-                'Attachment\Manager\AttachmentManagerInterface' => 'Attachment\Manager\AttachmentManager',
+                'Attachment\Manager\AttachmentManagerInterface' =>
+                    'Attachment\Manager\AttachmentManager',
             ],
         ],
     ],
-    'doctrine'           => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],
             ],
         ],
     ],
-    'router'             => [
+    'router' => [
         'routes' => [
             'attachment' => [
-                'type'    => 'literal',
-                'options'      => [
-                    'route'    => '/attachment',
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/attachment',
                     'defaults' => [
-                        'controller' => 'Attachment\Controller\AttachmentController',
+                        'controller' =>
+                            'Attachment\Controller\AttachmentController',
                     ],
                 ],
                 'child_routes' => [
-                    'info'   => [
-                        'type'    => 'Segment',
+                    'info' => [
+                        'type' => 'Segment',
                         'options' => [
-                            'route'    => '/info/:id',
+                            'route' => '/info/:id',
                             'defaults' => [
                                 'action' => 'info',
                             ],
                         ],
                     ],
-                    'file'   => [
-                        'type'    => 'Segment',
+                    'file' => [
+                        'type' => 'Segment',
                         'options' => [
-                            'route'    => '/file/:id[/:file]',
+                            'route' => '/file/:id[/:file]',
                             'defaults' => [
                                 'action' => 'file',
                             ],
                         ],
                     ],
                     'upload' => [
-                        'type'    => 'Segment',
+                        'type' => 'Segment',
                         'options' => [
-                            'route'    => '/upload[/:append]',
+                            'route' => '/upload[/:append]',
                             'defaults' => [
                                 'action' => 'attach',
                             ],

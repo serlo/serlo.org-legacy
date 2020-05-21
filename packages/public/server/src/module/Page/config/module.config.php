@@ -23,27 +23,32 @@
 namespace Page;
 
 return [
-    'zfc_rbac'        => [
+    'zfc_rbac' => [
         'assertion_manager' => [
             'factories' => [
-                __NAMESPACE__ . '\Assertion\PageAssertion' => __NAMESPACE__ . '\Factory\PageAssertionFactory',
+                __NAMESPACE__ . '\Assertion\PageAssertion' =>
+                    __NAMESPACE__ . '\Factory\PageAssertionFactory',
             ],
         ],
-        'assertion_map'     => [
-            'page.create'            => 'Authorization\Assertion\RequestInstanceAssertion',
-            'page.purge'             => 'Authorization\Assertion\InstanceAssertion',
-            'page.restore'           => 'Authorization\Assertion\InstanceAssertion',
-            'page.trash'             => 'Authorization\Assertion\InstanceAssertion',
-            'page.update'            => 'Authorization\Assertion\InstanceAssertion',
-            'page.get'               => 'Authorization\Assertion\InstanceAssertion',
-            'page.revision.purge'    => 'Authorization\Assertion\InstanceAssertion',
-            'page.revision.checkout' => __NAMESPACE__ . '\Assertion\PageAssertion',
-            'page.revision.create'   => __NAMESPACE__ . '\Assertion\PageAssertion',
-            'page.revision.restore'  => __NAMESPACE__ . '\Assertion\PageAssertion',
-            'page.revision.trash'    => __NAMESPACE__ . '\Assertion\PageAssertion',
+        'assertion_map' => [
+            'page.create' => 'Authorization\Assertion\RequestInstanceAssertion',
+            'page.purge' => 'Authorization\Assertion\InstanceAssertion',
+            'page.restore' => 'Authorization\Assertion\InstanceAssertion',
+            'page.trash' => 'Authorization\Assertion\InstanceAssertion',
+            'page.update' => 'Authorization\Assertion\InstanceAssertion',
+            'page.get' => 'Authorization\Assertion\InstanceAssertion',
+            'page.revision.purge' =>
+                'Authorization\Assertion\InstanceAssertion',
+            'page.revision.checkout' =>
+                __NAMESPACE__ . '\Assertion\PageAssertion',
+            'page.revision.create' =>
+                __NAMESPACE__ . '\Assertion\PageAssertion',
+            'page.revision.restore' =>
+                __NAMESPACE__ . '\Assertion\PageAssertion',
+            'page.revision.trash' => __NAMESPACE__ . '\Assertion\PageAssertion',
         ],
     ],
-    'taxonomy'        => [
+    'taxonomy' => [
         'types' => [
             'forum' => [
                 'allowed_associations' => [
@@ -52,65 +57,65 @@ return [
             ],
         ],
     ],
-    'versioning'      => [
+    'versioning' => [
         'permissions' => [
             'Page\Entity\PageRepository' => [
-                'commit'   => 'page.revision.create',
+                'commit' => 'page.revision.create',
                 'checkout' => 'page.revision.checkout',
-                'reject'   => 'page.revision.trash',
+                'reject' => 'page.revision.trash',
             ],
         ],
     ],
-    'uuid'            => [
+    'uuid' => [
         'permissions' => [
-            'Page\Entity\PageRevision'   => [
-                'trash'   => 'page.revision.trash',
+            'Page\Entity\PageRevision' => [
+                'trash' => 'page.revision.trash',
                 'restore' => 'page.revision.restore',
-                'purge'   => 'page.revision.purge',
+                'purge' => 'page.revision.purge',
             ],
             'Page\Entity\PageRepository' => [
-                'trash'   => 'page.trash',
+                'trash' => 'page.trash',
                 'restore' => 'page.restore',
-                'purge'   => 'page.purge',
+                'purge' => 'page.purge',
             ],
         ],
     ],
-    'router'          => [
+    'router' => [
         'routes' => [
             'pages' => [
                 'type' => 'literal',
                 'may_terminate' => true,
-                'options'       => [
-                    'route'    => '/pages',
+                'options' => [
+                    'route' => '/pages',
                     'defaults' => [
                         'controller' => 'Page\Controller\IndexController',
-                        'action'     => 'index',
+                        'action' => 'index',
                     ],
                 ],
             ],
-            'page'  => [
-                'type'         => 'literal',
-                'options'      => [
-                    'route'    => '/page',
+            'page' => [
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/page',
                     'defaults' => [
                         'controller' => 'Page\Controller\IndexController',
                     ],
                 ],
                 'child_routes' => [
-                    'create'   => [
-                        'type'    => 'literal',
+                    'create' => [
+                        'type' => 'literal',
                         'options' => [
-                            'route'    => '/create',
+                            'route' => '/create',
                             'defaults' => [
                                 'action' => 'create',
                             ],
                         ],
                     ],
-                    'update'   => [
-                        'type'    => 'segment',
+                    'update' => [
+                        'type' => 'segment',
                         'options' => [
-                            'route'       => '/update/:page',
-                            'defaults'    => [
+                            'route' => '/update/:page',
+                            'defaults' => [
                                 'action' => 'update',
                             ],
                             'constraints' => [
@@ -118,12 +123,12 @@ return [
                             ],
                         ],
                     ],
-                    'view'     => [
-                        'type'          => 'segment',
+                    'view' => [
+                        'type' => 'segment',
                         'may_terminate' => true,
-                        'options'       => [
-                            'route'       => '/view/:page',
-                            'defaults'    => [
+                        'options' => [
+                            'route' => '/view/:page',
+                            'defaults' => [
                                 'action' => 'view',
                             ],
                             'constraints' => [
@@ -131,7 +136,7 @@ return [
                             ],
                         ],
                         'child_routes' => [
-                            'convert'  => [
+                            'convert' => [
                                 'type' => 'literal',
                                 'options' => [
                                     'route' => '/convert',
@@ -144,26 +149,26 @@ return [
                         ],
                     ],
                     'revision' => [
-                        'type'         => 'segment',
-                        'options'      => [
+                        'type' => 'segment',
+                        'options' => [
                             'route' => '/revision',
                         ],
                         'child_routes' => [
-                            'view'     => [
-                                'type'          => 'segment',
+                            'view' => [
+                                'type' => 'segment',
                                 'may_terminate' => true,
-                                'options'       => [
-                                    'route'    => '/:revision',
+                                'options' => [
+                                    'route' => '/:revision',
                                     'defaults' => [
                                         'action' => 'viewRevision',
                                     ],
                                 ],
                             ],
                             'checkout' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/:page/checkout/:revision',
-                                    'defaults'    => [
+                                    'route' => '/:page/checkout/:revision',
+                                    'defaults' => [
                                         'action' => 'checkout',
                                     ],
                                     'constraints' => [
@@ -172,10 +177,10 @@ return [
                                 ],
                             ],
                             'view-all' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/revisions/:page',
-                                    'defaults'    => [
+                                    'route' => '/revisions/:page',
+                                    'defaults' => [
                                         'action' => 'viewRevisions',
                                     ],
                                     'constraints' => [
@@ -183,30 +188,30 @@ return [
                                     ],
                                 ],
                             ],
-                            'create-old'   => [
-                                'type'    => 'segment',
+                            'create-old' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/create-old/:page[/:revision]',
-                                    'defaults'    => [
+                                    'route' => '/create-old/:page[/:revision]',
+                                    'defaults' => [
                                         'action' => 'createLegacyRevision',
-                                        'old'    => true,
+                                        'old' => true,
                                     ],
                                     'constraints' => [
-                                        'page'     => '[0-9]+',
+                                        'page' => '[0-9]+',
                                         'revision' => '[0-9]*',
                                     ],
                                 ],
                             ],
-                            'create'   => [
-                                'type'    => 'segment',
+                            'create' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/create/:page[/:revision]',
-                                    'defaults'    => [
+                                    'route' => '/create/:page[/:revision]',
+                                    'defaults' => [
                                         'action' => 'createRevision',
-                                        'old'    => false,
+                                        'old' => false,
                                     ],
                                     'constraints' => [
-                                        'page'     => '[0-9]+',
+                                        'page' => '[0-9]+',
                                         'revision' => '[0-9]*',
                                     ],
                                 ],
@@ -217,10 +222,10 @@ return [
             ],
         ],
     ],
-    'class_resolver'  => [
+    'class_resolver' => [
         'Page\Entity\PageRepositoryInterface' => 'Page\Entity\PageRepository',
-        'Page\Entity\PageRevisionInterface'   => 'Page\Entity\PageRevision',
-        'Page\Entity\PageInterface'           => 'Page\Entity\Page',
+        'Page\Entity\PageRevisionInterface' => 'Page\Entity\PageRevision',
+        'Page\Entity\PageInterface' => 'Page\Entity\Page',
     ],
     'service_manager' => [
         'factories' => [
@@ -228,32 +233,31 @@ return [
             'Page\Form\RevisionForm' => 'Page\Factory\RevisionFormFactory',
         ],
     ],
-    'di'              => [
+    'di' => [
         'allowed_controllers' => [
             __NAMESPACE__ . '\Controller\IndexController',
         ],
-        'definition'          => [
+        'definition' => [
             'class' => [
                 'Page\Controller\IndexController' => [],
-                'Page\Manager\PageManager'        => [],
+                'Page\Manager\PageManager' => [],
             ],
         ],
-        'instance'            => [
+        'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\Manager\PageManagerInterface' => __NAMESPACE__ . '\Manager\PageManager',
+                __NAMESPACE__ . '\Manager\PageManagerInterface' =>
+                    __NAMESPACE__ . '\Manager\PageManager',
             ],
         ],
     ],
-    'doctrine'        => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],

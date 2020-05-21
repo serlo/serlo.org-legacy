@@ -31,16 +31,13 @@ class ClassResolverFactoryTest extends TestCase
     public function testFactory()
     {
         $serviceManager = new ServiceManager();
-        $serviceManager->setService(
-            'Config',
-            [
-                'class_resolver' => [
-                    'FooInterface' => 'Bar',
-                ],
-            ]
-        );
+        $serviceManager->setService('Config', [
+            'class_resolver' => [
+                'FooInterface' => 'Bar',
+            ],
+        ]);
 
-        $factory       = new ClassResolverFactory();
+        $factory = new ClassResolverFactory();
         $classResolver = $factory->createService($serviceManager);
 
         $this->assertInstanceOf('ClassResolver\ClassResolver', $classResolver);

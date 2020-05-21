@@ -30,7 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Instance implements InstanceInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

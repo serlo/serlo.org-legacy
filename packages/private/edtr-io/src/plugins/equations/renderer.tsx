@@ -29,14 +29,14 @@ export const LayoutContainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
-  alignItems: 'flex-start'
+  alignItems: 'flex-start',
 })
 
 export const LeftSide = styled.div({
   width: '33%',
   '@media(max-width: 480px)': { width: '100%', textAlign: 'left' },
   '@media(max-width: 768px)': { width: '50%', textAlign: 'right' },
-  '@media(min-width:768px)': { textAlign: 'right' }
+  '@media(min-width:768px)': { textAlign: 'right' },
 })
 
 export const RightSide = styled.div({
@@ -44,11 +44,11 @@ export const RightSide = styled.div({
   display: 'flex',
   flexDirection: 'row',
   '@media(max-width: 480px)': { width: '100%' },
-  '@media(max-width: 768px)': { width: '50%' }
+  '@media(max-width: 768px)': { width: '50%' },
 })
 export const Transformation = styled.div({
   width: '33%',
-  '@media(max-width: 768px)': { width: '100%', textAlign: 'center' }
+  '@media(max-width: 768px)': { width: '100%', textAlign: 'center' },
 })
 
 export function EquationsRenderer({ state }: EquationsProps) {
@@ -56,7 +56,7 @@ export function EquationsRenderer({ state }: EquationsProps) {
   return (
     <React.Fragment>
       <div>
-        {rows.map(row => {
+        {rows.map((row) => {
           return (
             <LayoutContainer key={row.left.id}>
               <LeftSide>{row.left.render()}</LeftSide>

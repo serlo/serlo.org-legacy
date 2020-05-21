@@ -28,7 +28,6 @@ use Type\Entity\TypeAwareInterface;
 
 interface TaxonomyInterface extends TypeAwareInterface, InstanceAwareInterface
 {
-
     /**
      * @return int
      */

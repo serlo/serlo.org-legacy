@@ -14,23 +14,23 @@ module.exports = R.merge(baseConfig, {
   plugins: [
     ...baseConfig.plugins,
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    })
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
   ],
   output: {
     ...baseConfig.output,
     devtoolModuleFilenameTemplate(info) {
       const relativePath = path.relative(baseDir, info.absoluteResourcePath)
       return `webpack:///${relativePath}`
-    }
+    },
   },
   optimization: {
     minimizer: [
       new OptimizeCssAssetsPlugin(),
       new TerserPlugin({
         parallel: true,
-        sourceMap: true
-      })
-    ]
-  }
+        sourceMap: true,
+      }),
+    ],
+  },
 })

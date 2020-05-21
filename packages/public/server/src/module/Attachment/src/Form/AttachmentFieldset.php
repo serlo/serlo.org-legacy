@@ -27,7 +27,8 @@ use Zend\Form\Element\File;
 use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
 
-class AttachmentFieldset extends Fieldset implements InputFilterProviderInterface
+class AttachmentFieldset extends Fieldset implements
+    InputFilterProviderInterface
 {
     /**
      * @var bool
@@ -51,17 +52,17 @@ class AttachmentFieldset extends Fieldset implements InputFilterProviderInterfac
     {
         return [
             [
-                'name'       => 'file',
-                'required'   => $this->required,
+                'name' => 'file',
+                'required' => $this->required,
                 'validators' => [
                     [
-                        'name'    => 'Zend\Validator\File\Size',
+                        'name' => 'Zend\Validator\File\Size',
                         'options' => [
                             'max' => '4MB',
                         ],
                     ],
                     [
-                        'name'    => 'Zend\Validator\File\Extension',
+                        'name' => 'Zend\Validator\File\Extension',
                         'options' => [
                             'jpg',
                             'jpeg',

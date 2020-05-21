@@ -74,8 +74,10 @@ export async function typeIntoEditor(
   indexTextfield: number,
   text: string
 ): Promise<void> {
-  await root.$$('[data-slate-editor=true]').then(s => click(s[indexTextfield]))
-  await getByRole(root, 'textbox').then(t => t.type(text))
+  await root
+    .$$('[data-slate-editor=true]')
+    .then((s) => click(s[indexTextfield]))
+  await getByRole(root, 'textbox').then((t) => t.type(text))
 }
 
 export async function clickForNewPage(
@@ -94,16 +96,15 @@ function just<T>(x: T): NonNullable<T> {
   return x!
 }
 
-export async function isVisible(
-  element: ElementHandle<HTMLElement>
-): Promise<boolean> {
-  return element.evaluate(
-    e => !!(e && (e.offsetWidth || e.offsetHeight || e.getClientRects().length))
+export async function isVisible(element: ElementHandle): Promise<boolean> {
+  return (element as ElementHandle<HTMLElement>).evaluate(
+    (e) =>
+      !!(e && (e.offsetWidth || e.offsetHeight || e.getClientRects().length))
   )
 }
 
 export async function getText(element: ElementHandle): Promise<string> {
-  return element.evaluate(e => e.textContent).then(just)
+  return element.evaluate((e) => e.textContent).then(just)
 }
 
 export async function getMainContent(
@@ -118,8 +119,8 @@ export async function login(user: string): Promise<void> {
   const loginPage = await goto(pages.login.path)
 
   const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
-  await getByPlaceholderText(loginPage, inputUser).then(e => e.type(user))
-  await getByPlaceholderText(loginPage, inputPassword).then(e =>
+  await getByPlaceholderText(loginPage, inputUser).then((e) => e.type(user))
+  await getByPlaceholderText(loginPage, inputPassword).then((e) =>
     e.type(pages.login.defaultPassword)
   )
 
@@ -146,7 +147,7 @@ export async function openDropdownMenu(topic: ElementHandle) {
 }
 export function addContent(type: string) {
   return async (topic: ElementHandle) => {
-    await getByText(topic, 'Add content').then(e => e.hover())
+    await getByText(topic, 'Add content').then((e) => e.hover())
 
     return await getByText(topic, type).then(clickForNewPage)
   }
@@ -157,12 +158,14 @@ export async function organizeTaxonomy(topic: ElementHandle) {
 
 export async function saveRevision(createPage: ElementHandle) {
   await getBySelector(createPage, '#subject-nav-wrapper .fa-save').then(click)
-  await getByLabelText(createPage, 'Änderungen').then(e => e.type(randomText()))
-  await createPage.$$('input[type=checkbox]').then(c => c[0].click())
-  await createPage.$$('input[type=checkbox]').then(c => c[3].click())
+  await getByLabelText(createPage, 'Änderungen').then((e) =>
+    e.type(randomText())
+  )
+  await createPage.$$('input[type=checkbox]').then((c) => c[0].click())
+  await createPage.$$('input[type=checkbox]').then((c) => c[3].click())
 
   return await getByText(createPage, 'Speichern', {
-    selector: 'button'
+    selector: 'button',
   }).then(clickForNewPage)
 }
 
@@ -191,7 +194,7 @@ export async function toHaveHTMLContent(
 ): Promise<jest.CustomMatcherResult> {
   return testIsEqual(
     content,
-    await element.evaluate(e => e.innerHTML).then(just),
+    await element.evaluate((e) => e.innerHTML).then(just),
     'HTML content',
     this.expand
   )
@@ -243,7 +246,7 @@ export async function toHaveCollapsable(
 
     return {
       pass: true,
-      message: () => `Collapsable with toggle ${toggleText} should not exist`
+      message: () => `Collapsable with toggle ${toggleText} should not exist`,
     }
   }
 
@@ -258,7 +261,7 @@ export async function toHaveCollapsable(
   return {
     pass: true,
     message: () =>
-      `Collapsable with toggle ${toggleText} should toggle visibility.`
+      `Collapsable with toggle ${toggleText} should toggle visibility.`,
   }
 }
 
@@ -272,7 +275,7 @@ export async function toHaveSystemNotification(
 
   return {
     pass: true,
-    message: () => `System notifications should not show ${notification}`
+    message: () => `System notifications should not show ${notification}`,
   }
 }
 
@@ -299,7 +302,7 @@ function testIsEqual(
   if (expected === current) {
     return {
       pass: true,
-      message: () => `Current ${label} should not be ${printReceived(current)}`
+      message: () => `Current ${label} should not be ${printReceived(current)}`,
     }
   } else {
     return {
@@ -311,7 +314,7 @@ function testIsEqual(
           `Expected ${label}`,
           `Current ${label}`,
           expand
-        )
+        ),
     }
   }
 }

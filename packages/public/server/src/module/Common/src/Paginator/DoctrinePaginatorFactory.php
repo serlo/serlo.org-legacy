@@ -48,10 +48,13 @@ class DoctrinePaginatorFactory
 
     public function createPaginator($dql, $page, $limit)
     {
-        $offset        = ($page - 1) * $limit;
-        $query         = $this->entityManager->createQuery($dql)->setMaxResults($limit)->setFirstResult($offset);
-        $paginator     = new Paginator($query);
-        $adapter       = new DoctrinePaginatorAdapter($paginator);
+        $offset = ($page - 1) * $limit;
+        $query = $this->entityManager
+            ->createQuery($dql)
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
+        $paginator = new Paginator($query);
+        $adapter = new DoctrinePaginatorAdapter($paginator);
         $zendPaginator = new ZendPaginator($adapter);
         $zendPaginator->setCurrentPageNumber($page);
         $zendPaginator->setItemCountPerPage($limit);
@@ -60,8 +63,8 @@ class DoctrinePaginatorFactory
 
     public function createPaginatorFromQuery($query, $page, $limit)
     {
-        $paginator     = new Paginator($query);
-        $adapter       = new DoctrinePaginatorAdapter($paginator);
+        $paginator = new Paginator($query);
+        $adapter = new DoctrinePaginatorAdapter($paginator);
         $zendPaginator = new ZendPaginator($adapter);
         $zendPaginator->setCurrentPageNumber($page);
         $zendPaginator->setItemCountPerPage($limit);

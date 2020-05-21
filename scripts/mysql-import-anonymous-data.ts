@@ -7,7 +7,7 @@ exec()
   .then(() => {
     console.log('done')
   })
-  .catch(code => {
+  .catch((code) => {
     process.exit(code)
   })
 
@@ -16,18 +16,18 @@ async function exec() {
     'bash',
     [
       '-c',
-      "gsutil ls -l gs://anonymous-data | grep dump | sort -rk 2 | head -n 1 | awk '{ print $3 }'"
+      "gsutil ls -l gs://anonymous-data | grep dump | sort -rk 2 | head -n 1 | awk '{ print $3 }'",
     ],
     {
       stdio: 'pipe',
-      encoding: 'utf-8'
+      encoding: 'utf-8',
     }
   )
     .stdout.toString()
     .trim()
   const fileName = spawnSync('basename', [latestDump], {
     stdio: 'pipe',
-    encoding: 'utf-8'
+    encoding: 'utf-8',
   })
     .stdout.toString()
     .trim()
@@ -36,18 +36,18 @@ async function exec() {
   // })
   const container = spawnSync('docker-compose', ['ps', '-q', 'mysql'], {
     stdio: 'pipe',
-    encoding: 'utf-8'
+    encoding: 'utf-8',
   })
     .stdout.toString()
     .trim()
   spawnSync('unzip', ['-o', `/tmp/${fileName}`, '-d', '/tmp'], {
-    stdio: 'inherit'
+    stdio: 'inherit',
   })
   spawnSync('docker', ['cp', '/tmp/dump.sql', `${container}:/tmp/dump.sql`], {
-    stdio: 'inherit'
+    stdio: 'inherit',
   })
   spawnSync('docker', ['cp', '/tmp/user.csv', `${container}:/tmp/user.csv`], {
-    stdio: 'inherit'
+    stdio: 'inherit',
   })
   await execSql('serlo < /tmp/dump.sql')
   console.log('succeeded dump')
@@ -65,16 +65,16 @@ function execSql(command: string) {
       'mysql',
       'sh',
       '-c',
-      `mysql --user=root --password="$MYSQL_ROOT_PASSWORD" ${command}`
+      `mysql --user=root --password="$MYSQL_ROOT_PASSWORD" ${command}`,
     ])
     dockerComposeExec.stdout.pipe(process.stdout)
     dockerComposeExec.stderr
       .pipe(new IgnoreInsecurePasswordWarning('utf8'))
       .pipe(process.stderr)
-    dockerComposeExec.on('error', error => {
+    dockerComposeExec.on('error', (error) => {
       console.error('ERROR: ' + error)
     })
-    dockerComposeExec.on('exit', code => {
+    dockerComposeExec.on('exit', (code) => {
       if (code !== null) {
         reject(code)
       }

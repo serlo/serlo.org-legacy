@@ -32,7 +32,10 @@ class RepositoryManagerListener extends AbstractListener
 {
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach($this->getMonitoredClass(), 'checkout', [$this, 'onCheckout']);
+        $events->attach($this->getMonitoredClass(), 'checkout', [
+            $this,
+            'onCheckout',
+        ]);
     }
 
     protected function getMonitoredClass()
@@ -51,12 +54,19 @@ class RepositoryManagerListener extends AbstractListener
                 $this->getAliasManager()->flush($entity);
             }
 
-            $url = $this->getAliasManager()->getRouter()->assemble(
-                ['entity' => $entity->getId()],
-                ['name' => 'entity/page']
-            );
+            $url = $this->getAliasManager()
+                ->getRouter()
+                ->assemble(
+                    ['entity' => $entity->getId()],
+                    ['name' => 'entity/page']
+                );
 
-            $this->getAliasManager()->autoAlias('entity', $url, $entity, $instance);
+            $this->getAliasManager()->autoAlias(
+                'entity',
+                $url,
+                $entity,
+                $instance
+            );
         }
     }
 }

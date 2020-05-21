@@ -26,7 +26,6 @@ use User\Entity\UserInterface;
 
 interface VoteInterface
 {
-
     /**
      * @param UserInterface $user
      * @return self

@@ -43,16 +43,24 @@ class FlagController extends AbstractActionController
         $this->assertGranted('flag.create');
 
         $types = $this->getFlagManager()->findAllTypes();
-        $form  = new FlagForm($types);
+        $form = new FlagForm($types);
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $data = $form->getData();
                 $uuid = $this->params('id');
-                $this->getFlagManager()->addFlag((int)$data['type'], $data['content'], $uuid);
+                $this->getFlagManager()->addFlag(
+                    (int) $data['type'],
+                    $data['content'],
+                    $uuid
+                );
                 $this->getFlagManager()->flush();
-                $this->flashMessenger()->addSuccessMessage('The content has been flagged.');
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                $this->flashMessenger()->addSuccessMessage(
+                    'The content has been flagged.'
+                );
+                return $this->redirect()->toUrl(
+                    $this->referer()->fromStorage()
+                );
             }
         } else {
             $this->referer()->store();
@@ -66,7 +74,7 @@ class FlagController extends AbstractActionController
 
     public function detailAction()
     {
-        $id   = (int)$this->params('id');
+        $id = (int) $this->params('id');
         $flag = $this->getFlagManager()->getFlag($id);
         $view = new ViewModel(['flag' => $flag]);
         $view->setTemplate('flag/detail');
@@ -76,7 +84,10 @@ class FlagController extends AbstractActionController
     public function manageAction()
     {
         $flags = $this->getFlagManager()->findAllFlags();
-        $view  = new ViewModel(['flags' => $flags, 'form' => new CsrfForm('remove-flag')]);
+        $view = new ViewModel([
+            'flags' => $flags,
+            'form' => new CsrfForm('remove-flag'),
+        ]);
         $view->setTemplate('flag/manage');
         return $view;
     }
@@ -88,11 +99,15 @@ class FlagController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $id = $this->params('id');
-                $this->getFlagManager()->removeFlag((int)$id);
+                $this->getFlagManager()->removeFlag((int) $id);
                 $this->getFlagManager()->flush();
-                $this->flashMessenger()->addSuccessMessage('Your action was successfull.');
+                $this->flashMessenger()->addSuccessMessage(
+                    'Your action was successfull.'
+                );
             } else {
-                $this->flashMessenger()->addErrorMessage('The flag could not be removed (validation failed)');
+                $this->flashMessenger()->addErrorMessage(
+                    'The flag could not be removed (validation failed)'
+                );
             }
         }
         return $this->redirect()->toReferer();

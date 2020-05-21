@@ -32,8 +32,9 @@ trait LicenseManagerFactoryTrait
      * @param ServiceLocatorInterface $serviceLocator
      * @return LicenseManager
      */
-    protected function getLicenseManager(ServiceLocatorInterface $serviceLocator)
-    {
+    protected function getLicenseManager(
+        ServiceLocatorInterface $serviceLocator
+    ) {
         return $serviceLocator->get('License\Manager\LicenseManager');
     }
 }

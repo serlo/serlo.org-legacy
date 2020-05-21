@@ -34,7 +34,6 @@ use Type\Entity\TypeAwareTrait;
  */
 class Parameter implements ParameterInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -70,7 +69,7 @@ class Parameter implements ParameterInterface
 
     public function __construct()
     {
-        $this->children = new ArrayCollection;
+        $this->children = new ArrayCollection();
     }
 
     /**

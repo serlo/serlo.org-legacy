@@ -24,7 +24,7 @@
  * Migrates the Edtr.io states of all entities of type `text-exercise` and `grouped-text-exercise`.
  * THIS IS AN IRREVERSIBLE MIGRATION!
  */
-exports.up = function(db, cb) {
+exports.up = function (db, cb) {
   db.all(
     `
       SELECT erf.id, erf.value
@@ -53,7 +53,7 @@ exports.up = function(db, cb) {
     db.runSql(
       `UPDATE entity_revision_field SET value = ? WHERE id = ?`,
       [JSON.stringify(migrateState(state)), field.id],
-      err => {
+      (err) => {
         if (err) {
           return cb(err)
         }
@@ -63,12 +63,12 @@ exports.up = function(db, cb) {
   }
 }
 
-exports.down = function(db, cb) {
+exports.down = function (db, cb) {
   cb()
 }
 
 exports._meta = {
-  version: 1
+  version: 1,
 }
 
 function migrateState(state) {
@@ -79,10 +79,10 @@ function migrateState(state) {
     state: {
       content: {
         plugin: 'rows',
-        state: children.filter(child => !isInteractive(child))
+        state: children.filter((child) => !isInteractive(child)),
       },
-      interactive: children.filter(child => isInteractive(child))[0]
-    }
+      interactive: children.filter((child) => isInteractive(child))[0],
+    },
   }
 
   function isInteractive(doc) {

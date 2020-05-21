@@ -1,11 +1,11 @@
-module.exports = api => {
+module.exports = (api) => {
   const isProduction = () => process.env.NODE_ENV === 'production'
   api.cache(isProduction)
 
   const presets = [
     '@babel/preset-env',
     '@babel/preset-typescript',
-    '@babel/preset-react'
+    '@babel/preset-react',
   ]
 
   const plugins = [
@@ -30,12 +30,12 @@ module.exports = api => {
                 '@serlo/legacy-editor-to-editor':
                   '@serlo/legacy-editor-to-editor/src',
                 '@serlo/markdown': '@serlo/markdown/src',
-                '@serlo/mathjax': '@serlo/mathjax/src'
-              }
-            }
-          ]
+                '@serlo/mathjax': '@serlo/mathjax/src',
+              },
+            },
+          ],
         ]
-      : [])
+      : []),
   ]
 
   return { plugins, presets }

@@ -31,7 +31,8 @@ use Zend\Stdlib\ArrayUtils;
 
 class AliasController extends AbstractActionController
 {
-    use Alias\AliasManagerAwareTrait, \Instance\Manager\InstanceManagerAwareTrait;
+    use Alias\AliasManagerAwareTrait,
+        \Instance\Manager\InstanceManagerAwareTrait;
 
     /**
      * @var mixed
@@ -40,11 +41,14 @@ class AliasController extends AbstractActionController
 
     public function forwardAction()
     {
-        $alias    = $this->params('alias');
+        $alias = $this->params('alias');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
 
         try {
-            $location = $this->aliasManager->findCanonicalAlias($alias, $instance);
+            $location = $this->aliasManager->findCanonicalAlias(
+                $alias,
+                $instance
+            );
             $this->redirect()->toUrl($location);
             $this->getResponse()->setStatusCode(301);
             return false;
@@ -52,13 +56,17 @@ class AliasController extends AbstractActionController
         }
 
         try {
-            $source = $this->aliasManager->findSourceByAlias($alias, $instance, true);
+            $source = $this->aliasManager->findSourceByAlias(
+                $alias,
+                $instance,
+                true
+            );
         } catch (AliasNotFoundException $e) {
             $this->getResponse()->setStatusCode(404);
             return false;
         }
 
-        $router  = $this->getServiceLocator()->get('Router');
+        $router = $this->getServiceLocator()->get('Router');
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
         $request->setUri($source);
@@ -70,16 +78,13 @@ class AliasController extends AbstractActionController
         }
 
         $this->getEvent()->setRouteMatch($routeMatch);
-        $params     = $routeMatch->getParams();
+        $params = $routeMatch->getParams();
         $controller = $params['controller'];
-        $return     = $this->forward()->dispatch(
+        $return = $this->forward()->dispatch(
             $controller,
-            ArrayUtils::merge(
-                $params,
-                [
-                    'forwarded' => true,
-                ]
-            )
+            ArrayUtils::merge($params, [
+                'forwarded' => true,
+            ])
         );
 
         return $return;

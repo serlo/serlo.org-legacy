@@ -52,7 +52,9 @@ class AttachmentAdapter extends AbstractAdapter
 
     protected function getFile()
     {
-        $file = $this->getObject()->getFiles()->current();
+        $file = $this->getObject()
+            ->getFiles()
+            ->current();
         if (!is_object($file)) {
             throw new RuntimeException('No files have been attached');
         }

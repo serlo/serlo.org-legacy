@@ -29,7 +29,7 @@ Sentry.init({
       ? 'https://019a6c4e5ac24e26a6b2391398c445bd@sentry.io/1518830'
       : undefined,
   release: `serlo-org-client@${version}`,
-  whitelistUrls: ['serlo.org', 'serlo-development.dev', 'serlo-staging.dev']
+  whitelistUrls: ['serlo.org', 'serlo-development.dev', 'serlo-staging.dev'],
 })
 
 export { Sentry }

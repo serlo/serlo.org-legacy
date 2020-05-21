@@ -45,7 +45,7 @@ class AdsController extends AbstractActionController
     {
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
         $this->assertGranted('ad.create', $instance);
-        $ads  = $this->getAdsManager()->findAllAds($instance);
+        $ads = $this->getAdsManager()->findAllAds($instance);
         $view = new ViewModel([
             'ads' => $ads,
             'form' => new CsrfForm('remove-ad'),
@@ -58,29 +58,28 @@ class AdsController extends AbstractActionController
     public function addAction()
     {
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $user     = $this->getUserManager()->getUserFromAuthenticator();
-        $form     = new AdForm();
+        $user = $this->getUserManager()->getUserFromAuthenticator();
+        $form = new AdForm();
         $this->assertGranted('ad.create', $instance);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $data = array_merge(
                 $data,
-                $this->getRequest()->getFiles()->toArray()
+                $this->getRequest()
+                    ->getFiles()
+                    ->toArray()
             );
 
             $form->setData($data);
             if ($form->isValid()) {
-                $array  = $form->getData();
+                $array = $form->getData();
                 $upload = $this->getAttachmentManager()->attach($form);
-                $array  = array_merge(
-                    $array,
-                    [
-                        'attachment' => $upload,
-                        'author'     => $user,
-                        'instance'   => $instance,
-                    ]
-                );
+                $array = array_merge($array, [
+                    'attachment' => $upload,
+                    'author' => $user,
+                    'instance' => $instance,
+                ]);
 
                 $this->getAdsManager()->createAd($array);
                 $this->getAdsManager()->flush();
@@ -109,7 +108,9 @@ class AdsController extends AbstractActionController
                 $this->getAdsManager()->removeAd($ad);
                 $this->getAdsManager()->flush();
             } else {
-                $this->flashMessenger()->addErrorMessage('The element could not be removed (validation failed)');
+                $this->flashMessenger()->addErrorMessage(
+                    'The element could not be removed (validation failed)'
+                );
             }
         }
         return $this->redirect()->toRoute('ads');
@@ -118,8 +119,8 @@ class AdsController extends AbstractActionController
     public function editAction()
     {
         $form = new AdForm();
-        $id   = $this->params('id');
-        $ad   = $this->getAdsManager()->getAd($id);
+        $id = $this->params('id');
+        $ad = $this->getAdsManager()->getAd($id);
         $this->assertGranted('ad.update', $ad);
 
         // todo: use hydrator instead
@@ -133,7 +134,9 @@ class AdsController extends AbstractActionController
             $data = $this->params()->fromPost();
             $data = array_merge(
                 $data,
-                $this->getRequest()->getFiles()->toArray()
+                $this->getRequest()
+                    ->getFiles()
+                    ->toArray()
             );
 
             $form->setData($data);
@@ -142,7 +145,7 @@ class AdsController extends AbstractActionController
 
                 // Try updating the upload
                 try {
-                    $upload              = $this->getAttachmentManager()->attach($form);
+                    $upload = $this->getAttachmentManager()->attach($form);
                     $array['attachment'] = $upload;
                 } catch (NoFileSent $e) {
                     // No file has been sent, so we stick to the old one

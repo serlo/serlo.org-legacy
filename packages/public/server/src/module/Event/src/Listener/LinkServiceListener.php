@@ -28,13 +28,13 @@ class LinkServiceListener extends AbstractListener
 {
     public function onLink(Event $e)
     {
-        $entity   = $e->getParam('entity');
-        $user     = $this->getUserManager()->getUserFromAuthenticator();
+        $entity = $e->getParam('entity');
+        $user = $this->getUserManager()->getUserFromAuthenticator();
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
 
         $params = [
             [
-                'name'  => 'parent',
+                'name' => 'parent',
                 'value' => $e->getParam('parent'),
             ],
         ];
@@ -44,13 +44,13 @@ class LinkServiceListener extends AbstractListener
 
     public function onUnLink(Event $e)
     {
-        $entity   = $e->getParam('entity');
-        $user     = $this->getUserManager()->getUserFromAuthenticator();
+        $entity = $e->getParam('entity');
+        $user = $this->getUserManager()->getUserFromAuthenticator();
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
 
         $params = [
             [
-                'name'  => 'parent',
+                'name' => 'parent',
                 'value' => $e->getParam('parent'),
             ],
         ];
@@ -58,24 +58,19 @@ class LinkServiceListener extends AbstractListener
         $this->logEvent('entity/link/remove', $instance, $entity, $params);
     }
 
-    public function attachShared(\Zend\EventManager\SharedEventManagerInterface $events)
-    {
+    public function attachShared(
+        \Zend\EventManager\SharedEventManagerInterface $events
+    ) {
         $this->listeners[] = $events->attach(
             $this->getMonitoredClass(),
             'unlink',
-            [
-                $this,
-                'onUnlink',
-            ]
+            [$this, 'onUnlink']
         );
 
         $this->listeners[] = $events->attach(
             $this->getMonitoredClass(),
             'link',
-            [
-                $this,
-                'onLink',
-            ]
+            [$this, 'onLink']
         );
     }
 

@@ -59,7 +59,7 @@ class UserController extends AbstractUserController
         $user = $this->getUserManager()->getUserFromAuthenticator();
 
         if (!$user) {
-            throw new UnauthorizedException;
+            throw new UnauthorizedException();
         }
         $view = new ViewModel(['user' => $user]);
         $view->setTemplate('user/user/profile');
@@ -71,10 +71,12 @@ class UserController extends AbstractUserController
         $user = $this->getUserManager()->getUserFromAuthenticator();
 
         if (!$user) {
-            throw new UnauthorizedException;
+            throw new UnauthorizedException();
         }
 
-        return $this->redirect()->toRoute('user/profile', ['id' => $user->getUsername()]);
+        return $this->redirect()->toRoute('user/profile', [
+            'id' => $user->getUsername(),
+        ]);
     }
 
     public function profileAction()
@@ -114,22 +116,18 @@ class UserController extends AbstractUserController
                     'interests' => $data['interests'],
                 ]);
 
-                $this->getEventManager()->trigger(
-                    'register',
-                    $this,
-                    [
-                        'user' => $user,
-                        'instance' => $this->getInstanceManager()->getInstanceFromRequest(),
-                        'data' => $data,
-                    ]
-                );
+                $this->getEventManager()->trigger('register', $this, [
+                    'user' => $user,
+                    'instance' => $this->getInstanceManager()->getInstanceFromRequest(),
+                    'data' => $data,
+                ]);
 
                 $this->getUserManager()->persist($user);
                 $this->getUserManager()->flush();
                 $this->flashMessenger()->addSuccessMessage(
-                    'You have registered successfully and'
-                    . ' will soon receive an email with instructions on'
-                    . ' how to activate your account.'
+                    'You have registered successfully and' .
+                        ' will soon receive an email with instructions on' .
+                        ' how to activate your account.'
                 );
                 return $this->redirect()->toUrl($this->params('ref', '/'));
             }
@@ -149,9 +147,13 @@ class UserController extends AbstractUserController
             if ($name === 'register') {
                 $this->forms[$name] = $this->getServiceLocator()->get($form);
             } elseif ($name === 'settings') {
-                $this->forms[$name] = new $form($this->getUserManager()->getObjectManager());
+                $this->forms[$name] = new $form(
+                    $this->getUserManager()->getObjectManager()
+                );
             } elseif ($name === 'login') {
-                $this->forms[$name] = new $form($this->getServiceLocator()->get('MvcTranslator'));
+                $this->forms[$name] = new $form(
+                    $this->getServiceLocator()->get('MvcTranslator')
+                );
             } else {
                 $this->forms[$name] = new $form();
             }
@@ -173,18 +175,21 @@ class UserController extends AbstractUserController
     {
         $user = $this->getUserManager()->getUserFromAuthenticator();
         if (!$user) {
-            throw new UnauthorizedException;
+            throw new UnauthorizedException();
         }
 
         if ($this->getRequest()->isPost()) {
             $data = json_decode($this->getRequest()->getContent(), true);
             $data = array_merge($data, [
                 // TODO:,
-                "email" => $user->getEmail(),
-                "csrf" => $data['csrf'],
+                'email' => $user->getEmail(),
+                'csrf' => $data['csrf'],
             ]);
             // TODO:
-            $form = new SettingsForm($this->getUserManager()->getObjectManager(), true/*, $data['email'] === $user->getEmail() */);
+            $form = new SettingsForm(
+                $this->getUserManager()->getObjectManager(),
+                true /*, $data['email'] === $user->getEmail() */
+            );
             $form->setData($data);
             if ($form->isValid()) {
                 $data = $form->getData();
@@ -197,9 +202,15 @@ class UserController extends AbstractUserController
                     'Your profile has been saved'
                 );
                 $redirectUrl = $this->plugin('url')->fromRoute('user/me');
-                return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
+                return new JsonModel([
+                    'success' => true,
+                    'redirect' => $redirectUrl,
+                ]);
             } else {
-                return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
+                return new JsonModel([
+                    'success' => false,
+                    'errors' => $form->getMessages(),
+                ]);
             }
         }
 

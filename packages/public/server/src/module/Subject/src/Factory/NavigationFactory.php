@@ -40,8 +40,8 @@ class NavigationFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $instanceManager = $this->getInstanceManager($serviceLocator);
-        $subjectManager  = $this->getSubjectManager($serviceLocator);
-        $service         = new Navigation($instanceManager, $subjectManager);
+        $subjectManager = $this->getSubjectManager($serviceLocator);
+        $service = new Navigation($instanceManager, $subjectManager);
 
         return $service;
     }

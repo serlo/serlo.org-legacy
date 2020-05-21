@@ -40,7 +40,12 @@ class EntityManagerListener extends AbstractSharedListenerAggregate
 
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach($this->getMonitoredClass(), 'create', [$this, 'onCreate'], 2);
+        $events->attach(
+            $this->getMonitoredClass(),
+            'create',
+            [$this, 'onCreate'],
+            2
+        );
     }
 
     protected function getMonitoredClass()

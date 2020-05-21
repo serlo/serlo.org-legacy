@@ -31,7 +31,6 @@ use Uuid\Entity\UuidInterface;
  */
 class Internal extends AbstractType implements InternalInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\OneToOne(targetEntity="Holder", inversedBy="external")

@@ -65,7 +65,7 @@ class Alias implements AliasInterface
 
     public function __construct()
     {
-        $this->timestamp = new DateTime;
+        $this->timestamp = new DateTime();
     }
 
     public function getAlias()

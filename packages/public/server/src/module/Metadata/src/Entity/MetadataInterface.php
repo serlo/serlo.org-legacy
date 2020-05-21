@@ -26,7 +26,6 @@ use Uuid\Entity\UuidInterface;
 
 interface MetadataInterface
 {
-
     /**
      * @return int
      */

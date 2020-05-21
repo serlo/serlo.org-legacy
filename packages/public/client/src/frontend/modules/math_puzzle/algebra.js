@@ -66,7 +66,7 @@ function isEquivalent(value, goal) {
   nonnan = false
   for (i = 0; i < 10; ++i) {
     data = {}
-    getVar = function(x) {
+    getVar = function (x) {
       if (data[x] === undefined) data[x] = Math.random() * 6 - 3
       return data[x]
     }
@@ -117,6 +117,6 @@ function evalPn(structure, getVar) {
 }
 
 const Algebra = {
-  verify: verify
+  verify: verify,
 }
 export default Algebra

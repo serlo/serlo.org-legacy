@@ -36,8 +36,10 @@ class UuidHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $moduleOptions = $serviceLocator->getServiceLocator()->get('Uuid\Options\ModuleOptions');
-        $helper        = new UuidHelper($moduleOptions);
+        $moduleOptions = $serviceLocator
+            ->getServiceLocator()
+            ->get('Uuid\Options\ModuleOptions');
+        $helper = new UuidHelper($moduleOptions);
 
         return $helper;
     }

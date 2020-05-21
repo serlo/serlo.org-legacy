@@ -43,7 +43,7 @@ class NotIdentical extends AbstractValidator
      *
      * @const string
      */
-    const SAME          = 'same';
+    const SAME = 'same';
     const MISSING_TOKEN = 'missingToken';
 
     /**
@@ -52,7 +52,7 @@ class NotIdentical extends AbstractValidator
      * @var array
      */
     protected $messageTemplates = [
-        self::SAME          => "The two given tokens are not supposed to match",
+        self::SAME => 'The two given tokens are not supposed to match',
         self::MISSING_TOKEN => 'No token was provided to match against',
     ];
 
@@ -119,8 +119,10 @@ class NotIdentical extends AbstractValidator
      */
     public function setToken($token)
     {
-        $this->tokenString = (is_array($token) ? var_export($token, true) : (string)$token);
-        $this->token       = $token;
+        $this->tokenString = is_array($token)
+            ? var_export($token, true)
+            : (string) $token;
+        $this->token = $token;
 
         return $this;
     }
@@ -143,7 +145,7 @@ class NotIdentical extends AbstractValidator
      */
     public function setStrict($strict)
     {
-        $this->strict = (bool)$strict;
+        $this->strict = (bool) $strict;
 
         return $this;
     }
@@ -166,7 +168,7 @@ class NotIdentical extends AbstractValidator
      */
     public function setLiteral($literal)
     {
-        $this->literal = (bool)$literal;
+        $this->literal = (bool) $literal;
 
         return $this;
     }
@@ -194,7 +196,7 @@ class NotIdentical extends AbstractValidator
                         break;
                     }
                     $context = $context[$key];
-                    $token   = $token[$key];
+                    $token = $token[$key];
                 }
             }
 
@@ -214,7 +216,7 @@ class NotIdentical extends AbstractValidator
         }
 
         $strict = $this->getStrict();
-        if (($strict && ($value === $token)) || (!$strict && ($value == $token))) {
+        if (($strict && $value === $token) || (!$strict && $value == $token)) {
             $this->error(self::SAME);
 
             return false;

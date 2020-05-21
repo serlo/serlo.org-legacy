@@ -51,9 +51,14 @@ class NotificationStorageFactory implements FactoryInterface
                 'serializer',
             ],
         ];
-        if (array_key_exists('notification_cache', $serviceLocator->get('Config'))) {
-            $config =  $serviceLocator->get('Config')['notification_cache'];
-        };
+        if (
+            array_key_exists(
+                'notification_cache',
+                $serviceLocator->get('Config')
+            )
+        ) {
+            $config = $serviceLocator->get('Config')['notification_cache'];
+        }
         $cache = StorageFactory::factory($config);
         return $cache;
     }

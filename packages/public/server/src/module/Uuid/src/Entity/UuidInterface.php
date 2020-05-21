@@ -48,7 +48,6 @@ interface UuidInterface
      */
     public function setTrashed($trashed);
 
-
     /**
      * @return string
      */

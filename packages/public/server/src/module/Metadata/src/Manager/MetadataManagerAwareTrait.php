@@ -24,7 +24,6 @@ namespace Metadata\Manager;
 
 trait MetadataManagerAwareTrait
 {
-
     /**
      * @var MetadataManagerInterface
      */
@@ -42,8 +41,9 @@ trait MetadataManagerAwareTrait
      * @param MetadataManagerInterface $metadataManager
      * @return self
      */
-    public function setMetadataManager(MetadataManagerInterface $metadataManager)
-    {
+    public function setMetadataManager(
+        MetadataManagerInterface $metadataManager
+    ) {
         $this->metadataManager = $metadataManager;
 
         return $this;

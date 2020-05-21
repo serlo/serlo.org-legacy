@@ -27,7 +27,6 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 
 class HydratorPluginAwareDoctrineObject extends DoctrineObject
 {
-
     /**
      * @var \Common\Hydrator\HydratorPluginManager
      */
@@ -69,7 +68,7 @@ class HydratorPluginAwareDoctrineObject extends DoctrineObject
 
     public function extract($object)
     {
-        $data    = parent::extract($object);
+        $data = parent::extract($object);
         $plugins = $this->getPlugins();
 
         /* @var $plugin HydratorPluginInterface */
@@ -84,7 +83,7 @@ class HydratorPluginAwareDoctrineObject extends DoctrineObject
     protected function getPlugins()
     {
         $instantiate = [];
-        $plugins     = [];
+        $plugins = [];
 
         if (empty($this->pluginWhitelist)) {
             foreach ($this->pluginManager->getRegisteredServices() as $type) {

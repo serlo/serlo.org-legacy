@@ -63,7 +63,12 @@ class NotificationWorkerListener extends AbstractListener
      */
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach($this->getMonitoredClass(), 'notify', [$this, 'onNotify'], -1);
+        $events->attach(
+            $this->getMonitoredClass(),
+            'notify',
+            [$this, 'onNotify'],
+            -1
+        );
     }
 
     /**
@@ -73,7 +78,7 @@ class NotificationWorkerListener extends AbstractListener
     public function onNotify(Event $e)
     {
         /* @var $user \User\Entity\UserInterface */
-        $user          = $e->getParam('user');
+        $user = $e->getParam('user');
         $notifications = $e->getParam('notifications');
 
         if (!$notifications instanceof Collection) {
@@ -84,17 +89,25 @@ class NotificationWorkerListener extends AbstractListener
         $contentNotifications = new ArrayCollection();
         foreach ($notifications as $notification) {
             /** @var Notification $notification */
-            if (substr($notification->getEventName(), 0, strlen('discussion')) === 'discussion') {
+            if (
+                substr(
+                    $notification->getEventName(),
+                    0,
+                    strlen('discussion')
+                ) === 'discussion'
+            ) {
                 $discussionNotifications->add($notification);
             } else {
                 $contentNotifications->add($notification);
             }
         }
 
-        $this->getMailRenderer()->setTemplateFolder('mailman/messages/notification');
+        $this->getMailRenderer()->setTemplateFolder(
+            'mailman/messages/notification'
+        );
         $data = $this->getMailRenderer()->renderMail([
             'body' => [
-                'user'          => $user,
+                'user' => $user,
                 'discussionNotifications' => $discussionNotifications,
                 'contentNotifications' => $contentNotifications,
             ],
@@ -121,13 +134,13 @@ class NotificationWorkerListener extends AbstractListener
     protected function exceptionToString(\Exception $e)
     {
         $trace = $e->getTraceAsString();
-        $i     = 1;
+        $i = 1;
         do {
-            $messages[] = $i++ . ": " . $e->getMessage();
+            $messages[] = $i++ . ': ' . $e->getMessage();
         } while ($e = $e->getPrevious());
 
-        $log = "Exception:n" . implode("n", $messages);
-        $log .= "nTrace:n" . $trace;
+        $log = 'Exception:n' . implode('n', $messages);
+        $log .= 'nTrace:n' . $trace;
 
         return $log;
     }

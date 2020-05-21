@@ -34,31 +34,46 @@ class AppletFormTest extends TestCase
     {
         parent::setUp();
         $license = $this->createMock(LicenseInterface::class);
-        $this->appletForm  = new AppletForm($license);
+        $this->appletForm = new AppletForm($license);
     }
 
     public function testUrlElement()
     {
-        $urlFilter = $this->appletForm->getInputFilter()->get("url");
+        $urlFilter = $this->appletForm->getInputFilter()->get('url');
 
-        $validUrls = ["https://www.geogebra.org/m/2440601", "2440601", "aAZYthn93", "09azAZ"];
+        $validUrls = [
+            'https://www.geogebra.org/m/2440601',
+            '2440601',
+            'aAZYthn93',
+            '09azAZ',
+        ];
 
         foreach ($validUrls as $url) {
             $urlFilter->setValue($url);
 
-            $this->assertTrue($urlFilter->isValid(), sprintf("URL `%s` should be accepted.", $url));
+            $this->assertTrue(
+                $urlFilter->isValid(),
+                sprintf('URL `%s` should be accepted.', $url)
+            );
         }
 
-        $invalidUrls = ["", "http://www.geogebra.org/m/2440601", "https://geogebra.org/m/2440601",
-                        "https://ggbm.at/2440601", "azz aaa", "/123",
-                        "https://www.geogebra.org/m/YdT/", "$5f", ];
+        $invalidUrls = [
+            '',
+            'http://www.geogebra.org/m/2440601',
+            'https://geogebra.org/m/2440601',
+            'https://ggbm.at/2440601',
+            'azz aaa',
+            '/123',
+            'https://www.geogebra.org/m/YdT/',
+            '$5f',
+        ];
 
         foreach ($invalidUrls as $url) {
             $urlFilter->setValue($url);
 
             $this->assertFalse(
                 $urlFilter->isValid(),
-                sprintf("Invalid URL `%s` should not be accepted.", $url)
+                sprintf('Invalid URL `%s` should not be accepted.', $url)
             );
         }
     }

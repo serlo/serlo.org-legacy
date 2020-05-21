@@ -24,7 +24,6 @@ namespace ClassResolver;
 
 trait ClassResolverAwareTrait
 {
-
     /**
      * @var ClassResolverInterface
      */

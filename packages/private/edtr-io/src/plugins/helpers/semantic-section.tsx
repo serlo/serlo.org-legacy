@@ -28,7 +28,7 @@ const Container = styled.div({
   marginTop: '10px',
   padding: '10px',
   minHeight: '70px',
-  position: 'relative'
+  position: 'relative',
 })
 
 const BackgroundIcon = styled.div({
@@ -37,7 +37,7 @@ const BackgroundIcon = styled.div({
   right: 0,
   color: 'rgba(0,0,0,0.1)',
   transform: 'translate(-15px, 10px)',
-  zIndex: 0
+  zIndex: 0,
 })
 
 export function SemanticSection(props: SemanticSectionProps) {

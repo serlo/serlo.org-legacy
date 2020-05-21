@@ -44,7 +44,7 @@ class AdHydrator implements HydratorInterface
     {
         $data = [];
         foreach ($this->keys as $key) {
-            $method      = 'get' . ucfirst($key);
+            $method = 'get' . ucfirst($key);
             $data['key'] = $object->$method();
         }
 
@@ -56,15 +56,17 @@ class AdHydrator implements HydratorInterface
         $data = ArrayUtils::merge($this->extract($object), $data);
 
         if (!$object instanceof AdInterface) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected object to be AdInterface but got "%s"',
-                get_class($object)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected object to be AdInterface but got "%s"',
+                    get_class($object)
+                )
+            );
         }
 
         foreach ($this->keys as $key) {
             $method = 'set' . ucfirst($key);
-            $value  = $this->getKey($data, $key);
+            $value = $this->getKey($data, $key);
             if ($value !== null) {
                 $object->$method($value);
             }

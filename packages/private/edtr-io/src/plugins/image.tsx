@@ -31,7 +31,7 @@ enum FileErrorCode {
   NO_FILE_SELECTED,
   BAD_EXTENSION,
   FILE_TOO_BIG,
-  UPLOAD_FAILED
+  UPLOAD_FAILED,
 }
 
 export interface FileError {
@@ -45,14 +45,14 @@ function matchesAllowedExtensions(fileName: string) {
 }
 
 function handleErrors(errors: FileErrorCode[]): FileError[] {
-  return errors.map(error => ({
+  return errors.map((error) => ({
     errorCode: error,
-    message: errorCodeToMessage(error)
+    message: errorCodeToMessage(error),
   }))
 }
 
 function onError(errors: FileError[]): void {
-  alert(errors.map(error => error.message).join('\n'))
+  alert(errors.map((error) => error.message).join('\n'))
 }
 
 function errorCodeToMessage(error: FileErrorCode) {
@@ -70,7 +70,7 @@ function errorCodeToMessage(error: FileErrorCode) {
   }
 }
 
-export const validateFile: UploadValidator<FileError[]> = file => {
+export const validateFile: UploadValidator<FileError[]> = (file) => {
   let uploadErrors: FileErrorCode[] = []
 
   if (!file) {
@@ -81,13 +81,13 @@ export const validateFile: UploadValidator<FileError[]> = file => {
     uploadErrors = [...uploadErrors, FileErrorCode.FILE_TOO_BIG]
   } else {
     return {
-      valid: true
+      valid: true,
     }
   }
 
   return {
     valid: false,
-    errors: handleErrors(uploadErrors)
+    errors: handleErrors(uploadErrors),
   }
 }
 
@@ -100,7 +100,7 @@ export function createUploadImageHandler(getCsrfToken: () => string) {
       return Promise.reject(validation.errors)
     }
 
-    return readFile(file).then(loaded => {
+    return readFile(file).then((loaded) => {
       return loaded.dataUrl
     })
   }
@@ -111,7 +111,7 @@ export function createReadFile(getCsrfToken: () => string) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
 
-      reader.onload = function(e: ProgressEvent) {
+      reader.onload = function (e: ProgressEvent) {
         if (!e.target) return
         const formData = new FormData()
         formData.append('attachment[file]', file)
@@ -124,7 +124,7 @@ export function createReadFile(getCsrfToken: () => string) {
             if (!data['success']) reject()
             resolve({
               file,
-              dataUrl: data.files[0].location
+              dataUrl: data.files[0].location,
             })
           })
           .catch(() => {
@@ -141,6 +141,6 @@ export function createImagePlugin(getCsrfToken: () => string) {
   return createCoreImagePlugin({
     upload: createUploadImageHandler(getCsrfToken),
     validate: validateFile,
-    secondInput: 'description'
+    secondInput: 'description',
   })
 }

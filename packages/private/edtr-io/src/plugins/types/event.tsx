@@ -28,7 +28,7 @@ import {
   entity,
   Controls,
   HeaderInput,
-  entityType
+  entityType,
 } from './common'
 import { RevisionHistory, Settings } from './helpers/settings'
 
@@ -38,7 +38,7 @@ export const eventTypeState = entityType(
     title: string(),
     content: editorContent(),
     meta_title: string(),
-    meta_description: string()
+    meta_description: string(),
   },
   {}
 )
@@ -46,7 +46,7 @@ export const eventTypeState = entityType(
 export const eventTypePlugin: EditorPlugin<typeof eventTypeState> = {
   Component: EventTypeEditor,
   state: eventTypeState,
-  config: {}
+  config: {},
 }
 
 function EventTypeEditor(props: EditorPluginProps<typeof eventTypeState>) {

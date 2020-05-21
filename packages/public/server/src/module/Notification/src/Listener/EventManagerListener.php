@@ -43,7 +43,9 @@ class EventManagerListener extends AbstractListener
 
         /* @var SubscriptionInterface[] $subscriptions */
         $object = $eventLog->getObject();
-        $subscriptions = $this->getSubscriptionManager()->findSubscriptionsByUuid($object);
+        $subscriptions = $this->getSubscriptionManager()->findSubscriptionsByUuid(
+            $object
+        );
         $subscribed = [];
 
         foreach ($subscriptions as $subscription) {
@@ -63,11 +65,16 @@ class EventManagerListener extends AbstractListener
             if ($parameter->getValue() instanceof UuidInterface) {
                 /* @var $subscribers UserInterface[] */
                 $object = $parameter->getValue();
-                $subscriptions = $this->getSubscriptionManager()->findSubscriptionsByUuid($object);
+                $subscriptions = $this->getSubscriptionManager()->findSubscriptionsByUuid(
+                    $object
+                );
 
                 foreach ($subscriptions as $subscription) {
                     $subscriber = $subscription->getSubscriber();
-                    if (!in_array($subscriber, $subscribed) && $subscriber !== $eventLog->getActor()) {
+                    if (
+                        !in_array($subscriber, $subscribed) &&
+                        $subscriber !== $eventLog->getActor()
+                    ) {
                         $this->getNotificationManager()->createNotification(
                             $subscriber,
                             $eventLog,
@@ -81,14 +88,7 @@ class EventManagerListener extends AbstractListener
 
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach(
-            $this->getMonitoredClass(),
-            'log',
-            [
-                $this,
-                'onLog',
-            ]
-        );
+        $events->attach($this->getMonitoredClass(), 'log', [$this, 'onLog']);
     }
 
     protected function getMonitoredClass()

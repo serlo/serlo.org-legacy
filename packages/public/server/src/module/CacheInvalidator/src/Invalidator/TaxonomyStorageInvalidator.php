@@ -30,7 +30,6 @@ use Zend\EventManager\Event;
 
 class TaxonomyStorageInvalidator implements InvalidatorInterface
 {
-
     /**
      * @var StorageInterface
      */
@@ -41,14 +40,15 @@ class TaxonomyStorageInvalidator implements InvalidatorInterface
      */
     protected $cacheService;
 
-
     /**
      * @param CacheService     $cacheService
      * @param StorageInterface $storage
      */
-    public function __construct(CacheService $cacheService, StorageInterface $storage)
-    {
-        $this->storage      = $storage;
+    public function __construct(
+        CacheService $cacheService,
+        StorageInterface $storage
+    ) {
+        $this->storage = $storage;
         $this->cacheService = $cacheService;
     }
 
@@ -60,11 +60,14 @@ class TaxonomyStorageInvalidator implements InvalidatorInterface
      */
     public function invalidate(Event $e, $class, $event)
     {
-        $term   = $e->getParam('term');
+        $term = $e->getParam('term');
         $result = false;
 
         if ($term instanceof TaxonomyTermInterface) {
-            $result = $this->cacheService->clearByTags(['route_taxonomy/term/get', 'param_term_' . $term->getId()]);
+            $result = $this->cacheService->clearByTags([
+                'route_taxonomy/term/get',
+                'param_term_' . $term->getId(),
+            ]);
             $this->cacheService->clearByTags(['navigation/render']);
             $this->clearParents($term);
         }
@@ -78,7 +81,10 @@ class TaxonomyStorageInvalidator implements InvalidatorInterface
     {
         if ($term->hasParent()) {
             $parent = $term->getParent();
-            $this->cacheService->clearByTags(['route_taxonomy/term/get', 'param_term_' . $parent->getId()]);
+            $this->cacheService->clearByTags([
+                'route_taxonomy/term/get',
+                'param_term_' . $parent->getId(),
+            ]);
             $this->clearParents($parent);
         }
     }

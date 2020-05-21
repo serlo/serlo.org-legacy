@@ -27,9 +27,7 @@ use Zend\Mvc\MvcEvent;
 
 class Module implements ConfigProviderInterface
 {
-    public static $listeners = [
-        'Newsletter\Listener\UserControllerListener',
-    ];
+    public static $listeners = ['Newsletter\Listener\UserControllerListener'];
 
     public function getConfig()
     {
@@ -39,16 +37,23 @@ class Module implements ConfigProviderInterface
     public function onBootstrap(MvcEvent $e)
     {
         $eventManager = $e->getApplication()->getEventManager();
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatchRegisterListeners'), 1000);
+        $eventManager->attach(
+            MvcEvent::EVENT_DISPATCH,
+            [$this, 'onDispatchRegisterListeners'],
+            1000
+        );
     }
 
     public function onDispatchRegisterListeners(MvcEvent $e)
     {
-        $eventManager       = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         foreach (self::$listeners as $listener) {
             $sharedEventManager->attachAggregate(
-                $e->getApplication()->getServiceManager()->get($listener)
+                $e
+                    ->getApplication()
+                    ->getServiceManager()
+                    ->get($listener)
             );
         }
     }

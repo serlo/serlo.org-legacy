@@ -39,8 +39,13 @@ class HydratorPluginAwareDoctrineObjectFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $objectManager = $this->getEntityManager($serviceLocator);
-        $pluginManager = $serviceLocator->get('Common\Hydrator\HydratorPluginManager');
-        $hydrator      = new HydratorPluginAwareDoctrineObject($objectManager, $pluginManager);
+        $pluginManager = $serviceLocator->get(
+            'Common\Hydrator\HydratorPluginManager'
+        );
+        $hydrator = new HydratorPluginAwareDoctrineObject(
+            $objectManager,
+            $pluginManager
+        );
         return $hydrator;
     }
 }

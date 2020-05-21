@@ -52,8 +52,8 @@ class AliasStorageFactory implements FactoryInterface
             ],
         ];
         if (array_key_exists('alias_cache', $serviceLocator->get('Config'))) {
-            $config =  $serviceLocator->get('Config')['alias_cache'];
-        };
+            $config = $serviceLocator->get('Config')['alias_cache'];
+        }
         $cache = StorageFactory::factory($config);
 
         return $cache;

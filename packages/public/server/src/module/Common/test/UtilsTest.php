@@ -36,16 +36,24 @@ class UtilsTest extends TestCase
         $this->assertEquals(Utils::array_flatmap($double, []), []);
         $this->assertEquals(Utils::array_flatmap($double, [1]), [1, 1]);
         $this->assertEquals(Utils::array_flatmap($double, [1]), [1, 1]);
-        $this->assertEquals(Utils::array_flatmap($double, [1, 2]), [1, 1, 2, 2]);
-        $this->assertEquals(
-            Utils::array_flatmap($double, ["x", true, 42]),
-            ["x", "x", true, true, 42, 42]
-        );
+        $this->assertEquals(Utils::array_flatmap($double, [1, 2]), [
+            1,
+            1,
+            2,
+            2,
+        ]);
+        $this->assertEquals(Utils::array_flatmap($double, ['x', true, 42]), [
+            'x',
+            'x',
+            true,
+            true,
+            42,
+            42,
+        ]);
     }
 
     public function testArrayFlatmapEmptySet()
     {
-        $this->assertEquals(Utils::array_flatmap(function () {
-        }, []), []);
+        $this->assertEquals(Utils::array_flatmap(function () {}, []), []);
     }
 }

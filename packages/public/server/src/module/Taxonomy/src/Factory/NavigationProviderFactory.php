@@ -42,11 +42,16 @@ class NavigationProviderFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $objectManager     = $this->getEntityManager($serviceLocator);
-        $taxonomyManager   = $this->getTaxonomyManager($serviceLocator);
-        $instanceManager   = $this->getInstanceManager($serviceLocator);
-        $storage           = $serviceLocator->get('Navigation\Storage\Storage');
-        $provider          = new NavigationProvider($instanceManager, $taxonomyManager, $objectManager, $storage);
+        $objectManager = $this->getEntityManager($serviceLocator);
+        $taxonomyManager = $this->getTaxonomyManager($serviceLocator);
+        $instanceManager = $this->getInstanceManager($serviceLocator);
+        $storage = $serviceLocator->get('Navigation\Storage\Storage');
+        $provider = new NavigationProvider(
+            $instanceManager,
+            $taxonomyManager,
+            $objectManager,
+            $storage
+        );
 
         return $provider;
     }

@@ -46,37 +46,43 @@ class VideoForm extends Form
 
         $this->add(new Title());
         $this->add((new EditorState('description'))->setLabel('Description:'));
-        $this->add((new Url('content'))->setAttribute('id', 'content')->setLabel('Video url:'));
         $this->add(
-            (new EditorState('reasoning'))->setLabel('Reasoning:')->setAttribute('class', 'meta')
+            (new Url('content'))
+                ->setAttribute('id', 'content')
+                ->setLabel('Video url:')
+        );
+        $this->add(
+            (new EditorState('reasoning'))
+                ->setLabel('Reasoning:')
+                ->setAttribute('class', 'meta')
         );
         $this->add(new Changes());
         $this->add(new AgreementFieldset($license));
         $this->add(new Controls());
 
         $inputFilter = new InputFilter('video');
-        $inputFilter->add(
-            [
-                'name'       => 'content',
-                'required'   => true,
-                'filters'    => [
-                    [
-                        'name' => 'StripTags',
-                    ],
+        $inputFilter->add([
+            'name' => 'content',
+            'required' => true,
+            'filters' => [
+                [
+                    'name' => 'StripTags',
                 ],
-                'validators' => [
-                    [
-                        'name'    => 'Regex',
-                        'options' => [
-                            'pattern'  => '~^(https?:\/\/)?(.*?(youtube\.com\/watch\?v=.+|youtu\.be\/.+|vimeo\.com\/.+|upload\.wikimedia\.org\/.+(\.webm|\.ogg)?|br\.de\/.+))~',
-                            'messages' => [
-                                Regex::NOT_MATCH => 'Video-URL invalid, supported platforms are Youtube, Vimeo, Wikimedia Commons and BR-Mediathek',
-                            ],
+            ],
+            'validators' => [
+                [
+                    'name' => 'Regex',
+                    'options' => [
+                        'pattern' =>
+                            '~^(https?:\/\/)?(.*?(youtube\.com\/watch\?v=.+|youtu\.be\/.+|vimeo\.com\/.+|upload\.wikimedia\.org\/.+(\.webm|\.ogg)?|br\.de\/.+))~',
+                        'messages' => [
+                            Regex::NOT_MATCH =>
+                                'Video-URL invalid, supported platforms are Youtube, Vimeo, Wikimedia Commons and BR-Mediathek',
                         ],
                     ],
                 ],
-            ]
-        );
+            ],
+        ]);
         $this->setInputFilter($inputFilter);
     }
 }

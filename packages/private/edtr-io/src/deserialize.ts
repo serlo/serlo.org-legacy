@@ -28,7 +28,7 @@ import {
   Edtr,
   Legacy,
   RowsPlugin,
-  Splish
+  Splish,
 } from '@serlo/legacy-editor-to-editor'
 import * as R from 'ramda'
 
@@ -53,7 +53,7 @@ const empty: RowsPlugin = { plugin: 'rows', state: [] }
 export function deserialize({
   initialState,
   type,
-  onError
+  onError,
 }: Pick<EditorProps, 'initialState' | 'type' | 'onError'>): DeserializeResult {
   const stack: { id: number; type: string }[] = []
   const config: Record<
@@ -73,12 +73,12 @@ export function deserialize({
     'text-solution': { deserialize: deserializeTextSolution },
     user: { deserialize: deserializeUser },
     video: { deserialize: deserializeVideo },
-    taxonomy: { deserialize: deserializeTaxonomy }
+    taxonomy: { deserialize: deserializeTaxonomy },
   }
   try {
     if (config[type] === undefined) {
       return {
-        error: 'type-unsupported'
+        error: 'type-unsupported',
       }
     }
     const { deserialize } = config[type]
@@ -86,11 +86,11 @@ export function deserialize({
   } catch (e) {
     if (typeof onError === 'function') {
       onError(e, {
-        stack: JSON.stringify(stack)
+        stack: JSON.stringify(stack),
       })
     }
     return {
-      error: 'failure'
+      error: 'failure',
     }
   }
 
@@ -99,7 +99,7 @@ export function deserialize({
   ): DeserializeSuccess {
     return {
       success: true,
-      ...deserialized
+      ...deserialized,
     }
   }
 
@@ -122,10 +122,10 @@ export function deserialize({
             toEdtr(deserializeEditorState(state.reasoning))
           ),
           meta_title: state.meta_title || '',
-          meta_description: state.meta_description || ''
-        }
+          meta_description: state.meta_description || '',
+        },
       },
-      converted: !isEdtr(deserializeEditorState(state.content) || empty)
+      converted: !isEdtr(deserializeEditorState(state.content) || empty),
     }
   }
 
@@ -147,10 +147,10 @@ export function deserialize({
             toEdtr(deserializeEditorState(state.reasoning))
           ),
           meta_title: state.meta_title || '',
-          meta_description: state.meta_description || ''
-        }
+          meta_description: state.meta_description || '',
+        },
       },
-      converted: !isEdtr(deserializeEditorState(state.content) || empty)
+      converted: !isEdtr(deserializeEditorState(state.content) || empty),
     }
   }
 
@@ -173,11 +173,11 @@ export function deserialize({
           ),
           meta_description: state.meta_description || '',
           'course-page': (state['course-page'] || []).map(
-            s => deserializeCoursePage(s).initialState.state
-          )
-        }
+            (s) => deserializeCoursePage(s).initialState.state
+          ),
+        },
       },
-      converted: !isEdtr(deserializeEditorState(state.description) || empty)
+      converted: !isEdtr(deserializeEditorState(state.description) || empty),
     }
   }
 
@@ -195,10 +195,10 @@ export function deserialize({
           icon: state.icon || 'explanation',
           content: serializeEditorState(
             toEdtr(deserializeEditorState(state.content))
-          )
-        }
+          ),
+        },
       },
-      converted: !isEdtr(deserializeEditorState(state.content) || empty)
+      converted: !isEdtr(deserializeEditorState(state.content) || empty),
     }
   }
 
@@ -217,10 +217,10 @@ export function deserialize({
             toEdtr(deserializeEditorState(state.content))
           ),
           meta_title: state.meta_title || '',
-          meta_description: state.meta_description || ''
-        }
+          meta_description: state.meta_description || '',
+        },
       },
-      converted: !isEdtr(deserializeEditorState(state.content) || empty)
+      converted: !isEdtr(deserializeEditorState(state.content) || empty),
     }
   }
 
@@ -237,10 +237,10 @@ export function deserialize({
           content: serializeEditorState(
             toEdtr(deserializeEditorState(state.content))
           ),
-          source: state.source || ''
-        }
+          source: state.source || '',
+        },
       },
-      converted: !isEdtr(deserializeEditorState(state.content) || empty)
+      converted: !isEdtr(deserializeEditorState(state.content) || empty),
     }
   }
 
@@ -256,10 +256,10 @@ export function deserialize({
           title: state.title || '',
           content: serializeEditorState(
             toEdtr(deserializeEditorState(state.content))
-          )
-        }
+          ),
+        },
       },
-      converted: !isEdtr(deserializeEditorState(state.content) || empty)
+      converted: !isEdtr(deserializeEditorState(state.content) || empty),
     }
   }
 
@@ -275,10 +275,10 @@ export function deserialize({
           term: state.term,
           description: serializeEditorState(
             toEdtr(deserializeEditorState(state.description))
-          )
-        }
+          ),
+        },
       },
-      converted: false // no legacy editor for taxonomies
+      converted: false, // no legacy editor for taxonomies
     }
   }
 
@@ -318,10 +318,10 @@ export function deserialize({
           'text-solution': textSolution
             ? deserializeTextSolution(textSolution).initialState.state
             : '',
-          content: getContent()
-        }
+          content: getContent(),
+        },
       },
-      converted: !isEdtr(deserialized || empty)
+      converted: !isEdtr(deserialized || empty),
     }
 
     function getContent() {
@@ -338,10 +338,10 @@ export function deserialize({
         state: {
           content: {
             plugin: 'rows',
-            state: convertedContent.state
+            state: convertedContent.state,
           },
-          interactive
-        }
+          interactive,
+        },
       })
     }
 
@@ -372,16 +372,16 @@ export function deserialize({
                     convert(
                       deserializeEditorState(singleChoiceRightAnswer.feedback)
                     )
-                  )
-                }
+                  ),
+                },
               ]
             : []
         const convertedSCWrongAnswers = singleChoiceWrongAnswer
           ? singleChoiceWrongAnswer
-              .filter(answer => {
+              .filter((answer) => {
                 return answer.content
               })
-              .map(answer => {
+              .map((answer) => {
                 return {
                   content: extractChildFromRows(
                     convert(deserializeEditorState(answer.content))
@@ -389,35 +389,35 @@ export function deserialize({
                   isCorrect: false,
                   feedback: extractChildFromRows(
                     convert(deserializeEditorState(answer.feedback))
-                  )
+                  ),
                 }
               })
           : []
 
         const convertedMCRightAnswers = multipleChoiceRightAnswer
           ? multipleChoiceRightAnswer
-              .filter(answer => {
+              .filter((answer) => {
                 return answer.content
               })
-              .map(answer => {
+              .map((answer) => {
                 return {
                   content: extractChildFromRows(
                     convert(deserializeEditorState(answer.content))
                   ),
                   isCorrect: true,
                   feedback: {
-                    plugin: 'text'
-                  }
+                    plugin: 'text',
+                  },
                 }
               })
           : []
 
         const convertedMCWrongAnswers = multipleChoiceWrongAnswer
           ? multipleChoiceWrongAnswer
-              .filter(answer => {
+              .filter((answer) => {
                 return answer.content
               })
-              .map(answer => {
+              .map((answer) => {
                 return {
                   content: extractChildFromRows(
                     convert(deserializeEditorState(answer.content))
@@ -425,7 +425,7 @@ export function deserialize({
                   isCorrect: false,
                   feedback: extractChildFromRows(
                     convert(deserializeEditorState(answer.feedback))
-                  )
+                  ),
                 }
               })
           : []
@@ -440,9 +440,9 @@ export function deserialize({
               ...(isSingleChoice ? convertedSCRightAnswers : []),
               ...(isSingleChoice ? convertedSCWrongAnswers : []),
               ...(!isSingleChoice ? convertedMCRightAnswers : []),
-              ...(!isSingleChoice ? convertedMCWrongAnswers : [])
-            ]
-          }
+              ...(!isSingleChoice ? convertedMCWrongAnswers : []),
+            ],
+          },
         }
       }
     }
@@ -467,7 +467,7 @@ export function deserialize({
         const inputExercises = filterDefined([
           inputStringNormalizedMatchChallenge,
           inputNumberExactMatchChallenge,
-          inputExpressionEqualMatchChallenge
+          inputExpressionEqualMatchChallenge,
         ])
 
         return {
@@ -475,8 +475,8 @@ export function deserialize({
           state: {
             type,
             answers: extractInputAnswers(inputExercises, true),
-            unit: ''
-          }
+            unit: '',
+          },
         }
       }
 
@@ -490,22 +490,22 @@ export function deserialize({
       }[] {
         if (inputExercises.length === 0) return []
 
-        const answers = inputExercises.map(exercise => {
+        const answers = inputExercises.map((exercise) => {
           return {
             value: exercise.solution,
             feedback: extractChildFromRows(
               convert(deserializeEditorState(exercise.feedback))
             ),
-            isCorrect
+            isCorrect,
           }
         })
 
         const children = R.flatten(
-          inputExercises.map(exercise => {
+          inputExercises.map((exercise) => {
             return filterDefined([
               exercise['input-string-normalized-match-challenge'],
               exercise['input-number-exact-match-challenge'],
-              exercise['input-expression-equal-match-challenge']
+              exercise['input-expression-equal-match-challenge'],
             ])
           })
         )
@@ -514,7 +514,7 @@ export function deserialize({
       }
 
       function filterDefined<T>(array: (T | undefined)[]): T[] {
-        return array.filter(el => typeof el !== 'undefined') as T[]
+        return array.filter((el) => typeof el !== 'undefined') as T[]
       }
     }
   }
@@ -537,11 +537,11 @@ export function deserialize({
             toEdtr(deserializeEditorState(state.content))
           ),
           'grouped-text-exercise': (state['grouped-text-exercise'] || []).map(
-            s => deserializeTextExercise(s).initialState.state
-          )
-        }
+            (s) => deserializeTextExercise(s).initialState.state
+          ),
+        },
       },
-      converted: !isEdtr(deserializeEditorState(state.content) || empty)
+      converted: !isEdtr(deserializeEditorState(state.content) || empty),
     }
   }
 
@@ -556,10 +556,10 @@ export function deserialize({
         state: {
           ...state,
           changes: '',
-          content: getContent()
-        }
+          content: getContent(),
+        },
       },
-      converted: !isEdtr(deserializeEditorState(state.content) || empty)
+      converted: !isEdtr(deserializeEditorState(state.content) || empty),
     }
 
     function getContent() {
@@ -575,8 +575,8 @@ export function deserialize({
         state: {
           prerequisite: undefined,
           strategy: { plugin: 'text' },
-          steps: convertedContent
-        }
+          steps: convertedContent,
+        },
       })
     }
   }
@@ -592,10 +592,10 @@ export function deserialize({
           ...state,
           description: serializeEditorState(
             toEdtr(deserializeEditorState(state.description))
-          )
-        }
+          ),
+        },
       },
-      converted: false // no legacy-editor for users
+      converted: false, // no legacy-editor for users
     }
   }
 
@@ -616,10 +616,10 @@ export function deserialize({
           content: state.content || '',
           reasoning: serializeEditorState(
             toEdtr(deserializeEditorState(state.reasoning))
-          )
-        }
+          ),
+        },
       },
-      converted: !isEdtr(deserializeEditorState(state.description) || empty)
+      converted: !isEdtr(deserializeEditorState(state.description) || empty),
     }
   }
 

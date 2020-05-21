@@ -39,8 +39,8 @@ class TrackingFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator  = $serviceLocator->getServiceLocator();
-        $options         = $serviceLocator->get('Ui\Options\TrackingHelperOptions');
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $options = $serviceLocator->get('Ui\Options\TrackingHelperOptions');
         $instanceManager = $this->getInstanceManager($serviceLocator);
         return new Tracking($instanceManager, $options);
     }

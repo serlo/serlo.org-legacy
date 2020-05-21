@@ -1,4 +1,19 @@
+# Third-party
+packages/public/client/src/thirdparty/**/*
 packages/public/server/src/vendor/**/*
 packages/public/server/src/test/math-puzzle/d3.js
 packages/public/server/src/test/math-puzzle/jquery.js
 packages/public/server/src/test/math-puzzle/require.js
+
+# Transpiled
+packages/*/*/dist/
+packages/public/server/migrations/20200520065142-remove-splish-states.js
+
+# Lock files
+*.lock
+
+# HTML files
+*.html
+
+# Mixed PHP and HTML
+*.phtml

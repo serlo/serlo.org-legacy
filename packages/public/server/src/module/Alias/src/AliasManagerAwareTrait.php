@@ -24,7 +24,6 @@ namespace Alias;
 
 trait AliasManagerAwareTrait
 {
-
     /**
      * @var AliasManagerInterface
      */

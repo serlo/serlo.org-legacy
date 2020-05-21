@@ -30,11 +30,11 @@ return [
             'orm_default' => [
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
                 'params' => [
-                    'host' => $db["host"],
-                    'port' => $db["port"],
-                    'user' => $db["username"],
-                    'password' => $db["password"],
-                    'dbname' => $db["database"],
+                    'host' => $db['host'],
+                    'port' => $db['port'],
+                    'user' => $db['username'],
+                    'password' => $db['password'],
+                    'dbname' => $db['database'],
                     // Yes..this is currently the only way i know of fixing database encoding issues
                     'charset' => 'latin1',
                 ],
@@ -90,8 +90,6 @@ return [
         'environment_options' => [
             'cache' => __DIR__ . '/../../data/twig',
         ],
-        'extensions' => [
-            'Twig_Extensions_Extension_I18n',
-        ],
+        'extensions' => ['Twig_Extensions_Extension_I18n'],
     ],
 ];

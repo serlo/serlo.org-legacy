@@ -41,7 +41,7 @@ class NotificationController extends AbstractActionController
         NotificationManagerInterface $notificationManager,
         AuthorizationService $authorizationService
     ) {
-        $this->notificationManager  = $notificationManager;
+        $this->notificationManager = $notificationManager;
         $this->authorizationService = $authorizationService;
     }
 

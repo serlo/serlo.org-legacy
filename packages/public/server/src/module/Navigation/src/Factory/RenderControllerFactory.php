@@ -42,8 +42,8 @@ class RenderControllerFactory implements FactoryInterface
     {
         /* @var $serviceLocator AbstractPluginManager */
         $serviceManager = $serviceLocator->getServiceLocator();
-        $aliasManager   = $this->getAliasManager($serviceManager);
-        $config         = $serviceManager->get('config');
+        $aliasManager = $this->getAliasManager($serviceManager);
+        $config = $serviceManager->get('config');
 
         return new RenderController($config['navigation'], $aliasManager);
     }

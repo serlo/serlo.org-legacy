@@ -42,7 +42,7 @@ class TaxonomyController extends AbstractController
         }
 
         /* @var $entities Collection|EntityInterface[] */
-        $types    = [];
+        $types = [];
         $subject = $term->findAncestorByTypeName('subject');
 
         if (!is_object($subject)) {
@@ -50,23 +50,23 @@ class TaxonomyController extends AbstractController
             return false;
         }
 
-        $entities = $term->getAssociated('entities')->filter(
-            function (EntityInterface $e) {
+        $entities = $term
+            ->getAssociated('entities')
+            ->filter(function (EntityInterface $e) {
                 return !$e->isTrashed() && $e->hasCurrentRevision();
-            }
-        );
+            });
 
         foreach ($entities as $e) {
             $types[$e->getType()->getName()][] = $e;
         }
 
         $types = new ArrayCollection($types);
-        $view  = new ViewModel([
-            'term'    => $term,
-            'terms'   => $term ? $term->getChildren() : $subject->getChildren(),
+        $view = new ViewModel([
+            'term' => $term,
+            'terms' => $term ? $term->getChildren() : $subject->getChildren(),
             'subject' => $subject,
-            'links'   => $entities,
-            'types'   => $types,
+            'links' => $entities,
+            'types' => $types,
         ]);
 
         $view->setTemplate('subject/taxonomy/page/default');

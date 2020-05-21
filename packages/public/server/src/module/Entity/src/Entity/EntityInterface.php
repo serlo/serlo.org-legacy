@@ -32,10 +32,15 @@ use Type\Entity\TypeAwareInterface;
 use Uuid\Entity\UuidInterface;
 use Versioning\Entity\RepositoryInterface;
 
-interface EntityInterface extends UuidInterface, InstanceAwareInterface, RepositoryInterface, LinkableInterface, LicenseAwareInterface,
-            TaxonomyTermAwareInterface, TypeAwareInterface
+interface EntityInterface extends
+    UuidInterface,
+    InstanceAwareInterface,
+    RepositoryInterface,
+    LinkableInterface,
+    LicenseAwareInterface,
+    TaxonomyTermAwareInterface,
+    TypeAwareInterface
 {
-
     /**
      * @return DateTime
      */
@@ -87,7 +92,10 @@ interface EntityInterface extends UuidInterface, InstanceAwareInterface, Reposit
      * @param EntityInterface $following
      * @return EntityInterface|null
      */
-    public function getPreviousValidSibling($linkType, EntityInterface $following);
+    public function getPreviousValidSibling(
+        $linkType,
+        EntityInterface $following
+    );
 
     /**
      * @return TaxonomyTermInterface[]|Collection

@@ -38,12 +38,12 @@ class ShortestBranchDecisionMaker implements BranchDecisionMakerStrategy
         }
 
         $maxDepth = 9999;
-        $item     = $collection->first();
+        $item = $collection->first();
         foreach ($collection as $term) {
             $depth = $this->iterBranch($term, $maxDepth);
             if ($depth < $maxDepth) {
                 $maxDepth = $depth;
-                $item     = $term;
+                $item = $term;
             }
         }
         return $item;

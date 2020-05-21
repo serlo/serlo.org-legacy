@@ -42,8 +42,11 @@ class CategoryForm extends Form
 
         $this->add((new Text('title'))->setLabel('Title:'));
 
-        $this->add((new Submit('submit'))->setValue('Add')
-            ->setAttribute('class', 'btn btn-success pull-right'));
+        $this->add(
+            (new Submit('submit'))
+                ->setValue('Add')
+                ->setAttribute('class', 'btn btn-success pull-right')
+        );
 
         $inputFilter->add([
             'name' => 'title',

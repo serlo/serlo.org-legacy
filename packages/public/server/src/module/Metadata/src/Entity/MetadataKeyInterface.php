@@ -24,7 +24,6 @@ namespace Metadata\Entity;
 
 interface MetadataKeyInterface
 {
-
     /**
      * @return int
      */

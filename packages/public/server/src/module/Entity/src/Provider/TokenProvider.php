@@ -42,18 +42,22 @@ class TokenProvider extends AbstractProvider implements ProviderInterface
      */
     protected $strategy;
 
-    public function __construct(NormalizerInterface $normalizer, BranchDecisionMakerStrategy $strategy = null)
-    {
+    public function __construct(
+        NormalizerInterface $normalizer,
+        BranchDecisionMakerStrategy $strategy = null
+    ) {
         if (!$strategy) {
             $strategy = new ShortestBranchDecisionMaker();
         }
         $this->normalizer = $normalizer;
-        $this->strategy   = $strategy;
+        $this->strategy = $strategy;
     }
 
     public function getData()
     {
-        $term = $this->strategy->findBranch($this->getObject()->getTaxonomyTerms());
+        $term = $this->strategy->findBranch(
+            $this->getObject()->getTaxonomyTerms()
+        );
 
         $path = $this->getObject()->getId();
 
@@ -63,22 +67,26 @@ class TokenProvider extends AbstractProvider implements ProviderInterface
             /** @var Collection|EntityInterface[] $parents */
             $parents = $this->getObject()->getParents('link');
             if ($parents->count()) {
-                $term = $this->strategy->findBranch($parents->first()->getTaxonomyTerms());
+                $term = $this->strategy->findBranch(
+                    $parents->first()->getTaxonomyTerms()
+                );
                 if ($term) {
                     $path = $this->createPathFromTerm($term);
-                    $normalizedParent = $this->getNormalizer()->normalize($parents->first());
+                    $normalizedParent = $this->getNormalizer()->normalize(
+                        $parents->first()
+                    );
                     $path = $path . '/' . $normalizedParent->getTitle();
                 }
             }
         }
 
         $normalized = $this->getNormalizer()->normalize($this->getObject());
-        $title      = $normalized->getTitle();
+        $title = $normalized->getTitle();
 
         return [
-            'path'  => $path,
+            'path' => $path,
             'title' => $title,
-            'id'    => $this->getObject()->getId(),
+            'id' => $this->getObject()->getId(),
         ];
     }
 

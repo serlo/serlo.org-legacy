@@ -27,8 +27,8 @@ const markdownToSlate = (markdown: string): ContentCell<SplishTextState> => ({
   content: {
     plugin: { name: Plugin.Text, version: '0.0.0' },
     state: {
-      importFromHtml: renderMarkdown(markdown)
-    }
-  }
+      importFromHtml: renderMarkdown(markdown),
+    },
+  },
 })
 export default markdownToSlate

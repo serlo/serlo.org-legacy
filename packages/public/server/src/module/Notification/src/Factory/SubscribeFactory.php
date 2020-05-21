@@ -39,9 +39,11 @@ class SubscribeFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator      = $serviceLocator->getServiceLocator();
-        $userManager         = $this->getUserManager($serviceLocator);
-        $subscriptionManager = $serviceLocator->get('Notification\SubscriptionManager');
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $userManager = $this->getUserManager($serviceLocator);
+        $subscriptionManager = $serviceLocator->get(
+            'Notification\SubscriptionManager'
+        );
         return new Subscribe($userManager, $subscriptionManager);
     }
 }

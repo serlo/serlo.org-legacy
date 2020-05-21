@@ -30,16 +30,23 @@ return [
             'entity.trash' => 'Authorization\Assertion\InstanceAssertion',
             'entity.purge' => 'Authorization\Assertion\InstanceAssertion',
             'entity.restore' => 'Authorization\Assertion\InstanceAssertion',
-            'entity.revision.create' => 'Authorization\Assertion\InstanceAssertion',
-            'entity.revision.purge' => 'Authorization\Assertion\InstanceAssertion',
-            'entity.revision.restore' => 'Authorization\Assertion\InstanceAssertion',
-            'entity.revision.trash' => 'Authorization\Assertion\InstanceAssertion',
-            'entity.revision.checkout' => 'Authorization\Assertion\InstanceAssertion',
-            'entity.repository.history' => 'Authorization\Assertion\InstanceAssertion',
+            'entity.revision.create' =>
+                'Authorization\Assertion\InstanceAssertion',
+            'entity.revision.purge' =>
+                'Authorization\Assertion\InstanceAssertion',
+            'entity.revision.restore' =>
+                'Authorization\Assertion\InstanceAssertion',
+            'entity.revision.trash' =>
+                'Authorization\Assertion\InstanceAssertion',
+            'entity.revision.checkout' =>
+                'Authorization\Assertion\InstanceAssertion',
+            'entity.repository.history' =>
+                'Authorization\Assertion\InstanceAssertion',
             'entity.link.create' => 'Authorization\Assertion\InstanceAssertion',
             'entity.link.purge' => 'Authorization\Assertion\InstanceAssertion',
             'entity.link.order' => 'Authorization\Assertion\InstanceAssertion',
-            'entity.license.update' => 'Authorization\Assertion\InstanceAssertion',
+            'entity.license.update' =>
+                'Authorization\Assertion\InstanceAssertion',
         ],
     ],
     'class_resolver' => [
@@ -156,41 +163,62 @@ return [
         ],
         'instance' => [
             'preferences' => [
-                'Entity\Manager\EntityManagerInterface' => 'Entity\Manager\EntityManager',
+                'Entity\Manager\EntityManagerInterface' =>
+                    'Entity\Manager\EntityManager',
             ],
         ],
     ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Options\ModuleOptions' => __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
-            __NAMESPACE__ . '\Form\SingleChoiceAnswerForm' => __NAMESPACE__ . '\Factory\SingleChoiceAnswerFormFactory',
-            __NAMESPACE__ . '\Form\MultipleChoiceWrongAnswerForm' => __NAMESPACE__ . '\Factory\MultipleChoiceWrongAnswerFormFactory',
-            __NAMESPACE__ . '\Form\MultipleChoiceRightAnswerForm' => __NAMESPACE__ . '\Factory\MultipleChoiceRightAnswerFormFactory',
-            __NAMESPACE__ . '\Form\ArticleForm' => __NAMESPACE__ . '\Factory\ArticleFormFactory',
-            __NAMESPACE__ . '\Form\EventForm' => __NAMESPACE__ . '\Factory\EventFormFactory',
-            __NAMESPACE__ . '\Form\GroupedTextExerciseForm' => __NAMESPACE__ . '\Factory\GroupedTextExerciseFormFactory',
-            __NAMESPACE__ . '\Form\ModuleForm' => __NAMESPACE__ . '\Factory\ModuleFormFactory',
-            __NAMESPACE__ . '\Form\ModulePageForm' => __NAMESPACE__ . '\Factory\ModulePageFormFactory',
-            __NAMESPACE__ . '\Form\TextExerciseForm' => __NAMESPACE__ . '\Factory\TextExerciseFormFactory',
-            __NAMESPACE__ . '\Form\TextExerciseGroupForm' => __NAMESPACE__ . '\Factory\TextExerciseGroupFormFactory',
-            __NAMESPACE__ . '\Form\TextSolutionForm' => __NAMESPACE__ . '\Factory\TextSolutionFormFactory',
-            __NAMESPACE__ . '\Form\VideoForm' => __NAMESPACE__ . '\Factory\VideoFormFactory',
-            __NAMESPACE__ . '\Form\MathPuzzleForm' => __NAMESPACE__ . '\Factory\MathPuzzleFormFactory',
-            __NAMESPACE__ . '\Form\InputChallengeForm' => __NAMESPACE__ . '\Factory\InputChallengeFormFactory',
-            __NAMESPACE__ . '\Form\AppletForm' => __NAMESPACE__ . '\Factory\AppletFormFactory',
+            __NAMESPACE__ . '\Options\ModuleOptions' =>
+                __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
+            __NAMESPACE__ . '\Form\SingleChoiceAnswerForm' =>
+                __NAMESPACE__ . '\Factory\SingleChoiceAnswerFormFactory',
+            __NAMESPACE__ . '\Form\MultipleChoiceWrongAnswerForm' =>
+                __NAMESPACE__ . '\Factory\MultipleChoiceWrongAnswerFormFactory',
+            __NAMESPACE__ . '\Form\MultipleChoiceRightAnswerForm' =>
+                __NAMESPACE__ . '\Factory\MultipleChoiceRightAnswerFormFactory',
+            __NAMESPACE__ . '\Form\ArticleForm' =>
+                __NAMESPACE__ . '\Factory\ArticleFormFactory',
+            __NAMESPACE__ . '\Form\EventForm' =>
+                __NAMESPACE__ . '\Factory\EventFormFactory',
+            __NAMESPACE__ . '\Form\GroupedTextExerciseForm' =>
+                __NAMESPACE__ . '\Factory\GroupedTextExerciseFormFactory',
+            __NAMESPACE__ . '\Form\ModuleForm' =>
+                __NAMESPACE__ . '\Factory\ModuleFormFactory',
+            __NAMESPACE__ . '\Form\ModulePageForm' =>
+                __NAMESPACE__ . '\Factory\ModulePageFormFactory',
+            __NAMESPACE__ . '\Form\TextExerciseForm' =>
+                __NAMESPACE__ . '\Factory\TextExerciseFormFactory',
+            __NAMESPACE__ . '\Form\TextExerciseGroupForm' =>
+                __NAMESPACE__ . '\Factory\TextExerciseGroupFormFactory',
+            __NAMESPACE__ . '\Form\TextSolutionForm' =>
+                __NAMESPACE__ . '\Factory\TextSolutionFormFactory',
+            __NAMESPACE__ . '\Form\VideoForm' =>
+                __NAMESPACE__ . '\Factory\VideoFormFactory',
+            __NAMESPACE__ . '\Form\MathPuzzleForm' =>
+                __NAMESPACE__ . '\Factory\MathPuzzleFormFactory',
+            __NAMESPACE__ . '\Form\InputChallengeForm' =>
+                __NAMESPACE__ . '\Factory\InputChallengeFormFactory',
+            __NAMESPACE__ . '\Form\AppletForm' =>
+                __NAMESPACE__ . '\Factory\AppletFormFactory',
         ],
     ],
     'controllers' => [
         'factories' => [
-            __NAMESPACE__ . '\Controller\ApiController' => __NAMESPACE__ . '\Factory\ApiControllerFactory',
-            __NAMESPACE__ . '\Controller\EntityController' => __NAMESPACE__ . '\Factory\EntityControllerFactory',
+            __NAMESPACE__ . '\Controller\ApiController' =>
+                __NAMESPACE__ . '\Factory\ApiControllerFactory',
+            __NAMESPACE__ . '\Controller\EntityController' =>
+                __NAMESPACE__ . '\Factory\EntityControllerFactory',
         ],
     ],
     'view_helpers' => [
         'invokables' => [
             'singleChoice' => __NAMESPACE__ . '\View\Helper\SingleChoiceHelper',
-            'multipleChoice' => __NAMESPACE__ . '\View\Helper\MultipleChoiceHelper',
-            'inputChallenge' => __NAMESPACE__ . '\View\Helper\InputChallengeHelper',
+            'multipleChoice' =>
+                __NAMESPACE__ . '\View\Helper\MultipleChoiceHelper',
+            'inputChallenge' =>
+                __NAMESPACE__ . '\View\Helper\InputChallengeHelper',
         ],
         'factories' => [
             'entity' => __NAMESPACE__ . '\Factory\EntityHelperFactory',
@@ -224,9 +252,7 @@ return [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
             'orm_default' => [
                 'drivers' => [

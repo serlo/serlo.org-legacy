@@ -29,7 +29,6 @@ use Uuid\Entity\UuidInterface;
 
 interface FlagInterface extends TypeAwareInterface, InstanceAwareInterface
 {
-
     /**
      * @return int
      */

@@ -48,19 +48,29 @@ class PageController extends AbstractController
         }
 
         $type = $this->moduleOptions->getType($entity->getType()->getName());
-        if ($type->hasComponent('redirect') && !$this->getRequest()->isXmlHttpRequest()) {
+        if (
+            $type->hasComponent('redirect') &&
+            !$this->getRequest()->isXmlHttpRequest()
+        ) {
             /* @var $redirect RedirectOptions */
             $redirect = $type->getComponent('redirect');
 
             if ($redirect->getToType() === 'parent') {
                 $parent = $entity->getParents('link')->first();
                 if (!$parent->isTrashed() && $parent->hasCurrentRevision()) {
-                    return $this->redirect()->toRoute('uuid/get', ['uuid' => $parent->getId()]);
+                    return $this->redirect()->toRoute('uuid/get', [
+                        'uuid' => $parent->getId(),
+                    ]);
                 }
             } else {
-                foreach ($entity->getChildren('link', $redirect->getToType()) as $child) {
+                foreach (
+                    $entity->getChildren('link', $redirect->getToType())
+                    as $child
+                ) {
                     if (!$child->isTrashed() && $child->hasCurrentRevision()) {
-                        return $this->redirect()->toRoute('uuid/get', ['uuid' => $child->getId()]);
+                        return $this->redirect()->toRoute('uuid/get', [
+                            'uuid' => $child->getId(),
+                        ]);
                     }
                 }
             }

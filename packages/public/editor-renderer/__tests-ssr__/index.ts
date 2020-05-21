@@ -26,7 +26,7 @@ import { render } from '../src/render'
 test('empty string', async () => {
   const html = await render({
     state: '',
-    language: 'en'
+    language: 'en',
   })
   expect(html).toEqual('')
 })
@@ -34,10 +34,10 @@ test('empty string', async () => {
 test('video plugin', async () => {
   const state: DocumentState = {
     plugin: 'video',
-    state: 'https://www.youtube.com/watch?v=SCJ7nzKwnYo'
+    state: 'https://www.youtube.com/watch?v=SCJ7nzKwnYo',
   }
   await render({
     state: JSON.stringify(state),
-    language: 'en'
+    language: 'en',
   })
 })

@@ -26,6 +26,8 @@ class NoSuitableAdapterFoundException extends RuntimeException
 {
     public function __construct($object)
     {
-        return parent::__construct(sprintf('No suitable adapter for %s found', get_class($object)));
+        return parent::__construct(
+            sprintf('No suitable adapter for %s found', get_class($object))
+        );
     }
 }

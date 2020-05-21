@@ -40,7 +40,9 @@ class PersistentParameterFilter implements FilterInterface
      */
     public function __construct(ObjectManager $objectManager)
     {
-        $this->filter = new \Event\Filter\PersistentParameterFilter($objectManager);
+        $this->filter = new \Event\Filter\PersistentParameterFilter(
+            $objectManager
+        );
     }
 
     /**
@@ -63,10 +65,12 @@ class PersistentParameterFilter implements FilterInterface
         } elseif (is_array($value)) {
             return array_filter($value, $passes);
         } else {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected Collection or array but got %s',
-                is_object($value) ? get_class($value) : gettype($value)
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected Collection or array but got %s',
+                    is_object($value) ? get_class($value) : gettype($value)
+                )
+            );
         }
     }
 }

@@ -48,67 +48,52 @@ class RepositoryManagerListener extends AbstractListener
     public function onAddRevision(Event $e)
     {
         $repository = $e->getParam('repository');
-        $revision   = $e->getParam('revision');
-        $instance   = $repository->getInstance();
+        $revision = $e->getParam('revision');
+        $instance = $repository->getInstance();
 
-        $this->logEvent(
-            'entity/revision/add',
-            $instance,
-            $revision,
+        $this->logEvent('entity/revision/add', $instance, $revision, [
             [
-                [
-                    'name'  => 'repository',
-                    'value' => $repository,
-                ],
-            ]
-        );
+                'name' => 'repository',
+                'value' => $repository,
+            ],
+        ]);
     }
 
     public function onCheckout(Event $e)
     {
-        $revision   = $e->getParam('revision');
+        $revision = $e->getParam('revision');
         $repository = $e->getParam('repository');
-        $reason     = $e->getParam('reason');
-        $instance   = $repository->getInstance();
+        $reason = $e->getParam('reason');
+        $instance = $repository->getInstance();
 
-        $this->logEvent(
-            'entity/revision/checkout',
-            $instance,
-            $revision,
+        $this->logEvent('entity/revision/checkout', $instance, $revision, [
             [
-                [
-                    'name'  => 'repository',
-                    'value' => $repository,
-                ],
-                [
-                    'name'  => 'reason',
-                    'value' => $reason,
-                ],
-            ]
-        );
+                'name' => 'repository',
+                'value' => $repository,
+            ],
+            [
+                'name' => 'reason',
+                'value' => $reason,
+            ],
+        ]);
     }
 
     public function onReject(Event $e)
     {
-        $revision   = $e->getParam('revision');
+        $revision = $e->getParam('revision');
         $repository = $e->getParam('repository');
-        $instance   = $repository->getInstance();
-        $reason     = $e->getParam('reason');
+        $instance = $repository->getInstance();
+        $reason = $e->getParam('reason');
 
-        $this->logEvent(
-            'entity/revision/reject',
-            $instance,
-            $revision,
+        $this->logEvent('entity/revision/reject', $instance, $revision, [
             [
-                [
-                    'name'  => 'repository',
-                    'value' => $repository,
-                ],
-                [
-                    'name'  => 'reason',
-                    'value' => $reason,
-                ],
-            ]
-        );
+                'name' => 'repository',
+                'value' => $repository,
+            ],
+            [
+                'name' => 'reason',
+                'value' => $reason,
+            ],
+        ]);
     }
 }

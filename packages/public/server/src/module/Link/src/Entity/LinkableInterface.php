@@ -27,7 +27,6 @@ use Doctrine\Common\Collections\Collection;
 
 interface LinkableInterface
 {
-
     /**
      * @return int
      */

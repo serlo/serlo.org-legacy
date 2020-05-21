@@ -30,7 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class MetadataKey implements MetadataKeyInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

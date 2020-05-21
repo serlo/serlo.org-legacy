@@ -51,8 +51,9 @@ class AuthorizationResult
     /**
      * @param AuthorizationService $authorizationService
      */
-    public function setAuthorizationService(AuthorizationService $authorizationService)
-    {
+    public function setAuthorizationService(
+        AuthorizationService $authorizationService
+    ) {
         $this->authorizationService = $authorizationService;
     }
 

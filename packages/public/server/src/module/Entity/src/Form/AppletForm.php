@@ -46,7 +46,11 @@ class AppletForm extends Form
         $this->setAttribute('class', 'clearfix');
 
         $this->add(new Title());
-        $this->add((new Text('url'))->setAttribute('id', 'url')->setLabel('Applet Url:'));
+        $this->add(
+            (new Text('url'))
+                ->setAttribute('id', 'url')
+                ->setLabel('Applet Url:')
+        );
         $this->add((new EditorState('content'))->setLabel('Description:'));
         $this->add((new EditorState('reasoning'))->setLabel('Reasoning:'));
         $this->add(new Changes());
@@ -56,28 +60,28 @@ class AppletForm extends Form
         $this->add(new Controls());
 
         $inputFilter = new InputFilter('applet');
-        $inputFilter->add(
-            [
-                'name'       => 'url',
-                'required'   => true,
-                'filters'    => [
-                    [
-                        'name' => 'StripTags',
-                    ],
+        $inputFilter->add([
+            'name' => 'url',
+            'required' => true,
+            'filters' => [
+                [
+                    'name' => 'StripTags',
                 ],
-                'validators' => [
-                    [
-                        'name'    => 'Regex',
-                        'options' => [
-                            'pattern'  => '/^(https:\/\/www\.geogebra\.org\/m\/)?[a-zA-Z0-9]+$/',
-                            'messages' => [
-                                Regex::NOT_MATCH => 'Applet-URL invalid. Use the form https://www.geogebra.org/m/<id>',
-                            ],
+            ],
+            'validators' => [
+                [
+                    'name' => 'Regex',
+                    'options' => [
+                        'pattern' =>
+                            '/^(https:\/\/www\.geogebra\.org\/m\/)?[a-zA-Z0-9]+$/',
+                        'messages' => [
+                            Regex::NOT_MATCH =>
+                                'Applet-URL invalid. Use the form https://www.geogebra.org/m/<id>',
                         ],
                     ],
                 ],
-            ]
-        );
+            ],
+        ]);
         $inputFilter->add(['name' => 'content', 'required' => true]);
         $this->setInputFilter($inputFilter);
     }

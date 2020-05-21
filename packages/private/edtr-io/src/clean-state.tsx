@@ -35,7 +35,7 @@ export function cleanEdtrState(state: Edtr) {
           const slateValue = Value.fromJSON(serializer.deserialize(value.state))
           return {
             ...value,
-            state: slateValueToHtml(slateValue)
+            state: slateValueToHtml(slateValue),
           }
         }
         return cleanJson(value)

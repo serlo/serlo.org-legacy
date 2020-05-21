@@ -38,18 +38,23 @@ class Url extends ZendUrl
         AliasManagerInterface $aliasManager,
         InstanceManagerInterface $instanceManager
     ) {
-        $this->aliasManager    = $aliasManager;
+        $this->aliasManager = $aliasManager;
         $this->instanceManager = $instanceManager;
     }
 
     public function fromRoute(
         $route = null,
-        $params = array(),
-        $options = array(),
+        $params = [],
+        $options = [],
         $reuseMatchedParams = false,
         $useAlias = true
     ) {
-        $url = parent::fromRoute($route, $params, $options, $reuseMatchedParams);
+        $url = parent::fromRoute(
+            $route,
+            $params,
+            $options,
+            $reuseMatchedParams
+        );
 
         if (!$useAlias) {
             return $url;

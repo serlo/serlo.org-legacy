@@ -24,7 +24,6 @@ namespace Type\Entity;
 
 trait TypeAwareTrait
 {
-
     /**
      * @ORM\ManyToOne(targetEntity="Type\Entity\Type")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id")

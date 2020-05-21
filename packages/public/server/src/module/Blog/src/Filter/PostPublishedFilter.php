@@ -42,18 +42,22 @@ class PostPublishedFilter implements FilterInterface
         $result = [];
 
         if (!$value instanceof Collection) {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected instance of Collection but got %s.',
-                is_object($value) ? get_class($value) : gettype($value)
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected instance of Collection but got %s.',
+                    is_object($value) ? get_class($value) : gettype($value)
+                )
+            );
         }
 
         foreach ($value as $post) {
             if (!$post instanceof PostInterface) {
-                throw new Exception\RuntimeException(sprintf(
-                    'Expected instance of PostInterface but got %s.',
-                    is_object($post) ? get_class($post) : gettype($post)
-                ));
+                throw new Exception\RuntimeException(
+                    sprintf(
+                        'Expected instance of PostInterface but got %s.',
+                        is_object($post) ? get_class($post) : gettype($post)
+                    )
+                );
             }
             if (!$post->isTrashed() && $post->isPublished()) {
                 $result[] = $post;

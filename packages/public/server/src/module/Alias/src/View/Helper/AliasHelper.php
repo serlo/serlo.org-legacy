@@ -39,9 +39,11 @@ class AliasHelper extends AbstractHelper
      */
     protected $instanceManager;
 
-    public function __construct(AliasManagerInterface $aliasManager, InstanceManagerInterface $instanceManager)
-    {
-        $this->aliasManager    = $aliasManager;
+    public function __construct(
+        AliasManagerInterface $aliasManager,
+        InstanceManagerInterface $instanceManager
+    ) {
+        $this->aliasManager = $aliasManager;
         $this->instanceManager = $instanceManager;
     }
 

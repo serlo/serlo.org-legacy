@@ -42,7 +42,6 @@ class TermController extends AbstractController
 {
     use EntityManagerAwareTrait;
 
-
     /**
      * @var FeatureFlagsService
      */
@@ -64,9 +63,9 @@ class TermController extends AbstractController
     ) {
         $this->instanceManager = $instanceManager;
         $this->taxonomyManager = $taxonomyManager;
-        $this->termForm        = $termForm;
-        $this->entityManager   = $entityManager;
-        $this->featureFlags    = $featureFlags;
+        $this->termForm = $termForm;
+        $this->entityManager = $entityManager;
+        $this->featureFlags = $featureFlags;
     }
 
     public function createAction()
@@ -76,32 +75,36 @@ class TermController extends AbstractController
 
         if ($this->getRequest()->isPost()) {
             $data = json_decode($this->getRequest()->getContent(), true);
-            $data = array_merge(
-                $data,
-                [
-                    'taxonomy' => $this->params('taxonomy'),
-                    'parent'   => $this->params('parent', null),
-
-                ]
-            );
+            $data = array_merge($data, [
+                'taxonomy' => $this->params('taxonomy'),
+                'parent' => $this->params('parent', null),
+            ]);
             $form->setData($data);
             if ($form->isValid()) {
                 $this->getTaxonomyManager()->createTerm($form);
                 $this->getTaxonomyManager()->flush();
-                $this->flashMessenger()->addSuccessMessage('The node has been added successfully!');
+                $this->flashMessenger()->addSuccessMessage(
+                    'The node has been added successfully!'
+                );
                 $redirectUrl = $this->referer()->fromStorage();
-                return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
+                return new JsonModel([
+                    'success' => true,
+                    'redirect' => $redirectUrl,
+                ]);
             } else {
-                return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
+                return new JsonModel([
+                    'success' => false,
+                    'errors' => $form->getMessages(),
+                ]);
             }
         } else {
             $this->referer()->store();
         }
         $data = [
-            "term" => [
-                "name" => '',
+            'term' => [
+                'name' => '',
             ],
-            "description" => '',
+            'description' => '',
         ];
 
         $state = htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
@@ -119,25 +122,34 @@ class TermController extends AbstractController
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
-            $data = array_merge(
-                $data,
-                [
-                    'taxonomy' => $this->params('taxonomy'),
-                    'parent'   => $this->params('parent', null),
-                ]
-            );
+            $data = array_merge($data, [
+                'taxonomy' => $this->params('taxonomy'),
+                'parent' => $this->params('parent', null),
+            ]);
             $form->setData($data);
             if ($form->isValid()) {
-                $data        = $form->getData();
-                $destination = $this->getTaxonomyManager()->getTerm($data['destination']);
+                $data = $form->getData();
+                $destination = $this->getTaxonomyManager()->getTerm(
+                    $data['destination']
+                );
                 foreach ($data['associations'] as $element) {
                     $entity = $this->getEntityManager()->getEntity($element);
-                    $this->getTaxonomyManager()->associateWith($destination, $entity);
-                    $this->getTaxonomyManager()->removeAssociation($term, $entity);
+                    $this->getTaxonomyManager()->associateWith(
+                        $destination,
+                        $entity
+                    );
+                    $this->getTaxonomyManager()->removeAssociation(
+                        $term,
+                        $entity
+                    );
                 }
                 $this->getTaxonomyManager()->flush();
-                $this->flashMessenger()->addSuccessMessage('Items moved successfully!');
-                return $this->redirect()->toRoute('taxonomy/term/get', ['term' => $destination->getId()]);
+                $this->flashMessenger()->addSuccessMessage(
+                    'Items moved successfully!'
+                );
+                return $this->redirect()->toRoute('taxonomy/term/get', [
+                    'term' => $destination->getId(),
+                ]);
             }
         }
 
@@ -157,24 +169,30 @@ class TermController extends AbstractController
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
-            $data = array_merge(
-                $data,
-                [
-                    'taxonomy' => $this->params('taxonomy'),
-                    'parent'   => $this->params('parent', null),
-                ]
-            );
+            $data = array_merge($data, [
+                'taxonomy' => $this->params('taxonomy'),
+                'parent' => $this->params('parent', null),
+            ]);
             $form->setData($data);
             if ($form->isValid()) {
-                $data        = $form->getData();
-                $destination = $this->getTaxonomyManager()->getTerm($data['destination']);
+                $data = $form->getData();
+                $destination = $this->getTaxonomyManager()->getTerm(
+                    $data['destination']
+                );
                 foreach ($data['associations'] as $element) {
                     $entity = $this->getEntityManager()->getEntity($element);
-                    $this->getTaxonomyManager()->associateWith($destination, $entity);
+                    $this->getTaxonomyManager()->associateWith(
+                        $destination,
+                        $entity
+                    );
                 }
                 $this->getTaxonomyManager()->flush();
-                $this->flashMessenger()->addSuccessMessage('Items copied successfully!');
-                return $this->redirect()->toRoute('taxonomy/term/get', ['term' => $destination->getId()]);
+                $this->flashMessenger()->addSuccessMessage(
+                    'Items copied successfully!'
+                );
+                return $this->redirect()->toRoute('taxonomy/term/get', [
+                    'term' => $destination->getId(),
+                ]);
             }
         }
 
@@ -193,7 +211,7 @@ class TermController extends AbstractController
         $elements = $term->getAssociated('entities');
         $notTrashedElements = $chain->filter($elements);
 
-        $options  = [];
+        $options = [];
         foreach ($notTrashedElements as $element) {
             $options[$element->getId()] = $element;
         }
@@ -215,12 +233,12 @@ class TermController extends AbstractController
     public function orderAssociatedAction()
     {
         $association = $this->params('association');
-        $term        = $this->getTerm($this->params('term'));
+        $term = $this->getTerm($this->params('term'));
         $this->assertGranted('taxonomy.term.associated.sort', $term);
 
         if ($this->getRequest()->isPost()) {
             $associations = $this->params()->fromPost('sortable', []);
-            $i            = 0;
+            $i = 0;
 
             foreach ($associations as $a) {
                 $term->positionAssociatedObject($a['id'], $i, $association);
@@ -233,10 +251,10 @@ class TermController extends AbstractController
         }
 
         $associations = $term->getAssociated($association);
-        $view         = new ViewModel([
-            'term'         => $term,
+        $view = new ViewModel([
+            'term' => $term,
             'associations' => $associations,
-            'association'  => $association,
+            'association' => $association,
         ]);
         $view->setTemplate('taxonomy/term/order-associated');
         return $view;
@@ -245,15 +263,16 @@ class TermController extends AbstractController
     public function organizeAction()
     {
         $term = $this->getTerm();
-        if ($this->assertGranted('taxonomy.term.create', $term)
-            || $this->assertGranted(
-                'taxonomy.term.update',
-                $term
-            )
+        if (
+            $this->assertGranted('taxonomy.term.create', $term) ||
+            $this->assertGranted('taxonomy.term.update', $term)
         ) {
-            throw new UnauthorizedException;
+            throw new UnauthorizedException();
         }
-        $view = new ViewModel(['orderForm' => new CsrfForm('taxonomy-sort'), 'term' => $term]);
+        $view = new ViewModel([
+            'orderForm' => new CsrfForm('taxonomy-sort'),
+            'term' => $term,
+        ]);
         $view->setTemplate('taxonomy/term/organize');
         return $view;
     }
@@ -271,25 +290,33 @@ class TermController extends AbstractController
             if ($form->isValid()) {
                 $this->getTaxonomyManager()->updateTerm($form);
                 $this->getTaxonomyManager()->flush();
-                $this->flashMessenger()->addSuccessMessage('Your changes have been saved!');
+                $this->flashMessenger()->addSuccessMessage(
+                    'Your changes have been saved!'
+                );
                 $redirectUrl = $this->referer()->fromStorage();
-                return new JsonModel(['success' => true, 'redirect' => $redirectUrl]);
+                return new JsonModel([
+                    'success' => true,
+                    'redirect' => $redirectUrl,
+                ]);
             } else {
-                return new JsonModel(['success' => false, 'errors' => $form->getMessages()]);
+                return new JsonModel([
+                    'success' => false,
+                    'errors' => $form->getMessages(),
+                ]);
             }
         } else {
             $this->referer()->store();
         }
 
         $data = [
-            "id" => $term->getId(),
-            "term" => [
-                "name" => $term->getName(),
+            'id' => $term->getId(),
+            'term' => [
+                'name' => $term->getName(),
             ],
-            "taxonomy" => $term->getTaxonomy()->getId(),
-            "parent" => $term->getParent()->getId(),
-            "position" => $term->getPosition(),
-            "description" => $term->getDescription(),
+            'taxonomy' => $term->getTaxonomy()->getId(),
+            'parent' => $term->getParent()->getId(),
+            'position' => $term->getPosition(),
+            'description' => $term->getDescription(),
         ];
         $state = htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
         $view = new ViewModel(['state' => $state]);
@@ -300,11 +327,15 @@ class TermController extends AbstractController
     protected function iterWeight($terms, $parent = null, $csrf)
     {
         $position = 1;
-        $form     = $this->termForm;
+        $form = $this->termForm;
         foreach ($terms as $term) {
             $entity = $this->getTaxonomyManager()->getTerm($term['id']);
-            $data   = $form->getHydrator()->extract($entity);
-            $data   = array_merge($data, ['parent' => $parent, 'position' => $position, 'csrf' => $csrf]);
+            $data = $form->getHydrator()->extract($entity);
+            $data = array_merge($data, [
+                'parent' => $parent,
+                'position' => $position,
+                'csrf' => $csrf,
+            ]);
             $form->bind($entity);
             $form->setData($data);
             $this->getTaxonomyManager()->updateTerm($form);

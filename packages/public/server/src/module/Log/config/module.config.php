@@ -25,7 +25,8 @@ namespace Log;
 return [
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Sentry' => __NAMESPACE__ . '\Factory\SentryFactory',
+            __NAMESPACE__ . '\Sentry' =>
+                __NAMESPACE__ . '\Factory\SentryFactory',
             'Zend\Log\Logger' => __NAMESPACE__ . '\Factory\LoggerFactory',
         ],
     ],

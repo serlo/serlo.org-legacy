@@ -23,10 +23,8 @@
 namespace Mailman;
 
 return [
-    'mailman'         => [
-        'adapters' => [
-            'Mailman\Adapter\ZendMailAdapter',
-        ],
+    'mailman' => [
+        'adapters' => ['Mailman\Adapter\ZendMailAdapter'],
     ],
     'mailmock' => [
         // overridden in develop.local.php
@@ -34,62 +32,74 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Mailman'                                   => __NAMESPACE__ . '\Factory\MailmanFactory',
-            __NAMESPACE__ . '\Options\ModuleOptions'                     => __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
-            __NAMESPACE__ . '\Adapter\ZendMailAdapter'                   => __NAMESPACE__ . '\Factory\ZendMailAdapterFactory',
-            __NAMESPACE__ . '\Storage\MailMockStorage'                   => __NAMESPACE__ . '\Factory\MailMockStorageFactory',
-            __NAMESPACE__ . '\Listener\AuthenticationControllerListener' => __NAMESPACE__ . '\Factory\AuthenticationControllerListenerFactory',
-            __NAMESPACE__ . '\Listener\UserControllerListener'           => __NAMESPACE__ . '\Factory\UserControllerListenerFactory',
-            __NAMESPACE__ . '\Listener\NotificationWorkerListener'       => __NAMESPACE__ . '\Factory\NotificationWorkerListenerFactory',
-            __NAMESPACE__ . '\Renderer\MailRenderer'                     => __NAMESPACE__ . '\Factory\MailRendererFactory',
-            'Zend\Mail\Transport\SmtpOptions'                            => __NAMESPACE__ . '\Factory\SmtpOptionsFactory',
+            __NAMESPACE__ . '\Mailman' =>
+                __NAMESPACE__ . '\Factory\MailmanFactory',
+            __NAMESPACE__ . '\Options\ModuleOptions' =>
+                __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
+            __NAMESPACE__ . '\Adapter\ZendMailAdapter' =>
+                __NAMESPACE__ . '\Factory\ZendMailAdapterFactory',
+            __NAMESPACE__ . '\Storage\MailMockStorage' =>
+                __NAMESPACE__ . '\Factory\MailMockStorageFactory',
+            __NAMESPACE__ . '\Listener\AuthenticationControllerListener' =>
+                __NAMESPACE__ .
+                '\Factory\AuthenticationControllerListenerFactory',
+            __NAMESPACE__ . '\Listener\UserControllerListener' =>
+                __NAMESPACE__ . '\Factory\UserControllerListenerFactory',
+            __NAMESPACE__ . '\Listener\NotificationWorkerListener' =>
+                __NAMESPACE__ . '\Factory\NotificationWorkerListenerFactory',
+            __NAMESPACE__ . '\Renderer\MailRenderer' =>
+                __NAMESPACE__ . '\Factory\MailRendererFactory',
+            'Zend\Mail\Transport\SmtpOptions' =>
+                __NAMESPACE__ . '\Factory\SmtpOptionsFactory',
         ],
     ],
-    'controllers'        => [
+    'controllers' => [
         'factories' => [
-            __NAMESPACE__ . '\Controller\MailMockController' => __NAMESPACE__ . '\Factory\MailMockControllerFactory',
+            __NAMESPACE__ . '\Controller\MailMockController' =>
+                __NAMESPACE__ . '\Factory\MailMockControllerFactory',
         ],
     ],
-    'smtp_options'    => [
-        'name'              => 'localhost.localdomain',
-        'host'              => 'localhost',
-        'connection_class'  => 'smtp',
+    'smtp_options' => [
+        'name' => 'localhost.localdomain',
+        'host' => 'localhost',
+        'connection_class' => 'smtp',
         'connection_config' => [
             'username' => 'postmaster',
             'password' => '',
         ],
     ],
-    'di'              => [
+    'di' => [
         'instance' => [
             'preferences' => [
                 'Mailman\MailmanInterface' => 'Mailman\Mailman',
             ],
         ],
     ],
-    'router'             => [
+    'router' => [
         'routes' => [
             'mails' => [
-                'type'         => 'literal',
-                'options'      => [
-                    'route'    => '/mails',
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/mails',
                     'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\MailMockController',
+                        'controller' =>
+                            __NAMESPACE__ . '\Controller\MailMockController',
                     ],
                 ],
                 'child_routes' => [
                     'list' => [
-                        'type'         => 'literal',
-                        'options'      => [
-                            'route'    => '/list',
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/list',
                             'defaults' => [
                                 'action' => 'list',
                             ],
                         ],
                     ],
                     'clear' => [
-                        'type'         => 'literal',
-                        'options'      => [
-                            'route'    => '/clear',
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/clear',
                             'defaults' => [
                                 'action' => 'clear',
                             ],

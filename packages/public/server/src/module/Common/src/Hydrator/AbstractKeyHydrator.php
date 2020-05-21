@@ -36,7 +36,7 @@ abstract class AbstractKeyHydrator implements HydratorInterface
 
         $data = [];
         foreach ($this->getKeys() as $key) {
-            $method      = 'get' . ucfirst($key);
+            $method = 'get' . ucfirst($key);
             $data['key'] = $object->$method();
         }
 
@@ -53,7 +53,7 @@ abstract class AbstractKeyHydrator implements HydratorInterface
 
         foreach ($this->getKeys() as $key) {
             $method = 'set' . ucfirst($key);
-            $value  = $this->getKey($data, $key);
+            $value = $this->getKey($data, $key);
             if ($value !== null) {
                 $object->$method($value);
             }

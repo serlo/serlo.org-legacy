@@ -48,23 +48,27 @@ class RoleAssertion implements AssertionInterface
         TraversalStrategyInterface $traversalStrategy
     ) {
         $this->permissionService = $permissionService;
-        $this->instanceManager   = $instanceManager;
+        $this->instanceManager = $instanceManager;
         $this->traversalStrategy = $traversalStrategy;
     }
 
     public function assert(AuthorizationResult $result, $role = null)
     {
         if (!$role instanceof RoleInterface) {
-            throw new InvalidArgumentException;
+            throw new InvalidArgumentException();
         }
 
-        $instanceManager   = $this->getInstanceManager();
+        $instanceManager = $this->getInstanceManager();
         $permissionService = $this->getPermissionService();
-        $assertion         = new InstanceAssertion($instanceManager, $permissionService, $this->traversalStrategy);
-        $checkPermission   = $result->getPermission() . '.' . $role->getName();
-        $result            = clone $result;
-        $instancesToCheck  = [];
-        $rolesToCheck      = $assertion->flattenRoles([$role]);
+        $assertion = new InstanceAssertion(
+            $instanceManager,
+            $permissionService,
+            $this->traversalStrategy
+        );
+        $checkPermission = $result->getPermission() . '.' . $role->getName();
+        $result = clone $result;
+        $instancesToCheck = [];
+        $rolesToCheck = $assertion->flattenRoles([$role]);
 
         foreach ($rolesToCheck as $roleToCheck) {
             foreach ($roleToCheck->getPermissions() as $permission) {
@@ -76,7 +80,9 @@ class RoleAssertion implements AssertionInterface
         }
 
         try {
-            $this->getPermissionService()->findPermissionByName($checkPermission);
+            $this->getPermissionService()->findPermissionByName(
+                $checkPermission
+            );
         } catch (PermissionNotFoundException $e) {
             $checkPermission = $result->getPermission();
         }

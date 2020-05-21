@@ -22,5 +22,5 @@
  */
 return [
     'subject' => 'subject',
-    'topic'   => 'topic',
+    'topic' => 'topic',
 ];

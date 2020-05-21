@@ -23,25 +23,26 @@
 namespace Search;
 
 return [
-    'di'              => [
+    'di' => [
         'allowed_controllers' => [
             __NAMESPACE__ . '\Controller\SearchController',
         ],
-        'definition'          => [
+        'definition' => [
             'class' => [
                 __NAMESPACE__ . '\Controller\SearchController' => [],
             ],
         ],
     ],
-    'router'          => [
+    'router' => [
         'routes' => [
             'search' => [
-                'type'          => 'literal',
-                'options'       => [
-                    'route'    => '/search',
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/search',
                     'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\SearchController',
-                        'action'     => 'search',
+                        'controller' =>
+                            __NAMESPACE__ . '\Controller\SearchController',
+                        'action' => 'search',
                     ],
                 ],
                 'may_terminate' => true,

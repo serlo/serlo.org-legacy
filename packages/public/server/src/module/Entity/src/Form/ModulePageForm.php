@@ -47,11 +47,11 @@ class ModulePageForm extends Form
         $select = new Select('icon');
         $select->setLabel('Select an icon');
         $select->setAttribute('id', 'icon');
-        $select->setValueOptions(array(
+        $select->setValueOptions([
             'explanation' => 'Explanation',
-            'play'        => 'Video',
-            'question'    => 'Exercises',
-        ));
+            'play' => 'Video',
+            'question' => 'Exercises',
+        ]);
         $select->setAttribute('class', 'meta');
         $this->add($select);
         $this->add((new EditorState('content'))->setLabel('Content:'));

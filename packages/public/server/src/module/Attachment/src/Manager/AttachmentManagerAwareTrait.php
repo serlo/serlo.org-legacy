@@ -24,7 +24,6 @@ namespace Attachment\Manager;
 
 trait AttachmentManagerAwareTrait
 {
-
     /**
      * @var AttachmentManagerInterface
      */
@@ -42,8 +41,9 @@ trait AttachmentManagerAwareTrait
      * @param AttachmentManagerInterface $uploadManager
      * @return self
      */
-    public function setAttachmentManager(AttachmentManagerInterface $uploadManager)
-    {
+    public function setAttachmentManager(
+        AttachmentManagerInterface $uploadManager
+    ) {
         $this->uploadManager = $uploadManager;
 
         return $this;

@@ -37,20 +37,20 @@ class MailMockAdapter implements AdapterInterface
     protected $queueKey = ':QUEUE:';
     protected $flushedKey = ':FLUSHED:';
 
-
-
     public function __construct(StorageInterface $storage)
     {
         if (self::$instance) {
-            throw new Exception\RuntimeException('MailMockAdapter does not allow multiple instances');
+            throw new Exception\RuntimeException(
+                'MailMockAdapter does not allow multiple instances'
+            );
         }
 
-        self::$instance    = $this;
+        self::$instance = $this;
         $this->storage = $storage;
-        if (! $this->storage->hasItem($this->queueKey)) {
+        if (!$this->storage->hasItem($this->queueKey)) {
             $this->storage->setItem($this->queueKey, []);
         }
-        if (! $this->storage->hasItem($this->flushedKey)) {
+        if (!$this->storage->hasItem($this->flushedKey)) {
             $this->storage->setItem($this->flushedKey, []);
         }
     }

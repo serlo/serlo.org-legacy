@@ -40,8 +40,8 @@ class AliasHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $helperPluginManager)
     {
-        $serviceLocator  = $helperPluginManager->getServiceLocator();
-        $aliasManager    = $this->getAliasManager($serviceLocator);
+        $serviceLocator = $helperPluginManager->getServiceLocator();
+        $aliasManager = $this->getAliasManager($serviceLocator);
         $instanceManager = $this->getInstanceManager($serviceLocator);
         return new AliasHelper($aliasManager, $instanceManager);
     }

@@ -22,7 +22,7 @@
 /* eslint-disable */
 CodeMirror.defineMode(
   'markdown',
-  function(cmCfg, modeCfg) {
+  function (cmCfg, modeCfg) {
     var htmlFound = CodeMirror.modes.hasOwnProperty('xml')
     var htmlMode = CodeMirror.getMode(
       cmCfg,
@@ -37,10 +37,10 @@ CodeMirror.defineMode(
       java: 'text/x-java',
       csharp: 'text/x-csharp',
       'c#': 'text/x-csharp',
-      scala: 'text/x-scala'
+      scala: 'text/x-scala',
     }
 
-    var getMode = (function() {
+    var getMode = (function () {
       var i,
         modes = {},
         mimes = {},
@@ -68,7 +68,7 @@ CodeMirror.defineMode(
         if (aliases[a] in modes || aliases[a] in mimes) modes[a] = aliases[a]
       }
 
-      return function(lang) {
+      return function (lang) {
         return modes[lang] ? CodeMirror.getMode(cmCfg, modes[lang]) : null
       }
     })()
@@ -529,7 +529,7 @@ CodeMirror.defineMode(
 
     function inlineElement(type, endChar, next) {
       next = next || inlineNormal
-      return function(stream, state) {
+      return function (stream, state) {
         stream.match(inlineRE(endChar))
         state.inline = state.f = next
         return type
@@ -537,7 +537,7 @@ CodeMirror.defineMode(
     }
 
     return {
-      startState: function() {
+      startState: function () {
         return {
           f: blockNormal,
 
@@ -561,11 +561,11 @@ CodeMirror.defineMode(
           listDepth: 0,
           quote: 0,
           trailingSpace: 0,
-          trailingSpaceNewLine: false
+          trailingSpaceNewLine: false,
         }
       },
 
-      copyState: function(s) {
+      copyState: function (s) {
         return {
           f: s.f,
 
@@ -593,11 +593,11 @@ CodeMirror.defineMode(
           quote: s.quote,
           trailingSpace: s.trailingSpace,
           trailingSpaceNewLine: s.trailingSpaceNewLine,
-          md_inside: s.md_inside
+          md_inside: s.md_inside,
         }
       },
 
-      token: function(stream, state) {
+      token: function (stream, state) {
         if (stream.sol()) {
           if (stream.match(/^\s*$/, true)) {
             state.prevLineHasContent = false
@@ -635,7 +635,7 @@ CodeMirror.defineMode(
 
       blankLine: blankLine,
 
-      getType: getType
+      getType: getType,
     }
   },
   'xml'

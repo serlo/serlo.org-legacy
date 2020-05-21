@@ -26,7 +26,6 @@ use Zend\Authentication\Adapter\AdapterInterface as AI;
 
 interface AdapterInterface extends AI
 {
-
     /**
      * @param string $email
      * @return self

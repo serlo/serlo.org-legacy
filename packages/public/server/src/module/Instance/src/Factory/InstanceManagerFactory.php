@@ -48,12 +48,20 @@ class InstanceManagerFactory implements FactoryInterface
         /* @var $options InstanceOptions */
         $options = $serviceLocator->get('Instance\Options\InstanceOptions');
         /* @var $pluginManager AbstractPluginManager */
-        $pluginManager        = $serviceLocator->get('Instance\Strategy\StrategyPluginManager');
-        $objectManager        = $this->getEntityManager($serviceLocator);
-        $classResolver        = $this->getClassResolver($serviceLocator);
+        $pluginManager = $serviceLocator->get(
+            'Instance\Strategy\StrategyPluginManager'
+        );
+        $objectManager = $this->getEntityManager($serviceLocator);
+        $classResolver = $this->getClassResolver($serviceLocator);
         $authorizationService = $this->getAuthorizationService($serviceLocator);
-        $strategy             = $pluginManager->get($options->getStrategy());
-        $instance             = new InstanceManager($authorizationService, $classResolver, $options, $objectManager, $strategy);
+        $strategy = $pluginManager->get($options->getStrategy());
+        $instance = new InstanceManager(
+            $authorizationService,
+            $classResolver,
+            $options,
+            $objectManager,
+            $strategy
+        );
 
         return $instance;
     }

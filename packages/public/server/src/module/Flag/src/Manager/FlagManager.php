@@ -73,22 +73,20 @@ class FlagManager implements FlagManagerInterface
         UuidManagerInterface $uuidManager
     ) {
         $this->setAuthorizationService($authorizationService);
-        $this->classResolver   = $classResolver;
+        $this->classResolver = $classResolver;
         $this->instanceManager = $instanceManager;
-        $this->objectManager   = $objectManager;
-        $this->typeManager     = $typeManager;
-        $this->userManager     = $userManager;
-        $this->uuidManager     = $uuidManager;
-        $this->moduleOptions   = $moduleOptions;
+        $this->objectManager = $objectManager;
+        $this->typeManager = $typeManager;
+        $this->userManager = $userManager;
+        $this->uuidManager = $uuidManager;
+        $this->moduleOptions = $moduleOptions;
     }
 
     public function findAllTypes()
     {
         $collection = new ArrayCollection();
         foreach ($this->moduleOptions->getTypes() as $type) {
-            $collection->add(
-                $this->getTypeManager()->findTypeByName($type)
-            );
+            $collection->add($this->getTypeManager()->findTypeByName($type));
         }
 
         return $collection;
@@ -96,8 +94,12 @@ class FlagManager implements FlagManagerInterface
 
     public function findAllFlags()
     {
-        $className = $this->getClassResolver()->resolveClassName('Flag\Entity\FlagInterface');
-        $flags     = $this->getObjectManager()->getRepository($className)->findAll();
+        $className = $this->getClassResolver()->resolveClassName(
+            'Flag\Entity\FlagInterface'
+        );
+        $flags = $this->getObjectManager()
+            ->getRepository($className)
+            ->findAll();
 
         foreach ($flags as $flag) {
             $this->assertGranted('flag.get', $flag);
@@ -115,11 +117,15 @@ class FlagManager implements FlagManagerInterface
 
     public function getFlag($id)
     {
-        $className = $this->getClassResolver()->resolveClassName('Flag\Entity\FlagInterface');
-        $flag      = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Flag\Entity\FlagInterface'
+        );
+        $flag = $this->getObjectManager()->find($className, $id);
 
         if (!is_object($flag)) {
-            throw new Exception\FlagNotFoundException(sprintf('Flag not found by id %d', $id));
+            throw new Exception\FlagNotFoundException(
+                sprintf('Flag not found by id %d', $id)
+            );
         }
 
         $this->assertGranted('flag.get', $flag);
@@ -128,8 +134,8 @@ class FlagManager implements FlagManagerInterface
 
     public function addFlag($typeId, $content, $uuid)
     {
-        $type     = $this->getType($typeId);
-        $object   = $this->getUuidManager()->getUuid($uuid);
+        $type = $this->getType($typeId);
+        $object = $this->getUuidManager()->getUuid($uuid);
         $reporter = $this->getUserManager()->getUserFromAuthenticator();
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
         $this->assertGranted('flag.create', $instance);

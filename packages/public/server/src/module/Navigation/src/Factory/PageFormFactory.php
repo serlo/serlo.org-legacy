@@ -40,7 +40,7 @@ class PageFormFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $entityManager = $this->getEntityManager($serviceLocator);
-        $form          = new PageForm($entityManager);
+        $form = new PageForm($entityManager);
 
         return $form;
     }

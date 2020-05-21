@@ -39,10 +39,14 @@ class ContainerRepositoryProviderFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $instanceManager   = $this->getInstanceManager($serviceLocator);
+        $instanceManager = $this->getInstanceManager($serviceLocator);
         $navigationManager = $this->getNavigationManager($serviceLocator);
-        $storage           = $serviceLocator->get('Navigation\Storage\Storage');
-        $instance          = new ContainerRepositoryProvider($instanceManager, $navigationManager, $storage);
+        $storage = $serviceLocator->get('Navigation\Storage\Storage');
+        $instance = new ContainerRepositoryProvider(
+            $instanceManager,
+            $navigationManager,
+            $storage
+        );
 
         return $instance;
     }

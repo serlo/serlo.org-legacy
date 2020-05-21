@@ -48,7 +48,11 @@ class AuthorizationService extends \ZfcRbac\Service\AuthorizationService
         }
 
         if ($this->hasAssertion($permission)) {
-            return $this->assertStrategy($this->assertions[$permission], $result, $context);
+            return $this->assertStrategy(
+                $this->assertions[$permission],
+                $result,
+                $context
+            );
         }
 
         return true;
@@ -61,8 +65,11 @@ class AuthorizationService extends \ZfcRbac\Service\AuthorizationService
      * @return bool
      * @throws Exception\InvalidArgumentException If an invalid assertion is passed
      */
-    protected function assertStrategy($assertion, AuthorizationResult $result, $context = null)
-    {
+    protected function assertStrategy(
+        $assertion,
+        AuthorizationResult $result,
+        $context = null
+    ) {
         if (is_callable($assertion)) {
             return $assertion($result, $context);
         } elseif ($assertion instanceof AssertionInterface) {
@@ -73,10 +80,14 @@ class AuthorizationService extends \ZfcRbac\Service\AuthorizationService
             return $assertion->assert($result, $context);
         }
 
-        throw new Exception\InvalidArgumentException(sprintf(
-            'Assertion must be callable, string or implement Authorization\Assertion\AssertionInterface, "%s" given',
-            is_object($assertion) ? get_class($assertion) : gettype($assertion)
-        ));
+        throw new Exception\InvalidArgumentException(
+            sprintf(
+                'Assertion must be callable, string or implement Authorization\Assertion\AssertionInterface, "%s" given',
+                is_object($assertion)
+                    ? get_class($assertion)
+                    : gettype($assertion)
+            )
+        );
     }
 
     /**

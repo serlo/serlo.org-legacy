@@ -44,14 +44,21 @@ class ModuleOptions extends AbstractOptions
      */
     public function getType($type)
     {
-        if (! array_key_exists($type, $this->types)) {
-            throw new Exception\RuntimeException(sprintf('No configuration for type "%s" found.', $type));
+        if (!array_key_exists($type, $this->types)) {
+            throw new Exception\RuntimeException(
+                sprintf('No configuration for type "%s" found.', $type)
+            );
         }
 
-        if (! is_object($this->types[$type])) {
-            $options = array_merge([
-                'allowed_children' => $this->aggregateAllowedChildren($type),
-            ], $this->types[$type]);
+        if (!is_object($this->types[$type])) {
+            $options = array_merge(
+                [
+                    'allowed_children' => $this->aggregateAllowedChildren(
+                        $type
+                    ),
+                ],
+                $this->types[$type]
+            );
             $this->types[$type] = new TaxonomyOptions($options);
         }
 
@@ -76,7 +83,10 @@ class ModuleOptions extends AbstractOptions
     {
         $children = [];
         foreach ($this->types as $key => $type) {
-            if (array_key_exists('allowed_parents', $type) && in_array($needle, $type['allowed_parents'])) {
+            if (
+                array_key_exists('allowed_parents', $type) &&
+                in_array($needle, $type['allowed_parents'])
+            ) {
                 $children[] = $key;
             }
         }

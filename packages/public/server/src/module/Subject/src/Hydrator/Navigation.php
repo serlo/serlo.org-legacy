@@ -35,23 +35,29 @@ class Navigation implements ContainerProviderInterface
 
     protected $path;
 
-    public function __construct(InstanceManagerInterface $instanceManager, SubjectManagerInterface $subjectManager)
-    {
-        $this->subjectManager  = $subjectManager;
+    public function __construct(
+        InstanceManagerInterface $instanceManager,
+        SubjectManagerInterface $subjectManager
+    ) {
+        $this->subjectManager = $subjectManager;
         $this->instanceManager = $instanceManager;
     }
 
     public function provide($container)
     {
-        $config   = [];
+        $config = [];
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $subjects = $this->getSubjectManager()->findSubjectsByInstance($instance);
+        $subjects = $this->getSubjectManager()->findSubjectsByInstance(
+            $instance
+        );
         foreach ($subjects as $subject) {
             $config = ArrayUtils::merge(
                 $config,
-                include $this->path . $instance->getName() . '/' . strtolower(
-                    $subject->getName()
-                    ) . '/navigation.config.php'
+                include $this->path .
+                    $instance->getName() .
+                    '/' .
+                    strtolower($subject->getName()) .
+                    '/navigation.config.php'
             );
         }
 

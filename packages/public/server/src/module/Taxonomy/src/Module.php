@@ -33,9 +33,7 @@ use Zend\Mvc\MvcEvent;
  */
 class Module implements BootstrapListenerInterface, ConfigProviderInterface
 {
-    public static $listeners = [
-        'Taxonomy\Listener\EntityManagerListener',
-    ];
+    public static $listeners = ['Taxonomy\Listener\EntityManagerListener'];
 
     public function getConfig()
     {
@@ -45,16 +43,23 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
     public function onBootstrap(EventInterface $e)
     {
         $eventManager = $e->getApplication()->getEventManager();
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatchRegisterListeners'), 1000);
+        $eventManager->attach(
+            MvcEvent::EVENT_DISPATCH,
+            [$this, 'onDispatchRegisterListeners'],
+            1000
+        );
     }
 
     public function onDispatchRegisterListeners(MvcEvent $e)
     {
-        $eventManager       = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         foreach (self::$listeners as $listener) {
             $sharedEventManager->attachAggregate(
-                $e->getApplication()->getServiceManager()->get($listener)
+                $e
+                    ->getApplication()
+                    ->getServiceManager()
+                    ->get($listener)
             );
         }
     }

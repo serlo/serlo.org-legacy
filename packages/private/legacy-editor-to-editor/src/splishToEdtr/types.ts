@@ -38,7 +38,7 @@ export enum Plugin {
   Spoiler = '@serlo-org/spoiler',
   StepByStep = '@serlo-org/step-by-step',
   Table = '@serlo-org/table',
-  Text = '@splish-me/slate'
+  Text = '@splish-me/slate',
 }
 export type Legacy = LegacyRow[]
 

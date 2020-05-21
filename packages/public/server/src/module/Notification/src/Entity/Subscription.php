@@ -32,7 +32,6 @@ use Uuid\Entity\UuidInterface;
  */
 class Subscription implements SubscriptionInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

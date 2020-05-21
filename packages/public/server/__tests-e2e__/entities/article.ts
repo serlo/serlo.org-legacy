@@ -30,7 +30,7 @@ import {
   getByPlaceholderText,
   saveRevision,
   addContent,
-  openDropdownMenu
+  openDropdownMenu,
 } from '../_utils'
 import { pages, notifications, elements } from '../_config'
 
@@ -62,7 +62,7 @@ test('view article (old editor)', async () => {
   const article = await getByItemType(articlePage, articleItemType)
   await expect(article).toMatchElement('h1', { text: title })
 
-  const description = await getByItemProp(article, 'articleBody').then(div =>
+  const description = await getByItemProp(article, 'articleBody').then((div) =>
     getBySelector(div, 'p')
   )
   await expect(description).toHaveHTMLContent(content)
@@ -79,7 +79,7 @@ test('convert legacy article', async () => {
 })
 
 describe('create article', () => {
-  test.each(['admin', 'english_langhelper'])('user is %p', async user => {
+  test.each(['admin', 'english_langhelper'])('user is %p', async (user) => {
     const title = randomText('article')
     const content = randomText()
 
@@ -87,7 +87,7 @@ describe('create article', () => {
     const topic = await goto(pages.e2eTopic.path)
     const createPage = await openDropdownMenu(topic).then(addContent('article'))
 
-    await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+    await getByPlaceholderText(createPage, 'Titel').then((e) => e.type(title))
 
     const contentField = await getByItemProp(createPage, 'articleBody')
     await contentField.click()

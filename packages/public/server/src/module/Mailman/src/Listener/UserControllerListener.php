@@ -30,7 +30,12 @@ class UserControllerListener extends AbstractListener
 {
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach($this->getMonitoredClass(), 'register', [$this, 'onRegister'], -1);
+        $events->attach(
+            $this->getMonitoredClass(),
+            'register',
+            [$this, 'onRegister'],
+            -1
+        );
     }
 
     protected function getMonitoredClass()
@@ -43,7 +48,9 @@ class UserControllerListener extends AbstractListener
         /* @var $user \User\Entity\UserInterface */
         $user = $e->getParam('user');
 
-        $this->getMailRenderer()->setTemplateFolder('mailman/messages/register');
+        $this->getMailRenderer()->setTemplateFolder(
+            'mailman/messages/register'
+        );
         $data = $this->getMailRenderer()->renderMail([
             'body' => [
                 'user' => $user,

@@ -42,15 +42,19 @@ class DebuggerControllerTest extends AbstractHttpControllerTestCase
         $serviceManager->setAllowOverride(true);
 
         // Verify that we check permission `debugger.use`
-        $assertGrantedService = $this
-            ->getMockBuilder(AssertGrantedServiceInterface::class)
+        $assertGrantedService = $this->getMockBuilder(
+            AssertGrantedServiceInterface::class
+        )
             ->setMethods(['assert'])
             ->getMock();
         $assertGrantedService
             ->expects($this->once())
             ->method('assert')
             ->with($this->equalTo(Permission::ADMIN_DEBUGGER_USE));
-        $serviceManager->setService(AssertGrantedServiceInterface::class, $assertGrantedService);
+        $serviceManager->setService(
+            AssertGrantedServiceInterface::class,
+            $assertGrantedService
+        );
     }
 
     public function testIndexActionGet()

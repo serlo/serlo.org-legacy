@@ -25,95 +25,75 @@ namespace Subject;
 return [
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Options\ModuleOptions'  => __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
-            __NAMESPACE__ . '\Manager\SubjectManager' => __NAMESPACE__ . '\Factory\SubjectManagerFactory',
-            __NAMESPACE__ . '\Hydrator\Navigation'    => __NAMESPACE__ . '\Factory\NavigationFactory',
-            __NAMESPACE__ . '\Storage\SubjectStorage' => __NAMESPACE__ . '\Factory\SubjectStorageFactory',
+            __NAMESPACE__ . '\Options\ModuleOptions' =>
+                __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
+            __NAMESPACE__ . '\Manager\SubjectManager' =>
+                __NAMESPACE__ . '\Factory\SubjectManagerFactory',
+            __NAMESPACE__ . '\Hydrator\Navigation' =>
+                __NAMESPACE__ . '\Factory\NavigationFactory',
+            __NAMESPACE__ . '\Storage\SubjectStorage' =>
+                __NAMESPACE__ . '\Factory\SubjectStorageFactory',
         ],
     ],
-    'view_helpers'    => [
+    'view_helpers' => [
         'factories' => [
             'subject' => __NAMESPACE__ . '\Factory\SubjectHelperFactory',
         ],
     ],
-    'taxonomy'        => [
+    'taxonomy' => [
         'types' => [
-            'topic-folder'            => [
-                'allowed_associations' => [
-                    'Entity\Entity\EntityInterface',
-                ],
-                'allowed_parents'      => [
-                    'topic',
-                ],
-                'rootable'             => false,
+            'topic-folder' => [
+                'allowed_associations' => ['Entity\Entity\EntityInterface'],
+                'allowed_parents' => ['topic'],
+                'rootable' => false,
             ],
-            'topic'                   => [
-                'allowed_parents'      => [
-                    'subject',
-                    'topic',
-                ],
-                'allowed_associations' => [
-                    'Entity\Entity\EntityInterface',
-                ],
-                'rootable'             => false,
+            'topic' => [
+                'allowed_parents' => ['subject', 'topic'],
+                'allowed_associations' => ['Entity\Entity\EntityInterface'],
+                'rootable' => false,
             ],
-            'subject'                 => [
-                'allowed_parents' => [
-                    'root',
-                ],
-                'rootable'        => false,
+            'subject' => [
+                'allowed_parents' => ['root'],
+                'rootable' => false,
             ],
-            'locale'                  => [
-                'allowed_parents' => [
-                    'subject',
-                    'locale',
-                ],
-                'rootable'        => false,
+            'locale' => [
+                'allowed_parents' => ['subject', 'locale'],
+                'rootable' => false,
             ],
-            'curriculum'              => [
-                'allowed_parents' => [
-                    'subject',
-                    'locale',
-                ],
-                'rootable'        => false,
+            'curriculum' => [
+                'allowed_parents' => ['subject', 'locale'],
+                'rootable' => false,
             ],
-            'curriculum-topic'        => [
-                'allowed_associations' => [
-                    'Entity\Entity\EntityInterface',
-                ],
-                'allowed_parents'      => [
-                    'curriculum',
-                    'curriculum-topic',
-                ],
-                'rootable'             => false,
+            'curriculum-topic' => [
+                'allowed_associations' => ['Entity\Entity\EntityInterface'],
+                'allowed_parents' => ['curriculum', 'curriculum-topic'],
+                'rootable' => false,
             ],
             'curriculum-topic-folder' => [
-                'allowed_associations' => [
-                    'Entity\Entity\EntityInterface',
-                ],
-                'allowed_parents'      => [
-                    'curriculum-topic',
-                ],
-                'rootable'             => false,
+                'allowed_associations' => ['Entity\Entity\EntityInterface'],
+                'allowed_parents' => ['curriculum-topic'],
+                'rootable' => false,
             ],
         ],
     ],
-    'router'          => [
+    'router' => [
         'routes' => [
             'subject' => [
-                'type'         => 'Subject',
-                'options'      => [
-                    'route'      => '/:subject',
+                'type' => 'Subject',
+                'options' => [
+                    'route' => '/:subject',
                     'identifier' => 'subject',
                 ],
                 'child_routes' => [
                     'entity' => [
-                        'type'    => 'literal',
+                        'type' => 'literal',
                         'options' => [
-                            'route'    => '/entity/trash-bin',
+                            'route' => '/entity/trash-bin',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\EntityController',
-                                'action'     => 'trashBin',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\EntityController',
+                                'action' => 'trashBin',
                             ],
                         ],
                     ],
@@ -131,24 +111,24 @@ return [
             ],
         ],
     ],
-    'route_manager'   => [
+    'route_manager' => [
         'invokables' => [
             'Subject' => __NAMESPACE__ . '\Route\SubjectRoute',
         ],
     ],
-    'di'              => [
+    'di' => [
         'allowed_controllers' => [
             __NAMESPACE__ . '\Controller\TaxonomyController',
             __NAMESPACE__ . '\Controller\EntityController',
             __NAMESPACE__ . '\Controller\HomeController',
         ],
-        'definition'          => [
+        'definition' => [
             'class' => [
-                __NAMESPACE__ . '\Controller\HomeController'     => [
+                __NAMESPACE__ . '\Controller\HomeController' => [
                     'setInstanceManager' => [
                         'required' => true,
                     ],
-                    'setSubjectManager'  => [
+                    'setSubjectManager' => [
                         'required' => true,
                     ],
                     'setTaxonomyManager' => [
@@ -159,18 +139,18 @@ return [
                     'setInstanceManager' => [
                         'required' => true,
                     ],
-                    'setSubjectManager'  => [
+                    'setSubjectManager' => [
                         'required' => true,
                     ],
                     'setTaxonomyManager' => [
                         'required' => true,
                     ],
                 ],
-                __NAMESPACE__ . '\Controller\EntityController'   => [
+                __NAMESPACE__ . '\Controller\EntityController' => [
                     'setInstanceManager' => [
                         'required' => true,
                     ],
-                    'setSubjectManager'  => [
+                    'setSubjectManager' => [
                         'required' => true,
                     ],
                     'setTaxonomyManager' => [
@@ -179,9 +159,10 @@ return [
                 ],
             ],
         ],
-        'instance'            => [
+        'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\Manager\SubjectManagerInterface' => __NAMESPACE__ . '\Manager\SubjectManager',
+                __NAMESPACE__ . '\Manager\SubjectManagerInterface' =>
+                    __NAMESPACE__ . '\Manager\SubjectManager',
             ],
         ],
     ],

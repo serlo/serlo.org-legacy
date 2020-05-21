@@ -39,16 +39,16 @@ class HasCurrentRevisionCollectionFilter implements FilterInterface
     public function filter($value)
     {
         if (!$value instanceof Collection) {
-            throw new Exception\RuntimeException(sprintf(
-                'Expected Collection but got %s',
-                is_object($value) ? get_class($value) : gettype($value)
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Expected Collection but got %s',
+                    is_object($value) ? get_class($value) : gettype($value)
+                )
+            );
         }
 
-        return $value->filter(
-            function (RepositoryInterface $repository) {
-                return $repository->hasCurrentRevision();
-            }
-        );
+        return $value->filter(function (RepositoryInterface $repository) {
+            return $repository->hasCurrentRevision();
+        });
     }
 }

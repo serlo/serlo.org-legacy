@@ -24,12 +24,9 @@ return [
     'subject' => [
         'instances' => [
             'deutsch' => [
-                'mathe'                    => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'mathe' => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -40,12 +37,9 @@ return [
                         'event',
                     ],
                 ],
-                'englisch'                 => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'englisch' => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -54,11 +48,8 @@ return [
                     ],
                 ],
                 'betriebswirtschaftslehre mit rechnungswesen' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -66,12 +57,9 @@ return [
                         'text-exercise-group',
                     ],
                 ],
-                'deutsch als fremdsprache'                    => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'deutsch als fremdsprache' => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -79,12 +67,9 @@ return [
                         'text-exercise-group',
                     ],
                 ],
-                'informatik'                   => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'informatik' => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -92,12 +77,9 @@ return [
                         'text-exercise-group',
                     ],
                 ],
-                'chemie'                   => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'chemie' => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -105,12 +87,9 @@ return [
                         'text-exercise-group',
                     ],
                 ],
-                'nachhaltigkeit'              => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'nachhaltigkeit' => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -118,12 +97,9 @@ return [
                         'text-exercise-group',
                     ],
                 ],
-                'permakultur'              => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'permakultur' => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -131,12 +107,9 @@ return [
                         'text-exercise-group',
                     ],
                 ],
-                'physik'                   => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'physik' => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -144,12 +117,9 @@ return [
                         'text-exercise-group',
                     ],
                 ],
-                'biologie'                 => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'biologie' => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -158,11 +128,8 @@ return [
                     ],
                 ],
                 'musik' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -171,11 +138,8 @@ return [
                     ],
                 ],
                 'politik' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -184,11 +148,8 @@ return [
                     ],
                 ],
                 'community' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -199,11 +160,8 @@ return [
                     ],
                 ],
                 'testbereich' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -215,11 +173,8 @@ return [
             ],
             'french' => [
                 'mathématiques' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -230,11 +185,8 @@ return [
                     ],
                 ],
                 'community' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -245,11 +197,8 @@ return [
                     ],
                 ],
                 'boîte à méthodes' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -259,11 +208,8 @@ return [
                     ],
                 ],
                 'nouvelles matières' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -276,11 +222,8 @@ return [
             ],
             'english' => [
                 'math' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -291,11 +234,8 @@ return [
                     ],
                 ],
                 'sustainability' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -304,11 +244,8 @@ return [
                     ],
                 ],
                 'permaculture' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -317,11 +254,8 @@ return [
                     ],
                 ],
                 'community' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -332,11 +266,8 @@ return [
                     ],
                 ],
                 'music' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -345,11 +276,8 @@ return [
                     ],
                 ],
                 'sex education' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -358,11 +286,8 @@ return [
                     ],
                 ],
                 'test area' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -374,11 +299,8 @@ return [
             ],
             'spanish' => [
                 'community' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -389,11 +311,8 @@ return [
                     ],
                 ],
                 'Matemáticas' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -405,11 +324,8 @@ return [
             ],
             'hindi' => [
                 'community' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -422,11 +338,8 @@ return [
             ],
             'tamil' => [
                 'community' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -436,12 +349,10 @@ return [
                         'applet',
                     ],
                 ],
-                'இலக்கணம்' => [ // grammar
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'இலக்கணம்' => [
+                    // grammar
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -450,12 +361,10 @@ return [
                         'applet',
                     ],
                 ],
-                'வரலாறு' => [ // history
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                'வரலாறு' => [
+                    // history
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',
@@ -466,11 +375,8 @@ return [
                 ],
                 // dictionary
                 'அகராதி' => [
-                    'allowed_taxonomies' => [
-                        'topic',
-                        'locale',
-                    ],
-                    'allowed_entities'   => [
+                    'allowed_taxonomies' => ['topic', 'locale'],
+                    'allowed_entities' => [
                         'article',
                         'text-exercise',
                         'video',

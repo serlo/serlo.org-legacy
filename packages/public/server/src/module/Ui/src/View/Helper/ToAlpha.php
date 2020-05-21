@@ -44,12 +44,12 @@ class ToAlpha extends AbstractHelper
         if ($number <= 25) {
             return $alphabet[$number];
         } elseif ($number > 25) {
-            $dividend = ($number + 1);
-            $alpha    = '';
+            $dividend = $number + 1;
+            $alpha = '';
             while ($dividend > 0) {
-                $modulo   = ($dividend - 1) % 26;
-                $alpha    = $alphabet[$modulo] . $alpha;
-                $dividend = floor((($dividend - $modulo) / 26));
+                $modulo = ($dividend - 1) % 26;
+                $alpha = $alphabet[$modulo] . $alpha;
+                $dividend = floor(($dividend - $modulo) / 26);
             }
 
             return $alpha;

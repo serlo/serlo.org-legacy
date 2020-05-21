@@ -26,7 +26,7 @@ const { convertSplishToEdtrIO } = require('@serlo/legacy-editor-to-editor')
  * Migrates the remaining Splish Editor states to Edtr.io states
  * THIS IS AN IRREVERSIBLE MIGRATION!
  */
-exports.up = function(db, cb) {
+exports.up = function (db, cb) {
   db.all(
     `
       SELECT erf.id, erf.value
@@ -59,7 +59,7 @@ exports.up = function(db, cb) {
     db.runSql(
       `UPDATE entity_revision_field SET value = ? WHERE id = ?`,
       [convertedState, field.id],
-      err => {
+      (err) => {
         if (err) {
           cb()
           return cb(err)
@@ -70,10 +70,10 @@ exports.up = function(db, cb) {
   }
 }
 
-exports.down = function(db, cb) {
+exports.down = function (db, cb) {
   cb()
 }
 
 exports._meta = {
-  version: 1
+  version: 1,
 }

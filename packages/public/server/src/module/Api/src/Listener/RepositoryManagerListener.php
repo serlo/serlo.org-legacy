@@ -49,19 +49,13 @@ class RepositoryManagerListener extends AbstractListener
         $events->attach(
             $this->getMonitoredClass(),
             'commit',
-            [
-                $this,
-                'onCommit',
-            ],
+            [$this, 'onCommit'],
             2
         );
         $events->attach(
             $this->getMonitoredClass(),
             'checkout',
-            [
-                $this,
-                'onCheckout',
-            ],
+            [$this, 'onCheckout'],
             2
         );
     }

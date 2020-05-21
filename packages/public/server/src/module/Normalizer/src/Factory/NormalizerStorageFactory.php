@@ -51,9 +51,11 @@ class NormalizerStorageFactory implements FactoryInterface
                 'serializer',
             ],
         ];
-        if (array_key_exists('normalizer_cache', $serviceLocator->get('Config'))) {
-            $config =  $serviceLocator->get('Config')['normalizer_cache'];
-        };
+        if (
+            array_key_exists('normalizer_cache', $serviceLocator->get('Config'))
+        ) {
+            $config = $serviceLocator->get('Config')['normalizer_cache'];
+        }
         $cache = StorageFactory::factory($config);
         return $cache;
     }

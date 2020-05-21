@@ -31,7 +31,6 @@ use Uuid\Entity\UuidInterface;
  */
 class EventParameter implements EventParameterInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -102,10 +101,10 @@ class EventParameter implements EventParameterInterface
     public function setValue($value)
     {
         if ($value instanceof UuidInterface) {
-            $param        = new EventParameterUuid($this, $value);
+            $param = new EventParameterUuid($this, $value);
             $this->object = $param;
         } else {
-            $param        = new EventParameterString($this, $value);
+            $param = new EventParameterString($this, $value);
             $this->string = $param;
         }
     }

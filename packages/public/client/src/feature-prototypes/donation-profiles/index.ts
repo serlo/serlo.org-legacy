@@ -34,7 +34,7 @@ const donorsSpec = {
   callToAction:
     '<a style="text-decoration: underline;" href="/user/me#spenden">Kannst auch du dir vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
   ownProfileMessage:
-    'Wir sind die ersten %no% Pioniere beim Aufbau einer langfristigen und unabhängigen Finanzierung für serlo.org.'
+    'Wir sind die ersten %no% Pioniere beim Aufbau einer langfristigen und unabhängigen Finanzierung für serlo.org.',
 }
 
 const userProfileSpecs: UserProfileSpec[] = [
@@ -45,7 +45,7 @@ const userProfileSpecs: UserProfileSpec[] = [
     otherUserProfileMessage:
       'Als Reviewerin bzw. Reviewer sichert %username% die Qualität auf serlo.org und hilft unseren Autorinnen und Autoren.',
     ownProfileMessage:
-      'Als Team von %no% Reviewerinnen und Reviewern sorgen wir für die Qualität unserer Lernplattform.'
+      'Als Team von %no% Reviewerinnen und Reviewern sorgen wir für die Qualität unserer Lernplattform.',
   },
   {
     userList: activeAuthors,
@@ -56,9 +56,9 @@ const userProfileSpecs: UserProfileSpec[] = [
     callToAction:
       '<a style="text-decoration: underline;" href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.',
     ownProfileMessage:
-      'Zusammen mit dir sind wir schon %no% Autorinnen und Autoren, die aktiv an serlo.org mitarbeiten.'
+      'Zusammen mit dir sind wir schon %no% Autorinnen und Autoren, die aktiv an serlo.org mitarbeiten.',
   },
-  donorsSpec
+  donorsSpec,
 ]
 
 interface UserProfileSpec {
@@ -103,7 +103,7 @@ function addTwingleForm(): void {
   const donorPicture = staticFileUrl(donorsSpec.img)
   const campaignId = `Spendenprofil { userId: ${userId}, userName: ${userName} }`
   const encodedCampaignId = encodeURIComponent(campaignId)
-  const isCommunity = userProfileSpecs.some(x => x.userList.includes(userId))
+  const isCommunity = userProfileSpecs.some((x) => x.userList.includes(userId))
   const callToAction = isCommunity
     ? 'Du bist schon Teil dieser Community. Kannst du dir dennoch vorstellen, auch einen kleinen finanziellen Beitrag zu leisten? Dann nutze bitte das Formular rechts.'
     : 'Kannst du dir vorstellen, unsere Arbeit als Spenderin bzw. Spender zu fördern und Teil der Community zu werden? Dann nutze bitte das Formular rechts.'
@@ -182,11 +182,7 @@ function addBannerToProfile(): void {
     const additionOwnProfile =
       '<p style="grid-column-start: 2;">Gemeinsam helfen wir jeden Monat über 1 Mio jungen Menschen beim Lernen – unabhängig vom Geldbeutel ihrer Eltern. Schön, dass du dabei bist!</p>'
 
-    const hasProfileText =
-      $('.page-header')
-        .next()
-        .text()
-        .trim().length > 0
+    const hasProfileText = $('.page-header').next().text().trim().length > 0
     const newHeader = hasProfileText
       ? '<h1 class="heading-content">Über mich</h1>'
       : ''
@@ -237,14 +233,14 @@ function getUserNameFromProfilePage(): string {
 function getUserIdFromProfilePage(): string {
   const links = Array.prototype.slice.call(document.querySelectorAll('a'))
   return links
-    .map(link => {
+    .map((link) => {
       const href = link.getAttribute('href')
       const match =
         href === null ? null : href.match(/\/event\/history\/user\/(\d+)$/)
 
       return match === null ? null : match[1]
     })
-    .find(element => element !== null)
+    .find((element) => element !== null)
 }
 
 function icon(spec: UserProfileSpec, height: number, style = ''): string {

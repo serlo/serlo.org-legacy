@@ -27,7 +27,6 @@ use Zend\Filter\StripTags;
 
 class PreviewFilter implements FilterInterface
 {
-
     /**
      * @var string
      */
@@ -54,22 +53,30 @@ class PreviewFilter implements FilterInterface
      */
     public function filter($value)
     {
-        $value     = trim($value);
-        $value     = preg_replace('/<style[^>]*>([\s\S]*?)<\/style>/i', '', $value);
-        $value     = preg_replace('/<script[^>]*>([\s\S]*?)<\/script>/i', '', $value);
-        $value     = preg_replace('/<button[^>]*>([\s\S]*?)<\/button>/i', '', $value);
+        $value = trim($value);
+        $value = preg_replace('/<style[^>]*>([\s\S]*?)<\/style>/i', '', $value);
+        $value = preg_replace(
+            '/<script[^>]*>([\s\S]*?)<\/script>/i',
+            '',
+            $value
+        );
+        $value = preg_replace(
+            '/<button[^>]*>([\s\S]*?)<\/button>/i',
+            '',
+            $value
+        );
         $stripTags = new StripTags();
-        $value     = $stripTags->filter($value);
-        $length    = $this->length;
+        $value = $stripTags->filter($value);
+        $length = $this->length;
 
         if (strlen($value) <= $length) {
             return $value;
         }
 
         $appendLength = strlen($this->append);
-        $length       = $length - $appendLength;
-        $words        = explode(' ', $value);
-        $return       = '';
+        $length = $length - $appendLength;
+        $words = explode(' ', $value);
+        $return = '';
 
         foreach ($words as $word) {
             $word = trim($word);

@@ -27,7 +27,6 @@ use RelatedContent\Entity;
 
 interface RelatedContentManagerInterface
 {
-
     /**
      * @param int $id
      * @return Collection

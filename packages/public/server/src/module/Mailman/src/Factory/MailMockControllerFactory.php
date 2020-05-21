@@ -40,7 +40,7 @@ class MailMockControllerFactory implements FactoryInterface
         /* @var $serviceLocator AbstractPluginManager */
         $serviceManager = $serviceLocator->getServiceLocator();
         /* @var $mailadapter \Mailman\Adapter\MailMockAdapter */
-        $mailadapter  = $serviceManager->get('Mailman\Adapter\ZendMailAdapter');
+        $mailadapter = $serviceManager->get('Mailman\Adapter\ZendMailAdapter');
         return new MailMockController($mailadapter);
     }
 }

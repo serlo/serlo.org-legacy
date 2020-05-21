@@ -31,8 +31,9 @@ trait AuthorizationServiceFactoryTrait
      * @param ServiceLocatorInterface $serviceLocator
      * @return AuthorizationService
      */
-    public function getAuthorizationService(ServiceLocatorInterface $serviceLocator)
-    {
+    public function getAuthorizationService(
+        ServiceLocatorInterface $serviceLocator
+    ) {
         return $serviceLocator->get('ZfcRbac\Service\AuthorizationService');
     }
 }

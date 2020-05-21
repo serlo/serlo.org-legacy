@@ -60,35 +60,34 @@ class BlogController extends AbstractActionController
         CreatePostForm $createPostForm,
         UpdatePostForm $updatePostForm
     ) {
-        $this->blogManager     = $blogManager;
+        $this->blogManager = $blogManager;
         $this->instanceManager = $instanceManager;
-        $this->userManager     = $userManager;
-        $this->createPostForm  = $createPostForm;
-        $this->updatePostForm  = $updatePostForm;
+        $this->userManager = $userManager;
+        $this->createPostForm = $createPostForm;
+        $this->updatePostForm = $updatePostForm;
     }
 
     public function createAction()
     {
-        $blog     = $this->getBlogManager()->getBlog($this->params('id'));
+        $blog = $this->getBlogManager()->getBlog($this->params('id'));
         $identity = $this->getUserManager()->getUserFromAuthenticator();
         $this->assertGranted('blog.post.create', $blog);
 
         $form = $this->createPostForm;
 
         if ($this->getRequest()->isPost()) {
-            $data = array_merge(
-                $this->params()->fromPost(),
-                [
-                    'blog'     => $blog,
-                    'author'   => $identity,
-                    'instance' => $blog->getInstance(),
-                ]
-            );
+            $data = array_merge($this->params()->fromPost(), [
+                'blog' => $blog,
+                'author' => $identity,
+                'instance' => $blog->getInstance(),
+            ]);
             $form->setData($data);
             if ($form->isValid()) {
                 $this->getBlogManager()->createPost($form);
                 $this->getBlogManager()->flush();
-                return $this->redirect()->toRoute('blog/view', ['id' => $this->params('id')]);
+                return $this->redirect()->toRoute('blog/view', [
+                    'id' => $this->params('id'),
+                ]);
             }
         }
 
@@ -106,8 +105,8 @@ class BlogController extends AbstractActionController
     public function indexAction()
     {
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $blogs    = $this->getBlogManager()->findAllBlogs($instance);
-        $view     = new ViewModel(['blogs' => $blogs]);
+        $blogs = $this->getBlogManager()->findAllBlogs($instance);
+        $view = new ViewModel(['blogs' => $blogs]);
         $view->setTemplate('blog/blog/blogs');
 
         return $view;
@@ -127,7 +126,9 @@ class BlogController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getBlogManager()->updatePost($form);
                 $this->getBlogManager()->flush();
-                $this->redirect()->toRoute('blog/post/view', ['post' => $this->params('post')]);
+                $this->redirect()->toRoute('blog/post/view', [
+                    'post' => $this->params('post'),
+                ]);
             }
         }
 
@@ -144,15 +145,15 @@ class BlogController extends AbstractActionController
         $this->assertGranted('blog.get', $blog);
         $posts = $blog->getAssociated('blogPosts');
 
-        $filter    = new PostPublishedFilter();
-        $posts     = $filter->filter($posts);
-        $adapter   = new Collection($posts);
+        $filter = new PostPublishedFilter();
+        $posts = $filter->filter($posts);
+        $adapter = new Collection($posts);
         $paginator = new Paginator($adapter);
         $paginator->setCurrentPageNumber($this->params()->fromQuery('page', 0));
         $paginator->setItemCountPerPage(5);
 
         $view = new ViewModel([
-            'blog'      => $blog,
+            'blog' => $blog,
             'paginator' => $paginator,
         ]);
 
@@ -167,15 +168,15 @@ class BlogController extends AbstractActionController
         $this->assertGranted('blog.posts.get.unpublished', $blog);
         $posts = $blog->getAssociated('blogPosts');
 
-        $filter    = new PostUnpublishedFilter();
-        $posts     = $filter->filter($posts);
-        $adapter   = new Collection($posts);
+        $filter = new PostUnpublishedFilter();
+        $posts = $filter->filter($posts);
+        $adapter = new Collection($posts);
         $paginator = new Paginator($adapter);
         $paginator->setCurrentPageNumber($this->params()->fromQuery('page', 0));
         $paginator->setItemCountPerPage(5);
 
         $view = new ViewModel([
-            'blog'      => $blog,
+            'blog' => $blog,
             'paginator' => $paginator,
         ]);
         $view->setTemplate('blog/blog/view-all');
@@ -202,7 +203,9 @@ class BlogController extends AbstractActionController
     {
         if ($publish) {
             $dateData = explode('.', $publish);
-            return (new Datetime())->setDate($dateData[2], $dateData[1], $dateData[0])->setTime(0, 0, 0);
+            return (new Datetime())
+                ->setDate($dateData[2], $dateData[1], $dateData[0])
+                ->setTime(0, 0, 0);
         } else {
             return new DateTime();
         }

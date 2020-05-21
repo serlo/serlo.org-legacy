@@ -24,7 +24,6 @@ namespace User\Manager;
 
 trait UserManagerAwareTrait
 {
-
     /**
      * @var UserManagerInterface
      */

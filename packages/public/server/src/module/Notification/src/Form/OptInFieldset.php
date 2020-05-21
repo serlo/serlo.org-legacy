@@ -38,7 +38,6 @@ class OptInFieldset extends Fieldset implements InputFilterProviderInterface
         $subscribe->setChecked(true);
         $subscribe->setAttribute('class', 'control');
 
-
         $mailman = new Element\Checkbox('mailman');
         $mailman->setName('mailman');
         $mailman->setLabel('Receive notifications via email.');
@@ -53,11 +52,11 @@ class OptInFieldset extends Fieldset implements InputFilterProviderInterface
     {
         return [
             [
-                'name'     => 'subscribe',
+                'name' => 'subscribe',
                 'required' => true,
             ],
             [
-                'name'     => 'mailman',
+                'name' => 'mailman',
                 'required' => true,
             ],
         ];

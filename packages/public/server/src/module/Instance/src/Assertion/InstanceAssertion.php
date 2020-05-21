@@ -49,10 +49,10 @@ class InstanceAssertion implements AssertionInterface
         if (!$authorization instanceof StatefulAuthorizationService) {
             throw new InvalidArgumentException();
         }
-        $result            = $authorization->getAuthorizationResult();
-        $permission        = $result->getPermission();
+        $result = $authorization->getAuthorizationResult();
+        $permission = $result->getPermission();
         $permissionToMatch = $this->getPermissionService()->findParametrizedPermission(
-            (string)$permission,
+            (string) $permission,
             'instance',
             $context->getInstance()->getId()
         );

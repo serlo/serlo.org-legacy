@@ -27,7 +27,9 @@ use Versioning\Entity\RepositoryInterface;
 use Versioning\Entity\RevisionInterface;
 use Zend\EventManager\EventManagerAwareInterface;
 
-interface RepositoryManagerInterface extends EventManagerAwareInterface, Flushable
+interface RepositoryManagerInterface extends
+    EventManagerAwareInterface,
+    Flushable
 {
     /**
      * Check out a revision.
@@ -42,7 +44,11 @@ interface RepositoryManagerInterface extends EventManagerAwareInterface, Flushab
      * @return mixed
      * @throws Exception\RevisionNotFoundException
      */
-    public function checkoutRevision(RepositoryInterface $repository, $revision, $reason = '');
+    public function checkoutRevision(
+        RepositoryInterface $repository,
+        $revision,
+        $reason = ''
+    );
 
     /**
      * Creates a new revision and adds it to the repository.
@@ -55,7 +61,10 @@ interface RepositoryManagerInterface extends EventManagerAwareInterface, Flushab
      * @param array               $data
      * @return RevisionInterface
      */
-    public function commitRevision(RepositoryInterface $repository, array $data);
+    public function commitRevision(
+        RepositoryInterface $repository,
+        array $data
+    );
 
     /**
      * Finds an revision by its id.
@@ -82,8 +91,10 @@ interface RepositoryManagerInterface extends EventManagerAwareInterface, Flushab
      * @param RevisionInterface $revision
      * @return RevisionInterface
      */
-    public function findPreviousRevision(RepositoryInterface $repository, RevisionInterface $revision);
-
+    public function findPreviousRevision(
+        RepositoryInterface $repository,
+        RevisionInterface $revision
+    );
 
     /**
      * Rejects a revision (opposite of checkoutRevision).
@@ -97,5 +108,9 @@ interface RepositoryManagerInterface extends EventManagerAwareInterface, Flushab
      * @param string                $reason
      * @return void
      */
-    public function rejectRevision(RepositoryInterface $repository, $revision, $reason = '');
+    public function rejectRevision(
+        RepositoryInterface $repository,
+        $revision,
+        $reason = ''
+    );
 }

@@ -79,9 +79,9 @@ export const expectSplishSlate = (
   content: {
     plugin: { name: Plugin.Text, version: '0.0.0' },
     state: {
-      importFromHtml: html
-    }
-  }
+      importFromHtml: html,
+    },
+  },
 })
 
 // Just so that Jest doesn't complain about an empty test suite

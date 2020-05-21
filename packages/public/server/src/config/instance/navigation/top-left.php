@@ -26,7 +26,7 @@ return [
             [
                 'label' => '',
                 'route' => 'home',
-                'icon'  => 'home',
+                'icon' => 'home',
             ],
         ],
     ],

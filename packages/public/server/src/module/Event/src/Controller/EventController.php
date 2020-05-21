@@ -43,7 +43,7 @@ class EventController extends AbstractActionController
 
     public function historyAction()
     {
-        $id   = $this->params('id');
+        $id = $this->params('id');
         $events = $this->eventManager->findEventsByObject($id);
 
         if (empty($events)) {
@@ -86,7 +86,7 @@ class EventController extends AbstractActionController
         $user = $this->getUserManager()->getUserFromAuthenticator();
 
         if (!$user) {
-            throw new UnauthorizedException;
+            throw new UnauthorizedException();
         }
 
         $userId = $user->getId();

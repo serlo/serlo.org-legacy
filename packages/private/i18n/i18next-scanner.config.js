@@ -4,7 +4,7 @@ module.exports = {
   options: {
     func: {
       list: ['i18n.t', 'i18next.t'],
-      extensions: ['.js', '.jsx', '.ts', '.tsx']
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     lngs: ['en'],
     ns: ['default'],
@@ -17,17 +17,17 @@ module.exports = {
       loadPath: 'resources/{{ns}}.json',
       savePath: 'resources/{{ns}}.json',
       jsonIndent: 2,
-      lineEnding: '\n'
+      lineEnding: '\n',
     },
     defaultValue(lng, ns, key) {
       return key
-    }
+    },
   },
   input: [
     '../../private/edtr-io/src/**/*.{js,jsx,ts,tsx}',
     '../../public/client/src/{editor,frontend,legacy-editor,libs,main,modules}/**/*.{js,jsx,ts,tsx}',
-    '../../public/frontend/{src,pages}/**/*.{js,jsx,ts,tsx}'
+    '../../public/frontend/{src,pages}/**/*.{js,jsx,ts,tsx}',
   ],
   output: './',
-  transform: createTypescriptTransform()
+  transform: createTypescriptTransform(),
 }

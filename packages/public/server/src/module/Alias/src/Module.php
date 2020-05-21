@@ -47,31 +47,49 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
     public function onBootstrap(EventInterface $e)
     {
         $eventManager = $e->getApplication()->getEventManager();
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatch'), 1000);
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatchRegisterListeners'), 1000);
+        $eventManager->attach(
+            MvcEvent::EVENT_DISPATCH,
+            [$this, 'onDispatch'],
+            1000
+        );
+        $eventManager->attach(
+            MvcEvent::EVENT_DISPATCH,
+            [$this, 'onDispatchRegisterListeners'],
+            1000
+        );
     }
 
     public function onDispatch(MvcEvent $e)
     {
-        $application    = $e->getApplication();
-        $response       = $e->getResponse();
-        $request        = $application->getRequest();
+        $application = $e->getApplication();
+        $response = $e->getResponse();
+        $request = $application->getRequest();
         $serviceManager = $application->getServiceManager();
         /* @var $aliasManager AliasManagerInterface */
-        $aliasManager    = $serviceManager->get('Alias\AliasManager');
-        $instanceManager = $serviceManager->get('Instance\Manager\InstanceManager');
+        $aliasManager = $serviceManager->get('Alias\AliasManager');
+        $instanceManager = $serviceManager->get(
+            'Instance\Manager\InstanceManager'
+        );
 
-        if (!($response instanceof HttpResponse && $request instanceof HttpRequest)) {
+        if (
+            !(
+                $response instanceof HttpResponse &&
+                $request instanceof HttpRequest
+            )
+        ) {
             return null;
         }
 
         /* @var $uriClone \Zend\Uri\Http */
         $uriClone = clone $request->getUri();
-        $uri      = $uriClone->getPath();
+        $uri = $uriClone->getPath();
         $query = $uriClone->getQuery();
 
         try {
-            $location = $aliasManager->findAliasBySource($uri, $instanceManager->getInstanceFromRequest());
+            $location = $aliasManager->findAliasBySource(
+                $uri,
+                $instanceManager->getInstanceFromRequest()
+            );
         } catch (Exception $ex) {
             return null;
         }
@@ -89,14 +107,21 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
 
     public function onDispatchError(MvcEvent $e)
     {
-        $application    = $e->getApplication();
-        $response       = $e->getResponse();
-        $request        = $application->getRequest();
+        $application = $e->getApplication();
+        $response = $e->getResponse();
+        $request = $application->getRequest();
         $serviceManager = $application->getServiceManager();
         /* @var $aliasManager AliasManagerInterface */
-        $aliasManager    = $serviceManager->get('Alias\AliasManager');
-        $instanceManager = $serviceManager->get('Instance\Manager\InstanceManager');
-        if (!($response instanceof HttpResponse && $request instanceof HttpRequest)) {
+        $aliasManager = $serviceManager->get('Alias\AliasManager');
+        $instanceManager = $serviceManager->get(
+            'Instance\Manager\InstanceManager'
+        );
+        if (
+            !(
+                $response instanceof HttpResponse &&
+                $request instanceof HttpRequest
+            )
+        ) {
             return null;
         }
 
@@ -104,8 +129,11 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         $uriClone = clone $request->getUri();
 
         try {
-            $uri      = $uriClone->makeRelative('/')->getPath();
-            $location = $aliasManager->findCanonicalAlias($uri, $instanceManager->getInstanceFromRequest());
+            $uri = $uriClone->makeRelative('/')->getPath();
+            $location = $aliasManager->findCanonicalAlias(
+                $uri,
+                $instanceManager->getInstanceFromRequest()
+            );
         } catch (Exception $ex) {
             return null;
         }
@@ -119,11 +147,14 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
 
     public function onDispatchRegisterListeners(MvcEvent $e)
     {
-        $eventManager       = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         foreach (self::$listeners as $listener) {
             $sharedEventManager->attachAggregate(
-                $e->getApplication()->getServiceManager()->get($listener)
+                $e
+                    ->getApplication()
+                    ->getServiceManager()
+                    ->get($listener)
             );
         }
     }

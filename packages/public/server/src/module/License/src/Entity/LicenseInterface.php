@@ -26,7 +26,6 @@ use Instance\Entity\InstanceAwareInterface;
 
 interface LicenseInterface extends InstanceAwareInterface
 {
-
     /**
      * @return string
      */

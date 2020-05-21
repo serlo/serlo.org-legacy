@@ -28,7 +28,7 @@ import {
   getByPlaceholderText,
   saveRevision,
   addContent,
-  openDropdownMenu
+  openDropdownMenu,
 } from '../_utils'
 import { exampleApiParameters, pages, notifications } from '../_config'
 
@@ -55,7 +55,7 @@ describe('view video page', () => {
 
   test.each(exampleApiParameters)(
     `view example video page when %p is set (content-api)`,
-    async contentApiParam => {
+    async (contentApiParam) => {
       const videoPage = await goto(videoPath + '?' + contentApiParam)
       const video = await getByItemType(videoPage, videoItemType)
 
@@ -70,7 +70,7 @@ describe('view video page', () => {
 })
 
 describe('create video page', () => {
-  test.each(['admin', 'english_langhelper'])('user is %p', async user => {
+  test.each(['admin', 'english_langhelper'])('user is %p', async (user) => {
     const title = randomText('video')
     const description = randomText()
     const youtubeId = '2OjVWmAr5gE'
@@ -79,7 +79,7 @@ describe('create video page', () => {
     const topic = await goto(pages.e2eTopic.path)
     const createPage = await openDropdownMenu(topic).then(addContent('video'))
 
-    await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+    await getByPlaceholderText(createPage, 'Titel').then((e) => e.type(title))
 
     const videoUrlField = await getBySelector(
       createPage,

@@ -30,7 +30,6 @@ use User\Entity;
 
 interface NotificationInterface
 {
-
     /**
      * @param bool $seen
      * @return self

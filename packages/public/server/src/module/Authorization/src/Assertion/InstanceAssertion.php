@@ -60,7 +60,7 @@ class InstanceAssertion implements AssertionInterface
         TraversalStrategyInterface $traversalStrategy
     ) {
         $this->permissionService = $permissionService;
-        $this->instanceManager   = $instanceManager;
+        $this->instanceManager = $instanceManager;
         $this->traversalStrategy = $traversalStrategy;
     }
 
@@ -80,19 +80,28 @@ class InstanceAssertion implements AssertionInterface
         } elseif ($context instanceof InstanceProviderInterface) {
             $instance = $context->getInstance();
             if (!is_object($instance)) {
-                throw new RuntimeException(sprintf('%s provides an instance of null', get_class($context)));
+                throw new RuntimeException(
+                    sprintf(
+                        '%s provides an instance of null',
+                        get_class($context)
+                    )
+                );
             }
         } elseif ($context instanceof InstanceInterface) {
             $instance = $context;
         } else {
-            throw new InvalidArgumentException(sprintf(
-                'Expected null, InstanceProviderInterface or InstanceInterface but got %s',
-                is_object($context) ? get_class($context) : gettype($context)
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Expected null, InstanceProviderInterface or InstanceInterface but got %s',
+                    is_object($context)
+                        ? get_class($context)
+                        : gettype($context)
+                )
+            );
         }
 
         $permissionToCheck = $authorization->getPermission();
-        $rolesToCheck      = $this->flattenRoles($authorization->getRoles());
+        $rolesToCheck = $this->flattenRoles($authorization->getRoles());
 
         $permissions = $this->permissionService->findParametrizedPermissions(
             $permissionToCheck,
@@ -131,7 +140,7 @@ class InstanceAssertion implements AssertionInterface
     public function flattenRoles(array $roles)
     {
         $roleNames = [];
-        $iterator  = $this->traversalStrategy->getRolesIterator($roles);
+        $iterator = $this->traversalStrategy->getRolesIterator($roles);
 
         foreach ($iterator as $role) {
             $roleNames[] = $role;

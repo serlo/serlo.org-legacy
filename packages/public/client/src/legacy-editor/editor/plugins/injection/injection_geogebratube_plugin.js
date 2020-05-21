@@ -30,7 +30,7 @@ var GeogebraTubeInjectionPlugin, titleRegexp, hrefRegexp
 titleRegexp = new RegExp(/\[[^\]]*\]\(/)
 hrefRegexp = new RegExp(/\([^)]*\)/)
 
-GeogebraTubeInjectionPlugin = function(data) {
+GeogebraTubeInjectionPlugin = function (data) {
   this.state = 'geogebratube-injection'
   this.info = data || {}
   this.init()
@@ -39,7 +39,7 @@ GeogebraTubeInjectionPlugin = function(data) {
 GeogebraTubeInjectionPlugin.prototype = new EditorPlugin()
 GeogebraTubeInjectionPlugin.prototype.constructor = GeogebraTubeInjectionPlugin
 
-GeogebraTubeInjectionPlugin.prototype.init = function() {
+GeogebraTubeInjectionPlugin.prototype.init = function () {
   var that = this
 
   that.template = _.template(pluginHtmlTemplate)
@@ -47,7 +47,7 @@ GeogebraTubeInjectionPlugin.prototype.init = function() {
   that.data.name = 'GeogebraTube'
 }
 
-GeogebraTubeInjectionPlugin.prototype.activate = function(token) {
+GeogebraTubeInjectionPlugin.prototype.activate = function (token) {
   var that = this
   var title
   var href
@@ -61,22 +61,22 @@ GeogebraTubeInjectionPlugin.prototype.activate = function(token) {
 
   that.$el = $(that.template(that.data))
 
-  that.$el.on('click', '.btn-save', function() {
+  that.$el.on('click', '.btn-save', function () {
     that.save()
   })
 
-  that.$el.on('click', '.btn-cancel', function(e) {
+  that.$el.on('click', '.btn-cancel', function (e) {
     e.preventDefault()
     that.trigger('close')
   })
 }
 
-GeogebraTubeInjectionPlugin.prototype.save = function() {
+GeogebraTubeInjectionPlugin.prototype.save = function () {
   this.setAndValidateContent()
   this.trigger('save', this)
 }
 
-GeogebraTubeInjectionPlugin.prototype.setAndValidateContent = function() {
+GeogebraTubeInjectionPlugin.prototype.setAndValidateContent = function () {
   var href = $('.href', this.$el).val()
   if (href.substr(0, 4) !== 'ggt/') {
     var l

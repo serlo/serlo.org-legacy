@@ -31,7 +31,10 @@ interface TaxonomyTermAwareInterface
      * @param TaxonomyTermNodeInterface $node
      * @return self
      */
-    public function addTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm, TaxonomyTermNodeInterface $node = null);
+    public function addTaxonomyTerm(
+        TaxonomyTermInterface $taxonomyTerm,
+        TaxonomyTermNodeInterface $node = null
+    );
 
     /**
      * @return int
@@ -48,5 +51,8 @@ interface TaxonomyTermAwareInterface
      * @param TaxonomyTermNodeInterface $node
      * @return self
      */
-    public function removeTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm, TaxonomyTermNodeInterface $node = null);
+    public function removeTaxonomyTerm(
+        TaxonomyTermInterface $taxonomyTerm,
+        TaxonomyTermNodeInterface $node = null
+    );
 }

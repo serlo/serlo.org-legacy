@@ -25,8 +25,10 @@ return [
     'di' => [
         'instance' => [
             'preferences' => [
-                'Zend\ServiceManager\ServiceLocatorInterface' => 'ServiceManager',
-                'Doctrine\Common\Persistence\ObjectManager' => 'Doctrine\ORM\EntityManager',
+                'Zend\ServiceManager\ServiceLocatorInterface' =>
+                    'ServiceManager',
+                'Doctrine\Common\Persistence\ObjectManager' =>
+                    'Doctrine\ORM\EntityManager',
             ],
         ],
     ],

@@ -51,9 +51,11 @@ class NavigationStorageFactory implements FactoryInterface
                 'serializer',
             ],
         ];
-        if (array_key_exists('navigation_cache', $serviceLocator->get('Config'))) {
-            $config =  $serviceLocator->get('Config')['navigation_cache'];
-        };
+        if (
+            array_key_exists('navigation_cache', $serviceLocator->get('Config'))
+        ) {
+            $config = $serviceLocator->get('Config')['navigation_cache'];
+        }
         $cache = StorageFactory::factory($config);
         return $cache;
     }

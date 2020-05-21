@@ -41,11 +41,22 @@ class SettingsForm extends Form
         $filter = new InputFilter();
         $this->setInputFilter($filter);
 
-        $this->add((new Email('email'))->setAttribute('id', 'email')->setLabel('Email:'));
-        $this->add((new Textarea('description'))->setAttribute('id', 'description')->setLabel('About me:'));
+        $this->add(
+            (new Email('email'))
+                ->setAttribute('id', 'email')
+                ->setLabel('Email:')
+        );
+        $this->add(
+            (new Textarea('description'))
+                ->setAttribute('id', 'description')
+                ->setLabel('About me:')
+        );
 
-        $this->add((new Submit('submit'))->setValue('Update')
-            ->setAttribute('class', 'btn btn-success pull-right'));
+        $this->add(
+            (new Submit('submit'))
+                ->setValue('Update')
+                ->setAttribute('class', 'btn btn-success pull-right')
+        );
 
         if (!$dontValidate) {
             $filter->add([
@@ -58,7 +69,9 @@ class SettingsForm extends Form
                     [
                         'name' => 'User\Validator\UniqueUser',
                         'options' => [
-                            'object_repository' => $entityManager->getRepository('User\Entity\User'),
+                            'object_repository' => $entityManager->getRepository(
+                                'User\Entity\User'
+                            ),
                             'fields' => ['email'],
                             'object_manager' => $entityManager,
                         ],

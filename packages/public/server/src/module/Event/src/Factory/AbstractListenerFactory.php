@@ -40,13 +40,17 @@ abstract class AbstractListenerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $listener        = $this->getListenerClassName();
-        $eventManager    = $serviceLocator->get('Event\EventManager');
-        $userManager     = $this->getUserManager($serviceLocator);
+        $listener = $this->getListenerClassName();
+        $eventManager = $serviceLocator->get('Event\EventManager');
+        $userManager = $this->getUserManager($serviceLocator);
         $instanceManager = $this->getInstanceManager($serviceLocator);
 
         /* @var $listener AbstractListener */
-        $listener = new $listener($eventManager, $instanceManager, $userManager);
+        $listener = new $listener(
+            $eventManager,
+            $instanceManager,
+            $userManager
+        );
 
         return $listener;
     }

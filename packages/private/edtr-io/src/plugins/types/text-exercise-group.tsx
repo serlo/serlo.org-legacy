@@ -30,7 +30,7 @@ import {
   Controls,
   serializedChild,
   OptionalChild,
-  entityType
+  entityType,
 } from './common'
 import { RevisionHistory } from './helpers/settings'
 import { SemanticSection } from '../helpers/semantic-section'
@@ -38,17 +38,17 @@ import { SemanticSection } from '../helpers/semantic-section'
 export const textExerciseGroupTypeState = entityType(
   {
     ...entity,
-    content: editorContent()
+    content: editorContent(),
   },
   {
-    'grouped-text-exercise': list(serializedChild('type-text-exercise'))
+    'grouped-text-exercise': list(serializedChild('type-text-exercise')),
   }
 )
 
 export const textExerciseGroupTypePlugin: EditorPlugin<typeof textExerciseGroupTypeState> = {
   Component: TextExerciseGroupTypeEditor,
   state: textExerciseGroupTypeState,
-  config: {}
+  config: {},
 }
 
 function TextExerciseGroupTypeEditor(

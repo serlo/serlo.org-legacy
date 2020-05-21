@@ -26,12 +26,15 @@ namespace Uuid;
 return [
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Options\ModuleOptions' => __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
-            __NAMESPACE__ . '\Manager\UuidManager' => __NAMESPACE__ . '\Factory\UuidManagerFactory',
+            __NAMESPACE__ . '\Options\ModuleOptions' =>
+                __NAMESPACE__ . '\Factory\ModuleOptionsFactory',
+            __NAMESPACE__ . '\Manager\UuidManager' =>
+                __NAMESPACE__ . '\Factory\UuidManagerFactory',
         ],
     ],
     'class_resolver' => [
-        __NAMESPACE__ . '\Entity\UuidInterface' => __NAMESPACE__ . '\Entity\Uuid',
+        __NAMESPACE__ . '\Entity\UuidInterface' =>
+            __NAMESPACE__ . '\Entity\Uuid',
     ],
     'view_helpers' => [
         'invokables' => [
@@ -41,8 +44,7 @@ return [
             'uuid' => __NAMESPACE__ . '\Factory\UuidHelperFactory',
         ],
     ],
-    'uuid' => [
-    ],
+    'uuid' => [],
     'router' => [
         'routes' => [
             'uuid' => [
@@ -57,7 +59,9 @@ return [
                         'options' => [
                             'route' => '/uuid/trash/:id',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\UuidController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\UuidController',
                                 'action' => 'trash',
                             ],
                         ],
@@ -67,7 +71,9 @@ return [
                         'options' => [
                             'route' => '/uuid/recycle-bin',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\UuidController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\UuidController',
                                 'action' => 'recycleBin',
                             ],
                         ],
@@ -77,7 +83,9 @@ return [
                         'options' => [
                             'route' => '/uuid/restore/:id',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\UuidController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\UuidController',
                                 'action' => 'restore',
                             ],
                         ],
@@ -87,7 +95,9 @@ return [
                         'options' => [
                             'route' => '/uuid/purge/:id',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\UuidController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\UuidController',
                                 'action' => 'purge',
                             ],
                         ],
@@ -97,9 +107,7 @@ return [
         ],
     ],
     'di' => [
-        'allowed_controllers' => [
-            __NAMESPACE__ . '\Controller\UuidController',
-        ],
+        'allowed_controllers' => [__NAMESPACE__ . '\Controller\UuidController'],
         'definition' => [
             'class' => [
                 __NAMESPACE__ . '\Controller\UuidController' => [
@@ -114,7 +122,8 @@ return [
         ],
         'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\Manager\UuidManagerInterface' => __NAMESPACE__ . '\Manager\UuidManager',
+                __NAMESPACE__ . '\Manager\UuidManagerInterface' =>
+                    __NAMESPACE__ . '\Manager\UuidManager',
             ],
         ],
     ],
@@ -123,9 +132,7 @@ return [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
             'orm_default' => [
                 'drivers' => [

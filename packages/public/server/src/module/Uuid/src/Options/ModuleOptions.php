@@ -73,11 +73,13 @@ class ModuleOptions extends AbstractOptions
         }
 
         if (!isset($permissions[$action])) {
-            throw new Exception\RuntimeException(sprintf(
-                'Permission action "%s" for scope "%s" not found',
-                $action,
-                $scope
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Permission action "%s" for scope "%s" not found',
+                    $action,
+                    $scope
+                )
+            );
         }
 
         return $permissions[$action];

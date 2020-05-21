@@ -31,7 +31,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class UuidManagerFactory implements FactoryInterface
 {
-    use AuthorizationServiceFactoryTrait, EntityManagerFactoryTrait, ClassResolverFactoryTrait;
+    use AuthorizationServiceFactoryTrait,
+        EntityManagerFactoryTrait,
+        ClassResolverFactoryTrait;
 
     /**
      * Create service
@@ -41,11 +43,16 @@ class UuidManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $moduleOptions        = $serviceLocator->get('Uuid\Options\ModuleOptions');
+        $moduleOptions = $serviceLocator->get('Uuid\Options\ModuleOptions');
         $authorizationService = $this->getAuthorizationService($serviceLocator);
-        $entityManager        = $this->getEntityManager($serviceLocator);
-        $classResolver        = $this->getClassResolver($serviceLocator);
-        $uuidManager          = new UuidManager($authorizationService, $classResolver, $moduleOptions, $entityManager);
+        $entityManager = $this->getEntityManager($serviceLocator);
+        $classResolver = $this->getClassResolver($serviceLocator);
+        $uuidManager = new UuidManager(
+            $authorizationService,
+            $classResolver,
+            $moduleOptions,
+            $entityManager
+        );
 
         return $uuidManager;
     }

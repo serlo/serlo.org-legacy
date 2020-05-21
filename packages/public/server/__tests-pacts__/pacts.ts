@@ -31,7 +31,7 @@ test('Pacts', async () => {
   jest.setTimeout(timeout)
 
   const result = spawnSync('git', ['rev-parse', '--short', 'HEAD'], {
-    stdio: 'pipe'
+    stdio: 'pipe',
   })
   const hash = String(result.stdout).trim()
 
@@ -42,7 +42,7 @@ test('Pacts', async () => {
       return () => {
         return Promise.resolve()
       }
-    }
+    },
   }
   const stateHandlers = new Proxy({}, handler)
   await new Verifier({
@@ -56,6 +56,6 @@ test('Pacts', async () => {
       process.env.PUBLISH_VERIFICATION_RESULT === 'true',
     validateSSL: false,
     stateHandlers,
-    timeout
+    timeout,
   }).verifyProvider()
 })

@@ -37,5 +37,7 @@ abstract class AbstractControllerFactory implements FactoryInterface
         return $this->createController($serviceManager);
     }
 
-    abstract protected function createController(ServiceLocatorInterface $serviceManager);
+    abstract protected function createController(
+        ServiceLocatorInterface $serviceManager
+    );
 }

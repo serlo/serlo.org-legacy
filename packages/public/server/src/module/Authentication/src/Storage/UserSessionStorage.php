@@ -43,7 +43,7 @@ class UserSessionStorage extends Session
         parent::__construct('authentication');
         $this->classResolver = $classResolver;
         $this->objectManager = $objectManager;
-        $this->rememberTime  = $rememberTime;
+        $this->rememberTime = $rememberTime;
     }
 
     public function setRememberMe($rememberMe = false)
@@ -61,9 +61,11 @@ class UserSessionStorage extends Session
 
     public function read()
     {
-        $className = $this->getClassResolver()->resolveClassName('User\Entity\UserInterface');
-        $id        = parent::read();
-        $user      = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            'User\Entity\UserInterface'
+        );
+        $id = parent::read();
+        $user = $this->getObjectManager()->find($className, $id);
         if (!$user) {
             throw new UserNotFoundException(sprintf('User %s not found', $id));
         }

@@ -28,7 +28,6 @@ use Taxonomy\Entity\TaxonomyTermInterface;
 
 interface BranchDecisionMakerStrategy
 {
-
     /**
      * @param Collection|TaxonomyTermInterface[] $collection
      * @return TaxonomyTermInterface|null

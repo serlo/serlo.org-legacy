@@ -30,14 +30,17 @@ use User\Entity\UserInterface;
 
 interface NotificationManagerInterface extends Flushable
 {
-
     /**
      * @param UserInterface $user
      * @param EventLogInterface $eventLog
      * @param bool $email
      * @return NotificationInterface
      */
-    public function createNotification(UserInterface $user, EventLogInterface $eventLog, bool $email);
+    public function createNotification(
+        UserInterface $user,
+        EventLogInterface $eventLog,
+        bool $email
+    );
 
     /**
      * @param UserInterface $user
@@ -50,7 +53,10 @@ interface NotificationManagerInterface extends Flushable
      * @param int           $limit
      * @return ArrayCollection
      */
-    public function findNotificationsBySubscriber(UserInterface $user, $limit = 20);
+    public function findNotificationsBySubscriber(
+        UserInterface $user,
+        $limit = 20
+    );
 
     /**
      * @param UserInterface $user

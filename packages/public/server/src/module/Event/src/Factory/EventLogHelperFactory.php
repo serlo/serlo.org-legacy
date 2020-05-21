@@ -37,8 +37,10 @@ class EventLogHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $eventManager = $serviceLocator->getServiceLocator()->get('Event\EventManager');
-        $instance     = new EventLog($eventManager);
+        $eventManager = $serviceLocator
+            ->getServiceLocator()
+            ->get('Event\EventManager');
+        $instance = new EventLog($eventManager);
         return $instance;
     }
 }

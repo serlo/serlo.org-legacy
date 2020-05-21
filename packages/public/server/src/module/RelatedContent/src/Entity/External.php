@@ -30,7 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class External extends AbstractType implements ExternalInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\OneToOne(targetEntity="Holder", inversedBy="external")

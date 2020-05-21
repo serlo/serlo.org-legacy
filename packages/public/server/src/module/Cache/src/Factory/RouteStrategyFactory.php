@@ -37,11 +37,13 @@ class RouteStrategyFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /** @var $options \StrokerCache\Options\ModuleOptions */
-        $options = $serviceLocator->getServiceLocator()->get('StrokerCache\Options\ModuleOptions');
+        $options = $serviceLocator
+            ->getServiceLocator()
+            ->get('StrokerCache\Options\ModuleOptions');
 
-        $strategyOptions = array();
-        $strategies      = $options->getStrategies();
-        $requestedName   = 'Cache\Strategy\RouteStrategy';
+        $strategyOptions = [];
+        $strategies = $options->getStrategies();
+        $requestedName = 'Cache\Strategy\RouteStrategy';
         if (isset($strategies['enabled'][$requestedName])) {
             $strategyOptions = $strategies['enabled'][$requestedName];
         }

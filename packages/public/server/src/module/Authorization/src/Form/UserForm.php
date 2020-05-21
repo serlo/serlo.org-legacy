@@ -40,15 +40,15 @@ class UserForm extends Form
         $this->add((new Text('user'))->setLabel('Username:'));
 
         $this->add(
-            (new Submit('submit'))->setValue('Add')->setAttribute('class', 'btn btn-success pull-right')
+            (new Submit('submit'))
+                ->setValue('Add')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $inputFilter->add(
-            [
-                'name'     => 'user',
-                'required' => true,
-            ]
-        );
+        $inputFilter->add([
+            'name' => 'user',
+            'required' => true,
+        ]);
 
         $this->setInputFilter($inputFilter);
     }

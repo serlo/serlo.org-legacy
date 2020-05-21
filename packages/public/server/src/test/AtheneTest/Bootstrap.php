@@ -29,7 +29,6 @@ namespace {
 }
 
 namespace AtheneTest {
-
     use Zend\Loader\AutoloaderFactory;
     use RuntimeException;
 
@@ -43,7 +42,6 @@ namespace AtheneTest {
     class Bootstrap
     {
         protected static $serviceManager;
-
 
         protected static $application;
 
@@ -81,7 +79,10 @@ namespace AtheneTest {
         {
             $dir = static::$dir;
             $previousDir = '.';
-            while (!is_dir($dir . '/' . $path) && !file_exists($dir . '/' . $path)) {
+            while (
+                !is_dir($dir . '/' . $path) &&
+                !file_exists($dir . '/' . $path)
+            ) {
                 $dir = dirname($dir);
                 if ($previousDir === $dir) {
                     return false;

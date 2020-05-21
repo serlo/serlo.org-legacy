@@ -47,7 +47,8 @@ return [
     'controllers' => [
         'factories' => [
             ApiController::class => ApiControllerFactory::class,
-            NavigationApiController::class => NavigationApiControllerFactory::class,
+            NavigationApiController::class =>
+                NavigationApiControllerFactory::class,
         ],
     ],
     'router' => [
@@ -109,10 +110,13 @@ return [
         'factories' => [
             ApiManager::class => ApiManagerFactory::class,
             AliasManagerListener::class => AliasManagerListenerFactory::class,
-            RepositoryManagerListener::class => RepositoryManagerListenerFactory::class,
-            LicenseManagerListener::class => LicenseManagerListenerFactory::class,
+            RepositoryManagerListener::class =>
+                RepositoryManagerListenerFactory::class,
+            LicenseManagerListener::class =>
+                LicenseManagerListenerFactory::class,
             PageManagerListener::class => PageManagerListenerFactory::class,
-            TaxonomyManagerListener::class => TaxonomyManagerListenerFactory::class,
+            TaxonomyManagerListener::class =>
+                TaxonomyManagerListenerFactory::class,
             UserManagerListener::class => UserManagerListenerFactory::class,
             UuidManagerListener::class => UuidManagerListenerFactory::class,
         ],

@@ -36,7 +36,12 @@ interface AliasManagerInterface extends Flushable
      * @param InstanceInterface $instance
      * @return AliasInterface
      */
-    public function autoAlias($name, $source, UuidInterface $object, InstanceInterface $instance);
+    public function autoAlias(
+        $name,
+        $source,
+        UuidInterface $object,
+        InstanceInterface $instance
+    );
 
     /**
      * @param                   $source
@@ -46,14 +51,23 @@ interface AliasManagerInterface extends Flushable
      * @param InstanceInterface $instance
      * @return AliasInterface
      */
-    public function createAlias($source, $alias, $aliasFallback, UuidInterface $object, InstanceInterface $instance);
+    public function createAlias(
+        $source,
+        $alias,
+        $aliasFallback,
+        UuidInterface $object,
+        InstanceInterface $instance
+    );
 
     /**
      * @param UuidInterface $uuid
      * @param bool $instanceAware
      * @return AliasInterface
      */
-    public function findAliasByObject(UuidInterface $uuid, $instanceAware = true);
+    public function findAliasByObject(
+        UuidInterface $uuid,
+        $instanceAware = true
+    );
 
     /**
      * @param string            $source
@@ -75,7 +89,11 @@ interface AliasManagerInterface extends Flushable
      * @param bool   $useCache
      * @return string
      */
-    public function findSourceByAlias($alias, InstanceInterface $instance, $useCache = false);
+    public function findSourceByAlias(
+        $alias,
+        InstanceInterface $instance,
+        $useCache = false
+    );
 
     /**
      * @param $alias,

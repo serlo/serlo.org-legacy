@@ -24,7 +24,6 @@ namespace Authentication\Service;
 
 class HydraService
 {
-
     /**
      * @var string
      */
@@ -48,18 +47,16 @@ class HydraService
     {
         $url = $this->baseUrl . '/oauth2/auth/requests/' . $flow;
 
-        $reqUrl = $url . '?' . http_build_query([$flow . '_challenge' => $challenge]);
+        $reqUrl =
+            $url . '?' . http_build_query([$flow . '_challenge' => $challenge]);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $reqUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-           'X-Forwarded-Proto: https',
-        ]);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['X-Forwarded-Proto: https']);
 
         $result = curl_exec($ch);
         curl_close($ch);
-
 
         return json_decode($result, true);
     }
@@ -74,8 +71,10 @@ class HydraService
      */
     protected function put($flow, $action, $challenge, $body)
     {
-        $url = $this->baseUrl . '/oauth2/auth/requests/' . $flow . '/' . $action;
-        $reqUrl = $url . '?' . http_build_query([$flow . '_challenge' => $challenge]);
+        $url =
+            $this->baseUrl . '/oauth2/auth/requests/' . $flow . '/' . $action;
+        $reqUrl =
+            $url . '?' . http_build_query([$flow . '_challenge' => $challenge]);
 
         $httpHeader = [
             'Accept: application/json',
@@ -117,7 +116,6 @@ class HydraService
     {
         return $this->put('login', 'accept', $challenge, $body);
     }
-
 
     /**
      * Rejects a login request
@@ -162,33 +160,33 @@ class HydraService
         return $this->put('consent', 'reject', $challenge, $body);
     }
 
-//    /**
-//     * Fetches information on a logout request.
-//     * @param string $challenge
-//     * @return mixed
-//     */
-//    public function getLogoutRequest($challenge)
-//    {
-//        return $this->get('logout', $challenge);
-//    }
-//
-//    /**
-//     * Accepts a logout request.
-//     * @param string $challenge
-//     * @return mixed
-//     */
-//    public function acceptLogoutRequest($challenge)
-//    {
-//        return $this->put('logout', 'accept', $challenge, []);
-//      }
-//
-//    /**
-//     * Reject a logout request.
-//     * @param string $challenge
-//     * @return mixed
-//     */
-//    public function rejectLogoutRequest($challenge)
-//    {
-//        return $this->put('logout', 'reject', $challenge, []);
-//    }
+    //    /**
+    //     * Fetches information on a logout request.
+    //     * @param string $challenge
+    //     * @return mixed
+    //     */
+    //    public function getLogoutRequest($challenge)
+    //    {
+    //        return $this->get('logout', $challenge);
+    //    }
+    //
+    //    /**
+    //     * Accepts a logout request.
+    //     * @param string $challenge
+    //     * @return mixed
+    //     */
+    //    public function acceptLogoutRequest($challenge)
+    //    {
+    //        return $this->put('logout', 'accept', $challenge, []);
+    //      }
+    //
+    //    /**
+    //     * Reject a logout request.
+    //     * @param string $challenge
+    //     * @return mixed
+    //     */
+    //    public function rejectLogoutRequest($challenge)
+    //    {
+    //        return $this->put('logout', 'reject', $challenge, []);
+    //    }
 }

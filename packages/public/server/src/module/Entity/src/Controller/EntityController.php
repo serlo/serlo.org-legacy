@@ -35,18 +35,22 @@ class EntityController extends AbstractController
     public function createAction()
     {
         // No assertion necessary, because no view. This is done in the manager logic
-        $type     = $this->params('type');
+        $type = $this->params('type');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $query    = $this->params()->fromQuery();
-        $entity   = $this->getEntityManager()->createEntity(
+        $query = $this->params()->fromQuery();
+        $entity = $this->getEntityManager()->createEntity(
             $type,
             $query,
             $instance
         );
         $this->getEntityManager()->flush();
 
-        $data     = ['entity' => $entity, 'data' => $query];
-        $response = $this->getEventManager()->trigger('create.postFlush', $this, $data);
+        $data = ['entity' => $entity, 'data' => $query];
+        $response = $this->getEventManager()->trigger(
+            'create.postFlush',
+            $this,
+            $data
+        );
         return $this->checkResponse($response);
     }
 
@@ -68,7 +72,9 @@ class EntityController extends AbstractController
 
     protected function getUnrevisedRevisionsBySubject()
     {
-        $revisions = $this->getEntityManager()->findAllUnrevisedRevisions()->getIterator();
+        $revisions = $this->getEntityManager()
+            ->findAllUnrevisedRevisions()
+            ->getIterator();
 
         $revisions->uasort(function ($revisionA, $revisionB) {
             $timestampA = $revisionA->getTimestamp()->getTimestamp();
@@ -77,7 +83,7 @@ class EntityController extends AbstractController
             return $timestampB - $timestampA;
         });
 
-        $revisionsBySubject = array();
+        $revisionsBySubject = [];
 
         foreach ($revisions as $revision) {
             $entity = $revision->getRepository();
@@ -86,11 +92,17 @@ class EntityController extends AbstractController
             }, $entity->getSubjects());
 
             if (empty($subjectNames)) {
-                $subjectNames = [$this->getTranslator()->translate("Entities without a subject")];
+                $subjectNames = [
+                    $this->getTranslator()->translate(
+                        'Entities without a subject'
+                    ),
+                ];
             }
 
             foreach ($subjectNames as $subjectName) {
-                $revisionsBySubject[$subjectName][$entity->getId()][] = $revision;
+                $revisionsBySubject[$subjectName][
+                    $entity->getId()
+                ][] = $revision;
             }
         }
 
@@ -101,29 +113,36 @@ class EntityController extends AbstractController
     {
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
 
-        if ($instance->getLanguage()->getCode() == "de") {
-            $reviewHelpUrl = "/140479";
+        if ($instance->getLanguage()->getCode() == 'de') {
+            $reviewHelpUrl = '/140479';
         } else {
-            $reviewHelpUrl = "https://docs.google.com/document/d/1p03xx2KJrFw8Mui4-xllvSTHcEPi8G1bdC8rGXcH6f8/edit";
+            $reviewHelpUrl =
+                'https://docs.google.com/document/d/1p03xx2KJrFw8Mui4-xllvSTHcEPi8G1bdC8rGXcH6f8/edit';
         }
 
         $translator = $this->getTranslator();
         $helpLinks = [
             [
-                "url" => $reviewHelpUrl,
-                "title" => $translator->translate("Guideline for reviewing"),
+                'url' => $reviewHelpUrl,
+                'title' => $translator->translate('Guideline for reviewing'),
             ],
             [
-                "url" => "/discussions",
-                "title" => $translator->translate("List of all discussions"),
+                'url' => '/discussions',
+                'title' => $translator->translate('List of all discussions'),
             ],
             [
-                "url" => "https://community.serlo.org/channel/feedback-requests",
-                "title" => $translator->translate("Channel #feedback-requests in RocketChat"),
+                'url' =>
+                    'https://community.serlo.org/channel/feedback-requests',
+                'title' => $translator->translate(
+                    'Channel #feedback-requests in RocketChat'
+                ),
             ],
             [
-                "url" => "https://docs.google.com/forms/d/e/1FAIpQLSfMjWIZZq2_AoHbqNv3AOEjQRBwA8qEZIMJpk5l0vX7w2nwnQ/viewform",
-                "title" => $translator->translate("Questionnaire for reviewers"),
+                'url' =>
+                    'https://docs.google.com/forms/d/e/1FAIpQLSfMjWIZZq2_AoHbqNv3AOEjQRBwA8qEZIMJpk5l0vX7w2nwnQ/viewform',
+                'title' => $translator->translate(
+                    'Questionnaire for reviewers'
+                ),
             ],
         ];
 

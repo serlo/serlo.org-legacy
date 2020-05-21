@@ -37,10 +37,14 @@ class ClassResolverTest extends TestCase
         parent::setUp();
 
         $this->classResolver = new ClassResolver([
-            'ClassResolverTest\Fake\FailInterface'      => 'ClassResolverTest\Fake\Foo',
-            'ClassResolverTest\Fake\FooInterface'       => 'ClassResolverTest\Fake\Foo',
-            'ClassResolverTest\Fake\BarInterface'       => 'ClassResolverTest\Fake\Bar',
-            'ClassResolverTest\Fake\SuperFailInterface' => 'ClassResolverTest\Fake\SuperFail',
+            'ClassResolverTest\Fake\FailInterface' =>
+                'ClassResolverTest\Fake\Foo',
+            'ClassResolverTest\Fake\FooInterface' =>
+                'ClassResolverTest\Fake\Foo',
+            'ClassResolverTest\Fake\BarInterface' =>
+                'ClassResolverTest\Fake\Bar',
+            'ClassResolverTest\Fake\SuperFailInterface' =>
+                'ClassResolverTest\Fake\SuperFail',
         ]);
     }
 
@@ -48,11 +52,15 @@ class ClassResolverTest extends TestCase
     {
         $this->assertEquals(
             'ClassResolverTest\Fake\Foo',
-            $this->classResolver->resolveClassName('ClassResolverTest\Fake\FooInterface')
+            $this->classResolver->resolveClassName(
+                'ClassResolverTest\Fake\FooInterface'
+            )
         );
         $this->assertEquals(
             'ClassResolverTest\Fake\Bar',
-            $this->classResolver->resolveClassName('ClassResolverTest\Fake\BarInterface')
+            $this->classResolver->resolveClassName(
+                'ClassResolverTest\Fake\BarInterface'
+            )
         );
     }
 
@@ -63,7 +71,9 @@ class ClassResolverTest extends TestCase
             $this->classResolver->resolve('ClassResolverTest\Fake\FooInterface')
         );
         $this->assertNotSame(
-            $this->classResolver->resolve('ClassResolverTest\Fake\FooInterface'),
+            $this->classResolver->resolve(
+                'ClassResolverTest\Fake\FooInterface'
+            ),
             $this->classResolver->resolve('ClassResolverTest\Fake\FooInterface')
         );
     }
@@ -71,12 +81,18 @@ class ClassResolverTest extends TestCase
     public function testResolveFromServiceManager()
     {
         $serviceManager = new ServiceManager();
-        $service        = new Foo();
+        $service = new Foo();
 
         $serviceManager->setService('ClassResolverTest\Fake\Foo', $service);
         $this->classResolver->setServiceLocator($serviceManager);
 
-        $this->assertSame($service, $this->classResolver->resolve('ClassResolverTest\Fake\FooInterface', true));
+        $this->assertSame(
+            $service,
+            $this->classResolver->resolve(
+                'ClassResolverTest\Fake\FooInterface',
+                true
+            )
+        );
     }
 
     /**
@@ -100,7 +116,9 @@ class ClassResolverTest extends TestCase
      */
     public function testClassNotFound()
     {
-        $this->classResolver->resolveClassName('ClassResolverTest\Fake\SuperFailInterface');
+        $this->classResolver->resolveClassName(
+            'ClassResolverTest\Fake\SuperFailInterface'
+        );
     }
 
     /**

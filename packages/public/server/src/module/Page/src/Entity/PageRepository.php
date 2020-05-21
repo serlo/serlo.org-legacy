@@ -81,7 +81,7 @@ class PageRepository extends Uuid implements PageRepositoryInterface
     public function __construct()
     {
         $this->revisions = new ArrayCollection();
-        $this->roles     = new ArrayCollection();
+        $this->roles = new ArrayCollection();
     }
 
     public function addRevision(RevisionInterface $revision)
@@ -108,8 +108,10 @@ class PageRepository extends Uuid implements PageRepositoryInterface
      * @param TaxonomyTermNodeInterface $node
      * @return self
      */
-    public function addTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm, TaxonomyTermNodeInterface $node = null)
-    {
+    public function addTaxonomyTerm(
+        TaxonomyTermInterface $taxonomyTerm,
+        TaxonomyTermNodeInterface $node = null
+    ) {
         $this->setForum($taxonomyTerm);
     }
 
@@ -232,8 +234,10 @@ class PageRepository extends Uuid implements PageRepositoryInterface
      * @param TaxonomyTermNodeInterface $node
      * @return self
      */
-    public function removeTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm, TaxonomyTermNodeInterface $node = null)
-    {
+    public function removeTaxonomyTerm(
+        TaxonomyTermInterface $taxonomyTerm,
+        TaxonomyTermNodeInterface $node = null
+    ) {
         $this->setForum(null);
     }
 

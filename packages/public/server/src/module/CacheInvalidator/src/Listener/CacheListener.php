@@ -50,9 +50,11 @@ class CacheListener implements SharedListenerAggregateInterface
      * @param CacheOptions       $cacheOptions
      * @param InvalidatorManager $strategyManager
      */
-    public function __construct(CacheOptions $cacheOptions, InvalidatorManager $strategyManager)
-    {
-        $this->cacheOptions    = $cacheOptions;
+    public function __construct(
+        CacheOptions $cacheOptions,
+        InvalidatorManager $strategyManager
+    ) {
+        $this->cacheOptions = $cacheOptions;
         $this->strategyManager = $strategyManager;
     }
 
@@ -65,16 +67,17 @@ class CacheListener implements SharedListenerAggregateInterface
         foreach ($classes as $class => $options) {
             foreach ($options as $event => $invalidators) {
                 $strategyManager = $this->strategyManager;
-                $events->attach(
+                $events->attach($class, $event, function (Event $e) use (
                     $class,
                     $event,
-                    function (Event $e) use ($class, $event, $invalidators, $strategyManager) {
-                        foreach ($invalidators as $invalidator) {
-                            $invalidator = $strategyManager->get($invalidator);
-                            $invalidator->invalidate($e, $class, $event);
-                        }
+                    $invalidators,
+                    $strategyManager
+                ) {
+                    foreach ($invalidators as $invalidator) {
+                        $invalidator = $strategyManager->get($invalidator);
+                        $invalidator->invalidate($e, $class, $event);
                     }
-                );
+                });
             }
         }
     }

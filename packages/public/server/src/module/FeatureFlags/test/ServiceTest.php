@@ -36,10 +36,13 @@ class ServiceTest extends TestCase
     public function setUp()
     {
         $this->logger = new MockSentry();
-        $this->service = new Service([
-            'foo' => true,
-            'bar' => false,
-        ], $this->logger);
+        $this->service = new Service(
+            [
+                'foo' => true,
+                'bar' => false,
+            ],
+            $this->logger
+        );
     }
 
     public function testEnabledFeature()
@@ -55,6 +58,9 @@ class ServiceTest extends TestCase
     public function testMissingFunction()
     {
         $this->assertFalse($this->service->isEnabled('foobar'));
-        $this->assertEquals('No configuration found for feature flag "foobar"', $this->logger->lastMessage);
+        $this->assertEquals(
+            'No configuration found for feature flag "foobar"',
+            $this->logger->lastMessage
+        );
     }
 }

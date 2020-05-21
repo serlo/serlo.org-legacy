@@ -23,7 +23,7 @@ import {
   HotKeys,
   useScopedDispatch,
   useScopedSelector,
-  useScopedStore
+  useScopedStore,
 } from '@edtr-io/core'
 import { focusNext, focusPrevious, getFocused, isEmpty } from '@edtr-io/store'
 import {
@@ -32,7 +32,7 @@ import {
   faTimes,
   styled,
   EdtrIcon,
-  edtrDragHandle
+  edtrDragHandle,
 } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -50,18 +50,18 @@ const ButtonContainer = styled.div({
   alignItems: 'center',
   position: 'absolute',
   right: '-50px',
-  zIndex: 10
+  zIndex: 10,
 })
 
 const RemoveButton = styled.button({
   outline: 'none',
   width: '35px',
   border: 'none',
-  background: 'transparent'
+  background: 'transparent',
 })
 const DragButton = styled.div({
   cursor: 'grab',
-  paddingRight: '5px'
+  paddingRight: '5px',
 })
 
 const AddButton = styled.button({
@@ -72,16 +72,16 @@ const AddButton = styled.button({
   padding: '5px',
   margin: 'auto',
   marginTop: '10px',
-  backgroundColor: 'transparent'
+  backgroundColor: 'transparent',
 })
 
 const AddButtonWrapper = styled.div({
-  textAlign: 'center'
+  textAlign: 'center',
 })
 
 const Header = styled.div({
   textAlign: 'center',
-  width: '33%'
+  width: '33%',
 })
 
 const DropDown = styled.select({
@@ -91,7 +91,7 @@ const DropDown = styled.select({
   marginRight: '10px',
   backgroundColor: 'lightgrey',
   border: '1px solid lightgrey',
-  borderRadius: '5px'
+  borderRadius: '5px',
 })
 
 export function EquationsEditor(props: EquationsProps) {
@@ -108,7 +108,7 @@ export function EquationsEditor(props: EquationsProps) {
       left: { plugin: 'text', state: undefined },
       right: { plugin: 'text', state: undefined },
       transform: { plugin: 'text', state: undefined },
-      sign
+      sign,
     })
   }
   const addButton = () => {
@@ -125,17 +125,17 @@ export function EquationsEditor(props: EquationsProps) {
 
   const { focused, state, editable } = props
   const children = R.flatten(
-    props.state.steps.map(step => {
+    props.state.steps.map((step) => {
       return [step.left.id, step.right.id, step.transform.id]
     })
   )
   const noEmptyLine = !R.includes(
     false,
-    props.state.steps.map(step => {
+    props.state.steps.map((step) => {
       return R.includes(false, [
         isEmpty(step.left.id)(store.getState()),
         isEmpty(step.right.id)(store.getState()),
-        isEmpty(step.transform.id)(store.getState())
+        isEmpty(step.transform.id)(store.getState()),
       ])
     })
   )
@@ -144,31 +144,31 @@ export function EquationsEditor(props: EquationsProps) {
       keyMap={{
         FOCUS_NEXT: 'tab',
         FOCUS_PREV: 'shift+tab',
-        NEW_LINE: 'return'
+        NEW_LINE: 'return',
       }}
       handlers={{
-        FOCUS_NEXT: e => {
+        FOCUS_NEXT: (e) => {
           handleKeyDown(e, () => {
             dispatch(focusNext())
           })
         },
-        FOCUS_PREV: e => {
+        FOCUS_PREV: (e) => {
           handleKeyDown(e, () => {
             dispatch(focusPrevious())
           })
         },
-        NEW_LINE: e => {
+        NEW_LINE: (e) => {
           if (noEmptyLine) {
             handleKeyDown(e, () => {
               insertWithRightSymbol()
             })
           }
-        }
+        },
       }}
     >
       {/* eslint-disable @typescript-eslint/no-explicit-any */}
       <DragDropContext
-        onDragEnd={result => {
+        onDragEnd={(result) => {
           const { source, destination } = result
           if (!destination) {
             return
@@ -214,15 +214,15 @@ export function EquationsEditor(props: EquationsProps) {
                                 )
                                   ? 'center'
                                   : 'right',
-                                width: '33%'
+                                width: '33%',
                               }}
                             >
                               {step.left.render({
                                 config: {
                                   placeholder: i18n.t(
                                     'equations::Left-hand side'
-                                  )
-                                }
+                                  ),
+                                },
                               })}
                             </div>
 
@@ -230,7 +230,7 @@ export function EquationsEditor(props: EquationsProps) {
                               style={{
                                 width: '33%',
                                 display: 'flex',
-                                flexDirection: 'row'
+                                flexDirection: 'row',
                               }}
                             >
                               <DropDown
@@ -247,8 +247,8 @@ export function EquationsEditor(props: EquationsProps) {
                                   Sign.LessThan,
                                   Sign.GreaterThanOrEqual,
                                   Sign.LessThanOrEqual,
-                                  Sign.AlmostEqualTo
-                                ].map(sign => {
+                                  Sign.AlmostEqualTo,
+                                ].map((sign) => {
                                   return (
                                     <option key={sign} value={sign}>
                                       {renderSignToString(sign)}
@@ -261,8 +261,8 @@ export function EquationsEditor(props: EquationsProps) {
                                   config: {
                                     placeholder: i18n.t(
                                       'equations::Right-hand side'
-                                    )
-                                  }
+                                    ),
+                                  },
                                 })}
                               </div>
                             </div>
@@ -272,8 +272,8 @@ export function EquationsEditor(props: EquationsProps) {
                                 config: {
                                   placeholder: i18n.t(
                                     'equations::Transformation'
-                                  )
-                                }
+                                  ),
+                                },
                               })}
                             </div>
                             <ButtonContainer>

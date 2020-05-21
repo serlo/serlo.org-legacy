@@ -12,4 +12,4 @@ Replace all password hashes by this one: `8a534960a8a4c8e348150a0ae3c7f4b857bfea
 
 To anonymize usernames and email addresses, run the following regex replace:  
 `([0-9]+, )'[^']+\@[^']+'. '[^']+', '[^']+'`  
-`$1CONCAT(LEFT(UUID(), 8),'@localhost'), LEFT(UUID(), 8), '8a534960a8a4c8e348150a0ae3c7f4b857bfead4f02c8cbf0d'`  
+`$1CONCAT(LEFT(UUID(), 8),'@localhost'), LEFT(UUID(), 8), '8a534960a8a4c8e348150a0ae3c7f4b857bfead4f02c8cbf0d'`

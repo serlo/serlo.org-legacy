@@ -28,7 +28,7 @@ import {
   getByPlaceholderText,
   saveRevision,
   addContent,
-  openDropdownMenu
+  openDropdownMenu,
 } from '../_utils'
 import { pages, viewports, notifications } from '../_config'
 
@@ -63,7 +63,7 @@ test('create applet page', async () => {
   const topic = await goto(pages.e2eTopic.path)
   const createPage = await openDropdownMenu(topic).then(addContent('applet'))
 
-  await getByPlaceholderText(createPage, 'Titel').then(e => e.type(title))
+  await getByPlaceholderText(createPage, 'Titel').then((e) => e.type(title))
 
   const appletUrlField = await getBySelector(
     createPage,

@@ -40,13 +40,15 @@ class ModuleOptions extends AbstractOptions
     public function getType($type)
     {
         if (!array_key_exists($type, $this->types)) {
-            throw new Exception\RuntimeException(sprintf('Type "%s" not found.', $type));
+            throw new Exception\RuntimeException(
+                sprintf('Type "%s" not found.', $type)
+            );
         }
 
         $options = $this->types[$type];
 
         if (!$options instanceof EntityOptions) {
-            $options            = new EntityOptions($options);
+            $options = new EntityOptions($options);
             $options->setName($type);
 
             $this->types[$type] = $options;

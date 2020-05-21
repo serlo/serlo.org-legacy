@@ -30,7 +30,7 @@ import {
   Controls,
   optionalSerializedChild,
   OptionalChild,
-  entityType
+  entityType,
 } from './common'
 
 import { RevisionHistory } from './helpers/settings'
@@ -38,10 +38,10 @@ import { RevisionHistory } from './helpers/settings'
 export const textExerciseTypeState = entityType(
   {
     ...entity,
-    content: editorContent('exercise')
+    content: editorContent('exercise'),
   },
   {
-    'text-solution': optionalSerializedChild('type-text-solution')
+    'text-solution': optionalSerializedChild('type-text-solution'),
   }
 )
 
@@ -52,8 +52,8 @@ export const textExerciseTypePlugin: EditorPlugin<
   Component: TextExerciseTypeEditor,
   state: textExerciseTypeState,
   config: {
-    skipControls: false
-  }
+    skipControls: false,
+  },
 }
 
 export function TextExerciseTypeEditor(

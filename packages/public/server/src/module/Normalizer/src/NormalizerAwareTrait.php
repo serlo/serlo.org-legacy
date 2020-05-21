@@ -24,7 +24,6 @@ namespace Normalizer;
 
 trait NormalizerAwareTrait
 {
-
     /**
      * @var NormalizerInterface
      */

@@ -29,23 +29,15 @@ class BlogManagerListener extends AbstractListener
 {
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $events->attach(
-            $this->getMonitoredClass(),
-            'create',
-            [
-                $this,
-                'onUpdate',
-            ]
-        );
+        $events->attach($this->getMonitoredClass(), 'create', [
+            $this,
+            'onUpdate',
+        ]);
 
-        $events->attach(
-            $this->getMonitoredClass(),
-            'update',
-            [
-                $this,
-                'onUpdate',
-            ]
-        );
+        $events->attach($this->getMonitoredClass(), 'update', [
+            $this,
+            'onUpdate',
+        ]);
     }
 
     protected function getMonitoredClass()
@@ -62,17 +54,19 @@ class BlogManagerListener extends AbstractListener
     public function onUpdate(Event $e)
     {
         /* @var $post \Blog\Entity\PostInterface */
-        $post     = $e->getParam('post');
+        $post = $e->getParam('post');
         $instance = $post->getInstance();
 
         if ($post->getId() === null) {
             $this->getAliasManager()->flush($post);
         }
 
-        $url = $this->getAliasManager()->getRouter()->assemble(
-            ['post' => $post->getId()],
-            ['name' => 'blog/post/view']
-        );
+        $url = $this->getAliasManager()
+            ->getRouter()
+            ->assemble(
+                ['post' => $post->getId()],
+                ['name' => 'blog/post/view']
+            );
 
         $this->getAliasManager()->autoAlias('blogPost', $url, $post, $instance);
     }

@@ -34,8 +34,10 @@ use Zend\InputFilter\InputFilter;
 
 class CreatePostForm extends Form
 {
-    public function __construct(ObjectManager $objectManager, HydratorPluginAwareDoctrineObject $hydrator)
-    {
+    public function __construct(
+        ObjectManager $objectManager,
+        HydratorPluginAwareDoctrineObject $hydrator
+    ) {
         parent::__construct('post');
         $this->add(new CsrfToken());
 
@@ -47,93 +49,88 @@ class CreatePostForm extends Form
         $this->setInputFilter($inputFilter);
         $this->setHydrator($hydrator);
 
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'blog',
+            'options' => [
+                'object_manager' => $objectManager,
+                'target_class' => 'Taxonomy\Entity\TaxonomyTerm',
+            ],
+        ]);
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'instance',
+            'options' => [
+                'object_manager' => $objectManager,
+                'target_class' => 'Instance\Entity\Instance',
+            ],
+        ]);
+        $this->add([
+            'type' => 'Common\Form\Element\ObjectHidden',
+            'name' => 'author',
+            'options' => [
+                'object_manager' => $objectManager,
+                'target_class' => 'User\Entity\User',
+            ],
+        ]);
+
         $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'blog',
-                'options' => [
-                    'object_manager' => $objectManager,
-                    'target_class'   => 'Taxonomy\Entity\TaxonomyTerm',
-                ],
-            ]
+            (new Text('title'))->setAttribute('id', 'title')->setLabel('Title:')
         );
         $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'instance',
-                'options' => [
-                    'object_manager' => $objectManager,
-                    'target_class'   => 'Instance\Entity\Instance',
-                ],
-            ]
+            (new Textarea('content'))
+                ->setAttribute('id', 'content')
+                ->setLabel('Content:')
         );
         $this->add(
-            [
-                'type'    => 'Common\Form\Element\ObjectHidden',
-                'name'    => 'author',
-                'options' => [
-                    'object_manager' => $objectManager,
-                    'target_class'   => 'User\Entity\User',
-                ],
-            ]
+            (new Date('publish'))
+                ->setAttribute('id', 'publish')
+                ->setAttribute('class', 'datepicker')
+                ->setAttribute('type', 'text')
+                ->setLabel('Publish date:')
+        );
+        $this->add(
+            (new Submit('submit'))
+                ->setValue('Save')
+                ->setAttribute('class', 'btn btn-success pull-right')
         );
 
-        $this->add((new Text('title'))->setAttribute('id', 'title')->setLabel('Title:'));
-        $this->add((new Textarea('content'))->setAttribute('id', 'content')->setLabel('Content:'));
-        $this->add(
-            (new Date('publish'))->setAttribute('id', 'publish')->setAttribute('class', 'datepicker')->setAttribute(
-                'type',
-                'text'
-            )->setLabel('Publish date:')
-        );
-        $this->add((new Submit('submit'))->setValue('Save')->setAttribute('class', 'btn btn-success pull-right'));
-
-        $inputFilter->add(
-            [
-                'name'       => 'title',
-                'required'   => true,
-                'filters'    => [
-                    [
-                        'name' => 'StripTags',
+        $inputFilter->add([
+            'name' => 'title',
+            'required' => true,
+            'filters' => [
+                [
+                    'name' => 'StripTags',
+                ],
+            ],
+            'validators' => [
+                [
+                    'name' => 'Regex',
+                    'options' => [
+                        'pattern' => '~^[a-zA-Z\-_ 0-9äöüÄÖÜß/&\.\,\!\?]+$~',
                     ],
                 ],
-                'validators' => [
-                    [
-                        'name'    => 'Regex',
-                        'options' => [
-                            'pattern' => '~^[a-zA-Z\-_ 0-9äöüÄÖÜß/&\.\,\!\?]+$~',
-                        ],
-                    ],
-                ],
-            ]
-        );
+            ],
+        ]);
 
-        $inputFilter->add(
-            [
-                'name'     => 'author',
-                'required' => true,
-            ]
-        );
+        $inputFilter->add([
+            'name' => 'author',
+            'required' => true,
+        ]);
 
-        $inputFilter->add(
-            [
-                'name'     => 'blog',
-                'required' => true,
-            ]
-        );
+        $inputFilter->add([
+            'name' => 'blog',
+            'required' => true,
+        ]);
 
-        $inputFilter->add(
-            [
-                'name'     => 'instance',
-                'required' => true,
-            ]
-        );
+        $inputFilter->add([
+            'name' => 'instance',
+            'required' => true,
+        ]);
 
-        $inputFilter->add(
-            [
-                'name'     => 'content',
-                'required' => true,
-            ]
-        );
+        $inputFilter->add([
+            'name' => 'content',
+            'required' => true,
+        ]);
     }
 }

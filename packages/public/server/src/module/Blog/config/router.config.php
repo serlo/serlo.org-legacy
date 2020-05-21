@@ -26,71 +26,72 @@ return [
     'router' => [
         'routes' => [
             'blog' => [
-                'type'    => 'literal',
-                'options'       => [
-                    'route'    => '/blog',
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/blog',
                     'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\BlogController',
-                        'action'     => 'index',
+                        'controller' =>
+                            __NAMESPACE__ . '\Controller\BlogController',
+                        'action' => 'index',
                     ],
                 ],
                 'may_terminate' => true,
-                'child_routes'  => [
+                'child_routes' => [
                     'view-all' => [
-                        'type'    => 'segment',
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/view-all/:id',
+                            'route' => '/view-all/:id',
                             'defaults' => [
                                 'action' => 'viewAll',
                             ],
                         ],
                     ],
-                    'view'     => [
-                        'type'    => 'segment',
+                    'view' => [
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/view/:id',
+                            'route' => '/view/:id',
                             'defaults' => [
                                 'action' => 'view',
                             ],
                         ],
                     ],
-                    'post'     => [
-                        'type'    => 'literal',
-                        'options'      => [
+                    'post' => [
+                        'type' => 'literal',
+                        'options' => [
                             'route' => '/post',
                         ],
                         'child_routes' => [
                             'create' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/create/:id',
+                                    'route' => '/create/:id',
                                     'defaults' => [
                                         'action' => 'create',
                                     ],
                                 ],
                             ],
-                            'view'   => [
-                                'type'    => 'segment',
+                            'view' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/view/:post',
+                                    'route' => '/view/:post',
                                     'defaults' => [
                                         'action' => 'viewPost',
                                     ],
                                 ],
                             ],
                             'update' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/update/:post',
+                                    'route' => '/update/:post',
                                     'defaults' => [
                                         'action' => 'update',
                                     ],
                                 ],
                             ],
-                            'trash'  => [
-                                'type'    => 'segment',
+                            'trash' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/trash/:post',
+                                    'route' => '/trash/:post',
                                     'defaults' => [
                                         'action' => 'trash',
                                     ],

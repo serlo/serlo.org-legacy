@@ -26,30 +26,30 @@ import eventScope from '../../../libs/eventscope'
 var slice = Array.prototype.slice
 var PluginManager
 
-PluginManager = function() {
+PluginManager = function () {
   eventScope(this)
   this.plugins = []
   this.updateChain()
 }
 
-PluginManager.prototype.addPlugin = function(plugin) {
+PluginManager.prototype.addPlugin = function (plugin) {
   var that = this
   that.plugins.push(plugin)
 
-  plugin.addEventListener('save', function(plugin) {
+  plugin.addEventListener('save', function (plugin) {
     that.trigger('save', plugin)
     that.trigger('close')
   })
 
-  plugin.addEventListener('close', function() {
+  plugin.addEventListener('close', function () {
     that.trigger('close')
   })
 
-  plugin.addEventListener('update', function(plugin) {
+  plugin.addEventListener('update', function (plugin) {
     that.trigger('update', plugin)
   })
 
-  plugin.addEventListener('toggle-plugin', function(pluginName, token, data) {
+  plugin.addEventListener('toggle-plugin', function (pluginName, token, data) {
     var newPlugin = that.matchState(pluginName)
     if (newPlugin) {
       that.deactivate()
@@ -64,14 +64,14 @@ PluginManager.prototype.addPlugin = function(plugin) {
   return this
 }
 
-PluginManager.prototype.updateChain = function() {
+PluginManager.prototype.updateChain = function () {
   this.chain = _.chain(this.plugins)
 }
 
-PluginManager.prototype.matchState = function(state) {
+PluginManager.prototype.matchState = function (state) {
   return (
     this.chain
-      .filter(function(plugin) {
+      .filter(function (plugin) {
         if (plugin.state === state) {
           return plugin
         }
@@ -80,12 +80,12 @@ PluginManager.prototype.matchState = function(state) {
   )
 }
 
-PluginManager.prototype.activate = function(plugin) {
+PluginManager.prototype.activate = function (plugin) {
   this.active = plugin
   this.active.activate.apply(this.active, slice.call(arguments, 1))
 }
 
-PluginManager.prototype.deactivate = function() {
+PluginManager.prototype.deactivate = function () {
   if (this.active) {
     this.active.deactivate()
   }

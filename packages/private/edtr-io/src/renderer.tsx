@@ -34,7 +34,7 @@ export function Renderer(
   const plugins = createPlugins({
     getCsrfToken: () => '',
     registry: [],
-    i18n: i18n
+    i18n: i18n,
   })
   return <Core plugins={plugins} state={props.state || { plugin: 'text' }} />
 }

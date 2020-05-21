@@ -26,18 +26,19 @@ return [
     'router' => [
         'routes' => [
             'entities' => [
-                'type'    => 'segment',
+                'type' => 'segment',
                 'options' => [
-                    'route'    => '/entities',
+                    'route' => '/entities',
                     'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\ApiController',
+                        'controller' =>
+                            __NAMESPACE__ . '\Controller\ApiController',
                     ],
                 ],
                 'child_routes' => [
                     'entities' => [
-                        'type'    => 'segment',
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/:entity',
+                            'route' => '/:entity',
                             'defaults' => [
                                 'action' => 'entity',
                             ],
@@ -55,39 +56,41 @@ return [
                 ],
             ],
             'entity' => [
-                'type'         => 'literal',
-                'options'      => [
+                'type' => 'literal',
+                'options' => [
                     'route' => '/entity',
                 ],
                 'child_routes' => [
-                    'api'        => [
-                        'type'         => 'literal',
-                        'options'      => [
-                            'route'    => '/api',
+                    'api' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/api',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\ApiController',
+                                'controller' =>
+                                    __NAMESPACE__ . '\Controller\ApiController',
                             ],
                         ],
                         'child_routes' => [
                             'json' => [
-                                'type'         => 'literal',
-                                'options'      => [
+                                'type' => 'literal',
+                                'options' => [
                                     'route' => '/json',
                                 ],
                                 'child_routes' => [
                                     'export' => [
-                                        'type'    => 'segment',
+                                        'type' => 'segment',
                                         'options' => [
-                                            'route'    => '/export/:type',
+                                            'route' => '/export/:type',
                                             'defaults' => [
                                                 'action' => 'export',
                                             ],
                                         ],
                                     ],
                                     'latest' => [
-                                        'type'    => 'segment',
+                                        'type' => 'segment',
                                         'options' => [
-                                            'route'    => '/export/latest/:type/:age',
+                                            'route' =>
+                                                '/export/latest/:type/:age',
                                             'defaults' => [
                                                 'action' => 'latest',
                                             ],
@@ -95,10 +98,10 @@ return [
                                     ],
                                 ],
                             ],
-                            'rss'  => [
-                                'type'    => 'segment',
+                            'rss' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'    => '/rss/:type/:age/feed.rss',
+                                    'route' => '/rss/:type/:age/feed.rss',
                                     'defaults' => [
                                         'action' => 'rss',
                                     ],
@@ -111,74 +114,79 @@ return [
                         'options' => [
                             'route' => '/unrevised',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\EntityController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\EntityController',
                                 'action' => 'unrevised',
                             ],
                         ],
                     ],
-                    'create'     => [
-                        'type'    => 'segment',
+                    'create' => [
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/create/:type',
+                            'route' => '/create/:type',
                             'defaults' => [
-                                'controller' => 'Entity\Controller\EntityController',
-                                'action'     => 'create',
+                                'controller' =>
+                                    'Entity\Controller\EntityController',
+                                'action' => 'create',
                             ],
                         ],
                     ],
                     'repository' => [
-                        'type'         => 'literal',
-                        'options'      => [
-                            'route'    => '/repository',
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/repository',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\RepositoryController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\RepositoryController',
                             ],
                         ],
                         'child_routes' => [
-                            'checkout'     => [
-                                'type'    => 'segment',
+                            'checkout' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/checkout/:entity/:revision',
-                                    'defaults'    => [
+                                    'route' => '/checkout/:entity/:revision',
+                                    'defaults' => [
                                         'action' => 'checkout',
                                     ],
                                     'constraints' => [
-                                        'entity'   => '[0-9]+',
+                                        'entity' => '[0-9]+',
                                         'revision' => '[0-9]+',
                                     ],
                                 ],
                             ],
-                            'reject'       => [
-                                'type'    => 'segment',
+                            'reject' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/reject/:entity/:revision',
-                                    'defaults'    => [
+                                    'route' => '/reject/:entity/:revision',
+                                    'defaults' => [
                                         'action' => 'reject',
                                     ],
                                     'constraints' => [
-                                        'entity'   => '[0-9]+',
+                                        'entity' => '[0-9]+',
                                         'revision' => '[0-9]+',
                                     ],
                                 ],
                             ],
-                            'compare'      => [
-                                'type'    => 'segment',
+                            'compare' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/compare/:entity/:revision',
-                                    'defaults'    => [
+                                    'route' => '/compare/:entity/:revision',
+                                    'defaults' => [
                                         'action' => 'compare',
                                     ],
                                     'constraints' => [
-                                        'entity'   => '[0-9]+',
+                                        'entity' => '[0-9]+',
                                         'revision' => '[0-9]+',
                                     ],
                                 ],
                             ],
-                            'history'      => [
-                                'type'    => 'segment',
+                            'history' => [
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/history/:entity',
-                                    'defaults'    => [
+                                    'route' => '/history/:entity',
+                                    'defaults' => [
                                         'action' => 'history',
                                     ],
                                     'constraints' => [
@@ -187,10 +195,11 @@ return [
                                 ],
                             ],
                             'add-revision-old' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/add-revision-old/:entity[/:revision]',
-                                    'defaults'    => [
+                                    'route' =>
+                                        '/add-revision-old/:entity[/:revision]',
+                                    'defaults' => [
                                         'action' => 'addLegacyRevision',
                                     ],
                                     'constraints' => [
@@ -200,10 +209,11 @@ return [
                                 ],
                             ],
                             'add-revision' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/add-revision/:entity[/:revision]',
-                                    'defaults'    => [
+                                    'route' =>
+                                        '/add-revision/:entity[/:revision]',
+                                    'defaults' => [
                                         'action' => 'addRevision',
                                     ],
                                     'constraints' => [
@@ -225,9 +235,10 @@ return [
                                 ],
                             ],
                             'get-revision-data' => [
-                                'type'  => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route' => '/get-revision-data/:entity[/:revision]',
+                                    'route' =>
+                                        '/get-revision-data/:entity[/:revision]',
                                     'defaults' => [
                                         'action' => 'getRevisionData',
                                     ],
@@ -239,20 +250,22 @@ return [
                             ],
                         ],
                     ],
-                    'license'    => [
-                        'type'         => 'literal',
-                        'options'      => [
-                            'route'    => '/license',
+                    'license' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/license',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\LicenseController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\LicenseController',
                             ],
                         ],
                         'child_routes' => [
                             'update' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/update/:entity',
-                                    'defaults'    => [
+                                    'route' => '/update/:entity',
+                                    'defaults' => [
                                         'action' => 'update',
                                     ],
                                     'constraints' => [
@@ -262,20 +275,22 @@ return [
                             ],
                         ],
                     ],
-                    'link'       => [
-                        'type'         => 'literal',
-                        'options'      => [
-                            'route'    => '/link',
+                    'link' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/link',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\LinkController',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\LinkController',
                             ],
                         ],
                         'child_routes' => [
                             'order' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/order/:entity/:type',
-                                    'defaults'    => [
+                                    'route' => '/order/:entity/:type',
+                                    'defaults' => [
                                         'action' => 'orderChildren',
                                     ],
                                     'constraints' => [
@@ -283,10 +298,10 @@ return [
                                     ],
                                 ],
                             ],
-                            'move'  => [
-                                'type'        => 'segment',
-                                'options'     => [
-                                    'route'    => '/move/:type/:entity/:from',
+                            'move' => [
+                                'type' => 'segment',
+                                'options' => [
+                                    'route' => '/move/:type/:entity/:from',
                                     'defaults' => [
                                         'action' => 'move',
                                     ],
@@ -297,13 +312,15 @@ return [
                             ],
                         ],
                     ],
-                    'page'       => [
-                        'type'    => 'segment',
+                    'page' => [
+                        'type' => 'segment',
                         'options' => [
-                            'route'       => '/view/:entity',
-                            'defaults'    => [
-                                'controller' => __NAMESPACE__ . '\Controller\PageController',
-                                'action'     => 'index',
+                            'route' => '/view/:entity',
+                            'defaults' => [
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\PageController',
+                                'action' => 'index',
                             ],
                             'constraints' => [
                                 'entity' => '[0-9]+',
@@ -312,30 +329,34 @@ return [
                         'may_terminate' => true,
                         'child_routes' => [
                             'tableOfContents' => [
-                                'type'      => 'segment',
-                                'options'   => [
+                                'type' => 'segment',
+                                'options' => [
                                     'route' => '/toc',
                                     'defaults' => [
-                                        'controller' => __NAMESPACE__ . '\Controller\TOCController',
-                                        'action'    => 'index',
+                                        'controller' =>
+                                            __NAMESPACE__ .
+                                            '\Controller\TOCController',
+                                        'action' => 'index',
                                     ],
                                 ],
                             ],
                         ],
                     ],
-                    'taxonomy'   => [
-                        'type'         => 'literal',
-                        'options'      => [
+                    'taxonomy' => [
+                        'type' => 'literal',
+                        'options' => [
                             'route' => '/taxonomy',
                         ],
                         'child_routes' => [
                             'update' => [
-                                'type'    => 'segment',
+                                'type' => 'segment',
                                 'options' => [
-                                    'route'       => '/update/:entity',
-                                    'defaults'    => [
-                                        'controller' => __NAMESPACE__ . '\Controller\TaxonomyController',
-                                        'action'     => 'update',
+                                    'route' => '/update/:entity',
+                                    'defaults' => [
+                                        'controller' =>
+                                            __NAMESPACE__ .
+                                            '\Controller\TaxonomyController',
+                                        'action' => 'update',
                                     ],
                                     'constraints' => [
                                         'entity' => '[0-9]+',

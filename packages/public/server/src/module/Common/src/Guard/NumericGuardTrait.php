@@ -27,7 +27,6 @@ namespace Common\Guard;
  */
 trait NumericGuardTrait
 {
-
     /**
      * Verify that the data is an int
      *
@@ -43,7 +42,7 @@ trait NumericGuardTrait
     ) {
         if (!is_numeric($data)) {
             $message = sprintf(
-                "%s must be a numeric, [%s] given",
+                '%s must be a numeric, [%s] given',
                 $dataName,
                 is_object($data) ? get_class($data) : gettype($data)
             );

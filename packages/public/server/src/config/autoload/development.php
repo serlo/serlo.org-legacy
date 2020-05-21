@@ -24,9 +24,7 @@
 return [
     // (Ui Module)
     'view_manager' => [
-        'strategies' => [
-            'Ui\Strategy\PhpRendererStrategy',
-        ],
+        'strategies' => ['Ui\Strategy\PhpRendererStrategy'],
     ],
 
     // (Renderer Module)

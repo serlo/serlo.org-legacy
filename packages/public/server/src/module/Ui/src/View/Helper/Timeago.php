@@ -43,6 +43,10 @@ class Timeago extends AbstractHelper
             return $this->format($datetime);
         }
 
-        return '<abbr class="timeago" title="' . $this->format($datetime) . '">' . $this->format($datetime) . '</abbr>';
+        return '<abbr class="timeago" title="' .
+            $this->format($datetime) .
+            '">' .
+            $this->format($datetime) .
+            '</abbr>';
     }
 }

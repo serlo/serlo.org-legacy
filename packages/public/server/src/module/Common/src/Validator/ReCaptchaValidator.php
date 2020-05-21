@@ -52,7 +52,6 @@ class ReCaptchaValidator extends AbstractValidator
         self::INVALID_TOKEN => 'The provided token was invalid',
     ];
 
-
     /**
      * ReCaptcha Secret for validator
      *
@@ -89,15 +88,15 @@ class ReCaptchaValidator extends AbstractValidator
         $this->setValue($value);
         $url = 'https://www.google.com/recaptcha/api/siteverify';
 
-        $httpHeader = array(
+        $httpHeader = [
             'Accept: application/json',
             'Content-Type: application/x-www-form-urlencoded',
-        );
+        ];
 
-        $data = array(
+        $data = [
             'secret' => $this->secret,
             'response' => $value,
-        );
+        ];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

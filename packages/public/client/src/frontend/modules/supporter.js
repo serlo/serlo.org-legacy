@@ -37,7 +37,7 @@ function check() {
     )
   }
   // check for browser support
-  _.each(checkSupportFor, function(value) {
+  _.each(checkSupportFor, function (value) {
     if (typeof value === 'function') {
       var failed = value()
       if (failed) {
@@ -69,7 +69,7 @@ function add(support) {
 
 const supp = {
   check: check,
-  add: add
+  add: add,
 }
 
 export default supp

@@ -34,7 +34,7 @@ class LicenseController extends AbstractController
     public function updateAction()
     {
         $licenses = $this->getLicenseManager()->findAllLicenses();
-        $entity   = $this->getEntity();
+        $entity = $this->getEntity();
 
         if (!$entity || $entity->isTrashed()) {
             $this->getResponse()->setStatusCode(404);
@@ -50,11 +50,15 @@ class LicenseController extends AbstractController
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
-                $data    = $form->getData();
-                $license = $this->getLicenseManager()->getLicense((int)$data['license']);
+                $data = $form->getData();
+                $license = $this->getLicenseManager()->getLicense(
+                    (int) $data['license']
+                );
                 $this->getLicenseManager()->injectLicense($entity, $license);
                 $this->getLicenseManager()->flush();
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                return $this->redirect()->toUrl(
+                    $this->referer()->fromStorage()
+                );
             }
         } else {
             $this->referer()->store();

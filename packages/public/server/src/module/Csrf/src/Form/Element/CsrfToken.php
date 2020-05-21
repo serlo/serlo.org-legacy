@@ -30,9 +30,9 @@ use Zend\InputFilter\InputProviderInterface;
 
 class CsrfToken extends Element implements InputProviderInterface
 {
-    protected $attributes = array(
+    protected $attributes = [
         'type' => 'hidden',
-    );
+    ];
 
     public function __construct()
     {
@@ -46,15 +46,11 @@ class CsrfToken extends Element implements InputProviderInterface
 
     public function getInputSpecification()
     {
-        return array(
+        return [
             'name' => $this->getName(),
             'required' => true,
-            'filters' => array(
-                array('name' => 'Zend\Filter\StringTrim'),
-            ),
-            'validators' => array(
-                new CsrfTokenValidator(),
-            ),
-        );
+            'filters' => [['name' => 'Zend\Filter\StringTrim']],
+            'validators' => [new CsrfTokenValidator()],
+        ];
     }
 }

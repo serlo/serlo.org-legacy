@@ -23,11 +23,11 @@
 namespace Link;
 
 return [
-    'di'       => [
+    'di' => [
         'definition' => [
             'class' => [
                 __NAMESPACE__ . '\Listener\EntityManagerListener' => [
-                    'setLinkService'   => [
+                    'setLinkService' => [
                         'required' => true,
                     ],
                     'setEntityManager' => [
@@ -37,11 +37,11 @@ return [
                         'required' => true,
                     ],
                 ],
-                __NAMESPACE__ . '\Service\LinkService'            => [
-                    'setObjectManager'        => [
+                __NAMESPACE__ . '\Service\LinkService' => [
+                    'setObjectManager' => [
                         'required' => true,
                     ],
-                    'setTypeManager'          => [
+                    'setTypeManager' => [
                         'required' => true,
                     ],
                     'setAuthorizationService' => [
@@ -50,9 +50,10 @@ return [
                 ],
             ],
         ],
-        'instance'   => [
+        'instance' => [
             'preferences' => [
-                'Link\Service\LinkServiceInterface' => 'Link\Service\LinkService',
+                'Link\Service\LinkServiceInterface' =>
+                    'Link\Service\LinkService',
             ],
         ],
     ],
@@ -61,11 +62,9 @@ return [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],

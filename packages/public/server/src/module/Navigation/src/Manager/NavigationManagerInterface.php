@@ -66,7 +66,10 @@ interface NavigationManagerInterface extends Flushable
      * @return ContainerInterface
      * @throws ContainerNotFoundException
      */
-    public function findContainerByNameAndInstance($name, InstanceInterface $instance);
+    public function findContainerByNameAndInstance(
+        $name,
+        InstanceInterface $instance
+    );
 
     /**
      * @param InstanceInterface $instance

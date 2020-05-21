@@ -78,13 +78,13 @@ class PageManager implements PageManagerInterface
         UserManagerInterface $userManager
     ) {
         $this->setAuthorizationService($authorizationService);
-        $this->classResolver     = $classResolver;
-        $this->instanceManager   = $instanceManager;
-        $this->licenseManager    = $licenseManager;
-        $this->objectManager     = $objectManager;
+        $this->classResolver = $classResolver;
+        $this->instanceManager = $instanceManager;
+        $this->licenseManager = $licenseManager;
+        $this->objectManager = $objectManager;
         $this->repositoryManager = $repositoryManager;
-        $this->roleService       = $roleService;
-        $this->userManager       = $userManager;
+        $this->roleService = $roleService;
+        $this->userManager = $userManager;
     }
 
     /**
@@ -95,9 +95,11 @@ class PageManager implements PageManagerInterface
     {
         $formClone = clone $form;
         if (!$formClone->isValid()) {
-            throw new RuntimeException(print_r($formClone->getMessages(), true));
+            throw new RuntimeException(
+                print_r($formClone->getMessages(), true)
+            );
         }
-        $data   = $formClone->getData(FormInterface::VALUES_AS_ARRAY);
+        $data = $formClone->getData(FormInterface::VALUES_AS_ARRAY);
         $page = $formClone->getObject();
         $formClone->setData($data);
         $formClone->isValid();
@@ -114,11 +116,17 @@ class PageManager implements PageManagerInterface
      * {@inheritDoc}
      * @see \Page\Manager\PageManagerInterface::createRevision()
      */
-    public function createRevision(PageRepositoryInterface $repository, array $data, UserInterface $user)
-    {
+    public function createRevision(
+        PageRepositoryInterface $repository,
+        array $data,
+        UserInterface $user
+    ) {
         $this->assertGranted('page.revision.create', $repository);
 
-        $revision = $this->getRepositoryManager()->commitRevision($repository, $data);
+        $revision = $this->getRepositoryManager()->commitRevision(
+            $repository,
+            $data
+        );
 
         $this->getRepositoryManager()->checkoutRevision($repository, $revision);
         $this->getObjectManager()->persist($revision);
@@ -137,7 +145,7 @@ class PageManager implements PageManagerInterface
         if (!$form->isValid()) {
             throw new RuntimeException(print_r($form->getMessages(), true));
         }
-        $data      = $form->getData(FormInterface::VALUES_AS_ARRAY);
+        $data = $form->getData(FormInterface::VALUES_AS_ARRAY);
         $formClone = clone $form;
         $formClone->bind($page);
         $formClone->setData($data);
@@ -151,9 +159,13 @@ class PageManager implements PageManagerInterface
     public function findAllRepositories(InstanceInterface $instance)
     {
         $this->assertGranted('page.get', $instance);
-        $className    = $this->getClassResolver()->resolveClassName('Page\Entity\PageRepositoryInterface');
-        $params       = ['instance' => $instance->getId(), 'trashed' => false];
-        $repositories = $this->getObjectManager()->getRepository($className)->findBy($params);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Page\Entity\PageRepositoryInterface'
+        );
+        $params = ['instance' => $instance->getId(), 'trashed' => false];
+        $repositories = $this->getObjectManager()
+            ->getRepository($className)
+            ->findBy($params);
         return $repositories;
     }
 
@@ -169,16 +181,24 @@ class PageManager implements PageManagerInterface
     public function getPageRepository($id)
     {
         if (!is_numeric($id)) {
-            throw new InvalidArgumentException(sprintf('Expected numeric but got %s', gettype($id)));
+            throw new InvalidArgumentException(
+                sprintf('Expected numeric but got %s', gettype($id))
+            );
         }
 
-        $className      = $this->getClassResolver()->resolveClassName('Page\Entity\PageRepositoryInterface');
+        $className = $this->getClassResolver()->resolveClassName(
+            'Page\Entity\PageRepositoryInterface'
+        );
         $pageRepository = $this->getObjectManager()->find($className, $id);
 
         if (!is_object($pageRepository)) {
-            throw new PageNotFoundException(sprintf('Page Repository "%d" not found.', $id));
+            throw new PageNotFoundException(
+                sprintf('Page Repository "%d" not found.', $id)
+            );
         } elseif ($pageRepository->isTrashed()) {
-            throw new PageNotFoundException(sprintf('Page Repository "%d" is trashed.', $id));
+            throw new PageNotFoundException(
+                sprintf('Page Repository "%d" is trashed.', $id)
+            );
         }
 
         $this->assertGranted('page.get', $pageRepository);
@@ -193,18 +213,26 @@ class PageManager implements PageManagerInterface
     public function getRevision($id)
     {
         if (!is_numeric($id)) {
-            throw new InvalidArgumentException(sprintf('Expected numeric but got %s', gettype($id)));
+            throw new InvalidArgumentException(
+                sprintf('Expected numeric but got %s', gettype($id))
+            );
         }
 
-        $className = $this->getClassResolver()->resolveClassName('Page\Entity\PageRevisionInterface');
-        $revision  = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Page\Entity\PageRevisionInterface'
+        );
+        $revision = $this->getObjectManager()->find($className, $id);
         $this->assertGranted('page.get', $revision);
 
         if (!$revision) {
-            throw new PageNotFoundException(sprintf('Page Revision %s not found', $id));
+            throw new PageNotFoundException(
+                sprintf('Page Revision %s not found', $id)
+            );
         } else {
             if ($revision->isTrashed()) {
-                throw new PageNotFoundException(sprintf('Page Revision %s is trashed', $id));
+                throw new PageNotFoundException(
+                    sprintf('Page Revision %s is trashed', $id)
+                );
             }
         }
 
@@ -217,8 +245,10 @@ class PageManager implements PageManagerInterface
         return count($roles);
     }
 
-    protected function setRoles(array $data, PageRepositoryInterface $pageRepository)
-    {
+    protected function setRoles(
+        array $data,
+        PageRepositoryInterface $pageRepository
+    ) {
         $pageRepository->setRoles(new ArrayCollection());
         for ($i = 0; $i <= $this->countRoles(); $i++) {
             if (array_key_exists($i, $data['roles'])) {

@@ -32,8 +32,6 @@ use Rbac\Traversal\Strategy\TraversalStrategyInterface;
 
 class PageAssertion implements AssertionInterface
 {
-
-
     /**
      * @var TraversalStrategyInterface
      */
@@ -61,7 +59,7 @@ class PageAssertion implements AssertionInterface
         } elseif ($context instanceof PageRevisionInterface) {
             $context = $context->getRepository();
         } else {
-            throw new InvalidArgumentException;
+            throw new InvalidArgumentException();
         }
 
         $flattened = $this->flattenRoles($authorization->getRoles());
@@ -82,7 +80,7 @@ class PageAssertion implements AssertionInterface
     protected function flattenRoles(array $roles)
     {
         $roleNames = [];
-        $iterator  = $this->traversalStrategy->getRolesIterator($roles);
+        $iterator = $this->traversalStrategy->getRolesIterator($roles);
 
         foreach ($iterator as $role) {
             $roleNames[] = $role;

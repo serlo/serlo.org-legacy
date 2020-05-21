@@ -24,7 +24,7 @@ import {
   EditorPluginProps,
   object,
   string,
-  number
+  number,
 } from '@edtr-io/plugin'
 import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
@@ -34,18 +34,18 @@ import { Controls, editorContent, HeaderInput, uuid } from './common'
 export const taxonomyTypeState = object({
   ...uuid,
   term: object({
-    name: string()
+    name: string(),
   }),
   taxonomy: number(),
   parent: number(),
   position: number(),
-  description: editorContent()
+  description: editorContent(),
 })
 
 export const taxonomyTypePlugin: EditorPlugin<typeof taxonomyTypeState> = {
   Component: TaxonomyTypeEditor,
   state: taxonomyTypeState,
-  config: {}
+  config: {},
 }
 
 function TaxonomyTypeEditor(

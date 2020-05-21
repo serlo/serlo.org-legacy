@@ -35,7 +35,6 @@ use User\Entity\UserInterface;
  */
 class Notification implements NotificationInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

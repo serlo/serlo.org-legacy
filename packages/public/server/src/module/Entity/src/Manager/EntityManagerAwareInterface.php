@@ -24,7 +24,6 @@ namespace Entity\Manager;
 
 interface EntityManagerAwareInterface
 {
-
     /**
      * @return EntityManagerInterface $entityManager
      */
@@ -34,5 +33,7 @@ interface EntityManagerAwareInterface
      * @param EntityManagerInterface $entityManager
      * @return self
      */
-    public function setEntityManager(\Entity\Manager\EntityManagerInterface $entityManager);
+    public function setEntityManager(
+        \Entity\Manager\EntityManagerInterface $entityManager
+    );
 }

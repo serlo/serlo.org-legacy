@@ -24,7 +24,6 @@ namespace Notification;
 
 trait SubscriptionManagerAwareTrait
 {
-
     /**
      * @var SubscriptionManagerInterface
      */
@@ -42,8 +41,9 @@ trait SubscriptionManagerAwareTrait
      * @param SubscriptionManagerInterface $subscriptionManager
      * @return self
      */
-    public function setSubscriptionManager(SubscriptionManagerInterface $subscriptionManager)
-    {
+    public function setSubscriptionManager(
+        SubscriptionManagerInterface $subscriptionManager
+    ) {
         $this->subscriptionManager = $subscriptionManager;
 
         return $this;

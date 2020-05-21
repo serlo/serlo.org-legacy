@@ -40,7 +40,10 @@ class TaxonomyController extends AbstractController
         }
 
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName('root', $instance);
+        $taxonomy = $this->getTaxonomyManager()->findTaxonomyByName(
+            'root',
+            $instance
+        );
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
@@ -49,27 +52,27 @@ class TaxonomyController extends AbstractController
                     $term = $this->getTaxonomyManager()->getTerm($termId);
 
                     if ($added == 1) {
-                        $this->getTaxonomyManager()->associateWith($termId, $entity);
+                        $this->getTaxonomyManager()->associateWith(
+                            $termId,
+                            $entity
+                        );
                         $event = 'addToTerm';
                     } else {
-                        $this->getTaxonomyManager()->removeAssociation($termId, $entity);
+                        $this->getTaxonomyManager()->removeAssociation(
+                            $termId,
+                            $entity
+                        );
                         $event = 'removeFromTerm';
                     }
 
-                    $this->getEventManager()->trigger(
-                        $event,
-                        $this,
-                        [
-                            'entity' => $entity,
-                            'term'   => $term,
-                        ]
-                    );
+                    $this->getEventManager()->trigger($event, $this, [
+                        'entity' => $entity,
+                        'term' => $term,
+                    ]);
                 }
 
                 $this->getEntityManager()->flush();
-                $this->redirect()->toUrl(
-                    $this->referer()->fromStorage()
-                );
+                $this->redirect()->toUrl($this->referer()->fromStorage());
 
                 return false;
             }
@@ -78,7 +81,7 @@ class TaxonomyController extends AbstractController
         }
 
         $view = new ViewModel([
-            'terms'  => $taxonomy->getChildren(),
+            'terms' => $taxonomy->getChildren(),
             'entity' => $entity,
         ]);
         $view->setTemplate('entity/taxonomy/update');

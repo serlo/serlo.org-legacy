@@ -41,10 +41,7 @@ function makePuzzle(parent, inputStr) {
   var startStructureStr = inputStr.split('|')[1]
 
   // status image
-  emog = d3
-    .select(parent)
-    .append('div')
-    .attr('class', 'fullscreen-toggle')
+  emog = d3.select(parent).append('div').attr('class', 'fullscreen-toggle')
 
   // svg canvas
   svg = d3
@@ -60,17 +57,17 @@ function makePuzzle(parent, inputStr) {
 
   // fullscreen logic
   var fullscreen
-  toggleFullscreen = function() {
+  toggleFullscreen = function () {
     fullscreen = fullscreen ? undefined : parent
     redraw()
   }
 
-  redraw = function() {
+  redraw = function () {
     var evt = document.createEvent('CustomEvent')
     evt.initCustomEvent('resize', false, false, {})
     window.dispatchEvent(evt)
   }
-  window.addEventListener('resize', function() {
+  window.addEventListener('resize', function () {
     if (fullscreen === parent) {
       var windowWidth = d3.select('body').node().offsetWidth
       var width = Math.min(
@@ -107,7 +104,7 @@ function makePuzzle(parent, inputStr) {
     }
   })
 
-  emog.on('click', function() {
+  emog.on('click', function () {
     toggleFullscreen()
   })
   redraw()
@@ -145,7 +142,7 @@ function makePuzzle(parent, inputStr) {
   }
 
   if (showResult) {
-    svg.on('mouseover', function() {
+    svg.on('mouseover', function () {
       var val = touchop.getCurrentValue()
       if (val) {
         val = Math.round(val * 1000) / 1000
@@ -153,9 +150,7 @@ function makePuzzle(parent, inputStr) {
           .select('.end-result')
           .html('= ' + val)
       } else {
-        d3.select(parent)
-          .select('.end-result')
-          .html('= ?')
+        d3.select(parent).select('.end-result').html('= ?')
       }
     })
   }
@@ -198,7 +193,7 @@ function initializeStructure(array, parent) {
     g.attr('data-frozen', true)
     ops = g.selectAll('.operand')
     ops.attr('data-frozen', true)
-    ops.each(function(x, i) {
+    ops.each(function (x, i) {
       initializeStructure(array[i + 1], d3.select(this))
     })
   } else if (array !== '#') {
@@ -220,7 +215,7 @@ function parsePn(string) {
     string
       .split(/ +/)
       .reverse()
-      .filter(function(x) {
+      .filter(function (x) {
         return x
       })
       .reduce((stack, value) => {
@@ -285,10 +280,7 @@ function addAtom(elt, value, text) {
 
 // Generic drop area for operator arguments
 function addOperand(elt) {
-  var g = elt
-    .append('g')
-    .attr('data-layout', 'snap')
-    .attr('class', 'operand')
+  var g = elt.append('g').attr('data-layout', 'snap').attr('class', 'operand')
   g.append('rect')
     .attr('height', '50')
     .attr('width', '50')
@@ -300,10 +292,7 @@ function addOperand(elt) {
 
 function addOperator(elt) {
   var g = elt.append('g').attr('data-ismovable', 'true')
-  g.append('rect')
-    .attr('class', 'background')
-    .attr('rx', 5)
-    .attr('ry', 5)
+  g.append('rect').attr('class', 'background').attr('rx', 5).attr('ry', 5)
   return g
 }
 
@@ -316,11 +305,7 @@ function addPower(elt) {
     .attr('data-layout', 'horizontalLayout')
   addOperand(g)
   exponent = g.append('g').attr('data-priority', 80)
-  exponent
-    .append('rect')
-    .attr('y', 50)
-    .attr('width', 1)
-    .attr('height', 1)
+  exponent.append('rect').attr('y', 50).attr('width', 1).attr('height', 1)
   addOperand(
     exponent.append('g').attr('transform', 'scale(0.6) translate(0,-50)')
   )
@@ -333,17 +318,13 @@ function addDivide(elt) {
     .attr('data-value', '#1 / #2')
     .attr('data-priority', '99')
     .attr('data-layout', 'verticalLayout')
-  g.append('g')
-    .attr('transform', 'scale(0.8)')
-    .attr('data-priority', '100')
+  g.append('g').attr('transform', 'scale(0.8)').attr('data-priority', '100')
   addOperand(g)
   g.append('rect')
     .attr('width', 80)
     .attr('height', 3)
     .attr('data-layoutOpt', 'stretch')
-  g.append('g')
-    .attr('transform', 'scale(0.8)')
-    .attr('data-priority', '100')
+  g.append('g').attr('transform', 'scale(0.8)').attr('data-priority', '100')
   addOperand(g)
   return g
 }
@@ -400,8 +381,8 @@ function addMinus(elt) {
   return g
 }
 
-$.fn.MathPuzzle = function() {
-  return $(this).each(function() {
+$.fn.MathPuzzle = function () {
+  return $(this).each(function () {
     makePuzzle(this, $(this).data('source'))
   })
 }

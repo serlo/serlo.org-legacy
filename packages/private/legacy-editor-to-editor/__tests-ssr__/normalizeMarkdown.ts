@@ -38,11 +38,11 @@ const cases: {
           title: 'title',
           content: {
             normalized: 'markdowntext',
-            elements: []
-          }
-        }
-      ]
-    }
+            elements: [],
+          },
+        },
+      ],
+    },
   },
   {
     description: 'split injections',
@@ -53,10 +53,10 @@ const cases: {
         {
           name: 'injection',
           description: 'alttext',
-          src: 'url'
-        }
-      ]
-    }
+          src: 'url',
+        },
+      ],
+    },
   },
   {
     description: 'split images',
@@ -67,10 +67,10 @@ const cases: {
         {
           name: 'image',
           description: 'image',
-          src: 'url'
-        }
-      ]
-    }
+          src: 'url',
+        },
+      ],
+    },
   },
   {
     description: 'split images with title',
@@ -82,10 +82,10 @@ const cases: {
           name: 'image',
           description: 'image',
           src: 'url',
-          title: 'title'
-        }
-      ]
-    }
+          title: 'title',
+        },
+      ],
+    },
   },
   {
     description: 'split images in spoilers',
@@ -102,13 +102,13 @@ const cases: {
               {
                 name: 'image',
                 description: 'image',
-                src: 'url'
-              }
-            ]
-          }
-        }
-      ]
-    }
+                src: 'url',
+              },
+            ],
+          },
+        },
+      ],
+    },
   },
   {
     description: 'split images with title in spoilers',
@@ -126,13 +126,13 @@ const cases: {
                 name: 'image',
                 description: 'image',
                 src: 'url',
-                title: 'title'
-              }
-            ]
-          }
-        }
-      ]
-    }
+                title: 'title',
+              },
+            ],
+          },
+        },
+      ],
+    },
   },
   {
     description: 'split multiple elements',
@@ -145,15 +145,15 @@ const cases: {
         {
           name: 'image',
           description: 'image',
-          src: 'url'
+          src: 'url',
         },
         {
           name: 'image',
           description: 'image2',
-          src: 'url2'
-        }
-      ]
-    }
+          src: 'url2',
+        },
+      ],
+    },
   },
   {
     description: 'split geogebra injection',
@@ -164,10 +164,10 @@ const cases: {
         {
           name: 'geogebra',
           description: 'alttext',
-          src: 'url'
-        }
-      ]
-    }
+          src: 'url',
+        },
+      ],
+    },
   },
   {
     description: 'split linked images',
@@ -179,10 +179,10 @@ const cases: {
           name: 'image',
           description: 'image',
           src: 'imageurl',
-          href: 'linkurl'
-        }
-      ]
-    }
+          href: 'linkurl',
+        },
+      ],
+    },
   },
   {
     description: 'split linked images with title',
@@ -195,10 +195,10 @@ const cases: {
           description: 'image',
           src: 'imageurl',
           title: 'imagetitle',
-          href: 'linkurl'
-        }
-      ]
-    }
+          href: 'linkurl',
+        },
+      ],
+    },
   },
   {
     description: 'split tables',
@@ -210,18 +210,18 @@ const cases: {
         {
           name: 'table',
           src:
-            '\n|header1|header2 | \n|--|--|\n| row1 col1 | row1 *col2* | \n|row2 col1 | row2 col2| row2 col3|\n'
-        }
-      ]
-    }
+            '\n|header1|header2 | \n|--|--|\n| row1 col1 | row1 *col2* | \n|row2 col1 | row2 col2| row2 col3|\n',
+        },
+      ],
+    },
   },
   {
     description: 'parse escape parameters correctly',
     input: 'Lorem \\!\\[image](imageurl) ipsum',
     output: {
       normalized: 'Lorem \\!\\[image](imageurl) ipsum',
-      elements: []
-    }
+      elements: [],
+    },
   },
   {
     description: 'blockquotes',
@@ -234,11 +234,11 @@ const cases: {
           name: 'blockquote',
           content: {
             normalized: '\n ipsum\n dolor\n\nsit amet',
-            elements: []
-          }
-        }
-      ]
-    }
+            elements: [],
+          },
+        },
+      ],
+    },
   },
   {
     description: 'code',
@@ -250,14 +250,14 @@ const cases: {
         {
           name: 'code',
           language: 'javascript',
-          src: 'console.log("hello, world!);'
-        }
-      ]
-    }
-  }
+          src: 'console.log("hello, world!);',
+        },
+      ],
+    },
+  },
 ]
 
-cases.forEach(testcase => {
+cases.forEach((testcase) => {
   describe('Transformes Serlo Layout to new Layout', () => {
     it(testcase.description, () => {
       expect(normalizeMarkdown(testcase.input), 'to equal', testcase.output)

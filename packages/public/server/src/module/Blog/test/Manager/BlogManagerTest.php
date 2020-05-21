@@ -49,8 +49,6 @@ class BlogManagerTest extends AbstractManagerTestCase
      */
     private $instanceManager;
 
-
-
     public function setUp()
     {
         parent::setUp();
@@ -59,23 +57,38 @@ class BlogManagerTest extends AbstractManagerTestCase
         $this->authorizationService = $this->mockAuthorizationService();
         $this->eventManager = $this->mockEventManager();
 
-        $this->taxonomyManager = $this->createMock(TaxonomyManagerInterface::class);
-        $this->instanceManager = $this->createMock(InstanceManagerInterface::class);
+        $this->taxonomyManager = $this->createMock(
+            TaxonomyManagerInterface::class
+        );
+        $this->instanceManager = $this->createMock(
+            InstanceManagerInterface::class
+        );
 
-        $this->blogManager = new BlogManager($this->classResolver, $this->taxonomyManager, $this->objectManager, $this->instanceManager, $this->authorizationService);
+        $this->blogManager = new BlogManager(
+            $this->classResolver,
+            $this->taxonomyManager,
+            $this->objectManager,
+            $this->instanceManager,
+            $this->authorizationService
+        );
         $this->blogManager->setEventManager($this->eventManager);
     }
-
 
     public function testGetBlog_Granted()
     {
         $blog = new TaxonomyTerm();
 
-        $this->taxonomyManager->expects($this->once())
+        $this->taxonomyManager
+            ->expects($this->once())
             ->method('getTerm')
             ->with($this->equalTo(1))
             ->will($this->returnValue($blog));
-        $this->prepareIsGranted($this->authorizationService, 'blog.get', $blog, true);
+        $this->prepareIsGranted(
+            $this->authorizationService,
+            'blog.get',
+            $blog,
+            true
+        );
         $this->assertEquals($blog, $this->blogManager->getBlog(1));
     }
 
@@ -86,12 +99,18 @@ class BlogManagerTest extends AbstractManagerTestCase
     {
         $blog = new TaxonomyTerm();
 
-        $this->taxonomyManager->expects($this->once())
+        $this->taxonomyManager
+            ->expects($this->once())
             ->method('getTerm')
             ->with($this->equalTo(1))
             ->will($this->returnValue($blog));
 
-        $this->prepareIsGranted($this->authorizationService, 'blog.get', $blog, false);
+        $this->prepareIsGranted(
+            $this->authorizationService,
+            'blog.get',
+            $blog,
+            false
+        );
         $this->blogManager->getBlog(1);
     }
 
@@ -103,13 +122,22 @@ class BlogManagerTest extends AbstractManagerTestCase
         $taxonomyDummy->addTerm($childDummy);
         $instanceDummy = new Instance();
 
-        $this->taxonomyManager->expects($this->once())
+        $this->taxonomyManager
+            ->expects($this->once())
             ->method('findTaxonomyByName')
             ->with($this->equalTo('blog'), $instanceDummy)
             ->will($this->returnValue($taxonomyDummy));
-        $this->prepareIsGranted($this->authorizationService, 'blog.get', $childDummy, true);
+        $this->prepareIsGranted(
+            $this->authorizationService,
+            'blog.get',
+            $childDummy,
+            true
+        );
 
-        $this->assertEquals($taxonomyDummy->getChildren(), $this->blogManager->findAllBlogs($instanceDummy));
+        $this->assertEquals(
+            $taxonomyDummy->getChildren(),
+            $this->blogManager->findAllBlogs($instanceDummy)
+        );
     }
 
     /**
@@ -122,27 +150,38 @@ class BlogManagerTest extends AbstractManagerTestCase
         $taxonomyDummy->addTerm($childDummy);
         $instanceDummy = new Instance();
 
-        $this->taxonomyManager->expects($this->once())
+        $this->taxonomyManager
+            ->expects($this->once())
             ->method('findTaxonomyByName')
             ->with($this->equalTo('blog'), $instanceDummy)
             ->will($this->returnValue($taxonomyDummy));
-        $this->prepareIsGranted($this->authorizationService, 'blog.get', $childDummy, false);
+        $this->prepareIsGranted(
+            $this->authorizationService,
+            'blog.get',
+            $childDummy,
+            false
+        );
         $this->blogManager->findAllBlogs($instanceDummy);
     }
 
     public function testGetPost_FoundGranted()
     {
-        $repoName = "Blog\Entity\Post";
+        $repoName = 'Blog\Entity\Post';
         $post = new Post();
-        $post->setTitle("Post1");
+        $post->setTitle('Post1');
 
         $this->prepareResolveClass(
             $this->classResolver,
-            "Blog\Entity\PostInterface",
+            'Blog\Entity\PostInterface',
             $repoName
         );
         $this->prepareFind($this->objectManager, $repoName, 1, $post);
-        $this->prepareIsGranted($this->authorizationService, 'blog.post.get', $post, true);
+        $this->prepareIsGranted(
+            $this->authorizationService,
+            'blog.post.get',
+            $post,
+            true
+        );
 
         $this->assertEquals($post, $this->blogManager->getPost(1));
     }
@@ -152,14 +191,19 @@ class BlogManagerTest extends AbstractManagerTestCase
      */
     public function testGetPost_NotFound()
     {
-        $repoName = "Blog\Entity\Post";
+        $repoName = 'Blog\Entity\Post';
 
         $this->prepareResolveClass(
             $this->classResolver,
             PostInterface::class,
             $repoName
         );
-        $this->prepareIsGranted($this->authorizationService, 'blog.post.get', null, true);
+        $this->prepareIsGranted(
+            $this->authorizationService,
+            'blog.post.get',
+            null,
+            true
+        );
         $this->prepareFind($this->objectManager, $repoName, 1, null);
         $this->blogManager->getPost(1);
     }
@@ -167,22 +211,39 @@ class BlogManagerTest extends AbstractManagerTestCase
     public function testUpdatePost_Granted_Valid()
     {
         $post = new Post();
-        $post->setTitle("Title");
+        $post->setTitle('Title');
 
         $form = $this->createMock(FormInterface::class);
-        $form->expects($this->once())->method('getObject')->will($this->returnValue($post));
-        $form->expects($this->any())->method('isValid')->will($this->returnValue(true));
+        $form
+            ->expects($this->once())
+            ->method('getObject')
+            ->will($this->returnValue($post));
+        $form
+            ->expects($this->any())
+            ->method('isValid')
+            ->will($this->returnValue(true));
 
-        $this->prepareIsGranted($this->authorizationService, 'blog.post.update', $post, true);
+        $this->prepareIsGranted(
+            $this->authorizationService,
+            'blog.post.update',
+            $post,
+            true
+        );
 
         //check persist
-        $this->objectManager->expects($this->once())->method("persist")->with($this->equalTo($post));
+        $this->objectManager
+            ->expects($this->once())
+            ->method('persist')
+            ->with($this->equalTo($post));
         //check event trigger
-        $this->eventManager->expects($this->once())->method("trigger")->with(
-            $this->equalTo("update"),
-            $this->equalTo($this->blogManager),
-            $this->equalTo(['post' => $post])
-        );
+        $this->eventManager
+            ->expects($this->once())
+            ->method('trigger')
+            ->with(
+                $this->equalTo('update'),
+                $this->equalTo($this->blogManager),
+                $this->equalTo(['post' => $post])
+            );
 
         $this->blogManager->updatePost($form);
     }
@@ -193,19 +254,30 @@ class BlogManagerTest extends AbstractManagerTestCase
     public function testUpdatePost_Granted_NotValid()
     {
         $post = new Post();
-        $post->setTitle("Title");
+        $post->setTitle('Title');
 
         $form = $this->createMock(FormInterface::class);
-        $form->expects($this->once())->method('getObject')->will($this->returnValue($post));
-        $form->expects($this->any())->method('isValid')->will($this->returnValue(false));
-        $this->prepareIsGranted($this->authorizationService, 'blog.post.update', $post, true);
+        $form
+            ->expects($this->once())
+            ->method('getObject')
+            ->will($this->returnValue($post));
+        $form
+            ->expects($this->any())
+            ->method('isValid')
+            ->will($this->returnValue(false));
+        $this->prepareIsGranted(
+            $this->authorizationService,
+            'blog.post.update',
+            $post,
+            true
+        );
         $this->blogManager->updatePost($form);
     }
 
     public function testCreatePost_Granted_Valid()
     {
         $post = new Post();
-        $post->setTitle("Title");
+        $post->setTitle('Title');
 
         $this->prepareResolve(
             $this->classResolver,
@@ -214,16 +286,30 @@ class BlogManagerTest extends AbstractManagerTestCase
         );
 
         $form = $this->createMock(FormInterface::class);
-        $form->expects($this->any())->method('isValid')->will($this->returnValue(true));
-        $this->prepareIsGranted($this->authorizationService, 'blog.post.create', $post, true);
-        //check persist
-        $this->objectManager->expects($this->once())->method("persist")->with($this->equalTo($post));
-        //check event trigger
-        $this->eventManager->expects($this->once())->method("trigger")->with(
-            $this->equalTo("create"),
-            $this->equalTo($this->blogManager),
-            $this->equalTo(['post' => $post])
+        $form
+            ->expects($this->any())
+            ->method('isValid')
+            ->will($this->returnValue(true));
+        $this->prepareIsGranted(
+            $this->authorizationService,
+            'blog.post.create',
+            $post,
+            true
         );
+        //check persist
+        $this->objectManager
+            ->expects($this->once())
+            ->method('persist')
+            ->with($this->equalTo($post));
+        //check event trigger
+        $this->eventManager
+            ->expects($this->once())
+            ->method('trigger')
+            ->with(
+                $this->equalTo('create'),
+                $this->equalTo($this->blogManager),
+                $this->equalTo(['post' => $post])
+            );
 
         $this->blogManager->createPost($form);
     }
@@ -234,7 +320,7 @@ class BlogManagerTest extends AbstractManagerTestCase
     public function testCreatePost_NotValid()
     {
         $post = new Post();
-        $post->setTitle("Title");
+        $post->setTitle('Title');
 
         $this->prepareResolve(
             $this->classResolver,
@@ -243,7 +329,10 @@ class BlogManagerTest extends AbstractManagerTestCase
         );
 
         $form = $this->createMock(FormInterface::class);
-        $form->expects($this->any())->method('isValid')->will($this->returnValue(false));
+        $form
+            ->expects($this->any())
+            ->method('isValid')
+            ->will($this->returnValue(false));
         $this->blogManager->createPost($form);
     }
 }

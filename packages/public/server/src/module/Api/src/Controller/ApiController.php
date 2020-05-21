@@ -65,13 +65,17 @@ class ApiController extends AbstractActionController
 
         $aliases = $this->getAliasManager()->findAliases($alias, $instance);
         if (count($aliases) === 0) {
-            $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+            $this->response
+                ->getHeaders()
+                ->addHeaderLine('Content-Type', 'application/json');
             $this->response->setContent('null');
             return $this->response;
         }
 
         $currentAlias = $aliases[0];
-        return new JsonModel($this->getApiManager()->getAliasData($currentAlias));
+        return new JsonModel(
+            $this->getApiManager()->getAliasData($currentAlias)
+        );
     }
 
     private function assertAuthorization()
@@ -93,7 +97,10 @@ class ApiController extends AbstractActionController
         }
 
         $serviceTokenParts = explode('=', $parts[1]);
-        if (count($serviceTokenParts) !== 2 || $serviceTokenParts[0] !== 'Service') {
+        if (
+            count($serviceTokenParts) !== 2 ||
+            $serviceTokenParts[0] !== 'Service'
+        ) {
             return $this->invalidAuthorizationHeader();
         }
 
@@ -139,9 +146,13 @@ class ApiController extends AbstractActionController
 
         try {
             $license = $this->getLicenseManager()->getLicense($id, false);
-            return new JsonModel($this->getApiManager()->getLicenseData($license));
+            return new JsonModel(
+                $this->getApiManager()->getLicenseData($license)
+            );
         } catch (LicenseNotFoundException $exception) {
-            $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+            $this->response
+                ->getHeaders()
+                ->addHeaderLine('Content-Type', 'application/json');
             $this->response->setContent('null');
             return $this->response;
         }
@@ -159,7 +170,9 @@ class ApiController extends AbstractActionController
             $uuid = $this->getUuidManager()->getUuid($id, false, false);
             return new JsonModel($this->getApiManager()->getUuidData($uuid));
         } catch (NotFoundException $exception) {
-            $this->response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+            $this->response
+                ->getHeaders()
+                ->addHeaderLine('Content-Type', 'application/json');
             $this->response->setContent('null');
             return $this->response;
         }

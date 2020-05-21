@@ -32,7 +32,6 @@ use Instance\Entity\InstanceProviderInterface;
  */
 class EventParameterString implements InstanceProviderInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -58,7 +57,7 @@ class EventParameterString implements InstanceProviderInterface
      */
     public function __construct(EventParameter $eventParameter, $value)
     {
-        $this->value          = $value ? $value : '';
+        $this->value = $value ? $value : '';
         $this->eventParameter = $eventParameter;
     }
 

@@ -28,7 +28,6 @@ use Term\Entity\TermEntityInterface;
 
 interface TermManagerInterface extends Flushable
 {
-
     /**
      * @param string            $name
      * @param InstanceInterface $instance

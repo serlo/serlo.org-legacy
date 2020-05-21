@@ -23,54 +23,58 @@
 namespace Instance;
 
 return [
-    'zfc_rbac'           => [
+    'zfc_rbac' => [
         'assertion_map' => [
             'instance.get' => 'Authorization\Assertion\InstanceAssertion',
         ],
     ],
     'doctrine_factories' => [
-        'entitymanager' => __NAMESPACE__ . '\Factory\InstanceAwareEntityManagerFactory',
+        'entitymanager' =>
+            __NAMESPACE__ . '\Factory\InstanceAwareEntityManagerFactory',
     ],
-    'doctrine'           => [
+    'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../src/Entity',
-                ],
+                'paths' => [__DIR__ . '/../src/Entity'],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                 ],
             ],
         ],
     ],
-    'view_helpers'       => [
+    'view_helpers' => [
         'factories' => [
-            'currentLanguage' => __NAMESPACE__ . '\Factory\LanguageHelperFactory',
+            'currentLanguage' =>
+                __NAMESPACE__ . '\Factory\LanguageHelperFactory',
         ],
     ],
-    'service_manager'    => [
-        'invokables' => [
-            __NAMESPACE__ . '\Strategy\StrategyPluginManager',
-        ],
-        'factories'  => [
-            __NAMESPACE__ . '\Manager\InstanceManager'            => __NAMESPACE__ . '\Factory\InstanceManagerFactory',
-            __NAMESPACE__ . '\Options\InstanceOptions'            => __NAMESPACE__ . '\Factory\InstanceOptionsFactory',
-            __NAMESPACE__ . '\Listener\IsolationBypassedListener' => __NAMESPACE__ . '\Factory\IsolationBypassedListenerFactory',
-            'Zend\I18n\Translator\TranslatorInterface'            => 'Zend\I18n\Translator\TranslatorServiceFactory',
+    'service_manager' => [
+        'invokables' => [__NAMESPACE__ . '\Strategy\StrategyPluginManager'],
+        'factories' => [
+            __NAMESPACE__ . '\Manager\InstanceManager' =>
+                __NAMESPACE__ . '\Factory\InstanceManagerFactory',
+            __NAMESPACE__ . '\Options\InstanceOptions' =>
+                __NAMESPACE__ . '\Factory\InstanceOptionsFactory',
+            __NAMESPACE__ . '\Listener\IsolationBypassedListener' =>
+                __NAMESPACE__ . '\Factory\IsolationBypassedListenerFactory',
+            'Zend\I18n\Translator\TranslatorInterface' =>
+                'Zend\I18n\Translator\TranslatorServiceFactory',
         ],
     ],
-    'di'                 => [
+    'di' => [
         'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\Manager\InstanceManagerInterface' => __NAMESPACE__ . '\Manager\InstanceManager',
+                __NAMESPACE__ . '\Manager\InstanceManagerInterface' =>
+                    __NAMESPACE__ . '\Manager\InstanceManager',
             ],
         ],
     ],
-    'class_resolver'     => [
-        __NAMESPACE__ . '\Entity\InstanceInterface' => __NAMESPACE__ . '\Entity\Instance',
+    'class_resolver' => [
+        __NAMESPACE__ . '\Entity\InstanceInterface' =>
+            __NAMESPACE__ . '\Entity\Instance',
     ],
 ];

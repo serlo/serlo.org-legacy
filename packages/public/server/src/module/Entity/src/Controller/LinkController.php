@@ -51,19 +51,35 @@ class LinkController extends AbstractController
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 // todo this really should be done in a hydrator or similar
-                $data        = $form->getData();
-                $from        = $this->getEntityManager()->getEntity($this->params('from'));
-                $to          = $this->getEntityManager()->getEntity($data['to']);
-                $fromType    = $from->getType()->getName();
-                $fromOptions = $this->getModuleOptions()->getType($fromType)->getComponent($type);
-                $toType      = $to->getType()->getName();
-                $toOptions   = $this->getModuleOptions()->getType($toType)->getComponent($type);
+                $data = $form->getData();
+                $from = $this->getEntityManager()->getEntity(
+                    $this->params('from')
+                );
+                $to = $this->getEntityManager()->getEntity($data['to']);
+                $fromType = $from->getType()->getName();
+                $fromOptions = $this->getModuleOptions()
+                    ->getType($fromType)
+                    ->getComponent($type);
+                $toType = $to->getType()->getName();
+                $toOptions = $this->getModuleOptions()
+                    ->getType($toType)
+                    ->getComponent($type);
 
-                $this->getLinkService()->dissociate($from, $entity, $fromOptions);
+                $this->getLinkService()->dissociate(
+                    $from,
+                    $entity,
+                    $fromOptions
+                );
                 $this->getLinkService()->associate($to, $entity, $toOptions);
-                $this->getEntityManager()->getObjectManager()->flush();
-                $this->flashMessenger()->addSuccessMessage('Your changes have been saved.');
-                return $this->redirect()->toUrl($this->referer()->fromStorage());
+                $this->getEntityManager()
+                    ->getObjectManager()
+                    ->flush();
+                $this->flashMessenger()->addSuccessMessage(
+                    'Your changes have been saved.'
+                );
+                return $this->redirect()->toUrl(
+                    $this->referer()->fromStorage()
+                );
             }
         } else {
             $this->referer()->store();
@@ -77,7 +93,7 @@ class LinkController extends AbstractController
     public function orderChildrenAction()
     {
         $entity = $this->getEntity();
-        $scope  = $this->params('type');
+        $scope = $this->params('type');
         $this->assertGranted('entity.link.order', $entity);
 
         if ($this->getRequest()->isPost()) {
@@ -86,14 +102,20 @@ class LinkController extends AbstractController
 
             $this->getLinkService()->sortChildren($entity, $scope, $data);
             $this->getEntityManager()->flush();
-            $this->flashMessenger()->addSuccessMessage('Your changes have been saved.');
+            $this->flashMessenger()->addSuccessMessage(
+                'Your changes have been saved.'
+            );
             return $this->redirect()->toUrl($this->referer()->fromStorage());
         } else {
             $this->referer()->store();
         }
 
         $children = $entity->getValidChildren($scope);
-        $view     = new ViewModel(['entity' => $entity, 'children' => $children, 'scope' => $scope]);
+        $view = new ViewModel([
+            'entity' => $entity,
+            'children' => $children,
+            'scope' => $scope,
+        ]);
         $view->setTemplate('entity/link/order');
         $this->layout('layout/1-col');
         return $view;

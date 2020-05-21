@@ -78,45 +78,60 @@ class DiscussionManager implements DiscussionManagerInterface
         $this->bind($comment, $form);
 
         if ($comment->getParent()->hasParent()) {
-            throw new Exception\RuntimeException(sprintf(
-                'You are trying to comment on a comment, but only commenting a discussion is allowed (comments have parents whilst discussions do not).'
-            ));
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'You are trying to comment on a comment, but only commenting a discussion is allowed (comments have parents whilst discussions do not).'
+                )
+            );
         }
 
         $this->assertGranted('discussion.comment.create', $comment);
         $this->getObjectManager()->persist($comment);
-        $this->getEventManager()->trigger(
-            'comment',
-            $this,
-            [
-                'author'     => $comment->getAuthor(),
-                'comment'    => $comment,
-                'discussion' => $comment->getParent(),
-                'instance'   => $comment->getInstance(),
-                'data'       => $form->getData(),
-            ]
-        );
+        $this->getEventManager()->trigger('comment', $this, [
+            'author' => $comment->getAuthor(),
+            'comment' => $comment,
+            'discussion' => $comment->getParent(),
+            'instance' => $comment->getInstance(),
+            'data' => $form->getData(),
+        ]);
 
         return $comment;
     }
 
-    public function findDiscussionsByInstance(InstanceInterface $instance, $page, $limit = 20)
-    {
+    public function findDiscussionsByInstance(
+        InstanceInterface $instance,
+        $page,
+        $limit = 20
+    ) {
         $this->assertGranted('discussion.get', $instance);
-        $className     = $this->getClassResolver()->resolveClassName($this->entityInterface);
-        $voteClassName = $this->getClassResolver()->resolveClassName('Discussion\Entity\VoteInterface');
+        $className = $this->getClassResolver()->resolveClassName(
+            $this->entityInterface
+        );
+        $voteClassName = $this->getClassResolver()->resolveClassName(
+            'Discussion\Entity\VoteInterface'
+        );
 
         $offset = ($page - 1) * $limit;
         /* @var $om EntityManager */
-        $om    = $this->objectManager;
-        $results = $om->createQueryBuilder()->select('c')->addSelect('SUM(v.vote) AS votes')->from($className, 'c')
+        $om = $this->objectManager;
+        $results = $om
+            ->createQueryBuilder()
+            ->select('c')
+            ->addSelect('SUM(v.vote) AS votes')
+            ->from($className, 'c')
             ->leftJoin($voteClassName, 'v', 'WITH', 'v.comment = c')
-            ->groupBy('c.id')->addGroupBy('v.comment')->orderBy('c.archived', 'ASC')->addOrderBy('c.date', 'DESC')
-            ->addOrderBy('votes', 'DESC')->where('c.instance = :instance_id')->andWhere('c.parent IS NULL')
+            ->groupBy('c.id')
+            ->addGroupBy('v.comment')
+            ->orderBy('c.archived', 'ASC')
+            ->addOrderBy('c.date', 'DESC')
+            ->addOrderBy('votes', 'DESC')
+            ->where('c.instance = :instance_id')
+            ->andWhere('c.parent IS NULL')
             ->setParameter('instance_id', $instance->getId())
             // TODO This could cause performance issues
             //->setMaxResults($limit)->setFirstResult($offset)
-            ->getQuery()->getResult();
+            ->getQuery()
+            ->getResult();
 
         $purified = [];
         foreach ($results as $result) {
@@ -129,12 +144,15 @@ class DiscussionManager implements DiscussionManagerInterface
         return $paginator;
     }
 
-
     public function findDiscussionsOn(UuidInterface $uuid, $archived = null)
     {
-        $className        = $this->getClassResolver()->resolveClassName($this->entityInterface);
-        $objectRepository = $this->getObjectManager()->getRepository($className);
-        $criteria         = ['object' => $uuid->getId()];
+        $className = $this->getClassResolver()->resolveClassName(
+            $this->entityInterface
+        );
+        $objectRepository = $this->getObjectManager()->getRepository(
+            $className
+        );
+        $criteria = ['object' => $uuid->getId()];
         if ($archived !== null) {
             $criteria['archived'] = $archived;
         }
@@ -150,11 +168,15 @@ class DiscussionManager implements DiscussionManagerInterface
 
     public function getComment($id)
     {
-        $className = $this->getClassResolver()->resolveClassName($this->entityInterface);
-        $comment   = $this->getObjectManager()->find($className, $id);
+        $className = $this->getClassResolver()->resolveClassName(
+            $this->entityInterface
+        );
+        $comment = $this->getObjectManager()->find($className, $id);
 
         if (!is_object($comment)) {
-            throw new Exception\CommentNotFoundException(sprintf('Could not find a comment by the id of %s', $id));
+            throw new Exception\CommentNotFoundException(
+                sprintf('Could not find a comment by the id of %s', $id)
+            );
         }
 
         $this->assertGranted('discussion.get', $comment);
@@ -170,25 +192,22 @@ class DiscussionManager implements DiscussionManagerInterface
     public function sortDiscussions(Collection $collection)
     {
         $array = $collection->toArray();
-        uasort(
-            $array,
-            function (CommentInterface $a, CommentInterface $b) {
-                $votesA = $a->countUpVotes() - $a->countDownVotes();
-                $votesB = $b->countUpVotes() - $b->countDownVotes();
+        uasort($array, function (CommentInterface $a, CommentInterface $b) {
+            $votesA = $a->countUpVotes() - $a->countDownVotes();
+            $votesB = $b->countUpVotes() - $b->countDownVotes();
 
-                if ($a->getArchived() && !$b->getArchived()) {
-                    return 1;
-                } elseif (!$a->getArchived() && $b->getArchived()) {
-                    return -1;
-                }
-
-                if ($votesA == $votesB) {
-                    return $a->getId() < $b->getId() ? 1 : -1;
-                }
-
-                return $votesA < $votesB ? 1 : -1;
+            if ($a->getArchived() && !$b->getArchived()) {
+                return 1;
+            } elseif (!$a->getArchived() && $b->getArchived()) {
+                return -1;
             }
-        );
+
+            if ($votesA == $votesB) {
+                return $a->getId() < $b->getId() ? 1 : -1;
+            }
+
+            return $votesA < $votesB ? 1 : -1;
+        });
         array_unique($array);
         return new ArrayCollection($array);
     }
@@ -200,22 +219,20 @@ class DiscussionManager implements DiscussionManagerInterface
         $this->bind($comment, $form);
 
         if ($comment->getObject() instanceof CommentInterface) {
-            throw new Exception\RuntimeException(sprintf('You can\'t discuss a comment!'));
+            throw new Exception\RuntimeException(
+                sprintf('You can\'t discuss a comment!')
+            );
         }
 
         $this->assertGranted('discussion.create', $comment);
         $this->getObjectManager()->persist($comment);
-        $this->getEventManager()->trigger(
-            'start',
-            $this,
-            [
-                'author'     => $comment->getAuthor(),
-                'on'         => $comment->getObject(),
-                'discussion' => $comment,
-                'instance'   => $comment->getInstance(),
-                'data'       => $form->getData(),
-            ]
-        );
+        $this->getEventManager()->trigger('start', $this, [
+            'author' => $comment->getAuthor(),
+            'on' => $comment->getObject(),
+            'discussion' => $comment,
+            'instance' => $comment->getInstance(),
+            'data' => $form->getData(),
+        ]);
 
         return $comment;
     }
@@ -226,7 +243,9 @@ class DiscussionManager implements DiscussionManagerInterface
         $this->assertGranted('discussion.archive', $comment);
 
         if ($comment->hasParent()) {
-            throw new Exception\RuntimeException(sprintf('You can\'t archive a comment, only discussions.'));
+            throw new Exception\RuntimeException(
+                sprintf('You can\'t archive a comment, only discussions.')
+            );
         }
 
         $comment->setArchived(!$comment->getArchived());
@@ -247,11 +266,13 @@ class DiscussionManager implements DiscussionManagerInterface
     protected function bind(CommentInterface $comment, FormInterface $form)
     {
         if (!$form->isValid()) {
-            throw new Exception\RuntimeException(print_r($form->getMessages(), true));
+            throw new Exception\RuntimeException(
+                print_r($form->getMessages(), true)
+            );
         }
 
         $processForm = clone $form;
-        $data        = $form->getData(FormInterface::VALUES_AS_ARRAY);
+        $data = $form->getData(FormInterface::VALUES_AS_ARRAY);
         $processForm->bind($comment);
         $processForm->setData($data);
 

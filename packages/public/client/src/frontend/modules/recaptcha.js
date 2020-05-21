@@ -29,7 +29,7 @@ const bindCallback = (index, $form) => {
   )
 }
 
-const createSubmitCallback = $form => () => {
+const createSubmitCallback = ($form) => () => {
   $form.submit()
 }
 
@@ -39,7 +39,7 @@ const injectReCaptchaScript = () => {
   )
 }
 
-$.fn.ReCaptcha = function() {
+$.fn.ReCaptcha = function () {
   const $forms = $(this)
   $forms.each(bindCallback)
   if ($forms.length > 0) {

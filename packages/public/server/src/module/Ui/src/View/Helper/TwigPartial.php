@@ -57,12 +57,12 @@ class TwigPartial extends Partial
         }
 
         if (is_scalar($values)) {
-            $values = array();
+            $values = [];
         } elseif ($values instanceof ModelInterface) {
             $values = $values->getVariables();
         } elseif (is_object($values)) {
             if (null !== ($objectKey = $this->getObjectKey())) {
-                $values = array($objectKey => $values);
+                $values = [$objectKey => $values];
             } elseif (method_exists($values, 'toArray')) {
                 $values = $values->toArray();
             } else {

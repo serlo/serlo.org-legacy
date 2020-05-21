@@ -70,9 +70,9 @@ class NavigationManager implements NavigationManagerInterface
      */
     protected $interfaces = [
         'container' => 'Navigation\Entity\ContainerInterface',
-        'page'      => 'Navigation\Entity\PageInterface',
+        'page' => 'Navigation\Entity\PageInterface',
         'parameter' => 'Navigation\Entity\ParameterInterface',
-        'key'       => 'Navigation\Entity\ParameterKeyInterface',
+        'key' => 'Navigation\Entity\ParameterKeyInterface',
     ];
 
     /**
@@ -95,10 +95,10 @@ class NavigationManager implements NavigationManagerInterface
         ObjectManager $objectManager,
         TypeManagerInterface $typeManager
     ) {
-        $this->objectManager        = $objectManager;
-        $this->typeManager          = $typeManager;
-        $this->instanceManager      = $instanceManager;
-        $this->classResolver        = $classResolver;
+        $this->objectManager = $objectManager;
+        $this->typeManager = $typeManager;
+        $this->instanceManager = $instanceManager;
+        $this->classResolver = $classResolver;
         $this->authorizationService = $authorizationService;
     }
 
@@ -156,20 +156,24 @@ class NavigationManager implements NavigationManagerInterface
      * @throws ContainerNotFoundException
      * @return ContainerInterface
      */
-    public function findContainerByNameAndInstance($name, InstanceInterface $instance)
-    {
-        $className  = $this->classResolver->resolveClassName($this->interfaces['container']);
-        $repository = $this->objectManager->getRepository($className);
-        $type       = $this->typeManager->findTypeByName($name);
-        $container  = $repository->findOneBy(
-            [
-                'type'     => $type->getId(),
-                'instance' => $instance->getId(),
-            ]
+    public function findContainerByNameAndInstance(
+        $name,
+        InstanceInterface $instance
+    ) {
+        $className = $this->classResolver->resolveClassName(
+            $this->interfaces['container']
         );
+        $repository = $this->objectManager->getRepository($className);
+        $type = $this->typeManager->findTypeByName($name);
+        $container = $repository->findOneBy([
+            'type' => $type->getId(),
+            'instance' => $instance->getId(),
+        ]);
 
         if (!is_object($container)) {
-            throw new ContainerNotFoundException(sprintf("Container %s, %s not found", $type, $instance));
+            throw new ContainerNotFoundException(
+                sprintf('Container %s, %s not found', $type, $instance)
+            );
         }
 
         return $container;
@@ -181,14 +185,14 @@ class NavigationManager implements NavigationManagerInterface
      */
     public function findContainersByInstance(InstanceInterface $instance)
     {
-        $className  = $this->classResolver->resolveClassName($this->interfaces['container']);
+        $className = $this->classResolver->resolveClassName(
+            $this->interfaces['container']
+        );
         $repository = $this->objectManager->getRepository($className);
 
-        return $repository->findBy(
-            [
-                'instance' => $instance->getId(),
-            ]
-        );
+        return $repository->findBy([
+            'instance' => $instance->getId(),
+        ]);
     }
 
     /**
@@ -206,11 +210,15 @@ class NavigationManager implements NavigationManagerInterface
      */
     public function getContainer($id)
     {
-        $className = $this->classResolver->resolveClassName($this->interfaces['container']);
+        $className = $this->classResolver->resolveClassName(
+            $this->interfaces['container']
+        );
         $container = $this->objectManager->find($className, $id);
 
         if (!is_object($container)) {
-            throw new ContainerNotFoundException(sprintf("Container %s not found", $id));
+            throw new ContainerNotFoundException(
+                sprintf('Container %s not found', $id)
+            );
         }
 
         $this->assertGranted('navigation.manage', $container);
@@ -225,11 +233,15 @@ class NavigationManager implements NavigationManagerInterface
      */
     public function getPage($id)
     {
-        $className = $this->classResolver->resolveClassName($this->interfaces['page']);
-        $page      = $this->objectManager->find($className, $id);
+        $className = $this->classResolver->resolveClassName(
+            $this->interfaces['page']
+        );
+        $page = $this->objectManager->find($className, $id);
 
         if (!is_object($page)) {
-            throw new PageNotFoundException(sprintf("Container %s not found", $id));
+            throw new PageNotFoundException(
+                sprintf('Container %s not found', $id)
+            );
         }
         $this->assertGranted('navigation.manage', $page);
 
@@ -243,11 +255,15 @@ class NavigationManager implements NavigationManagerInterface
      */
     public function getParameter($id)
     {
-        $className = $this->classResolver->resolveClassName($this->interfaces['parameter']);
+        $className = $this->classResolver->resolveClassName(
+            $this->interfaces['parameter']
+        );
         $parameter = $this->objectManager->find($className, $id);
 
         if (!is_object($parameter)) {
-            throw new ParameterNotFoundException(sprintf("Container %s not found", $id));
+            throw new ParameterNotFoundException(
+                sprintf('Container %s not found', $id)
+            );
         }
 
         $this->assertGranted('navigation.manage', $parameter);
@@ -260,7 +276,9 @@ class NavigationManager implements NavigationManagerInterface
      */
     public function getParameterKeys()
     {
-        $className = $this->classResolver->resolveClassName($this->interfaces['key']);
+        $className = $this->classResolver->resolveClassName(
+            $this->interfaces['key']
+        );
         return $this->objectManager->getRepository($className)->findAll();
     }
 
@@ -270,7 +288,7 @@ class NavigationManager implements NavigationManagerInterface
     public function getTypes()
     {
         $return = [];
-        $types  = $this->typeManager->findAllTypes();
+        $types = $this->typeManager->findAllTypes();
 
         foreach ($types as $type) {
             if (in_array($type->getName(), $this->types)) {
@@ -364,13 +382,15 @@ class NavigationManager implements NavigationManagerInterface
     protected function bind($object, FormInterface $form)
     {
         $processingForm = clone $form;
-        $data           = $processingForm->getData(FormInterface::VALUES_AS_ARRAY);
+        $data = $processingForm->getData(FormInterface::VALUES_AS_ARRAY);
 
         $processingForm->bind($object);
         $processingForm->setData($data);
 
         if (!$processingForm->isValid()) {
-            throw new RuntimeException(print_r($processingForm->getMessages(), true));
+            throw new RuntimeException(
+                print_r($processingForm->getMessages(), true)
+            );
         }
 
         if ($object instanceof ParameterKeyInterface) {

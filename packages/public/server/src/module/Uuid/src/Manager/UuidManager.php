@@ -83,8 +83,12 @@ class UuidManager implements UuidManagerInterface
      */
     public function findAll()
     {
-        $className = $this->getClassResolver()->resolveClassName('Uuid\Entity\UuidInterface');
-        $entities = $this->getObjectManager()->getRepository($className)->findAll();
+        $className = $this->getClassResolver()->resolveClassName(
+            'Uuid\Entity\UuidInterface'
+        );
+        $entities = $this->getObjectManager()
+            ->getRepository($className)
+            ->findAll();
         return new ArrayCollection($entities);
     }
 
@@ -93,32 +97,56 @@ class UuidManager implements UuidManagerInterface
      */
     public function findTrashed($page, $instance)
     {
-        $className = $this->getClassResolver()->resolveClassName('Uuid\Entity\UuidInterface');
-        $eventLogClassName = $this->getClassResolver()->resolveClassName('Event\Entity\EventLogInterface');
-        $eventTypeClassName = $this->getClassResolver()->resolveClassName('Event\Entity\EventInterface');
-        $entityTypeClassName = $this->getClassResolver()->resolveClassName('Entity\Entity\EntityInterface');
-        $taxonomyTypeClassName = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyInterface');
-        $taxonomyTermTypeClassName = $this->getClassResolver()->resolveClassName('Taxonomy\Entity\TaxonomyTermInterface');
-        $results = $this->objectManager->createQueryBuilder()->select('u')->addSelect('MAX(e.date) AS date')->from($className, 'u')
+        $className = $this->getClassResolver()->resolveClassName(
+            'Uuid\Entity\UuidInterface'
+        );
+        $eventLogClassName = $this->getClassResolver()->resolveClassName(
+            'Event\Entity\EventLogInterface'
+        );
+        $eventTypeClassName = $this->getClassResolver()->resolveClassName(
+            'Event\Entity\EventInterface'
+        );
+        $entityTypeClassName = $this->getClassResolver()->resolveClassName(
+            'Entity\Entity\EntityInterface'
+        );
+        $taxonomyTypeClassName = $this->getClassResolver()->resolveClassName(
+            'Taxonomy\Entity\TaxonomyInterface'
+        );
+        $taxonomyTermTypeClassName = $this->getClassResolver()->resolveClassName(
+            'Taxonomy\Entity\TaxonomyTermInterface'
+        );
+        $results = $this->objectManager
+            ->createQueryBuilder()
+            ->select('u')
+            ->addSelect('MAX(e.date) AS date')
+            ->from($className, 'u')
             ->leftJoin($eventLogClassName, 'e', 'WITH', 'e.uuid = u')
             ->leftJoin($eventTypeClassName, 't', 'WITH', 'e.event = t')
             ->leftJoin($entityTypeClassName, 'ent', 'WITH', 'u.id = ent.id')
             ->leftJoin($taxonomyTermTypeClassName, 'tt', 'WITH', 'u = tt')
-            ->leftJoin($taxonomyTypeClassName, 'tax', 'WITH', 'tt.taxonomy = tax')
+            ->leftJoin(
+                $taxonomyTypeClassName,
+                'tax',
+                'WITH',
+                'tt.taxonomy = tax'
+            )
             ->where('u.trashed = :trashed')
             ->andWhere('t.name = :type')
             ->andWhere('ent.instance = :instance OR ent.instance IS NULL')
             ->andWhere('tax.instance = :instance OR tax.instance IS NULL')
             ->groupBy('u')
             ->orderBy('date', 'DESC')
-            ->setParameter('trashed', true)->setParameter('type', 'uuid/trash')->setParameter('instance', $instance)
-            ->getQuery()->getResult();
+            ->setParameter('trashed', true)
+            ->setParameter('type', 'uuid/trash')
+            ->setParameter('instance', $instance)
+            ->getQuery()
+            ->getResult();
 
         $purified = [];
         foreach ($results as $result) {
             $purified[] = [
-                "entity" => $result[0],
-                "date" => new \DateTime($result["date"]),
+                'entity' => $result[0],
+                'date' => new \DateTime($result['date']),
             ];
         }
         $paginator = new Paginator(new ArrayAdapter($purified));
@@ -130,13 +158,22 @@ class UuidManager implements UuidManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function getUuid($key, $bypassIsolation = false, $instanceAware = true)
-    {
+    public function getUuid(
+        $key,
+        $bypassIsolation = false,
+        $instanceAware = true
+    ) {
         $previous = $this->objectManager->getBypassIsolation();
         $this->objectManager->setBypassIsolation($bypassIsolation);
 
-        $className = $this->getClassResolver()->resolveClassName('Uuid\Entity\UuidInterface');
-        $entity = $this->getObjectManager()->find($className, $key, $instanceAware);
+        $className = $this->getClassResolver()->resolveClassName(
+            'Uuid\Entity\UuidInterface'
+        );
+        $entity = $this->getObjectManager()->find(
+            $className,
+            $key,
+            $instanceAware
+        );
         $this->objectManager->setBypassIsolation($previous);
 
         if (!is_object($entity)) {
@@ -162,35 +199,50 @@ class UuidManager implements UuidManagerInterface
     public function clearDeadUuids()
     {
         $classes = [
-            "taxonomyTerm" => TaxonomyTermInterface::class,
-            "user" => UserInterface::class,
-            "attachment" => ContainerInterface::class,
-            "blogPost" => PostInterface::class,
-            "entity" => EntityInterface::class,
-            "entityRevision" => RevisionInterface::class,
-            "page" => PageRepositoryInterface::class,
-            "pageRevision" => PageRevisionInterface::class,
-            "comment" => CommentInterface::class,
+            'taxonomyTerm' => TaxonomyTermInterface::class,
+            'user' => UserInterface::class,
+            'attachment' => ContainerInterface::class,
+            'blogPost' => PostInterface::class,
+            'entity' => EntityInterface::class,
+            'entityRevision' => RevisionInterface::class,
+            'page' => PageRepositoryInterface::class,
+            'pageRevision' => PageRevisionInterface::class,
+            'comment' => CommentInterface::class,
         ];
-        $uuidClass = $this->getClassResolver()->resolveClassName(UuidInterface::class);
+        $uuidClass = $this->getClassResolver()->resolveClassName(
+            UuidInterface::class
+        );
 
         foreach ($classes as $discriminator => $className) {
             $subClass = $this->getClassResolver()->resolveClassName($className);
             $qb = $this->objectManager->createQueryBuilder();
-            $toDelete = $qb->select('u.id')->from($uuidClass, 'u')->leftJoin($subClass, 's', 'WITH', 's = u')
+            $toDelete = $qb
+                ->select('u.id')
+                ->from($uuidClass, 'u')
+                ->leftJoin($subClass, 's', 'WITH', 's = u')
                 ->where($qb->expr()->isInstanceOf('u', $subClass))
                 ->andWhere($qb->expr()->isNull('s.id'))
-                ->getQuery()->getResult();
+                ->getQuery()
+                ->getResult();
             if (count($toDelete) > 0) {
                 foreach ($toDelete as $u) {
-                    $this->getEventManager()->trigger('remove', $this, ['id' => $u['id']]);
+                    $this->getEventManager()->trigger('remove', $this, [
+                        'id' => $u['id'],
+                    ]);
                 }
-                $this->objectManager->createQueryBuilder()
+                $this->objectManager
+                    ->createQueryBuilder()
                     ->delete($uuidClass, 'u')
-                    ->where($qb->expr()->in('u.id', array_map(function ($u) {
-                        return $u['id'];
-                    }, $toDelete)))
-                    ->getQuery()->getResult();
+                    ->where(
+                        $qb->expr()->in(
+                            'u.id',
+                            array_map(function ($u) {
+                                return $u['id'];
+                            }, $toDelete)
+                        )
+                    )
+                    ->getQuery()
+                    ->getResult();
             }
         }
     }
@@ -212,7 +264,9 @@ class UuidManager implements UuidManagerInterface
         $uuid->setTrashed(false);
         $this->getObjectManager()->persist($uuid);
 
-        $this->getEventManager()->trigger('restore', $this, ['object' => $uuid]);
+        $this->getEventManager()->trigger('restore', $this, [
+            'object' => $uuid,
+        ]);
     }
 
     /**
@@ -249,10 +303,14 @@ class UuidManager implements UuidManagerInterface
         } elseif ($idOrObject instanceof UuidInterface) {
             $uuid = $idOrObject;
         } else {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Expected int, UuidInterface or UuidInterface but got "%s"',
-                (is_object($idOrObject) ? get_class($idOrObject) : gettype($idOrObject))
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'Expected int, UuidInterface or UuidInterface but got "%s"',
+                    is_object($idOrObject)
+                        ? get_class($idOrObject)
+                        : gettype($idOrObject)
+                )
+            );
         }
 
         return $uuid;

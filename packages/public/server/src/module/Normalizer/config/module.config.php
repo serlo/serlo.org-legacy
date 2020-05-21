@@ -32,39 +32,41 @@
 namespace Normalizer;
 
 return [
-    'view_helpers'    => [
+    'view_helpers' => [
         'factories' => [
             'normalize' => __NAMESPACE__ . '\Factory\NormalizeHelperFactory',
         ],
     ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Normalizer'      => __NAMESPACE__ . '\Factory\NormalizerFactory',
-            __NAMESPACE__ . '\Storage\Storage' => __NAMESPACE__ . '\Factory\NormalizerStorageFactory',
+            __NAMESPACE__ . '\Normalizer' =>
+                __NAMESPACE__ . '\Factory\NormalizerFactory',
+            __NAMESPACE__ . '\Storage\Storage' =>
+                __NAMESPACE__ . '\Factory\NormalizerStorageFactory',
         ],
     ],
-    'normalizer'      => [
+    'normalizer' => [
         'strategies' => [
-            __NAMESPACE__ . '\Strategy\AttachmentStrategy'     => [],
-            __NAMESPACE__ . '\Strategy\CommentStrategy'        => [],
+            __NAMESPACE__ . '\Strategy\AttachmentStrategy' => [],
+            __NAMESPACE__ . '\Strategy\CommentStrategy' => [],
             __NAMESPACE__ . '\Strategy\EntityRevisionStrategy' => [],
-            __NAMESPACE__ . '\Strategy\EntityStrategy'         => [],
+            __NAMESPACE__ . '\Strategy\EntityStrategy' => [],
             __NAMESPACE__ . '\Strategy\PageRepositoryStrategy' => [],
-            __NAMESPACE__ . '\Strategy\PageRevisionStrategy'   => [],
-            __NAMESPACE__ . '\Strategy\PostStrategy'           => [],
-            __NAMESPACE__ . '\Strategy\TaxonomyTermStrategy'   => [],
-            __NAMESPACE__ . '\Strategy\UserStrategy'           => [],
+            __NAMESPACE__ . '\Strategy\PageRevisionStrategy' => [],
+            __NAMESPACE__ . '\Strategy\PostStrategy' => [],
+            __NAMESPACE__ . '\Strategy\TaxonomyTermStrategy' => [],
+            __NAMESPACE__ . '\Strategy\UserStrategy' => [],
         ],
     ],
-    'di'              => [
+    'di' => [
         'allowed_controllers' => [
             __NAMESPACE__ . '\Controller\SignpostController',
             __NAMESPACE__ . '\Controller\SitemapController',
         ],
-        'definition'          => [
+        'definition' => [
             'class' => [
                 __NAMESPACE__ . '\Controller\SignpostController' => [
-                    'setNormalizer'  => [
+                    'setNormalizer' => [
                         'required' => true,
                     ],
                     'setUuidManager' => [
@@ -73,96 +75,104 @@ return [
                 ],
             ],
         ],
-        'instance'            => [
+        'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\NormalizerInterface' => __NAMESPACE__ . '\Normalizer',
+                __NAMESPACE__ . '\NormalizerInterface' =>
+                    __NAMESPACE__ . '\Normalizer',
             ],
         ],
     ],
-    'console'         => [
+    'console' => [
         'router' => [
             'routes' => [
                 'sitemap' => [
                     'options' => [
-                        'route'    => 'sitemap',
+                        'route' => 'sitemap',
                         'defaults' => [
-                            'controller' => __NAMESPACE__ . '\Controller\SitemapController',
-                            'action'     => 'index',
+                            'controller' =>
+                                __NAMESPACE__ . '\Controller\SitemapController',
+                            'action' => 'index',
                         ],
                     ],
                 ],
             ],
         ],
     ],
-    'router'          => [
+    'router' => [
         'routes' => [
             'meta' => [
-                'type'    => 'segment',
+                'type' => 'segment',
                 'options' => [
-                    'route'    => '/meta/:id',
+                    'route' => '/meta/:id',
                     'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\SignpostController',
-                        'action'     => 'meta',
+                        'controller' =>
+                            __NAMESPACE__ . '\Controller\SignpostController',
+                        'action' => 'meta',
                     ],
                 ],
             ],
             'normalizer' => [
-                'type'         => 'segment',
-                'options'      => [
+                'type' => 'segment',
+                'options' => [
                     'route' => '',
                 ],
                 'child_routes' => [
                     'signpost' => [
-                        'type'    => 'segment',
+                        'type' => 'segment',
                         'options' => [
-                            'route'    => '/ref/:object',
+                            'route' => '/ref/:object',
                             'defaults' => [
-                                'controller' => __NAMESPACE__ . '\Controller\SignpostController',
-                                'action'     => 'ref',
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\SignpostController',
+                                'action' => 'ref',
                             ],
                         ],
                     ],
                 ],
             ],
-            'sitemap'    => [
-                'type'    => 'literal',
+            'sitemap' => [
+                'type' => 'literal',
                 'options' => [
-                    'route'    => '/sitemap',
+                    'route' => '/sitemap',
                     'defaults' => [
-                        'controller' => __NAMESPACE__ . '\Controller\SitemapController',
+                        'controller' =>
+                            __NAMESPACE__ . '\Controller\SitemapController',
                     ],
                 ],
                 'child_routes' => [
                     'uuid' => [
-                        'type'    => 'literal',
-                        'options'  => [
-                            'route'    => '/uuid.xml',
-                            'defaults'    => [
-                                'action'     => 'uuid',
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/uuid.xml',
+                            'defaults' => [
+                                'action' => 'uuid',
                             ],
                         ],
                     ],
                     'navigation' => [
-                        'type'    => 'literal',
-                        'options'  => [
-                            'route'    => '/nav.xml',
-                            'defaults'    => [
-                                'action'     => 'index',
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/nav.xml',
+                            'defaults' => [
+                                'action' => 'index',
                             ],
                         ],
                     ],
                 ],
             ],
-            'uuid'       => [
+            'uuid' => [
                 'child_routes' => [
                     'get' => [
-                        'type'     => 'segment',
+                        'type' => 'segment',
                         'priority' => -9000,
-                        'options'  => [
-                            'route'       => '/:uuid',
-                            'defaults'    => [
-                                'controller' => __NAMESPACE__ . '\Controller\SignpostController',
-                                'action'     => 'index',
+                        'options' => [
+                            'route' => '/:uuid',
+                            'defaults' => [
+                                'controller' =>
+                                    __NAMESPACE__ .
+                                    '\Controller\SignpostController',
+                                'action' => 'index',
                             ],
                             'constraints' => [
                                 'uuid' => '[0-9]+',

@@ -39,9 +39,9 @@ class BrandPluginFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator  = $serviceLocator->getServiceLocator();
+        $serviceLocator = $serviceLocator->getServiceLocator();
         $instanceManager = $this->getInstanceManager($serviceLocator);
-        $options         = $serviceLocator->get('Ui\Options\BrandHelperOptions');
+        $options = $serviceLocator->get('Ui\Options\BrandHelperOptions');
         return new Brand($options, $instanceManager);
     }
 }

@@ -27,10 +27,9 @@ return [
         'guards' => [
             'ZfcRbac\Guard\ControllerGuard' => [
                 [
-                    'controller' => __NAMESPACE__ . '\Controller\ContextController',
-                    'roles'      => [
-                        'admin',
-                    ],
+                    'controller' =>
+                        __NAMESPACE__ . '\Controller\ContextController',
+                    'roles' => ['admin'],
                 ],
             ],
         ],

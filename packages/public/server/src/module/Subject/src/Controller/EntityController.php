@@ -28,9 +28,9 @@ class EntityController extends AbstractController
 {
     public function trashBinAction()
     {
-        $subject  = $this->getSubject();
+        $subject = $this->getSubject();
         $entities = $this->getSubjectManager()->getTrashedEntities($subject);
-        $view     = new ViewModel(['entities' => $entities, 'subject' => $subject]);
+        $view = new ViewModel(['entities' => $entities, 'subject' => $subject]);
         $view->setTemplate('subject/entity/trash-bin');
         return $view;
     }

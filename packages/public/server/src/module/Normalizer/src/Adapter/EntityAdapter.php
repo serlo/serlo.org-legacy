@@ -65,23 +65,24 @@ class EntityAdapter extends AbstractAdapter
     protected function getField($field, $default = '')
     {
         $entity = $this->getObject();
-        $id     = $entity->getId();
+        $id = $entity->getId();
 
         if (is_array($field)) {
             $fields = $field;
-            $value  = '';
+            $value = '';
             foreach ($fields as $field) {
-                $value = $this->getField((string)$field);
+                $value = $this->getField((string) $field);
                 if ($value && $value != $id) {
                     break;
                 }
             }
 
-            return $value ? : $id;
+            return $value ?: $id;
         }
 
-
-        $revision = $entity->hasCurrentRevision() ? $entity->getCurrentRevision() : $entity->getHead();
+        $revision = $entity->hasCurrentRevision()
+            ? $entity->getCurrentRevision()
+            : $entity->getHead();
 
         if (!$revision) {
             return $default;
@@ -89,7 +90,7 @@ class EntityAdapter extends AbstractAdapter
 
         $value = $revision->get($field);
 
-        return $value ? : $id;
+        return $value ?: $id;
     }
 
     protected function getId()
@@ -99,7 +100,7 @@ class EntityAdapter extends AbstractAdapter
 
     protected function getKeywords()
     {
-        $entity   = $this->getObject();
+        $entity = $this->getObject();
         $keywords = [];
         $terms = $entity->getTaxonomyTerms();
         if (!$terms->count()) {
@@ -111,7 +112,7 @@ class EntityAdapter extends AbstractAdapter
         foreach ($terms as $term) {
             while ($term->hasParent()) {
                 $keywords[] = $term->getName();
-                $term       = $term->getParent();
+                $term = $term->getParent();
             }
         }
         return array_unique($keywords);
@@ -153,7 +154,9 @@ class EntityAdapter extends AbstractAdapter
 
     protected function getType()
     {
-        return $this->getObject()->getType()->getName();
+        return $this->getObject()
+            ->getType()
+            ->getName();
     }
 
     protected function isTrashed()
@@ -183,17 +186,19 @@ class EntityAdapter extends AbstractAdapter
         }
 
         if ($type === 'course-page') {
-            $parent = $this->getObject()->getParents('link')->first();
+            $parent = $this->getObject()
+                ->getParents('link')
+                ->first();
             $parentAdapter = new EntityAdapter();
             $parentAdapter->setTranslator($this->translator);
             $parentTitle = $parentAdapter->normalize($parent)->getTitle();
-            $title = $parentTitle . " | " . $title;
+            $title = $parentTitle . ' | ' . $title;
         }
 
         //add "(Kurs)" etc
         if ($type !== 'article') {
-            if (strlen($title) < ($maxStringLen-strlen($typeName))) {
-                $title .=  ' (' . $typeName . ')';
+            if (strlen($title) < $maxStringLen - strlen($typeName)) {
+                $title .= ' (' . $typeName . ')';
             }
         }
 
@@ -209,10 +214,15 @@ class EntityAdapter extends AbstractAdapter
         }
 
         if ($this->getType() === 'course-page') {
-            $parent = $this->getObject()->getParents('link')->first();
+            $parent = $this->getObject()
+                ->getParents('link')
+                ->first();
             $parentAdapter = new EntityAdapter();
             $parentAdapter->setTranslator($this->translator);
-            $description = $parentAdapter->normalize($parent)->getMetaData()->getMetaDescription();
+            $description = $parentAdapter
+                ->normalize($parent)
+                ->getMetaData()
+                ->getMetaDescription();
         }
 
         return $description;

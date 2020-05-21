@@ -30,7 +30,7 @@ function selectForum(e) {
 
   e.preventDefault()
 
-  $.get(url, function(data) {
+  $.get(url, function (data) {
     var $modal = $(
       '<div class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">' +
         t("You're almost done!") +
@@ -42,7 +42,7 @@ function selectForum(e) {
     $('.modal-body', $modal).html(data)
     $modal.modal('show')
 
-    $('button.select').click(function() {
+    $('button.select').click(function () {
       var $this = $(this)
       var href = $this.data('action')
 
@@ -60,8 +60,8 @@ function selectForum(e) {
   return false
 }
 
-ForumSelect = function() {
-  return $(this).each(function() {
+ForumSelect = function () {
+  return $(this).each(function () {
     var $that = $(this)
     if ($that.data('select-forum-href')) {
       $that.on('submit', selectForum)

@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 /* eslint-disable */
-;(function() {
+;(function () {
   var Pos = CodeMirror.Pos
 
   function SearchCursor(doc, query, pos, caseFold) {
@@ -40,7 +40,7 @@
       if (!query.global) {
         query = new RegExp(query.source, query.ignoreCase ? 'ig' : 'g')
       }
-      this.matches = function(reverse, pos) {
+      this.matches = function (reverse, pos) {
         if (reverse) {
           query.lastIndex = 0
           var line = doc.getLine(pos.line).slice(0, pos.ch),
@@ -76,7 +76,7 @@
           return {
             from: Pos(pos.line, start),
             to: Pos(pos.line, start + matchLen),
-            match: match
+            match: match,
           }
         }
       }
@@ -84,10 +84,10 @@
       // String query
       if (caseFold) query = query.toLowerCase()
       var fold = caseFold
-        ? function(str) {
+        ? function (str) {
             return str.toLowerCase()
           }
-        : function(str) {
+        : function (str) {
             return str
           }
       var target = query.split('\n')
@@ -96,9 +96,9 @@
         if (!query.length) {
           // Empty string would match anything and never progress, so
           // we define it to match nothing instead.
-          this.matches = function() {}
+          this.matches = function () {}
         } else {
-          this.matches = function(reverse, pos) {
+          this.matches = function (reverse, pos) {
             var line = fold(doc.getLine(pos.line)),
               len = query.length,
               match
@@ -110,13 +110,13 @@
             ) {
               return {
                 from: Pos(pos.line, match),
-                to: Pos(pos.line, match + len)
+                to: Pos(pos.line, match + len),
               }
             }
           }
         }
       } else {
-        this.matches = function(reverse, pos) {
+        this.matches = function (reverse, pos) {
           var ln = pos.line,
             idx = reverse ? target.length - 1 : 0,
             match = target[idx],
@@ -159,14 +159,14 @@
   }
 
   SearchCursor.prototype = {
-    findNext: function() {
+    findNext: function () {
       return this.find(false)
     },
-    findPrevious: function() {
+    findPrevious: function () {
       return this.find(true)
     },
 
-    find: function(reverse) {
+    find: function (reverse) {
       var self = this,
         pos = this.doc.clipPos(reverse ? this.pos.from : this.pos.to)
       function savePosAndFail(line) {
@@ -195,14 +195,14 @@
       }
     },
 
-    from: function() {
+    from: function () {
       if (this.atOccurrence) return this.pos.from
     },
-    to: function() {
+    to: function () {
       if (this.atOccurrence) return this.pos.to
     },
 
-    replace: function(newText) {
+    replace: function (newText) {
       if (!this.atOccurrence) return
       var lines = CodeMirror.splitLines(newText)
       this.doc.replaceRange(lines, this.pos.from, this.pos.to)
@@ -211,13 +211,17 @@
         lines[lines.length - 1].length +
           (lines.length == 1 ? this.pos.from.ch : 0)
       )
-    }
+    },
   }
 
-  CodeMirror.defineExtension('getSearchCursor', function(query, pos, caseFold) {
+  CodeMirror.defineExtension('getSearchCursor', function (
+    query,
+    pos,
+    caseFold
+  ) {
     return new SearchCursor(this.doc, query, pos, caseFold)
   })
-  CodeMirror.defineDocExtension('getSearchCursor', function(
+  CodeMirror.defineDocExtension('getSearchCursor', function (
     query,
     pos,
     caseFold
