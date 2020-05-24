@@ -54,7 +54,7 @@ test('view topic page with subtopics', async () => {
   await expect(topic).toHaveTitle('Example content (topic)')
 })
 
-test('view topic page with entites and topic folders', async () => {
+test('view topic page with entities and topic folders', async () => {
   const topicPath = '/math/example-content/example-topic-1'
   const topic = await goto(topicPath).then(getMainContent)
 
