@@ -448,7 +448,7 @@ MUTATION;
                 \$date: DateTime!
                 \$currentRevisionId: Int
                 \$licenseId: Int!
-                \$solutionId: Int!
+                \$solutionId: Int
                 \$taxonomyTermIds: [Int!]!
             ) {
                 _setExercise(
@@ -510,7 +510,7 @@ MUTATION;
                 \$date: DateTime!
                 \$currentRevisionId: Int
                 \$licenseId: Int!
-                \$solutionId: Int!
+                \$solutionId: Int
                 \$parentId: Int!
             ) {
                 _setGroupedExercise(
