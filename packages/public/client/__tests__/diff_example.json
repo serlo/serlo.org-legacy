@@ -1,0 +1,801 @@
+{
+  "plugin": "rows",
+  "state": [
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "Ein Kreis beschreibt die Menge aller Punkte, die denselben Abstand "
+            },
+            {
+              "type": "math",
+              "src": "r",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": " zum Mittelpunkt "
+            },
+            {
+              "type": "math",
+              "src": "M",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": " besitzen. In diesem Artikel lernst du die folgenden Formeln kennen:\\r"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "unordered-list",
+          "children": [
+            {
+              "type": "list-item",
+              "children": [
+                {
+                  "type": "list-item-child",
+                  "children": [
+                    {
+                      "text": ""
+                    },
+                    {
+                      "type": "a",
+                      "href": "#umfang",
+                      "children": [
+                        {
+                          "text": "Berechnung des Umfangs\\r"
+                        }
+                      ]
+                    },
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                {
+                  "type": "list-item-child",
+                  "children": [
+                    {
+                      "text": ""
+                    },
+                    {
+                      "type": "a",
+                      "href": "#bogen",
+                      "children": [
+                        {
+                          "text": "Berechnung der Kreisbogenlänge"
+                        }
+                      ]
+                    },
+                    {
+                      "text": "\\r"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "image",
+      "state": {
+        "src": "https://assets.serlo.org/legacy/58ef269467e34_35c96883eb85496db4814393e6c1babd5e3987c1.png",
+        "maxWidth": 400
+      }
+    },
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "h",
+          "level": 2,
+          "children": [
+            {
+              "text": "Zusammenfassung"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "unordered-list",
+          "children": [
+            {
+              "type": "list-item",
+              "children": [
+                {
+                  "type": "list-item-child",
+                  "children": [
+                    {
+                      "text": "Umfang",
+                      "strong": true
+                    },
+                    {
+                      "text": ": "
+                    },
+                    {
+                      "type": "math",
+                      "src": "U=2\\\\pi r",
+                      "inline": true,
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ]
+                    },
+                    {
+                      "text": "",
+                      "strong": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                {
+                  "type": "list-item-child",
+                  "children": [
+                    {
+                      "text": "Kreisbogenlänge:",
+                      "strong": true
+                    },
+                    {
+                      "text": " "
+                    },
+                    {
+                      "type": "math",
+                      "src": "b=U\\\\cdot\\\\frac{\\\\alpha}{360^{\\\\circ}}",
+                      "inline": true,
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ]
+                    },
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "anchor",
+      "state": "umfang"
+    },
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "h",
+          "level": 2,
+          "children": [
+            {
+              "text": "Bestimmung des Umfangs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "Den "
+            },
+            {
+              "type": "a",
+              "href": "https://de.serlo.org/36162",
+              "children": [
+                {
+                  "text": "Umfang"
+                }
+              ]
+            },
+            {
+              "text": " erhältst du durch Abrollen des "
+            },
+            {
+              "type": "a",
+              "href": "https://de.serlo.org/36162",
+              "children": [
+                {
+                  "text": "Kreises"
+                }
+              ]
+            },
+            {
+              "text": " und messen der abgerollten "
+            },
+            {
+              "type": "a",
+              "href": "https://de.serlo.org/1953",
+              "children": [
+                {
+                  "text": "Strecke"
+                }
+              ]
+            },
+            {
+              "text": ". Auf diese Weise kannst du die "
+            },
+            {
+              "type": "a",
+              "href": "https://de.serlo.org/2107",
+              "children": [
+                {
+                  "text": "Kreiszahl"
+                }
+              ]
+            },
+            {
+              "text": " "
+            },
+            {
+              "type": "math",
+              "src": "\\\\pi",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": " definieren.\\r"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "\\r"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "In der Abbildung rechts siehst du, wie ein Kreis mit "
+            },
+            {
+              "type": "a",
+              "href": "https://de.serlo.org/36162",
+              "children": [
+                {
+                  "text": "Durchmesser"
+                }
+              ]
+            },
+            {
+              "text": " "
+            },
+            {
+              "type": "math",
+              "src": "d=1",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": " abgerollt wird.\\r"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "image",
+      "state": {
+        "src": "https://assets.serlo.org/legacy/58eb97b7e5376_7d4211710d8bab642798e39e07788e6f2912e86a.gif"
+      }
+    },
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "Sein Umfang beträgt "
+            },
+            {
+              "type": "math",
+              "src": "\\\\pi",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": ", also etwa "
+            },
+            {
+              "type": "math",
+              "src": "3,14",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": ".    \\r"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "Für den Umfang findest du so den folgenden Zusammenhang: \\r"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": ""
+            },
+            {
+              "type": "math",
+              "src": "U=2\\\\cdot r\\\\cdot\\\\pi=d\\\\cdot\\\\pi",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": "\\r"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "h",
+          "level": 3,
+          "children": [
+            {
+              "text": "Applett (nicht ganz zum Thema)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "geogebra",
+      "state": "https://www.geogebra.org/m/JkhUAAYY"
+    },
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "Hier siehst du, wie du einen "
+            },
+            {
+              "text": "Umkreis ",
+              "strong": true
+            },
+            {
+              "text": "konstruierst. "
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "Hat zwar nichts mit dem Thema zu tun, aber trotzdem schön!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "spoiler",
+      "state": {
+        "title": "Übung",
+        "content": {
+          "plugin": "rows",
+          "state": [
+            {
+              "plugin": "text",
+              "state": [
+                {
+                  "type": "p",
+                  "children": [
+                    {
+                      "text": "Ein Kreis hat den Radius "
+                    },
+                    {
+                      "type": "math",
+                      "src": "r=\\\\ 3\\\\ cm",
+                      "inline": true,
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ]
+                    },
+                    {
+                      "text": ". Berechne seinen Umfang. Runde auf eine ganze Zahl. Verwende "
+                    },
+                    {
+                      "type": "math",
+                      "src": "\\\\pi=3,14",
+                      "inline": true,
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ]
+                    },
+                    {
+                      "text": "!"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "plugin": "inputExercise",
+              "state": {
+                "type": "Text",
+                "unit": "",
+                "answers": [
+                  {
+                    "value": "19",
+                    "isCorrect": true,
+                    "feedback": {
+                      "plugin": "text",
+                      "state": []
+                    }
+                  },
+                  {
+                    "value": "18",
+                    "isCorrect": false,
+                    "feedback": {
+                      "plugin": "text",
+                      "state": [
+                        {
+                          "type": "p",
+                          "children": [
+                            {
+                              "text": "Hast du für "
+                            },
+                            {
+                              "type": "math",
+                              "src": "\\\\pi=\\\\ 3,14\\\\ ",
+                              "inline": true,
+                              "children": [
+                                {
+                                  "text": ""
+                                }
+                              ]
+                            },
+                            {
+                              "text": "verwendet?"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "plugin": "anchor",
+      "state": "bogen"
+    },
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "h",
+          "level": 2,
+          "children": [
+            {
+              "text": "Berechnung der Kreisbogenlänge"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": " Die "
+            },
+            {
+              "type": "a",
+              "href": "https://de.serlo.org/36162",
+              "children": [
+                {
+                  "text": "Kreisbogenlänge"
+                }
+              ]
+            },
+            {
+              "text": " "
+            },
+            {
+              "type": "math",
+              "src": "b",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": " kannst du über den vom Kreissektor eingeschlossenen "
+            },
+            {
+              "type": "a",
+              "href": "https://de.serlo.org/1707",
+              "children": [
+                {
+                  "text": "Winkel"
+                }
+              ]
+            },
+            {
+              "text": " "
+            },
+            {
+              "type": "math",
+              "src": "\\\\alpha",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": " und den "
+            },
+            {
+              "type": "a",
+              "href": "https://de.serlo.org/1557",
+              "children": [
+                {
+                  "text": "Radius"
+                }
+              ]
+            },
+            {
+              "text": " "
+            },
+            {
+              "type": "math",
+              "src": "r",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": " bestimmen.  \\r"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "\\r"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "Der Kreis hat einen Innenwinkel von "
+            },
+            {
+              "type": "math",
+              "src": "360^{\\\\circ}",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": "."
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "Das Verhältnis des Winkels "
+            },
+            {
+              "type": "math",
+              "src": "\\\\alpha",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": " zu "
+            },
+            {
+              "type": "math",
+              "src": "360\\\\degree",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": " , gibt dir den Anteil der Kreisbogenlänge "
+            },
+            {
+              "type": "math",
+              "src": "b",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": " vom Umfang "
+            },
+            {
+              "type": "math",
+              "src": "U\\\\ ",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": "an.\\r"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "Du erhältst so die Formel:  \\r"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "\\r"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": ""
+            },
+            {
+              "type": "math",
+              "src": "b=\\\\frac{\\\\alpha}{360^{\\\\circ}}\\\\cdot U=\\\\frac{\\\\alpha}{360^{\\\\circ}}\\\\cdot2\\\\pi r",
+              "inline": true,
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "image",
+      "state": {
+        "src": "https://assets.serlo.org/legacy/58ecbe6a58ce5_08c8e0a67329de398b57f2611d115762e72ecd08.png",
+        "maxWidth": 300
+      }
+    },
+    {
+      "plugin": "text",
+      "state": [
+        {
+          "type": "h",
+          "level": 2,
+          "children": [
+            {
+              "text": "Video zum Thema"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plugin": "video",
+      "state": {
+        "src": "https://youtu.be/B8eVrg1ki5g",
+        "alt": ""
+      }
+    }
+  ]
+}

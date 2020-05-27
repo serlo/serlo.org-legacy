@@ -49,7 +49,8 @@
     "selection-position": "^1.0.0",
     "string": "^3.0.0",
     "styled-components": "^5.0.0",
-    "underscore": "^1.0.0"
+    "underscore": "^1.0.0",
+    "js-yaml": "^3.14.0"
   },
   "devDependencies": {
     "@babel/register": "^7.0.0",
