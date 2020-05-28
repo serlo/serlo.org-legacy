@@ -25,6 +25,26 @@ namespace CommonTest;
 use Common\Utils;
 use PHPUnit\Framework\TestCase;
 
+class UtilsArrayEveryTest extends TestCase
+{
+    public function testReturnsTrueIfAllElementsAreTrue()
+    {
+        $this->assertTrue(Utils::array_every([true]));
+        $this->assertTrue(Utils::array_every([true, true]));
+    }
+
+    public function testReturnsFalseIfOneElementIsFalse()
+    {
+        $this->assertFalse(Utils::array_every([false]));
+        $this->assertFalse(Utils::array_every([true, true, false]));
+    }
+
+    public function testReturnsTrueForEmptySet()
+    {
+        $this->assertTrue(Utils::array_every([]));
+    }
+}
+
 class UtilsArrayFlatmapTest extends TestCase
 {
     private $duplicateFunc;
@@ -61,5 +81,25 @@ class UtilsArrayFlatmapTest extends TestCase
     public function testReturnsEmptySetForEmptySet()
     {
         $this->assertEmpty(Utils::array_flatmap(function () {}, []));
+    }
+}
+
+class UtilsArraySomeTest extends TestCase
+{
+    public function testReturnsTrueOneElementIsTrue()
+    {
+        $this->assertTrue(Utils::array_some([true]));
+        $this->assertTrue(Utils::array_some([false, true, false]));
+    }
+
+    public function testReturnsFalseIfAllElementAreFalse()
+    {
+        $this->assertFalse(Utils::array_some([false]));
+        $this->assertFalse(Utils::array_some([false, false, false]));
+    }
+
+    public function testReturnsFalseForEmptySet()
+    {
+        $this->assertFalse(Utils::array_some([]));
     }
 }

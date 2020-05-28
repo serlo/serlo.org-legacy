@@ -25,7 +25,9 @@ namespace Versioning\Factory;
 use ClassResolver\ClassResolverFactoryTrait;
 use Common\Factory\AuthorizationServiceFactoryTrait;
 use Common\Factory\EntityManagerFactoryTrait;
+use Taxonomy\Manager\TaxonomyManager;
 use Versioning\RepositoryManager;
+use Versioning\Options\ModuleOptions;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -45,14 +47,22 @@ class RepositoryManagerFactory implements FactoryInterface
     {
         $objectManager = $this->getEntityManager($serviceLocator);
         $authorizationService = $this->getAuthorizationService($serviceLocator);
-        $moduleOptions = $serviceLocator->get(
-            'Versioning\Options\ModuleOptions'
-        );
+        $moduleOptions = $serviceLocator->get(ModuleOptions::class);
+
+        $taxonomyManager = $serviceLocator->get(TaxonomyManager::class);
+        $autoreviewIds =
+            $serviceLocator->get('config')['autoreview_taxonomy_term_ids'] ??
+            [];
+
+        $autoreviewTerms = array_map(function ($id) use ($taxonomyManager) {
+            return $taxonomyManager->getTerm($id);
+        }, $autoreviewIds);
 
         return new RepositoryManager(
             $authorizationService,
             $moduleOptions,
-            $objectManager
+            $objectManager,
+            $autoreviewTerms
         );
     }
 }

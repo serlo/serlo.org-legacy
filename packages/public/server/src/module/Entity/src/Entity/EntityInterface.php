@@ -97,6 +97,8 @@ interface EntityInterface extends
         EntityInterface $following
     );
 
+    public function getTaxonomyTermsWithFollowingLinks(): array;
+
     /**
      * @return TaxonomyTermInterface[]|Collection
      */

@@ -23,9 +23,11 @@
 namespace Versioning;
 
 use Authorization\Service\AuthorizationAssertionTrait;
-use Common\Traits\InstanceManagerTrait;
+use Common\Utils;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
+use Entity\Entity\EntityInterface;
+use Taxonomy\Entity\TaxonomyTerm;
 use Versioning\Entity\RepositoryInterface;
 use Versioning\Entity\RevisionInterface;
 use Versioning\Options\ModuleOptions;
@@ -52,6 +54,11 @@ class RepositoryManager implements RepositoryManagerInterface
     protected $objectManager;
 
     /**
+     * @var array
+     */
+    protected $autoreviewTerms;
+
+    /**
      * @param AuthorizationService $authorizationService
      * @param ModuleOptions        $moduleOptions
      * @param ObjectManager        $objectManager
@@ -59,11 +66,31 @@ class RepositoryManager implements RepositoryManagerInterface
     public function __construct(
         AuthorizationService $authorizationService,
         ModuleOptions $moduleOptions,
-        ObjectManager $objectManager
+        ObjectManager $objectManager,
+        array $autoreviewTerms
     ) {
         $this->moduleOptions = $moduleOptions;
         $this->objectManager = $objectManager;
         $this->authorizationService = $authorizationService;
+        $this->autoreviewTerms = $autoreviewTerms;
+    }
+
+    public function needsReview(EntityInterface $entity): bool
+    {
+        $entityIsOnlyInAutoreviewTerms = Utils::array_every(
+            array_map(function (TaxonomyTerm $entityTerm) {
+                return Utils::array_some(
+                    array_map(function (TaxonomyTerm $autoreviewTerm) use (
+                        $entityTerm
+                    ) {
+                        return $entityTerm->knowsAncestor($autoreviewTerm);
+                    },
+                    $this->autoreviewTerms)
+                );
+            }, $entity->getTaxonomyTermsWithFollowingLinks())
+        );
+
+        return !$entityIsOnlyInAutoreviewTerms;
     }
 
     /**
@@ -79,11 +106,15 @@ class RepositoryManager implements RepositoryManagerInterface
         }
 
         $user = $this->getAuthorizationService()->getIdentity();
-        $permission = $this->moduleOptions->getPermission(
-            $repository,
-            'checkout'
-        );
-        $this->assertGranted($permission, $repository);
+
+        if ($this->needsReview($revision->getRepository())) {
+            $permission = $this->moduleOptions->getPermission(
+                $repository,
+                'checkout'
+            );
+            $this->assertGranted($permission, $repository);
+        }
+
         $repository->setCurrentRevision($revision);
 
         $this->getEventManager()->trigger('checkout', $this, [
