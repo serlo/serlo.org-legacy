@@ -25,35 +25,41 @@ namespace CommonTest;
 use Common\Utils;
 use PHPUnit\Framework\TestCase;
 
-class UtilsTest extends TestCase
+class UtilsArrayFlatmapTest extends TestCase
 {
-    public function testArrayFlatmap()
+    private $duplicateFunc;
+
+    public function setUp()
     {
-        $double = function ($x) {
+        $this->duplicateFunc = function ($x): array {
             return [$x, $x];
         };
-
-        $this->assertEquals(Utils::array_flatmap($double, []), []);
-        $this->assertEquals(Utils::array_flatmap($double, [1]), [1, 1]);
-        $this->assertEquals(Utils::array_flatmap($double, [1]), [1, 1]);
-        $this->assertEquals(Utils::array_flatmap($double, [1, 2]), [
-            1,
-            1,
-            2,
-            2,
-        ]);
-        $this->assertEquals(Utils::array_flatmap($double, ['x', true, 42]), [
-            'x',
-            'x',
-            true,
-            true,
-            42,
-            42,
-        ]);
     }
 
-    public function testArrayFlatmapEmptySet()
+    public function testWithDuplicationForSingletonArray()
     {
-        $this->assertEquals(Utils::array_flatmap(function () {}, []), []);
+        $input = [1];
+        $expected = [1, 1];
+
+        $this->assertEquals(
+            Utils::array_flatmap($this->duplicateFunc, $input),
+            $expected
+        );
+    }
+
+    public function testWithDuplicationForMixedArray()
+    {
+        $input = ['x', true, 42];
+        $expected = ['x', 'x', true, true, 42, 42];
+
+        $this->assertEquals(
+            Utils::array_flatmap($this->duplicateFunc, $input),
+            $expected
+        );
+    }
+
+    public function testReturnsEmptySetForEmptySet()
+    {
+        $this->assertEmpty(Utils::array_flatmap(function () {}, []));
     }
 }
