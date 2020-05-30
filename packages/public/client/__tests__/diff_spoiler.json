@@ -1,0 +1,97 @@
+{
+  "plugin": "spoiler",
+  "state": {
+    "title": "Übung",
+    "content": {
+      "plugin": "rows",
+      "state": [
+        {
+          "plugin": "text",
+          "state": [
+            {
+              "type": "p",
+              "children": [
+                {
+                  "text": "Ein Kreis hat den Radius "
+                },
+                {
+                  "type": "math",
+                  "src": "r=\\\\ 3\\\\ cm",
+                  "inline": true,
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                },
+                {
+                  "text": ". Berechne seinen Umfang. Runde auf eine ganze Zahl. Verwende "
+                },
+                {
+                  "type": "math",
+                  "src": "\\\\pi=3,14",
+                  "inline": true,
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                },
+                {
+                  "text": "!"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "plugin": "inputExercise",
+          "state": {
+            "type": "Text",
+            "unit": "",
+            "answers": [
+              {
+                "value": "19",
+                "isCorrect": true,
+                "feedback": {
+                  "plugin": "text",
+                  "state": []
+                }
+              },
+              {
+                "value": "18",
+                "isCorrect": false,
+                "feedback": {
+                  "plugin": "text",
+                  "state": [
+                    {
+                      "type": "p",
+                      "children": [
+                        {
+                          "text": "Hast du für "
+                        },
+                        {
+                          "type": "math",
+                          "src": "\\\\pi=\\\\ 3,14\\\\ ",
+                          "inline": true,
+                          "children": [
+                            {
+                              "text": ""
+                            }
+                          ]
+                        },
+                        {
+                          "text": "verwendet?"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
