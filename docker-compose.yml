@@ -67,7 +67,6 @@ services:
     volumes:
       - ./packages/public/server/dev-tools/vendor:/usr/local/apache2/htdocs/dev-tools/vendor:delegated
       - ./packages/public/server/package.json:/usr/local/apache2/htdocs/package.json:delegated
-      - ./packages/public/server/php-cs-fixer.config.php:/usr/local/apache2/htdocs/php-cs-fixer.config.php:delegated
       - ./packages/public/server/phpunit.xml:/usr/local/apache2/htdocs/phpunit.xml:delegated
       - ./packages/public/server/src/config:/usr/local/apache2/htdocs/src/config:delegated
       - ./packages/public/server/src/lang:/usr/local/apache2/htdocs/src/lang:delegated
