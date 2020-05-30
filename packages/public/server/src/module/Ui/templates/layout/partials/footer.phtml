@@ -112,20 +112,4 @@ $rightNavigation = processNavigation($this->navigation('footer_right_navigation'
     </footer>
 <?php endif; ?>
 
-<div id="controls"></div>
-
-<div id="loading" style="display:none;">
-    <div class="modal fade in is-block" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="false">
-        <div class="modal-dialog">
-            <div class="modal-content" style="text-align:center;">
-                <h4 class="modal-title">
-                    <?php echo $this->translate('Loading'); ?>
-                </h4>
-                <img src="https://assets.serlo.org/5b9247a7dedec_362184da537da5821203cbd48f7b632e0f4c6a05/loading.gif">
-            </div>
-        </div>
-    </div>
-    <div class="modal-backdrop fade in"></div>
-</div>
-
 <?php echo $this->partial('layout/partials/scripts'); ?>

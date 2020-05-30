@@ -23,7 +23,7 @@
 {% set revision = entity.getCurrentRevision() %}
 {% set content = renderer().toHtml(revision.get('content')) %}
 <article itemprop="description">
-    <section class="editable">
+    <section>
         {{ content }}
     </section>
 </article>

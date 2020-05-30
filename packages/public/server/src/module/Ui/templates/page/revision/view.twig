@@ -25,7 +25,7 @@
         <header>
             {% include 'page/partials/head' %}
         </header>
-        <section itemprop="articleBody" class="editable">
+        <section itemprop="articleBody">
             {{ renderer().toHtml(revision.getContent()) }}
         </section>
     </article>

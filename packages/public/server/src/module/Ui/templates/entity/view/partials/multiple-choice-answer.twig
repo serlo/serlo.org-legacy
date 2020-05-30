@@ -31,14 +31,14 @@
 {% set feedback = feedbackContent ? feedbackContent : defaultFeedback %}
 
 <div class="col-sm-3 multiple-choice-answer-group" itemprop="articleBody">
-    <button class="btn multiple-choice-answer-content button-default editable"
+    <button class="btn multiple-choice-answer-content button-default"
             name="multiple-choice-answer-choice-{{  parent.getID() }}"
             data-correct="{{ right }}">
         {{ displayContent | raw }}
     </button>
     {% if not right %}
         <div class="multiple-choice-answer-feedback collapse">
-            <div class="alert alert-warning editable">
+            <div class="alert alert-warning">
                 {{ feedback | raw }}
             </div>
         </div>
