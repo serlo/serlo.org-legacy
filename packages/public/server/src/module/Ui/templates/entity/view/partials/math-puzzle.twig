@@ -28,7 +28,7 @@
     <section class="row">
         <div class="col-xs-12 col-sm-11">
             <div class="math-puzzle" data-source="{{ source }}">
-                <div class="exercise editable">
+                <div class="exercise">
                     {{ renderer().toHtml(revision.get('content')) | raw }}
                 </div>
             </div>

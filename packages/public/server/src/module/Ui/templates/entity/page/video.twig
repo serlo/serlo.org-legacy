@@ -30,9 +30,7 @@
         {% do placeholder('isLeaf').set(true) %}
         {% do placeholder('breadcrumbs').set('<li><span>' ~ title ~ '</span></li>') %}
         {% if not layout().usingAPI %}
-          <div class="editable">
-              <h1 itemprop="name">{{ title }}</h1>
-          </div>
+          <h1 itemprop="name">{{ title }}</h1>
         {% endif %}
         {% include 'entity/view/partials/actions/big' %}
     </div>

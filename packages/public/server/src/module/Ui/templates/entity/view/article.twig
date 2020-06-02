@@ -23,12 +23,11 @@
 {% set revision = entity.getCurrentRevision() %}
 {% set content = renderer().toHtml(revision.get('content')) %}
 <article>
-    <section class="editable">
+    <section>
         {{ content }}
     </section>
 
     {% include 'entity/view/partials/license' %}
-
 
 </article>
 {% set discussions %}

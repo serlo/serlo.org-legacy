@@ -21,7 +21,7 @@
  #}
 {% do normalize().headMeta(revision).headTitle(revision) %}
 {% set title = revision.getTitle() %}
-<div class="page-header editable">
+<div class="page-header">
     {% set controls = include('page/partials/controls') %}
     {% do placeholder('controls').set(controls) %}
     {% do placeholder('breadcrumbs').set('<li><span>' ~ title ~ '</span></li>') %}
