@@ -24,7 +24,7 @@
     "format": "yarn _prettier --write",
     "i18n:regenerate": "lerna run i18n:regenerate",
     "license": "ts-node scripts/license-headers",
-    "lint": "npm-run-all --parallel lint:js:*",
+    "lint": "npm-run-all --parallel lint:*",
     "lint:prettier": "yarn _prettier --check",
     "lint:tsc": "tsc --noEmit",
     "migrate": "docker-compose run --rm server-migrate",
