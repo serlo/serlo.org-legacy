@@ -26,4 +26,13 @@
 <?php $this->normalize()->appendBrand()?>
 <?php echo $this->headTitle()->setSeparator(' – '); ?>
 <?php echo $this->headMeta(); ?>
-<?php echo $this->headLink(['rel' => 'icon', 'href' => '/favicon.ico', 'type' => 'image/x-icon']); ?>
+<?php
+$url = $this->serverUrl(true);
+$parts = parse_url($url);
+$this->headLink([
+    'rel' => 'canonical',
+    'href' => $parts['scheme'] . '://' . $parts['host'] . ($parts['port'] && $parts['port'] !== 80 ? ':' . $parts['port'] : '') . $parts['path'],
+]);
+$this->headLink(['rel' => 'icon', 'href' => '/favicon.ico', 'type' => 'image/x-icon']);
+echo $this->headLink();
+?>
