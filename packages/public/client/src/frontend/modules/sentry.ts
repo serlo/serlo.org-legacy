@@ -30,6 +30,16 @@ Sentry.init({
       : undefined,
   release: `serlo-org-client@${version}`,
   whitelistUrls: ['serlo.org', 'serlo-development.dev', 'serlo-staging.dev'],
+  beforeSend(event, hint) {
+    const error = hint?.originalException
+    if (
+      typeof error === 'object' &&
+      error?.message.match(/Non-Error promise rejection/)
+    ) {
+      return null
+    }
+    return event
+  },
 })
 
 export { Sentry }
