@@ -31,7 +31,7 @@ $url = $this->serverUrl(true);
 $parts = parse_url($url);
 $this->headLink([
     'rel' => 'canonical',
-    'href' => $parts['scheme'] . '://' . $parts['host'] . ($parts['port'] && $parts['port'] !== 80 ? ':' . $parts['port'] : '') . $parts['path'],
+    'href' => $parts['scheme'] . '://' . $parts['host'] . (array_key_exists('port', $parts) ? ':' . $parts['port'] : '') . $parts['path'],
 ]);
 $this->headLink(['rel' => 'icon', 'href' => '/favicon.ico', 'type' => 'image/x-icon']);
 echo $this->headLink();
