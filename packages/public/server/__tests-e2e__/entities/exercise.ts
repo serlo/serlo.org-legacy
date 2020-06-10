@@ -190,7 +190,7 @@ describe('create text-exercise', () => {
 
     await getByRole(createPage, 'textbox').then((e) => e.type(exercise))
 
-    await getByText(createPage, 'Lösung hinzufügen').then(click)
+    await getByText(createPage, 'Create solution').then(click)
     await typeIntoEditor(createPage, 2, solution)
 
     const success = await saveRevision(createPage)

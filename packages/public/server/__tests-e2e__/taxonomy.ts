@@ -113,7 +113,7 @@ describe('Creating taxonomy element', () => {
           selector: '#content-layout > .pull-right a',
         }).then(clickForNewPage)
 
-        await getByPlaceholderText(createPage, 'Titel').then((e) =>
+        await getByPlaceholderText(createPage, 'Title').then((e) =>
           e.type(title)
         )
         await getByItemProp(createPage, 'articleBody').then(click)

@@ -29,8 +29,7 @@ import {
   toHaveSystemNotification,
 } from './packages/public/server/__tests-e2e__/_utils'
 
-setTimeout(600)
-page.setDefaultTimeout(60000)
+setTimeout(60)
 
 beforeAll(() => {
   page.on('dialog', (dialog) => {

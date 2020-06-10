@@ -75,9 +75,9 @@ export async function typeIntoEditor(
   indexTextfield: number,
   text: string
 ): Promise<void> {
-  const textFields = await root.$$('[data-slate-editor=true]') //give me all element with an editor
+  const textFields = await root.$$('[data-slate-editor=true]') 
 
-  await textFields[indexTextfield].click()
+  await click(textFields[indexTextfield])
   await textFields[indexTextfield].type(text)
 }
 
