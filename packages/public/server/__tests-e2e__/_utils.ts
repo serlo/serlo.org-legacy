@@ -30,6 +30,7 @@ export const getByAltText = queries.getByAltText
 export const getByLabelText = queries.getByLabelText
 export const getByPlaceholderText = queries.getByPlaceholderText
 export const getByRole = queries.getByRole
+export const getAllByRole = queries.getAllByRole
 export const getByText = queries.getByText
 export const getAllByText = queries.getAllByText
 
@@ -74,10 +75,10 @@ export async function typeIntoEditor(
   indexTextfield: number,
   text: string
 ): Promise<void> {
-  await root
-    .$$('[data-slate-editor=true]')
-    .then((s) => click(s[indexTextfield]))
-  await getByRole(root, 'textbox').then((t) => t.type(text))
+  const textFields = await root.$$('[data-slate-editor=true]') //give me all element with an editor
+
+  await textFields[indexTextfield].click()
+  await textFields[indexTextfield].type(text)
 }
 
 export async function clickForNewPage(
@@ -158,12 +159,12 @@ export async function organizeTaxonomy(topic: ElementHandle) {
 
 export async function saveRevision(createPage: ElementHandle) {
   await getBySelector(createPage, '#subject-nav-wrapper .fa-save').then(click)
-  await getByLabelText(createPage, 'Changes').then(e => e.type(randomText()))
-  await createPage.$$('input[type=checkbox]').then(c => c[0].click())
-  await createPage.$$('input[type=checkbox]').then(c => c[3].click())
+  await getByLabelText(createPage, 'Changes').then((e) => e.type(randomText()))
+  await createPage.$$('input[type=checkbox]').then((c) => c[0].click())
+  await createPage.$$('input[type=checkbox]').then((c) => c[3].click())
 
   return await getByText(createPage, 'Save', {
-    selector: '.modal-dialog button'
+    selector: '.modal-dialog button',
   }).then(clickForNewPage)
 }
 
