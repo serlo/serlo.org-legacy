@@ -30,7 +30,6 @@ export const getByAltText = queries.getByAltText
 export const getByLabelText = queries.getByLabelText
 export const getByPlaceholderText = queries.getByPlaceholderText
 export const getByRole = queries.getByRole
-export const getAllByRole = queries.getAllByRole
 export const getByText = queries.getByText
 export const getAllByText = queries.getAllByText
 
@@ -75,7 +74,7 @@ export async function typeIntoEditor(
   indexTextfield: number,
   text: string
 ): Promise<void> {
-  const textFields = await root.$$('[data-slate-editor=true]') 
+  const textFields = await root.$$('[data-slate-editor=true]')
 
   await click(textFields[indexTextfield])
   await textFields[indexTextfield].type(text)
