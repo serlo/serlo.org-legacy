@@ -67,12 +67,12 @@ test('create course with course page', async () => {
   const topic = await goto(pages.e2eTopic.path)
   const createPage = await openDropdownMenu(topic).then(addContent('course'))
 
-  await getByPlaceholderText(createPage, 'Titel').then((e) => e.type(title))
+  await getByPlaceholderText(createPage, 'Title').then((e) => e.type(title))
 
-  await getByText(createPage, 'Kursseite hinzufügen').then(click)
+  await getByText(createPage, 'Add course page').then(click)
 
   const coursePage = await getBySelector(createPage, '#editor article article')
-  await getByPlaceholderText(coursePage, 'Titel').then((e) =>
+  await getByPlaceholderText(coursePage, 'Title').then((e) =>
     e.type(coursePageTitle)
   )
 

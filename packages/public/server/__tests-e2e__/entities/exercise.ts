@@ -190,7 +190,7 @@ describe('create text-exercise', () => {
 
     await getByRole(createPage, 'textbox').then((e) => e.type(exercise))
 
-    await getByText(createPage, 'Lösung hinzufügen').then(click)
+    await getByText(createPage, 'Create solution').then(click)
     await typeIntoEditor(createPage, 2, solution)
 
     const success = await saveRevision(createPage)
@@ -221,14 +221,14 @@ describe('create grouped text-exercise', () => {
 
     await getByRole(createPage, 'textbox').then((e) => e.type(exercise))
 
-    await getByText(createPage, 'Teilaufgabe hinzufügen').then(click)
+    await getByText(createPage, 'Add exercise').then(click)
     await typeIntoEditor(createPage, 1, subexercise1)
 
-    await getByText(createPage, 'Lösung hinzufügen').then(click)
-    await typeIntoEditor(createPage, 3, solution1)
+    await getByText(createPage, 'Create solution').then(click)
+    await typeIntoEditor(createPage, 4, solution1)
 
-    await getByText(createPage, 'Teilaufgabe hinzufügen').then(click)
-    await typeIntoEditor(createPage, 4, subexercise2)
+    await getByText(createPage, 'Add exercise').then(click)
+    await typeIntoEditor(createPage, 5, subexercise2)
 
     const success = await saveRevision(createPage)
     await expect(success).toHaveSystemNotification(

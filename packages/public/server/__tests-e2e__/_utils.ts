@@ -74,10 +74,10 @@ export async function typeIntoEditor(
   indexTextfield: number,
   text: string
 ): Promise<void> {
-  await root
-    .$$('[data-slate-editor=true]')
-    .then((s) => click(s[indexTextfield]))
-  await getByRole(root, 'textbox').then((t) => t.type(text))
+  const textFields = await root.$$('[data-slate-editor=true]')
+
+  await click(textFields[indexTextfield])
+  await textFields[indexTextfield].type(text)
 }
 
 export async function clickForNewPage(
@@ -158,14 +158,12 @@ export async function organizeTaxonomy(topic: ElementHandle) {
 
 export async function saveRevision(createPage: ElementHandle) {
   await getBySelector(createPage, '#subject-nav-wrapper .fa-save').then(click)
-  await getByLabelText(createPage, 'Änderungen').then((e) =>
-    e.type(randomText())
-  )
+  await getByLabelText(createPage, 'Changes').then((e) => e.type(randomText()))
   await createPage.$$('input[type=checkbox]').then((c) => c[0].click())
   await createPage.$$('input[type=checkbox]').then((c) => c[3].click())
 
-  return await getByText(createPage, 'Speichern', {
-    selector: 'button',
+  return await getByText(createPage, 'Save', {
+    selector: '.modal-dialog button',
   }).then(clickForNewPage)
 }
 

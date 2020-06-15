@@ -79,7 +79,7 @@ describe('create video page', () => {
     const topic = await goto(pages.e2eTopic.path)
     const createPage = await openDropdownMenu(topic).then(addContent('video'))
 
-    await getByPlaceholderText(createPage, 'Titel').then((e) => e.type(title))
+    await getByPlaceholderText(createPage, 'Title').then((e) => e.type(title))
 
     const videoUrlField = await getBySelector(
       createPage,
