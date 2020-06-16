@@ -24,9 +24,19 @@ namespace Common;
 
 abstract class Utils
 {
-    public static function array_every(array $array): bool
+    public static function array_all(array $array): bool
     {
         return array_product($array) == 1;
+    }
+
+    public static function array_any(array $array): bool
+    {
+        return array_sum($array) > 0;
+    }
+
+    public static function array_every(callable $testFunc, array $array): bool
+    {
+        return self::array_all(array_map($testFunc, $array));
     }
 
     public static function array_flatmap(callable $map, array $array): array
@@ -34,8 +44,8 @@ abstract class Utils
         return empty($array) ? [] : array_merge(...array_map($map, $array));
     }
 
-    public static function array_some(array $array): bool
+    public static function array_some(callable $testFunc, array $array): bool
     {
-        return array_sum($array) > 0;
+        return self::array_any(array_map($testFunc, $array));
     }
 }

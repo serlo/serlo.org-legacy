@@ -32,8 +32,4 @@ return [
     'view_manager' => [
         'display_exceptions' => false,
     ],
-
-    'auto_review_taxonomy_term_ids' => [
-        '106082', // Sandbox in de.serlo.org
-    ],
 ];

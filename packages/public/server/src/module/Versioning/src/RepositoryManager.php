@@ -20,6 +20,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Versioning;
 
 use Authorization\Service\AuthorizationAssertionTrait;
@@ -60,8 +61,8 @@ class RepositoryManager implements RepositoryManagerInterface
 
     /**
      * @param AuthorizationService $authorizationService
-     * @param ModuleOptions        $moduleOptions
-     * @param ObjectManager        $objectManager
+     * @param ModuleOptions $moduleOptions
+     * @param ObjectManager $objectManager
      */
     public function __construct(
         AuthorizationService $authorizationService,
@@ -77,18 +78,17 @@ class RepositoryManager implements RepositoryManagerInterface
 
     public function needsReview(EntityInterface $entity): bool
     {
-        $entityIsOnlyInAutoreviewTerms = Utils::array_every(
-            array_map(function (TaxonomyTerm $entityTerm) {
-                return Utils::array_some(
-                    array_map(function (TaxonomyTerm $autoreviewTerm) use (
-                        $entityTerm
-                    ) {
-                        return $entityTerm->knowsAncestor($autoreviewTerm);
-                    },
-                    $this->autoreviewTerms)
-                );
-            }, $entity->getTaxonomyTermsWithFollowingLinks())
-        );
+        $entityIsOnlyInAutoreviewTerms = Utils::array_every(function (
+            TaxonomyTerm $entityTerm
+        ) {
+            return Utils::array_some(function (
+                TaxonomyTerm $autoreviewTerm
+            ) use ($entityTerm) {
+                return $entityTerm->knowsAncestor($autoreviewTerm);
+            },
+            $this->autoreviewTerms);
+        },
+        $entity->getTaxonomyTermsWithFollowingLinks());
 
         return !$entityIsOnlyInAutoreviewTerms;
     }

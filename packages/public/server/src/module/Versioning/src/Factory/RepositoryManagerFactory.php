@@ -47,6 +47,7 @@ class RepositoryManagerFactory implements FactoryInterface
     {
         $objectManager = $this->getEntityManager($serviceLocator);
         $authorizationService = $this->getAuthorizationService($serviceLocator);
+        /** @var ModuleOptions $moduleOptions */
         $moduleOptions = $serviceLocator->get(ModuleOptions::class);
 
         $taxonomyManager = $serviceLocator->get(TaxonomyManager::class);

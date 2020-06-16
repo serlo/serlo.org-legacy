@@ -39,22 +39,32 @@ class RepositoryControllerFactory implements FactoryInterface
     public function createService(
         ServiceLocatorInterface $serviceLocator
     ): RepositoryController {
-        /* @var AbstractPluginManager */
+        /** @var AbstractPluginManager $parentLocator */
         $parentLocator = $serviceLocator->getServiceLocator();
 
+        /** @var FeatureFlagsService $featureFlags */
         $featureFlags = $parentLocator->get(FeatureFlagsService::class);
+        /** @var EntityManager $entityManager */
+        $entityManager = $parentLocator->get(EntityManager::class);
+        /** @var FormatHelper $formatHelper */
+        $formatHelper = $parentLocator->get(FormatHelper::class);
+        /** @var InstanceManager $instanceManager */
+        $instanceManager = $parentLocator->get(InstanceManager::class);
+        /** @var RepositoryManager $repositoryManager */
+        $repositoryManager = $parentLocator->get(RepositoryManager::class);
+        /** @var ModuleOptions $moduleOptions */
+        $moduleOptions = $parentLocator->get(ModuleOptions::class);
+        /** @var UuidManager $uuidManager */
+        $uuidManager = $parentLocator->get(UuidManager::class);
+
         $result = new RepositoryController($featureFlags);
 
-        $result->setEntityManager($parentLocator->get(EntityManager::class));
-        $result->setFormatHelper($parentLocator->get(FormatHelper::class));
-        $result->setInstanceManager(
-            $parentLocator->get(InstanceManager::class)
-        );
-        $result->setRepositoryManager(
-            $parentLocator->get(RepositoryManager::class)
-        );
-        $result->setModuleOptions($parentLocator->get(ModuleOptions::class));
-        $result->setUuidManager($parentLocator->get(UuidManager::class));
+        $result->setEntityManager($entityManager);
+        $result->setFormatHelper($formatHelper);
+        $result->setInstanceManager($instanceManager);
+        $result->setRepositoryManager($repositoryManager);
+        $result->setModuleOptions($moduleOptions);
+        $result->setUuidManager($uuidManager);
 
         return $result;
     }

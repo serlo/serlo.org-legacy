@@ -151,4 +151,7 @@ return [
 
     // (Attachment Module)
     'upload_secret' => $upload_secret,
+
+    // List of taxonomy term ids in which each edit shall be autoreviewed
+    'autoreview_taxonomy_term_ids' => $autoreview_taxonomy_term_ids,
 ];

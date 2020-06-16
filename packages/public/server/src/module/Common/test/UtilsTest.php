@@ -25,23 +25,70 @@ namespace CommonTest;
 use Common\Utils;
 use PHPUnit\Framework\TestCase;
 
-class UtilsArrayEveryTest extends TestCase
+class UtilsArrayAllTest extends TestCase
 {
     public function testReturnsTrueIfAllElementsAreTrue()
     {
-        $this->assertTrue(Utils::array_every([true]));
-        $this->assertTrue(Utils::array_every([true, true]));
+        $this->assertTrue(Utils::array_all([true]));
+        $this->assertTrue(Utils::array_all([true, true]));
     }
 
     public function testReturnsFalseIfOneElementIsFalse()
     {
-        $this->assertFalse(Utils::array_every([false]));
-        $this->assertFalse(Utils::array_every([true, true, false]));
+        $this->assertFalse(Utils::array_all([false]));
+        $this->assertFalse(Utils::array_all([true, true, false]));
     }
 
     public function testReturnsTrueForEmptySet()
     {
-        $this->assertTrue(Utils::array_every([]));
+        $this->assertTrue(Utils::array_all([]));
+    }
+}
+
+class UtilsArrayAnyTest extends TestCase
+{
+    public function testReturnsTrueOneElementIsTrue()
+    {
+        $this->assertTrue(Utils::array_any([true]));
+        $this->assertTrue(Utils::array_any([false, true, false]));
+    }
+
+    public function testReturnsFalseIfAllElementAreFalse()
+    {
+        $this->assertFalse(Utils::array_any([false]));
+        $this->assertFalse(Utils::array_any([false, false, false]));
+    }
+
+    public function testReturnsFalseForEmptySet()
+    {
+        $this->assertFalse(Utils::array_any([]));
+    }
+}
+
+class UtilsArrayEveryTest extends TestCase
+{
+    private $isEven;
+
+    public function setUp()
+    {
+        $this->isEven = function ($x) {
+            return $x % 2 === 0;
+        };
+    }
+
+    public function testReturnsTrueIfAllTestSucceed()
+    {
+        $this->assertTrue(Utils::array_every($this->isEven, [2, 4, 6]));
+    }
+
+    public function testReturnsFalseIfOneTestFails()
+    {
+        $this->assertFalse(Utils::array_every($this->isEven, [2, 3, 4]));
+    }
+
+    public function testReturnsTrueIfArrayIsEmpty()
+    {
+        $this->assertTrue(Utils::array_every(function () {}, []));
     }
 }
 
@@ -86,20 +133,27 @@ class UtilsArrayFlatmapTest extends TestCase
 
 class UtilsArraySomeTest extends TestCase
 {
-    public function testReturnsTrueOneElementIsTrue()
+    private $isEven;
+
+    public function setUp()
     {
-        $this->assertTrue(Utils::array_some([true]));
-        $this->assertTrue(Utils::array_some([false, true, false]));
+        $this->isEven = function ($x) {
+            return $x % 2 === 0;
+        };
     }
 
-    public function testReturnsFalseIfAllElementAreFalse()
+    public function testReturnsTrueIfSomeTestSucceed()
     {
-        $this->assertFalse(Utils::array_some([false]));
-        $this->assertFalse(Utils::array_some([false, false, false]));
+        $this->assertTrue(Utils::array_some($this->isEven, [1, 2, 3]));
     }
 
-    public function testReturnsFalseForEmptySet()
+    public function testReturnsFalseIfAllTestFails()
     {
-        $this->assertFalse(Utils::array_some([]));
+        $this->assertFalse(Utils::array_some($this->isEven, [1, 3, 5]));
+    }
+
+    public function testReturnsFalseIfArrayIsEmpty()
+    {
+        $this->assertFalse(Utils::array_some(function () {}, []));
     }
 }
