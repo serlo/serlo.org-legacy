@@ -23,13 +23,17 @@
 namespace Entity\Factory;
 
 use Entity\Controller\RepositoryController;
+use Entity\Manager\EntityManagerInterface;
 use Entity\Options\ModuleOptions;
 use Entity\Manager\EntityManager;
 use FeatureFlags\Service as FeatureFlagsService;
 use Instance\Manager\InstanceManager;
+use Instance\Manager\InstanceManagerInterface;
 use Renderer\View\Helper\FormatHelper;
 use Uuid\Manager\UuidManager;
+use Uuid\Manager\UuidManagerInterface;
 use Versioning\RepositoryManager;
+use Versioning\RepositoryManagerInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -44,17 +48,17 @@ class RepositoryControllerFactory implements FactoryInterface
 
         /** @var FeatureFlagsService $featureFlags */
         $featureFlags = $parentLocator->get(FeatureFlagsService::class);
-        /** @var EntityManager $entityManager */
+        /** @var EntityManagerInterface $entityManager */
         $entityManager = $parentLocator->get(EntityManager::class);
         /** @var FormatHelper $formatHelper */
         $formatHelper = $parentLocator->get(FormatHelper::class);
-        /** @var InstanceManager $instanceManager */
+        /** @var InstanceManagerInterface $instanceManager */
         $instanceManager = $parentLocator->get(InstanceManager::class);
-        /** @var RepositoryManager $repositoryManager */
+        /** @var RepositoryManagerInterface $repositoryManager */
         $repositoryManager = $parentLocator->get(RepositoryManager::class);
         /** @var ModuleOptions $moduleOptions */
         $moduleOptions = $parentLocator->get(ModuleOptions::class);
-        /** @var UuidManager $uuidManager */
+        /** @var UuidManagerInterface $uuidManager */
         $uuidManager = $parentLocator->get(UuidManager::class);
 
         $result = new RepositoryController($featureFlags);

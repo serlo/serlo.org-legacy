@@ -151,7 +151,7 @@ interface TaxonomyTermInterface extends InstanceProviderInterface, UuidInterface
      * @param self $ancestor
      * @return bool
      */
-    public function knowsAncestor(TaxonomyTermInterface $ancestor);
+    public function isAncestorOrSelf(TaxonomyTermInterface $ancestor);
 
     /**
      * @param TaxonomyTermAwareInterface|int $object

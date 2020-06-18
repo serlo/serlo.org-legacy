@@ -317,7 +317,7 @@ class TaxonomyTerm extends Uuid implements TaxonomyTermInterface
         return $associations->contains($object);
     }
 
-    public function knowsAncestor(TaxonomyTermInterface $ancestor)
+    public function isAncestorOrSelf(TaxonomyTermInterface $ancestor)
     {
         $term = $this;
 

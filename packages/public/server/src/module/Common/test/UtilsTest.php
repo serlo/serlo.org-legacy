@@ -25,46 +25,6 @@ namespace CommonTest;
 use Common\Utils;
 use PHPUnit\Framework\TestCase;
 
-class UtilsArrayAllTest extends TestCase
-{
-    public function testReturnsTrueIfAllElementsAreTrue()
-    {
-        $this->assertTrue(Utils::array_all([true]));
-        $this->assertTrue(Utils::array_all([true, true]));
-    }
-
-    public function testReturnsFalseIfOneElementIsFalse()
-    {
-        $this->assertFalse(Utils::array_all([false]));
-        $this->assertFalse(Utils::array_all([true, true, false]));
-    }
-
-    public function testReturnsTrueForEmptySet()
-    {
-        $this->assertTrue(Utils::array_all([]));
-    }
-}
-
-class UtilsArrayAnyTest extends TestCase
-{
-    public function testReturnsTrueOneElementIsTrue()
-    {
-        $this->assertTrue(Utils::array_any([true]));
-        $this->assertTrue(Utils::array_any([false, true, false]));
-    }
-
-    public function testReturnsFalseIfAllElementAreFalse()
-    {
-        $this->assertFalse(Utils::array_any([false]));
-        $this->assertFalse(Utils::array_any([false, false, false]));
-    }
-
-    public function testReturnsFalseForEmptySet()
-    {
-        $this->assertFalse(Utils::array_any([]));
-    }
-}
-
 class UtilsArrayEveryTest extends TestCase
 {
     private $isEven;

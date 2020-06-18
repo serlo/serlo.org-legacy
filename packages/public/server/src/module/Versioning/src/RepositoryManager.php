@@ -84,7 +84,7 @@ class RepositoryManager implements RepositoryManagerInterface
             return Utils::array_some(function (
                 TaxonomyTerm $autoreviewTerm
             ) use ($entityTerm) {
-                return $entityTerm->knowsAncestor($autoreviewTerm);
+                return $entityTerm->isAncestorOrSelf($autoreviewTerm);
             },
             $this->autoreviewTerms);
         },
