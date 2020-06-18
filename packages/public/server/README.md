@@ -99,3 +99,10 @@ Covers some best practices that new code should comply to.
 
 - You SHOULD NOT use `private`. Use `protected` instead so that one can override stuff in tests.
 - You SHOULD use `protected` for everything that does not need to be `public`.
+
+## Configuration
+
+- **Autoreview:**
+  There is a possibility to define taxonomy terms in which each edit shall be automatically reviewed.
+  This is useful when you want for example set up a sandbox area in which all edits shall be automatically online.
+  To archieve this you need to set the configuration variable `autoreview_taxonomy_term_ids` to the list of those taxonomy term ids.
