@@ -310,7 +310,7 @@ return [
                         'applet',
                     ],
                 ],
-                'Matemáticas' => [
+                'matemáticas' => [
                     'allowed_taxonomies' => ['topic', 'locale'],
                     'allowed_entities' => [
                         'article',
