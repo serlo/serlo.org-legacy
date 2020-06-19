@@ -429,9 +429,10 @@ class RepositoryController extends AbstractController
         $autoCheckout
     ) {
         $mayCheckout =
-            $autoCheckout &&
-            $this->isGranted('entity.revision.checkout', $entity) &&
-            $data;
+            !$this->getRepositoryManager()->needsReview($entity) ||
+            ($autoCheckout &&
+                $this->isGranted('entity.revision.checkout', $entity) &&
+                $data);
         $revision = $this->getRepositoryManager()->commitRevision(
             $entity,
             $data

@@ -23,6 +23,7 @@
 namespace Versioning;
 
 use Common\ObjectManager\Flushable;
+use Entity\Entity\EntityInterface;
 use Versioning\Entity\RepositoryInterface;
 use Versioning\Entity\RevisionInterface;
 use Zend\EventManager\EventManagerAwareInterface;
@@ -95,6 +96,8 @@ interface RepositoryManagerInterface extends
         RepositoryInterface $repository,
         RevisionInterface $revision
     );
+
+    public function needsReview(EntityInterface $entity): bool;
 
     /**
      * Rejects a revision (opposite of checkoutRevision).

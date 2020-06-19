@@ -20,12 +20,15 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Versioning;
 
 use Authorization\Service\AuthorizationAssertionTrait;
-use Common\Traits\InstanceManagerTrait;
+use Common\Utils;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
+use Entity\Entity\EntityInterface;
+use Taxonomy\Entity\TaxonomyTerm;
 use Versioning\Entity\RepositoryInterface;
 use Versioning\Entity\RevisionInterface;
 use Versioning\Options\ModuleOptions;
@@ -52,18 +55,42 @@ class RepositoryManager implements RepositoryManagerInterface
     protected $objectManager;
 
     /**
+     * @var array
+     */
+    protected $autoreviewTerms;
+
+    /**
      * @param AuthorizationService $authorizationService
-     * @param ModuleOptions        $moduleOptions
-     * @param ObjectManager        $objectManager
+     * @param ModuleOptions $moduleOptions
+     * @param ObjectManager $objectManager
      */
     public function __construct(
         AuthorizationService $authorizationService,
         ModuleOptions $moduleOptions,
-        ObjectManager $objectManager
+        ObjectManager $objectManager,
+        array $autoreviewTerms
     ) {
         $this->moduleOptions = $moduleOptions;
         $this->objectManager = $objectManager;
         $this->authorizationService = $authorizationService;
+        $this->autoreviewTerms = $autoreviewTerms;
+    }
+
+    public function needsReview(EntityInterface $entity): bool
+    {
+        $entityIsOnlyInAutoreviewTerms = Utils::array_every(function (
+            TaxonomyTerm $entityTerm
+        ) {
+            return Utils::array_some(function (
+                TaxonomyTerm $autoreviewTerm
+            ) use ($entityTerm) {
+                return $entityTerm->isAncestorOrSelf($autoreviewTerm);
+            },
+            $this->autoreviewTerms);
+        },
+        $entity->getTaxonomyTermsWithFollowingLinks());
+
+        return !$entityIsOnlyInAutoreviewTerms;
     }
 
     /**
@@ -79,11 +106,15 @@ class RepositoryManager implements RepositoryManagerInterface
         }
 
         $user = $this->getAuthorizationService()->getIdentity();
-        $permission = $this->moduleOptions->getPermission(
-            $repository,
-            'checkout'
-        );
-        $this->assertGranted($permission, $repository);
+
+        if ($this->needsReview($revision->getRepository())) {
+            $permission = $this->moduleOptions->getPermission(
+                $repository,
+                'checkout'
+            );
+            $this->assertGranted($permission, $repository);
+        }
+
         $repository->setCurrentRevision($revision);
 
         $this->getEventManager()->trigger('checkout', $this, [

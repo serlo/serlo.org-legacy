@@ -23,6 +23,11 @@
 namespace Entity\Factory;
 
 use Entity\Controller\EntityController;
+use Entity\Manager\EntityManager;
+use Entity\Manager\EntityManagerInterface;
+use Instance\Manager\InstanceManager;
+use Instance\Manager\InstanceManagerInterface;
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -40,14 +45,17 @@ class EntityControllerFactory implements FactoryInterface
         /* @var $serviceLocator AbstractPluginManager */
         $serviceManager = $serviceLocator->getServiceLocator();
 
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $serviceManager->get(EntityManager::class);
+        /** @var InstanceManagerInterface $instanceManager */
+        $instanceManager = $serviceManager->get(InstanceManager::class);
+        /** @var TranslatorInterface $translator */
+        $translator = $serviceManager->get('MvcTranslator');
+
         $result = new EntityController();
-        $result->setEntityManager(
-            $serviceManager->get('Entity\Manager\EntityManager')
-        );
-        $result->setInstanceManager(
-            $serviceManager->get('Instance\Manager\InstanceManager')
-        );
-        $result->setTranslator($serviceManager->get('MvcTranslator'));
+        $result->setEntityManager($entityManager);
+        $result->setInstanceManager($instanceManager);
+        $result->setTranslator($translator);
 
         return $result;
     }

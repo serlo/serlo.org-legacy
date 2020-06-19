@@ -24,8 +24,18 @@ namespace Common;
 
 abstract class Utils
 {
-    public static function array_flatmap($map, $array)
+    public static function array_every(callable $testFunc, array $array): bool
+    {
+        return array_product(array_map($testFunc, $array));
+    }
+
+    public static function array_flatmap(callable $map, array $array): array
     {
         return empty($array) ? [] : array_merge(...array_map($map, $array));
+    }
+
+    public static function array_some(callable $testFunc, array $array): bool
+    {
+        return array_sum(array_map($testFunc, $array)) > 0;
     }
 }
