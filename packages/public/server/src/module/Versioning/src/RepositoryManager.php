@@ -76,21 +76,26 @@ class RepositoryManager implements RepositoryManagerInterface
         $this->autoreviewTerms = $autoreviewTerms;
     }
 
-    public function needsReview(EntityInterface $entity): bool
+    public function needsReview(RepositoryInterface $entity): bool
     {
-        $entityIsOnlyInAutoreviewTerms = Utils::array_every(function (
-            TaxonomyTerm $entityTerm
-        ) {
-            return Utils::array_some(function (
-                TaxonomyTerm $autoreviewTerm
-            ) use ($entityTerm) {
-                return $entityTerm->isAncestorOrSelf($autoreviewTerm);
+        if ($entity instanceof EntityInterface) {
+            $entityIsOnlyInAutoreviewTerms = Utils::array_every(function (
+                TaxonomyTerm $entityTerm
+            ) {
+                return Utils::array_some(function (
+                    TaxonomyTerm $autoreviewTerm
+                ) use ($entityTerm) {
+                    return $entityTerm->isAncestorOrSelf($autoreviewTerm);
+                },
+                $this->autoreviewTerms);
             },
-            $this->autoreviewTerms);
-        },
-        $entity->getTaxonomyTermsWithFollowingLinks());
+            $entity->getTaxonomyTermsWithFollowingLinks());
 
-        return !$entityIsOnlyInAutoreviewTerms;
+            return !$entityIsOnlyInAutoreviewTerms;
+        } else {
+            // Pages aren't part of the taxonomy
+            return true;
+        }
     }
 
     /**

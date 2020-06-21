@@ -97,7 +97,7 @@ interface RepositoryManagerInterface extends
         RevisionInterface $revision
     );
 
-    public function needsReview(EntityInterface $entity): bool;
+    public function needsReview(RepositoryInterface $entity): bool;
 
     /**
      * Rejects a revision (opposite of checkoutRevision).
