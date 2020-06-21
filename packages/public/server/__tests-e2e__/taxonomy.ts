@@ -43,7 +43,12 @@ test('view topic page with subtopics', async () => {
 
   await expect(
     topic.$$('h2').then((h) => Promise.all(h.map(getText)))
-  ).resolves.toEqual(['Example topic 1', 'Example topic 2', 'Example topic 3'])
+  ).resolves.toEqual([
+    'Example topic 1',
+    'Example topic 2',
+    'Example topic 3',
+    'Example Sandbox',
+  ])
 
   await expect(topic).toMatchElement('a', {
     text: 'Example article',

@@ -25,6 +25,7 @@ namespace Versioning\Factory;
 use ClassResolver\ClassResolverFactoryTrait;
 use Common\Factory\AuthorizationServiceFactoryTrait;
 use Common\Factory\EntityManagerFactoryTrait;
+use Taxonomy\Exception\TermNotFoundException;
 use Taxonomy\Manager\TaxonomyManager;
 use Versioning\RepositoryManager;
 use Versioning\Options\ModuleOptions;
@@ -55,9 +56,18 @@ class RepositoryManagerFactory implements FactoryInterface
             $serviceLocator->get('config')['autoreview_taxonomy_term_ids'] ??
             [];
 
-        $autoreviewTerms = array_map(function ($id) use ($taxonomyManager) {
-            return $taxonomyManager->getTerm($id);
-        }, $autoreviewIds);
+        $autoreviewTerms = array_filter(
+            array_map(function ($id) use ($taxonomyManager) {
+                try {
+                    return $taxonomyManager->getTerm($id);
+                } catch (TermNotFoundException $error) {
+                    return null;
+                }
+            }, $autoreviewIds),
+            function ($x) {
+                return $x !== null;
+            }
+        );
 
         return new RepositoryManager(
             $authorizationService,
