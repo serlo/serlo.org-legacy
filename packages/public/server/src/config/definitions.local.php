@@ -58,4 +58,4 @@ $cronjob_secret = 'secret';
 $upload_secret = 'secret';
 $mock_email = true;
 
-$autoreview_taxonomy_term_ids = ['35607'];
+$autoreview_taxonomy_term_ids = [35607];
