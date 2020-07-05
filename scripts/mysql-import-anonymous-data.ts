@@ -31,9 +31,9 @@ async function exec() {
   })
     .stdout.toString()
     .trim()
-  // spawnSync('gsutil', ['cp', latestDump, `/tmp/${fileName}`], {
-  //   stdio: 'inherit'
-  // })
+  spawnSync('gsutil', ['cp', latestDump, `/tmp/${fileName}`], {
+    stdio: 'inherit',
+  })
   const container = spawnSync('docker-compose', ['ps', '-q', 'mysql'], {
     stdio: 'pipe',
     encoding: 'utf-8',
