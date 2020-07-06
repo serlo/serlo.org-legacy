@@ -47,14 +47,19 @@ class NavigationApiController extends AbstractActionController
 
     public function indexAction()
     {
-        $instance = $this->getInstanceManager()->getInstanceFromRequest()->getSubdomain();
+        $instance = $this->getInstanceManager()
+            ->getInstanceFromRequest()
+            ->getSubdomain();
         try {
             $pages = $this->navigationService->getNavigation('default');
             $pages = $this->formatPages($pages);
         } catch (ContainerNotFoundException $e) {
             $pages = [];
         }
-        return new JsonModel(['data' => json_encode($pages), 'instance' => $instance]);
+        return new JsonModel([
+            'data' => json_encode($pages),
+            'instance' => $instance,
+        ]);
     }
 
     protected function formatPages(array $pages)
