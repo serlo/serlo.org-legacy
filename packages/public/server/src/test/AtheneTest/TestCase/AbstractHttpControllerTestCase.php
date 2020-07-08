@@ -78,5 +78,9 @@ abstract class AbstractHttpControllerTestCase extends
 
         // Ui module depends on default_navigation
         $serviceManager->setService('default_navigation', []);
+
+        // Override layout so we can test the template in isolation
+        $view = $serviceManager->get('ViewRenderer');
+        $view->layout('layout/partials/main');
     }
 }

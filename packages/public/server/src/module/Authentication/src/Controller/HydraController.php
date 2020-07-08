@@ -158,12 +158,20 @@ class HydraController extends AbstractActionController
 
     public function consentAction()
     {
-        // skip consent because OAuth only used internally atm
+        // skip consent because OAuth only used internally at the moment
         $challenge = $this->params()->fromQuery('consent_challenge');
 
         $consentResponse = $this->hydraService->getConsentRequest($challenge);
+        if (array_key_exists('error', $consentResponse)) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return new JsonModel([
+                'error' => $consentResponse['error'],
+            ]);
+        }
 
-        $user = $this->getUserManager()->getUser($consentResponse['subject']);
+        $user = $this->getUserManager()->getUser(
+            (int) $consentResponse['subject']
+        );
         $requestedScope = $consentResponse['requested_scope'];
 
         $acceptResponse = $this->hydraService->acceptConsentRequest(

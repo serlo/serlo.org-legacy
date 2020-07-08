@@ -4,28 +4,36 @@ namespace UserTest\Stub\Entity;
 
 use Authorization\Entity\RoleInterface;
 use DateTime;
-use Doctrine\Common\Collections\Collection;
-use User\Entity\Field;
 use User\Entity\UserInterface;
 
 class UserStub implements UserInterface
 {
     /** @var int */
     protected $id;
+    /** @var string */
+    protected $username = 'username';
+    /** @var string */
+    protected $email = 'email';
 
-    public function __construct(int $id)
+    public function __construct(int $id, $data = [])
     {
         $this->id = $id;
+        if (array_key_exists('username', $data)) {
+            $this->username = $data['username'];
+        }
+        if (array_key_exists('email', $data)) {
+            $this->email = $data['email'];
+        }
     }
 
     public function getEmail()
     {
-        // TODO: Implement getEmail() method.
+        return $this->email;
     }
 
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->username;
     }
 
     public function getPassword()
