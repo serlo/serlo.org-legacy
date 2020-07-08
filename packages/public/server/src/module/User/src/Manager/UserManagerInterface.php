@@ -23,13 +23,11 @@
 namespace User\Manager;
 
 use Common\ObjectManager\Flushable;
-use Doctrine\ORM\EntityRepository;
+use Common\ObjectManager\Persistable;
 use User\Entity\UserInterface;
-use Versioning\Entity\RepositoryInterface;
-use Versioning\Entity\RevisionInterface;
 use Zend\Paginator\Paginator;
 
-interface UserManagerInterface extends Flushable
+interface UserManagerInterface extends Flushable, Persistable
 {
     /**
      * @param array $data

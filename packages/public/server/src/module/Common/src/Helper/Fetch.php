@@ -20,16 +20,27 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Common\ObjectManager;
 
-interface Flushable
+namespace Common\Helper;
+
+class Fetch implements FetchInterface
 {
-    /**
-     * Flushes all changes to objects that have been queued up to now to the database.
-     * This effectively synchronizes the in-memory state of managed objects with the
-     * database.
-     *
-     * @return void
-     */
-    public function flush();
+    public function fetch($url, $init = [])
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if (array_key_exists('method', $init)) {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $init['method']);
+        }
+        if (array_key_exists('headers', $init)) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $init['headers']);
+        }
+        if (array_key_exists('body', $init)) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $init['body']);
+        }
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
 }

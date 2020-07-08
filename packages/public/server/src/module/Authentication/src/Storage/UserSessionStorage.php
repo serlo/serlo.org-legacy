@@ -29,7 +29,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use User\Exception\UserNotFoundException;
 use Zend\Authentication\Storage\Session;
 
-class UserSessionStorage extends Session
+class UserSessionStorage extends Session implements UserSessionStorageInterface
 {
     use ObjectManagerAwareTrait, ClassResolverAwareTrait;
 

@@ -31,6 +31,10 @@
  */
 namespace Common;
 
+use Common\Helper\Fetch;
+use Common\Helper\FetchInterface;
+use Common\Helper\HttpRequest;
+
 return [
     'controller_plugins' => [
         'invokables' => [
@@ -52,6 +56,9 @@ return [
                 __NAMESPACE__ . '\Factory\HydratorPluginManagerFactory',
             'doctrine.cache.apccache' =>
                 __NAMESPACE__ . '\Factory\ApcCacheFactory',
+        ],
+        'invokables' => [
+            FetchInterface::class => Fetch::class,
         ],
     ],
 ];

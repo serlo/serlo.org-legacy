@@ -22,19 +22,23 @@
  */
 namespace Authentication\Service;
 
+use Common\Helper\FetchInterface;
+
 class HydraService
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $baseUrl;
+    /** @var FetchInterface */
+    protected $fetch;
 
     /**
      * @param string $baseUrl
+     * @param FetchInterface $fetch
      */
-    public function __construct($baseUrl)
+    public function __construct($baseUrl, FetchInterface $fetch)
     {
         $this->baseUrl = $baseUrl;
+        $this->fetch = $fetch;
     }
 
     /**
@@ -45,19 +49,16 @@ class HydraService
      */
     protected function get($flow, $challenge)
     {
-        $url = $this->baseUrl . '/oauth2/auth/requests/' . $flow;
-
-        $reqUrl =
-            $url . '?' . http_build_query([$flow . '_challenge' => $challenge]);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $reqUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['X-Forwarded-Proto: https']);
-
-        $result = curl_exec($ch);
-        curl_close($ch);
-
+        $result = $this->fetch->fetch(
+            $this->baseUrl .
+                '/oauth2/auth/requests/' .
+                $flow .
+                '?' .
+                http_build_query([$flow . '_challenge' => $challenge]),
+            [
+                'headers' => ['X-Forwarded-Proto: https'],
+            ]
+        );
         return json_decode($result, true);
     }
 
@@ -71,28 +72,24 @@ class HydraService
      */
     protected function put($flow, $action, $challenge, $body)
     {
-        $url =
-            $this->baseUrl . '/oauth2/auth/requests/' . $flow . '/' . $action;
-        $reqUrl =
-            $url . '?' . http_build_query([$flow . '_challenge' => $challenge]);
-
-        $httpHeader = [
-            'Accept: application/json',
-            'Content-Type: application/json',
-            'X-Forwarded-Proto: https',
-        ];
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $reqUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeader);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $result = curl_exec($ch);
-        curl_close($ch);
-
+        $result = $this->fetch->fetch(
+            $this->baseUrl .
+                '/oauth2/auth/requests/' .
+                $flow .
+                '/' .
+                $action .
+                '?' .
+                http_build_query([$flow . '_challenge' => $challenge]),
+            [
+                'method' => 'PUT',
+                'headers' => [
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'X-Forwarded-Proto: https',
+                ],
+                'body' => json_encode($body),
+            ]
+        );
         return json_decode($result, true);
     }
 

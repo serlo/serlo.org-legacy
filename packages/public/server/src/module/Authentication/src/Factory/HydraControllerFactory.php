@@ -22,12 +22,11 @@
  */
 namespace Authentication\Factory;
 
-use Authentication\Adapter\AdapterInterface;
-use Authentication\Adapter\UserAuthAdapter;
 use Authentication\Controller\HydraController;
-use Authentication\Service\AuthenticationService;
+use Authentication\Service\AuthenticationServiceInterface;
 use Authentication\Service\HydraService;
 use User\Factory\UserManagerFactoryTrait;
+use Zend\Mvc\I18n\Translator;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -44,20 +43,22 @@ class HydraControllerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /* @var $serviceLocator AbstractPluginManager */
+        /* @var AbstractPluginManager $serviceLocator */
         $serviceManager = $serviceLocator->getServiceLocator();
         $userManager = $this->getUserManager($serviceManager);
-        /* @var $hydraService HydraService */
+        /* @var HydraService $hydraService */
         $hydraService = $serviceManager->get(HydraService::class);
+        /** @var AuthenticationServiceInterface $authenticationService */
         $authenticationService = $this->getAuthenticationService(
             $serviceManager
         );
-        $controller = new HydraController(
+        /** @var Translator $translator */
+        $translator = $serviceManager->get('MvcTranslator');
+        return new HydraController(
             $hydraService,
             $authenticationService,
-            $userManager
+            $userManager,
+            $translator
         );
-
-        return $controller;
     }
 }

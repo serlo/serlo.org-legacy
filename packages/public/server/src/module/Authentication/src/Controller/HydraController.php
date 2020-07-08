@@ -22,33 +22,38 @@
  */
 namespace Authentication\Controller;
 
-use Authentication\Adapter\AdapterInterface;
+use Authentication\Service\AuthenticationServiceInterface;
 use Authentication\Service\HydraService;
-use Common\Traits\AuthenticationServiceAwareTrait;
 use User\Form\Login;
 use User\Manager\UserManagerAwareTrait;
 use User\Manager\UserManagerInterface;
-use Zend\Authentication\AuthenticationService;
+use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Mvc\I18n\Translator;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
 class HydraController extends AbstractActionController
 {
-    use AuthenticationServiceAwareTrait;
     use UserManagerAwareTrait;
-    /**
-     * @var HydraService
-     */
+
+    /** @var AuthenticationServiceInterface */
+    protected $authenticationService;
+    /** @var HydraService */
     protected $hydraService;
+    /** @var Translator */
+    protected $translator;
 
     public function __construct(
         HydraService $hydraService,
-        AuthenticationService $authenticationService,
-        UserManagerInterface $userManager
+        AuthenticationServiceInterface $authenticationService,
+        UserManagerInterface $userManager,
+        Translator $translator
     ) {
         $this->hydraService = $hydraService;
         $this->authenticationService = $authenticationService;
         $this->userManager = $userManager;
+        $this->translator = $translator;
     }
 
     public function loginAction()
@@ -58,6 +63,13 @@ class HydraController extends AbstractActionController
             $challenge = $this->params()->fromQuery('login_challenge');
 
             $loginResponse = $this->hydraService->getLoginRequest($challenge);
+
+            if (array_key_exists('error', $loginResponse)) {
+                $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+                return new JsonModel([
+                    'error' => $loginResponse['error'],
+                ]);
+            }
 
             // if hydra knows the user already, accept without login
             if ($loginResponse['skip']) {
@@ -86,11 +98,11 @@ class HydraController extends AbstractActionController
             }
         }
 
-        $form = new Login($this->getServiceLocator()->get('MvcTranslator'));
+        $form = new Login($this->translator);
         $messages = [];
 
         if ($this->getRequest()->isPost()) {
-            // post data is from login action. Check if login was successfull
+            // post data is from login action. Check if login was successful
             $post = $this->params()->fromPost();
             $challenge = $post['login_challenge'];
             $form->setData($post);
@@ -98,14 +110,11 @@ class HydraController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                $adapter = $this->getAuthenticationService()->getAdapter();
-                $storage = $this->getAuthenticationService()->getStorage();
-
-                $adapter->setIdentity($data['email']);
-                $adapter->setCredential($data['password']);
-                $storage->setRememberMe($data['remember']);
-
-                $result = $this->getAuthenticationService()->authenticate();
+                $result = $this->authenticationService->authenticateWithData(
+                    $data['email'],
+                    $data['password'],
+                    $data['remember']
+                );
 
                 if ($result->isValid()) {
                     $user = $this->getUserManager()->getUser(
