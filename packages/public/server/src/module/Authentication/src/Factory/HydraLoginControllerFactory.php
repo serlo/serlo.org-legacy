@@ -22,41 +22,32 @@
  */
 namespace Authentication\Factory;
 
-use Authentication\Controller\HydraController;
+use Authentication\Controller\HydraLoginController;
 use Authentication\Service\AuthenticationServiceInterface;
 use Authentication\Service\HydraService;
-use User\Factory\UserManagerFactoryTrait;
+use Common\Factory\AbstractControllerFactory;
+use User\Manager\UserManager;
+use User\Manager\UserManagerInterface;
 use Zend\Mvc\I18n\Translator;
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class HydraControllerFactory implements FactoryInterface
+class HydraLoginControllerFactory extends AbstractControllerFactory
 {
-    use AuthenticationServiceFactoryTrait;
-    use UserManagerFactoryTrait;
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return HydraController
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    protected function createController(ServiceLocatorInterface $serviceManager)
     {
-        /* @var AbstractPluginManager $serviceLocator */
-        $serviceManager = $serviceLocator->getServiceLocator();
-        $userManager = $this->getUserManager($serviceManager);
+        /** @var AuthenticationServiceInterface $authenticationService */
+        $authenticationService = $serviceManager->get(
+            'Zend\Authentication\AuthenticationService'
+        );
         /* @var HydraService $hydraService */
         $hydraService = $serviceManager->get(HydraService::class);
-        /** @var AuthenticationServiceInterface $authenticationService */
-        $authenticationService = $this->getAuthenticationService(
-            $serviceManager
-        );
+        /** @var UserManagerInterface $userManager */
+        $userManager = $serviceManager->get(UserManager::class);
         /** @var Translator $translator */
         $translator = $serviceManager->get('MvcTranslator');
-        return new HydraController(
-            $hydraService,
+        return new HydraLoginController(
             $authenticationService,
+            $hydraService,
             $userManager,
             $translator
         );

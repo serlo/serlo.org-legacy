@@ -40,8 +40,6 @@ class HydraConsentLogoutTest extends AbstractHttpControllerTestCase
     protected $authenticationService;
     /** @var FetchStub */
     protected $fetch;
-    /** @var UserManagerStub */
-    protected $userManager;
 
     public function setUp()
     {
@@ -57,12 +55,6 @@ class HydraConsentLogoutTest extends AbstractHttpControllerTestCase
 
         $this->fetch = new FetchStub();
         $serviceManager->setService(FetchInterface::class, $this->fetch);
-
-        $this->userManager = new UserManagerStub();
-        $serviceManager->setService(
-            'User\Manager\UserManager',
-            $this->userManager
-        );
     }
 
     /**
@@ -132,7 +124,7 @@ class HydraConsentLogoutTest extends AbstractHttpControllerTestCase
             '/auth/hydra/logout?logout_challenge=' . $this->getLogoutChallenge()
         );
         $requests = $this->fetch->getRequestsTo($this->getAcceptUrl());
-        $this->assertEquals(1, count($requests));
+        $this->assertCount(1, $requests);
         $request = $requests[0];
         $this->assertEquals('PUT', $request['method']);
         $this->assertEquals([], json_decode($request['body'], true));
@@ -151,16 +143,8 @@ class HydraConsentLogoutTest extends AbstractHttpControllerTestCase
         $fetchStubs = array_key_exists('httpRequests', $options)
             ? $options['httpRequests']
             : [];
-        $usersStubs = array_key_exists('users', $options)
-            ? $options['users']
-            : [];
-        $authenticatedUser = array_key_exists('authenticatedUser', $options)
-            ? $options['authenticatedUser']
-            : null;
-
         $this->authenticationService->init($authenticationStubs);
         $this->fetch->init($fetchStubs);
-        $this->userManager->init($usersStubs, $authenticatedUser);
     }
 
     protected function getLogoutUrl($consentChallenge = null)

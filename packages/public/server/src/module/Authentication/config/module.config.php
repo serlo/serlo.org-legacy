@@ -22,8 +22,12 @@
  */
 namespace Authentication;
 
-use Authentication\Controller\HydraController;
-use Authentication\Factory\HydraControllerFactory;
+use Authentication\Controller\HydraConsentController;
+use Authentication\Controller\HydraLoginController;
+use Authentication\Controller\HydraLogoutController;
+use Authentication\Factory\HydraConsentControllerFactory;
+use Authentication\Factory\HydraLoginControllerFactory;
+use Authentication\Factory\HydraLogoutControllerFactory;
 use Authentication\Factory\HydraServiceFactory;
 use Authentication\Service\HydraService;
 
@@ -43,7 +47,10 @@ return [
         'factories' => [
             __NAMESPACE__ . '\Controller\AuthenticationController' =>
                 __NAMESPACE__ . '\Factory\AuthenticationControllerFactory',
-            HydraController::class => HydraControllerFactory::class,
+            HydraConsentController::class =>
+                HydraConsentControllerFactory::class,
+            HydraLoginController::class => HydraLoginControllerFactory::class,
+            HydraLogoutController::class => HydraLogoutControllerFactory::class,
         ],
     ],
     'di' => [
@@ -131,9 +138,6 @@ return [
                         'type' => 'literal',
                         'options' => [
                             'route' => '/hydra',
-                            'defaults' => [
-                                'controller' => HydraController::class,
-                            ],
                         ],
                         'child_routes' => [
                             'login' => [
@@ -141,7 +145,9 @@ return [
                                 'options' => [
                                     'route' => '/login',
                                     'defaults' => [
-                                        'action' => 'login',
+                                        'controller' =>
+                                            HydraLoginController::class,
+                                        'action' => 'index',
                                     ],
                                 ],
                             ],
@@ -150,7 +156,9 @@ return [
                                 'options' => [
                                     'route' => '/logout',
                                     'defaults' => [
-                                        'action' => 'logout',
+                                        'controller' =>
+                                            HydraLogoutController::class,
+                                        'action' => 'index',
                                     ],
                                 ],
                             ],
@@ -159,7 +167,9 @@ return [
                                 'options' => [
                                     'route' => '/consent',
                                     'defaults' => [
-                                        'action' => 'consent',
+                                        'controller' =>
+                                            HydraConsentController::class,
+                                        'action' => 'index',
                                     ],
                                 ],
                             ],

@@ -178,7 +178,7 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
             ]
         );
         $requests = $this->fetch->getRequestsTo($this->getAcceptUrl());
-        $this->assertEquals(1, count($requests));
+        $this->assertCount(1, $requests);
         $request = $requests[0];
         $this->assertEquals('PUT', $request['method']);
         $this->assertEquals(
@@ -267,7 +267,7 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
             '/auth/hydra/login?login_challenge=' . $this->getLoginChallenge()
         );
         $requests = $this->fetch->getRequestsTo($this->getAcceptUrl());
-        $this->assertEquals(1, count($requests));
+        $this->assertCount(1, $requests);
         $request = $requests[0];
         $this->assertEquals('PUT', $request['method']);
         $this->assertEquals(
@@ -308,7 +308,7 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
             '/auth/hydra/login?login_challenge=' . $this->getLoginChallenge()
         );
         $requests = $this->fetch->getRequestsTo($this->getAcceptUrl());
-        $this->assertEquals(1, count($requests));
+        $this->assertCount(1, $requests);
         $request = $requests[0];
         $this->assertEquals('PUT', $request['method']);
         $this->assertEquals(

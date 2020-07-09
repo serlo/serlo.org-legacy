@@ -24,10 +24,8 @@
 namespace AdminTest\Controller;
 
 use AtheneTest\TestCase\AbstractHttpControllerTestCase;
-use AuthenticationTest\Stub\Service\AuthenticationServiceStub;
 use Common\Helper\FetchInterface;
 use CommonTest\Stub\Helper\FetchStub;
-use Csrf\CsrfTokenContainer;
 use Exception;
 use UserTest\Stub\Entity\UserStub;
 use UserTest\Stub\Manager\UserManagerStub;
@@ -36,8 +34,6 @@ class HydraConsentControllerTest extends AbstractHttpControllerTestCase
 {
     protected $modules = ['Authentication', 'User'];
 
-    /** @var AuthenticationServiceStub */
-    protected $authenticationService;
     /** @var FetchStub */
     protected $fetch;
     /** @var UserManagerStub */
@@ -48,12 +44,6 @@ class HydraConsentControllerTest extends AbstractHttpControllerTestCase
         parent::setUp();
 
         $serviceManager = $this->getApplicationServiceLocator();
-
-        $this->authenticationService = new AuthenticationServiceStub();
-        $serviceManager->setService(
-            'Zend\Authentication\AuthenticationService',
-            $this->authenticationService
-        );
 
         $this->fetch = new FetchStub();
         $serviceManager->setService(FetchInterface::class, $this->fetch);
@@ -137,7 +127,7 @@ class HydraConsentControllerTest extends AbstractHttpControllerTestCase
                 $this->getConsentChallenge()
         );
         $requests = $this->fetch->getRequestsTo($this->getAcceptUrl());
-        $this->assertEquals(1, count($requests));
+        $this->assertCount(1, $requests);
         $request = $requests[0];
         $this->assertEquals('PUT', $request['method']);
         $this->assertEquals(
@@ -186,7 +176,7 @@ class HydraConsentControllerTest extends AbstractHttpControllerTestCase
                 $this->getConsentChallenge()
         );
         $requests = $this->fetch->getRequestsTo($this->getAcceptUrl());
-        $this->assertEquals(1, count($requests));
+        $this->assertCount(1, $requests);
         $request = $requests[0];
         $this->assertEquals('PUT', $request['method']);
         $this->assertEquals(
@@ -212,12 +202,6 @@ class HydraConsentControllerTest extends AbstractHttpControllerTestCase
 
     protected function initStubs(array $options)
     {
-        $authenticationStubs = array_key_exists(
-            'authenticationRequests',
-            $options
-        )
-            ? $options['authenticationRequests']
-            : [];
         $fetchStubs = array_key_exists('httpRequests', $options)
             ? $options['httpRequests']
             : [];
@@ -228,7 +212,6 @@ class HydraConsentControllerTest extends AbstractHttpControllerTestCase
             ? $options['authenticatedUser']
             : null;
 
-        $this->authenticationService->init($authenticationStubs);
         $this->fetch->init($fetchStubs);
         $this->userManager->init($usersStubs, $authenticatedUser);
     }

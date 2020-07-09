@@ -22,6 +22,7 @@
  */
 namespace Authentication\Service;
 
+use Authentication\Exception\HydraException;
 use Common\Helper\FetchInterface;
 
 class HydraService
@@ -42,10 +43,84 @@ class HydraService
     }
 
     /**
-     * Helper for sending request to hydra
+     * Fetches information on a login request
+     *
+     * @param string $challenge
+     * @return mixed
+     * @throws HydraException
+     */
+    public function getLoginRequest($challenge)
+    {
+        return $this->get('login', $challenge);
+    }
+
+    /**
+     * Accepts a login request
+     *
+     * @param string $challenge
+     * @param mixed $body
+     * @return mixed
+     * @throws HydraException
+     */
+    public function acceptLoginRequest($challenge, $body)
+    {
+        return $this->put('login', 'accept', $challenge, $body);
+    }
+
+    /**
+     * Fetches information on a logout request.
+     *
+     * @param string $challenge
+     * @return mixed
+     * @throws HydraException
+     */
+    public function getLogoutRequest($challenge)
+    {
+        return $this->get('logout', $challenge);
+    }
+
+    /**
+     * Accepts a logout request.
+     *
+     * @param string $challenge
+     * @return mixed
+     * @throws HydraException
+     */
+    public function acceptLogoutChallenge($challenge)
+    {
+        return $this->put('logout', 'accept', $challenge, []);
+    }
+
+    /**
+     * Fetches information on a consent request.
+     * @param string $challenge
+     * @return mixed
+     * @throws HydraException
+     */
+    public function getConsentRequest($challenge)
+    {
+        return $this->get('consent', $challenge);
+    }
+
+    /**
+     * Accepts a consent request
+     * @param string $challenge
+     * @param mixed $body
+     * @return mixed
+     * @throws HydraException
+     */
+    public function acceptConsentRequest($challenge, $body)
+    {
+        return $this->put('consent', 'accept', $challenge, $body);
+    }
+
+    /**
+     * Helper for sending a PUT request to hydra.
+     *
      * @param string $flow - can be 'login' or 'consent'
      * @param string $challenge
      * @return mixed
+     * @throws HydraException
      */
     protected function get($flow, $challenge)
     {
@@ -59,17 +134,22 @@ class HydraService
                 'headers' => ['X-Forwarded-Proto: https'],
             ]
         );
-        return json_decode($result, true);
+        $response = json_decode($result, true);
+        if (array_key_exists('error', $response)) {
+            throw new HydraException($response['error']);
+        }
+        return $response;
     }
 
     /**
-     * Helper for sending request to hydra
+     * Helper for sending a GET request to Hydra.
      *
      * @param string $flow - can be 'login' or 'consent'
      * @param string $action - can be 'accept' or 'reject'
      * @param string $challenge
      * @param mixed $body
      * @return mixed
+     * @throws HydraException
      */
     protected function put($flow, $action, $challenge, $body)
     {
@@ -91,126 +171,10 @@ class HydraService
                 'body' => json_encode($body),
             ]
         );
-        return json_decode($result, true);
+        $response = json_decode($result, true);
+        if (array_key_exists('error', $response)) {
+            throw new HydraException($response['error']);
+        }
+        return $response;
     }
-
-    /**
-     * Fetches information on a login request
-     *
-     * @param string $challenge
-     * @return mixed
-     */
-    public function getLoginRequest($challenge)
-    {
-        return $this->get('login', $challenge);
-    }
-
-    /**
-     * Accepts a login request
-     *
-     * @param string $challenge
-     * @param mixed $body
-     * @return mixed
-     */
-    public function acceptLoginRequest($challenge, $body)
-    {
-        return $this->put('login', 'accept', $challenge, $body);
-    }
-
-    /**
-     * Rejects a login request
-     *
-     * @param string $challenge
-     * @param mixed $body
-     * @return mixed
-     */
-    public function rejectLoginRequest($challenge, $body)
-    {
-        return $this->put('login', 'reject', $challenge, $body);
-    }
-
-    /**
-     * Fetches information on a logout request.
-     *
-     * @param string $challenge
-     * @return mixed
-     */
-    public function getLogoutRequest($challenge)
-    {
-        return $this->get('logout', $challenge);
-    }
-
-    /**
-     * Accepts a logout request.
-     *
-     * @param string $challenge
-     * @param mixed $body
-     * @return mixed
-     */
-    public function acceptLogoutChallenge($challenge)
-    {
-        return $this->put('logout', 'accept', $challenge, []);
-    }
-
-    /**
-     * Fetches information on a consent request.
-     * @param string $challenge
-     * @return mixed
-     */
-    public function getConsentRequest($challenge)
-    {
-        return $this->get('consent', $challenge);
-    }
-
-    /**
-     * Accepts a consent request
-     * @param string $challenge
-     * @param mixed $body
-     * @return mixed
-     */
-    public function acceptConsentRequest($challenge, $body)
-    {
-        return $this->put('consent', 'accept', $challenge, $body);
-    }
-
-    /**
-     * Rejects a consent request
-     * @param string $challenge
-     * @param mixed $body
-     * @return mixed
-     */
-    public function rejectConsentRequest($challenge, $body)
-    {
-        return $this->put('consent', 'reject', $challenge, $body);
-    }
-
-    //    /**
-    //     * Fetches information on a logout request.
-    //     * @param string $challenge
-    //     * @return mixed
-    //     */
-    //    public function getLogoutRequest($challenge)
-    //    {
-    //        return $this->get('logout', $challenge);
-    //    }
-    //
-    //    /**
-    //     * Accepts a logout request.
-    //     * @param string $challenge
-    //     * @return mixed
-    //     */
-    //    public function acceptLogoutRequest($challenge)
-    //    {
-    //        return $this->put('logout', 'accept', $challenge, []);
-    //      }
-    //
-    //    /**
-    //     * Reject a logout request.
-    //     * @param string $challenge
-    //     * @return mixed
-    //     */
-    //    public function rejectLogoutRequest($challenge)
-    //    {
-    //        return $this->put('logout', 'reject', $challenge, []);
-    //    }
 }
