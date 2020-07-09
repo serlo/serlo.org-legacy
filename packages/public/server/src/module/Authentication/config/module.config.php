@@ -138,7 +138,6 @@ return [
                         'child_routes' => [
                             'login' => [
                                 'type' => 'literal',
-                                'may_terminate' => true,
                                 'options' => [
                                     'route' => '/login',
                                     'defaults' => [
@@ -146,9 +145,17 @@ return [
                                     ],
                                 ],
                             ],
+                            'logout' => [
+                                'type' => 'literal',
+                                'options' => [
+                                    'route' => '/logout',
+                                    'defaults' => [
+                                        'action' => 'logout',
+                                    ],
+                                ],
+                            ],
                             'consent' => [
                                 'type' => 'literal',
-                                'may_terminate' => true,
                                 'options' => [
                                     'route' => '/consent',
                                     'defaults' => [

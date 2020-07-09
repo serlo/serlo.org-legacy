@@ -19,6 +19,7 @@ services:
       - OAUTH2_EXPOSE_INTERNAL_ERRORS=1
       - URLS_SELF_ISSUER=http://localhost:4444
       - URLS_LOGIN=http://de.serlo.localhost:4567/auth/hydra/login
+      - URLS_LOGOUT=http://de.serlo.localhost:4567/auth/hydra/logout
       - URLS_CONSENT=http://de.serlo.localhost:4567/auth/hydra/consent
       - DSN=memory
       - SECRETS_SYSTEM=youReallyNeedToChangeThis

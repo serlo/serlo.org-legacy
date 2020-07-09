@@ -110,6 +110,8 @@ class HydraController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
 
+                // TODO: does this even work correctly?
+                // No it does not for some reason!
                 $result = $this->authenticationService->authenticateWithData(
                     $data['email'],
                     $data['password'],
@@ -156,9 +158,31 @@ class HydraController extends AbstractActionController
         return $view;
     }
 
+    public function logoutAction()
+    {
+        // Skip consent because OAuth only used internally at the moment
+        $challenge = $this->params()->fromQuery('logout_challenge');
+
+        $logoutResponse = $this->hydraService->getLogoutRequest($challenge);
+        if (array_key_exists('error', $logoutResponse)) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return new JsonModel([
+                'error' => $logoutResponse['error'],
+            ]);
+        }
+
+        $this->authenticationService->clearIdentity();
+
+        $acceptResponse = $this->hydraService->acceptLogoutChallenge(
+            $challenge
+        );
+
+        return $this->redirect()->toUrl($acceptResponse['redirect_to']);
+    }
+
     public function consentAction()
     {
-        // skip consent because OAuth only used internally at the moment
+        // Skip consent because OAuth only used internally at the moment
         $challenge = $this->params()->fromQuery('consent_challenge');
 
         $consentResponse = $this->hydraService->getConsentRequest($challenge);

@@ -184,5 +184,7 @@ class AuthenticationService extends ZendAuthenticationService implements
         $adapter->setIdentity($email);
         $adapter->setCredential($password);
         $storage->setRememberMe($remember);
+
+        return $this->authenticate();
     }
 }

@@ -64,6 +64,7 @@ class HydraService
 
     /**
      * Helper for sending request to hydra
+     *
      * @param string $flow - can be 'login' or 'consent'
      * @param string $action - can be 'accept' or 'reject'
      * @param string $challenge
@@ -95,6 +96,7 @@ class HydraService
 
     /**
      * Fetches information on a login request
+     *
      * @param string $challenge
      * @return mixed
      */
@@ -105,6 +107,7 @@ class HydraService
 
     /**
      * Accepts a login request
+     *
      * @param string $challenge
      * @param mixed $body
      * @return mixed
@@ -116,6 +119,7 @@ class HydraService
 
     /**
      * Rejects a login request
+     *
      * @param string $challenge
      * @param mixed $body
      * @return mixed
@@ -123,6 +127,29 @@ class HydraService
     public function rejectLoginRequest($challenge, $body)
     {
         return $this->put('login', 'reject', $challenge, $body);
+    }
+
+    /**
+     * Fetches information on a logout request.
+     *
+     * @param string $challenge
+     * @return mixed
+     */
+    public function getLogoutRequest($challenge)
+    {
+        return $this->get('logout', $challenge);
+    }
+
+    /**
+     * Accepts a logout request.
+     *
+     * @param string $challenge
+     * @param mixed $body
+     * @return mixed
+     */
+    public function acceptLogoutChallenge($challenge)
+    {
+        return $this->put('logout', 'accept', $challenge, []);
     }
 
     /**
