@@ -17,7 +17,9 @@
     "zendframework/zendframework": "~2.4.0",
     "zf-commons/zfc-base": "^0.1.0",
     "zf-commons/zfc-rbac": "~2.3.0",
-    "zf-commons/zfc-twig": "^1.0.0"
+    "zf-commons/zfc-twig": "^1.0.0",
+    "ext-curl": "*",
+    "ext-json": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^5.0.0"
@@ -76,6 +78,7 @@
       "AtheneTest\\": "src/test/AtheneTest",
       "AdminTest\\": "src/module/Admin/test",
       "ApiTest\\": "src/module/Api/test",
+      "AuthenticationTest\\": "src/module/Authentication/test",
       "BlogTest\\": "src/module/Blog/test",
       "ClassResolverTest\\": "src/module/ClassResolver/test",
       "CommonTest\\": "src/module/Common/test",
@@ -83,7 +86,9 @@
       "FeatureFlagsTest\\": "src/module/FeatureFlags/test",
       "InstanceTest\\": "src/module/Instance/test",
       "MailmanTest\\": "src/module/Mailman/test",
-      "TypeTest\\": "src/module/Type/test"
+      "TypeTest\\": "src/module/Type/test",
+      "UiTest\\": "src/module/Ui/test",
+      "UserTest\\": "src/module/User/test"
     }
   },
   "config": {

@@ -20,16 +20,19 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Common\ObjectManager;
 
-interface Flushable
+namespace UiTest;
+
+use Zend\EventManager\Event;
+
+class Module extends \Ui\Module
 {
-    /**
-     * Flushes all changes to objects that have been queued up to now to the database.
-     * This effectively synchronizes the in-memory state of managed objects with the
-     * database.
-     *
-     * @return void
-     */
-    public function flush();
+    public function onDispatch(Event $e)
+    {
+        parent::onDispatch($e);
+        $controller = $e->getTarget();
+
+        // Override layout so we can test the template in isolation
+        $controller->layout('layout/partials/main');
+    }
 }

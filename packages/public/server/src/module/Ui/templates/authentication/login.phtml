@@ -1,0 +1,89 @@
+<?php
+use User\Form\Login;
+/** @var Login $form */
+/** @var array $errorMessages */
+/** @var mixed $loginChallenge */
+/** @var mixed $redir */
+?>
+
+<?php $this->placeholder('hideSubjectNav')->set(true); ?>
+
+<div class="flasher">
+    <?php if (isset($redir) && $redir): ?>
+        <div class="alert alert-info">
+            <?= $this->translate(
+                'You must be logged in to access this page.'
+            ) ?>
+        </div>
+    <?php endif; ?>
+    <?php foreach ($errorMessages as $message): ?>
+        <div class="alert alert-danger">
+            <?= $message ?>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<?= $this->pageHeader($this->translate('Log in')) ?>
+
+<?php $form->prepare(); ?>
+<?= $this->form()->openTag($this->form) ?>
+<?= $this->formHidden($form->get('csrf')) ?>
+
+<div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <i class="fa fa-user"></i>
+        </span>
+        <?= $this->formElement($form->get('email')) ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <i class="fa fa-lock"></i>
+        </span>
+        <?= $this->formElement($form->get('password')) ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <?= $this->formElement($form->get('submit')) ?>
+    <?= $this->formElement($form->get('remember')) ?>
+</div>
+
+<div class="form-group">
+    <ul class="list-unstyled">
+        <li>
+            <?= sprintf(
+                $this->translate('Are you new here? %sSign up%s!'),
+                '<a href="' . $this->url('user/register') . '">',
+                '</a>'
+            ) ?>
+        </li>
+        <li>
+            <?= sprintf(
+                $this->translate('Did you forget your %spassword%s?'),
+                '<a href="' .
+                    $this->url('authentication/password/restore') .
+                    '">',
+                '</a>'
+            ) ?>
+        </li>
+        <li>
+            <?= sprintf(
+                $this->translate(
+                    'Haven\'t activated your account yet? %sResend activation mail%s!'
+                ),
+                '<a href="' . $this->url('authentication/activate') . '">',
+                '</a>'
+            ) ?>
+        </li>
+    </ul>
+</div>
+
+<?php if (isset($loginChallenge)): ?>
+    <input type="hidden" name="login_challenge" value="<?= $loginChallenge ?>" />
+<?php endif; ?>
+
+<?php $this->form()->closeTag($form); ?>

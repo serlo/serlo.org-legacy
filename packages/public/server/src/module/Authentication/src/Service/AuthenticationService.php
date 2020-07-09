@@ -22,9 +22,10 @@
  */
 namespace Authentication\Service;
 
+use Authentication\Adapter\UserAuthAdapterInterface;
+use Authentication\Storage\UserSessionStorageInterface;
 use Zend\Authentication\Adapter;
 use Zend\Authentication\AuthenticationService as ZendAuthenticationService;
-use Zend\Authentication\Exception;
 use Zend\Authentication\Storage;
 use Zend\Http\Header\SetCookie;
 use Zend\Http\Request;
@@ -33,7 +34,8 @@ use Zend\Session\Config\SessionConfig;
 use Zend\Stdlib\RequestInterface;
 use Zend\Stdlib\ResponseInterface;
 
-class AuthenticationService extends ZendAuthenticationService
+class AuthenticationService extends ZendAuthenticationService implements
+    AuthenticationServiceInterface
 {
     /**
      * @var SessionConfig
@@ -61,8 +63,8 @@ class AuthenticationService extends ZendAuthenticationService
     protected $cookiePath = '/';
 
     public function __construct(
-        Storage\StorageInterface $storage = null,
-        Adapter\AdapterInterface $adapter = null,
+        Storage\StorageInterface $storage,
+        Adapter\AdapterInterface $adapter,
         SessionConfig $sessionConfig,
         ResponseInterface $response,
         RequestInterface $request
@@ -170,5 +172,19 @@ class AuthenticationService extends ZendAuthenticationService
             null
         );
         $this->response->getHeaders()->addHeader($cookie);
+    }
+
+    public function authenticateWithData($email, $password, $remember = false)
+    {
+        /** @var UserAuthAdapterInterface $adapter */
+        $adapter = $this->getAdapter();
+        /** @var UserSessionStorageInterface $storage */
+        $storage = $this->getStorage();
+
+        $adapter->setIdentity($email);
+        $adapter->setCredential($password);
+        $storage->setRememberMe($remember);
+
+        return $this->authenticate();
     }
 }

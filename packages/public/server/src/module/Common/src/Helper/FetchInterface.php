@@ -20,16 +20,16 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Common\ObjectManager;
 
-interface Flushable
+namespace Common\Helper;
+
+interface FetchInterface
 {
     /**
-     * Flushes all changes to objects that have been queued up to now to the database.
-     * This effectively synchronizes the in-memory state of managed objects with the
-     * database.
-     *
-     * @return void
+     * Fetch API
+     * @param string url - the URL of the resource to fetch
+     * @param array $init - an array containing any custom settings that you want to apply to the request
+     * @return string
      */
-    public function flush();
+    public function fetch($url, $init = []);
 }

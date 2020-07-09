@@ -22,84 +22,32 @@
  */
 namespace Authentication\Service;
 
+use Authentication\Exception\HydraException;
+use Common\Helper\FetchInterface;
+
 class HydraService
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $baseUrl;
+    /** @var FetchInterface */
+    protected $fetch;
 
     /**
      * @param string $baseUrl
+     * @param FetchInterface $fetch
      */
-    public function __construct($baseUrl)
+    public function __construct($baseUrl, FetchInterface $fetch)
     {
         $this->baseUrl = $baseUrl;
-    }
-
-    /**
-     * Helper for sending request to hydra
-     * @param string $flow - can be 'login' or 'consent'
-     * @param string $challenge
-     * @return mixed
-     */
-    protected function get($flow, $challenge)
-    {
-        $url = $this->baseUrl . '/oauth2/auth/requests/' . $flow;
-
-        $reqUrl =
-            $url . '?' . http_build_query([$flow . '_challenge' => $challenge]);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $reqUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['X-Forwarded-Proto: https']);
-
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        return json_decode($result, true);
-    }
-
-    /**
-     * Helper for sending request to hydra
-     * @param string $flow - can be 'login' or 'consent'
-     * @param string $action - can be 'accept' or 'reject'
-     * @param string $challenge
-     * @param mixed $body
-     * @return mixed
-     */
-    protected function put($flow, $action, $challenge, $body)
-    {
-        $url =
-            $this->baseUrl . '/oauth2/auth/requests/' . $flow . '/' . $action;
-        $reqUrl =
-            $url . '?' . http_build_query([$flow . '_challenge' => $challenge]);
-
-        $httpHeader = [
-            'Accept: application/json',
-            'Content-Type: application/json',
-            'X-Forwarded-Proto: https',
-        ];
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $reqUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeader);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        return json_decode($result, true);
+        $this->fetch = $fetch;
     }
 
     /**
      * Fetches information on a login request
+     *
      * @param string $challenge
      * @return mixed
+     * @throws HydraException
      */
     public function getLoginRequest($challenge)
     {
@@ -108,9 +56,11 @@ class HydraService
 
     /**
      * Accepts a login request
+     *
      * @param string $challenge
      * @param mixed $body
      * @return mixed
+     * @throws HydraException
      */
     public function acceptLoginRequest($challenge, $body)
     {
@@ -118,20 +68,34 @@ class HydraService
     }
 
     /**
-     * Rejects a login request
+     * Fetches information on a logout request.
+     *
      * @param string $challenge
-     * @param mixed $body
      * @return mixed
+     * @throws HydraException
      */
-    public function rejectLoginRequest($challenge, $body)
+    public function getLogoutRequest($challenge)
     {
-        return $this->put('login', 'reject', $challenge, $body);
+        return $this->get('logout', $challenge);
+    }
+
+    /**
+     * Accepts a logout request.
+     *
+     * @param string $challenge
+     * @return mixed
+     * @throws HydraException
+     */
+    public function acceptLogoutChallenge($challenge)
+    {
+        return $this->put('logout', 'accept', $challenge, []);
     }
 
     /**
      * Fetches information on a consent request.
      * @param string $challenge
      * @return mixed
+     * @throws HydraException
      */
     public function getConsentRequest($challenge)
     {
@@ -143,6 +107,7 @@ class HydraService
      * @param string $challenge
      * @param mixed $body
      * @return mixed
+     * @throws HydraException
      */
     public function acceptConsentRequest($challenge, $body)
     {
@@ -150,43 +115,66 @@ class HydraService
     }
 
     /**
-     * Rejects a consent request
+     * Helper for sending a PUT request to hydra.
+     *
+     * @param string $flow - can be 'login' or 'consent'
+     * @param string $challenge
+     * @return mixed
+     * @throws HydraException
+     */
+    protected function get($flow, $challenge)
+    {
+        $result = $this->fetch->fetch(
+            $this->baseUrl .
+                '/oauth2/auth/requests/' .
+                $flow .
+                '?' .
+                http_build_query([$flow . '_challenge' => $challenge]),
+            [
+                'headers' => ['X-Forwarded-Proto: https'],
+            ]
+        );
+        $response = json_decode($result, true);
+        if (array_key_exists('error', $response)) {
+            throw new HydraException($response['error']);
+        }
+        return $response;
+    }
+
+    /**
+     * Helper for sending a GET request to Hydra.
+     *
+     * @param string $flow - can be 'login' or 'consent'
+     * @param string $action - can be 'accept' or 'reject'
      * @param string $challenge
      * @param mixed $body
      * @return mixed
+     * @throws HydraException
      */
-    public function rejectConsentRequest($challenge, $body)
+    protected function put($flow, $action, $challenge, $body)
     {
-        return $this->put('consent', 'reject', $challenge, $body);
+        $result = $this->fetch->fetch(
+            $this->baseUrl .
+                '/oauth2/auth/requests/' .
+                $flow .
+                '/' .
+                $action .
+                '?' .
+                http_build_query([$flow . '_challenge' => $challenge]),
+            [
+                'method' => 'PUT',
+                'headers' => [
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'X-Forwarded-Proto: https',
+                ],
+                'body' => json_encode($body),
+            ]
+        );
+        $response = json_decode($result, true);
+        if (array_key_exists('error', $response)) {
+            throw new HydraException($response['error']);
+        }
+        return $response;
     }
-
-    //    /**
-    //     * Fetches information on a logout request.
-    //     * @param string $challenge
-    //     * @return mixed
-    //     */
-    //    public function getLogoutRequest($challenge)
-    //    {
-    //        return $this->get('logout', $challenge);
-    //    }
-    //
-    //    /**
-    //     * Accepts a logout request.
-    //     * @param string $challenge
-    //     * @return mixed
-    //     */
-    //    public function acceptLogoutRequest($challenge)
-    //    {
-    //        return $this->put('logout', 'accept', $challenge, []);
-    //      }
-    //
-    //    /**
-    //     * Reject a logout request.
-    //     * @param string $challenge
-    //     * @return mixed
-    //     */
-    //    public function rejectLogoutRequest($challenge)
-    //    {
-    //        return $this->put('logout', 'reject', $challenge, []);
-    //    }
 }

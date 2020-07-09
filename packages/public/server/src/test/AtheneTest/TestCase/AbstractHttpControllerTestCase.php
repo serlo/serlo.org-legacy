@@ -49,8 +49,6 @@ abstract class AbstractHttpControllerTestCase extends
     public function assertJsonResponse($expected, ResponseInterface $response)
     {
         /** @var Response $response */
-        $this->assertResponseStatusCode(200);
-
         $headers = $response->getHeaders();
         $this->assertEquals(
             'application/json; charset=utf-8',
@@ -67,7 +65,7 @@ abstract class AbstractHttpControllerTestCase extends
         $config['modules'] = array_merge($this->modules, [
             'Common',
             'Log',
-            'Ui',
+            'UiTest',
         ]);
         $this->setApplicationConfig($config);
 

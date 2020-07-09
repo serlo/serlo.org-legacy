@@ -22,9 +22,9 @@
  */
 namespace Authentication\Adapter;
 
-use Zend\Authentication\Adapter\AdapterInterface as AI;
+use Zend\Authentication\Adapter\AdapterInterface as ZendAdapterInterface;
 
-interface AdapterInterface extends AI
+interface UserAuthAdapterInterface extends ZendAdapterInterface
 {
     /**
      * @param string $email

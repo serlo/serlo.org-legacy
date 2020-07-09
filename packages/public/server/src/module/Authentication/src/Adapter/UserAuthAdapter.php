@@ -29,7 +29,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use User\Exception\UserNotFoundException;
 use Zend\Authentication\Result;
 
-class UserAuthAdapter implements AdapterInterface
+class UserAuthAdapter implements UserAuthAdapterInterface
 {
     use ObjectManagerAwareTrait, HashServiceAwareTrait;
 

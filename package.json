@@ -39,7 +39,7 @@
     "oauth:client": "docker-compose run hydra clients create --skip-tls-verify --endpoint http://hydra:4445 --id test_client --secret CHANGEMENOWOMG --grant-types authorization_code --response-types code --scope openid,email --callbacks http://127.0.0.1:4446/callback --token-endpoint-auth-method client_secret_post",
     "oauth:frontend": "npm-run-all -s oauth:frontend:clear oauth:frontend:client",
     "oauth:frontend:clear": "docker-compose run hydra clients delete frontend.serlo.org --endpoint http://hydra:4445",
-    "oauth:frontend:client": "docker-compose run hydra clients create --skip-tls-verify --endpoint http://hydra:4445 --id frontend.serlo.org --secret frontend.serlo.org --grant-types authorization_code --response-types code --scope openid,offline_access --callbacks http://localhost:3000/api/auth/callback --token-endpoint-auth-method client_secret_post",
+    "oauth:frontend:client": "docker-compose run hydra clients create --skip-tls-verify --endpoint http://hydra:4445 --id frontend.serlo.org --secret frontend.serlo.org --grant-types authorization_code --response-types code --scope openid,offline_access --callbacks http://localhost:3000/api/auth/callback --post-logout-callbacks http://localhost:3000/api/auth/logout-callback --token-endpoint-auth-method client_secret_post",
     "oauth:user": "docker-compose run -p 4446:4446 hydra token user --skip-tls-verify --client-id test_client --client-secret CHANGEMENOWOMG --port 4446 --auth-url http://localhost:4444/oauth2/auth --token-url http://hydra:4444/oauth2/token --scope openid,email",
     "pacts": "jest --config ./jest.config-pacts.js",
     "start": "npm-run-all start:server start:client",

@@ -20,16 +20,23 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Common\ObjectManager;
+namespace Authentication\Factory;
 
-interface Flushable
+use Authentication\Controller\HydraConsentController;
+use Authentication\Service\HydraService;
+use Common\Factory\AbstractControllerFactory;
+use User\Manager\UserManager;
+use User\Manager\UserManagerInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+class HydraConsentControllerFactory extends AbstractControllerFactory
 {
-    /**
-     * Flushes all changes to objects that have been queued up to now to the database.
-     * This effectively synchronizes the in-memory state of managed objects with the
-     * database.
-     *
-     * @return void
-     */
-    public function flush();
+    protected function createController(ServiceLocatorInterface $serviceManager)
+    {
+        /* @var HydraService $hydraService */
+        $hydraService = $serviceManager->get(HydraService::class);
+        /** @var UserManagerInterface $userManager */
+        $userManager = $serviceManager->get(UserManager::class);
+        return new HydraConsentController($hydraService, $userManager);
+    }
 }

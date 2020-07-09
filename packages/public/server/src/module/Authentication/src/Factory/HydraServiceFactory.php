@@ -23,6 +23,7 @@
 namespace Authentication\Factory;
 
 use Authentication\Service\HydraService;
+use Common\Helper\FetchInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -37,8 +38,10 @@ class HydraServiceFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
+        /** @var FetchInterface $fetch */
+        $fetch = $serviceLocator->get(FetchInterface::class);
         $baseUrl = $config['services']['hydra'];
 
-        return new HydraService($baseUrl);
+        return new HydraService($baseUrl, $fetch);
     }
 }

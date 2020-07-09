@@ -20,16 +20,39 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Common\ObjectManager;
 
-interface Flushable
+namespace CommonTest\Stub\Helper;
+
+use Common\Helper\FetchInterface;
+use Error;
+
+class FetchStub implements FetchInterface
 {
-    /**
-     * Flushes all changes to objects that have been queued up to now to the database.
-     * This effectively synchronizes the in-memory state of managed objects with the
-     * database.
-     *
-     * @return void
-     */
-    public function flush();
+    /** @var array */
+    protected $mocks = [];
+    /** @var array */
+    protected $requests = [];
+
+    public function fetch($url, $init = [])
+    {
+        if (array_key_exists($url, $this->mocks)) {
+            $response = $this->mocks[$url];
+            $this->requests[$url] = $this->getRequestsTo($url);
+            array_push($this->requests[$url], $init);
+            return $response;
+        }
+
+        throw new Error('Unexpected fetch to ' . $url);
+    }
+
+    public function init($mocks)
+    {
+        $this->mocks = $mocks;
+        $this->requests = [];
+    }
+
+    public function getRequestsTo($url)
+    {
+        return $this->requests[$url] ?? [];
+    }
 }
