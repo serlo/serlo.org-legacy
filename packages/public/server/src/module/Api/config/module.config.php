@@ -25,11 +25,14 @@ namespace Api;
 
 use Api\Controller\ApiController;
 use Api\Controller\NavigationApiController;
+use Api\Controller\NotificationApiController;
 use Api\Factory\AliasManagerListenerFactory;
 use Api\Factory\ApiControllerFactory;
 use Api\Factory\ApiManagerFactory;
+use Api\Factory\AuthorizationServiceFactory;
 use Api\Factory\LicenseManagerListenerFactory;
 use Api\Factory\NavigationApiControllerFactory;
+use Api\Factory\NotificationApiControllerFactory;
 use Api\Factory\PageManagerListenerFactory;
 use Api\Factory\RepositoryManagerListenerFactory;
 use Api\Factory\TaxonomyManagerListenerFactory;
@@ -42,6 +45,7 @@ use Api\Listener\RepositoryManagerListener;
 use Api\Listener\TaxonomyManagerListener;
 use Api\Listener\UserManagerListener;
 use Api\Listener\UuidManagerListener;
+use Api\Service\AuthorizationService;
 
 return [
     'controllers' => [
@@ -49,6 +53,8 @@ return [
             ApiController::class => ApiControllerFactory::class,
             NavigationApiController::class =>
                 NavigationApiControllerFactory::class,
+            NotificationApiController::class =>
+                NotificationApiControllerFactory::class,
         ],
     ],
     'router' => [
@@ -93,6 +99,36 @@ return [
                             ],
                         ],
                     ],
+                    'notification' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '',
+                            'defaults' => [
+                                'controller' =>
+                                    NotificationApiController::class,
+                            ],
+                        ],
+                        'child_routes' => [
+                            'notifications-by-user' => [
+                                'type' => 'segment',
+                                'options' => [
+                                    'route' => '/notifications/:user-id',
+                                    'defaults' => [
+                                        'action' => 'notificationsByUser',
+                                    ],
+                                ],
+                            ],
+                            'event' => [
+                                'type' => 'segment',
+                                'options' => [
+                                    'route' => '/event/:id',
+                                    'defaults' => [
+                                        'action' => 'event',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                     'uuid' => [
                         'type' => 'segment',
                         'options' => [
@@ -108,8 +144,9 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            ApiManager::class => ApiManagerFactory::class,
             AliasManagerListener::class => AliasManagerListenerFactory::class,
+            ApiManager::class => ApiManagerFactory::class,
+            AuthorizationService::class => AuthorizationServiceFactory::class,
             RepositoryManagerListener::class =>
                 RepositoryManagerListenerFactory::class,
             LicenseManagerListener::class =>

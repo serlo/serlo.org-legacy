@@ -23,16 +23,16 @@
 
 namespace Api\Controller;
 
+use Api\Service\AuthorizationService;
 use Exception;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Navigation\Exception\ContainerNotFoundException;
 use Navigation\Service\NavigationServiceAwareTrait;
 use Throwable;
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Router\RouteInterface;
 use Zend\View\Model\JsonModel;
 
-class NavigationApiController extends AbstractActionController
+class NavigationApiController extends AbstractApiController
 {
     use InstanceManagerAwareTrait;
     use NavigationServiceAwareTrait;
@@ -40,13 +40,21 @@ class NavigationApiController extends AbstractActionController
     /** @var RouteInterface */
     protected $router;
 
-    public function __construct($router)
-    {
+    public function __construct(
+        AuthorizationService $authorizationService,
+        RouteInterface $router
+    ) {
+        parent::__construct($authorizationService);
         $this->router = $router;
     }
 
     public function indexAction()
     {
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
         $instance = $this->getInstanceManager()
             ->getInstanceFromRequest()
             ->getSubdomain();

@@ -28,7 +28,6 @@ use Alias\AliasManagerInterface;
 use Api\ApiManager;
 use Api\Controller\ApiController;
 use Api\Service\AuthorizationService;
-use Common\Factory\AbstractControllerFactory;
 use Instance\Manager\InstanceManager;
 use Instance\Manager\InstanceManagerInterface;
 use License\Manager\LicenseManager;
@@ -39,36 +38,12 @@ use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ApiControllerFactory extends AbstractControllerFactory
+class AuthorizationServiceFactory implements FactoryInterface
 {
-    protected function createController(ServiceLocatorInterface $serviceManager)
+    public function createService(ServiceLocatorInterface $serviceManager)
     {
-        /** @var AuthorizationService $authorizationService */
-        $authorizationService = $serviceManager->get(
-            AuthorizationService::class
-        );
-        $controller = new ApiController($authorizationService);
-
-        /** @var AliasManagerInterface $aliasManager */
-        $aliasManager = $serviceManager->get(AliasManager::class);
-        $controller->setAliasManager($aliasManager);
-
-        /** @var ApiManager $apiManager */
-        $apiManager = $serviceManager->get(ApiManager::class);
-        $controller->setApiManager($apiManager);
-
-        /** @var LicenseManagerInterface $licenseManager */
-        $licenseManager = $serviceManager->get(LicenseManager::class);
-        $controller->setLicenseManager($licenseManager);
-
-        /** @var InstanceManagerInterface $instanceManager */
-        $instanceManager = $serviceManager->get(InstanceManager::class);
-        $controller->setInstanceManager($instanceManager);
-
-        /** @var UuidManagerInterface $uuidManager */
-        $uuidManager = $serviceManager->get(UuidManager::class);
-        $controller->setUuidManager($uuidManager);
-
-        return $controller;
+        $config = $serviceManager->get('Config');
+        $options = $config['api_options'];
+        return new AuthorizationService($options);
     }
 }

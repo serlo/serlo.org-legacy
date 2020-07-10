@@ -25,6 +25,7 @@ namespace User\Manager;
 use Common\ObjectManager\Flushable;
 use Common\ObjectManager\Persistable;
 use User\Entity\UserInterface;
+use User\Exception\UserNotFoundException;
 use Zend\Paginator\Paginator;
 
 interface UserManagerInterface extends Flushable, Persistable
@@ -69,6 +70,7 @@ interface UserManagerInterface extends Flushable, Persistable
     /**
      * @param int $id
      * @return UserInterface
+     * @throws UserNotFoundException
      */
     public function getUser($id);
 

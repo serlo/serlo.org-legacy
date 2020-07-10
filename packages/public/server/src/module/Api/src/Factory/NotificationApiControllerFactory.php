@@ -23,39 +23,36 @@
 
 namespace Api\Factory;
 
-use Api\Controller\NavigationApiController;
+use Api\Controller\NotificationApiController;
 use Api\Service\AuthorizationService;
 use Common\Factory\AbstractControllerFactory;
-use Instance\Factory\InstanceManagerFactoryTrait;
-use Navigation\Factory\NavigationServiceFactoryTrait;
-use Zend\Mvc\Router\RouteInterface;
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\FactoryInterface;
+use Event\EventManager;
+use Event\EventManagerInterface;
+use Notification\NotificationManager;
+use Notification\NotificationManagerInterface;
+use User\Manager\UserManager;
+use User\Manager\UserManagerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class NavigationApiControllerFactory extends AbstractControllerFactory
+class NotificationApiControllerFactory extends AbstractControllerFactory
 {
-    use InstanceManagerFactoryTrait;
-    use NavigationServiceFactoryTrait;
-
     protected function createController(ServiceLocatorInterface $serviceManager)
     {
         /** @var AuthorizationService $authorizationService */
         $authorizationService = $serviceManager->get(
             AuthorizationService::class
         );
-        /** @var RouteInterface $router */
-        $router = $serviceManager->get('Router');
-        $controller = new NavigationApiController(
+        /** @var EventManagerInterface $eventManager */
+        $eventManager = $serviceManager->get(EventManager::class);
+        /** @var NotificationManagerInterface $notificationManager */
+        $notificationManager = $serviceManager->get(NotificationManager::class);
+        /** @var UserManagerInterface $userManager */
+        $userManager = $serviceManager->get(UserManager::class);
+        return new NotificationApiController(
             $authorizationService,
-            $router
+            $eventManager,
+            $notificationManager,
+            $userManager
         );
-        $controller->setInstanceManager(
-            $this->getInstanceManager($serviceManager)
-        );
-        $controller->setNavigationService(
-            $this->getNavigationService($serviceManager)
-        );
-        return $controller;
     }
 }
