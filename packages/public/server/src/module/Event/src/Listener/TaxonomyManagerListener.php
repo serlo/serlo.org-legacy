@@ -95,7 +95,7 @@ class TaxonomyManagerListener extends AbstractListener
             ],
             [
                 'name' => 'to',
-                'value' => $to ? $from : 'no parent',
+                'value' => $to ? $to : 'no parent',
             ],
         ]);
     }

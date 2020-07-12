@@ -31,6 +31,11 @@ use User\Entity;
 interface NotificationInterface
 {
     /**
+     * @return int
+     */
+    public function getId();
+
+    /**
      * @param bool $seen
      * @return self
      */

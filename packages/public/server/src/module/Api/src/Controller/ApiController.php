@@ -25,6 +25,7 @@ namespace Api\Controller;
 
 use Alias\AliasManagerAwareTrait;
 use Api\ApiManagerAwareTrait;
+use Api\Service\AuthorizationService;
 use Exception;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Lcobucci\JWT\Parser;
@@ -38,7 +39,7 @@ use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
-class ApiController extends AbstractActionController
+class ApiController extends AbstractApiController
 {
     use AliasManagerAwareTrait;
     use ApiManagerAwareTrait;
@@ -46,11 +47,9 @@ class ApiController extends AbstractActionController
     use LicenseManagerAwareTrait;
     use UuidManagerAwareTrait;
 
-    private $options;
-
-    public function __construct(array $options)
+    public function __construct(AuthorizationService $authorizationService)
     {
-        $this->options = $options;
+        parent::__construct($authorizationService);
     }
 
     public function aliasAction()
@@ -76,63 +75,6 @@ class ApiController extends AbstractActionController
         return new JsonModel(
             $this->getApiManager()->getAliasData($currentAlias)
         );
-    }
-
-    private function assertAuthorization()
-    {
-        $options = $this->options;
-        if (!isset($options['secret'])) {
-            return null;
-        }
-
-        $authorizationHeader = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
-
-        if (!$authorizationHeader) {
-            return $this->invalidAuthorizationHeader();
-        }
-
-        $parts = explode(' ', $authorizationHeader);
-        if (count($parts) !== 2 || $parts[0] !== 'Serlo') {
-            return $this->invalidAuthorizationHeader();
-        }
-
-        $serviceTokenParts = explode('=', $parts[1]);
-        if (
-            count($serviceTokenParts) !== 2 ||
-            $serviceTokenParts[0] !== 'Service'
-        ) {
-            return $this->invalidAuthorizationHeader();
-        }
-
-        $serviceToken = $serviceTokenParts[1];
-
-        if (!$this->validateToken($serviceToken)) {
-            return $this->invalidAuthorizationHeader();
-        }
-    }
-
-    private function invalidAuthorizationHeader()
-    {
-        $this->getResponse()->setStatusCode(Response::STATUS_CODE_403);
-        return new JsonModel(['reason' => 'Invalid authorization header']);
-    }
-
-    public function validateToken(string $token)
-    {
-        try {
-            $token = (new Parser())->parse($token);
-
-            $data = new ValidationData();
-            $data->setIssuer('api.serlo.org');
-            $data->setAudience('serlo.org');
-
-            if (!$token->validate($data)) {
-                return false;
-            }
-            return $token->verify(new Sha256(), $this->options['secret']);
-        } catch (Exception $e) {
-            return false;
-        }
     }
 
     public function licenseAction()

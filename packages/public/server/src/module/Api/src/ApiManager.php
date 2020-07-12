@@ -23,38 +23,33 @@
 
 namespace Api;
 
-use Alias\AliasManagerAwareTrait;
+use Alias\AliasManagerInterface;
 use Alias\Entity\AliasInterface;
+use Api\Service\GraphQLService;
 use DateTime;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
 use Exception;
-use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Signer\Hmac\Sha256;
-use Lcobucci\JWT\Signer\Key;
 use License\Entity\LicenseInterface;
 use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
-use Raven_Client;
 use Taxonomy\Entity\TaxonomyTermInterface;
 use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 
 class ApiManager
 {
-    use AliasManagerAwareTrait;
+    /** @var AliasManagerInterface */
+    protected $aliasManager;
+    /** @var GraphQLService */
+    protected $graphql;
 
-    private $options;
-
-    /**
-     * @var Raven_Client
-     */
-    private $sentry;
-
-    public function __construct(array $options, $sentry)
-    {
-        $this->options = $options;
-        $this->sentry = $sentry;
+    public function __construct(
+        AliasManagerInterface $aliasManager,
+        GraphQLService $graphql
+    ) {
+        $this->aliasManager = $aliasManager;
+        $this->graphql = $graphql;
     }
 
     public function setAlias(AliasInterface $alias)
@@ -76,57 +71,7 @@ class ApiManager
                 )
             }
 MUTATION;
-        $this->executeQuery($query, $this->getAliasData($alias));
-    }
-
-    private function executeQuery(string $query, array $variables)
-    {
-        $options = $this->options;
-        if (!isset($options['host']) || !isset($options['secret'])) {
-            return null;
-        }
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $options['host']);
-
-        $token = (new Builder())
-            ->issuedBy('serlo.org')
-            ->permittedFor('api.serlo.org')
-            ->issuedAt(time())
-            ->expiresAt(time() + 60)
-            ->getToken(new Sha256(), new Key($options['secret']));
-
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Serlo Service=' . $token,
-            'Content-Type: application/json',
-        ]);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt(
-            $ch,
-            CURLOPT_POSTFIELDS,
-            json_encode([
-                'query' => $query,
-                'variables' => $variables,
-            ])
-        );
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = json_decode(curl_exec($ch), true);
-
-        if (isset($response['errors'])) {
-            $this->sentry->captureMessage(
-                'GraphQL Mutation failed',
-                [],
-                [
-                    'tags' => ['api' => true],
-                    'extra' => [
-                        'query' => print_r($query, true),
-                        'variables' => print_r($variables, true),
-                        'errors' => print_r($response['errors'], true),
-                    ],
-                ]
-            );
-        }
+        $this->graphql->exec($query, $this->getAliasData($alias));
     }
 
     public function getAliasData(AliasInterface $alias)
@@ -156,7 +101,7 @@ MUTATION;
                 _removeLicense(id: \$id)
             }
 MUTATION;
-        $this->executeQuery($query, ['id' => $id]);
+        $this->graphql->exec($query, ['id' => $id]);
     }
 
     public function setLicense(LicenseInterface $license)
@@ -184,7 +129,7 @@ MUTATION;
                 )
             }
 MUTATION;
-        $this->executeQuery($query, $this->getLicenseData($license));
+        $this->graphql->exec($query, $this->getLicenseData($license));
     }
 
     public function getLicenseData(LicenseInterface $license)
@@ -208,7 +153,7 @@ MUTATION;
                 _removeUuid(id: \$id)
             }
 MUTATION;
-        $this->executeQuery($query, ['id' => $id]);
+        $this->graphql->exec($query, ['id' => $id]);
     }
 
     public function setUuid(UuidInterface $uuid)
@@ -316,7 +261,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($entity));
+        $this->graphql->exec($query, $this->getUuidData($entity));
     }
 
     public function setArticle(EntityInterface $entity)
@@ -345,7 +290,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($entity));
+        $this->graphql->exec($query, $this->getUuidData($entity));
     }
 
     public function setCourse(EntityInterface $entity)
@@ -376,7 +321,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($entity));
+        $this->graphql->exec($query, $this->getUuidData($entity));
     }
 
     public function setCoursePage(EntityInterface $entity)
@@ -405,7 +350,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($entity));
+        $this->graphql->exec($query, $this->getUuidData($entity));
     }
 
     public function setEvent(EntityInterface $entity)
@@ -434,7 +379,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($entity));
+        $this->graphql->exec($query, $this->getUuidData($entity));
     }
 
     public function setExercise(EntityInterface $entity)
@@ -465,7 +410,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($entity));
+        $this->graphql->exec($query, $this->getUuidData($entity));
     }
 
     public function setExerciseGroup(EntityInterface $entity)
@@ -496,7 +441,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($entity));
+        $this->graphql->exec($query, $this->getUuidData($entity));
     }
 
     public function setGroupedExercise(EntityInterface $entity)
@@ -527,7 +472,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($entity));
+        $this->graphql->exec($query, $this->getUuidData($entity));
     }
 
     public function setSolution(EntityInterface $entity)
@@ -556,7 +501,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($entity));
+        $this->graphql->exec($query, $this->getUuidData($entity));
     }
 
     public function setVideo(EntityInterface $entity)
@@ -585,7 +530,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($entity));
+        $this->graphql->exec($query, $this->getUuidData($entity));
     }
 
     public function setAppletRevision(RevisionInterface $revision)
@@ -620,7 +565,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setArticleRevision(RevisionInterface $revision)
@@ -653,7 +598,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setCourseRevision(RevisionInterface $revision)
@@ -684,7 +629,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setCoursePageRevision(RevisionInterface $revision)
@@ -713,7 +658,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setEventRevision(RevisionInterface $revision)
@@ -746,7 +691,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setExerciseRevision(RevisionInterface $revision)
@@ -773,7 +718,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setExerciseGroupRevision(RevisionInterface $revision)
@@ -800,7 +745,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setGroupedExerciseRevision(RevisionInterface $revision)
@@ -827,7 +772,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setSolutionRevision(RevisionInterface $revision)
@@ -854,7 +799,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setVideoRevision(RevisionInterface $revision)
@@ -885,7 +830,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setPage(PageRepositoryInterface $page)
@@ -910,7 +855,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($page));
+        $this->graphql->exec($query, $this->getUuidData($page));
     }
 
     public function setPageRevision(PageRevisionInterface $revision)
@@ -937,7 +882,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($revision));
+        $this->graphql->exec($query, $this->getUuidData($revision));
     }
 
     public function setUser(UserInterface $user)
@@ -962,7 +907,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($user));
+        $this->graphql->exec($query, $this->getUuidData($user));
     }
 
     public function setTaxonomyTerm(TaxonomyTermInterface $taxonomyTerm)
@@ -995,7 +940,7 @@ MUTATION;
             }
 MUTATION;
 
-        $this->executeQuery($query, $this->getUuidData($taxonomyTerm));
+        $this->graphql->exec($query, $this->getUuidData($taxonomyTerm));
     }
 
     private function toCamelCase($value)
@@ -1019,7 +964,7 @@ MUTATION;
         try {
             $alias =
                 '/' .
-                $this->getAliasManager()
+                $this->aliasManager
                     ->findAliasByObject($uuid, false)
                     ->getAlias();
         } catch (Exception $e) {

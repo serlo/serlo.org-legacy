@@ -108,4 +108,6 @@ interface EventLogInterface extends InstanceAwareInterface
      * @return self
      */
     public function setObject(UuidInterface $uuid);
+
+    public function setTimestamp(DateTime $timestamp);
 }

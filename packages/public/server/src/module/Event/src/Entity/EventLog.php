@@ -22,6 +22,7 @@
  */
 namespace Event\Entity;
 
+use Datetime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Instance\Entity\InstanceAwareTrait;
@@ -144,5 +145,10 @@ class EventLog implements EventLogInterface
     public function addParameter(EventParameterInterface $parameter)
     {
         $this->parameters->add($parameter);
+    }
+
+    public function setTimestamp(Datetime $timestamp)
+    {
+        $this->date = $timestamp;
     }
 }

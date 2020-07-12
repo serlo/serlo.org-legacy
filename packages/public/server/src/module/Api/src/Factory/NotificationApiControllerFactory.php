@@ -23,39 +23,22 @@
 
 namespace Api\Factory;
 
-use Api\Controller\NavigationApiController;
+use Api\Controller\NotificationApiController;
+use Api\Manager\NotificationApiManager;
 use Api\Service\AuthorizationService;
 use Common\Factory\AbstractControllerFactory;
-use Instance\Factory\InstanceManagerFactoryTrait;
-use Navigation\Factory\NavigationServiceFactoryTrait;
-use Zend\Mvc\Router\RouteInterface;
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class NavigationApiControllerFactory extends AbstractControllerFactory
+class NotificationApiControllerFactory extends AbstractControllerFactory
 {
-    use InstanceManagerFactoryTrait;
-    use NavigationServiceFactoryTrait;
-
     protected function createController(ServiceLocatorInterface $serviceManager)
     {
         /** @var AuthorizationService $authorizationService */
         $authorizationService = $serviceManager->get(
             AuthorizationService::class
         );
-        /** @var RouteInterface $router */
-        $router = $serviceManager->get('Router');
-        $controller = new NavigationApiController(
-            $authorizationService,
-            $router
-        );
-        $controller->setInstanceManager(
-            $this->getInstanceManager($serviceManager)
-        );
-        $controller->setNavigationService(
-            $this->getNavigationService($serviceManager)
-        );
-        return $controller;
+        /** @var NotificationApiManager $manager */
+        $manager = $serviceManager->get(NotificationApiManager::class);
+        return new NotificationApiController($authorizationService, $manager);
     }
 }

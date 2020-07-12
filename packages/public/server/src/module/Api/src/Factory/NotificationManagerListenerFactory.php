@@ -23,21 +23,17 @@
 
 namespace Api\Factory;
 
-use Alias\AliasManager;
-use Alias\AliasManagerInterface;
-use Api\ApiManager;
-use Api\Service\GraphQLService;
+use Api\Listener\NotificationManagerListener;
+use Api\Manager\NotificationApiManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ApiManagerFactory implements FactoryInterface
+class NotificationManagerListenerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ServiceLocatorInterface $serviceManager)
     {
-        /** @var AliasManagerInterface $aliasManager */
-        $aliasManager = $serviceLocator->get(AliasManager::class);
-        /** @var GraphQLService $graphql */
-        $graphql = $serviceLocator->get(GraphQLService::class);
-        return new ApiManager($aliasManager, $graphql);
+        /** @var NotificationApiManager $manager */
+        $manager = $serviceManager->get(NotificationApiManager::class);
+        return new NotificationManagerListener($manager);
     }
 }
