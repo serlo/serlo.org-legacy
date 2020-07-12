@@ -120,7 +120,7 @@ MUTATION;
     public function setEventData(EventLogInterface $event)
     {
         $query = <<<MUTATION
-            mutation setNotifications(
+            mutation setNotificationEvent(
                 \$id: Int!
                 \$type: String!
                 \$instance: Instance!
