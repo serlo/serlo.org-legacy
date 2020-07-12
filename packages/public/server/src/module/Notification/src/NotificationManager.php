@@ -38,6 +38,7 @@ use Zend\EventManager\EventManagerAwareTrait;
 
 class NotificationManager implements NotificationManagerInterface
 {
+    use EventManagerAwareTrait;
     use ClassResolverAwareTrait, ObjectManagerAwareTrait;
     use FlushableTrait;
 
@@ -79,7 +80,12 @@ class NotificationManager implements NotificationManagerInterface
 
         $this->getObjectManager()->persist($notification);
         $this->getObjectManager()->persist($notificationLog);
+        $this->getObjectManager()->flush();
 
+        $this->getEventManager()->trigger('create', $this, [
+            'notification' => $notification,
+            'user' => $user,
+        ]);
         return $notification;
     }
 
@@ -130,6 +136,10 @@ class NotificationManager implements NotificationManagerInterface
                 $entityManager->persist($n);
             }
         });
+        $entityManager->flush();
+        $this->getEventManager()->trigger('markRead', $this, [
+            'user' => $user,
+        ]);
     }
 
     /**

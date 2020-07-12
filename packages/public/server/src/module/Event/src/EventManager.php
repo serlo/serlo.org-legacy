@@ -28,6 +28,7 @@ use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
 use Common\Paginator\DoctrinePaginatorFactory;
 use Common\Traits\ObjectManagerAwareTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Event\Exception;
@@ -282,6 +283,7 @@ class EventManager implements
         $log->setEvent($this->findTypeByName($uri));
 
         $log->setObject($uuid);
+        $log->setTimestamp(new DateTime());
         $log->setActor($actor);
         $log->setInstance($instance);
 
@@ -290,6 +292,7 @@ class EventManager implements
         }
 
         $this->getObjectManager()->persist($log);
+        $this->getObjectManager()->flush();
         $this->getEventManager()->trigger('log', $this, ['log' => $log]);
 
         return $log;

@@ -26,6 +26,7 @@ namespace Api\Factory;
 use Api\Controller\NotificationApiController;
 use Api\Manager\NotificationApiManager;
 use Api\Service\AuthorizationService;
+use Api\Service\GraphQLService;
 use Common\Factory\AbstractControllerFactory;
 use Event\EventManager;
 use Event\EventManagerInterface;
@@ -46,11 +47,14 @@ class NotificationApiManagerFactory implements FactoryInterface
         $notificationManager = $serviceManager->get(NotificationManager::class);
         /** @var UserManagerInterface $userManager */
         $userManager = $serviceManager->get(UserManager::class);
+        /** @var GraphQLService $graphql */
+        $graphql = $serviceManager->get(GraphQLService::class);
         $sentry = $serviceManager->get('Log\Sentry');
         return new NotificationApiManager(
             $eventManager,
             $notificationManager,
             $userManager,
+            $graphql,
             $sentry
         );
     }

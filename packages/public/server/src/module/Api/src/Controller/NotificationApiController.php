@@ -54,7 +54,7 @@ class NotificationApiController extends AbstractApiController
 
         try {
             return new JsonModel(
-                $this->manager->getEventData((int) $this->params('id'))
+                $this->manager->getEventDataById((int) $this->params('id'))
             );
         } catch (EntityNotFoundException $exception) {
             $this->response

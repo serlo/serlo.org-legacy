@@ -2,6 +2,7 @@
 
 namespace Api\Manager;
 
+use Api\Service\GraphQLService;
 use DateTime;
 use Event\Entity\EventLogInterface;
 use Event\EventManagerInterface;
@@ -11,6 +12,7 @@ use Notification\Entity\NotificationInterface;
 use Notification\Exception\NotificationNotFoundException;
 use Notification\NotificationManagerInterface;
 use Raven_Client;
+use User\Entity\UserInterface;
 use User\Exception\UserNotFoundException;
 use User\Manager\UserManagerInterface;
 
@@ -22,18 +24,22 @@ class NotificationApiManager
     protected $notificationManager;
     /** @var UserManagerInterface */
     protected $userManager;
+    /** @var GraphQLService */
+    protected $graphql;
     /** @var Raven_Client */
-    private $sentry;
+    protected $sentry;
 
     public function __construct(
         EventManagerInterface $eventManager,
         NotificationManagerInterface $notificationManager,
         UserManagerInterface $userManager,
+        GraphQLService $graphql,
         $sentry
     ) {
         $this->eventManager = $eventManager;
         $this->notificationManager = $notificationManager;
         $this->userManager = $userManager;
+        $this->graphql = $graphql;
         $this->sentry = $sentry;
     }
 
@@ -45,12 +51,17 @@ class NotificationApiManager
     public function getNotificationDataByUserId(int $userId)
     {
         $user = $this->userManager->getUser($userId);
+        return $this->getNotificationData($user);
+    }
+
+    protected function getNotificationData(UserInterface $user)
+    {
         $notifications = $this->notificationManager->findNotificationsBySubscriber(
             $user,
             null
         );
         return [
-            'userId' => $userId,
+            'userId' => $user->getId(),
             'notifications' => $notifications
                 ->map(function (NotificationInterface $notification) {
                     /** @var NotificationEventInterface $event */
@@ -65,16 +76,36 @@ class NotificationApiManager
         ];
     }
 
+    public function setNotificationData(UserInterface $user)
+    {
+        $query = <<<MUTATION
+            mutation setNotifications(
+                \$userId: Int!
+                \$notifications: [NotificationInput!]!
+            ) {
+                _setNotifications(
+                    userId: \$userId
+                    notifications \$notifications
+                )
+            }
+MUTATION;
+        $this->graphql->exec($query, $this->getNotificationData($user));
+    }
+
     /**
      * @param int $id
      * @return array
      * @throws EntityNotFoundException
      */
-    public function getEventData(int $id)
+    public function getEventDataById(int $id)
     {
         $event = $this->eventManager->getEvent($id);
-        $normalized = $this->normalizeEvent($event);
+        return $this->getEventData($event);
+    }
 
+    protected function getEventData(EventLogInterface $event)
+    {
+        $normalized = $this->normalizeEvent($event);
         return [
             'id' => $event->getId(),
             'type' => $normalized['type'],
@@ -84,6 +115,32 @@ class NotificationApiManager
             'objectId' => $event->getObject()->getId(),
             'payload' => json_encode($normalized['payload']),
         ];
+    }
+
+    public function setEventData(EventLogInterface $event)
+    {
+        $query = <<<MUTATION
+            mutation setNotifications(
+                \$id: Int!
+                \$type: String!
+                \$instance: Instance!
+                \$date: String!
+                \$actorId: Int!
+                \$objectId: Int!
+                \$payload: String!
+            ) {
+                _setNotificationEvent(
+                    id: \$id
+                    type: \$type
+                    instance: \$instance
+                    date: \$date
+                    actorId: \$actorId
+                    objectId: \$objectId
+                    payload: \$payload
+                )
+            }
+MUTATION;
+        $this->graphql->exec($query, $this->getEventData($event));
     }
 
     /**
