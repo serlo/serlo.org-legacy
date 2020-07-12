@@ -32,7 +32,9 @@ use Zend\View\Model\JsonModel;
 class AbstractApiController extends AbstractActionController
 {
     /** @var AuthorizationService */
-    private $authorizationService;
+    protected $authorizationService;
+    /** @var Response */
+    protected $response;
 
     public function __construct(AuthorizationService $authorizationService)
     {

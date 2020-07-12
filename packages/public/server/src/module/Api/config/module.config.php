@@ -34,6 +34,7 @@ use Api\Factory\GraphQLServiceFactory;
 use Api\Factory\LicenseManagerListenerFactory;
 use Api\Factory\NavigationApiControllerFactory;
 use Api\Factory\NotificationApiControllerFactory;
+use Api\Factory\NotificationApiManagerFactory;
 use Api\Factory\PageManagerListenerFactory;
 use Api\Factory\RepositoryManagerListenerFactory;
 use Api\Factory\TaxonomyManagerListenerFactory;
@@ -46,10 +47,39 @@ use Api\Listener\RepositoryManagerListener;
 use Api\Listener\TaxonomyManagerListener;
 use Api\Listener\UserManagerListener;
 use Api\Listener\UuidManagerListener;
+use Api\Manager\NotificationApiManager;
 use Api\Service\AuthorizationService;
 use Api\Service\GraphQLService;
 
 return [
+    'controllers' => [
+        'factories' => [
+            ApiController::class => ApiControllerFactory::class,
+            NavigationApiController::class =>
+                NavigationApiControllerFactory::class,
+            NotificationApiController::class =>
+                NotificationApiControllerFactory::class,
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            AliasManagerListener::class => AliasManagerListenerFactory::class,
+            ApiManager::class => ApiManagerFactory::class,
+            AuthorizationService::class => AuthorizationServiceFactory::class,
+            GraphQLService::class => GraphQLServiceFactory::class,
+            NotificationApiManager::class =>
+                NotificationApiManagerFactory::class,
+            RepositoryManagerListener::class =>
+                RepositoryManagerListenerFactory::class,
+            LicenseManagerListener::class =>
+                LicenseManagerListenerFactory::class,
+            PageManagerListener::class => PageManagerListenerFactory::class,
+            TaxonomyManagerListener::class =>
+                TaxonomyManagerListenerFactory::class,
+            UserManagerListener::class => UserManagerListenerFactory::class,
+            UuidManagerListener::class => UuidManagerListenerFactory::class,
+        ],
+    ],
     'router' => [
         'routes' => [
             'api' => [
@@ -133,32 +163,6 @@ return [
                     ],
                 ],
             ],
-        ],
-    ],
-    'controllers' => [
-        'factories' => [
-            ApiController::class => ApiControllerFactory::class,
-            NavigationApiController::class =>
-                NavigationApiControllerFactory::class,
-            NotificationApiController::class =>
-                NotificationApiControllerFactory::class,
-        ],
-    ],
-    'service_manager' => [
-        'factories' => [
-            AliasManagerListener::class => AliasManagerListenerFactory::class,
-            ApiManager::class => ApiManagerFactory::class,
-            AuthorizationService::class => AuthorizationServiceFactory::class,
-            GraphQLService::class => GraphQLServiceFactory::class,
-            RepositoryManagerListener::class =>
-                RepositoryManagerListenerFactory::class,
-            LicenseManagerListener::class =>
-                LicenseManagerListenerFactory::class,
-            PageManagerListener::class => PageManagerListenerFactory::class,
-            TaxonomyManagerListener::class =>
-                TaxonomyManagerListenerFactory::class,
-            UserManagerListener::class => UserManagerListenerFactory::class,
-            UuidManagerListener::class => UuidManagerListenerFactory::class,
         ],
     ],
 ];

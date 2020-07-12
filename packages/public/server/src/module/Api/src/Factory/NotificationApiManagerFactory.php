@@ -27,18 +27,29 @@ use Api\Controller\NotificationApiController;
 use Api\Manager\NotificationApiManager;
 use Api\Service\AuthorizationService;
 use Common\Factory\AbstractControllerFactory;
+use Event\EventManager;
+use Event\EventManagerInterface;
+use Notification\NotificationManager;
+use Notification\NotificationManagerInterface;
+use User\Manager\UserManager;
+use User\Manager\UserManagerInterface;
+use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class NotificationApiControllerFactory extends AbstractControllerFactory
+class NotificationApiManagerFactory implements FactoryInterface
 {
-    protected function createController(ServiceLocatorInterface $serviceManager)
+    public function createService(ServiceLocatorInterface $serviceManager)
     {
-        /** @var AuthorizationService $authorizationService */
-        $authorizationService = $serviceManager->get(
-            AuthorizationService::class
+        /** @var EventManagerInterface $eventManager */
+        $eventManager = $serviceManager->get(EventManager::class);
+        /** @var NotificationManagerInterface $notificationManager */
+        $notificationManager = $serviceManager->get(NotificationManager::class);
+        /** @var UserManagerInterface $userManager */
+        $userManager = $serviceManager->get(UserManager::class);
+        return new NotificationApiManager(
+            $eventManager,
+            $notificationManager,
+            $userManager
         );
-        /** @var NotificationApiManager $manager */
-        $manager = $serviceManager->get(NotificationApiManager::class);
-        return new NotificationApiController($authorizationService, $manager);
     }
 }

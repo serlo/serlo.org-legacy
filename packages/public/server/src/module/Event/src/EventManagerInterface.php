@@ -25,6 +25,7 @@ namespace Event;
 use Doctrine\Common\Collections\Collection;
 use Event\Entity\EventInterface;
 use Event\Entity\EventLogInterface;
+use Event\Exception\EntityNotFoundException;
 use Instance\Entity\InstanceInterface;
 use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
@@ -68,6 +69,7 @@ interface EventManagerInterface
     /**
      * @param int $id
      * @return EventLogInterface
+     * @throws EntityNotFoundException
      */
     public function getEvent($id);
 
