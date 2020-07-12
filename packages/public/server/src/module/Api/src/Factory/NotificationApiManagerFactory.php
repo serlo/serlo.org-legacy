@@ -46,10 +46,12 @@ class NotificationApiManagerFactory implements FactoryInterface
         $notificationManager = $serviceManager->get(NotificationManager::class);
         /** @var UserManagerInterface $userManager */
         $userManager = $serviceManager->get(UserManager::class);
+        $sentry = $serviceManager->get('Log\Sentry');
         return new NotificationApiManager(
             $eventManager,
             $notificationManager,
-            $userManager
+            $userManager,
+            $sentry
         );
     }
 }
