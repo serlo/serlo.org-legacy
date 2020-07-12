@@ -30,6 +30,7 @@ use Api\Factory\AliasManagerListenerFactory;
 use Api\Factory\ApiControllerFactory;
 use Api\Factory\ApiManagerFactory;
 use Api\Factory\AuthorizationServiceFactory;
+use Api\Factory\GraphQLServiceFactory;
 use Api\Factory\LicenseManagerListenerFactory;
 use Api\Factory\NavigationApiControllerFactory;
 use Api\Factory\NotificationApiControllerFactory;
@@ -46,17 +47,9 @@ use Api\Listener\TaxonomyManagerListener;
 use Api\Listener\UserManagerListener;
 use Api\Listener\UuidManagerListener;
 use Api\Service\AuthorizationService;
+use Api\Service\GraphQLService;
 
 return [
-    'controllers' => [
-        'factories' => [
-            ApiController::class => ApiControllerFactory::class,
-            NavigationApiController::class =>
-                NavigationApiControllerFactory::class,
-            NotificationApiController::class =>
-                NotificationApiControllerFactory::class,
-        ],
-    ],
     'router' => [
         'routes' => [
             'api' => [
@@ -142,11 +135,21 @@ return [
             ],
         ],
     ],
+    'controllers' => [
+        'factories' => [
+            ApiController::class => ApiControllerFactory::class,
+            NavigationApiController::class =>
+                NavigationApiControllerFactory::class,
+            NotificationApiController::class =>
+                NotificationApiControllerFactory::class,
+        ],
+    ],
     'service_manager' => [
         'factories' => [
             AliasManagerListener::class => AliasManagerListenerFactory::class,
             ApiManager::class => ApiManagerFactory::class,
             AuthorizationService::class => AuthorizationServiceFactory::class,
+            GraphQLService::class => GraphQLServiceFactory::class,
             RepositoryManagerListener::class =>
                 RepositoryManagerListenerFactory::class,
             LicenseManagerListener::class =>

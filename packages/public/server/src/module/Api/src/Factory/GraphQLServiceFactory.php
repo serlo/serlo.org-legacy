@@ -23,21 +23,17 @@
 
 namespace Api\Factory;
 
-use Alias\AliasManager;
-use Alias\AliasManagerInterface;
-use Api\ApiManager;
 use Api\Service\GraphQLService;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ApiManagerFactory implements FactoryInterface
+class GraphQLServiceFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var AliasManagerInterface $aliasManager */
-        $aliasManager = $serviceLocator->get(AliasManager::class);
-        /** @var GraphQLService $graphql */
-        $graphql = $serviceLocator->get(GraphQLService::class);
-        return new ApiManager($aliasManager, $graphql);
+        $config = $serviceLocator->get('Config');
+        $options = $config['api_options'];
+        $sentry = $serviceLocator->get('Log\Sentry');
+        return new GraphQLService($options, $sentry);
     }
 }
