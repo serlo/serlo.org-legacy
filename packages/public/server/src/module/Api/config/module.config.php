@@ -150,6 +150,15 @@ return [
                                     ],
                                 ],
                             ],
+                            'set-notification-state' => [
+                                'type' => 'segment',
+                                'options' => [
+                                    'route' => '/set-notification-state/:id',
+                                    'defaults' => [
+                                        'action' => 'setNotificationState',
+                                    ],
+                                ],
+                            ],
                         ],
                     ],
                     'uuid' => [

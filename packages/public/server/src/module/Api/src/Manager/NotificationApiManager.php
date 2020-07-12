@@ -8,6 +8,7 @@ use Event\EventManagerInterface;
 use Event\Exception\EntityNotFoundException;
 use Notification\Entity\NotificationEventInterface;
 use Notification\Entity\NotificationInterface;
+use Notification\Exception\NotificationNotFoundException;
 use Notification\NotificationManagerInterface;
 use Raven_Client;
 use User\Exception\UserNotFoundException;
@@ -83,6 +84,34 @@ class NotificationApiManager
             'objectId' => $event->getObject()->getId(),
             'payload' => json_encode($normalized['payload']),
         ];
+    }
+
+    /**
+     * @param int $id
+     * @param int $userId
+     * @param bool $unread
+     * @throws UserNotFoundException
+     * @throws NotificationNotFoundException
+     */
+    public function setNotificationState(int $id, int $userId, bool $unread)
+    {
+        $user = $this->userManager->getUser($userId);
+        $notifications = $this->notificationManager->findNotificationsBySubscriber(
+            $user,
+            null
+        );
+        /** @var NotificationInterface $notification */
+        $notification = $notifications
+            ->filter(function (NotificationInterface $n) use ($id) {
+                return $n->getId() === $id;
+            })
+            ->first();
+        if (!$notification) {
+            throw new NotificationNotFoundException();
+        }
+        $notification->setSeen(!$unread);
+        $this->notificationManager->getObjectManager()->persist($notification);
+        $this->notificationManager->flush();
     }
 
     protected function normalizeEvent(EventLogInterface $event)

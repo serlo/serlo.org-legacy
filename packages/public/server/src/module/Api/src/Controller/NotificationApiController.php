@@ -5,7 +5,9 @@ namespace Api\Controller;
 use Api\Manager\NotificationApiManager;
 use Api\Service\AuthorizationService;
 use Event\Exception\EntityNotFoundException;
+use Notification\Exception\NotificationNotFoundException;
 use User\Exception\UserNotFoundException;
+use Zend\Http\Response;
 use Zend\View\Model\JsonModel;
 
 class NotificationApiController extends AbstractApiController
@@ -61,5 +63,41 @@ class NotificationApiController extends AbstractApiController
             $this->response->setContent('null');
             return $this->response;
         }
+    }
+
+    public function setNotificationStateAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
+            return $this->response;
+        }
+
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
+        $id = (int) $this->params('id');
+
+        $data = json_decode($this->getRequest()->getContent(), true);
+        $userId = $data['userId'];
+        $unread = $data['unread'];
+
+        if (!isset($userId) || !isset($unread)) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return new JsonModel(['reason' => 'Invalid body']);
+        }
+
+        try {
+            $this->manager->setNotificationState($id, $userId, $unread);
+        } catch (UserNotFoundException $e) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return new JsonModel(['reason' => 'Invalid user id']);
+        } catch (NotificationNotFoundException $e) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_403);
+            return new JsonModel(['reason' => 'Invalid notification id']);
+        }
+
+        return $this->response;
     }
 }
