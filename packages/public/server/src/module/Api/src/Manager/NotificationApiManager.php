@@ -85,7 +85,7 @@ class NotificationApiManager
             ) {
                 _setNotifications(
                     userId: \$userId
-                    notifications \$notifications
+                    notifications: \$notifications
                 )
             }
 MUTATION;
