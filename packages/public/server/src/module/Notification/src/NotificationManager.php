@@ -80,8 +80,6 @@ class NotificationManager implements NotificationManagerInterface
 
         $this->getObjectManager()->persist($notification);
         $this->getObjectManager()->persist($notificationLog);
-        $this->getObjectManager()->flush();
-
         $this->getEventManager()->trigger('create', $this, [
             'notification' => $notification,
             'user' => $user,
