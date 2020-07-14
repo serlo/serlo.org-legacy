@@ -75,10 +75,11 @@ function execSql(command: string) {
       console.error('ERROR: ' + error)
     })
     dockerComposeExec.on('exit', (code) => {
-      if (code !== null) {
+      if (code) {
         reject(code)
+      } else {
+        resolve()
       }
-      resolve()
     })
   })
 }
