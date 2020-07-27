@@ -232,7 +232,7 @@ MUTATION;
     private function normalizeType($type)
     {
         $type = str_replace('text-', '', $type);
-        return $this->toCamelCase($type);
+        return $this->toPascalCase($type);
     }
 
     public function setApplet(EntityInterface $entity)
@@ -943,6 +943,17 @@ MUTATION;
         $this->graphql->exec($query, $this->getUuidData($taxonomyTerm));
     }
 
+    private function toPascalCase($value)
+    {
+        $segments = explode('-', $value);
+        return implode(
+            '',
+            array_map(function ($segment) {
+                return strtoupper($segment[0]) . substr($segment, 1);
+            }, $segments)
+        );
+    }
+
     private function toCamelCase($value)
     {
         $segments = explode('-', $value);
@@ -978,8 +989,7 @@ MUTATION;
         ];
 
         if ($uuid instanceof EntityInterface) {
-            $data['discriminator'] = 'entity';
-            $data['type'] = $this->normalizeType($uuid->getType()->getName());
+            $data['__typename'] = $this->normalizeType($uuid->getType()->getName());
             $data['instance'] = $uuid->getInstance()->getSubdomain();
             $data['date'] = $this->normalizeDate($uuid->getTimestamp());
             $data['currentRevisionId'] = $uuid->getCurrentRevision()
@@ -1005,7 +1015,7 @@ MUTATION;
                 $data['parentId'] = $parentIds[0];
             }
 
-            if ($data['type'] === 'course') {
+            if ($data['__typename'] === 'Course') {
                 $data['pageIds'] = $uuid
                     ->getChildren('link')
                     ->map(function (EntityInterface $child) {
@@ -1013,7 +1023,7 @@ MUTATION;
                     })
                     ->toArray();
             }
-            if ($data['type'] === 'exerciseGroup') {
+            if ($data['__typename'] === 'ExerciseGroup') {
                 $data['exerciseIds'] = $uuid
                     ->getChildren('link')
                     ->map(function (EntityInterface $child) {
@@ -1023,8 +1033,8 @@ MUTATION;
             }
 
             if (
-                $data['type'] === 'exercise' ||
-                $data['type'] === 'groupedExercise'
+                $data['__typename'] === 'Exercise' ||
+                $data['__typename'] === 'GroupedExercise'
             ) {
                 $solutionIds = $uuid
                     ->getChildren('link')
@@ -1043,64 +1053,63 @@ MUTATION;
         }
 
         if ($uuid instanceof RevisionInterface) {
-            $data['discriminator'] = 'entityRevision';
             $data['date'] = $this->normalizeDate($uuid->getTimestamp());
             $data['authorId'] = $uuid->getAuthor()->getId();
             /** @var EntityInterface $entity */
             $entity = $uuid->getRepository();
-            $data['type'] = $this->normalizeType($entity->getType()->getName());
+            $data['__typename'] = $this->normalizeType($entity->getType()->getName()) . 'Revision';
             $data['repositoryId'] = $entity->getId();
 
-            if ($data['type'] === 'applet') {
+            if ($data['__typename'] === 'AppletRevision') {
                 $data['url'] = $uuid->get('url', '');
                 $data['title'] = $uuid->get('title', '');
                 $data['content'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
                 $data['metaTitle'] = $uuid->get('meta_title', '');
                 $data['metaDescription'] = $uuid->get('meta_description', '');
-            } elseif ($data['type'] === 'article') {
+            } elseif ($data['__typename'] === 'ArticleRevision') {
                 $data['title'] = $uuid->get('title', '');
                 $data['content'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
                 $data['metaTitle'] = $uuid->get('meta_title', '');
                 $data['metaDescription'] = $uuid->get('meta_description', '');
-            } elseif ($data['type'] === 'course') {
+            } elseif ($data['__typename'] === 'CourseRevision') {
                 $data['title'] = $uuid->get('title', '');
                 $data['content'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
                 $data['metaDescription'] = $uuid->get('meta_description', '');
-            } elseif ($data['type'] === 'coursePage') {
+            } elseif ($data['__typename'] === 'CoursePageRevision') {
                 $data['title'] = $uuid->get('title', '');
                 $data['content'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'event') {
+            } elseif ($data['__typename'] === 'EventRevision') {
                 $data['title'] = $uuid->get('title', '');
                 $data['content'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
                 $data['metaTitle'] = $uuid->get('meta_title', '');
                 $data['metaDescription'] = $uuid->get('meta_description', '');
-            } elseif ($data['type'] === 'exercise') {
+            } elseif ($data['__typename'] === 'ExerciseRevision') {
                 $data['content'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'exerciseGroup') {
+            } elseif ($data['__typename'] === 'ExerciseGroupRevision') {
                 $data['content'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'groupedExercise') {
+            } elseif ($data['__typename'] === 'GroupedExerciseRevision') {
                 $data['content'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'solution') {
+            } elseif ($data['__typename'] === 'SolutionRevision') {
                 $data['content'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
-            } elseif ($data['type'] === 'video') {
+            } elseif ($data['__typename'] === 'VideoRevision') {
                 $data['title'] = $uuid->get('title', '');
                 $data['content'] = $uuid->get('description', '');
-                $data['url'] = $uuid->get('content', '');
+                $data['url'] = $uuid->get('ContentRevision', '');
                 $data['changes'] = $uuid->get('changes', '');
             }
         }
 
         if ($uuid instanceof PageRepositoryInterface) {
-            $data['discriminator'] = 'page';
+            $data['__typename'] = 'Page';
             $data['instance'] = $uuid->getInstance()->getSubdomain();
             $data['currentRevisionId'] = $uuid->getCurrentRevision()
                 ? $uuid->getCurrentRevision()->getId()
@@ -1109,7 +1118,7 @@ MUTATION;
         }
 
         if ($uuid instanceof PageRevisionInterface) {
-            $data['discriminator'] = 'pageRevision';
+            $data['__typename'] = 'PageRevision';
             $data['title'] = $uuid->getTitle();
             $data['content'] = $uuid->getContent();
             $data['date'] = $this->normalizeDate($uuid->getTimestamp());
@@ -1118,7 +1127,7 @@ MUTATION;
         }
 
         if ($uuid instanceof UserInterface) {
-            $data['discriminator'] = 'user';
+            $data['__typename'] = 'User';
             $data['username'] = $uuid->getUsername();
             $data['date'] = $this->normalizeDate($uuid->getDate());
             $data['lastLogin'] = $uuid->getLastLogin()
@@ -1128,7 +1137,7 @@ MUTATION;
         }
 
         if ($uuid instanceof TaxonomyTermInterface) {
-            $data['discriminator'] = 'taxonomyTerm';
+            $data['__typename'] = 'TaxonomyTerm';
             $data['type'] = $this->toCamelCase($uuid->getType()->getName());
             $data['instance'] = $uuid->getInstance()->getSubdomain();
             $data['name'] = $uuid->getName();

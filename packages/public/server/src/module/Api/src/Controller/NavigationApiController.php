@@ -65,7 +65,7 @@ class NavigationApiController extends AbstractApiController
             $pages = [];
         }
         return new JsonModel([
-            'data' => json_encode($pages),
+            'data' => $pages,
             'instance' => $instance,
         ]);
     }
