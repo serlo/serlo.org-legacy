@@ -989,7 +989,9 @@ MUTATION;
         ];
 
         if ($uuid instanceof EntityInterface) {
-            $data['__typename'] = $this->normalizeType($uuid->getType()->getName());
+            $data['__typename'] = $this->normalizeType(
+                $uuid->getType()->getName()
+            );
             $data['instance'] = $uuid->getInstance()->getSubdomain();
             $data['date'] = $this->normalizeDate($uuid->getTimestamp());
             $data['currentRevisionId'] = $uuid->getCurrentRevision()
@@ -1057,7 +1059,9 @@ MUTATION;
             $data['authorId'] = $uuid->getAuthor()->getId();
             /** @var EntityInterface $entity */
             $entity = $uuid->getRepository();
-            $data['__typename'] = $this->normalizeType($entity->getType()->getName()) . 'Revision';
+            $data['__typename'] =
+                $this->normalizeType($entity->getType()->getName()) .
+                'Revision';
             $data['repositoryId'] = $entity->getId();
 
             if ($data['__typename'] === 'AppletRevision') {

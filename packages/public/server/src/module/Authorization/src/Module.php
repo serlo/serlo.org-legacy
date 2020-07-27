@@ -37,12 +37,10 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
     {
         $t = $e->getTarget();
 
-        $t
-            ->getEventManager()
-            ->attach(
-                $t
-                    ->getServiceManager()
-                    ->get('ZfcRbac\View\Strategy\RedirectStrategy')
-            );
+        $t->getEventManager()->attach(
+            $t
+                ->getServiceManager()
+                ->get('ZfcRbac\View\Strategy\RedirectStrategy')
+        );
     }
 }
