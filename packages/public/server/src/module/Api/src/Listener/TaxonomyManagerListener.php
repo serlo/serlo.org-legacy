@@ -47,14 +47,14 @@ class TaxonomyManagerListener extends AbstractListener
 
         /** @var TaxonomyTermInterface $term */
         $term = $e->getParam('term');
-        $this->getApiManager()->setTaxonomyTerm($term);
+        $this->getApiManager()->setUuid($term);
     }
 
     public function onChange(Event $e)
     {
         /** @var TaxonomyTermInterface $term */
         $term = $e->getParam('term');
-        $this->getApiManager()->setTaxonomyTerm($term);
+        $this->getApiManager()->setUuid($term);
     }
 
     public function attachShared(SharedEventManagerInterface $events)
