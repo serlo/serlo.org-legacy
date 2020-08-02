@@ -1113,11 +1113,13 @@ MUTATION;
         }
 
         if ($uuid instanceof PageRepositoryInterface) {
+            if (!$uuid->getCurrentRevision()) {
+                return null;
+            }
             $data['__typename'] = 'Page';
             $data['instance'] = $uuid->getInstance()->getSubdomain();
-            $data['currentRevisionId'] = $uuid->getCurrentRevision()
-                ? $uuid->getCurrentRevision()->getId()
-                : null;
+            $data['currentRevisionId'] = $uuid->getCurrentRevision()->getId();
+            $data['date'] = $this->normalizeDate($uuid->getRevisions()->first()->getTimestamp());
             $data['licenseId'] = $uuid->getLicense()->getId();
         }
 

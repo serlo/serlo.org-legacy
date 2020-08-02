@@ -106,15 +106,14 @@ MUTATION;
     protected function getEventData(EventLogInterface $event)
     {
         $normalized = $this->normalizeEvent($event);
-        return [
-            'id' => $event->getId(),
-            'type' => $normalized['type'],
-            'instance' => $event->getInstance()->getSubdomain(),
-            'date' => $this->normalizeDate($event->getTimestamp()),
-            'actorId' => $event->getActor()->getId(),
-            'objectId' => $event->getObject()->getId(),
-            'payload' => json_encode($normalized['payload']),
-        ];
+        return array_merge(
+            [
+                'id' => $event->getId(),
+                'instance' => $event->getInstance()->getSubdomain(),
+                'date' => $this->normalizeDate($event->getTimestamp()),
+            ],
+            $normalized
+        );
     }
 
     public function setEventData(EventLogInterface $event)
@@ -176,134 +175,134 @@ MUTATION;
         switch ($event->getName()) {
             case 'discussion/comment/archive':
                 return [
-                    'type' => 'SET_THREAD_STATE',
-                    'payload' => [
-                        'archived' => true,
-                    ],
+                    '__typename' => 'SetThreadStateNotificationEvent',
+                    'actorId' => $event->getActor()->getId(),
+                    'threadId' => $event->getObject()->getId(),
+                    'archived' => true,
                 ];
             case 'discussion/comment/restore':
                 return [
-                    'type' => 'SET_THREAD_STATE',
-                    'payload' => [
-                        'archived' => false,
-                    ],
+                    '__typename' => 'SetThreadStateNotificationEvent',
+                    'actorId' => $event->getActor()->getId(),
+                    'threadId' => $event->getObject()->getId(),
+                    'archived' => false,
                 ];
             case 'discussion/comment/create':
                 return [
-                    'type' => 'CREATE_COMMENT',
-                    'payload' => [
-                        'threadId' => $event
-                            ->getParameter('discussion')
-                            ->getId(),
-                    ],
+                    '__typename' => 'CreateCommentNotificationEvent',
+                    'authorId' => $event->getActor()->getId(),
+                    'threadId' => $event->getParameter('discussion')->getId(),
+                    'commentId' => $event->getObject()->getId(),
                 ];
             case 'discussion/create':
                 return [
-                    'type' => 'CREATE_THREAD',
-                    'payload' => [
-                        'objectId' => $event->getParameter('on')->getId(),
-                    ],
+                    '__typename' => 'CreateThreadNotificationEvent',
+                    'authorId' => $event->getActor()->getId(),
+                    'threadId' => $event->getObject()->getId(),
+                    'objectId' => $event->getParameter('on')->getId(),
                 ];
             case 'entity/create':
                 return [
-                    'type' => 'CREATE_ENTITY',
-                    'payload' => [],
+                    '__typename' => 'CreateEntityNotificationEvent',
+                    'authorId' => $event->getActor()->getId(),
+                    'entityId' => $event->getObject()->getId(),
                 ];
             case 'license/object/set':
                 return [
-                    'type' => 'SET_LICENSE',
-                    'payload' => [],
+                    '__typename' => 'SetLicenseNotificationEvent',
+                    'actorId' => $event->getActor()->getId(),
+                    'repositoryId' => $event->getObject()->getId(),
                 ];
             case 'entity/link/create':
                 return [
-                    'type' => 'CREATE_LINK',
-                    'payload' => [
-                        'parentId' => $event->getParameter('parent')->getId(),
-                    ],
+                    '__typename' => 'CreateEntityLinkNotificationEvent',
+                    'actorId' => $event->getActor()->getId(),
+                    'parentId' => $event->getParameter('parent')->getId(),
+                    'childId' => $event->getObject()->getId(),
                 ];
             case 'entity/link/remove':
                 return [
-                    'type' => 'REMOVE_LINK',
-                    'payload' => [
-                        'parentId' => $event->getParameter('parent')->getId(),
-                    ],
+                    '__typename' => 'RemoveEntityLinkNotificationEvent',
+                    'actorId' => $event->getActor()->getId(),
+                    'parentId' => $event->getParameter('parent')->getId(),
+                    'childId' => $event->getObject()->getId(),
                 ];
             case 'entity/revision/add':
                 return [
-                    'type' => 'CREATE_ENTITY_REVISION',
-                    'payload' => [
-                        'repositoryId' => $event
-                            ->getParameter('repository')
-                            ->getId(),
-                    ],
+                    '__typename' => 'CreateEntityRevisionNotificationEvent',
+                    'authorId' => $event->getActor()->getId(),
+                    'entityId' => $event->getParameter('repository')->getId(),
+                    'entityRevisionId' => $event->getObject()->getId(),
                 ];
             case 'entity/revision/checkout':
                 return [
-                    'type' => 'CHECKOUT_REVISION',
-                    'payload' => [
-                        'repositoryId' => $event
-                            ->getParameter('repository')
-                            ->getId(),
-                        'reason' => $event->getParameter('reason') ?? '',
-                    ],
+                    '__typename' => 'CheckoutRevisionNotificationEvent',
+                    'reviewerId' => $event->getActor()->getId(),
+                    'repositoryId' => $event
+                        ->getParameter('repository')
+                        ->getId(),
+                    'revisionId' => $event->getObject()->getId(),
+                    'reason' => $event->getParameter('reason') ?? '',
                 ];
             case 'entity/revision/reject':
                 return [
-                    'type' => 'REJECT_REVISION',
-                    'payload' => [
-                        'repositoryId' => $event
-                            ->getParameter('repository')
-                            ->getId(),
-                        'reason' => $event->getParameter('reason') ?? '',
-                    ],
+                    '__typename' => 'RejectRevisionNotificationEvent',
+                    'reviewerId' => $event->getActor()->getId(),
+                    'repositoryId' => $event
+                        ->getParameter('repository')
+                        ->getId(),
+                    'revisionId' => $event->getObject()->getId(),
+                    'reason' => $event->getParameter('reason') ?? '',
                 ];
             case 'taxonomy/term/associate':
                 return [
-                    'type' => 'CREATE_TAXONOMY_ASSOCIATION',
-                    'payload' => [
-                        'objectId' => $event->getParameter('object')->getId(),
-                    ],
+                    '__typename' => 'CreateTaxonomyLinkNotificationEvent',
+                    'actorId' => $event->getActor()->getId(),
+                    'parentId' => $event->getObject()->getId(),
+                    'childId' => $event->getParameter('object')->getId(),
                 ];
             case 'taxonomy/term/dissociate':
                 return [
-                    'type' => 'REMOVE_TAXONOMY_ASSOCIATION',
-                    'payload' => [
-                        'objectId' => $event->getParameter('object')->getId(),
-                    ],
+                    '__typename' => 'RemoveTaxonomyLinkNotificationEvent',
+                    'actorId' => $event->getActor()->getId(),
+                    'parentId' => $event->getObject()->getId(),
+                    'childId' => $event->getParameter('object')->getId(),
                 ];
             case 'taxonomy/term/create':
                 return [
-                    'type' => 'CREATE_TAXONOMY_TERM',
-                    'payload' => [],
+                    '__typename' => 'CreateTaxonomyTermNotificationEvent',
+                    'authorId' => $event->getActor()->getId(),
+                    'taxonomyTermId' => $event->getObject()->getId(),
                 ];
             case 'taxonomy/term/update':
                 return [
-                    'type' => 'SET_TAXONOMY_TERM',
-                    'payload' => [],
+                    '__typename' => 'SetTaxonomyTermNotificationEvent',
+                    'authorId' => $event->getActor()->getId(),
+                    'taxonomyTermId' => $event->getObject()->getId(),
                 ];
             case 'taxonomy/term/parent/change':
                 $from = $event->getParameter('from');
                 $to = $event->getParameter('to');
                 return [
-                    'type' => 'SET_TAXONOMY_PARENT',
-                    'payload' => [
-                        'previousParentId' => $from ? $from->getId() : null,
-                        'parentId' => $to ? $to->getId() : null,
-                    ],
+                    '__typename' => 'SetTaxonomyParentNotificationEvent',
+                    'actorId' => $event->getActor()->getId(),
+                    'childId' => $event->getObject()->getId(),
+                    'previousParentId' => $from ? $from->getId() : null,
+                    'parentId' => $to ? $to->getId() : null,
                 ];
             case 'uuid/restore':
                 return [
-                    'type' => 'SET_UUID_STATE',
-                    'payload' => [
-                        'trashed' => false,
-                    ],
+                    '__typename' => 'SetUuidStateNotificationEvent',
+                    'actorId' => $event->getActor()->getId(),
+                    'objectId' => $event->getObject()->getId(),
+                    'trashed' => false,
                 ];
             case 'uuid/trash':
                 return [
-                    'type' => 'SET_UUID_STATE',
-                    'payload' => [
-                        'trashed' => true,
-                    ],
+                    '__typename' => 'SetUuidStateNotificationEvent',
+                    'actorId' => $event->getActor()->getId(),
+                    'objectId' => $event->getObject()->getId(),
+                    'trashed' => true,
                 ];
             default:
                 $this->sentry->captureMessage(
@@ -317,10 +316,8 @@ MUTATION;
                     ]
                 );
                 return [
-                    'type' => 'UNSUPPORTED',
-                    'payload' => [
-                        'type' => $event->getName(),
-                    ],
+                    'error' => 'unsupported',
+                    'type' => $event->getName(),
                 ];
         }
     }

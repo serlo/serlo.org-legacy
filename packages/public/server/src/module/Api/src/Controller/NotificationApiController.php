@@ -90,6 +90,9 @@ class NotificationApiController extends AbstractApiController
 
         try {
             $this->manager->setNotificationState($id, $userId, $unread);
+            return new JsonModel(
+                $this->manager->getNotificationDataByUserId($userId)
+            );
         } catch (UserNotFoundException $e) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
             return new JsonModel(['reason' => 'Invalid user id']);
@@ -97,7 +100,5 @@ class NotificationApiController extends AbstractApiController
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_403);
             return new JsonModel(['reason' => 'Invalid notification id']);
         }
-
-        return $this->response;
     }
 }
