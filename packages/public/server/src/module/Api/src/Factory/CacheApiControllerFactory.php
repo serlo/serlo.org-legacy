@@ -21,10 +21,26 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Authentication\Exception;
+namespace Api\Factory;
 
-use Exception;
+use Api\Controller\CacheApiController;
+use Api\Service\AuthorizationService;
+use Common\Factory\AbstractControllerFactory;
+use Instance\Factory\InstanceManagerFactoryTrait;
+use Navigation\Factory\NavigationServiceFactoryTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class HydraException extends Exception
+class CacheApiControllerFactory extends AbstractControllerFactory
 {
+    use InstanceManagerFactoryTrait;
+    use NavigationServiceFactoryTrait;
+
+    protected function createController(ServiceLocatorInterface $serviceManager)
+    {
+        /** @var AuthorizationService $authorizationService */
+        $authorizationService = $serviceManager->get(
+            AuthorizationService::class
+        );
+        return new CacheApiController($authorizationService);
+    }
 }

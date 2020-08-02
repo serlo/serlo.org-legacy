@@ -21,10 +21,19 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Authentication\Exception;
+namespace Api\Controller;
 
-use Exception;
+use Zend\View\Model\JsonModel;
 
-class HydraException extends Exception
+class CacheApiController extends AbstractApiController
 {
+    public function indexAction()
+    {
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
+        return new JsonModel(['TODO']);
+    }
 }

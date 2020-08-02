@@ -55,7 +55,9 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^26.0.0",
     "@types/rimraf": "^3.0.0",
+    "jest": "^26.0.0",
     "lerna": "^3.0.0",
     "rimraf": "^3.0.0"
   }

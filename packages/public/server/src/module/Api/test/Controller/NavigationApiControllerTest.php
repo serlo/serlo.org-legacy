@@ -58,7 +58,7 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
 
         $this->dispatch('/api/navigation');
         $this->assertControllerName(NavigationApiController::class);
-        $this->assertSerializedJsonResponse([], $this->getResponse());
+        $this->assertJsonResponseWithInstance([], $this->getResponse());
     }
 
     public function testEmptyNavigation()
@@ -66,20 +66,7 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         $this->stubNavigationService([]);
         $this->dispatch('/api/navigation');
         $this->assertControllerName(NavigationApiController::class);
-        $this->assertSerializedJsonResponse([], $this->getResponse());
-    }
-
-    protected function stubNavigationService(array $data)
-    {
-        $navigationService = $this->getMockBuilder(NavigationService::class)
-            ->setMethods(['getNavigation'])
-            ->getMock();
-        $navigationService
-            ->method('getNavigation')
-            ->will(new PHPUnit_Framework_MockObject_Stub_Return($data));
-        $this->getApplication()
-            ->getServiceManager()
-            ->setService(NavigationService::class, $navigationService);
+        $this->assertJsonResponseWithInstance([], $this->getResponse());
     }
 
     public function testOneSubject()
@@ -96,7 +83,7 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         ]);
         $this->dispatch('/api/navigation');
         $this->assertControllerName(NavigationApiController::class);
-        $this->assertSerializedJsonResponse(
+        $this->assertJsonResponseWithInstance(
             [
                 [
                     'label' => 'Mathematik',
@@ -134,7 +121,7 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         ]);
         $this->dispatch('/api/navigation');
         $this->assertControllerName(NavigationApiController::class);
-        $this->assertSerializedJsonResponse(
+        $this->assertJsonResponseWithInstance(
             [
                 [
                     'label' => 'Mathematik',
@@ -165,7 +152,7 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         ]);
         $this->dispatch('/api/navigation');
         $this->assertControllerName(NavigationApiController::class);
-        $this->assertSerializedJsonResponse(
+        $this->assertJsonResponseWithInstance(
             [
                 [
                     'label' => 'License API',
@@ -197,7 +184,7 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         ]);
         $this->dispatch('/api/navigation');
         $this->assertControllerName(NavigationApiController::class);
-        $this->assertSerializedJsonResponse(
+        $this->assertJsonResponseWithInstance(
             [
                 [
                     'label' => 'Bei Serlo mitarbeiten',
@@ -226,7 +213,7 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         ]);
         $this->dispatch('/api/navigation');
         $this->assertControllerName(NavigationApiController::class);
-        $this->assertSerializedJsonResponse(
+        $this->assertJsonResponseWithInstance(
             [
                 [
                     'label' => 'Gymnasium',
@@ -250,7 +237,7 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         ]);
         $this->dispatch('/api/navigation');
         $this->assertControllerName(NavigationApiController::class);
-        $this->assertSerializedJsonResponse(
+        $this->assertJsonResponseWithInstance(
             [
                 [
                     'label' => 'Ungeprüfte Bearbeitungen',
@@ -275,24 +262,32 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         ]);
         $this->dispatch('/api/navigation');
         $this->assertControllerName(NavigationApiController::class);
-        $this->assertSerializedJsonResponse([], $this->getResponse());
+        $this->assertJsonResponseWithInstance([], $this->getResponse());
     }
 
-    protected function assertSerializedJsonResponse(
+    protected function stubNavigationService(array $data)
+    {
+        $navigationService = $this->getMockBuilder(NavigationService::class)
+            ->setMethods(['getNavigation'])
+            ->getMock();
+        $navigationService
+            ->method('getNavigation')
+            ->will(new PHPUnit_Framework_MockObject_Stub_Return($data));
+        $this->getApplication()
+            ->getServiceManager()
+            ->setService(NavigationService::class, $navigationService);
+    }
+
+    protected function assertJsonResponseWithInstance(
         $expected,
         ResponseInterface $response
     ) {
-        /** @var Response $response */
-        $this->assertResponseStatusCode(200);
-
-        $headers = $response->getHeaders();
-        $this->assertEquals(
-            'application/json; charset=utf-8',
-            $headers->get('Content-Type')->getFieldValue()
+        $this->assertJsonResponse(
+            [
+                'instance' => 'de',
+                'data' => $expected,
+            ],
+            $response
         );
-
-        $body = json_decode($response->getBody(), true);
-        $data = json_decode($body['data'], true);
-        $this->assertEquals($expected, $data);
     }
 }

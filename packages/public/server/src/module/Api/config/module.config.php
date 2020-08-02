@@ -24,12 +24,14 @@
 namespace Api;
 
 use Api\Controller\ApiController;
+use Api\Controller\CacheApiController;
 use Api\Controller\NavigationApiController;
 use Api\Controller\NotificationApiController;
 use Api\Factory\AliasManagerListenerFactory;
 use Api\Factory\ApiControllerFactory;
 use Api\Factory\ApiManagerFactory;
 use Api\Factory\AuthorizationServiceFactory;
+use Api\Factory\CacheApiControllerFactory;
 use Api\Factory\GraphQLServiceFactory;
 use Api\Factory\LicenseManagerListenerFactory;
 use Api\Factory\NavigationApiControllerFactory;
@@ -57,6 +59,7 @@ return [
     'controllers' => [
         'factories' => [
             ApiController::class => ApiControllerFactory::class,
+            CacheApiController::class => CacheApiControllerFactory::class,
             NavigationApiController::class =>
                 NavigationApiControllerFactory::class,
             NotificationApiController::class =>
@@ -104,6 +107,16 @@ return [
                             ],
                             'constraints' => [
                                 'alias' => '(.)+',
+                            ],
+                        ],
+                    ],
+                    'cache' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/cache-keys',
+                            'defaults' => [
+                                'controller' => CacheApiController::class,
+                                'action' => 'index',
                             ],
                         ],
                     ],

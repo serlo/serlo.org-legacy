@@ -52,13 +52,11 @@ class Module implements
     {
         $t = $e->getTarget();
 
-        $t
-            ->getEventManager()
-            ->attach(
-                $t
-                    ->getServiceManager()
-                    ->get('ZfcRbac\View\Strategy\UnauthorizedStrategy')
-            );
+        $t->getEventManager()->attach(
+            $t
+                ->getServiceManager()
+                ->get('ZfcRbac\View\Strategy\UnauthorizedStrategy')
+        );
     }
 
     public function onMergeConfig(ModuleEvent $e)
