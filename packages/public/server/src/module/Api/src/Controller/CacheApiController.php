@@ -34,8 +34,6 @@ class CacheApiController extends AbstractApiController
             return $authorizationResponse;
         }
 
-        return new JsonModel([
-            'TODO'
-        ]);
+        return new JsonModel(['TODO']);
     }
 }

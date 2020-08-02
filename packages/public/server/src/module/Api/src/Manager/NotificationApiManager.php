@@ -78,18 +78,10 @@ class NotificationApiManager
 
     public function setNotificationData(UserInterface $user)
     {
-        $query = <<<MUTATION
-            mutation setNotifications(
-                \$userId: Int!
-                \$notifications: [NotificationInput!]!
-            ) {
-                _setNotifications(
-                    userId: \$userId
-                    notifications: \$notifications
-                )
-            }
-MUTATION;
-        $this->graphql->exec($query, $this->getNotificationData($user));
+        $this->setCache(
+            $this->getCacheKey('/api/notifications/' . $user->getId()),
+            $this->getNotificationData($user)
+        );
     }
 
     /**
@@ -118,28 +110,10 @@ MUTATION;
 
     public function setEventData(EventLogInterface $event)
     {
-        $query = <<<MUTATION
-            mutation setNotificationEvent(
-                \$id: Int!
-                \$type: String!
-                \$instance: Instance!
-                \$date: String!
-                \$actorId: Int!
-                \$objectId: Int!
-                \$payload: String!
-            ) {
-                _setNotificationEvent(
-                    id: \$id
-                    type: \$type
-                    instance: \$instance
-                    date: \$date
-                    actorId: \$actorId
-                    objectId: \$objectId
-                    payload: \$payload
-                )
-            }
-MUTATION;
-        $this->graphql->exec($query, $this->getEventData($event));
+        $this->setCache(
+            $this->getCacheKey('/api/event/' . $event->getId()),
+            $this->getEventData($event)
+        );
     }
 
     /**
@@ -329,5 +303,23 @@ MUTATION;
             $date->setTimestamp(0);
         }
         return $date->format(DateTime::ATOM);
+    }
+
+    private function getCacheKey($path, $instance = 'de')
+    {
+        return $instance . '.serlo.org' . $path;
+    }
+
+    private function setCache($key, $value)
+    {
+        $query = <<<MUTATION
+          mutation _setCache($key: String!, $value: JSON!) {
+            _setCache(key: $key, value: $value)
+          }
+MUTATION;
+        $this->graphql->exec($query, [
+            'key' => $key,
+            'value' => $value,
+        ]);
     }
 }
