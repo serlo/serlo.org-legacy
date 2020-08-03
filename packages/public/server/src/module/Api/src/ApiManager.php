@@ -29,11 +29,11 @@ use Api\Service\GraphQLService;
 use DateTime;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
-use Exception;
 use License\Entity\LicenseInterface;
 use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
 use Taxonomy\Entity\TaxonomyTermInterface;
+use Throwable;
 use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 
@@ -56,8 +56,11 @@ class ApiManager
     {
         $value = $this->getAliasData($alias);
         // TODO: clean Path
-        $this->setCache(
-            $this->getCacheKey('/api/alias' . $value['path']),
+        $this->graphql->setCache(
+            $this->graphql->getCacheKey(
+                '/api/alias' . $value['path'],
+                $alias->getInstance()->getSubdomain()
+            ),
             $value
         );
     }
@@ -84,13 +87,16 @@ class ApiManager
 
     public function removeLicense($id)
     {
-        $this->setCache($this->getCacheKey('/api/license/' . $id), null);
+        $this->graphql->setCache(
+            $this->graphql->getCacheKey('/api/license/' . $id),
+            null
+        );
     }
 
     public function setLicense(LicenseInterface $license)
     {
-        $this->setCache(
-            $this->getCacheKey('/api/license/' . $license->getId()),
+        $this->graphql->setCache(
+            $this->graphql->getCacheKey('/api/license/' . $license->getId()),
             $this->getLicenseData($license)
         );
     }
@@ -111,13 +117,16 @@ class ApiManager
 
     public function removeUuid($id)
     {
-        $this->setCache($this->getCacheKey('/api/uuid/' . $id), null);
+        $this->graphql->setCache(
+            $this->graphql->getCacheKey('/api/uuid/' . $id),
+            null
+        );
     }
 
     public function setUuid(UuidInterface $uuid)
     {
-        $this->setCache(
-            $this->getCacheKey('/api/uuid/' . $uuid->getId()),
+        $this->graphql->setCache(
+            $this->graphql->getCacheKey('/api/uuid/' . $uuid->getId()),
             $this->getUuidData($uuid)
         );
     }
@@ -130,7 +139,7 @@ class ApiManager
                 $this->aliasManager
                     ->findAliasByObject($uuid, false)
                     ->getAlias();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $alias = null;
         }
 
@@ -361,23 +370,5 @@ class ApiManager
                 }, $remainingSegments)
             )
         );
-    }
-
-    private function getCacheKey($path, $instance = 'de')
-    {
-        return $instance . '.serlo.org' . $path;
-    }
-
-    private function setCache($key, $value)
-    {
-        $query = <<<MUTATION
-          mutation _setCache($key: String!, $value: JSON!) {
-            _setCache(key: $key, value: $value)
-          }
-MUTATION;
-        $this->graphql->exec($query, [
-            'key' => $key,
-            'value' => $value,
-        ]);
     }
 }

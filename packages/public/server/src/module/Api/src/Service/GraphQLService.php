@@ -69,4 +69,22 @@ class GraphQLService
             );
         }
     }
+
+    public function getCacheKey($path, $instance = 'de')
+    {
+        return $instance . '.serlo.org' . $path;
+    }
+
+    public function setCache($key, $value)
+    {
+        $query = <<<MUTATION
+          mutation _setCache(\$key: String!, \$value: JSON!) {
+            _setCache(key: \$key, value: \$value)
+          }
+MUTATION;
+        $this->exec($query, [
+            'key' => $key,
+            'value' => $value,
+        ]);
+    }
 }

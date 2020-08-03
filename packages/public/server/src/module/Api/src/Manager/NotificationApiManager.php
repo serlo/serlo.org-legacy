@@ -78,8 +78,8 @@ class NotificationApiManager
 
     public function setNotificationData(UserInterface $user)
     {
-        $this->setCache(
-            $this->getCacheKey('/api/notifications/' . $user->getId()),
+        $this->graphql->setCache(
+            $this->graphql->getCacheKey('/api/notifications/' . $user->getId()),
             $this->getNotificationData($user)
         );
     }
@@ -110,8 +110,8 @@ class NotificationApiManager
 
     public function setEventData(EventLogInterface $event)
     {
-        $this->setCache(
-            $this->getCacheKey('/api/event/' . $event->getId()),
+        $this->graphql->setCache(
+            $this->graphql->getCacheKey('/api/event/' . $event->getId()),
             $this->getEventData($event)
         );
     }
@@ -303,23 +303,5 @@ class NotificationApiManager
             $date->setTimestamp(0);
         }
         return $date->format(DateTime::ATOM);
-    }
-
-    private function getCacheKey($path, $instance = 'de')
-    {
-        return $instance . '.serlo.org' . $path;
-    }
-
-    private function setCache($key, $value)
-    {
-        $query = <<<MUTATION
-          mutation _setCache($key: String!, $value: JSON!) {
-            _setCache(key: $key, value: $value)
-          }
-MUTATION;
-        $this->graphql->exec($query, [
-            'key' => $key,
-            'value' => $value,
-        ]);
     }
 }
