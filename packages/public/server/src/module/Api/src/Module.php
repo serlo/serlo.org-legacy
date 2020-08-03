@@ -25,6 +25,7 @@ namespace Api;
 
 use Api\Listener\AliasManagerListener;
 use Api\Listener\LicenseManagerListener;
+use Api\Listener\LinkServiceListener;
 use Api\Listener\NotificationManagerListener;
 use Api\Listener\PageManagerListener;
 use Api\Listener\RepositoryManagerListener;
@@ -67,6 +68,9 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         );
         $sharedEventManager->attachAggregate(
             $serviceManager->get(LicenseManagerListener::class)
+        );
+        $sharedEventManager->attachAggregate(
+            $serviceManager->get(LinkServiceListener::class)
         );
         $sharedEventManager->attachAggregate(
             $serviceManager->get(NotificationManagerListener::class)

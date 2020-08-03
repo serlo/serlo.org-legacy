@@ -34,6 +34,7 @@ use Api\Factory\AuthorizationServiceFactory;
 use Api\Factory\CacheApiControllerFactory;
 use Api\Factory\GraphQLServiceFactory;
 use Api\Factory\LicenseManagerListenerFactory;
+use Api\Factory\LinkServiceListenerFactory;
 use Api\Factory\NavigationApiControllerFactory;
 use Api\Factory\NotificationApiControllerFactory;
 use Api\Factory\NotificationApiManagerFactory;
@@ -45,6 +46,7 @@ use Api\Factory\UserManagerListenerFactory;
 use Api\Factory\UuidManagerListenerFactory;
 use Api\Listener\AliasManagerListener;
 use Api\Listener\LicenseManagerListener;
+use Api\Listener\LinkServiceListener;
 use Api\Listener\NotificationManagerListener;
 use Api\Listener\PageManagerListener;
 use Api\Listener\RepositoryManagerListener;
@@ -80,6 +82,7 @@ return [
                 RepositoryManagerListenerFactory::class,
             LicenseManagerListener::class =>
                 LicenseManagerListenerFactory::class,
+            LinkServiceListener::class => LinkServiceListenerFactory::class,
             PageManagerListener::class => PageManagerListenerFactory::class,
             TaxonomyManagerListener::class =>
                 TaxonomyManagerListenerFactory::class,

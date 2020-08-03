@@ -23,31 +23,29 @@
 
 namespace Api\Listener;
 
+use Link\Service\LinkService;
 use Taxonomy\Entity\TaxonomyTermInterface;
-use Taxonomy\Manager\TaxonomyManager;
 use Uuid\Entity\UuidInterface;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 
-class TaxonomyManagerListener extends AbstractListener
+class LinkServiceListener extends AbstractListener
 {
-    public function onAssociationChange(Event $e)
+    public function onLinkChange(Event $e)
     {
         /** @var UuidInterface $uuid */
-        $uuid = $e->getParam('object');
+        $child = $e->getParam('entity');
 
-        // `setUuid` and `setTaxonomyTerm` don't work for newly created entities. Instead, this update logic is
-        // handled in `LicenseManagerListener#onInject`
-        $newlyCreated = !$uuid->getId();
+        $newlyCreated = !$child->getId();
         if ($newlyCreated) {
             return;
         }
 
-        $this->getApiManager()->setUuid($uuid);
+        $this->getApiManager()->setUuid($child);
 
-        /** @var TaxonomyTermInterface $term */
-        $term = $e->getParam('term');
-        $this->getApiManager()->setUuid($term);
+        /** @var UuidInterface $uuid */
+        $parent = $e->getParam('parent');
+        $this->getApiManager()->setUuid($parent);
     }
 
     public function onChange(Event $e)
@@ -57,57 +55,24 @@ class TaxonomyManagerListener extends AbstractListener
         $this->getApiManager()->setUuid($term);
     }
 
-    public function onParentChange(Event $e)
-    {
-        /** @var TaxonomyTermInterface|null $term */
-        $from = $e->getParam('from');
-        if ($from) {
-            $this->getApiManager()->setUuid($from);
-        }
-
-        /** @var TaxonomyTermInterface|null $term */
-        $to = $e->getParam('to');
-        if ($to) {
-            $this->getApiManager()->setUuid($from);
-        }
-    }
-
     public function attachShared(SharedEventManagerInterface $events)
     {
         $events->attach(
             $this->getMonitoredClass(),
-            'associate',
-            [$this, 'onAssociationChange'],
+            'unlink',
+            [$this, 'onLinkChange'],
             2
         );
         $events->attach(
             $this->getMonitoredClass(),
-            'dissociate',
-            [$this, 'onAssociationChange'],
-            2
-        );
-        $events->attach(
-            $this->getMonitoredClass(),
-            'create',
-            [$this, 'onChange'],
-            2
-        );
-        $events->attach(
-            $this->getMonitoredClass(),
-            'update',
-            [$this, 'onChange'],
-            2
-        );
-        $events->attach(
-            $this->getMonitoredClass(),
-            'parent.change',
-            [$this, 'onParentChange'],
+            'link',
+            [$this, 'onLinkChange'],
             2
         );
     }
 
     protected function getMonitoredClass()
     {
-        return TaxonomyManager::class;
+        return LinkService::class;
     }
 }

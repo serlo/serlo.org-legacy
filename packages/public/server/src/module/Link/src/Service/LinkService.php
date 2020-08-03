@@ -60,15 +60,14 @@ class LinkService implements LinkServiceInterface
         $link->setType($type);
         $link->setPosition($position);
 
+        $this->getObjectManager()->persist($link);
+        $parent->getChildLinks()->add($link);
+        $child->getParentLinks()->add($link);
+
         $this->getEventManager()->trigger('link', $this, [
             'entity' => $child,
             'parent' => $parent,
         ]);
-
-        $this->getObjectManager()->persist($link);
-
-        $parent->getChildLinks()->add($link);
-        $child->getParentLinks()->add($link);
 
         return $this;
     }
