@@ -34,12 +34,6 @@ var ggbAppletsCount = 0
 var $geogebraTemplate = $(
   '<article class="geogebraweb" data-param-width="700" data-param-height="525" data-param-usebrowserforjs="true" data-param-enableRightClick="false"></article>'
 )
-// var gtApplets = {}
-// var geogebraTubeScriptSource = 'http://www.geogebratube.org/scripts/deployggb.js'
-var gtAppletsCount = 0
-var $geogebraTubeTemplate = $(
-  '<div class="hidden-sm hidden-xs" style="transform-origin:top left"></div><a class="hidden-md hidden-lg">hi</a>'
-)
 
 // terrible geogebra oninit handler..
 // that doesnt work.....
@@ -89,39 +83,52 @@ Injections = function () {
     }
 
     function initGeogebraTube() {
-      var transform
-      var scale
-      var gtAppletID = 'gtApplet' + gtAppletsCount
-      var applet
-      var $clone = $geogebraTubeTemplate.clone()
+      const materialId = href.substr(5)
+      const placeholder = `
+        <div style="display: flex; justify-content: center; box-sizing: border-box;
+                    border: 2px #ccc solid; border-radius: 4px; padding: 10px;">
+          <img src="https://cdn.geogebra.org/static/img/GeoGebra-logo.png"
+               alt="GeoGebra Applet" />
+        </div>`
 
-      gtAppletsCount++
+      $that.html(placeholder)
 
-      $clone.attr('id', gtAppletID)
-      $that.html($clone)
+      fetch('https://www.geogebra.org/api/json.php', {
+        method: 'POST',
+        body: JSON.stringify({
+          request: {
+            '-api': '1.0.0',
+            task: {
+              '-type': 'fetch',
+              fields: {
+                field: [{ '-name': 'width' }, { '-name': 'height' }],
+              },
+              filters: {
+                field: [{ '-name': 'id', '#text': materialId }],
+              },
+              limit: { '-num': '1' },
+            },
+          },
+        }),
+      }).then((res) => {
+        const iframeUrl = `https://www.geogebra.org/material/iframe/id/${materialId}`
 
-      // material id is just the number at the end of a link
-      applet = new GGBApplet({ material_id: href.substr(5) }, true)
-      applet.inject(gtAppletID, 'preferHTML5')
+        const data = res.json()?.responses?.response?.item
+        const ratioFromData = data?.width / data?.height
 
-      transform = function () {
-        setTimeout(transform, 1000)
-        scale =
-          $clone.parent().width() /
-          ($clone.find('div:first').width() *
-            $clone.find('div:first > article').attr('data-param-scale'))
-        $($clone[0]).css('transform', 'scale(' + scale + ')')
-        // $clone.first().css("position", "relative");
-        $($clone[0]).height(
-          $clone.find('div:first').height() *
-            scale *
-            $clone.find('div:first > article').attr('data-param-scale')
-        )
-        $($clone[0]).parent().height('100%')
-      }
-      transform()
-      $($clone[1]).attr('href', 'https://serlo.org/ggt/' + href.substr(5))
-      $($clone[1]).text(title)
+        const defaultRatio = 16 / 9
+        const ratio = Number.isNaN(ratioFromData) ? defaultRatio : ratioFromData
+        const inversedRatio = 100 / ratio
+
+        $that.html(`
+         <div style="position: relative; padding: 0; padding-top: ${inversedRatio}%;
+                     display: block; height: 0; overflow: hidden">
+          <iframe style="position: absolute; top: 0; left: 0; width: 100%;
+                         height: 100%; border: none;" title="${title}"
+                  scrolling="no" src="${iframeUrl}" />
+         </div>
+        `)
+      })
     }
 
     function notSupportedYet($context) {
