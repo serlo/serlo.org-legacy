@@ -40,7 +40,7 @@ export enum Plugin {
   Table = '@serlo-org/table',
   Text = '@splish-me/slate',
 }
-export type Legacy = LegacyRow[]
+export type Legacy = LegacyRow[] | string
 
 export type LegacyRow = {
   col: number

@@ -27,14 +27,35 @@ const getCellsFromRow = (row: LegacyRow) =>
     raw: cell.content,
   }))
 
-const transform = (input: Legacy) => ({
-  cells: [
-    {
-      rows: input.map((row) => ({
-        cells: getCellsFromRow(row),
-      })),
-    },
-  ],
-})
+const transform = (input: Legacy) => {
+  if (typeof input === 'string') {
+    return {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 12,
+                  raw: input,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+  }
+
+  return {
+    cells: [
+      {
+        rows: input.map((row) => ({
+          cells: getCellsFromRow(row),
+        })),
+      },
+    ],
+  }
+}
 
 export default transform

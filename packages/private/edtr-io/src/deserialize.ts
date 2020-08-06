@@ -764,6 +764,7 @@ function serializeEditorState(content: EditorState): SerializedEditorState
 function serializeEditorState(
   content: EditorState
 ): SerializedEditorState | SerializedLegacyEditorState {
+  if (typeof content === 'string') return content as SerializedLegacyEditorState
   return content ? (JSON.stringify(content) as any) : undefined
 }
 
@@ -772,7 +773,12 @@ function deserializeEditorState(content: SerializedEditorState): EditorState
 function deserializeEditorState(
   content: SerializedLegacyEditorState | SerializedEditorState
 ): EditorState {
-  return content ? JSON.parse(content) : undefined
+  try {
+    return content ? JSON.parse(content) : undefined
+  } catch {
+    // No valid JSON, so this is interpreted as Markdown
+    return content as Legacy
+  }
 }
 
 type EditorState = Legacy | Splish | Edtr | undefined

@@ -37,6 +37,46 @@ const cases: {
   edtrIO: Edtr
 }[] = [
   {
+    description: 'Convert taxonomy terms created without editor correctly',
+    legacy: '# Hello world',
+    splish: {
+      cells: [
+        {
+          rows: [
+            {
+              cells: [
+                {
+                  size: 12,
+                  rows: [
+                    {
+                      cells: [
+                        expectSplishSlate(
+                          '<h1 id="helloworld">Hello world</h1>'
+                        ),
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      id: 'someID',
+    },
+    edtrIO: {
+      plugin: 'rows',
+      state: [
+        {
+          plugin: 'text',
+          state: serializer.serialize(
+            htmlToSlate('<h1 id="helloworld">Hello world</h1>')
+          ),
+        },
+      ],
+    },
+  },
+  {
     description: 'Convert chains methods together correctly',
     legacy: [
       [
