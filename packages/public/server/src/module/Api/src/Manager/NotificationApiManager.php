@@ -164,21 +164,21 @@ class NotificationApiManager
             case 'discussion/comment/create':
                 return [
                     '__typename' => 'CreateCommentNotificationEvent',
-                    'authorId' => $event->getActor()->getId(),
+                    'actorId' => $event->getActor()->getId(),
                     'threadId' => $event->getParameter('discussion')->getId(),
                     'commentId' => $event->getObject()->getId(),
                 ];
             case 'discussion/create':
                 return [
                     '__typename' => 'CreateThreadNotificationEvent',
-                    'authorId' => $event->getActor()->getId(),
+                    'actorId' => $event->getActor()->getId(),
                     'threadId' => $event->getObject()->getId(),
                     'objectId' => $event->getParameter('on')->getId(),
                 ];
             case 'entity/create':
                 return [
                     '__typename' => 'CreateEntityNotificationEvent',
-                    'authorId' => $event->getActor()->getId(),
+                    'actorId' => $event->getActor()->getId(),
                     'entityId' => $event->getObject()->getId(),
                 ];
             case 'license/object/set':
@@ -204,14 +204,14 @@ class NotificationApiManager
             case 'entity/revision/add':
                 return [
                     '__typename' => 'CreateEntityRevisionNotificationEvent',
-                    'authorId' => $event->getActor()->getId(),
+                    'actorId' => $event->getActor()->getId(),
                     'entityId' => $event->getParameter('repository')->getId(),
                     'entityRevisionId' => $event->getObject()->getId(),
                 ];
             case 'entity/revision/checkout':
                 return [
                     '__typename' => 'CheckoutRevisionNotificationEvent',
-                    'reviewerId' => $event->getActor()->getId(),
+                    'actorId' => $event->getActor()->getId(),
                     'repositoryId' => $event
                         ->getParameter('repository')
                         ->getId(),
@@ -221,7 +221,7 @@ class NotificationApiManager
             case 'entity/revision/reject':
                 return [
                     '__typename' => 'RejectRevisionNotificationEvent',
-                    'reviewerId' => $event->getActor()->getId(),
+                    'actorId' => $event->getActor()->getId(),
                     'repositoryId' => $event
                         ->getParameter('repository')
                         ->getId(),
@@ -245,13 +245,13 @@ class NotificationApiManager
             case 'taxonomy/term/create':
                 return [
                     '__typename' => 'CreateTaxonomyTermNotificationEvent',
-                    'authorId' => $event->getActor()->getId(),
+                    'actorId' => $event->getActor()->getId(),
                     'taxonomyTermId' => $event->getObject()->getId(),
                 ];
             case 'taxonomy/term/update':
                 return [
                     '__typename' => 'SetTaxonomyTermNotificationEvent',
-                    'authorId' => $event->getActor()->getId(),
+                    'actorId' => $event->getActor()->getId(),
                     'taxonomyTermId' => $event->getObject()->getId(),
                 ];
             case 'taxonomy/term/parent/change':
