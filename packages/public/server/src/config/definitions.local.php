@@ -59,3 +59,5 @@ $upload_secret = 'secret';
 $mock_email = true;
 
 $autoreview_taxonomy_term_ids = [35607];
+
+$mysql_timestamp_for_active_community = 'DATE("2014-01-01")';

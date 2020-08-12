@@ -46,6 +46,16 @@ class UserManager implements UserManagerInterface
      */
     protected $hydrator;
 
+    /**
+     * @var string
+     */
+    protected $mysql_timestamp_for_active_community;
+
+    public function setMysqlTimestampForActiveCommunity(string $timestamp)
+    {
+        $this->mysql_timestamp_for_active_community = $timestamp;
+    }
+
     public function getUser($id)
     {
         $user = $this->getObjectManager()->find(
@@ -151,7 +161,9 @@ class UserManager implements UserManagerInterface
         return $this->getIds(
             'SELECT user.id as id, count(event_log.event_id) AS edit_counts ' .
                 'FROM user JOIN event_log on user.id = event_log.actor_id ' .
-                'WHERE event_log.event_id = 5 and event_log.date > DATE_SUB(CURDATE(), Interval 90 day) ' .
+                'WHERE event_log.event_id = 5 and event_log.date > DATE_SUB(' .
+                $this->mysql_timestamp_for_active_community .
+                ', Interval 90 day) ' .
                 'GROUP BY user.id ' .
                 'HAVING edit_counts > 10'
         );
@@ -165,7 +177,9 @@ class UserManager implements UserManagerInterface
                 'JOIN event_log AS e2 ON e1.uuid_id = e2.uuid_id AND (e1.event_id = 6 or e1.event_id = 11) ' .
                 'AND e2.event_id = 5 AND e1.date >= e2.date AND e1.actor_id != e2.actor_id ' .
                 'JOIN user ON user.id = e1.actor_id ' .
-                'WHERE e1.date > DATE_SUB(CURDATE(), Interval 90 day) ' .
+                'WHERE e1.date > DATE_SUB(' .
+                $this->mysql_timestamp_for_active_community .
+                ', Interval 90 day) ' .
                 'GROUP BY user.id ' .
                 'HAVING edit_counts > 10'
         );
