@@ -40,4 +40,9 @@ class UserApiController extends AbstractApiController
     {
         return new JsonModel($this->userManager->getActiveAuthorIds());
     }
+
+    public function getActiveReviewerIdsAction()
+    {
+        return new JsonModel($this->userManager->getActiveReviewerIds());
+    }
 }

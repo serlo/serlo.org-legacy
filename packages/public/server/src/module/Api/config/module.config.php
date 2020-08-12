@@ -114,6 +114,16 @@ return [
                             ],
                         ],
                     ],
+                    'active-reviewers' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/user/active-reviewers',
+                            'defaults' => [
+                                'controller' => UserApiController::class,
+                                'action' => 'getActiveReviewerIds',
+                            ],
+                        ],
+                    ],
                     'alias' => [
                         'type' => 'Common\Router\Slashable',
                         'options' => [

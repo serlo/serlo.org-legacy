@@ -33,18 +33,32 @@ class ApiControllerTest extends AbstractHttpControllerTestCase
 
     public function testActiveAuthors()
     {
+        $this->mockUserManager('getActiveAuthorIds', [1, 10]);
+
+        $this->dispatch('/api/user/active-authors');
+        $this->assertControllerName(UserApiController::class);
+        $this->assertJsonResponse([1, 10], $this->getResponse());
+    }
+
+    public function testActiveReviewers()
+    {
+        $this->mockUserManager('getActiveReviewerIds', [1, 10]);
+
+        $this->dispatch('/api/user/active-reviewers');
+        $this->assertControllerName(UserApiController::class);
+        $this->assertJsonResponse([1, 10], $this->getResponse());
+    }
+
+    protected function mockUserManager(string $method, array $idList)
+    {
         $userManager = $this->getMockBuilder(UserManager::class)
-            ->setMethods(['getActiveAuthorIds'])
+            ->setMethods([$method])
             ->getMock();
-        $userManager->method('getActiveAuthorIds')->willReturn([1, 10]);
+        $userManager->method($method)->willReturn($idList);
 
         $this->getApplicationServiceLocator()->setService(
             UserManager::class,
             $userManager
         );
-
-        $this->dispatch('/api/user/active-authors');
-        $this->assertControllerName(UserApiController::class);
-        $this->assertJsonResponse([1, 10], $this->getResponse());
     }
 }
