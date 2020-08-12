@@ -69,6 +69,11 @@ class UserManagerStub implements UserManagerInterface
         // TODO: Implement findUserByUsername() method.
     }
 
+    public function getActiveAuthorIds()
+    {
+        return [];
+    }
+
     public function generateUserToken($id)
     {
         // TODO: Implement generateUserToken() method.

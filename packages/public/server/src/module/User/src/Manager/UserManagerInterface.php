@@ -37,6 +37,11 @@ interface UserManagerInterface extends Flushable, Persistable
     public function createUser(array $data);
 
     /**
+     * @return array
+     */
+    public function getActiveAuthorIds();
+
+    /**
      * @param int $page
      * @param int $limit
      * @return Paginator|UserInterface[]

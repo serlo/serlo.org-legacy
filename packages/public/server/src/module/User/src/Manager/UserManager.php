@@ -146,6 +146,26 @@ class UserManager implements UserManagerInterface
         return $user;
     }
 
+    public function getActiveAuthorIds()
+    {
+        $sql =
+            'SELECT user.id as id, count(event_log.event_id) AS edit_counts ' .
+            'FROM user JOIN event_log on user.id = event_log.actor_id ' .
+            "WHERE event_log.event_id = 5 and event_log.date > DATE_SUB(CURDATE(), Interval 90 day) " .
+            'GROUP BY user.id ' .
+            'HAVING edit_counts > 10';
+        $q = $this->objectManager->getConnection()->prepare($sql);
+        $q->execute();
+        $queryResultNested = $q->fetchAll();
+        $result = [];
+        foreach ($queryResultNested as $queryResult) {
+            $result[] = $queryResult['id'];
+        }
+        return array_map(function ($x) {
+            return (int) $x;
+        }, $result);
+    }
+
     public function findAllUsers($page = 0, $limit = 50)
     {
         $className = $this->getClassResolver()->resolveClassName(
