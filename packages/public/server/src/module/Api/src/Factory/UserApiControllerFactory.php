@@ -27,6 +27,7 @@ use Api\Controller\UserApiController;
 use Api\Service\AuthorizationService;
 use Common\Factory\AbstractControllerFactory;
 use User\Manager\UserManager;
+use User\Manager\UserManagerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class UserApiControllerFactory extends AbstractControllerFactory
@@ -39,7 +40,7 @@ class UserApiControllerFactory extends AbstractControllerFactory
         );
         $controller = new UserApiController($authorizationService);
 
-        /** @var UserManager $userManager */
+        /** @var UserManagerInterface $userManager */
         $userManager = $serviceManager->get(UserManager::class);
         $controller->setUserManager($userManager);
 
