@@ -268,7 +268,7 @@ class ApiManager
             } elseif ($data['__typename'] === 'VideoRevision') {
                 $data['title'] = $uuid->get('title', '');
                 $data['content'] = $uuid->get('description', '');
-                $data['url'] = $uuid->get('ContentRevision', '');
+                $data['url'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
             }
         }
