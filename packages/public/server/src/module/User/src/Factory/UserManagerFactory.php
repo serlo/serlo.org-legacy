@@ -58,7 +58,7 @@ class UserManagerFactory implements FactoryInterface
         $instance->setMysqlTimestampForActiveCommunity(
             $serviceLocator->get('config')[
                 'mysql_timestamp_for_active_community'
-            ] ?? 'CURDATE()'
+            ]
         );
 
         return $instance;
