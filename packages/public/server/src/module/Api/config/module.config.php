@@ -27,6 +27,7 @@ use Api\Controller\ApiController;
 use Api\Controller\CacheApiController;
 use Api\Controller\NavigationApiController;
 use Api\Controller\NotificationApiController;
+use Api\Controller\UserApiController;
 use Api\Factory\AliasManagerListenerFactory;
 use Api\Factory\ApiControllerFactory;
 use Api\Factory\ApiManagerFactory;
@@ -42,6 +43,7 @@ use Api\Factory\NotificationManagerListenerFactory;
 use Api\Factory\PageManagerListenerFactory;
 use Api\Factory\RepositoryManagerListenerFactory;
 use Api\Factory\TaxonomyManagerListenerFactory;
+use Api\Factory\UserApiControllerFactory;
 use Api\Factory\UserManagerListenerFactory;
 use Api\Factory\UuidManagerListenerFactory;
 use Api\Listener\AliasManagerListener;
@@ -66,6 +68,7 @@ return [
                 NavigationApiControllerFactory::class,
             NotificationApiController::class =>
                 NotificationApiControllerFactory::class,
+            UserApiController::class => UserApiControllerFactory::class,
         ],
     ],
     'service_manager' => [
@@ -101,6 +104,26 @@ return [
                     ],
                 ],
                 'child_routes' => [
+                    'active-authors' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/user/active-authors',
+                            'defaults' => [
+                                'controller' => UserApiController::class,
+                                'action' => 'getActiveAuthorIds',
+                            ],
+                        ],
+                    ],
+                    'active-reviewers' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/user/active-reviewers',
+                            'defaults' => [
+                                'controller' => UserApiController::class,
+                                'action' => 'getActiveReviewerIds',
+                            ],
+                        ],
+                    ],
                     'alias' => [
                         'type' => 'Common\Router\Slashable',
                         'options' => [

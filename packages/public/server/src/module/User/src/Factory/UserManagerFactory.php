@@ -55,6 +55,11 @@ class UserManagerFactory implements FactoryInterface
         $instance->setHydrator($hydrator);
         $instance->setAuthenticationService($authService);
         $instance->setAuthorizationService($authorizationService);
+        $instance->setMysqlTimestampForActiveCommunity(
+            $serviceLocator->get('config')[
+                'mysql_timestamp_for_active_community'
+            ]
+        );
 
         return $instance;
     }

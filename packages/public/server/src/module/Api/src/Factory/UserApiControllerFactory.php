@@ -21,43 +21,29 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-$env = 'development';
+namespace Api\Factory;
 
-$assets = [
-    'assets_host' => 'http://localhost:8082/',
-    'bundle_host' => 'http://localhost:8081/',
-];
+use Api\Controller\UserApiController;
+use Api\Service\AuthorizationService;
+use Common\Factory\AbstractControllerFactory;
+use User\Manager\UserManager;
+use User\Manager\UserManagerInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-$services = [
-    'editor_renderer' => 'http://editor-renderer:3000',
-    'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000',
-    'hydra' => 'http://hydra:4445',
-];
+class UserApiControllerFactory extends AbstractControllerFactory
+{
+    protected function createController(ServiceLocatorInterface $serviceManager)
+    {
+        /** @var AuthorizationService $authorizationService */
+        $authorizationService = $serviceManager->get(
+            AuthorizationService::class
+        );
+        $controller = new UserApiController($authorizationService);
 
-$db = [
-    'host' => 'mysql',
-    'port' => '3306',
-    'username' => 'root',
-    'password' => 'secret',
-    'database' => 'serlo',
-];
+        /** @var UserManagerInterface $userManager */
+        $userManager = $serviceManager->get(UserManager::class);
+        $controller->setUserManager($userManager);
 
-$recaptcha = [
-    'key' => '6LfwJFwUAAAAAKHhl-kjPbA6mCPjt_CrkCbn3okr',
-    'secret' => '6LfwJFwUAAAAAPVsTPLe00oAb9oUTewOUe31pXSv',
-];
-
-$api_options = [];
-$smtp_options = [];
-$tracking = [];
-$featureFlags = [
-    'client-frontend' => false,
-];
-
-$cronjob_secret = 'secret';
-$upload_secret = 'secret';
-$mock_email = true;
-
-$autoreview_taxonomy_term_ids = [35607];
-
-$mysql_timestamp_for_active_community = 'DATE("2014-01-01")';
+        return $controller;
+    }
+}

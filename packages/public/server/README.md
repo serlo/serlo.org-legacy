@@ -106,3 +106,11 @@ Covers some best practices that new code should comply to.
   There is a possibility to define taxonomy terms in which each edit shall be automatically reviewed.
   This is useful when you want for example set up a sandbox area in which all edits shall be automatically online.
   To archieve this you need to set the configuration variable `autoreview_taxonomy_term_ids` to the list of those taxonomy term ids.
+- **Timestamp for calculating the active community:**
+  There are two routes `/api/user/active-authors` and `/api/user/active-reviewers` for accessing the active authors or active reviewers which are defined by 10 edits / reviews in the last 90 days.
+  However in the local database there are no edits in the last years.
+  Thus when we calculate the active community in the local development environment both events would be empty.
+  So we introduced the configuration `mysql_timestamp_for_active_community`.
+  It is the mysql endpoint of the time frame in which the active community is calculated.
+  For development you can set it to something like `Date("2014-01-01")`.
+  In production you can omit this value since `CURDATE()` is the default value.

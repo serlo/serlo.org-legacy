@@ -21,43 +21,28 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-$env = 'development';
+namespace Api\Controller;
 
-$assets = [
-    'assets_host' => 'http://localhost:8082/',
-    'bundle_host' => 'http://localhost:8081/',
-];
+use Api\Service\AuthorizationService;
+use User\Manager\UserManagerAwareTrait;
+use Zend\View\Model\JsonModel;
 
-$services = [
-    'editor_renderer' => 'http://editor-renderer:3000',
-    'legacy_editor_renderer' => 'http://legacy-editor-renderer:3000',
-    'hydra' => 'http://hydra:4445',
-];
+class UserApiController extends AbstractApiController
+{
+    use UserManagerAwareTrait;
 
-$db = [
-    'host' => 'mysql',
-    'port' => '3306',
-    'username' => 'root',
-    'password' => 'secret',
-    'database' => 'serlo',
-];
+    public function __construct(AuthorizationService $authorizationService)
+    {
+        parent::__construct($authorizationService);
+    }
 
-$recaptcha = [
-    'key' => '6LfwJFwUAAAAAKHhl-kjPbA6mCPjt_CrkCbn3okr',
-    'secret' => '6LfwJFwUAAAAAPVsTPLe00oAb9oUTewOUe31pXSv',
-];
+    public function getActiveAuthorIdsAction()
+    {
+        return new JsonModel($this->userManager->getActiveAuthorIds());
+    }
 
-$api_options = [];
-$smtp_options = [];
-$tracking = [];
-$featureFlags = [
-    'client-frontend' => false,
-];
-
-$cronjob_secret = 'secret';
-$upload_secret = 'secret';
-$mock_email = true;
-
-$autoreview_taxonomy_term_ids = [35607];
-
-$mysql_timestamp_for_active_community = 'DATE("2014-01-01")';
+    public function getActiveReviewerIdsAction()
+    {
+        return new JsonModel($this->userManager->getActiveReviewerIds());
+    }
+}

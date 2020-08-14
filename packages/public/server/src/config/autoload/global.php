@@ -154,4 +154,12 @@ return [
 
     // List of taxonomy term ids in which each edit shall be autoreviewed
     'autoreview_taxonomy_term_ids' => $autoreview_taxonomy_term_ids,
+
+    // Timestamp which is used for calculating the active community
+    // Use `CURDATE()` for production system
+    'mysql_timestamp_for_active_community' => isset(
+        $mysql_timestamp_for_active_community
+    )
+        ? $mysql_timestamp_for_active_community
+        : 'CURDATE()',
 ];

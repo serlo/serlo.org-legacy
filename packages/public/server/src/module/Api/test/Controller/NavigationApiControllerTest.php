@@ -25,24 +25,14 @@ namespace ApiTest\Controller;
 
 use Api\Controller\NavigationApiController;
 use AtheneTest\TestCase\AbstractHttpControllerTestCase;
-use InstanceTest\Stub\Manager\InstanceManagerStubAwareTrait;
 use Navigation\Exception\ContainerNotFoundException;
 use Navigation\Service\NavigationService;
 use PHPUnit_Framework_MockObject_Stub_Return;
-use Zend\Http\Response;
 use Zend\Stdlib\ResponseInterface;
 
 class NavigationApiControllerTest extends AbstractHttpControllerTestCase
 {
-    use InstanceManagerStubAwareTrait;
-
     protected $modules = ['ApiTest'];
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->setUpInstanceManager();
-    }
 
     public function testContainerDoesNotExist()
     {
@@ -52,9 +42,10 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         $navigationService
             ->method('getNavigation')
             ->willThrowException(new ContainerNotFoundException());
-        $this->getApplication()
-            ->getServiceManager()
-            ->setService(NavigationService::class, $navigationService);
+        $this->getApplicationServiceLocator()->setService(
+            NavigationService::class,
+            $navigationService
+        );
 
         $this->dispatch('/api/navigation');
         $this->assertControllerName(NavigationApiController::class);
@@ -273,9 +264,10 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         $navigationService
             ->method('getNavigation')
             ->will(new PHPUnit_Framework_MockObject_Stub_Return($data));
-        $this->getApplication()
-            ->getServiceManager()
-            ->setService(NavigationService::class, $navigationService);
+        $this->getApplicationServiceLocator()->setService(
+            NavigationService::class,
+            $navigationService
+        );
     }
 
     protected function assertJsonResponseWithInstance(
