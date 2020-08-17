@@ -1,0 +1,306 @@
+/**
+ * This file is part of Serlo.org.
+ *
+ * Copyright (c) 2013-2020 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
+ */
+import { getAsset } from '../frontend/modules/assets'
+import { getAuthenticatedUserID } from '../frontend/modules/user'
+
+const communityTypes = [
+  'activeReviewers',
+  'activeAuthors',
+  'activeDonors',
+] as const
+type CommunityType = typeof communityTypes[number]
+
+const config: Config = {
+  activeAuthors: {
+    img: 'authors.png',
+    imgBig: 'big-author.png',
+    otherUserProfileMessage:
+      '%username% trägt als Autorin bzw. Autor dazu bei, dass immer mehr großartige Lerninhalte auf serlo.org zu finden sind.',
+    callToAction:
+      '<a style="text-decoration: underline;" href="https://de.serlo.org/mitmachen">Schon mal überlegt selbst mitzumachen?</a>.',
+    ownProfileMessage:
+      'Zusammen mit dir sind wir schon %no% Autorinnen und Autoren, die aktiv an serlo.org mitarbeiten.',
+  },
+  activeDonors: {
+    img: 'donors.png',
+    imgBig: 'big-donor.png',
+    otherUserProfileMessage:
+      '%username% trägt mit einer regelmäßigen Spende dazu bei, dass serlo.org komplett kostenlos, werbefrei und unabhängig ist.',
+    callToAction:
+      '<a style="text-decoration: underline;" href="/user/me#spenden">Kannst auch du dir vorstellen, uns mit einem kleinen Betrag zu unterstützen?</a>',
+    ownProfileMessage:
+      'Wir sind die ersten %no% Pioniere beim Aufbau einer langfristigen und unabhängigen Finanzierung für serlo.org.',
+  },
+  activeReviewers: {
+    img: 'reviewers.png',
+    imgBig: 'big-reviewer.png',
+    otherUserProfileMessage:
+      'Als Reviewerin bzw. Reviewer sichert %username% die Qualität auf serlo.org und hilft unseren Autorinnen und Autoren.',
+    ownProfileMessage:
+      'Als Team von %no% Reviewerinnen und Reviewern sorgen wir für die Qualität unserer Lernplattform.',
+  },
+}
+
+type Config = {
+  [K in CommunityType]: CommunityConfig
+}
+
+interface CommunityConfig {
+  img: string
+  imgBig: string
+  callToAction?: string
+  otherUserProfileMessage: string
+  ownProfileMessage: string
+}
+
+export function initDonationProfile(): void {
+  if (!window.location.hostname.startsWith('de')) return
+
+  const query = `
+    query getActiveCommunity {
+      activeAuthors { nodes { id } } 
+      activeDonors { nodes { id } } 
+      activeReviewers { nodes { id } }
+    }
+  `
+
+  void fetch(
+    new Request(getApiEndpoint(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query }),
+    })
+  )
+    .then((response) => response.json())
+    .then((result: ApiResult) => {
+      const data = result.data
+
+      changeWebsite({
+        activeAuthors: data.activeAuthors.nodes.map((x) => x.id.toString()),
+        activeDonors: data.activeDonors.nodes.map((x) => x.id.toString()),
+        activeReviewers: data.activeReviewers.nodes.map((x) => x.id.toString()),
+      })
+    })
+    .catch((error) => console.log(error))
+
+  type ApiResult = {
+    data: { [K in CommunityType]: { nodes: { id: number }[] } }
+  }
+}
+
+function changeWebsite(ids: { [K in CommunityType]: string[] }) {
+  addBannerToProfile()
+  addIconsToUserLinks()
+  addTwingleForm()
+
+  function addTwingleForm(): void {
+    const userId = getAuthenticatedUserID()
+
+    if (
+      !location.pathname.startsWith('/user/me') ||
+      ids.activeDonors.includes(userId)
+    ) {
+      return
+    }
+
+    function donationFormListener(event: any) {
+      if (event.data.type === 'size') {
+        $('#iframe-donation-form').height(event.data.value)
+      }
+    }
+
+    if (window.addEventListener) {
+      window.addEventListener('message', donationFormListener, false)
+    } else {
+      //@ts-ignore
+      window.attachEvent('onmessage', donationFormListener)
+    }
+
+    const userName = getUserNameFromProfilePage()
+    const donorPicture = staticFileUrl(config.activeDonors.img)
+    const campaignId = `Spendenprofil { userId: ${userId}, userName: ${userName} }`
+    const encodedCampaignId = encodeURIComponent(campaignId)
+    const isCommunity = communityTypes.some((communityType) =>
+      ids[communityType].includes(userId)
+    )
+    const callToAction = isCommunity
+      ? 'Du bist schon Teil dieser Community. Kannst du dir dennoch vorstellen, auch einen kleinen finanziellen Beitrag zu leisten? Dann nutze bitte das Formular rechts.'
+      : 'Kannst du dir vorstellen, unsere Arbeit als Spenderin bzw. Spender zu fördern und Teil der Community zu werden? Dann nutze bitte das Formular rechts.'
+
+    $('div.h2').before(`
+      <h2 id="spenden" class="heading-content">Serlo für alle</h2>
+      <div style="display: flex; flex-direction: row; width: 100%; margin-bottom: 15px;">
+        <style type="text/css">.no-show { display: none; }</style>
+        <div style="flex-grow: 1; flex-basis: 50%; padding-right: 20px;">
+        <p>Hallo ${userName},</p>
+
+        <p>wir von Serlo setzen uns dafür ein, dass alle Menschen weltweit freien Zugang zu hochwertiger Bildung haben. Leider sind immer mehr digitale Bildungsangebote <a class="mehr-anzeigen-none" onclick="$('.mehr-anzeigen-none').css('display','none'); $('#mehr-anzeigen-span').css('display','inline'); $('.mehr-anzeigen-p').css('display', 'block');" style="cursor:pointer;">(mehr anzeigen)</a>
+        <span id="mehr-anzeigen-span" style="display: none;">bezahlpflichtig oder voller Werbung. Da gehen wir einen anderen Weg. Unsere Lernplattform gehört einem gemeinnützigen Verein. Serlo bleibt <strong>für immer</strong> komplett kostenlos und werbefrei. Und wir haben Erfolg damit! Über 1 Mio Menschen nutzen serlo.org jeden Monat.
+</span></p>
+
+        <p class="mehr-anzeigen-p" style="display:none;">Dieses Jahr planen wir tausende neue Übungsaufgaben und Erklärungen, entwickeln neue, interaktive Aufgabenformate und starten weitere Fächer. Um das alles zu schaffen, bauen wir eine große Community auf. Wenn viele mitschreiben, Feedback geben oder nur einen kleinen monatlichen Betrag spenden, kann unsere Vision Realität werden.</p>
+
+        <p class="mehr-anzeigen-p" style="display:none;">${callToAction}</p>
+
+        <p class="mehr-anzeigen-p" style="display:none;">Vielen Dank <img src="${donorPicture}" width="23"></p>
+
+        <img class="mehr-anzeigen-none" style="display: block; width: 30%; margin: 60px auto 0 auto" src="${donorPicture}" />
+
+        </div>
+        <div style="flex-grow: 1; flex-basis: 50%;">
+          <iframe id="iframe-donation-form" style="flex-grow: 1; height: 400px; flex-basis: 50%; border: none;" src="https://spenden.twingle.de/serlo-education-e-v/spendenprofil/tw5e8dbb1390e8b/page?tw_cid=${encodedCampaignId}" />
+          <p class="mehr-anzeigen-p" style="color: #999; display: none;">Du möchtest nicht, dass deine Spende auf deinem Profil sichtbar ist oder du möchtest einmalig spenden: <a href="https://de.serlo.org/spenden" style="text-decoration: underline;">Dann klicke hier</a></p>
+        </div>
+      </div>
+  `)
+  }
+
+  function addBannerToProfile(): void {
+    if (
+      !location.pathname.startsWith('/user/me') &&
+      !location.pathname.startsWith('/user/profile')
+    ) {
+      return
+    }
+    const ownProfile = location.pathname.startsWith('/user/me')
+    const userId = getUserIdFromProfilePage()
+    const userName = getUserNameFromProfilePage()
+    const imgWidth = 40
+
+    let imgBig = ''
+    let message = ''
+
+    for (const communityType of communityTypes) {
+      if (ids[communityType].includes(userId)) {
+        const communityConfig = config[communityType]
+        const CommunityIds = ids[communityType]
+
+        message += icon(communityConfig, imgWidth, 'display: block;')
+
+        let specMessage = ownProfile
+          ? communityConfig.ownProfileMessage
+          : communityConfig.otherUserProfileMessage
+
+        if (
+          !ownProfile &&
+          communityConfig.callToAction &&
+          !CommunityIds.includes(getAuthenticatedUserID())
+        ) {
+          specMessage += ' ' + communityConfig.callToAction
+        }
+
+        const no = CommunityIds.length.toString()
+        const editedMessage = specMessage.replace(/%no%/g, no)
+        message += `<p style="margin: 0;">${editedMessage}</p>`
+
+        if (imgBig === '') {
+          imgBig = staticFileUrl(communityConfig.imgBig)
+        }
+      }
+    }
+
+    if (message) {
+      const finalMessage = message.replace(/%username%/g, userName)
+      const additionOwnProfile =
+        '<p style="grid-column-start: 2;">Gemeinsam helfen wir jeden Monat über 1 Mio jungen Menschen beim Lernen – unabhängig vom Geldbeutel ihrer Eltern. Schön, dass du dabei bist!</p>'
+
+      const hasProfileText = $('.page-header').next().text().trim().length > 0
+      const newHeader = hasProfileText
+        ? '<h1 class="heading-content">Über mich</h1>'
+        : ''
+
+      const box = `<div><img src="${imgBig}" style="display: block; float: left; margin: 0 20px;" height="200" />
+                   <div class=""
+                        style="display: grid; grid-template-columns: ${imgWidth}px 1fr;
+                        grid-column-gap: 1em; grid-row-gap: 1em; margin-bottom: 1.5em;
+                        font-size: 90%; align-items: center; color: black;">
+                   ${finalMessage}
+
+                   ${ownProfile ? additionOwnProfile : ''}
+                   </div>
+                   <div style="clear: both;"></div></div>
+                   ${newHeader}`
+
+      $('.page-header').after(box)
+    }
+  }
+
+  function addIconsToUserLinks(): void {
+    $('a').each((_, a) => {
+      const href = a.getAttribute('href')
+      const match = href === null ? null : href.match(/\/user\/profile\/(\d+)$/)
+
+      if (match) {
+        const userId = match[1]
+        let icons = ''
+
+        for (const communityType of communityTypes) {
+          if (ids[communityType].includes(userId)) {
+            icons += icon(config[communityType], 23)
+          }
+        }
+
+        if (icons)
+          $(a).append(` <span style="display: inline-block;">${icons}</span> `)
+      }
+    })
+  }
+}
+
+function getUserNameFromProfilePage(): string {
+  const h1 = document.getElementsByTagName('h1')[0]
+
+  return h1.childNodes[0].textContent?.trim() ?? ''
+}
+
+function getUserIdFromProfilePage(): string {
+  const links = Array.prototype.slice.call(document.querySelectorAll('a'))
+  return links
+    .map((link) => {
+      const href = link.getAttribute('href')
+      const match =
+        href === null ? null : href.match(/\/event\/history\/user\/(\d+)$/)
+
+      return match === null ? null : match[1]
+    })
+    .find((element) => element !== null)
+}
+
+function icon(config: CommunityConfig, height: number, style = ''): string {
+  return ` <img src="${staticFileUrl(
+    config.img
+  )}" height="${height}" style="${style}" /> `
+}
+
+function getApiEndpoint() {
+  const domainParts = window.location.hostname.split('.')
+  const mainDomain = domainParts
+    .slice(domainParts.length - 2, domainParts.length)
+    .join('.')
+  return mainDomain === 'serlo.localhost'
+    ? 'http://localhost:3000/graphql'
+    : `https://api.${mainDomain}/graphql`
+}
+
+function staticFileUrl(relativePath: string): string {
+  return getAsset(`feature-prototypes/donation-profiles/${relativePath}`)
+}
