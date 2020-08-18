@@ -52,6 +52,7 @@ import { userTypePlugin } from './plugins/types/user'
 import { videoTypePlugin } from './plugins/types/video'
 import { errorPlugin } from './plugins/error'
 import { equationsPlugin } from './plugins/equations'
+import { equationsPlugin as legacyEquationsPlugin } from './plugins/equations-legacy'
 import { exercisePlugin } from './plugins/exercise'
 import { createImagePlugin } from './plugins/image'
 import { createImportantPlugin } from './plugins/important'
@@ -84,6 +85,7 @@ export function createPlugins({
     }),
     error: errorPlugin,
     equations: equationsPlugin,
+    equationsLegacy: legacyEquationsPlugin,
     exercise: exercisePlugin,
     geogebra: createGeogebraPlugin({
       i18n: {

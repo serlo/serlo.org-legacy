@@ -19,35 +19,30 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  child,
-  list,
-  object,
-  EditorPlugin,
-  EditorPluginProps,
-  string,
-} from '@edtr-io/plugin'
+import * as React from 'react'
 
-import { EquationsEditor } from './editor'
-import { Sign } from './sign'
+export enum Sign {
+  Equals = 'equals',
+  GreaterThan = 'greater-than',
+  GreaterThanOrEqual = 'greater-than-or-equal',
+  LessThan = 'less-than',
+  LessThanOrEqual = 'less-than-or-equal',
+  AlmostEqualTo = 'almost-equal-to',
+}
 
-export const stepProps = object({
-  left: string(''),
-  sign: string(Sign.Equals),
-  right: string(''),
-  transform: string(''),
-  explanation: child({ plugin: 'text' }),
-})
-
-const equationsState = object({
-  steps: list(stepProps, 1),
-})
-
-export type EquationsState = typeof equationsState
-export type EquationsProps = EditorPluginProps<EquationsState>
-
-export const equationsPlugin: EditorPlugin<EquationsState> = {
-  Component: EquationsEditor,
-  config: {},
-  state: equationsState,
+export function renderSignToString(sign: Sign): string {
+  switch (sign) {
+    case Sign.Equals:
+      return '='
+    case Sign.GreaterThan:
+      return '>'
+    case Sign.GreaterThanOrEqual:
+      return '≥'
+    case Sign.LessThan:
+      return '<'
+    case Sign.LessThanOrEqual:
+      return '≤'
+    case Sign.AlmostEqualTo:
+      return '≈'
+  }
 }

@@ -31,12 +31,11 @@ import {
 import { EquationsEditor } from './editor'
 import { Sign } from './sign'
 
-export const stepProps = object({
-  left: string(''),
+const stepProps = object({
+  left: child({ plugin: 'text' }),
   sign: string(Sign.Equals),
-  right: string(''),
-  transform: string(''),
-  explanation: child({ plugin: 'text' }),
+  right: child({ plugin: 'text' }),
+  transform: child({ plugin: 'text' }),
 })
 
 const equationsState = object({
