@@ -48,14 +48,25 @@ class CacheApiController extends AbstractApiController
         }
 
         $cacheKeys = array_merge(
-            $this->getAliasCacheKeys(),
-            $this->getUuidCacheKeys(),
+            $this->getNavigationCacheKeys(),
             $this->getLicenseCacheKeys(),
-            $this->getNotificationCacheKeys(),
-            $this->getEventCacheKeys()
+            $this->getUuidCacheKeys(),
+            $this->getAliasCacheKeys()
+            // $this->getNotificationCacheKeys(),
+            // $this->getEventCacheKeys()
         );
 
         return new JsonModel($cacheKeys);
+    }
+
+    protected function getNavigationCacheKeys()
+    {
+        $sql = 'SELECT subdomain FROM instance';
+        $q = $this->objectManager->getConnection()->prepare($sql);
+        $q->execute();
+        return array_map(function ($row) {
+            return $row['subdomain'] . '.serlo.org/api/navigation';
+        }, $q->fetchAll());
     }
 
     protected function getAliasCacheKeys()
@@ -72,7 +83,13 @@ class CacheApiController extends AbstractApiController
 
     protected function getUuidCacheKeys()
     {
-        $sql = 'SELECT id FROM uuid';
+        $sql =
+            'SELECT id FROM page_repository WHERE current_revision_id IS NOT NULL ' .
+            'UNION SELECT current_revision_id FROM page_repository  WHERE current_revision_id IS NOT NULL ' .
+            'UNION SELECT id FROM term_taxonomy ' .
+            'UNION SELECT id FROM entity WHERE current_revision_id IS NOT NULL ' .
+            'UNION SELECT current_revision_id FROM entity  WHERE current_revision_id IS NOT NULL ' .
+            'UNION SELECT id FROM user';
         $q = $this->objectManager->getConnection()->prepare($sql);
         $q->execute();
         return array_map(function ($row) {
