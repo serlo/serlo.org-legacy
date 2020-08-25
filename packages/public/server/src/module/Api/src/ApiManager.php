@@ -55,10 +55,10 @@ class ApiManager
     public function setAlias(AliasInterface $alias)
     {
         $value = $this->getAliasData($alias);
-        // TODO: clean Path
+        $cleanPath = str_replace('%2F', '/', urlencode($value['path']));
         $this->graphql->setCache(
             $this->graphql->getCacheKey(
-                '/api/alias' . $value['path'],
+                '/api/alias/' . $cleanPath,
                 $alias->getInstance()->getSubdomain()
             ),
             $value

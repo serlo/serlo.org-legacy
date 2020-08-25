@@ -26,6 +26,7 @@ namespace Api\Factory;
 use Api\Controller\CacheApiController;
 use Api\Service\AuthorizationService;
 use Common\Factory\AbstractControllerFactory;
+use Doctrine\Common\Persistence\ObjectManager;
 use Instance\Factory\InstanceManagerFactoryTrait;
 use Navigation\Factory\NavigationServiceFactoryTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -41,6 +42,10 @@ class CacheApiControllerFactory extends AbstractControllerFactory
         $authorizationService = $serviceManager->get(
             AuthorizationService::class
         );
-        return new CacheApiController($authorizationService);
+        /** @var ObjectManager $objectManager */
+        $objectManager = $serviceManager->get(
+            'doctrine.entitymanager.orm_default'
+        );
+        return new CacheApiController($authorizationService, $objectManager);
     }
 }

@@ -23,10 +23,23 @@
 
 namespace Api\Controller;
 
+use Api\Service\AuthorizationService;
+use Doctrine\Common\Persistence\ObjectManager;
 use Zend\View\Model\JsonModel;
 
 class CacheApiController extends AbstractApiController
 {
+    /** @var ObjectManager */
+    protected $objectManager;
+
+    public function __construct(
+        AuthorizationService $authorizationService,
+        ObjectManager $objectManager
+    ) {
+        $this->objectManager = $objectManager;
+        parent::__construct($authorizationService);
+    }
+
     public function indexAction()
     {
         $authorizationResponse = $this->assertAuthorization();
@@ -34,6 +47,66 @@ class CacheApiController extends AbstractApiController
             return $authorizationResponse;
         }
 
-        return new JsonModel(['TODO']);
+        $cacheKeys = array_merge(
+            $this->getAliasCacheKeys(),
+            $this->getUuidCacheKeys(),
+            $this->getLicenseCacheKeys(),
+            $this->getNotificationCacheKeys(),
+            $this->getEventCacheKeys()
+        );
+
+        return new JsonModel($cacheKeys);
+    }
+
+    protected function getAliasCacheKeys()
+    {
+        $sql =
+            'SELECT a.alias, i.subdomain FROM url_alias a LEFT JOIN instance i ON a.instance_id = i.id';
+        $q = $this->objectManager->getConnection()->prepare($sql);
+        $q->execute();
+        return array_map(function ($row) {
+            $cleanPath = str_replace('%2F', '/', urlencode($row['alias']));
+            return $row['subdomain'] . '.serlo.org/api/alias/' . $cleanPath;
+        }, $q->fetchAll());
+    }
+
+    protected function getUuidCacheKeys()
+    {
+        $sql = 'SELECT id FROM uuid';
+        $q = $this->objectManager->getConnection()->prepare($sql);
+        $q->execute();
+        return array_map(function ($row) {
+            return 'de.serlo.org/api/uuid/' . $row['id'];
+        }, $q->fetchAll());
+    }
+
+    protected function getLicenseCacheKeys()
+    {
+        $sql = 'SELECT id FROM license';
+        $q = $this->objectManager->getConnection()->prepare($sql);
+        $q->execute();
+        return array_map(function ($row) {
+            return 'de.serlo.org/api/license/' . $row['id'];
+        }, $q->fetchAll());
+    }
+
+    protected function getNotificationCacheKeys()
+    {
+        $sql = 'SELECT id FROM user';
+        $q = $this->objectManager->getConnection()->prepare($sql);
+        $q->execute();
+        return array_map(function ($row) {
+            return 'de.serlo.org/api/notifications/' . $row['id'];
+        }, $q->fetchAll());
+    }
+
+    protected function getEventCacheKeys()
+    {
+        $sql = 'SELECT id FROM event_log';
+        $q = $this->objectManager->getConnection()->prepare($sql);
+        $q->execute();
+        return array_map(function ($row) {
+            return 'de.serlo.org/api/event/' . $row['id'];
+        }, $q->fetchAll());
     }
 }
