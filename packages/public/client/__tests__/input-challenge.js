@@ -158,20 +158,35 @@ describe('Input challenge', () => {
         await challenge.submit('  3 0  /  4  ')
       })
 
+      test('+ sign in front of a number is ignored', async () => {
+        challenge = createInputChallenge({
+          solution: '3',
+          type: 'input-number-exact-match-challenge',
+        })
+
+        await challenge.submit('+3')
+      })
+
       afterEach(() => expect(challenge.isAnswerCorrect()).toBe(true))
     })
 
     describe('type = input-expression-equal-match-challenge', () => {
-      test('algebraic differences are ignored', async () => {
+      beforeEach(() => {
         challenge = createInputChallenge({
           solution: '1+x',
           type: 'input-expression-equal-match-challenge',
         })
-
-        await challenge.submit('x + 1')
-
-        expect(challenge.isAnswerCorrect()).toBe(true)
       })
+
+      test('algebraic differences are ignored', async () => {
+        await challenge.submit('x + 1')
+      })
+
+      test('+ sign in front of terms is ignored (otherwise algebra.js throws a parsing error)', async () => {
+        await challenge.submit('+(x + 1)')
+      })
+
+      afterEach(() => expect(challenge.isAnswerCorrect()).toBe(true))
     })
   })
 })

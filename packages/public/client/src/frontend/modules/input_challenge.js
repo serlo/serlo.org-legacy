@@ -126,7 +126,7 @@ InputChallenge.prototype.matchesInput = function (input) {
 
 InputChallenge.prototype.normalize = function (input, string) {
   var normalizeNumber = function (string) {
-    return string.replace(/,/g, '.')
+    return string.replace(/,/g, '.').replace(/^[+]/, '')
   }
   var temp = string.replace(/[\s\xa0]+/g, ' ').trim()
 
