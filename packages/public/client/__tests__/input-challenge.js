@@ -39,6 +39,7 @@ describe('Input challenge', () => {
       challenge = createInputChallenge({
         solution: 'right solution',
         feedback: 'Absolutely',
+        type: 'input-string-exact-match-challenge',
       })
     })
 
@@ -87,6 +88,7 @@ describe('Input challenge', () => {
     beforeEach(() => {
       challenge = createInputChallenge({
         solution: 'right solution',
+        type: 'input-string-exact-match-challenge',
         wrongInputs: [
           {
             type: 'input-string-exact-match-challenge',
@@ -120,7 +122,10 @@ describe('Input challenge', () => {
   describe('normalizes the answer', () => {
     describe('type = input-string-exact-match-challenge', () => {
       beforeEach(() => {
-        challenge = createInputChallenge({ solution: 'right solution' })
+        challenge = createInputChallenge({
+          solution: 'right solution',
+          type: 'input-string-exact-match-challenge',
+        })
       })
 
       test('wrong whitespaces are ignored', async () => {
@@ -133,17 +138,52 @@ describe('Input challenge', () => {
 
       afterEach(() => expect(challenge.isAnswerCorrect()).toBe(true))
     })
+
+    describe('type = input-number-exact-match-challenge', () => {
+      test('differences in "," and "." are ignored (Englisch vs German formatting)', async () => {
+        challenge = createInputChallenge({
+          solution: '1.200,5',
+          type: 'input-number-exact-match-challenge',
+        })
+
+        await challenge.submit('1,200.5')
+      })
+
+      test('whitespaces are ignored', async () => {
+        challenge = createInputChallenge({
+          solution: '3/4',
+          type: 'input-number-exact-match-challenge',
+        })
+
+        await challenge.submit('  3  /  4  ')
+      })
+
+      afterEach(() => expect(challenge.isAnswerCorrect()).toBe(true))
+    })
+
+    describe('type = input-expression-equal-match-challenge', () => {
+      test('algebraic differences are ignored', async () => {
+        challenge = createInputChallenge({
+          solution: '1+x',
+          type: 'input-expression-equal-match-challenge',
+        })
+
+        await challenge.submit('x + 1')
+
+        expect(challenge.isAnswerCorrect()).toBe(true)
+      })
+    })
   })
 })
 
-function createInputChallenge({ wrongInputs, solution, feedback } = {}) {
+function createInputChallenge({ wrongInputs, solution, feedback, type } = {}) {
   let $container, $form, $input, $feedback, $submit
 
   $container = $('<div>')
   $form = $('<form class="input-challenge-group">')
   $input = $('<input class="input-challenge-input">')
 
-  $input.data('type', 'input-string-exact-match-challenge')
+  $input.data('type', type)
   $input.data('solution', solution)
   $input.data('feedback', feedback)
 
