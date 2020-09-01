@@ -19,24 +19,21 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-var $ = require('jquery')
+import $ from 'jquery'
+import '../src/frontend/modules/input_challenge'
 
-window.$ = $
-window.jQuery = $
+window.$ = window.jQuery = $
 
 require('bootstrap-sass')
 
-// Mocks
 window.MathJax = { Hub: { Queue: () => {} } }
 jest.mock('../src/frontend/modules/sounds')
 
-require('../src/frontend/modules/input_challenge')
+describe('Input challenge', () => {
+  describe('input-string-exact-match-challenge', () => {
+    let $container, $form, $input, $feedback, $submit
 
-describe('Input challenge', function () {
-  describe('input-string-exact-match-challenge', function () {
-    var $container, $form, $input, $feedback, $submit
-
-    beforeEach(function () {
+    beforeEach(() => {
       $container = $('<div>')
       $form = $('<form class="input-challenge-group">')
       $input = $('<input class="input-challenge-input">')
@@ -52,67 +49,53 @@ describe('Input challenge', function () {
       $container.append([$form, $feedback])
     })
 
-    const submit = (value) => {
-      $input.val(value)
-      $form.submit()
-
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve()
-        }, 1000)
-      })
-    }
-
-    it('works when the exact correct input is passed', function () {
+    test('works when the exact correct input is passed', async () => {
       $container.InputChallenge()
 
-      return submit('Foo').then(() => {
-        expect($feedback.hasClass('positive')).toBeTruthy()
-        expect($feedback.html()).toEqual('Absolutely')
-      })
+      await submit('Foo')
+
+      expect($feedback.hasClass('positive')).toBe(true)
+      expect($feedback.html()).toEqual('Absolutely')
     })
 
-    it('works when the correct input is passed', function () {
+    test('works when the correct input is passed', async () => {
       $container.InputChallenge()
 
-      return submit('fOO').then(() => {
-        expect($feedback.hasClass('positive')).toBeTruthy()
-        expect($feedback.html()).toEqual('Absolutely')
-      })
+      await submit('fOO')
+
+      expect($feedback.hasClass('positive')).toBeTruthy()
+      expect($feedback.html()).toEqual('Absolutely')
     })
 
-    it('works when the correct input (with wrong spaces) is passed', function () {
+    test('works when the correct input (with wrong spaces) is passed', async () => {
       $container.InputChallenge()
 
-      return submit('   Foo    ').then(() => {
-        expect($feedback.hasClass('positive')).toBeTruthy()
-        expect($feedback.html()).toEqual('Absolutely')
-      })
+      await submit('   Foo    ')
+
+      expect($feedback.hasClass('positive')).toBeTruthy()
+      expect($feedback.html()).toEqual('Absolutely')
     })
 
-    it('works when the a false input is passed', function () {
+    test('works when the a false input is passed', async () => {
       $container.InputChallenge()
 
-      return submit('FooTotallyFalse').then(() => {
-        expect($feedback.hasClass('positive')).toBeFalsy()
-        expect($feedback.html()).toEqual('Wrong.')
-      })
+      await submit('FooTotallyFalse')
+
+      expect($feedback.hasClass('positive')).toBeFalsy()
+      expect($feedback.html()).toEqual('Wrong.')
     })
 
-    it('works when the a false input is passed', function () {
+    test('works when the a false input is passed', async () => {
       $container.InputChallenge()
 
-      return submit('Foo')
-        .then(() => {
-          return submit('FooTotallyFalse')
-        })
-        .then(() => {
-          expect($feedback.hasClass('pos¡tive')).toBeFalsy()
-          expect($feedback.html()).toEqual('Wrong.')
-        })
+      await submit('Foo')
+      await submit('FooTotallyFalse')
+
+      expect($feedback.hasClass('positive')).toBeFalsy()
+      expect($feedback.html()).toEqual('Wrong.')
     })
 
-    it('works when a user feedback is passed on a false input', function () {
+    test('works when a user feedback is passed on a false input', async () => {
       $input.data('wrong-inputs', [
         {
           type: 'input-string-exact-match-challenge',
@@ -128,22 +111,27 @@ describe('Input challenge', function () {
 
       $container.InputChallenge()
 
-      return submit('wa1')
-        .then(() => {
-          expect($feedback.hasClass('pos¡tive')).toBeFalsy()
-          expect($feedback.html()).toEqual('YouIdiot!')
+      await submit('wa1')
 
-          return submit('wa2')
-        })
-        .then(() => {
-          expect($feedback.hasClass('pos¡tive')).toBeFalsy()
-          expect($feedback.html()).toEqual('YouFool!')
+      expect($feedback.hasClass('positive')).toBeFalsy()
+      expect($feedback.html()).toEqual('YouIdiot!')
 
-          return submit('wa3')
-        })
-        .then(() => {
-          expect($feedback.html()).toEqual('Wrong.')
-        })
+      await submit('wa2')
+
+      expect($feedback.hasClass('positive')).toBeFalsy()
+      expect($feedback.html()).toEqual('YouFool!')
+
+      await submit('wa3')
+
+      expect($feedback.hasClass('positive')).toBeFalsy()
+      expect($feedback.html()).toEqual('Wrong.')
     })
+
+    async function submit(value) {
+      $input.val(value)
+      $form.submit()
+
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    }
   })
 })
