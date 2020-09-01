@@ -151,11 +151,11 @@ describe('Input challenge', () => {
 
       test('whitespaces are ignored', async () => {
         challenge = createInputChallenge({
-          solution: '3/4',
+          solution: '30/4',
           type: 'input-number-exact-match-challenge',
         })
 
-        await challenge.submit('  3  /  4  ')
+        await challenge.submit('  3 0  /  4  ')
       })
 
       afterEach(() => expect(challenge.isAnswerCorrect()).toBe(true))
