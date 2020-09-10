@@ -226,9 +226,7 @@ class TermController extends AbstractController
         $data = $this->params()->fromPost('sortable', []);
         $csrf = $this->params()->fromPost('csrf', '');
         $this->iterWeight($data, $this->params('term'), $csrf);
-        $this->getTaxonomyManager()->flush();
-
-        $this->getTaxonomyManager()->triggerUpdate($term);
+        $this->getTaxonomyManager()->flushUpdatesForTerm($term);
 
         return true;
     }
@@ -248,7 +246,7 @@ class TermController extends AbstractController
                 $i++;
             }
 
-            $this->getTaxonomyManager()->flush();
+            $this->getTaxonomyManager()->flushUpdatesForTerm($term);
 
             return true;
         }

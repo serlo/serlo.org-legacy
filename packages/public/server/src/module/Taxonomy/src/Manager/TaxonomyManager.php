@@ -377,10 +377,16 @@ class TaxonomyManager implements TaxonomyManagerInterface
         return $term;
     }
 
-    public function triggerUpdate(TaxonomyTermInterface $term)
+    public function flushUpdatesForTerm(TaxonomyTermInterface $term)
     {
-        error_log($term->getName());
-        $this->getEventManager()->trigger('update', $this, ['term' => $term]);
+        $this->flush();
+        // We need to detach $term from the ORM cache and reload a new $term from the database or otherwise the
+        // new children order is not stored
+        $this->objectManager->detach($term);
+        $updatedTerm = $this->getTerm($term->getId());
+        $this->getEventManager()->trigger('update', $this, [
+            'term' => $updatedTerm,
+        ]);
     }
 
     /**
