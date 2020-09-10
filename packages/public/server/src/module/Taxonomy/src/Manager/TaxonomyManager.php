@@ -377,6 +377,12 @@ class TaxonomyManager implements TaxonomyManagerInterface
         return $term;
     }
 
+    public function triggerUpdate(TaxonomyTermInterface $term)
+    {
+        error_log($term->getName());
+        $this->getEventManager()->trigger('update', $this, ['term' => $term]);
+    }
+
     /**
      * @param TaxonomyTermInterface $object
      * @param FormInterface         $form

@@ -227,6 +227,9 @@ class TermController extends AbstractController
         $csrf = $this->params()->fromPost('csrf', '');
         $this->iterWeight($data, $this->params('term'), $csrf);
         $this->getTaxonomyManager()->flush();
+
+        $this->getTaxonomyManager()->triggerUpdate($term);
+
         return true;
     }
 
