@@ -120,4 +120,6 @@ interface TaxonomyManagerInterface extends Flushable, EventManagerAwareInterface
      * @return mixed
      */
     public function updateTerm(FormInterface $form);
+
+    public function flushUpdatesForTerm(TaxonomyTermInterface $term);
 }
