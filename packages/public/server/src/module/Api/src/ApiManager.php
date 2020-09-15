@@ -27,6 +27,7 @@ use Alias\AliasManagerInterface;
 use Alias\Entity\AliasInterface;
 use Api\Service\GraphQLService;
 use DateTime;
+use Discussion\Entity\Comment;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
 use License\Entity\LicenseInterface;
@@ -306,6 +307,18 @@ class ApiManager
                 ? $this->normalizeDate($uuid->getLastLogin())
                 : null;
             $data['description'] = $uuid->getDescription();
+        }
+
+        if ($uuid instanceof Comment) {
+            $data['__typename'] = 'Comment';
+            $data['authorId'] = $uuid->getAuthor()->getId();
+            $data['title'] = $uuid->getTitle();
+            $data['date'] = $this->normalizeDate($uuid->getTimestamp());
+            $data['archived'] = $uuid->getArchived();
+            $data['content'] = $uuid->getContent();
+            $data['childrenIds'] = array_map(function ($comment) {
+                return $comment->getId();
+            }, $uuid->getChildren()->toArray());
         }
 
         if ($uuid instanceof TaxonomyTermInterface) {
