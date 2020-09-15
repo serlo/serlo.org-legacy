@@ -204,6 +204,15 @@ return [
                             ],
                         ],
                     ],
+                    'threads' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/threads/:id',
+                            'defaults' => [
+                                'action' => 'threads',
+                            ],
+                        ],
+                    ],
                     'uuid' => [
                         'type' => 'segment',
                         'options' => [

@@ -339,6 +339,16 @@ class ApiManager
         return $data;
     }
 
+    public function getThreadsData($threads)
+    {
+        $threadIds = array_map(function ($thread) {
+            return $thread->getId();
+        }, $threads->toArray());
+
+        // Sort threads from most to least recent
+        return array_reverse($threadIds);
+    }
+
     private function normalizeType($type)
     {
         $type = str_replace('text-', '', $type);

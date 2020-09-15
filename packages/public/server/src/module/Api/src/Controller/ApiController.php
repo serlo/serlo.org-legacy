@@ -26,6 +26,7 @@ namespace Api\Controller;
 use Alias\AliasManagerAwareTrait;
 use Api\ApiManagerAwareTrait;
 use Api\Service\AuthorizationService;
+use Discussion\DiscussionManagerAwareTrait;
 use Exception;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Lcobucci\JWT\Parser;
@@ -46,6 +47,7 @@ class ApiController extends AbstractApiController
     use InstanceManagerAwareTrait;
     use LicenseManagerAwareTrait;
     use UuidManagerAwareTrait;
+    use DiscussionManagerAwareTrait;
 
     public function __construct(AuthorizationService $authorizationService)
     {
@@ -89,6 +91,25 @@ class ApiController extends AbstractApiController
             );
         } catch (LicenseNotFoundException $exception) {
             return $this->createJsonResponse(null);
+        }
+    }
+
+    public function threadsAction()
+    {
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
+        $id = $this->params('id');
+        try {
+            $uuid = $this->getUuidManager()->getUuid($id, false, false);
+            $threads = $this->getDiscussionManager()->findDiscussionsOn($uuid);
+            return new JsonModel(
+                $this->getApiManager()->getThreadsData($threads)
+            );
+        } catch (NotFoundException $exception) {
+            return $this->createJsonResponse([]);
         }
     }
 
