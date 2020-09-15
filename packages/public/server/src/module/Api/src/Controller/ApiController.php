@@ -64,11 +64,7 @@ class ApiController extends AbstractApiController
 
         $aliases = $this->getAliasManager()->findAliases($alias, $instance);
         if (count($aliases) === 0) {
-            $this->response
-                ->getHeaders()
-                ->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
+            return $this->createJsonResponse(null);
         }
 
         $currentAlias = $aliases[0];
@@ -92,11 +88,7 @@ class ApiController extends AbstractApiController
                 $this->getApiManager()->getLicenseData($license)
             );
         } catch (LicenseNotFoundException $exception) {
-            $this->response
-                ->getHeaders()
-                ->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
+            return $this->createJsonResponse(null);
         }
     }
 
@@ -112,11 +104,16 @@ class ApiController extends AbstractApiController
             $uuid = $this->getUuidManager()->getUuid($id, false, false);
             return new JsonModel($this->getApiManager()->getUuidData($uuid));
         } catch (NotFoundException $exception) {
-            $this->response
-                ->getHeaders()
-                ->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
+            return $this->createJsonResponse(null);
         }
+    }
+
+    protected function createJsonResponse($data)
+    {
+        $this->response
+            ->getHeaders()
+            ->addHeaderLine('Content-Type', 'application/json');
+        $this->response->setContent(json_encode($data));
+        return $this->response;
     }
 }
