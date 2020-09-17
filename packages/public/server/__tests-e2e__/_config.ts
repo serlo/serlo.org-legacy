@@ -85,3 +85,11 @@ export const viewports = {
     height: 1080,
   },
 }
+
+export const wrongUsers = ['login', 'abc', '']
+export const wrongPasswords = ['123', '']
+
+export const alertBoxes = {
+  wrongCombination:
+    'Mit dieser Kombination ist bei uns kein Benutzer registriert.',
+}

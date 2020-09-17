@@ -19,12 +19,22 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { pages, viewports, users, elements } from './_config'
+import {
+  pages,
+  viewports,
+  users,
+  elements,
+  alertBoxes,
+  wrongUsers,
+  wrongPasswords,
+  testingServerUrl,
+} from './_config'
 import {
   clickForNewPage,
   getByPlaceholderText,
   getBySelector,
   getByText,
+  getByRole,
   goto,
 } from './_utils'
 
@@ -45,15 +55,14 @@ describe('login process', () => {
       expect(loginPage).toHaveUrlPath(pages.login.path)
 
       const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
+
       await getByPlaceholderText(loginPage, inputUser).then((e) => e.type(user))
       await getByPlaceholderText(loginPage, inputPassword).then((e) =>
         e.type(pages.login.defaultPassword)
       )
-
       const afterLoginPage = await getByText(loginPage, buttonLogin).then(
         clickForNewPage
       )
-
       await expect(await elements.getLogoutButton(afterLoginPage)).toBeDefined()
 
       const userPage = await elements
@@ -61,7 +70,40 @@ describe('login process', () => {
         .then(clickForNewPage)
 
       expect(userPage).toHaveUrlPath('/user/me')
+
       await expect(userPage).toMatchElement('h1', { text: user })
+    })
+  })
+
+  describe('missing and wrong Data', () => {
+    const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
+
+    describe.each(wrongUsers)('user is %p', (user) => {
+      test.each(wrongPasswords)('password is %p', async (password) => {
+        await page.setViewport(viewports.desktop)
+        const loginPage = await goto('/auth/login')
+
+        await getByPlaceholderText(loginPage, inputUser).then((e) =>
+          e.type(user)
+        )
+        await getByPlaceholderText(loginPage, inputPassword).then((e) =>
+          e.type(password)
+        )
+
+        if (user.length == 0 || password.length == 0) {
+          //Check if stayed on the page
+          expect(page.url().localeCompare(testingServerUrl + pages.login.path))
+        } else {
+          const afterLoginPage = await getByText(loginPage, buttonLogin).then(
+            clickForNewPage
+          )
+          //Check if stayed on the page
+          expect(afterLoginPage).toHaveUrlPath(pages.login.path)
+          //Check alertbox
+          expect(await getByText(afterLoginPage, alertBoxes.wrongCombination))
+            .toBeDefined
+        }
+      })
     })
   })
 })
