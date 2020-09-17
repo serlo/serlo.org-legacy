@@ -76,7 +76,7 @@ export const pages = {
 }
 
 export const testingServerUrl = 'http://en.serlo.localhost:4567'
-
+//eins kein array
 export const users = ['login', 'german_reviewer', 'german_helper', 'admin']
 
 export const viewports = {
