@@ -76,20 +76,10 @@ export const pages = {
 }
 
 export const testingServerUrl = 'http://en.serlo.localhost:4567'
-//eins kein array
-export const users = ['login', 'german_reviewer', 'german_helper', 'admin']
 
 export const viewports = {
   desktop: {
     width: 1920,
     height: 1080,
   },
-}
-
-export const wrongUsers = ['login', 'abc', '']
-export const wrongPasswords = ['123', '']
-
-export const alertBoxes = {
-  wrongCombination:
-    'Mit dieser Kombination ist bei uns kein Benutzer registriert.',
 }

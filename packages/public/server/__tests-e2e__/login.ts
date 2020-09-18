@@ -19,16 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  pages,
-  viewports,
-  users,
-  elements,
-  alertBoxes,
-  wrongUsers,
-  wrongPasswords,
-  testingServerUrl,
-} from './_config'
+import { pages, viewports, elements, testingServerUrl } from './_config'
 import {
   clickForNewPage,
   getByPlaceholderText,
@@ -39,129 +30,118 @@ import {
 } from './_utils'
 import { ElementHandle } from 'puppeteer'
 
-//nur eins
-const examplePages = ['/', '/math', '/math/geometry/triangles']
+describe('login process with correct data', () => {
+  test('correct password and correct user', async () => {
+    await page.setViewport(viewports.desktop)
+    const firstPage = await goto('/math')
+    // ?
+    expect(firstPage).toHaveUrlPath('/math')
 
-describe('login process', () => {
-  describe.each(users)('user is %p', (user) => {
-    test.each(examplePages)('start page is %p', async (startPath) => {
-      await page.setViewport(viewports.desktop)
-      const firstPage = await goto(startPath)
+    const loginPage = await elements
+      .getLoginButton(firstPage)
+      .then(clickForNewPage)
+    expect(loginPage).toHaveUrlPath('/auth/login')
+    const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
 
-      expect(firstPage).toHaveUrlPath(startPath)
+    await getByPlaceholderText(loginPage, inputUser).then((e) =>
+      e.type('login')
+    )
+    await getByPlaceholderText(loginPage, inputPassword).then((e) =>
+      e.type('123456')
+    )
+    const afterLoginPage = await getByText(loginPage, buttonLogin).then(
+      clickForNewPage
+    )
+    await expect(await elements.getLogoutButton(afterLoginPage)).toBeDefined()
 
-      const loginPage = await elements
-        .getLoginButton(firstPage)
-        .then(clickForNewPage)
+    const userPage = await elements
+      .getProfileButton(afterLoginPage)
+      .then(clickForNewPage)
 
-      expect(loginPage).toHaveUrlPath(pages.login.path)
+    expect(userPage).toHaveUrlPath('/user/me')
 
-      const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
+    await expect(userPage).toMatchElement('h1', { text: 'login' })
+  })
+})
 
-      await getByPlaceholderText(loginPage, inputUser).then((e) => e.type(user))
-      await getByPlaceholderText(loginPage, inputPassword).then((e) =>
-        e.type(pages.login.defaultPassword)
-      )
-      const afterLoginPage = await getByText(loginPage, buttonLogin).then(
-        clickForNewPage
-      )
-      await expect(await elements.getLogoutButton(afterLoginPage)).toBeDefined()
+describe('wrong login-data', () => {
+  const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
+  let loginPage: ElementHandle
 
-      const userPage = await elements
-        .getProfileButton(afterLoginPage)
-        .then(clickForNewPage)
-
-      expect(userPage).toHaveUrlPath('/user/me')
-
-      await expect(userPage).toMatchElement('h1', { text: user })
-    })
+  beforeEach(async () => {
+    await page.setViewport(viewports.desktop)
+    loginPage = await goto('/auth/login')
   })
 
-  describe('wrong login-data', () => {
-    const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
-    let loginPage: ElementHandle
-
-    beforeEach(async () => {
-      await page.setViewport(viewports.desktop)
-      loginPage = await goto('/auth/login')
-    })
-
-    test('wrong password and correct user', async () => {
-      await getByPlaceholderText(loginPage, inputUser).then((e) =>
-        e.type('login')
+  test('wrong password and correct user', async () => {
+    await getByPlaceholderText(loginPage, inputUser).then((e) =>
+      e.type('login')
+    )
+    await getByPlaceholderText(loginPage, inputPassword).then((e) =>
+      e.type('123')
+    )
+    const afterLoginPage = await getByText(loginPage, buttonLogin).then(
+      clickForNewPage
+    )
+    //Check if stayed on the page
+    expect(afterLoginPage).toHaveUrlPath(pages.login.path)
+    //Check alertbox
+    expect(
+      await getByText(
+        afterLoginPage,
+        'Mit dieser Kombination ist bei uns kein Benutzer registriert.'
       )
-      await getByPlaceholderText(loginPage, inputPassword).then((e) =>
-        e.type('123')
-      )
-      const afterLoginPage = await getByText(loginPage, buttonLogin).then(
-        clickForNewPage
-      )
-      //Check if stayed on the page
-      expect(afterLoginPage).toHaveUrlPath(pages.login.path)
-      //Check alertbox
-      expect(
-        await getByText(
-          afterLoginPage,
-          'Mit dieser Kombination ist bei uns kein Benutzer registriert.'
-        )
-      ).toBeDefined
-    })
-
-    test('correct password and wrong user', async () => {
-      await getByPlaceholderText(loginPage, inputUser).then((e) =>
-        e.type('abc')
-      )
-      await getByPlaceholderText(loginPage, inputPassword).then((e) =>
-        e.type('123456')
-      )
-      const afterLoginPage = await getByText(loginPage, buttonLogin).then(
-        clickForNewPage
-      )
-      //Check if stayed on the page
-      expect(afterLoginPage).toHaveUrlPath(pages.login.path)
-      //Check alertbox
-      expect(
-        await getByText(
-          afterLoginPage,
-          'Mit dieser Kombination ist bei uns kein Benutzer registriert.'
-        )
-      ).toBeDefined
-    })
+    ).toBeDefined
   })
 
-  describe('missing login-data', () => {
-    const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
-    let loginPage: ElementHandle
-
-    beforeEach(async () => {
-      await page.setViewport(viewports.desktop)
-      loginPage = await goto('/auth/login')
-    })
-
-    test('missing password and correct user', async () => {
-      await getByPlaceholderText(loginPage, inputUser).then((e) =>
-        e.type('login')
+  test('correct password and wrong user', async () => {
+    await getByPlaceholderText(loginPage, inputUser).then((e) => e.type('abc'))
+    await getByPlaceholderText(loginPage, inputPassword).then((e) =>
+      e.type('123456')
+    )
+    const afterLoginPage = await getByText(loginPage, buttonLogin).then(
+      clickForNewPage
+    )
+    //Check if stayed on the page
+    expect(afterLoginPage).toHaveUrlPath(pages.login.path)
+    //Check alertbox
+    expect(
+      await getByText(
+        afterLoginPage,
+        'Mit dieser Kombination ist bei uns kein Benutzer registriert.'
       )
-      await getByPlaceholderText(loginPage, inputPassword).then((e) =>
-        e.type('')
-      )
-      expect(page.url()).toBe(testingServerUrl + pages.login.path)
-    })
+    ).toBeDefined
+  })
+})
 
-    test('correct password and missing user', async () => {
-      await getByPlaceholderText(loginPage, inputUser).then((e) => e.type(''))
-      await getByPlaceholderText(loginPage, inputPassword).then((e) =>
-        e.type('123456')
-      )
-      expect(page.url()).toBe(testingServerUrl + pages.login.path)
-    })
+describe('missing login-data', () => {
+  const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
+  let loginPage: ElementHandle
 
-    test('missing password and missing user', async () => {
-      await getByPlaceholderText(loginPage, inputUser).then((e) => e.type(''))
-      await getByPlaceholderText(loginPage, inputPassword).then((e) =>
-        e.type('')
-      )
-      expect(page.url()).toBe(testingServerUrl + pages.login.path)
-    })
+  beforeEach(async () => {
+    await page.setViewport(viewports.desktop)
+    loginPage = await goto('/auth/login')
+  })
+
+  test('missing password and correct user', async () => {
+    await getByPlaceholderText(loginPage, inputUser).then((e) =>
+      e.type('login')
+    )
+    await getByPlaceholderText(loginPage, inputPassword).then((e) => e.type(''))
+    expect(page.url()).toBe(testingServerUrl + pages.login.path)
+  })
+
+  test('correct password and missing user', async () => {
+    await getByPlaceholderText(loginPage, inputUser).then((e) => e.type(''))
+    await getByPlaceholderText(loginPage, inputPassword).then((e) =>
+      e.type('123456')
+    )
+    expect(page.url()).toBe(testingServerUrl + pages.login.path)
+  })
+
+  test('missing password and missing user', async () => {
+    await getByPlaceholderText(loginPage, inputUser).then((e) => e.type(''))
+    await getByPlaceholderText(loginPage, inputPassword).then((e) => e.type(''))
+    expect(page.url()).toBe(testingServerUrl + pages.login.path)
   })
 })
