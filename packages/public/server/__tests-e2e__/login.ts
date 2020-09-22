@@ -23,15 +23,17 @@ import { pages, viewports, elements, testingServerUrl } from './_config'
 import {
   clickForNewPage,
   getByPlaceholderText,
-  getBySelector,
   getByText,
-  getByRole,
   goto,
+  click,
 } from './_utils'
 import { ElementHandle } from 'puppeteer'
 
-test('correct password and correct user', async () => {
+beforeAll(async () => {
   await page.setViewport(viewports.desktop)
+})
+
+test('correct password and correct user', async () => {
   const firstPage = await goto('/math')
 
   const loginPage = await elements
@@ -40,12 +42,11 @@ test('correct password and correct user', async () => {
 
   expect(loginPage).toHaveUrlPath(pages.login.path)
 
-  const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
-  await typeIntoLoginForm('123456', loginPage, 'login')
-
-  const afterLoginPage = await getByText(loginPage, buttonLogin).then(
-    clickForNewPage
-  )
+  const afterLoginPage = await typeIntoLoginFormAndWaitForNewPage({
+    password: '123456',
+    page: loginPage,
+    user: 'login',
+  })
 
   await expect(await elements.getLogoutButton(afterLoginPage)).toBeDefined()
 
@@ -58,21 +59,15 @@ test('correct password and correct user', async () => {
 })
 
 describe('wrong login-data', () => {
-  const { buttonLogin, inputUser, inputPassword } = pages.login.identifier
   let loginPage: ElementHandle
-
-  beforeEach(async () => {
-    await page.setViewport(viewports.desktop)
-    loginPage = await goto('/auth/login')
-  })
+  beforeEach(async () => (loginPage = await goto('/auth/login')))
 
   test('wrong password and correct user', async () => {
-    await typeIntoLoginForm('123', loginPage, 'login')
-
-    const afterLoginPage = await getByText(loginPage, buttonLogin).then(
-      clickForNewPage
-    )
-
+    const afterLoginPage = await typeIntoLoginFormAndWaitForNewPage({
+      password: '123',
+      page: loginPage,
+      user: 'login',
+    })
     expect(afterLoginPage).toHaveUrlPath(pages.login.path)
 
     expect(
@@ -84,10 +79,12 @@ describe('wrong login-data', () => {
   })
 
   test('correct password and wrong user', async () => {
-    await typeIntoLoginForm('123456', loginPage, 'abc')
-    const afterLoginPage = await getByText(loginPage, buttonLogin).then(
-      clickForNewPage
-    )
+    const afterLoginPage = await typeIntoLoginFormAndWaitForNewPage({
+      password: '123456',
+      page: loginPage,
+      user: 'abc',
+    })
+
     expect(afterLoginPage).toHaveUrlPath(pages.login.path)
 
     expect(
@@ -103,38 +100,68 @@ describe('missing login-data', () => {
   let loginPage: ElementHandle
 
   beforeAll(async () => {
-    await page.setViewport(viewports.desktop)
     loginPage = await goto('/auth/login')
   })
+
   test('missing password and missing user', async () => {
-    typeIntoLoginForm('', loginPage, '')
-    clickOnLoginButton(loginPage)
+    await typeIntoLoginFormAndClickLoginButton({
+      password: '',
+      page: loginPage,
+      user: '',
+    })
     expect(page.url()).toBe(testingServerUrl + pages.login.path)
   })
 
   test('missing password and correct user', async () => {
-    typeIntoLoginForm('', loginPage, 'login')
-    clickOnLoginButton(loginPage)
+    await typeIntoLoginFormAndClickLoginButton({
+      password: '',
+      page: loginPage,
+      user: 'login',
+    })
     expect(page.url()).toBe(testingServerUrl + pages.login.path)
   })
 
   test('correct password and missing user', async () => {
-    typeIntoLoginForm('123456', loginPage, '')
-    clickOnLoginButton(loginPage)
+    await typeIntoLoginFormAndClickLoginButton({
+      password: '123456',
+      page: loginPage,
+      user: '',
+    })
     expect(page.url()).toBe(testingServerUrl + pages.login.path)
   })
 })
 
-async function typeIntoLoginForm(
-  password: string,
-  page: ElementHandle,
+async function typeIntoLoginFormAndClickLoginButton(arg: {
+  page: ElementHandle
   user: string
-) {
-  const { inputUser, inputPassword } = pages.login.identifier
-  await getByPlaceholderText(page, inputUser).then((e) => e.type(user))
-  await getByPlaceholderText(page, inputPassword).then((e) => e.type(password))
+  password: string
+}) {
+  {
+    await typeIntoLoginForm(arg)
+    const logbutton = elements.getLoginButton(arg.page)
+    ;(await logbutton).click
+  }
 }
-async function clickOnLoginButton(page: ElementHandle) {
-  const { buttonLogin } = pages.login.identifier
-  await getByText(page, buttonLogin).then(clickForNewPage)
+
+async function typeIntoLoginFormAndWaitForNewPage(arg: {
+  page: ElementHandle
+  user: string
+  password: string
+}) {
+  {
+    await typeIntoLoginForm(arg)
+    const { buttonLogin } = pages.login.identifier
+    return await getByText(arg.page, 'Login').then(clickForNewPage)
+  }
+}
+async function typeIntoLoginForm(arg: {
+  page: ElementHandle
+  user: string
+  password: string
+}) {
+  const { inputUser, inputPassword } = pages.login.identifier
+  await getByPlaceholderText(arg.page, inputUser).then((e) => e.type(arg.user))
+  await getByPlaceholderText(arg.page, inputPassword).then((e) =>
+    e.type(arg.password)
+  )
 }
