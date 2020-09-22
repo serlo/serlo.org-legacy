@@ -103,4 +103,19 @@ describe('create article', () => {
     await expect(success).toMatchElement('h1', { text: title })
     await expect(success).toMatchElement('*', { text: content })
   })
+
+  //static pages bis 16uhr
+  test('view static page', async () => {
+    const path = 'serlo'
+    const title = 'Auf einen Blick'
+    const content = 'Hello World! 42'
+
+    const articlePage = await goto(path)
+    await expect(articlePage).toHaveTitle(title)
+
+    const article = await getByItemType(articlePage, articleItemType)
+    await expect(article).toMatchElement('h1', { text: title })
+
+    await expect(article).toMatchElement('*', { text: content })
+  })
 })
