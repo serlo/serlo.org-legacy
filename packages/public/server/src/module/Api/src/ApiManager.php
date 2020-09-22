@@ -316,6 +316,11 @@ class ApiManager
             $data['date'] = $this->normalizeDate($uuid->getTimestamp());
             $data['archived'] = $uuid->getArchived();
             $data['content'] = $uuid->getContent();
+            if ($uuid->hasParent()) {
+                $data['parentId'] = $uuid->getParent()->getId();
+            } else {
+                $data['parentId'] = $uuid->getObject()->getId();
+            }
             $data['childrenIds'] = array_map(function ($comment) {
                 return $comment->getId();
             }, $uuid->getChildren()->toArray());
