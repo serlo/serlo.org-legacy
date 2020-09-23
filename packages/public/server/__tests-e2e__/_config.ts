@@ -1,4 +1,4 @@
-import { click, clickForNewPage, getBySelector, getByText } from './_utils'
+import { getBySelector, getByText } from './_utils'
 import { ElementHandle } from 'puppeteer'
 
 /**
@@ -28,7 +28,7 @@ export const elements = {
   getDropdownToggle(page: ElementHandle) {
     return getBySelector(page, '#subject-nav-wrapper button.dropdown-toggle')
   },
-  getLoginButton(page: ElementHandle) {
+  getLoginButtonInHeaderMenu(page: ElementHandle) {
     return getByText(page, 'Log in', {
       selector: '#serlo-menu a',
     })
