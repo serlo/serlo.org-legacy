@@ -140,6 +140,7 @@ async function typeIntoLoginFormAndClickLoginButton(arg: {
     await typeIntoLoginForm(arg)
     const logbutton = elements.getLoginButton(arg.page)
     ;(await logbutton).click
+    //await elements.getLoginButton(arg.page).then(click)
   }
 }
 
@@ -151,7 +152,7 @@ async function typeIntoLoginFormAndWaitForNewPage(arg: {
   {
     await typeIntoLoginForm(arg)
     const { buttonLogin } = pages.login.identifier
-    return await getByText(arg.page, 'Login').then(clickForNewPage)
+    return getByText(arg.page, 'Login').then(clickForNewPage)
   }
 }
 async function typeIntoLoginForm(arg: {
