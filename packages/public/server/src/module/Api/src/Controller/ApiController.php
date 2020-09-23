@@ -33,6 +33,8 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\ValidationData;
 use License\Exception\LicenseNotFoundException;
 use License\Manager\LicenseManagerAwareTrait;
+use User\Exception\UserNotFoundException;
+use User\Manager\UserManagerAwareTrait;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerAwareTrait;
 use Zend\Http\Response;
@@ -45,6 +47,7 @@ class ApiController extends AbstractApiController
     use ApiManagerAwareTrait;
     use InstanceManagerAwareTrait;
     use LicenseManagerAwareTrait;
+    use UserManagerAwareTrait;
     use UuidManagerAwareTrait;
 
     public function __construct(AuthorizationService $authorizationService)
@@ -61,6 +64,28 @@ class ApiController extends AbstractApiController
 
         $alias = $this->params('alias');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
+
+        $userProfilePrefix = 'user/profile/';
+        if (strpos($alias, $userProfilePrefix, 0) === 0) {
+            $username = substr($alias, strlen($userProfilePrefix));
+
+            try {
+                $user = $this->getUserManager()->findUserByUsername($username);
+
+                return new JsonModel(
+                    $this->getApiManager()->getAliasDataFromUser(
+                        $user,
+                        $instance
+                    )
+                );
+            } catch (UserNotFoundException $exception) {
+                $this->response
+                    ->getHeaders()
+                    ->addHeaderLine('Content-Type', 'application/json');
+                $this->response->setContent('null');
+                return $this->response;
+            }
+        }
 
         $aliases = $this->getAliasManager()->findAliases($alias, $instance);
         if (count($aliases) === 0) {

@@ -29,6 +29,7 @@ use Api\Service\GraphQLService;
 use DateTime;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
+use Instance\Entity\InstanceInterface;
 use License\Entity\LicenseInterface;
 use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
@@ -73,6 +74,21 @@ class ApiManager
             'path' => '/' . $alias->getAlias(),
             'source' => $alias->getSource(),
             'timestamp' => $this->normalizeDate($alias->getTimestamp()),
+        ];
+    }
+
+    public function getAliasDataFromUser(
+        UserInterface $user,
+        InstanceInterface $instance
+    ) {
+        $profileLink = '/user/profile/' . $user->getUsername();
+
+        return [
+            'id' => $user->getId(),
+            'instance' => $instance->getSubdomain(),
+            'path' => $profileLink,
+            'source' => $profileLink,
+            'timestamp' => $this->normalizeDate($user->getDate()),
         ];
     }
 
