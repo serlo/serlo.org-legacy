@@ -317,6 +317,7 @@ function testIsEqual(
     }
   }
 }
+
 export async function clear(element: ElementHandle): Promise<ElementHandle> {
   await click(element)
 
