@@ -21,56 +21,45 @@
  */
 import {
   clickForNewPage,
-  getByItemType,
-  getByItemProp,
   goto,
   getBySelector,
   login,
-  randomText,
   getByText,
-  getAllByText,
-  getByLabelText,
-  getByPlaceholderText,
-  saveRevision,
-  addContent,
-  openDropdownMenu,
   click,
-  getByAltText,
+  clear,
 } from '../_utils'
-import { pages, viewports, elements, testingServerUrl } from '../_config'
-import { ElementHandle } from 'puppeteer'
-
-beforeAll(async () => {
-  await page.setViewport(viewports.desktop)
-})
-/*
-test('static page can be edited by admin', async () => {
-  await login('admin')
-  const staticPage = await goto('/math')
-  expect(await getEditStaticPageButton(staticPage)).toBeDefined()
-})
 
 test('can not be edited by normal author', async () => {
   await login('login')
   const staticPage = await goto('/math')
   const queryResults = await staticPage.$$('a.btn.btn-success')
   expect(queryResults.length).toBeLessThan(1)
-})*/
+})
 
 test('edit static page', async () => {
   await login('admin')
   const staticPage = await goto('/page/revision/create-old/23591/32995')
   await getByText(staticPage, 'x').then(click)
 
-  //await getByText(staticPage, 'Mathematics home page')
-  await getBySelector(staticPage, '.preview-input').then((e) =>
-    e.type(' Some headline')
-  )
-  await getByLabelText(staticPage, 'Title:', { selector: 'preview-input' })
-  // expect(await getByText(staticPage, 'Mathematics home page Some headline'))
-  //  .toBeDefined
-})
+  //Wait for sideloading animation
+  await page.waitFor(600)
 
-async function getEditStaticPageButton(page: ElementHandle) {
-  return getBySelector(page, 'a.btn.btn-success')
-}
+  await getBySelector(staticPage, '.CodeMirror-code pre')
+    .then(clear)
+    .then((e) => e.type('Test content'))
+
+  await page.waitFor(100)
+
+  await getBySelector(staticPage, '.preview-input')
+    .then(clear)
+    .then((e) => e.type('Test headline'))
+
+  await getBySelector(staticPage, '.preview-checkbox').then(click)
+  const editedPage = await getBySelector(
+    staticPage,
+    '.helper.btn.btn-success.btn-labeled'
+  ).then(clickForNewPage)
+
+  expect(await getByText(editedPage, 'Test headline')).toBeDefined()
+  expect(await getByText(editedPage, 'Test content')).toBeDefined()
+})
