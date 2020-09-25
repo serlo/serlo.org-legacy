@@ -28,11 +28,6 @@ export const elements = {
   getDropdownToggle(page: ElementHandle) {
     return getBySelector(page, '#subject-nav-wrapper button.dropdown-toggle')
   },
-  getLoginButtonInHeaderMenu(page: ElementHandle) {
-    return getByText(page, 'Log in', {
-      selector: '#serlo-menu a',
-    })
-  },
   getLogoutButton(page: ElementHandle) {
     return getByText(page, 'Log out', {
       selector: '#serlo-menu a',

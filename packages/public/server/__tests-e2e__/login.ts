@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { pages, viewports, elements } from './_config'
+import { pages } from './_config'
 import {
   clickForNewPage,
   getByPlaceholderText,
@@ -30,32 +30,14 @@ import {
 } from './_utils'
 import { ElementHandle } from 'puppeteer'
 
-beforeAll(async () => {
-  await page.setViewport(viewports.desktop)
-})
-
 test('correct password and correct user', async () => {
-  const firstPage = await goto('/math')
-
-  const loginPage = await elements
-    .getLoginButtonInHeaderMenu(firstPage)
-    .then(clickForNewPage)
-
-  expect(loginPage).toHaveUrlPath(pages.login.path)
-
+  const loginPage = await goto('/auth/login')
   const afterLoginPage = await typeIntoLoginFormAndWaitForNewPage({
     page: loginPage,
     user: 'login',
     password: '123456',
   })
-
-  expect(await elements.getLogoutButton(afterLoginPage)).toBeDefined()
-
-  const userPage = await elements
-    .getProfileButton(afterLoginPage)
-    .then(clickForNewPage)
-
-  expect(userPage).toHaveUrlPath('/user/me')
+  const userPage = await goto('/user/me')
   await expect(userPage).toMatchElement('h1', { text: 'login' })
 })
 
@@ -129,10 +111,10 @@ async function typeIntoLoginForm(arg: {
   user: string
   password: string
 }) {
-  const { inputUser, inputPassword } = pages.login.identifier
-
-  await getByPlaceholderText(arg.page, inputUser).then((e) => e.type(arg.user))
-  await getByPlaceholderText(arg.page, inputPassword).then((e) =>
+  await getByPlaceholderText(arg.page, 'Email address or Username').then((e) =>
+    e.type(arg.user)
+  )
+  await getByPlaceholderText(arg.page, 'Password').then((e) =>
     e.type(arg.password)
   )
 }
