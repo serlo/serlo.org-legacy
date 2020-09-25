@@ -33,6 +33,10 @@ export const getByRole = queries.getByRole
 export const getByText = queries.getByText
 export const getAllByText = queries.getAllByText
 
+export async function getCurrentPage() {
+  return getDocument(page)
+}
+
 export async function getByItemType(element: ElementHandle, itemType: string) {
   return getBySelector(element, `[itemtype="${itemType}"]`)
 }
