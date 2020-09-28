@@ -158,6 +158,7 @@ class ApiManager
             $data['currentRevisionId'] = $uuid->getCurrentRevision()
                 ? $uuid->getCurrentRevision()->getId()
                 : null;
+            $data['revisionIds'] = $this->getRevisionIds($uuid);
             $data['licenseId'] = $uuid->getLicense()
                 ? $uuid->getLicense()->getId()
                 : null;
@@ -280,6 +281,7 @@ class ApiManager
             $data['__typename'] = 'Page';
             $data['instance'] = $uuid->getInstance()->getSubdomain();
             $data['currentRevisionId'] = $uuid->getCurrentRevision()->getId();
+            $data['revisionIds'] = array_reverse($this->getRevisionIds($uuid));
             $data['date'] = $this->normalizeDate(
                 $uuid
                     ->getRevisions()
@@ -337,6 +339,16 @@ class ApiManager
         }
 
         return $data;
+    }
+
+    private function getRevisionIds($uuid)
+    {
+        return $uuid
+            ->getRevisions()
+            ->map(function ($rev) {
+                return $rev->getId();
+            })
+            ->toArray();
     }
 
     private function normalizeType($type)
