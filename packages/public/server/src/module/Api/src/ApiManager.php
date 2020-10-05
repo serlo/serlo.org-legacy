@@ -382,17 +382,14 @@ class ApiManager
             return intval($x['id']);
         }, $this->executeSql($sqlIds));
         $ids = $returnLastElements ? array_reverse($ids) : $ids;
-
-        $firstId = $ids[0] ?? null;
-        $lastId = $ids[count($ids) - 1] ?? null;
-
+        
         $sqlMeta =
             'SELECT count(id) as count, ' .
             'sum(case when id < ' .
-            ($firstId ?? 0) .
+            ($ids[0] ?? 0) .
             ' then 1 else 0 end) as sumBeforeIds, ' .
             'sum(case when id > ' .
-            ($lastId ?? 0) .
+            ($ids[count($ids) - 1] ?? 0) .
             ' then 1 else 0 end) as sumAfterIds ' .
             'FROM event_log ' .
             $this->toWhereClause($generalConditions) .
@@ -408,8 +405,6 @@ class ApiManager
                 'hasPreviousPage' =>
                     $meta['sumBeforeIds'] != '0' &&
                     $meta['sumBeforeIds'] != null,
-                'startCursor' => $firstId,
-                'endCursor' => $lastId,
             ],
         ];
     }

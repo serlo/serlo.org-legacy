@@ -31,12 +31,7 @@ describe('/api/events', () => {
     expect(response.data).toEqual({
       totalCount: 84706,
       eventIds: R.range(1, 101),
-      pageInfo: {
-        hasNextPage: true,
-        hasPreviousPage: false,
-        startCursor: 1,
-        endCursor: 100,
-      },
+      pageInfo: { hasNextPage: true, hasPreviousPage: false },
     })
   })
 
@@ -46,12 +41,7 @@ describe('/api/events', () => {
     expect(response.data).toEqual({
       totalCount: 84706,
       eventIds: R.range(1001, 1101),
-      pageInfo: {
-        hasNextPage: true,
-        hasPreviousPage: true,
-        startCursor: 1001,
-        endCursor: 1100,
-      },
+      pageInfo: { hasNextPage: true, hasPreviousPage: true },
     })
   })
 
@@ -61,12 +51,7 @@ describe('/api/events', () => {
     expect(response.data).toEqual({
       totalCount: 84706,
       eventIds: R.range(900, 1000),
-      pageInfo: {
-        hasNextPage: true,
-        hasPreviousPage: true,
-        startCursor: 900,
-        endCursor: 999,
-      },
+      pageInfo: { hasNextPage: true, hasPreviousPage: true },
     })
   })
 
@@ -76,12 +61,7 @@ describe('/api/events', () => {
     expect(response.data).toEqual({
       totalCount: 84706,
       eventIds: [1, 2],
-      pageInfo: {
-        hasNextPage: true,
-        hasPreviousPage: false,
-        startCursor: 1,
-        endCursor: 2,
-      },
+      pageInfo: { hasNextPage: true, hasPreviousPage: false },
     })
   })
 
@@ -91,12 +71,7 @@ describe('/api/events', () => {
     expect(response.data).toEqual({
       totalCount: 84706,
       eventIds: [86590, 86591],
-      pageInfo: {
-        hasNextPage: false,
-        hasPreviousPage: true,
-        startCursor: 86590,
-        endCursor: 86591,
-      },
+      pageInfo: { hasNextPage: false, hasPreviousPage: true },
     })
   })
 
@@ -106,12 +81,7 @@ describe('/api/events', () => {
     expect(response.data).toEqual({
       totalCount: 3075,
       eventIds: [37494, 38065, 38379],
-      pageInfo: {
-        hasNextPage: true,
-        hasPreviousPage: false,
-        startCursor: 37494,
-        endCursor: 38379,
-      },
+      pageInfo: { hasNextPage: true, hasPreviousPage: false },
     })
   })
 
@@ -121,12 +91,7 @@ describe('/api/events', () => {
     expect(response.data).toEqual({
       totalCount: 10,
       eventIds: [55786, 59392, 61858],
-      pageInfo: {
-        hasNextPage: false,
-        hasPreviousPage: true,
-        startCursor: 55786,
-        endCursor: 61858,
-      },
+      pageInfo: { hasNextPage: false, hasPreviousPage: true },
     })
   })
 
@@ -137,12 +102,7 @@ describe('/api/events', () => {
     expect(response.data).toEqual({
       totalCount: 0,
       eventIds: [],
-      pageInfo: {
-        hasNextPage: false,
-        hasPreviousPage: false,
-        startCursor: null,
-        endCursor: null,
-      },
+      pageInfo: { hasNextPage: false, hasPreviousPage: false },
     })
   })
 
