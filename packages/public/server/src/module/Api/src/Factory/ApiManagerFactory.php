@@ -27,17 +27,23 @@ use Alias\AliasManager;
 use Alias\AliasManagerInterface;
 use Api\ApiManager;
 use Api\Service\GraphQLService;
+use Common\Factory\EntityManagerFactoryTrait;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ApiManagerFactory implements FactoryInterface
 {
+    use EntityManagerFactoryTrait;
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /** @var AliasManagerInterface $aliasManager */
         $aliasManager = $serviceLocator->get(AliasManager::class);
         /** @var GraphQLService $graphql */
         $graphql = $serviceLocator->get(GraphQLService::class);
-        return new ApiManager($aliasManager, $graphql);
+        $manager = new ApiManager($aliasManager, $graphql);
+
+        $manager->setObjectManager($this->getEntityManager($serviceLocator));
+        return $manager;
     }
 }

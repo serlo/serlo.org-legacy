@@ -29,8 +29,6 @@ use Api\ApiManager;
 use Api\Controller\ApiController;
 use Api\Service\AuthorizationService;
 use Common\Factory\AbstractControllerFactory;
-use Event\EventManager;
-use Event\EventManagerInterface;
 use Instance\Manager\InstanceManager;
 use Instance\Manager\InstanceManagerInterface;
 use License\Manager\LicenseManager;
@@ -49,10 +47,8 @@ class ApiControllerFactory extends AbstractControllerFactory
         $authorizationService = $serviceManager->get(
             AuthorizationService::class
         );
-        /** @var EventManagerInterface $eventManager */
-        $eventManager = $serviceManager->get(EventManager::class);
 
-        $controller = new ApiController($authorizationService, $eventManager);
+        $controller = new ApiController($authorizationService);
 
         /** @var AliasManagerInterface $aliasManager */
         $aliasManager = $serviceManager->get(AliasManager::class);

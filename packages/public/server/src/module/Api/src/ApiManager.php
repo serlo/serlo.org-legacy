@@ -26,6 +26,7 @@ namespace Api;
 use Alias\AliasManagerInterface;
 use Alias\Entity\AliasInterface;
 use Api\Service\GraphQLService;
+use Common\Traits\ObjectManagerAwareTrait;
 use DateTime;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
@@ -43,6 +44,8 @@ class ApiManager
     protected $aliasManager;
     /** @var GraphQLService */
     protected $graphql;
+
+    use ObjectManagerAwareTrait;
 
     public function __construct(
         AliasManagerInterface $aliasManager,
@@ -339,6 +342,78 @@ class ApiManager
         return $data;
     }
 
+    public function getEventsData(array $options, int $limit)
+    {
+        $returnLastElements = false;
+        $generalConditions = [];
+
+        if (array_key_exists('userId', $options)) {
+            $generalConditions[] = 'actor_id = ' . $options['userId'];
+        }
+        if (array_key_exists('entityId', $options)) {
+            $generalConditions[] = 'uuid_id = ' . $options['entityId'];
+        }
+
+        $idConditions = $generalConditions;
+
+        if (array_key_exists('after', $options)) {
+            $idConditions[] = 'id > ' . $options['after'];
+        }
+        if (array_key_exists('before', $options)) {
+            $idConditions[] = 'id < ' . $options['before'];
+            $returnLastElements = true;
+        }
+        if (array_key_exists('first', $options)) {
+            $limit = min($limit, intval($options['first']));
+        }
+        if (array_key_exists('last', $options)) {
+            $limit = min($limit, intval($options['last']));
+            $returnLastElements = true;
+        }
+
+        $sqlIds =
+            'SELECT id FROM event_log ' .
+            $this->toWhereClause($idConditions) .
+            'ORDER BY id ' .
+            ($returnLastElements ? 'DESC ' : '') .
+            'LIMIT ' .
+            $limit;
+        $ids = array_map(function ($x) {
+            return intval($x['id']);
+        }, $this->executeSql($sqlIds));
+        $ids = $returnLastElements ? array_reverse($ids) : $ids;
+
+        $firstId = $ids[0] ?? null;
+        $lastId = $ids[count($ids) - 1] ?? null;
+
+        $sqlMeta =
+            'SELECT count(id) as count, ' .
+            'sum(case when id < ' .
+            ($firstId ?? 0) .
+            ' then 1 else 0 end) as sumBeforeIds, ' .
+            'sum(case when id > ' .
+            ($lastId ?? 0) .
+            ' then 1 else 0 end) as sumAfterIds ' .
+            'FROM event_log ' .
+            $this->toWhereClause($generalConditions) .
+            'ORDER BY id';
+        $meta = $this->executeSql($sqlMeta)[0];
+
+        return [
+            'totalCount' => intval($meta['count']),
+            'eventIds' => $ids,
+            'pageInfo' => [
+                'hasNextPage' =>
+                    $meta['sumAfterIds'] != '0' && $meta['sumAfterIds'] != null,
+                'hasPreviousPage' =>
+                    $meta['sumBeforeIds'] != '0' &&
+                    $meta['sumBeforeIds'] != null,
+                'startCursor' => $firstId,
+                'endCursor' => $lastId,
+            ],
+        ];
+    }
+
     private function normalizeType($type)
     {
         $type = str_replace('text-', '', $type);
@@ -370,5 +445,17 @@ class ApiManager
                 }, $remainingSegments)
             )
         );
+    }
+
+    private function executeSql($sql)
+    {
+        $query = $this->objectManager->getConnection()->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+
+    private function toWhereClause(array $conditions)
+    {
+        return $conditions ? 'WHERE ' . join(' AND ', $conditions) . ' ' : '';
     }
 }
