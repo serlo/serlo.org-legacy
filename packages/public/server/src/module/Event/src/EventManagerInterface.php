@@ -39,6 +39,8 @@ interface EventManagerInterface
      */
     public function findEventsByActor($userId);
 
+    public function findEventIds(array $options, int $limit = 100);
+
     /**
      * @param int $userId
      * @param int $page

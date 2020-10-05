@@ -26,6 +26,7 @@ namespace Api\Controller;
 use Alias\AliasManagerAwareTrait;
 use Api\ApiManagerAwareTrait;
 use Api\Service\AuthorizationService;
+use Event\EventManagerInterface;
 use Exception;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Lcobucci\JWT\Parser;
@@ -47,9 +48,15 @@ class ApiController extends AbstractApiController
     use LicenseManagerAwareTrait;
     use UuidManagerAwareTrait;
 
-    public function __construct(AuthorizationService $authorizationService)
-    {
+    /** @var EventManagerInterface $eventManager */
+    protected $eventManager;
+
+    public function __construct(
+        AuthorizationService $authorizationService,
+        EventManagerInterface $eventManager
+    ) {
         parent::__construct($authorizationService);
+        $this->eventManager = $eventManager;
     }
 
     public function aliasAction()
@@ -75,6 +82,23 @@ class ApiController extends AbstractApiController
         return new JsonModel(
             $this->getApiManager()->getAliasData($currentAlias)
         );
+    }
+
+    public function eventsAction()
+    {
+        $options = [];
+        foreach (
+            ['after', 'before', 'first', 'last', 'entityId', 'userId']
+            as $parameter
+        ) {
+            if ($this->getRequest()->getQuery($parameter)) {
+                $options[$parameter] = $this->getRequest()->getQuery(
+                    $parameter
+                );
+            }
+        }
+
+        return new JsonModel($this->eventManager->findEventIds($options));
     }
 
     public function licenseAction()

@@ -146,6 +146,15 @@ return [
                             ],
                         ],
                     ],
+                    'events' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/events',
+                            'defaults' => [
+                                'action' => 'events',
+                            ],
+                        ],
+                    ],
                     'license' => [
                         'type' => 'segment',
                         'options' => [
