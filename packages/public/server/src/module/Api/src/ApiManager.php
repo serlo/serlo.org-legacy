@@ -350,8 +350,8 @@ class ApiManager
         if (array_key_exists('userId', $options)) {
             $generalConditions[] = 'actor_id = ' . $options['userId'];
         }
-        if (array_key_exists('entityId', $options)) {
-            $generalConditions[] = 'uuid_id = ' . $options['entityId'];
+        if (array_key_exists('uuid', $options)) {
+            $generalConditions[] = 'uuid_id = ' . $options['uuid'];
         }
 
         $idConditions = $generalConditions;
@@ -382,7 +382,7 @@ class ApiManager
             return intval($x['id']);
         }, $this->executeSql($sqlIds));
         $ids = $returnLastElements ? array_reverse($ids) : $ids;
-        
+
         $sqlMeta =
             'SELECT count(id) as count, ' .
             'sum(case when id < ' .

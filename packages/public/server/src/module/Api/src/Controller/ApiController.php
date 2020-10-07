@@ -79,14 +79,7 @@ class ApiController extends AbstractApiController
 
     public function eventsAction()
     {
-        $parameters = [
-            'after',
-            'before',
-            'first',
-            'last',
-            'entityId',
-            'userId',
-        ];
+        $parameters = ['after', 'before', 'first', 'last', 'uuid', 'userId'];
         $options = [];
 
         foreach ($parameters as $p) {

@@ -85,8 +85,8 @@ describe('/api/events', () => {
     })
   })
 
-  test('with ?entityId=16030', async () => {
-    const response = await fetchPath('/api/events?entityId=16030&last=3')
+  test('with ?uuid=16030', async () => {
+    const response = await fetchPath('/api/events?uuid=16030&last=3')
 
     expect(response.data).toEqual({
       totalCount: 10,
