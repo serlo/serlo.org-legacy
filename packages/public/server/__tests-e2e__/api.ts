@@ -32,11 +32,11 @@ describe('/api/alias/:alias', () => {
         id: 1,
         instance: 'en',
         path: '/user/profile/admin',
-        source: '/user/profile/admin',
+        source: '/user/profile/1',
         timestamp: '2014-03-01T20:36:21+01:00',
       })
     })
-    
+
     test('when user does not exist', async () => {
       const response = await fetchPath('/api/alias/user/profile/not-existing')
 

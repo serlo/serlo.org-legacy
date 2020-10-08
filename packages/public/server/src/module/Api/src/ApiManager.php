@@ -77,17 +77,12 @@ class ApiManager
         ];
     }
 
-    public function getAliasDataFromUser(
-        UserInterface $user,
-        InstanceInterface $instance
-    ) {
-        $profileLink = '/user/profile/' . $user->getUsername();
-
+    public function getAliasDataForUser(UserInterface $user)
+    {
         return [
             'id' => $user->getId(),
-            'instance' => $instance->getSubdomain(),
-            'path' => $profileLink,
-            'source' => $profileLink,
+            'path' => '/user/profile/' . $user->getUsername(),
+            'source' => '/user/profile/' . $user->getId(),
             'timestamp' => $this->normalizeDate($user->getDate()),
         ];
     }
