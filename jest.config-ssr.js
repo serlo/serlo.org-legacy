@@ -23,5 +23,4 @@ module.exports = {
   testEnvironment: 'node',
   testRegex: '/__tests-ssr__/.*\\.[jt]sx?$',
   transformIgnorePatterns: ['/node_modules/(?!(react-syntax-highlighter)/)'],
-  setupFiles: ['<rootDir>/node_modules/regenerator-runtime/runtime.js'],
 }

@@ -19,7 +19,6 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-require('regenerator-runtime')
 const { convertSplishToEdtrIO } = require('@serlo/legacy-editor-to-editor')
 
 /**
