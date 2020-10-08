@@ -24,7 +24,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",
-    "@prettier/plugin-php": "^0.14.0",
+    "@prettier/plugin-php": "^0.15.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "cross-env": "^7.0.0",
     "npm-run-all": "^4.0.0",
