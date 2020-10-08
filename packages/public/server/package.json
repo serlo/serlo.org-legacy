@@ -1,6 +1,6 @@
 {
   "name": "@serlo/server",
-  "version": "13.8.5",
+  "version": "14.0.0",
   "private": true,
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
@@ -11,15 +11,15 @@
   "devDependencies": {
     "@pact-foundation/pact": "^9.0.0",
     "@serlo/docker": "^0.0.0",
+    "@serlo/legacy-editor-to-editor": "^0.0.0",
     "@types/expect-puppeteer": "^4.0.0",
-    "@types/jest-environment-puppeteer": "^4.0.0",
     "@types/puppeteer": "^3.0.0",
-    "axios": "^0.19.0",
-    "jest-puppeteer": "^4.0.0",
+    "@types/ramda": "^0.27.0",
+    "axios": "^0.20.0",
+    "jest-matcher-utils": "^26.0.0",
     "npm-run-all": "^4.0.0",
     "pptr-testing-library": "^0.6.0",
     "puppeteer": "^5.0.0",
-    "ramda": "^0.27.0",
-    "ts-jest": "^26.0.0"
+    "ramda": "^0.27.0"
   }
 }
