@@ -1,6 +1,6 @@
 {
   "name": "@serlo/editor-renderer",
-  "version": "9.0.1",
+  "version": "10.0.0",
   "private": true,
   "main": "dist/index.js",
   "scripts": {
