@@ -345,8 +345,8 @@ class ApiManager
     {
         return $uuid
             ->getRevisions()
-            ->map(function ($rev) {
-                return $rev->getId();
+            ->map(function ($revision) {
+                return $revision->getId();
             })
             ->toArray();
     }
