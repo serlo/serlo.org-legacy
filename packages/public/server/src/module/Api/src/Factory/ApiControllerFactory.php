@@ -33,6 +33,8 @@ use Instance\Manager\InstanceManager;
 use Instance\Manager\InstanceManagerInterface;
 use License\Manager\LicenseManager;
 use License\Manager\LicenseManagerInterface;
+use User\Manager\UserManager;
+use User\Manager\UserManagerInterface;
 use Uuid\Manager\UuidManager;
 use Uuid\Manager\UuidManagerInterface;
 use Zend\ServiceManager\AbstractPluginManager;
@@ -68,6 +70,10 @@ class ApiControllerFactory extends AbstractControllerFactory
         /** @var UuidManagerInterface $uuidManager */
         $uuidManager = $serviceManager->get(UuidManager::class);
         $controller->setUuidManager($uuidManager);
+
+        /** @var UserManagerInterface $userManager */
+        $userManager = $serviceManager->get(UserManager::class);
+        $controller->setUserManager($userManager);
 
         return $controller;
     }
