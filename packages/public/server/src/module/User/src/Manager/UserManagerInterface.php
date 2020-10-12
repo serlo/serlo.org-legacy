@@ -68,6 +68,7 @@ interface UserManagerInterface extends Flushable, Persistable
     /**
      * @param string $username
      * @return UserInterface
+     * @throws UserNotFoundException
      */
     public function findUserByUsername($username);
 

@@ -23,7 +23,6 @@
 
 namespace UserTest\Stub\Manager;
 
-use User\Entity\UserInterface;
 use User\Manager\UserManagerInterface;
 
 class UserManagerStub implements UserManagerInterface

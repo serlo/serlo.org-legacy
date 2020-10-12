@@ -64,13 +64,14 @@ class ApiController extends AbstractApiController
 
         $alias = $this->params('alias');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
+        $usernameMatch = [];
+        preg_match('/user\/profile\/(.*)/', $alias, $usernameMatch);
 
-        $userProfilePrefix = 'user/profile/';
-        if (strpos($alias, $userProfilePrefix, 0) === 0) {
-            $username = substr($alias, strlen($userProfilePrefix));
-
+        if (array_key_exists(1, $usernameMatch)) {
             try {
-                $user = $this->getUserManager()->findUserByUsername($username);
+                $user = $this->getUserManager()->findUserByUsername(
+                    $usernameMatch[1]
+                );
 
                 return new JsonModel(
                     array_merge(
