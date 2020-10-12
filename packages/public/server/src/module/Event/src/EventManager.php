@@ -227,12 +227,16 @@ class EventManager implements
         return $event;
     }
 
-    public function getEvent($id)
+    public function getEvent($id, $instanceAware = true)
     {
         $className = $this->getClassResolver()->resolveClassName(
             'Event\Entity\EventLogInterface'
         );
-        $event = $this->getObjectManager()->find($className, $id);
+        $event = $this->getObjectManager()->find(
+            $className,
+            $id,
+            $instanceAware
+        );
         if (!is_object($event)) {
             throw new Exception\EntityNotFoundException(
                 sprintf('Could not find an Entity by the ID of `%d`', $id)

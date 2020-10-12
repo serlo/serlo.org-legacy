@@ -22,7 +22,21 @@
 import axios from 'axios'
 import * as R from 'ramda'
 
-import { testingServerUrl } from './_config'
+describe('/api/event/:id', () => {
+  test('returns event when the instance of the event and the url do not match', async () => {
+    const response = await fetchPath('/api/event/10', 'en')
+
+    expect(response.data).toEqual({
+      id: 10,
+      instance: 'de',
+      date: '2014-03-01T20:36:34+01:00',
+      __typename: 'CreateTaxonomyLinkNotificationEvent',
+      actorId: 6,
+      parentId: 8,
+      childId: 1208,
+    })
+  })
+})
 
 describe('/api/events', () => {
   test('without arguments: returns list of first 100 ids', async () => {
@@ -125,6 +139,6 @@ describe('/api/alias/:alias', () => {
   })
 })
 
-function fetchPath(path: string) {
-  return axios.get(testingServerUrl + path)
+function fetchPath(path: string, instance: string = 'de') {
+  return axios.get(`http://${instance}.serlo.localhost:4567${path}`)
 }

@@ -68,10 +68,11 @@ interface EventManagerInterface
 
     /**
      * @param int $id
+     * @param bool $instanceAware
      * @return EventLogInterface
      * @throws EntityNotFoundException
      */
-    public function getEvent($id);
+    public function getEvent($id, $instanceAware);
 
     /**
      * @param UserInterface $user

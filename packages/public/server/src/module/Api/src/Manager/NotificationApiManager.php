@@ -91,7 +91,7 @@ class NotificationApiManager
      */
     public function getEventDataById(int $id)
     {
-        $event = $this->eventManager->getEvent($id);
+        $event = $this->eventManager->getEvent($id, false);
         return $this->getEventData($event);
     }
 
