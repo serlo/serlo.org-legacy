@@ -24,7 +24,7 @@ import * as R from 'ramda'
 
 describe('/api/event/:id', () => {
   test('returns event when the instance of the event and the url do not match', async () => {
-    const response = await fetchPath('/api/event/10', 'en')
+    const response = await fetchAlias({ instance: 'de', path: '/api/event/10' })
 
     expect(response.data).toEqual({
       id: 10,
@@ -40,7 +40,7 @@ describe('/api/event/:id', () => {
 
 describe('/api/events', () => {
   test('without arguments: returns list of first 100 ids', async () => {
-    const response = await fetchPath('/api/events')
+    const response = await fetchAlias({ path: '/api/events' })
 
     expect(response.data).toEqual({
       totalCount: 84706,
@@ -50,7 +50,7 @@ describe('/api/events', () => {
   })
 
   test('with ?after=1000', async () => {
-    const response = await fetchPath('/api/events?after=1000')
+    const response = await fetchAlias({ path: '/api/events?after=1000' })
 
     expect(response.data).toEqual({
       totalCount: 84706,
@@ -60,7 +60,7 @@ describe('/api/events', () => {
   })
 
   test('with ?before=1000', async () => {
-    const response = await fetchPath('/api/events?before=1000')
+    const response = await fetchAlias({ path: '/api/events?before=1000' })
 
     expect(response.data).toEqual({
       totalCount: 84706,
@@ -70,7 +70,7 @@ describe('/api/events', () => {
   })
 
   test('with ?first=2', async () => {
-    const response = await fetchPath('/api/events?first=2')
+    const response = await fetchAlias({ path: '/api/events?first=2' })
 
     expect(response.data).toEqual({
       totalCount: 84706,
@@ -80,7 +80,7 @@ describe('/api/events', () => {
   })
 
   test('with ?last=2', async () => {
-    const response = await fetchPath('/api/events?last=2')
+    const response = await fetchAlias({ path: '/api/events?last=2' })
 
     expect(response.data).toEqual({
       totalCount: 84706,
@@ -90,7 +90,7 @@ describe('/api/events', () => {
   })
 
   test('with ?userId=10', async () => {
-    const response = await fetchPath('/api/events?userId=10&first=3')
+    const response = await fetchAlias({ path: '/api/events?userId=10&first=3' })
 
     expect(response.data).toEqual({
       totalCount: 3075,
@@ -100,7 +100,7 @@ describe('/api/events', () => {
   })
 
   test('with ?uuid=16030', async () => {
-    const response = await fetchPath('/api/events?uuid=16030&last=3')
+    const response = await fetchAlias({ path: '/api/events?uuid=16030&last=3' })
 
     expect(response.data).toEqual({
       totalCount: 10,
@@ -111,7 +111,9 @@ describe('/api/events', () => {
 
   test('handles empty results correctly', async () => {
     const notExistingUserId = '111'
-    const response = await fetchPath('/api/events?userId=' + notExistingUserId)
+    const response = await fetchAlias({
+      path: '/api/events?userId=' + notExistingUserId,
+    })
 
     expect(response.data).toEqual({
       totalCount: 0,
@@ -121,7 +123,7 @@ describe('/api/events', () => {
   })
 
   test('content type is application/json and charset is utf8', async () => {
-    const response = await fetchPath('/api/events')
+    const response = await fetchAlias({ path: '/api/events' })
 
     expect(response.headers['content-type']).toBe(
       'application/json; charset=utf-8'
@@ -132,13 +134,21 @@ describe('/api/events', () => {
 describe('/api/alias/:alias', () => {
   describe('/api/alias/user/profile/:username', () => {
     test('when user does not exist', async () => {
-      const response = await fetchPath('/api/alias/user/profile/not-existing')
+      const response = await fetchAlias({
+        path: '/api/alias/user/profile/not-existing',
+      })
 
       expect(response.data).toBeNull()
     })
   })
 })
 
-function fetchPath(path: string, instance: string = 'de') {
+function fetchAlias({
+  path,
+  instance = 'de',
+}: {
+  path: string
+  instance?: string
+}) {
   return axios.get(`http://${instance}.serlo.localhost:4567${path}`)
 }
