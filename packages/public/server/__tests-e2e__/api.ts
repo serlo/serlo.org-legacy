@@ -115,6 +115,16 @@ describe('/api/events', () => {
   })
 })
 
+describe('/api/alias/:alias', () => {
+  describe('/api/alias/user/profile/:username', () => {
+    test('when user does not exist', async () => {
+      const response = await fetchPath('/api/alias/user/profile/not-existing')
+
+      expect(response.data).toBeNull()
+    })
+  })
+})
+
 function fetchPath(path: string) {
   return axios.get(testingServerUrl + path)
 }

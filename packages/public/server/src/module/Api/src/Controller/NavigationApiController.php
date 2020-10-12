@@ -94,6 +94,9 @@ class NavigationApiController extends AbstractApiController
         ) {
             return null;
         }
+        if (array_key_exists('label', $parameters) && count($parameters) == 1) {
+            return null;
+        }
 
         $result = [];
 
