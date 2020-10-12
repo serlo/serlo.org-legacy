@@ -22,7 +22,6 @@
 import { typeset } from '@serlo/mathjax'
 import A from 'algebra.js'
 import $ from 'jquery'
-import S from 'string'
 
 import play from './sounds'
 
@@ -127,19 +126,17 @@ InputChallenge.prototype.matchesInput = function (input) {
 
 InputChallenge.prototype.normalize = function (input, string) {
   var normalizeNumber = function (string) {
-    return S(string).replaceAll(',', '.').s
+    return string.replace(/,/g, '.').replace(/^[+]/, '')
   }
-  var temp = S(string).collapseWhitespace()
+  var temp = string.replace(/[\s\xa0]+/g, ' ').trim()
 
   switch (input.type) {
     case 'input-number-exact-match-challenge':
-      return S(normalizeNumber(temp))
-        .replaceAll(' /', '/')
-        .replaceAll('/ ', '/').s
+      return normalizeNumber(temp).replace(/\s/g, '')
     case 'input-expression-equal-match-challenge':
       return A.parse(normalizeNumber(temp))
     default:
-      return temp.s.toUpperCase()
+      return temp.toUpperCase()
   }
 }
 
