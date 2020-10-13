@@ -25,11 +25,19 @@ import { testingServerUrl } from './_config'
 
 describe('/api/alias/:alias', () => {
   describe('/api/alias/user/profile/:username', () => {
-    test('when user does not exist', async () => {
+    test('returns null when user does not exist', async () => {
       const response = await fetchPath('/api/alias/user/profile/not-existing')
 
       expect(response.data).toBeNull()
     })
+  })
+})
+
+describe('/api/subscriptions/:userId', () => {
+  test('returns null when user does not exist', async () => {
+    const response = await fetchPath('/api/subscriptions/10000')
+
+    expect(response.data).toBeNull()
   })
 })
 
