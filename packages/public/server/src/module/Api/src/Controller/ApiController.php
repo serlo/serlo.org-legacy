@@ -132,10 +132,8 @@ class ApiController extends AbstractApiController
     public function subscriptionsAction()
     {
         try {
-            $userId = (int) $this->params('userId');
-            $user = $this->getUserManager()->getUser(
-                (int) $this->params('userId')
-            );
+            $userId = (int) $this->params('user-id');
+            $user = $this->getUserManager()->getUser($userId);
             $subscriptions = array_map(
                 function (Subscription $subcription) {
                     return [

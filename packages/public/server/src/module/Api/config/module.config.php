@@ -207,7 +207,7 @@ return [
                     'subscriptions' => [
                         'type' => 'segment',
                         'options' => [
-                            'route' => '/subscriptions/:userId',
+                            'route' => '/subscriptions/:user-id',
                             'defaults' => [
                                 'action' => 'subscriptions',
                             ],
