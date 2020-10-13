@@ -33,6 +33,8 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\ValidationData;
 use License\Exception\LicenseNotFoundException;
 use License\Manager\LicenseManagerAwareTrait;
+use Notification\Entity\Subscription;
+use Notification\SubscriptionManagerAwareTrait;
 use User\Exception\UserNotFoundException;
 use User\Manager\UserManagerAwareTrait;
 use Uuid\Exception\NotFoundException;
@@ -49,6 +51,7 @@ class ApiController extends AbstractApiController
     use LicenseManagerAwareTrait;
     use UserManagerAwareTrait;
     use UuidManagerAwareTrait;
+    use SubscriptionManagerAwareTrait;
 
     public function __construct(AuthorizationService $authorizationService)
     {
@@ -118,6 +121,35 @@ class ApiController extends AbstractApiController
                 $this->getApiManager()->getLicenseData($license)
             );
         } catch (LicenseNotFoundException $exception) {
+            $this->response
+                ->getHeaders()
+                ->addHeaderLine('Content-Type', 'application/json');
+            $this->response->setContent('null');
+            return $this->response;
+        }
+    }
+
+    public function subscriptionsAction()
+    {
+        try {
+            $userId = (int) $this->params('user-id');
+            $user = $this->getUserManager()->getUser($userId);
+            $subscriptions = array_map(
+                function (Subscription $subcription) {
+                    return [
+                        'id' => $subcription->getSubscribedObject()->getId(),
+                    ];
+                },
+                $this->getSubscriptionManager()
+                    ->findSubscriptionsByUser($user)
+                    ->toArray()
+            );
+
+            return new JsonModel([
+                'userId' => $userId,
+                'subscriptions' => $subscriptions,
+            ]);
+        } catch (UserNotFoundException $exception) {
             $this->response
                 ->getHeaders()
                 ->addHeaderLine('Content-Type', 'application/json');
