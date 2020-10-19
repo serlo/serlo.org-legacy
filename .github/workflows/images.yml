@@ -14,7 +14,7 @@ jobs:
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '274.0.0'
-          service_account_key: ${{ secrets.GCP_KEY_SERLO_SHARED }}
+          service_account_key: ${{ secrets.GCP_KEY_CONTAINER_REGISTRY }}
       - run: gcloud auth configure-docker
       - run: yarn
       - run: yarn deploy:images
