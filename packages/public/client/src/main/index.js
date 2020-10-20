@@ -73,7 +73,6 @@ import '../frontend/modules/sortable_list'
 import Supporter from '../frontend/modules/supporter'
 import '../frontend/modules/timeago'
 import '../frontend/modules/toggle'
-import initTracking from '../frontend/modules/tracking'
 import '../frontend/modules/trigger'
 import '../frontend/styles/main.scss'
 
@@ -266,8 +265,6 @@ function init($context) {
   initSubjectNav($context)
 
   SideElement.init()
-
-  initTracking($context)
 
   initNewFeaturePrototypes()
 }

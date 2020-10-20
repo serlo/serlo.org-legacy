@@ -71,7 +71,6 @@ import './modules/sortable_list'
 import Supporter from './modules/supporter'
 import './modules/timeago'
 import './modules/toggle'
-import initTracking from './modules/tracking'
 import './modules/trigger'
 import './styles/main.scss'
 
@@ -251,8 +250,6 @@ function init($context) {
   initSubjectNav($context)
 
   SideElement.init()
-
-  initTracking($context)
 }
 
 setLanguage().then(() => {

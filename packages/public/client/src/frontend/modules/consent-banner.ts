@@ -22,7 +22,6 @@
 import $ from 'jquery'
 
 import { tenant } from '../../modules/tenant'
-import { getGa } from './analytics'
 
 export async function initConsentBanner(): Promise<boolean> {
   if (tenant !== 'de') return true
@@ -31,15 +30,10 @@ export async function initConsentBanner(): Promise<boolean> {
   const localStorageValue = localStorage.getItem(localStorageKey)
   const value: ConsentLogalStorageValue = localStorageValue
     ? JSON.parse(localStorageValue)
-    : { showEvent: false, consentEvent: false }
+    : {}
 
   const [currentRevision]: string[] = await $.get('/privacy/json')
   if (value.revision === currentRevision) return true
-
-  if (!value.showEvent) {
-    getGa()('send', 'event', 'consent', 'show', 'Banner shown')
-    persist({ ...value, showEvent: true })
-  }
 
   const $div = $(`
         <div id="consent-banner">
@@ -52,10 +46,7 @@ export async function initConsentBanner(): Promise<boolean> {
   $div.append($button)
 
   $button.on('click', () => {
-    if (!value.consentEvent) {
-      getGa()('send', 'event', 'consent', 'consent', 'Banner consented')
-    }
-    persist({ revision: currentRevision, showEvent: true, consentEvent: true })
+    persist({ revision: currentRevision })
     $div.remove()
   })
 
@@ -70,6 +61,4 @@ export async function initConsentBanner(): Promise<boolean> {
 
 interface ConsentLogalStorageValue {
   revision?: string
-  showEvent: boolean
-  consentEvent: boolean
 }
