@@ -105,7 +105,7 @@ class ApiController extends AbstractApiController
 
     public function eventsAction()
     {
-        $parameters = ['after', 'before', 'first', 'last', 'uuid', 'userId'];
+        $parameters = ['after'];
         $options = [];
 
         foreach ($parameters as $p) {
@@ -115,7 +115,7 @@ class ApiController extends AbstractApiController
         }
 
         return new JsonModel(
-            $this->getApiManager()->getEventsData($options, 100)
+            $this->getApiManager()->getEventsData($options, 50000)
         );
     }
 

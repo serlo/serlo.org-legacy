@@ -388,35 +388,15 @@ class ApiManager
             'ORDER BY id ' .
             ($returnLastElements ? 'DESC ' : '') .
             'LIMIT ' .
-            $limit;
+            ($limit + 1);
         $ids = array_map(function ($x) {
             return intval($x['id']);
         }, $this->executeSql($sqlIds));
         $ids = $returnLastElements ? array_reverse($ids) : $ids;
 
-        $sqlMeta =
-            'SELECT count(id) as count, ' .
-            'sum(case when id < ' .
-            ($ids[0] ?? 0) .
-            ' then 1 else 0 end) as sumBeforeIds, ' .
-            'sum(case when id > ' .
-            ($ids[count($ids) - 1] ?? 0) .
-            ' then 1 else 0 end) as sumAfterIds ' .
-            'FROM event_log ' .
-            $this->toWhereClause($generalConditions) .
-            'ORDER BY id';
-        $meta = $this->executeSql($sqlMeta)[0];
-
         return [
-            'totalCount' => intval($meta['count']),
-            'eventIds' => $ids,
-            'pageInfo' => [
-                'hasNextPage' =>
-                    $meta['sumAfterIds'] != '0' && $meta['sumAfterIds'] != null,
-                'hasPreviousPage' =>
-                    $meta['sumBeforeIds'] != '0' &&
-                    $meta['sumBeforeIds'] != null,
-            ],
+            'eventIds' => array_slice($ids, 0, $limit),
+            'hasNext' => count($ids) > $limit,
         ];
     }
 

@@ -149,7 +149,7 @@ return [
                     'events' => [
                         'type' => 'segment',
                         'options' => [
-                            'route' => '/events',
+                            'route' => '/event-ids',
                             'defaults' => [
                                 'action' => 'events',
                             ],
