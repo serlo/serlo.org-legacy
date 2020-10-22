@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 const bannerCode = `
-  <div id="teacher-banner" style="display: none;position:fixed;top:calc(50% - 250px);right:0;transition:width 300ms ease-out;width:0;">
+  <div id="teacher-banner" style="position:fixed; top:calc(50% - 200px); right:-55px;">
     <a class="typeform-share button" href="https://serloeducation.typeform.com/to/JPSDcuU1#source=website"
        data-mode="side_panel"
        style="box-sizing:border-box;position:absolute;top:300px;width:310px;height:55px;padding:0 20px;
@@ -41,10 +41,50 @@ const bannerCode = `
 
 export function initTeacherSurveyBanner() {
   if (!window.location.hostname.startsWith('de')) return
-  if (Date.now() > new Date(2020, 10, 24, 22).getTime()) return
-  if ((window.innerWidth ?? 0) < 1020) return
+  if (['/', '/auth/login', '/user/register'].includes(window.location.pathname))
+    return
+
+  // Look for notification button => user is authenticated
+  if ($('#top-bar-collapse .nav.notifications li').length >= 1) return
+
+  if ((window.innerWidth ?? 0) < 1350) return
   if ((window.innerHeight ?? 0) < 760) return
 
+  const now = new Date()
+  const endDateCampaign = new Date(2020, 9, 24, 22)
+  if (
+    1 <= now.getDay() &&
+    now.getDay() <= 5 &&
+    8 <= now.getHours() &&
+    now.getHours() <= 12
+  )
+    return
+  if (now > endDateCampaign) return
+
+  const endDateCookie = new Date(2020, 10, 20)
+  const cookieName = 'teacherSurvey202010StartTime'
+  let startTime = parseInt(getCookieValue(cookieName) ?? '')
+
+  if (Number.isNaN(startTime)) {
+    startTime = Date.now()
+    document.cookie = `${cookieName}=${startTime}; expires=${endDateCookie.toUTCString()}; path=/`
+  }
+
+  if (Date.now() - startTime > 4 * 60 * 1000) return
+
   $('body').append(bannerCode)
-  $("#teacher-banner").fadeIn(1000)
+
+  setTimeout(() => $('#teacher-banner').animate({ right: 0 }, 700), 200)
+}
+
+// TODO: Outsource this function into utils
+// See https://github.com/serlo/serlo.org-cloudflare-worker/blob/4ac008d222436ecc67ade58eb050bce9af1c806f/src/utils.tsx#L55-L66
+function getCookieValue(name: string): string | null {
+  return (
+    document.cookie
+      .split(';')
+      .map((c) => c.trim())
+      .filter((c) => c.startsWith(`${name}=`))
+      .map((c) => c.substring(name.length + 1))[0] ?? null
+  )
 }
