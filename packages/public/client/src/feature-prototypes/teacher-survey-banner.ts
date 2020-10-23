@@ -47,10 +47,10 @@ export function initTeacherSurveyBanner() {
   if (['/', '/auth/login', '/user/register'].includes(window.location.pathname))
     return
 
-  if ((getAuthenticatedUserID() ?? '').length > 0) return
+  if (getAuthenticatedUserID()) return
 
-  if ((window.innerWidth ?? 0) < 1350) return
-  if ((window.innerHeight ?? 0) < 760) return
+  const isMobile = window.innerWidth < 1350 || window.innerHeight < 760
+  if (isMobile) return
 
   if (new Date() > new Date(2020, 9, 25, 23)) return
 
