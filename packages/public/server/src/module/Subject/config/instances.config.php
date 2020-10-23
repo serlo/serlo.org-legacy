@@ -47,26 +47,6 @@ return [
                         'text-exercise-group',
                     ],
                 ],
-                'betriebswirtschaftslehre mit rechnungswesen' => [
-                    'allowed_taxonomies' => ['topic', 'locale'],
-                    'allowed_entities' => [
-                        'article',
-                        'text-exercise',
-                        'video',
-                        'course',
-                        'text-exercise-group',
-                    ],
-                ],
-                'deutsch als fremdsprache' => [
-                    'allowed_taxonomies' => ['topic', 'locale'],
-                    'allowed_entities' => [
-                        'article',
-                        'text-exercise',
-                        'video',
-                        'course',
-                        'text-exercise-group',
-                    ],
-                ],
                 'informatik' => [
                     'allowed_taxonomies' => ['topic', 'locale'],
                     'allowed_entities' => [
@@ -127,16 +107,6 @@ return [
                         'text-exercise-group',
                     ],
                 ],
-                'musik' => [
-                    'allowed_taxonomies' => ['topic', 'locale'],
-                    'allowed_entities' => [
-                        'article',
-                        'text-exercise',
-                        'video',
-                        'course',
-                        'text-exercise-group',
-                    ],
-                ],
                 'politik' => [
                     'allowed_taxonomies' => ['topic', 'locale'],
                     'allowed_entities' => [
@@ -146,6 +116,10 @@ return [
                         'course',
                         'text-exercise-group',
                     ],
+                ],
+                'lerntipps' => [
+                    'allowed_taxonomies' => ['topic'],
+                    'allowed_entities' => ['article', 'video', 'course'],
                 ],
                 'community' => [
                     'allowed_taxonomies' => ['topic', 'locale'],

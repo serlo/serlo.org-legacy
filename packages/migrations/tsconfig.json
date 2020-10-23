@@ -1,0 +1,8 @@
+{
+  "include": ["src"],
+  "extends": "../../tsconfig.prod.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2015"
+  }
+}
