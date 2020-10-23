@@ -5,8 +5,7 @@
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
   "scripts": {
-    "build": "ts-node scripts/build",
-    "deploy:image": "ts-node scripts/deploy"
+    "build": "ts-node scripts/build"
   },
   "dependencies": {
     "db-migrate": "^0.11.0",

@@ -47,6 +47,12 @@ async function run() {
     Dockerfile: path.join(root, 'docker', 'php', 'Dockerfile'),
     context: '.',
   })
+  buildDockerImage({
+    name: 'serlo-org-migrate',
+    version,
+    Dockerfile: path.join(root, '..', '..', 'migrations', 'Dockerfile'),
+    context: '../../migrations',
+  })
 }
 
 function fetchPackageJSON(): Promise<{ version: string }> {
