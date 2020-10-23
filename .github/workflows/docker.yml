@@ -31,4 +31,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: docker build -f packages/public/server/docker/migrate/Dockerfile -t serlo-org-migrate:latest packages/public/server
+      - run: docker build -f packages/migrations/Dockerfile -t serlo-org-migrate:latest packages/migrations

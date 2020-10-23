@@ -7,7 +7,6 @@ packages/public/server/src/test/math-puzzle/require.js
 
 # Transpiled
 packages/*/*/dist/
-packages/public/server/migrations/20200520065142-remove-splish-states.js
 
 # Lock files
 *.lock
