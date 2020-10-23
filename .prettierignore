@@ -6,6 +6,7 @@ packages/public/server/src/test/math-puzzle/jquery.js
 packages/public/server/src/test/math-puzzle/require.js
 
 # Transpiled
+packages/migrations/dist/
 packages/*/*/dist/
 
 # Lock files
