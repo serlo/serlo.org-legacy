@@ -80,16 +80,27 @@ async function removeSubject(
   db: Database,
   { instance, name }: { instance: number; name: string }
 ) {
+  const parent = (
+    await db.runSql<[{ id: number }]>(
+      `
+        SELECT * FROM taxonomy
+          JOIN type ON taxonomy.type_id = type.id
+          WHERE taxonomy.instance_id = ?
+            AND type.name = "subject"
+      `,
+      instance
+    )
+  )[0].id
   await db.runSql(
     `
       DELETE FROM uuid WHERE id = (
         SELECT term_taxonomy.id FROM term_taxonomy
           JOIN term ON term_taxonomy.term_id = term.id
-          WHERE term.name = ? AND term.instance_id = ?
+          WHERE term.name = ? AND term_taxonomy.parent_id = ?
        )
     `,
     name,
-    instance
+    parent
   )
   await db.runSql(
     `
@@ -100,6 +111,7 @@ async function removeSubject(
         WHERE name = "label" and VALUE = ?
       )
         AND container_id IN (SELECT id FROM navigation_container WHERE instance_id = ?)
+        AND parent_id IS NULL
     `,
     name,
     instance

@@ -327,13 +327,19 @@ function createSubject(db, { instance, name }) {
 }
 function removeSubject(db, { instance, name }) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        const parent = (yield db.runSql(`
+        SELECT * FROM taxonomy
+          JOIN type ON taxonomy.type_id = type.id
+          WHERE taxonomy.instance_id = ?
+            AND type.name = "subject"
+      `, instance))[0].id;
         yield db.runSql(`
       DELETE FROM uuid WHERE id = (
         SELECT term_taxonomy.id FROM term_taxonomy
           JOIN term ON term_taxonomy.term_id = term.id
-          WHERE term.name = ? AND term.instance_id = ?
+          WHERE term.name = ? AND term_taxonomy.parent_id = ?
        )
-    `, name, instance);
+    `, name, parent);
         yield db.runSql(`
       DELETE FROM navigation_page
       WHERE id IN (
@@ -342,6 +348,7 @@ function removeSubject(db, { instance, name }) {
         WHERE name = "label" and VALUE = ?
       )
         AND container_id IN (SELECT id FROM navigation_container WHERE instance_id = ?)
+        AND parent_id IS NULL
     `, name, instance);
         yield utils_1.clearDeadUuids(db);
     });
