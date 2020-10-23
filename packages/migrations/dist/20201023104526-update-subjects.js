@@ -326,13 +326,25 @@ function createSubject(db, { instance, name }) {
     });
 }
 function removeSubject(db, { instance, name }) {
-    return db.runSql(`
-       DELETE FROM uuid WHERE id = (
-           SELECT term_taxonomy.id FROM term_taxonomy
-               JOIN term ON term_taxonomy.term_id = term.id
-               WHERE term.name = ? AND term.instance_id = ?
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        yield db.runSql(`
+      DELETE FROM uuid WHERE id = (
+        SELECT term_taxonomy.id FROM term_taxonomy
+          JOIN term ON term_taxonomy.term_id = term.id
+          WHERE term.name = ? AND term.instance_id = ?
        )
-     `, name, instance);
+    `, name, instance);
+        yield db.runSql(`
+      DELETE FROM navigation_page
+      WHERE id IN (
+        SELECT navigation_parameter.page_id
+        FROM navigation_parameter JOIN navigation_parameter_key ON navigation_parameter.key_id = navigation_parameter_key.id
+        WHERE name = "label" and VALUE = ?
+      )
+        AND container_id IN (SELECT id FROM navigation_container WHERE instance_id = ?)
+    `, name, instance);
+        yield utils_1.clearDeadUuids(db);
+    });
 }
 function getLastInsertedId(db) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
@@ -343,19 +355,75 @@ function getLastInsertedId(db) {
 
 /***/ }),
 
-/***/ 252:
+/***/ 771:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.clearDeadUuids = void 0;
+const tslib_1 = __webpack_require__(636);
+function clearDeadUuids(db) {
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        yield db.runSql(`
+    DELETE FROM uuid
+      WHERE discriminator = 'taxonomyTerm'
+      AND (SELECT count(*) FROM term_taxonomy WHERE term_taxonomy.id = uuid.id) = 0
+  `);
+        yield db.runSql(`
+    DELETE FROM uuid
+      WHERE discriminator = 'user'
+      AND (SELECT count(*) FROM user WHERE user.id = uuid.id) = 0
+  `);
+        yield db.runSql(`
+    DELETE FROM uuid
+      WHERE discriminator = 'attachment'
+      AND (SELECT count(*) FROM attachment_container WHERE attachment_container.id = uuid.id) = 0
+  `);
+        yield db.runSql(`
+    DELETE FROM uuid
+      WHERE discriminator = 'entity'
+      AND (SELECT count(*) FROM entity WHERE entity.id = uuid.id) = 0
+  `);
+        yield db.runSql(`
+    DELETE FROM uuid
+      WHERE discriminator = 'entityRevision'
+      AND (SELECT count(*) FROM entity_revision WHERE entity_revision.id = uuid.id) = 0
+  `);
+        yield db.runSql(`
+    DELETE FROM uuid
+      WHERE discriminator = 'page'
+      AND (SELECT count(*) FROM page_repository WHERE page_repository.id = uuid.id) = 0
+  `);
+        yield db.runSql(`
+    DELETE FROM uuid
+      WHERE discriminator = 'pageRevision'
+      AND (SELECT count(*) FROM page_revision WHERE page_revision.id = uuid.id) = 0
+  `);
+        yield db.runSql(`
+    DELETE FROM uuid
+      WHERE discriminator = 'comment'
+      AND (SELECT count(*) FROM comment WHERE comment.id = uuid.id) = 0
+  `);
+    });
+}
+exports.clearDeadUuids = clearDeadUuids;
+
+
+/***/ }),
+
+/***/ 66:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createMigration = void 0;
-const tslib_1 = __webpack_require__(636);
+const database_1 = __webpack_require__(879);
 function createMigration(exports, { up, down, }) {
     exports._meta = {
         version: 1,
     };
     exports.up = (db, cb) => {
-        up(createDatabase(db))
+        up(database_1.createDatabase(db))
             .then(() => {
             cb(undefined);
         })
@@ -365,7 +433,7 @@ function createMigration(exports, { up, down, }) {
     };
     exports.down = (db, cb) => {
         if (typeof down === 'function') {
-            down(createDatabase(db))
+            down(database_1.createDatabase(db))
                 .then(() => {
                 cb();
             })
@@ -379,6 +447,17 @@ function createMigration(exports, { up, down, }) {
     };
 }
 exports.createMigration = createMigration;
+
+
+/***/ }),
+
+/***/ 879:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.createDatabase = void 0;
+const tslib_1 = __webpack_require__(636);
 function createDatabase(db) {
     return {
         runSql: (query, ...params) => tslib_1.__awaiter(this, void 0, void 0, function* () {
@@ -405,6 +484,20 @@ function createDatabase(db) {
         }),
     };
 }
+exports.createDatabase = createDatabase;
+
+
+/***/ }),
+
+/***/ 252:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const tslib_1 = __webpack_require__(636);
+tslib_1.__exportStar(__webpack_require__(771), exports);
+tslib_1.__exportStar(__webpack_require__(66), exports);
+tslib_1.__exportStar(__webpack_require__(879), exports);
 
 
 /***/ })

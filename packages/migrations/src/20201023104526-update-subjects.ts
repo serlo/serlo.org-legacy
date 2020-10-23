@@ -20,10 +20,11 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-import { createMigration, Database } from './utils'
+import { clearDeadUuids, createMigration, Database } from './utils'
 
 /**
  * Removes some unused subjects and creates new subjects
+ * THIS IS AN IRREVERSIBLE MIGRATION!
  */
 createMigration(exports, {
   up: async (db) => {
@@ -75,23 +76,35 @@ async function createSubject(
   )
 }
 
-function removeSubject(
+async function removeSubject(
   db: Database,
   { instance, name }: { instance: number; name: string }
 ) {
-  // TODO: also remove navigation
-  // TODO: clear dead uuids (since this query will trigger some deletions) ;)
-  return db.runSql(
+  await db.runSql(
     `
-       DELETE FROM uuid WHERE id = (
-           SELECT term_taxonomy.id FROM term_taxonomy
-               JOIN term ON term_taxonomy.term_id = term.id
-               WHERE term.name = ? AND term.instance_id = ?
+      DELETE FROM uuid WHERE id = (
+        SELECT term_taxonomy.id FROM term_taxonomy
+          JOIN term ON term_taxonomy.term_id = term.id
+          WHERE term.name = ? AND term.instance_id = ?
        )
     `,
     name,
     instance
   )
+  await db.runSql(
+    `
+      DELETE FROM navigation_page
+      WHERE id IN (
+        SELECT navigation_parameter.page_id
+        FROM navigation_parameter JOIN navigation_parameter_key ON navigation_parameter.key_id = navigation_parameter_key.id
+        WHERE name = "label" and VALUE = ?
+      )
+        AND container_id IN (SELECT id FROM navigation_container WHERE instance_id = ?)
+    `,
+    name,
+    instance
+  )
+  await clearDeadUuids(db)
 }
 
 async function getLastInsertedId(db: Database): Promise<number> {

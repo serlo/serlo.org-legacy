@@ -49,8 +49,8 @@ createMigration(exports, {
     const results = await db.runSql<Row[]>(`
       SELECT erf.id, erf.value
       FROM entity_revision_field erf
-             LEFT JOIN entity_revision er on erf.entity_revision_id = er.id
-             LEFT JOIN entity e on er.repository_id = e.id
+        LEFT JOIN entity_revision er on erf.entity_revision_id = er.id
+        LEFT JOIN entity e on er.repository_id = e.id
       WHERE erf.field = 'content'
         AND erf.value LIKE '{"plugin"%'
         AND e.type_id = ANY (SELECT id FROM type WHERE name = 'text-exercise' OR name = 'grouped-text-exercise')
