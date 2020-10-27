@@ -21,22 +21,26 @@
  */
 import Cookie from 'js-cookie'
 import { getAuthenticatedUserID } from '../frontend/modules/user'
+import { getSaEvent } from '../modules/analytics'
 
+const surveyLink =
+  'https://serloeducation.typeform.com/to/JPSDcuU1#source=website'
 const bannerCode = `
-  <div id="teacher-banner" style="position:fixed; top:calc(50% - 200px); right:-55px;">
-    <a class="typeform-share button" href="https://serloeducation.typeform.com/to/JPSDcuU1#source=website"
+  <div id="teacher-banner" style="position:fixed; top:calc(50% - 100px); right: 0; z-index: 100;">
+    <a class="typeform-share button" href="${surveyLink}"
        data-mode="side_panel"
-       style="box-sizing:border-box;position:absolute;top:300px;width:310px;height:55px;padding:0 20px;
-              margin:0;cursor:pointer;background:#017EC1;border-radius:4px 4px 0px 0px;
+       style="box-sizing:border-box;position:absolute;width:250px;height:250px;
+              margin:0;cursor:pointer;background:#017EC1;border-radius:4px 0px 0px 4px;
               box-shadow:0px 2px 12px rgba(0, 0, 0, 0.06), 0px 2px 4px rgba(0, 0, 0, 0.08);
-              display:flex;align-items:center;justify-content:flex-start;transform:rotate(-90deg);
-              transform-origin:bottom left;color:white;text-decoration:none;"
-       data-width="320" data-height="500" target="_blank">
-      <span class="fa fa-2x fa-comment" style="transform:rotate(90deg);"></span>
-      <span style="text-decoration:none;font-size:22px;font-family:Helvetica,Arial,sans-serif;
-                   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;
-                   text-align:center;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;">
-        Umfrage für Lehrkräfte
+              color:white;text-decoration:none;">
+      <span style="display:flex; align-items:center; justify-content:space-evenly;
+                   flex-flow:column wrap; width: 100%; height: 100%; padding: 0 20px;">
+        <span class="fa fa-5x fa-comment"></span>
+        <span style="text-decoration:none;font-size:23px;font-family:Helvetica,Arial,sans-serif;
+                     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;font-weight: 600;
+                     text-align:center;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;">
+          Deine Meinung als<br>Lehrkraft ist uns<br>wichtig
+        </span>
       </span>
     </a>
   </div>
@@ -49,16 +53,18 @@ export function initTeacherSurveyBanner() {
 
   if (getAuthenticatedUserID()) return
 
-  const isMobile = window.innerWidth < 1350 || window.innerHeight < 760
+  const isMobile = window.innerWidth < 1300 || window.innerHeight < 550
   if (isMobile) return
 
-  if (new Date() > new Date(2020, 9, 25, 23)) return
+  if (new Date() > new Date(2020, 10, 1, 23)) return
 
+  const saEvent = getSaEvent()
   const endDateCookie = new Date(2020, 10, 20)
-  const cookieName = 'teacherSurvey202010StartTime'
+  const cookieName = 'teacherSurvey20201101StartTime'
   let startTime = parseInt(Cookie.get(cookieName) ?? '')
 
   if (Number.isNaN(startTime)) {
+    saEvent('teacher_survey_20201101_session_started')
     startTime = Date.now()
     Cookie.set(cookieName, startTime.toString(), {
       path: '/',
@@ -68,7 +74,15 @@ export function initTeacherSurveyBanner() {
 
   if (Date.now() - startTime > 5 * 60 * 1000) return
 
+  saEvent('teacher_survey_20201101_banner_showed')
   $('body').append(bannerCode)
+  $('#teacher-banner a > span').on('click', () => {
+    saEvent('teacher_survey_20201101_banner_clicked', () => {
+      window.location.href = surveyLink
+    })
 
-  setTimeout(() => $('#teacher-banner').animate({ right: 0 }, 700), 200)
+    return false
+  })
+
+  setTimeout(() => $('#teacher-banner').animate({ right: 250 }, 700), 200)
 }
