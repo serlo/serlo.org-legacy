@@ -26,7 +26,7 @@ import { getSaEvent } from '../modules/analytics'
 const surveyLink =
   'https://serloeducation.typeform.com/to/JPSDcuU1#source=website'
 const bannerCode = `
-  <div id="teacher-banner" style="position:fixed; top:calc(50% - 100px); right: 0;">
+  <div id="teacher-banner" style="position:fixed; top:calc(50% - 100px); right: 0; z-index: 100;">
     <a class="typeform-share button" href="${surveyLink}"
        data-mode="side_panel"
        style="box-sizing:border-box;position:absolute;width:250px;height:250px;
@@ -53,7 +53,7 @@ export function initTeacherSurveyBanner() {
 
   if (getAuthenticatedUserID()) return
 
-  const isMobile = window.innerWidth < 1350 || window.innerHeight < 550
+  const isMobile = window.innerWidth < 1300 || window.innerHeight < 550
   if (isMobile) return
 
   if (new Date() > new Date(2020, 10, 1, 23)) return
