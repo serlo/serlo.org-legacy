@@ -23,20 +23,20 @@ import Cookie from 'js-cookie'
 import { getAuthenticatedUserID } from '../frontend/modules/user'
 
 const bannerCode = `
-  <div id="teacher-banner" style="position:fixed; top:calc(50% - 200px); right:-55px;">
+  <div id="teacher-banner" style="position:fixed; top:calc(50% - 100px); right: 0;">
     <a class="typeform-share button" href="https://serloeducation.typeform.com/to/JPSDcuU1#source=website"
        data-mode="side_panel"
-       style="box-sizing:border-box;position:absolute;top:300px;width:310px;height:55px;padding:0 20px;
-              margin:0;cursor:pointer;background:#017EC1;border-radius:4px 4px 0px 0px;
+       style="box-sizing:border-box;position:absolute;width:250px;height:250px;padding:0 20px;
+              margin:0;cursor:pointer;background:#017EC1;border-radius:4px 0px 0px 4px;
               box-shadow:0px 2px 12px rgba(0, 0, 0, 0.06), 0px 2px 4px rgba(0, 0, 0, 0.08);
-              display:flex;align-items:center;justify-content:flex-start;transform:rotate(-90deg);
-              transform-origin:bottom left;color:white;text-decoration:none;"
-       data-width="320" data-height="500" target="_blank">
-      <span class="fa fa-2x fa-comment" style="transform:rotate(90deg);"></span>
-      <span style="text-decoration:none;font-size:22px;font-family:Helvetica,Arial,sans-serif;
-                   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;
+              display:flex;align-items:center;justify-content:space-evenly;flex-flow:column wrap;
+              color:white;text-decoration:none;"
+       target="_blank">
+      <span class="fa fa-5x fa-comment"></span>
+      <span style="text-decoration:none;font-size:23px;font-family:Helvetica,Arial,sans-serif;
+                   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;font-weight: 600;
                    text-align:center;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;">
-        Umfrage für Lehrkräfte
+        Deine Meinung als<br>Lehrkraft ist uns<br>wichtig
       </span>
     </a>
   </div>
@@ -52,10 +52,10 @@ export function initTeacherSurveyBanner() {
   const isMobile = window.innerWidth < 1350 || window.innerHeight < 760
   if (isMobile) return
 
-  if (new Date() > new Date(2020, 9, 25, 23)) return
+  if (new Date() > new Date(2020, 10, 1, 23)) return
 
   const endDateCookie = new Date(2020, 10, 20)
-  const cookieName = 'teacherSurvey202010StartTime'
+  const cookieName = 'teacherSurveyStartTime20201027'
   let startTime = parseInt(Cookie.get(cookieName) ?? '')
 
   if (Number.isNaN(startTime)) {
@@ -70,5 +70,5 @@ export function initTeacherSurveyBanner() {
 
   $('body').append(bannerCode)
 
-  setTimeout(() => $('#teacher-banner').animate({ right: 0 }, 700), 200)
+  setTimeout(() => $('#teacher-banner').animate({ right: 250 }, 700), 200)
 }
