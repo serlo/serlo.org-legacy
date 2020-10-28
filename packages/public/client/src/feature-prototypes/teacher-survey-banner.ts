@@ -58,13 +58,12 @@ export function initTeacherSurveyBanner() {
 
   if (new Date() > new Date(2020, 10, 1, 23)) return
 
-  const saEvent = getSaEvent()
   const endDateCookie = new Date(2020, 10, 20)
   const cookieName = 'teacherSurvey20201101StartTime'
   let startTime = parseInt(Cookie.get(cookieName) ?? '')
 
   if (Number.isNaN(startTime)) {
-    saEvent('teacher_survey_20201101_session_started')
+    getSaEvent()('teacher_survey_20201101_session_started')
     startTime = Date.now()
     Cookie.set(cookieName, startTime.toString(), {
       path: '/',
@@ -74,10 +73,10 @@ export function initTeacherSurveyBanner() {
 
   if (Date.now() - startTime > 5 * 60 * 1000) return
 
-  saEvent('teacher_survey_20201101_banner_showed')
+  getSaEvent()('teacher_survey_20201101_banner_showed')
   $('body').append(bannerCode)
   $('#teacher-banner a > span').on('click', () => {
-    saEvent('teacher_survey_20201101_banner_clicked', () => {
+    getSaEvent()('teacher_survey_20201101_banner_clicked', () => {
       window.location.href = surveyLink
     })
 
