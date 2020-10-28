@@ -24,13 +24,18 @@ export function getSaEvent(): (event: string, callback?: () => void) => void {
 
   w.sa_event =
     w.sa_event ||
-    function (_message: string, callback: () => void) {
-      const a = [].slice.call(arguments)
-      w.sa_event.q ? w.sa_event.q.push(a) : (w.sa_event.q = [a])
+    function (message: string, callback?: () => void) {
+      if (w.sa_event.q) {
+        w.sa_event.q.push(message)
+      } else {
+        w.sa_event.q = [message]
+      }
 
-      // After 300ms we assume that the script of simpleanalytics could not
-      // be fetched and we call the callback directly as a fallback
-      setTimeout(callback, 300)
+      if (callback) {
+        // After 300ms we assume that the script of simpleanalytics could not
+        // be fetched and we call the callback directly as a fallback
+        setTimeout(callback, 300)
+      }
     }
 
   return w.sa_event
