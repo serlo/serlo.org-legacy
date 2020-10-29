@@ -8,8 +8,8 @@
   "dependencies": {
     "@serlo/edtr-io": "^0.0.0",
     "@serlo/i18n": "^0.0.0",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

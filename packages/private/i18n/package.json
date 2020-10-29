@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "i18next": "^19.0.0",
-    "react": "^16.8.0",
+    "react": "^17.0.0",
     "react-i18next": "^11.0.0",
     "tslib": "^2.0.0"
   },
