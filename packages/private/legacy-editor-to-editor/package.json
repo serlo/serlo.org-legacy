@@ -22,7 +22,7 @@
     "react-dnd": "^11.0.0",
     "react-dnd-html5-backend": "^11.0.0",
     "react-dom": "^17.0.0",
-    "react-is": "^16.8.0",
+    "react-is": "^17.0.0",
     "redux": "^4.0.0",
     "slate": "^0.47.0",
     "slate-html-serializer": "^0.8.0",

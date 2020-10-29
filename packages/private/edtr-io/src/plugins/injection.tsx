@@ -19,7 +19,6 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import axios from 'axios'
 import { OverlayInput } from '@edtr-io/core'
 import { EditorInlineSettings, EditorInput, styled } from '@edtr-io/editor-ui'
 import { PreviewOverlay } from '@edtr-io/editor-ui/internal'
@@ -27,6 +26,7 @@ import { EditorPluginProps, string, EditorPlugin } from '@edtr-io/plugin'
 import { Icon, faNewspaper } from '@edtr-io/ui'
 import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
+import fetch from 'unfetch'
 
 /* global */
 declare const Common: {
@@ -48,13 +48,13 @@ export function InjectionRenderer(props: { src: string }) {
   React.useEffect(() => {
     const src = createURL(props.src)
 
-    axios
-      .get<{ response: string }>(src, {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-      })
-      .then(({ data }) => {
+    fetch(src, {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+    })
+      .then((response) => response.json())
+      .then((data: { response: string }) => {
         setLoaded(data.response)
         setTimeout(() => {
           if (ref.current) {
