@@ -29,20 +29,22 @@ import {
 import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
-export const errorState = object({
+export const deprecatedState = object({
   plugin: string(),
   state: scalar<unknown>({}),
 })
 
-export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
-  typeof errorState
+export const DeprecatedRenderer: React.FunctionComponent<EditorPluginProps<
+  typeof deprecatedState
 >> = (props) => {
   const i18n = useI18n()
 
   return (
     <div className="panel panel-danger">
       <div className="panel-heading">
-        {i18n.t('error::This part of the document could not be converted.')}
+        {i18n.t(
+          'deprecated::This part of the document contains features that are no longer supported.'
+        )}
       </div>
       <div className="panel-body">
         <pre>
@@ -60,8 +62,8 @@ export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
   )
 }
 
-export const errorPlugin: EditorPlugin<typeof errorState> = {
-  Component: ErrorRenderer,
-  state: errorState,
+export const deprecatedPlugin: EditorPlugin<typeof deprecatedState> = {
+  Component: DeprecatedRenderer,
+  state: deprecatedState,
   config: {},
 }

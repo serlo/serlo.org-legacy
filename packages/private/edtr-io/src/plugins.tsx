@@ -52,7 +52,6 @@ import { userTypePlugin } from './plugins/types/user'
 import { videoTypePlugin } from './plugins/types/video'
 import { errorPlugin } from './plugins/error'
 import { equationsPlugin } from './plugins/equations'
-import { equationsPlugin as legacyEquationsPlugin } from './plugins/equations-legacy'
 import { exercisePlugin } from './plugins/exercise'
 import { createImagePlugin } from './plugins/image'
 import { createImportantPlugin } from './plugins/important'
@@ -61,6 +60,7 @@ import { layoutPlugin } from './plugins/layout'
 import { separatorPlugin } from './plugins/separator'
 import { solutionPlugin } from './plugins/solution'
 import { tablePlugin } from './plugins/table'
+import { deprecatedPlugin } from './plugins/deprecated'
 
 export function createPlugins({
   getCsrfToken,
@@ -84,8 +84,8 @@ export function createPlugins({
       },
     }),
     error: errorPlugin,
+    deprecated: deprecatedPlugin,
     equations: equationsPlugin,
-    equationsLegacy: legacyEquationsPlugin,
     exercise: exercisePlugin,
     geogebra: createGeogebraPlugin({
       i18n: {
