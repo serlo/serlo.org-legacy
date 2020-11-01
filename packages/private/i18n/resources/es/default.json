@@ -51,8 +51,8 @@
     "Current": "Actual",
     "Author": "Autor",
     "Created at": "Creado el",
-    "Equations": "Equations",
-    "Create mathematical equations and terms.": "Create mathematical equations and terms.",
+    "Equations": "Ecuaciones",
+    "Create mathematical equations and terms.": "Crea ecuaciones matemáticas y términos.",
     "Settings": "Settings"
   },
   "anchor": {
@@ -151,8 +151,7 @@
     "Title for search engines": "Título para motores de búsqueda"
   },
   "error": {
-    "An error occurred during conversion!": "¡Se ha producido un error durante la conversión!",
-    "The plugin of type `{{plugin}}` couldn't be converted": "El plugin de tipo `{{plugin}}` no se pudo convertir"
+    "This part of the document could not be converted.": "This part of the document could not be converted."
   },
   "exercise": {
     "Add choice exercise": "Añadir ejercicio de elección",
@@ -222,13 +221,15 @@
     "Create solution": "Crear solución"
   },
   "equations": {
-    "Left-hand side": "Left-hand side",
-    "Right-hand side": "Right-hand side",
-    "Transformation / explanation": "Transformation / explanation",
-    "Transformation": "Transformation",
-    "Add step": "Add step"
+    "explanation": "explanation",
+    "left-hand side": "left-hand side",
+    "right-hand side": "right-hand side",
+    "transformation": "transformation"
   },
   "mathPuzzle": {
-    "Source code": "Source code"
+    "Source code": "Código fuente"
+  },
+  "deprecated": {
+    "This part of the document contains features that are no longer supported.": "This part of the document contains features that are no longer supported."
   }
 }
