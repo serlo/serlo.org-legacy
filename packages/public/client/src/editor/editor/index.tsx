@@ -64,8 +64,8 @@ export function initEntityEditor(
               .then((response) => response.json())
               .then((data) => {
                 if (data.success) {
-                  window.location = data.redirect
                   resolve()
+                  window.location = data.redirect
                 } else {
                   console.log(data.errors)
                   reject()
