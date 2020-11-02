@@ -1,6 +1,6 @@
 {
   "name": "@serlo/client",
-  "version": "15.2.3",
+  "version": "16.0.0",
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
