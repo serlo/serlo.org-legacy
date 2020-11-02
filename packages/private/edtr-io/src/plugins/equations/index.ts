@@ -43,10 +43,10 @@ const equationsState = object({
   steps: list(stepProps, 1),
 })
 
-export type EquationsState = typeof equationsState
-export type EquationsProps = EditorPluginProps<EquationsState>
+export type EquationsPluginState = typeof equationsState
+export type EquationsProps = EditorPluginProps<EquationsPluginState>
 
-export const equationsPlugin: EditorPlugin<EquationsState> = {
+export const equationsPlugin: EditorPlugin<EquationsPluginState> = {
   Component: EquationsEditor,
   config: {},
   state: equationsState,

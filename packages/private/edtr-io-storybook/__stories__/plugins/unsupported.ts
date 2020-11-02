@@ -23,14 +23,14 @@ import { addPluginStory } from '../helpers'
 import { license } from '../fixtures'
 
 addPluginStory({
-  name: 'Unsupported',
+  name: 'Deprecated',
   initialState: {
     id: 1337,
     license,
     changes: '',
-    title: 'Unsupported Tests',
+    title: 'Deprecated Tests',
     content: JSON.stringify({
-      plugin: 'unsupported',
+      plugin: 'deprecated',
       state: {
         plugin: 'type',
         state: {

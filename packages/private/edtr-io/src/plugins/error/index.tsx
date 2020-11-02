@@ -34,8 +34,10 @@ export const errorState = object({
   state: scalar<unknown>({}),
 })
 
+export type ErrorPluginState = typeof errorState
+
 export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
-  typeof errorState
+  ErrorPluginState
 >> = (props) => {
   const i18n = useI18n()
 

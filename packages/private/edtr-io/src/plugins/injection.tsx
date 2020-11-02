@@ -34,7 +34,10 @@ declare const Common: {
 }
 
 export const injectionState = string()
-export const injectionPlugin: EditorPlugin<typeof injectionState> = {
+
+export type InjectionPluginState = typeof injectionState
+
+export const injectionPlugin: EditorPlugin<InjectionPluginState> = {
   Component: InjectionEditor,
   state: injectionState,
   config: {},

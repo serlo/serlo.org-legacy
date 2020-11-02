@@ -43,10 +43,10 @@ const exerciseState = object({
   ),
 })
 
-export type ExerciseState = typeof exerciseState
-export type ExerciseProps = EditorPluginProps<ExerciseState>
+export type ExercisePluginState = typeof exerciseState
+export type ExerciseProps = EditorPluginProps<ExercisePluginState>
 
-export const exercisePlugin: EditorPlugin<ExerciseState> = {
+export const exercisePlugin: EditorPlugin<ExercisePluginState> = {
   Component: ExerciseEditor,
   state: exerciseState,
   config: {},
