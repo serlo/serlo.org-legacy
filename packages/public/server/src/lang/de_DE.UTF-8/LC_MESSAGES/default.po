@@ -1049,7 +1049,7 @@ msgstr "werbefrei"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:131
 msgid "openly licensed"
-msgstr "frei lizensiert"
+msgstr "frei lizenziert"
 
 #: ../module/Ui/templates/layout/default/about-serlo.phtml:150
 msgid "transparent"
