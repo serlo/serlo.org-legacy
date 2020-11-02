@@ -25,10 +25,10 @@ import styled from 'styled-components'
 
 const separatorState = scalar(undefined)
 
-export type SeparatorState = typeof separatorState
-export type SeparatorProps = EditorPluginProps<SeparatorState>
+export type SeparatorPluginState = typeof separatorState
+export type SeparatorProps = EditorPluginProps<SeparatorPluginState>
 
-export const separatorPlugin: EditorPlugin<SeparatorState> = {
+export const separatorPlugin: EditorPlugin<SeparatorPluginState> = {
   Component: SeparatorEditor,
   state: separatorState,
   config: {},

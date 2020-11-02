@@ -19,39 +19,40 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  HotKeys,
-  useScopedDispatch,
-  useScopedSelector,
-  useScopedStore,
-} from '@edtr-io/core'
-import { focusNext, focusPrevious, getFocused, isEmpty } from '@edtr-io/store'
-import {
-  Icon,
-  faPlus,
-  faTimes,
-  styled,
-  EdtrIcon,
-  edtrDragHandle,
-} from '@edtr-io/ui'
+import { HotKeys, useScopedSelector, useScopedStore } from '@edtr-io/core'
+import { PreferenceContext, setDefaultPreference } from '@edtr-io/core/beta'
+import { MathEditor } from '@edtr-io/math'
+import { StateTypeReturnType, StringStateType } from '@edtr-io/plugin'
+import { edtrDragHandle, EdtrIcon, faTimes, Icon, styled } from '@edtr-io/ui'
+import { useI18n } from '@serlo/i18n'
 import * as R from 'ramda'
 import * as React from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
-import { EquationsProps } from '.'
-import { LayoutContainer, EquationsRenderer } from './renderer'
-import { useI18n } from '@serlo/i18n'
-import { Sign, renderSignToString } from './sign'
+import {
+  EquationsRenderer,
+  ExplanationTr,
+  LeftTd,
+  SignTd,
+  Table,
+  TableWrapper,
+  TransformTd,
+} from './renderer'
+import { focusNext, focusPrevious, getFocused, isEmpty } from '@edtr-io/store'
+import { renderSignToString, Sign } from './sign'
+import { EquationsProps, stepProps } from '.'
 
-const ButtonContainer = styled.div({
-  display: 'flex',
-  float: 'right',
-  flexDirection: 'row',
-  alignItems: 'center',
-  position: 'absolute',
-  right: '-50px',
-  zIndex: 10,
-})
+enum StepSegment {
+  Left = 0,
+  Sign = 1,
+  Right = 2,
+  Transform = 3,
+  Explanation = 4,
+}
+
+const preferenceKey = 'katex:usevisualmath'
+
+setDefaultPreference(preferenceKey, true)
 
 const RemoveButton = styled.button({
   outline: 'none',
@@ -59,30 +60,191 @@ const RemoveButton = styled.button({
   border: 'none',
   background: 'transparent',
 })
-const DragButton = styled.div({
+const DragButton = styled.span({
   cursor: 'grab',
   paddingRight: '5px',
 })
 
-const AddButton = styled.button({
-  border: '2px solid  #007ec1',
-  borderRadius: '5px',
-  color: '#007ec1',
-  outline: 'none',
-  padding: '5px',
-  margin: 'auto',
-  marginTop: '10px',
-  backgroundColor: 'transparent',
-})
+export function EquationsEditor(props: EquationsProps) {
+  const i18n = useI18n()
 
-const AddButtonWrapper = styled.div({
-  textAlign: 'center',
-})
+  const { focused, state } = props
 
-const Header = styled.div({
-  textAlign: 'center',
-  width: '33%',
-})
+  const store = useScopedStore()
+  const focusedElement = useScopedSelector(getFocused())
+  const nestedFocus =
+    focused ||
+    R.includes(
+      focusedElement,
+      props.state.steps.map((step) => step.explanation.id)
+    )
+
+  const gridFocus = useGridFocus({
+    rows: state.steps.length,
+    columns: 4,
+    focusNext() {
+      store.dispatch(focusNext())
+    },
+    focusPrevious() {
+      store.dispatch(focusPrevious())
+    },
+  })
+
+  React.useEffect(() => {
+    if (nestedFocus) {
+      gridFocus.setFocus({ row: 0, column: 0 })
+    }
+  }, [nestedFocus])
+
+  if (!nestedFocus) return <EquationsRenderer {...props} />
+
+  return (
+    <HotKeys
+      allowChanges
+      keyMap={{
+        FOCUS_NEXT_OR_INSERT: 'tab',
+        FOCUS_PREVIOUS: 'shift+tab',
+        INSERT: 'return',
+      }}
+      handlers={{
+        FOCUS_NEXT_OR_INSERT: (e) => {
+          handleKeyDown(e, () => {
+            if (
+              gridFocus.isFocused({
+                row: state.steps.length - 1,
+                column: StepSegment.Transform,
+              })
+            ) {
+              const newIndex = state.steps.length
+              state.steps.insert(newIndex, {
+                left: '',
+                sign: state.steps[newIndex - 1].sign.value,
+                right: '',
+                transform: '',
+                explanation: { plugin: 'text' },
+              })
+              gridFocus.setFocus({
+                row: newIndex,
+                column: StepSegment.Left,
+              })
+            } else {
+              gridFocus.moveRight()
+            }
+          })
+        },
+        FOCUS_PREVIOUS: (e) => {
+          handleKeyDown(e, () => {
+            gridFocus.moveLeft()
+          })
+        },
+        INSERT: (e) => {
+          handleKeyDown(e, () => {
+            if (!gridFocus.focus) return
+            const newIndex = gridFocus.focus.row + 1
+            state.steps.insert(newIndex, {
+              left: '',
+              sign: state.steps[newIndex - 1].sign.value,
+              right: '',
+              transform: '',
+              explanation: { plugin: 'text' },
+            })
+            gridFocus.setFocus({
+              row: newIndex,
+              column: StepSegment.Left,
+            })
+          })
+        },
+      }}
+    >
+      <TableWrapper>
+        <DragDropContext
+          onDragEnd={(result) => {
+            const { source, destination } = result
+            if (!destination) return
+            state.steps.move(source.index, destination.index)
+          }}
+        >
+          <Droppable droppableId="default">
+            {(provided: any) => {
+              return (
+                <Table ref={provided.innerRef} {...provided.droppableProps}>
+                  {state.steps.map((step, index) => {
+                    return (
+                      <Draggable
+                        key={step.explanation.id}
+                        draggableId={step.explanation.id}
+                        index={index}
+                      >
+                        {(provided: any) => {
+                          return (
+                            <tbody
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                            >
+                              <tr>
+                                <td>
+                                  <DragButton {...provided.dragHandleProps}>
+                                    <EdtrIcon icon={edtrDragHandle} />
+                                  </DragButton>
+                                </td>
+                                <StepEditor
+                                  gridFocus={gridFocus}
+                                  row={index}
+                                  state={step}
+                                />
+                                <td>
+                                  <RemoveButton
+                                    onClick={() => {
+                                      state.steps.remove(index)
+                                    }}
+                                  >
+                                    <Icon icon={faTimes} />
+                                  </RemoveButton>
+                                </td>
+                              </tr>
+                              <ExplanationTr>
+                                <td />
+                                <td />
+                                <SignTd>
+                                  {isEmpty(step.explanation.id)(
+                                    store.getState()
+                                  )
+                                    ? null
+                                    : index === state.steps.length - 1
+                                    ? '→'
+                                    : '↓'}
+                                </SignTd>
+                                <td colSpan={2}>
+                                  {step.explanation.render({
+                                    config: {
+                                      placeholder: i18n.t(
+                                        'equations::explanation'
+                                      ),
+                                    },
+                                  })}
+                                </td>
+                              </ExplanationTr>
+                            </tbody>
+                          )
+                        }}
+                      </Draggable>
+                    )
+                  })}
+                  {provided.placeholder}
+                </Table>
+              )
+            }}
+          </Droppable>
+        </DragDropContext>
+      </TableWrapper>
+    </HotKeys>
+  )
+
+  function handleKeyDown(e: KeyboardEvent | undefined, next: () => void) {
+    e && e.preventDefault()
+    next()
+  }
+}
 
 const DropDown = styled.select({
   height: '30px',
@@ -94,214 +256,245 @@ const DropDown = styled.select({
   borderRadius: '5px',
 })
 
-export function EquationsEditor(props: EquationsProps) {
+interface StepEditorProps {
+  gridFocus: GridFocus
+  row: number
+  state: StateTypeReturnType<typeof stepProps>
+}
+
+function StepEditor(props: StepEditorProps) {
   const i18n = useI18n()
-  const store = useScopedStore()
-  const focusedElement = useScopedSelector(getFocused())
-  const dispatch = useScopedDispatch()
+  const { gridFocus, row, state } = props
 
-  const insertWithRightSymbol = () => {
-    const length = props.state.steps.length
-    const sign =
-      length > 0 ? props.state.steps[length - 1].sign.value : Sign.Equals
-    props.state.steps.insert(length, {
-      left: { plugin: 'text', state: undefined },
-      right: { plugin: 'text', state: undefined },
-      transform: { plugin: 'text', state: undefined },
-      sign,
-    })
-  }
-  const addButton = () => {
-    insertWithRightSymbol()
-  }
-  const removeButton = (index: number) => () => {
-    const { state } = props
-    state.steps.remove(index)
-  }
-  const handleKeyDown = (e: KeyboardEvent | undefined, next: () => void) => {
-    e && e.preventDefault()
-    next()
-  }
+  const dropDown = React.useRef<HTMLSelectElement>(null)
 
-  const { focused, state, editable } = props
-  const children = R.flatten(
-    props.state.steps.map((step) => {
-      return [step.left.id, step.right.id, step.transform.id]
-    })
-  )
-  const noEmptyLine = !R.includes(
-    false,
-    props.state.steps.map((step) => {
-      return R.includes(false, [
-        isEmpty(step.left.id)(store.getState()),
-        isEmpty(step.right.id)(store.getState()),
-        isEmpty(step.transform.id)(store.getState()),
-      ])
-    })
-  )
-  return editable && (focused || R.includes(focusedElement, children)) ? (
-    <HotKeys
-      keyMap={{
-        FOCUS_NEXT: 'tab',
-        FOCUS_PREV: 'shift+tab',
-        NEW_LINE: 'return',
-      }}
-      handlers={{
-        FOCUS_NEXT: (e) => {
-          handleKeyDown(e, () => {
-            dispatch(focusNext())
-          })
-        },
-        FOCUS_PREV: (e) => {
-          handleKeyDown(e, () => {
-            dispatch(focusPrevious())
-          })
-        },
-        NEW_LINE: (e) => {
-          if (noEmptyLine) {
-            handleKeyDown(e, () => {
-              insertWithRightSymbol()
-            })
-          }
-        },
-      }}
-    >
-      {/* eslint-disable @typescript-eslint/no-explicit-any */}
-      <DragDropContext
-        onDragEnd={(result) => {
-          const { source, destination } = result
-          if (!destination) {
-            return
-          }
-          state.steps.move(source.index, destination.index)
+  React.useEffect(() => {
+    if (gridFocus.isFocused({ row, column: StepSegment.Sign })) {
+      dropDown.current?.focus()
+    }
+  })
+
+  return (
+    <>
+      <LeftTd
+        onClick={() => {
+          gridFocus.setFocus({ row, column: StepSegment.Left })
         }}
       >
-        <Droppable droppableId="default" direction="vertical">
-          {(provided: any) => {
-            return (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                <LayoutContainer>
-                  <Header>
-                    <strong>{i18n.t('equations::Left-hand side')}</strong>
-                  </Header>
-                  <Header>
-                    <strong>{i18n.t('equations::Right-hand side')}</strong>
-                  </Header>
-                  <Header>
-                    <strong>
-                      {i18n.t('equations::Transformation / explanation')}
-                    </strong>
-                  </Header>
-                </LayoutContainer>
-                {state.steps.map((step, index) => {
-                  return (
-                    <Draggable
-                      key={index}
-                      draggableId={step.left.id}
-                      index={index}
-                    >
-                      {(provided: any) => {
-                        return (
-                          <LayoutContainer
-                            className="row"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                          >
-                            <div
-                              style={{
-                                textAlign: isEmpty(step.left.id)(
-                                  store.getState()
-                                )
-                                  ? 'center'
-                                  : 'right',
-                                width: '33%',
-                              }}
-                            >
-                              {step.left.render({
-                                config: {
-                                  placeholder: i18n.t(
-                                    'equations::Left-hand side'
-                                  ),
-                                },
-                              })}
-                            </div>
-
-                            <div
-                              style={{
-                                width: '33%',
-                                display: 'flex',
-                                flexDirection: 'row',
-                              }}
-                            >
-                              <DropDown
-                                onChange={(
-                                  e: React.ChangeEvent<HTMLSelectElement>
-                                ) => {
-                                  step.sign.set(e.target.value)
-                                }}
-                                value={step.sign.value}
-                              >
-                                {[
-                                  Sign.Equals,
-                                  Sign.GreaterThan,
-                                  Sign.LessThan,
-                                  Sign.GreaterThanOrEqual,
-                                  Sign.LessThanOrEqual,
-                                  Sign.AlmostEqualTo,
-                                ].map((sign) => {
-                                  return (
-                                    <option key={sign} value={sign}>
-                                      {renderSignToString(sign)}
-                                    </option>
-                                  )
-                                })}
-                              </DropDown>
-                              <div style={{ flexGrow: 1 }}>
-                                {step.right.render({
-                                  config: {
-                                    placeholder: i18n.t(
-                                      'equations::Right-hand side'
-                                    ),
-                                  },
-                                })}
-                              </div>
-                            </div>
-
-                            <div style={{ width: '33%' }}>
-                              {step.transform.render({
-                                config: {
-                                  placeholder: i18n.t(
-                                    'equations::Transformation'
-                                  ),
-                                },
-                              })}
-                            </div>
-                            <ButtonContainer>
-                              <DragButton {...provided.dragHandleProps}>
-                                <EdtrIcon icon={edtrDragHandle} />
-                              </DragButton>
-                              <RemoveButton onClick={removeButton(index)}>
-                                <Icon icon={faTimes} />
-                              </RemoveButton>
-                            </ButtonContainer>
-                          </LayoutContainer>
-                        )
-                      }}
-                    </Draggable>
-                  )
-                })}
-              </div>
-            )
+        <InlineMath
+          focused={gridFocus.isFocused({ row, column: StepSegment.Left })}
+          placeholder={`[${i18n.t('equations::left-hand side')}]`}
+          state={state.left}
+          onChange={(src) => {
+            state.left.set(src)
           }}
-        </Droppable>
-      </DragDropContext>
-      <AddButtonWrapper>
-        <AddButton onClick={addButton}>
-          <Icon icon={faPlus} /> {i18n.t('equations::Add step')}
-        </AddButton>
-      </AddButtonWrapper>
-    </HotKeys>
-  ) : (
-    <EquationsRenderer {...props} />
+          onFocusNext={() => {
+            gridFocus.moveRight()
+          }}
+          onFocusPrevious={() => {
+            gridFocus.moveLeft()
+          }}
+        />
+      </LeftTd>
+      <SignTd
+        onClick={() => {
+          gridFocus.setFocus({ row, column: StepSegment.Sign })
+        }}
+      >
+        <DropDown
+          tabIndex={-1}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+            state.sign.set(e.target.value)
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Tab') {
+              if (e.shiftKey) {
+                gridFocus.moveLeft()
+              } else {
+                gridFocus.moveRight()
+              }
+            }
+            if (e.key === 'ArrowRight') gridFocus.moveRight()
+            if (e.key === 'ArrowLeft') gridFocus.moveLeft()
+            e.stopPropagation()
+          }}
+          value={state.sign.value}
+          ref={dropDown}
+        >
+          {[
+            Sign.Equals,
+            Sign.GreaterThan,
+            Sign.LessThan,
+            Sign.GreaterThanOrEqual,
+            Sign.LessThanOrEqual,
+            Sign.AlmostEqualTo,
+          ].map((sign) => {
+            return (
+              <option key={sign} value={sign}>
+                {renderSignToString(sign)}
+              </option>
+            )
+          })}
+        </DropDown>
+      </SignTd>
+      <td
+        onClick={() => {
+          gridFocus.setFocus({ row, column: StepSegment.Right })
+        }}
+      >
+        <InlineMath
+          focused={gridFocus.isFocused({ row, column: StepSegment.Right })}
+          placeholder={`[${i18n.t('equations::right-hand side')}]`}
+          state={state.right}
+          onChange={(src) => {
+            state.right.set(src)
+          }}
+          onFocusNext={() => {
+            gridFocus.moveRight()
+          }}
+          onFocusPrevious={() => {
+            gridFocus.moveLeft()
+          }}
+        />
+      </td>
+      <TransformTd
+        onClick={() => {
+          gridFocus.setFocus({ row, column: StepSegment.Transform })
+        }}
+      >
+        {state.transform.value === '' ? '' : '|'}
+        <InlineMath
+          focused={gridFocus.isFocused({ row, column: StepSegment.Transform })}
+          placeholder={`[${i18n.t('equations::transformation')}]`}
+          state={state.transform}
+          onChange={(src) => {
+            state.transform.set(src)
+          }}
+          onFocusNext={() => {
+            gridFocus.moveRight()
+          }}
+          onFocusPrevious={() => {
+            gridFocus.moveLeft()
+          }}
+        />
+      </TransformTd>
+    </>
   )
+}
+
+interface InlineMathProps {
+  state: StateTypeReturnType<StringStateType>
+  placeholder: string
+  onChange: (state: string) => void
+  onFocusNext: () => void
+  onFocusPrevious: () => void
+  focused?: boolean
+  prefix?: string
+  suffix?: string
+}
+
+function InlineMath(props: InlineMathProps) {
+  const {
+    focused,
+    onFocusNext,
+    onFocusPrevious,
+    onChange,
+    state,
+    prefix = '',
+    suffix = '',
+  } = props
+
+  const preferences = React.useContext(PreferenceContext)
+
+  return (
+    <MathEditor
+      readOnly={!focused}
+      state={`${prefix}${state.value}${suffix}`}
+      config={{
+        i18n: {
+          placeholder: props.placeholder,
+        },
+      }}
+      inline
+      disableBlock
+      visual={preferences.getKey(preferenceKey) === true}
+      onEditorChange={(visual) => {
+        preferences.setKey(preferenceKey, visual)
+      }}
+      onInlineChange={() => {}}
+      onChange={(value) => {
+        onChange(value)
+      }}
+      onMoveOutRight={() => {
+        onFocusNext()
+      }}
+      onMoveOutLeft={() => {
+        onFocusPrevious()
+      }}
+    />
+  )
+}
+
+type GridFocusState = {
+  row: number
+  column: number
+} | null
+
+interface GridFocus {
+  focus: GridFocusState
+  isFocused: (payload: { row: number; column: number }) => boolean
+  setFocus: (focus: GridFocusState) => void
+  moveRight: () => void
+  moveLeft: () => void
+}
+
+function useGridFocus({
+  rows,
+  columns,
+  focusNext,
+  focusPrevious,
+}: {
+  rows: number
+  columns: number
+  focusNext: () => void
+  focusPrevious: () => void
+}): GridFocus {
+  const [focus, setFocus] = React.useState<GridFocusState | null>(null)
+
+  return {
+    focus,
+    isFocused({ row, column }) {
+      return focus !== null && focus.row === row && focus.column === column
+    },
+    setFocus,
+    moveRight() {
+      if (focus === null) return
+      // Last column
+      if (focus.column === columns - 1) {
+        // Last row
+        if (focus.row === rows - 1) {
+          focusNext()
+        } else {
+          setFocus({ row: focus.row + 1, column: 0 })
+        }
+      } else {
+        setFocus({ row: focus.row, column: focus.column + 1 })
+      }
+    },
+    moveLeft() {
+      if (focus === null) return
+
+      // First column
+      if (focus.column === 0) {
+        // First row
+        if (focus.row === 0) {
+          focusPrevious()
+        } else {
+          setFocus({ row: focus.row - 1, column: columns - 1 })
+        }
+      } else {
+        setFocus({ row: focus.row, column: focus.column - 1 })
+      }
+    },
+  }
 }

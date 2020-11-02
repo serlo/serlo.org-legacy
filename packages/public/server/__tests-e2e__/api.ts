@@ -19,28 +19,26 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import axios from 'axios'
+import fetch from 'unfetch'
 
 import { testingServerUrl } from './_config'
 
 describe('/api/alias/:alias', () => {
   describe('/api/alias/user/profile/:username', () => {
     test('returns null when user does not exist', async () => {
-      const response = await fetchPath('/api/alias/user/profile/not-existing')
-
-      expect(response.data).toBeNull()
+      const data = await fetchPath('/api/alias/user/profile/not-existing')
+      expect(data).toBeNull()
     })
   })
 })
 
 describe('/api/subscriptions/:userId', () => {
   test('returns null when user does not exist', async () => {
-    const response = await fetchPath('/api/subscriptions/10000')
-
-    expect(response.data).toBeNull()
+    const data = await fetchPath('/api/subscriptions/10000')
+    expect(data).toBeNull()
   })
 })
 
 function fetchPath(path: string) {
-  return axios.get(testingServerUrl + path)
+  return fetch(testingServerUrl + path).then((response) => response.json())
 }

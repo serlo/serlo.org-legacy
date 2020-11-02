@@ -19,58 +19,94 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { styled } from '@edtr-io/editor-ui'
+import { MathRenderer } from '@edtr-io/math'
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { EquationsProps } from '.'
-import { Sign, renderSignToString } from './sign'
+import { renderSignToString, Sign } from './sign'
+import { useScopedStore } from '@edtr-io/core'
+import { isEmpty } from '@edtr-io/store'
 
-export const LayoutContainer = styled.div({
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  alignItems: 'flex-start',
+export const TableWrapper = styled.div({
+  overflowX: 'scroll',
+  padding: '10px 0',
 })
 
-export const LeftSide = styled.div({
-  width: '33%',
-  '@media(max-width: 480px)': { width: '100%', textAlign: 'left' },
-  '@media(max-width: 768px)': { width: '50%', textAlign: 'right' },
-  '@media(min-width:768px)': { textAlign: 'right' },
+export const Table = styled.table({
+  whiteSpace: 'nowrap',
 })
 
-export const RightSide = styled.div({
-  width: '33%',
-  display: 'flex',
-  flexDirection: 'row',
-  '@media(max-width: 480px)': { width: '100%' },
-  '@media(max-width: 768px)': { width: '50%' },
+export const LeftTd = styled.td({
+  textAlign: 'right',
 })
-export const Transformation = styled.div({
-  width: '33%',
-  '@media(max-width: 768px)': { width: '100%', textAlign: 'center' },
+
+export const SignTd = styled.td({
+  padding: '0 3px',
+  textAlign: 'center',
+})
+
+export const TransformTd = styled.td({
+  paddingLeft: '5px',
+})
+
+export const ExplanationTr = styled.tr({
+  color: '#007ec1',
+  div: {
+    margin: 0,
+  },
 })
 
 export function EquationsRenderer({ state }: EquationsProps) {
-  const rows = state.steps
+  const store = useScopedStore()
+
   return (
-    <React.Fragment>
-      <div>
-        {rows.map((row) => {
-          return (
-            <LayoutContainer key={row.left.id}>
-              <LeftSide>{row.left.render()}</LeftSide>
-              <RightSide>
-                {renderSignToString(row.sign.value as Sign)}
-                {row.right.render()}
-              </RightSide>
-              {row.transform === undefined ? null : (
-                <Transformation>{row.transform.render()}</Transformation>
-              )}
-            </LayoutContainer>
-          )
-        })}
-      </div>
-    </React.Fragment>
+    <TableWrapper>
+      <Table>
+        <tbody>
+          {state.steps.map((step, index) => {
+            return (
+              <React.Fragment key={index}>
+                <tr key={index}>
+                  <LeftTd>
+                    {step.left.value ? (
+                      <MathRenderer inline state={step.left.value} />
+                    ) : null}
+                  </LeftTd>
+                  <SignTd>
+                    <MathRenderer
+                      inline
+                      state={renderSignToString(step.sign.value as Sign)}
+                    />
+                  </SignTd>
+                  <td>
+                    {step.right.value ? (
+                      <MathRenderer inline state={step.right.value} />
+                    ) : null}
+                  </td>
+                  <TransformTd>
+                    {step.transform.value ? (
+                      <>
+                        |
+                        <MathRenderer inline state={step.transform.value} />
+                      </>
+                    ) : null}
+                  </TransformTd>
+                </tr>
+                {isEmpty(step.explanation.id)(store.getState()) ? null : (
+                  <ExplanationTr>
+                    <td />
+                    <SignTd>
+                      {index === state.steps.length - 1 ? '→' : '↓'}
+                    </SignTd>
+                    <td colSpan={2}>{step.explanation.render()}</td>
+                  </ExplanationTr>
+                )}
+              </React.Fragment>
+            )
+          })}
+        </tbody>
+      </Table>
+    </TableWrapper>
   )
 }

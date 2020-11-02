@@ -24,10 +24,10 @@ import { styled } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
 export const importantState = child({ plugin: 'text' })
-export type ImportantState = typeof importantState
-export type ImportantProps = EditorPluginProps<ImportantState>
+export type ImportantPluginState = typeof importantState
+export type ImportantProps = EditorPluginProps<ImportantPluginState>
 
-export function createImportantPlugin(): EditorPlugin<ImportantState> {
+export function createImportantPlugin(): EditorPlugin<ImportantPluginState> {
   return {
     Component: ImportantRenderer,
     config: {},

@@ -19,9 +19,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { EditorPlugin } from '@edtr-io/plugin'
+import {
+  EditorPlugin,
+  StateTypeSerializedType,
+  StateTypesSerializedType,
+} from '@edtr-io/plugin'
 import { createTextPlugin } from '@edtr-io/plugin-text'
-import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
+import { AnchorPluginState, createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
@@ -60,6 +64,24 @@ import { layoutPlugin } from './plugins/layout'
 import { separatorPlugin } from './plugins/separator'
 import { solutionPlugin } from './plugins/solution'
 import { tablePlugin } from './plugins/table'
+import { deprecatedPlugin } from './plugins/deprecated'
+import { SerializedDocument } from './serialized-document'
+
+type PluginType =
+  | SerializedDocument['plugin']
+  | 'type-applet'
+  | 'type-article'
+  | 'type-course'
+  | 'type-course-page'
+  | 'type-event'
+  | 'type-math-puzzle'
+  | 'type-page'
+  | 'type-taxonomy'
+  | 'type-text-exercise'
+  | 'type-text-exercise-group'
+  | 'type-text-solution'
+  | 'type-user'
+  | 'type-video'
 
 export function createPlugins({
   getCsrfToken,
@@ -69,7 +91,8 @@ export function createPlugins({
   getCsrfToken: () => string
   i18n: i18n
   registry: RowsConfig['plugins']
-}): Record<string, EditorPlugin<any, any>> {
+}): Record<string, EditorPlugin<any, any>> &
+  Record<PluginType, EditorPlugin<any, any>> {
   return {
     anchor: createAnchorPlugin({
       i18n: {
@@ -83,6 +106,7 @@ export function createPlugins({
       },
     }),
     error: errorPlugin,
+    deprecated: deprecatedPlugin,
     equations: equationsPlugin,
     exercise: exercisePlugin,
     geogebra: createGeogebraPlugin({

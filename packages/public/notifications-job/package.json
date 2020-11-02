@@ -10,12 +10,13 @@
     "start": "node ."
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "base-64": "^1.0.0",
     "mysql": "^2.0.0",
     "promise-mysql": "^4.0.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@types/base-64": "^0.1.0",
     "tsdx": "^0.14.0",
     "typescript": "^4.0.0"
   }

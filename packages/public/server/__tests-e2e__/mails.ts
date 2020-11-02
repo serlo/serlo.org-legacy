@@ -19,14 +19,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import axios from 'axios'
 import { getDocument, queries } from 'pptr-testing-library'
+import fetch from 'unfetch'
 
 test('Reset password mail renders correctly', async () => {
   const username = 'admin'
   const email = 'admin@localhost'
 
-  await axios.get('http://de.serlo.localhost:4567/mails/clear')
+  await fetch('http://de.serlo.localhost:4567/mails/clear')
   const mailPage = await browser.newPage()
   await mailPage.goto('http://de.serlo.localhost:4567/auth/password/restore')
   const $document = await getDocument(mailPage)
@@ -39,7 +39,9 @@ test('Reset password mail renders correctly', async () => {
   }, email)
   const $submit = await queries.getByText($document, 'Wiederherstellen')
   await Promise.all([mailPage.waitForNavigation(), $submit.click()])
-  const { data } = await axios.get('http://de.serlo.localhost:4567/mails/list')
+  const data = await fetch(
+    'http://de.serlo.localhost:4567/mails/list'
+  ).then((response) => response.json())
   expect(data.flushed).toHaveLength(1)
   const { to, mail } = data.flushed[0] as {
     to: string
