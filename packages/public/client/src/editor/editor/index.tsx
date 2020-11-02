@@ -56,14 +56,16 @@ export function initEntityEditor(
               method: 'POST',
               headers: {
                 'X-Requested-with': 'XMLHttpRequest',
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
               },
-              body: data,
+              body: JSON.stringify(data),
             })
               .then((response) => response.json())
               .then((data) => {
                 if (data.success) {
-                  resolve()
                   window.location = data.redirect
+                  resolve()
                 } else {
                   console.log(data.errors)
                   reject()

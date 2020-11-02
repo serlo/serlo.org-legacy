@@ -130,6 +130,9 @@ export function createReadFile(getCsrfToken: () => string) {
               dataUrl: data.files[0].location,
             })
           })
+          .catch(() => {
+            reject()
+          })
       }
 
       reader.readAsDataURL(file)

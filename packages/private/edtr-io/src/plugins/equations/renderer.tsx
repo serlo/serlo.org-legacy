@@ -67,7 +67,7 @@ export function EquationsRenderer({ state }: EquationsProps) {
           {state.steps.map((step, index) => {
             return (
               <React.Fragment key={index}>
-                <tr key={index}>
+                <tr>
                   <LeftTd>
                     {step.left.value ? (
                       <MathRenderer inline state={step.left.value} />
