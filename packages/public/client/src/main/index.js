@@ -19,7 +19,6 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-/* globals gaOptout */
 import { initI18n } from '@serlo/i18n'
 import { reprocess, typeset } from '@serlo/mathjax'
 import autosize from 'autosize'
@@ -75,6 +74,7 @@ import './modules/timeago'
 import './modules/toggle'
 import './modules/trigger'
 import './styles/main.scss'
+import { initLegacyContent } from '../legacy-editor/legacy-content'
 
 window.$ = $
 window.jQuery = $
@@ -173,6 +173,7 @@ function init($context) {
   }
 
   Content.add(($context) => {
+    initLegacyContent($context)
     initContent($context)
     $('.sortable', $context).SortableList()
     $('.timeago', $context).TimeAgo()

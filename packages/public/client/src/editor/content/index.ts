@@ -27,9 +27,7 @@ export const initContent = ($context: JQuery<HTMLElement>) => {
     $context
   )
 
-  if ($elements.length === 0) {
-    return
-  }
+  if ($elements.length === 0) return
 
   return import('./init-element').then(({ initElement }) => {
     $elements.each((_i, element) => {
