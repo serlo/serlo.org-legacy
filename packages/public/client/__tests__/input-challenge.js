@@ -27,7 +27,7 @@ window.$ = window.jQuery = $
 require('bootstrap-sass')
 
 window.MathJax = { Hub: { Queue: () => {} } }
-jest.mock('../src/frontend/modules/sounds')
+jest.mock('../src/main/modules/sounds')
 
 describe('Input challenge', () => {
   let challenge
