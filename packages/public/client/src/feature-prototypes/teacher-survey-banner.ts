@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import Cookie from 'js-cookie'
-import { getAuthenticatedUserID } from '../frontend/modules/user'
+import { getAuthenticatedUserID } from '../main/modules/user'
 import { getSaEvent } from '../modules/analytics'
 
 const surveyLink =

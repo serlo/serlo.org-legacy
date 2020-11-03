@@ -28,7 +28,5 @@
     var ASSET_PATH = '<?= $this->assets()->getAsset(''); ?>';
     var AUTHENTICATED_USER_ID = '<?= $this->user()->getAuthenticatedUserID() ?>';
 </script>
-<script src="<?php echo $this->assets()->getBundle(
-    $this->featureFlags()->isEnabled('client-frontend') ? 'frontend.js' : 'main.js'
-); ?>" type="text/javascript"></script>
+<script src="<?php echo $this->assets()->getBundle('main.js'); ?>" type="text/javascript"></script>
 <?php echo $this->partial('layout/partials/popup'); ?>

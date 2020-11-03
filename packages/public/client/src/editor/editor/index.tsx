@@ -26,7 +26,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import fetch from 'unfetch'
 
-import { Sentry } from '../../frontend/modules/sentry'
+import { Sentry } from '../../main/modules/sentry'
 import { getCsrfToken } from '../../modules/csrf'
 
 export function initEntityEditor(

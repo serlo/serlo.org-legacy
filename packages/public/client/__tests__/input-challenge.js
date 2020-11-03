@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import $ from 'jquery'
-import '../src/frontend/modules/input_challenge'
+import '../src/main/modules/input_challenge'
 
 window.$ = window.jQuery = $
 
