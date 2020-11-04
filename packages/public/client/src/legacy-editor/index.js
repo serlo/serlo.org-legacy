@@ -46,10 +46,11 @@ import Preview from './editor/serlo_editor_previewer'
 import LayoutBuilderConfiguration from './editor/serlo_layout_builder_configuration'
 import Parser from './editor/serlo_parser'
 import TextEditorHelper from './editor/serlo_texteditor_helper'
+import { initMathJax } from './legacy-content'
 import './libs/quickdiff'
 import Shortcuts from './modules/serlo_shortcuts'
 
-import '../frontend/styles/main.scss'
+import '../main/styles/main.scss'
 import './styles/editor.scss'
 
 window.$ = $
@@ -102,6 +103,10 @@ function getCompleteToken(editor, pos, maxLines, currentToken, firstRun) {
 }
 
 Editor = function (settings) {
+  const bundleHost = $('script[src*="legacy-editor.js"]')
+    .attr('src')
+    .replace('/legacy-editor.js', '')
+  initMathJax(bundleHost)
   this.helpers = []
   eventScope(this)
 

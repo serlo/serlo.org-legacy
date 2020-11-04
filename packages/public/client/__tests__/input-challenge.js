@@ -20,14 +20,14 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import $ from 'jquery'
-import '../src/frontend/modules/input_challenge'
+import '../src/main/modules/input_challenge'
 
 window.$ = window.jQuery = $
 
 require('bootstrap-sass')
 
 window.MathJax = { Hub: { Queue: () => {} } }
-jest.mock('../src/frontend/modules/sounds')
+jest.mock('../src/main/modules/sounds')
 
 describe('Input challenge', () => {
   let challenge

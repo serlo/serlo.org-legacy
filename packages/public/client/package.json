@@ -1,6 +1,6 @@
 {
   "name": "@serlo/client",
-  "version": "16.0.2",
+  "version": "17.0.0",
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
@@ -73,6 +73,7 @@
     "@types/signale": "^1.0.0",
     "@types/styled-components": "^5.0.0",
     "babel-loader": "^8.0.0",
+    "copy-webpack-plugin": "^6.0.0",
     "cross-env": "^7.0.0",
     "css-loader": "^4.0.0",
     "file-loader": "^6.0.0",

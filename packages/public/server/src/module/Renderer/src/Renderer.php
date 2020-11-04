@@ -130,6 +130,9 @@ class Renderer
 
         try {
             $rendered = json_decode($result, true)['html'];
+            if ($this->getFormatHelper()->isLegacyFormat($state)) {
+                $rendered .= '<div class="requires-mathjax"></div>';
+            }
         } catch (Exception $e) {
             $this->sentry->captureException($e, [
                 'tags' => ['renderer' => true],
