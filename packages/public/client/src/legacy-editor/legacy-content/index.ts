@@ -31,13 +31,10 @@ export function initLegacyContent($context: JQuery) {
   if ($elements.length === 0) return
 
   mathjaxInitialized = true
-  const bundleHost = $('script[src*="main.js"]')
-    ?.attr('src')
-    ?.replace('/main.js', '')
-  initMathJax(bundleHost!)
+  initMathJax()
 }
 
-export function initMathJax(bundleHost: string) {
+export function initMathJax() {
   const lang = $('html').attr('lang') || 'en'
   $('head').append(
     `
@@ -77,7 +74,7 @@ export function initMathJax(bundleHost: string) {
     `
   )
   $.ajax({
-    url: `${bundleHost}/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&locale=${lang}`,
+    url: `https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML&locale=${lang}`,
     dataType: 'script',
     success() {
       // Initial typeset

@@ -103,10 +103,7 @@ function getCompleteToken(editor, pos, maxLines, currentToken, firstRun) {
 }
 
 Editor = function (settings) {
-  const bundleHost = $('script[src*="legacy-editor.js"]')
-    .attr('src')
-    .replace('/legacy-editor.js', '')
-  initMathJax(bundleHost)
+  initMathJax()
   this.helpers = []
   eventScope(this)
 

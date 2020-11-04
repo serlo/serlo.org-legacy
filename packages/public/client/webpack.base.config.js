@@ -1,4 +1,3 @@
-const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 const { WebpackDeduplicationPlugin } = require('webpack-deduplication-plugin')
@@ -64,11 +63,6 @@ module.exports = {
   target: 'web',
   externals: [require('webpack-require-http')],
   plugins: [
-    new CopyPlugin({
-      patterns: [
-        { from: path.join('src/thirdparty/MathJax-2.7.9'), to: 'mathjax' },
-      ],
-    }),
     new MiniCssExtractPlugin({
       chunkFilename: '[id].[chunkhash:8].css',
       filename: '[name].css',
