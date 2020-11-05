@@ -363,8 +363,10 @@ class ApiManager
             return $thread->getId();
         }, $threads->toArray());
 
-        // Sort threads from most to least recent
-        return array_reverse($threadIds);
+        return [
+            // Sort threads from most to least recent
+            'firstCommentIds' => array_reverse($threadIds),
+        ];
     }
 
     private function normalizeType($type)

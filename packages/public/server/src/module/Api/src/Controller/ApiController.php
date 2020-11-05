@@ -105,9 +105,9 @@ class ApiController extends AbstractApiController
         try {
             $uuid = $this->getUuidManager()->getUuid($id, false, false);
             $threads = $this->getDiscussionManager()->findDiscussionsOn($uuid);
-            return new JsonModel([
-                'threadIds' => $this->getApiManager()->getThreadsData($threads),
-            ]);
+            return new JsonModel(
+                $this->getApiManager()->getThreadsData($threads)
+            );
         } catch (NotFoundException $exception) {
             return $this->createJsonResponse([]);
         }
