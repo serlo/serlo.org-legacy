@@ -22,11 +22,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { EditorProps } from '@serlo/edtr-io'
-import axios from 'axios'
 import * as React from 'react'
 import { render } from 'react-dom'
+import fetch from 'unfetch'
 
-import { Sentry } from '../../frontend/modules/sentry'
+import { Sentry } from '../../main/modules/sentry'
 import { getCsrfToken } from '../../modules/csrf'
 
 export function initEntityEditor(
@@ -52,18 +52,22 @@ export function initEntityEditor(
         },
         onSave: (data) => {
           return new Promise((resolve, reject) => {
-            axios
-              .post(window.location.pathname, data, {
-                headers: {
-                  'X-Requested-with': 'XMLHttpRequest',
-                },
-              })
-              .then((value) => {
-                if (value.data.success) {
+            fetch(window.location.pathname, {
+              method: 'POST',
+              headers: {
+                'X-Requested-with': 'XMLHttpRequest',
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.success) {
                   resolve()
-                  window.location = value.data.redirect
+                  window.location = data.redirect
                 } else {
-                  console.log(value.data.errors)
+                  console.log(data.errors)
                   reject()
                 }
               })

@@ -33,6 +33,10 @@ export const getByRole = queries.getByRole
 export const getByText = queries.getByText
 export const getAllByText = queries.getAllByText
 
+export async function getCurrentPage() {
+  return getDocument(page)
+}
+
 export async function getByItemType(element: ElementHandle, itemType: string) {
   return getBySelector(element, `[itemtype="${itemType}"]`)
 }
@@ -64,9 +68,10 @@ export async function goto(site: string): Promise<ElementHandle> {
   return getDocument(page)
 }
 
-export async function click(element: ElementHandle): Promise<void> {
+export async function click(element: ElementHandle): Promise<ElementHandle> {
   await element.click()
   await page.waitFor(200)
+  return element
 }
 
 export async function typeIntoEditor(
@@ -315,4 +320,16 @@ function testIsEqual(
         ),
     }
   }
+}
+
+export async function clear(element: ElementHandle): Promise<ElementHandle> {
+  await click(element)
+
+  await page.keyboard.down('Control')
+  await page.waitFor(100)
+  await page.keyboard.press('A')
+  await page.keyboard.up('Control')
+
+  await page.keyboard.press('Backspace')
+  return element
 }

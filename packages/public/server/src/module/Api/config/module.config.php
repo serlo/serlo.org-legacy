@@ -204,6 +204,15 @@ return [
                             ],
                         ],
                     ],
+                    'subscriptions' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/subscriptions/:user-id',
+                            'defaults' => [
+                                'action' => 'subscriptions',
+                            ],
+                        ],
+                    ],
                     'threads' => [
                         'type' => 'segment',
                         'options' => [

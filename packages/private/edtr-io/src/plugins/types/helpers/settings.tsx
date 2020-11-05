@@ -24,7 +24,6 @@ import { StateTypeReturnType, string } from '@edtr-io/plugin'
 import { Icon, faCheck, styled } from '@edtr-io/ui'
 import { PluginToolbarButton } from '@edtr-io/core'
 import { useI18n } from '@serlo/i18n'
-import axios from 'axios'
 import moment from 'moment'
 import * as React from 'react'
 import BSButton from 'react-bootstrap/lib/Button'
@@ -33,6 +32,7 @@ import BSControlLabel from 'react-bootstrap/lib/ControlLabel'
 import BSFormGroup from 'react-bootstrap/lib/FormGroup'
 import BSModal from 'react-bootstrap/lib/Modal'
 import BSTable from 'react-bootstrap/lib/Table'
+import fetch from 'unfetch'
 
 import { deserialize, isError } from '../../../deserialize'
 
@@ -69,10 +69,10 @@ export function RevisionHistory<T>(
   const [showRevisions, setShowRevisions] = React.useState(false)
   React.useEffect(() => {
     if (props.id !== 0) {
-      axios
-        .get<RevisionData[]>(`/entity/repository/get-revisions/${props.id}`)
-        .then((response) => {
-          setAvailableRevisions(response.data)
+      fetch(`/entity/repository/get-revisions/${props.id}`)
+        .then((response) => response.json())
+        .then((data: RevisionData[]) => {
+          setAvailableRevisions(data)
         })
     }
   }, [props.id])
@@ -128,14 +128,14 @@ export function RevisionHistory<T>(
                       // don't select the current selected
                       if (selected) return
 
-                      axios
-                        .get<{ state: unknown; type: string }>(
-                          `/entity/repository/get-revision-data/${props.id}/${revisionData.id}`
-                        )
-                        .then((response) => {
+                      fetch(
+                        `/entity/repository/get-revision-data/${props.id}/${revisionData.id}`
+                      )
+                        .then((response) => response.json())
+                        .then((data: { state: unknown; type: string }) => {
                           const deserialized = deserialize({
-                            initialState: response.data.state,
-                            type: response.data.type,
+                            initialState: data.state,
+                            type: data.type,
                           })
                           if (isError(deserialized)) {
                             alert(deserialized.error)

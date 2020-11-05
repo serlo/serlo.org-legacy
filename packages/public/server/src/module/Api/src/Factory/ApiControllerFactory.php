@@ -35,6 +35,10 @@ use Instance\Manager\InstanceManager;
 use Instance\Manager\InstanceManagerInterface;
 use License\Manager\LicenseManager;
 use License\Manager\LicenseManagerInterface;
+use Notification\SubscriptionManager;
+use Notification\SubscriptionManagerInterface;
+use User\Manager\UserManager;
+use User\Manager\UserManagerInterface;
 use Uuid\Manager\UuidManager;
 use Uuid\Manager\UuidManagerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -65,6 +69,10 @@ class ApiControllerFactory extends AbstractControllerFactory
         $instanceManager = $serviceManager->get(InstanceManager::class);
         $controller->setInstanceManager($instanceManager);
 
+        /** @var SubscriptionManagerInterface $subscriptionManager */
+        $subscriptionManager = $serviceManager->get(SubscriptionManager::class);
+        $controller->setSubscriptionManager($subscriptionManager);
+
         /** @var UuidManagerInterface $uuidManager */
         $uuidManager = $serviceManager->get(UuidManager::class);
         $controller->setUuidManager($uuidManager);
@@ -72,6 +80,10 @@ class ApiControllerFactory extends AbstractControllerFactory
         /** @var DiscussionManagerInterface $discussionManager */
         $discussionManager = $serviceManager->get(DiscussionManager::class);
         $controller->setDiscussionManager($discussionManager);
+
+        /** @var UserManagerInterface $userManager */
+        $userManager = $serviceManager->get(UserManager::class);
+        $controller->setUserManager($userManager);
 
         return $controller;
     }

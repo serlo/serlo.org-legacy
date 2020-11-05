@@ -34,6 +34,10 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\ValidationData;
 use License\Exception\LicenseNotFoundException;
 use License\Manager\LicenseManagerAwareTrait;
+use Notification\Entity\Subscription;
+use Notification\SubscriptionManagerAwareTrait;
+use User\Exception\UserNotFoundException;
+use User\Manager\UserManagerAwareTrait;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerAwareTrait;
 use Zend\Http\Response;
@@ -46,8 +50,10 @@ class ApiController extends AbstractApiController
     use ApiManagerAwareTrait;
     use InstanceManagerAwareTrait;
     use LicenseManagerAwareTrait;
+    use UserManagerAwareTrait;
     use UuidManagerAwareTrait;
     use DiscussionManagerAwareTrait;
+    use SubscriptionManagerAwareTrait;
 
     public function __construct(AuthorizationService $authorizationService)
     {
@@ -63,6 +69,29 @@ class ApiController extends AbstractApiController
 
         $alias = $this->params('alias');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
+        $usernameMatch = [];
+        preg_match('/user\/profile\/(.*)/', $alias, $usernameMatch);
+
+        if (array_key_exists(1, $usernameMatch)) {
+            try {
+                $user = $this->getUserManager()->findUserByUsername(
+                    $usernameMatch[1]
+                );
+
+                return new JsonModel(
+                    array_merge(
+                        $this->getApiManager()->getAliasDataForUser($user),
+                        ['instance' => $instance->getSubdomain()]
+                    )
+                );
+            } catch (UserNotFoundException $exception) {
+                $this->response
+                    ->getHeaders()
+                    ->addHeaderLine('Content-Type', 'application/json');
+                $this->response->setContent('null');
+                return $this->response;
+            }
+        }
 
         $aliases = $this->getAliasManager()->findAliases($alias, $instance);
         if (count($aliases) === 0) {
@@ -110,6 +139,35 @@ class ApiController extends AbstractApiController
             );
         } catch (NotFoundException $exception) {
             return $this->createJsonResponse([]);
+        }
+    }
+
+    public function subscriptionsAction()
+    {
+        try {
+            $userId = (int) $this->params('user-id');
+            $user = $this->getUserManager()->getUser($userId);
+            $subscriptions = array_map(
+                function (Subscription $subcription) {
+                    return [
+                        'id' => $subcription->getSubscribedObject()->getId(),
+                    ];
+                },
+                $this->getSubscriptionManager()
+                    ->findSubscriptionsByUser($user)
+                    ->toArray()
+            );
+
+            return new JsonModel([
+                'userId' => $userId,
+                'subscriptions' => $subscriptions,
+            ]);
+        } catch (UserNotFoundException $exception) {
+            $this->response
+                ->getHeaders()
+                ->addHeaderLine('Content-Type', 'application/json');
+            $this->response->setContent('null');
+            return $this->response;
         }
     }
 

@@ -26,7 +26,6 @@ import {
   scalar,
   string,
 } from '@edtr-io/plugin'
-import { styled } from '@edtr-io/renderer-ui'
 import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
@@ -35,30 +34,31 @@ export const errorState = object({
   state: scalar<unknown>({}),
 })
 
-const Error = styled.div({
-  backgroundColor: 'rgb(204,0,0)',
-  color: '#fff',
-})
+export type ErrorPluginState = typeof errorState
+
 export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
-  typeof errorState
+  ErrorPluginState
 >> = (props) => {
   const i18n = useI18n()
 
   return (
-    <Error>
-      <p>
-        <strong>{i18n.t('error::An error occurred during conversion!')}</strong>
-      </p>
-      <p>
-        {i18n.t(
-          "error::The plugin of type `{{plugin}}` couldn't be converted",
-          {
-            plugin: props.state.plugin.value,
-          }
-        )}
-      </p>
-      <code>{JSON.stringify(props.state.state.value)}</code>
-    </Error>
+    <div className="panel panel-danger">
+      <div className="panel-heading">
+        {i18n.t('error::This part of the document could not be converted.')}
+      </div>
+      <div className="panel-body">
+        <pre>
+          {JSON.stringify(
+            {
+              plugin: props.state.plugin.value,
+              state: props.state.state.value,
+            },
+            undefined,
+            2
+          )}
+        </pre>
+      </div>
+    </div>
   )
 }
 

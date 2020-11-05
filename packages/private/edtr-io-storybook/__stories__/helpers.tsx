@@ -25,13 +25,15 @@ import { initI18n, setLanguage } from '@serlo/i18n'
 import { select } from '@storybook/addon-knobs'
 import * as React from 'react'
 
-export function addContentTypeStories(
-  name: string,
-  type: string,
+interface Story {
+  name: string
+  type: string
   initialState: unknown | { name: string; state: unknown }[]
-) {
-  const stories = storiesOf(`Content Types/${name}`, module)
-  const initialStates = (initialState as {
+}
+
+export function addStory({ name, type, initialState }: Story) {
+  const stories = storiesOf(name, module)
+  const initialStates: { name: string; state: unknown }[] = (initialState as {
     name: string
     state: unknown
   }[]).length
@@ -53,6 +55,14 @@ export function addContentTypeStories(
       )
     })
   })
+}
+
+export function addContentTypeStory({ name, ...other }: Story) {
+  addStory({ ...other, name: `Content Types/${name}` })
+}
+
+export function addPluginStory({ name, initialState }: Omit<Story, 'type'>) {
+  addStory({ name: `Plugins/${name}`, type: 'article', initialState })
 }
 
 export function Provider({ children }: { children: React.ReactNode }) {

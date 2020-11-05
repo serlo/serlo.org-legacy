@@ -121,7 +121,6 @@ of the following packages. Check out their READMEs for package-specific details:
 - `yarn test:js` runs all non-PHP unit tests
 - `yarn test:php` runs all PHP unit tests
 - `yarn pacts` runs the contract tests
-- `yarn migrate:create` creates a database migration script
 - `yarn migrate:up` runs all the database migration scripts
-- `yarn c` allows to run composer commands, see `yarn c --help`
+- `yarn c` allows running composer commands, see `yarn c --help`
 - `yarn start` spins up the development environment

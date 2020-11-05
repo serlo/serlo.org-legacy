@@ -256,6 +256,20 @@ class NavigationApiControllerTest extends AbstractHttpControllerTestCase
         $this->assertJsonResponseWithInstance([], $this->getResponse());
     }
 
+    public function testPageWithoutRouteOrUriAreIgnored()
+    {
+        $this->stubNavigationService([
+            [
+                'parameters' => [
+                    'label' => 'School',
+                ],
+                'children' => [],
+            ],
+        ]);
+        $this->dispatch('/api/navigation');
+        $this->assertJsonResponseWithInstance([], $this->getResponse());
+    }
+
     protected function stubNavigationService(array $data)
     {
         $navigationService = $this->getMockBuilder(NavigationService::class)

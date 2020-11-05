@@ -1,4 +1,4 @@
-import { click, clickForNewPage, getBySelector, getByText } from './_utils'
+import { getBySelector, getByText } from './_utils'
 import { ElementHandle } from 'puppeteer'
 
 /**
@@ -27,11 +27,6 @@ export const exampleApiParameters = ['contentOnly', 'hideBanner', 'fullWidth']
 export const elements = {
   getDropdownToggle(page: ElementHandle) {
     return getBySelector(page, '#subject-nav-wrapper button.dropdown-toggle')
-  },
-  getLoginButton(page: ElementHandle) {
-    return getByText(page, 'Log in', {
-      selector: '#serlo-menu a',
-    })
   },
   getLogoutButton(page: ElementHandle) {
     return getByText(page, 'Log out', {
@@ -76,8 +71,6 @@ export const pages = {
 }
 
 export const testingServerUrl = 'http://en.serlo.localhost:4567'
-
-export const users = ['login', 'german_reviewer', 'german_helper', 'admin']
 
 export const viewports = {
   desktop: {

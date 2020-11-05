@@ -50,8 +50,8 @@ async function run() {
   buildDockerImage({
     name: 'serlo-org-migrate',
     version,
-    Dockerfile: path.join(root, 'docker', 'migrate', 'Dockerfile'),
-    context: '.',
+    Dockerfile: path.join(root, '..', '..', 'migrations', 'Dockerfile'),
+    context: '../../migrations',
   })
 }
 

@@ -30,6 +30,7 @@ use DateTime;
 use Discussion\Entity\Comment;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
+use Instance\Entity\InstanceInterface;
 use License\Entity\LicenseInterface;
 use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
@@ -74,6 +75,16 @@ class ApiManager
             'path' => '/' . $alias->getAlias(),
             'source' => $alias->getSource(),
             'timestamp' => $this->normalizeDate($alias->getTimestamp()),
+        ];
+    }
+
+    public function getAliasDataForUser(UserInterface $user)
+    {
+        return [
+            'id' => $user->getId(),
+            'path' => '/user/profile/' . $user->getUsername(),
+            'source' => '/user/profile/' . $user->getId(),
+            'timestamp' => $this->normalizeDate($user->getDate()),
         ];
     }
 
@@ -159,6 +170,7 @@ class ApiManager
             $data['currentRevisionId'] = $uuid->getCurrentRevision()
                 ? $uuid->getCurrentRevision()->getId()
                 : null;
+            $data['revisionIds'] = $this->getRevisionIds($uuid);
             $data['licenseId'] = $uuid->getLicense()
                 ? $uuid->getLicense()->getId()
                 : null;
@@ -281,6 +293,7 @@ class ApiManager
             $data['__typename'] = 'Page';
             $data['instance'] = $uuid->getInstance()->getSubdomain();
             $data['currentRevisionId'] = $uuid->getCurrentRevision()->getId();
+            $data['revisionIds'] = array_reverse($this->getRevisionIds($uuid));
             $data['date'] = $this->normalizeDate(
                 $uuid
                     ->getRevisions()
@@ -367,6 +380,16 @@ class ApiManager
             // Sort threads from most to least recent
             'firstCommentIds' => array_reverse($threadIds),
         ];
+    }
+
+    private function getRevisionIds($uuid)
+    {
+        return $uuid
+            ->getRevisions()
+            ->map(function ($revision) {
+                return $revision->getId();
+            })
+            ->toArray();
     }
 
     private function normalizeType($type)

@@ -9,7 +9,7 @@ services:
       - MYSQL_ROOT_PASSWORD=secret
 
   hydra:
-    image: oryd/hydra:v1.5.2
+    image: oryd/hydra:v1.8.5
     ports:
       - '4444:4444'
       - '4445:4445'
@@ -79,10 +79,9 @@ services:
 
   server-migrate:
     build:
-      context: packages/public/server
-      dockerfile: docker/migrate/Dockerfile
+      context: packages/migrations
     volumes:
-      - ./packages/public/server/migrations:/usr/src/app/migrations:delegated
+      - ./packages/migrations/dist:/usr/src/app/migrations:delegated
     environment:
       - DATABASE=mysql://root:secret@mysql:3306/serlo?query
 

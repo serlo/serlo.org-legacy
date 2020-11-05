@@ -21,6 +21,10 @@ server:
   - packages/public/server/*
   - packages/public/server/**/*
 
+server-migrate:
+  - packages/migrations/*
+  - packages/migrations/**/*
+
 static-assets:
   - packages/public/static-assets/*
   - packages/public/static-assets/**/*
