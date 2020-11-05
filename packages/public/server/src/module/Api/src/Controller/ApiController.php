@@ -85,17 +85,13 @@ class ApiController extends AbstractApiController
                     )
                 );
             } catch (UserNotFoundException $exception) {
-                $this->response
-                    ->getHeaders()
-                    ->addHeaderLine('Content-Type', 'application/json');
-                $this->response->setContent('null');
-                return $this->response;
+                $this->createJsonResponse('null');
             }
         }
 
         $aliases = $this->getAliasManager()->findAliases($alias, $instance);
         if (count($aliases) === 0) {
-            return $this->createJsonResponse(null);
+            return $this->createJsonResponse('null');
         }
 
         $currentAlias = $aliases[0];
@@ -119,7 +115,7 @@ class ApiController extends AbstractApiController
                 $this->getApiManager()->getLicenseData($license)
             );
         } catch (LicenseNotFoundException $exception) {
-            return $this->createJsonResponse(null);
+            return $this->createJsonResponse('null');
         }
     }
 
@@ -138,7 +134,7 @@ class ApiController extends AbstractApiController
                 $this->getApiManager()->getThreadsData($threads)
             );
         } catch (NotFoundException $exception) {
-            return $this->createJsonResponse([]);
+            return $this->createJsonResponse('[]');
         }
     }
 
@@ -163,11 +159,7 @@ class ApiController extends AbstractApiController
                 'subscriptions' => $subscriptions,
             ]);
         } catch (UserNotFoundException $exception) {
-            $this->response
-                ->getHeaders()
-                ->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
+            $this->createJsonResponse('null');
         }
     }
 
@@ -183,7 +175,7 @@ class ApiController extends AbstractApiController
             $uuid = $this->getUuidManager()->getUuid($id, false, false);
             return new JsonModel($this->getApiManager()->getUuidData($uuid));
         } catch (NotFoundException $exception) {
-            return $this->createJsonResponse(null);
+            return $this->createJsonResponse('null');
         }
     }
 
@@ -192,7 +184,7 @@ class ApiController extends AbstractApiController
         $this->response
             ->getHeaders()
             ->addHeaderLine('Content-Type', 'application/json');
-        $this->response->setContent(json_encode($data));
+        $this->response->setContent($data);
         return $this->response;
     }
 }
