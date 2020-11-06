@@ -352,7 +352,7 @@ export function createPlugins({
         alt: {
           label: i18n.t('video::Description'),
         },
-      } as VideoConfig['i18n'], // TODO: upstream bug in typing
+      },
     }),
 
     // Internal plugins for our content types
