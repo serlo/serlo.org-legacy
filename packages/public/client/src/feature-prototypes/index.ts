@@ -20,9 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { initDonationProfile } from './donation-profiles'
-import { initTeacherSurveyBanner } from './teacher-survey-banner'
 
 export function initNewFeaturePrototypes(): void {
   initDonationProfile()
-  initTeacherSurveyBanner()
 }
