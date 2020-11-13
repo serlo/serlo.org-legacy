@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { getDocument, queries } from 'pptr-testing-library'
-import fetch from 'unfetch'
+import fetch from 'node-fetch'
 
 test('Reset password mail renders correctly', async () => {
   const username = 'admin'
