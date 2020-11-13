@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import fetch from 'unfetch'
+import fetch from 'node-fetch'
 
 describe('/api/event/:id', () => {
   test('returns event when the instance of the event and the url do not match', async () => {
