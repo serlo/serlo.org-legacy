@@ -30,6 +30,7 @@ module.exports = R.merge(baseConfig, {
       new TerserPlugin({
         parallel: true,
         sourceMap: true,
+        exclude: /mathjax\//,
       }),
     ],
   },

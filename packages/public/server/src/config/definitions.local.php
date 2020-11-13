@@ -50,9 +50,7 @@ $recaptcha = [
 $api_options = [];
 $smtp_options = [];
 $tracking = [];
-$featureFlags = [
-    'client-frontend' => false,
-];
+$featureFlags = [];
 
 $cronjob_secret = 'secret';
 $upload_secret = 'secret';

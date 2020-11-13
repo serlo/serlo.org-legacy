@@ -4,7 +4,6 @@ const { WebpackDeduplicationPlugin } = require('webpack-deduplication-plugin')
 
 module.exports = {
   entry: {
-    frontend: path.join(__dirname, 'src', 'frontend'),
     main: path.join(__dirname, 'src', 'main'),
     'legacy-editor': path.join(__dirname, 'src', 'legacy-editor'),
   },

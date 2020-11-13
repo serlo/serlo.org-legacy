@@ -245,6 +245,24 @@ class UuidManager implements UuidManagerInterface
                     ->getResult();
             }
         }
+
+        $this->clearDeadEvents();
+    }
+
+    private function clearDeadEvents()
+    {
+        // Delete events that have a parameter that doesn't point to a string or uuid.
+        $sql =
+            'DELETE FROM event_log WHERE EXISTS (' .
+            '  SELECT ep.id FROM event_parameter ep' .
+            '    WHERE ep.log_id = event_log.id' .
+            '    AND NOT EXISTS (SELECT id FROM event_parameter_string eps WHERE eps.event_parameter_id = ep.id)' .
+            '    AND NOT EXISTS (SELECT id FROM event_parameter_uuid epu WHERE epu.event_parameter_id = ep.id)' .
+            ')';
+        $this->getObjectManager()
+            ->getConnection()
+            ->prepare($sql)
+            ->execute();
     }
 
     /**

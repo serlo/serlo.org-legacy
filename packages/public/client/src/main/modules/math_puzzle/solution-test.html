@@ -1,0 +1,193 @@
+<head>
+  <script src="http://localhost:8080/commons.js"></script>
+  <script src="http://localhost:8080/main.js"></script>
+  <script>
+    window.onload = function() {
+      var puzzles = document.querySelectorAll(".math-puzzle");
+      for (var i=0; i<puzzles.length; ++i) {
+          $(puzzles[i]).MathPuzzle();
+      }
+      $('[data-goal]').each(function(index, elt) {
+        elt.goal= $(puzzles[i]).parsePn(elt.getAttribute('data-goal'));
+      });
+      var puzzles = document.querySelectorAll(".test");
+      for (var i=0; i<puzzles.length; ++i) {
+        try {
+          var pass= $(puzzles[i]).MathPuzzleVerify.verify(puzzles[i]);
+          var expect= puzzles[i].getAttribute('data-expect');
+          if (JSON.stringify(pass)==expect) {
+            puzzles[i].setAttribute("class","test passed");
+          } else
+          throw new Error("did not pass")
+        } catch(e) {
+          puzzles[i].setAttribute("class","test failed");
+          $(puzzles[i]).append("<b>" + e.message + "</b>");
+        }
+      }
+    }
+  </script>
+  <style>
+    .test {
+      margin: 2px;
+      padding: 2px;
+    }
+    .passed { background-color: YellowGreen }
+    .failed { background-color: coral }
+    .math-puzzle {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="">
+    <h1>Solver tests</h1>
+    <!-- Konstante Terme -->
+
+    <div class="test" data-expect="true">
+      3 = 3
+      <div data-goal="3">
+        <div data-atom="3"></div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      3 != 4
+      <div data-goal="4">
+        <div data-atom="3"></div>
+      </div>
+    </div>
+
+    <!-- Plus Terme -->
+
+    <div class="test" data-expect="true">
+      1 + 1 = 2
+      <div data-goal="2">
+        <div data-operator="+">
+          <div data-atom="1"></div>
+          <div data-atom="1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Minus Terme -->
+
+    <div class="test" data-expect="true">
+      2 - 1 = 1
+      <div data-goal="1">
+        <div data-operator="-">
+          <div data-atom="2"></div>
+          <div data-atom="1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      4 - 1 != 2
+      <div data-goal="2">
+        <div data-operator="-">
+          <div data-atom="4"></div>
+          <div data-atom="1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Division Terme -->
+
+    <div class="test" data-expect="false">
+      4  :2 != 0.5
+      <div data-goal="0.5">
+        <div data-operator="/">
+          <div data-atom="4"></div>
+          <div data-atom="2"></div>
+        </div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      8 : 2 != 0.5
+      <div data-goal="0.5">
+        <div data-operator="/">
+          <div data-atom="8"></div>
+          <div data-atom="2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multiplikation Terme -->
+
+    <div class="test" data-expect="true">
+      2 * 2 = 4
+      <div data-goal="4">
+        <div data-operator="*">
+          <div data-atom="2"></div>
+          <div data-atom="2"></div>
+        </div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      2 * 8 != 14
+      <div data-goal="14">
+        <div data-operator="*">
+          <div data-atom="2"></div>
+          <div data-atom="8"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gemischte Operande Terme -->
+
+    <div class="test" data-expect="true">
+      (1 + 1) * 10 = 20
+      <div data-goal="20">
+        <div data-operator="*">
+          <div data-operator="+">
+            <div data-atom="1"></div>
+            <div data-atom="1"></div>
+          </div>
+          <div data-atom="10"></div>
+        </div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      1 + 1 * 10 != 20
+      <div data-goal="20">
+        <div data-opertor="*">
+          <div data-operator="+">
+            <div data-atom="1"></div>
+            <div data-atom="1"></div>
+          </div>
+          <div data-atom="10"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variablen und Konstanten -->
+
+    <div class="test" data-expect="true">
+      x + 1 = x + 1
+      <div data-goal="$x + 1">
+        <div data-operator="+">
+          <div data-atom="$x"></div>
+          <div data-atom="1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="test" data-expect="false">
+      x + 3 != x + 1
+      <div data-goal="+ $x 1">
+        <div data-operator="+">
+          <div data-atom="$x"></div>
+          <div data-atom="3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h1>Construction tests</h1>
+  <div class="math-puzzle" data-source="2 = 1 1 + | + 1 1">
+      <div class="exercise">Build a formula that evaluates to two.</div>
+  </div>
+  <div class="math-puzzle" data-source="4 = 1 1 + | + * 1 2 2">
+      <div class="exercise">Build a formula that evaluates to two.</div>
+  </div>
+  <div class="math-puzzle" data-source="12 = | * - 4 2 + 2 4">
+      <div class="exercise">Build a formula that evaluates to two.</div>
+  </div>
+</body>

@@ -21,7 +21,7 @@
  */
 import { LoadedFile, UploadValidator } from '@edtr-io/plugin'
 import { createImagePlugin as createCoreImagePlugin } from '@edtr-io/plugin-image'
-import axios from 'axios'
+import fetch from 'unfetch'
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024
 const ALLOWED_EXTENSIONS = ['gif', 'jpg', 'jpeg', 'png', 'svg']
@@ -118,9 +118,12 @@ export function createReadFile(getCsrfToken: () => string) {
         formData.append('type', 'file')
         formData.append('csrf', getCsrfToken())
 
-        axios
-          .post('/attachment/upload', formData)
-          .then(({ data }) => {
+        fetch('/attachment/upload', {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
             if (!data['success']) reject()
             resolve({
               file,

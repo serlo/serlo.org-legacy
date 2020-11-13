@@ -31,21 +31,22 @@ import {
 import { EquationsEditor } from './editor'
 import { Sign } from './sign'
 
-const stepProps = object({
-  left: child({ plugin: 'text' }),
+export const stepProps = object({
+  left: string(''),
   sign: string(Sign.Equals),
-  right: child({ plugin: 'text' }),
-  transform: child({ plugin: 'text' }),
+  right: string(''),
+  transform: string(''),
+  explanation: child({ plugin: 'text' }),
 })
 
 const equationsState = object({
   steps: list(stepProps, 1),
 })
 
-export type EquationsState = typeof equationsState
-export type EquationsProps = EditorPluginProps<EquationsState>
+export type EquationsPluginState = typeof equationsState
+export type EquationsProps = EditorPluginProps<EquationsPluginState>
 
-export const equationsPlugin: EditorPlugin<EquationsState> = {
+export const equationsPlugin: EditorPlugin<EquationsPluginState> = {
   Component: EquationsEditor,
   config: {},
   state: equationsState,

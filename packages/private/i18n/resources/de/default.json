@@ -151,8 +151,7 @@
     "Title for search engines": "Titel für Suchmaschinen"
   },
   "error": {
-    "An error occurred during conversion!": "Beim Konvertieren ist ein Fehler aufgetreten!",
-    "The plugin of type `{{plugin}}` couldn't be converted": "Das Plugin `{{plugin}}` konnte nicht konvertiert werden."
+    "This part of the document could not be converted.": "Dieser Teil des Dokuments konnte nicht automatisch konvertiert werden."
   },
   "exercise": {
     "Add choice exercise": "Auswahlaufgabe hinzufügen",
@@ -222,13 +221,15 @@
     "Create solution": "Lösung hinzufügen"
   },
   "equations": {
-    "Left-hand side": "Linke Seite",
-    "Right-hand side": "Rechte Seite",
-    "Transformation / explanation": "Umformung / Erklärung",
-    "Transformation": "Umformung",
-    "Add step": "Schritt hinzufügen"
+    "explanation": "Erklärung",
+    "left-hand side": "linke Seite",
+    "right-hand side": "rechte Seite",
+    "transformation": "Umformung"
   },
   "mathPuzzle": {
     "Source code": "Quellcode"
+  },
+  "deprecated": {
+    "This part of the document contains features that are no longer supported.": "Dieser Teil des Dokuments enthält Features, die nicht mehr unterstützt werden."
   }
 }

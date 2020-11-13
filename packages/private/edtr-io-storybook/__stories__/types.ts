@@ -20,177 +20,225 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { license } from './fixtures'
-import { addContentTypeStories } from './helpers'
+import { addContentTypeStory } from './helpers'
 
-addContentTypeStories('Applet', 'applet', {
-  id: 1337,
-  license,
-  changes: '',
-  title: 'Title',
-  url: '',
-  content: '',
-  reasoning: '',
-  meta_title: '',
-  meta_description: '',
-})
-
-addContentTypeStories('Article', 'article', {
-  id: 1337,
-  license,
-  changes: '',
-  title: 'Title',
-  content: '',
-  reasoning: '',
-  meta_title: '',
-  meta_description: '',
-})
-
-addContentTypeStories('Course', 'course', {
-  id: 1337,
-  license,
-  changes: '',
-  title: 'Title',
-  reasoning: '',
-  meta_description: '',
-  'course-page': [
-    {
-      id: 1338,
-      license,
-      changes: '',
-      title: 'Page 1',
-      icon: 'explanation',
-      content: '',
-    },
-    {
-      id: 1339,
-      license,
-      changes: '',
-      title: 'Page 2',
-      icon: 'explanation',
-      content: '',
-    },
-  ],
-})
-
-addContentTypeStories('Course Page', 'course-page', {
-  id: 1337,
-  license,
-  changes: '',
-  title: 'Title',
-  icon: 'explanation',
-  content: '',
-})
-
-addContentTypeStories('Event', 'event', {
-  id: 1337,
-  license,
-  changes: '',
-  title: 'Title',
-  content: '',
-  meta_title: '',
-  meta_description: '',
-})
-
-addContentTypeStories('Math Puzzle', 'math-puzzle', {
-  id: 1337,
-  license,
-  changes: '',
-  content: '',
-  source: '',
-})
-
-addContentTypeStories('Page', 'page', {
-  id: 1337,
-  license,
-  title: 'Title',
-  content: '',
-})
-
-addContentTypeStories('Text Exercise', 'text-exercise', [
-  {
-    name: 'default',
-    state: {
-      id: 1337,
-      license,
-      changes: '',
-      content: '{"plugin":"exercise"}',
-    },
+addContentTypeStory({
+  name: 'Applet',
+  type: 'applet',
+  initialState: {
+    id: 1337,
+    license,
+    changes: '',
+    title: 'Title',
+    url: '',
+    content: '',
+    reasoning: '',
+    meta_title: '',
+    meta_description: '',
   },
-  {
-    name: 'w/ solution',
-    state: {
-      id: 1337,
-      license,
-      changes: '',
-      content: '{"plugin":"exercise"}',
-      'text-solution': {
+})
+
+addContentTypeStory({
+  name: 'Article',
+  type: 'article',
+  initialState: {
+    id: 1337,
+    license,
+    changes: '',
+    title: 'Title',
+    content: '',
+    reasoning: '',
+    meta_title: '',
+    meta_description: '',
+  },
+})
+
+addContentTypeStory({
+  name: 'Course',
+  type: 'course',
+  initialState: {
+    id: 1337,
+    license,
+    changes: '',
+    title: 'Title',
+    reasoning: '',
+    meta_description: '',
+    'course-page': [
+      {
         id: 1338,
         license,
-        content: '{"plugin":"solution"}',
+        changes: '',
+        title: 'Page 1',
+        icon: 'explanation',
+        content: '',
       },
-    },
+      {
+        id: 1339,
+        license,
+        changes: '',
+        title: 'Page 2',
+        icon: 'explanation',
+        content: '',
+      },
+    ],
   },
-])
+})
 
-addContentTypeStories('Text Exercise Group', 'text-exercise-group', {
-  id: 1337,
-  license,
-  changes: '',
-  content: '',
-  'grouped-text-exercise': [
+addContentTypeStory({
+  name: 'Course Page',
+  type: 'course-page',
+  initialState: {
+    id: 1337,
+    license,
+    changes: '',
+    title: 'Title',
+    icon: 'explanation',
+    content: '',
+  },
+})
+
+addContentTypeStory({
+  name: 'Event',
+  type: 'event',
+  initialState: {
+    id: 1337,
+    license,
+    changes: '',
+    title: 'Title',
+    content: '',
+    meta_title: '',
+    meta_description: '',
+  },
+})
+
+addContentTypeStory({
+  name: 'Math Puzzle',
+  type: 'math-puzzle',
+  initialState: {
+    id: 1337,
+    license,
+    changes: '',
+    content: '',
+    source: '',
+  },
+})
+
+addContentTypeStory({
+  name: 'Page',
+  type: 'page',
+  initialState: {
+    id: 1337,
+    license,
+    title: 'Title',
+    content: '',
+  },
+})
+
+addContentTypeStory({
+  name: 'Text Exercise',
+  type: 'text-exercise',
+  initialState: [
     {
-      id: 1338,
-      license,
-      changes: '',
-      content: '{"plugin":"exercise"}',
-    },
-    {
-      id: 1339,
-      license,
-      changes: '',
-      content: '{"plugin":"exercise"}',
-      'text-solution': {
-        id: 1340,
+      name: 'default',
+      state: {
+        id: 1337,
         license,
         changes: '',
-        content: '{"plugin":"solution"}',
+        content: '{"plugin":"exercise"}',
       },
     },
     {
-      id: 1341,
-      license,
-      changes: '',
-      content: '{"plugin":"exercise"}',
-      'text-solution': {
-        id: 1343,
+      name: 'w/ solution',
+      state: {
+        id: 1337,
         license,
         changes: '',
-        content: '{"plugin":"solution"}',
+        content: '{"plugin":"exercise"}',
+        'text-solution': {
+          id: 1338,
+          license,
+          content: '{"plugin":"solution"}',
+        },
       },
     },
   ],
 })
 
-addContentTypeStories('User', 'user', {
-  id: 1337,
-  description: '',
-})
-
-addContentTypeStories('Video', 'video', {
-  id: 1337,
-  license,
-  title: 'Title',
-  description: '',
-  content: 'https://www.youtube.com/watch?v=cIzM2XBduuY',
-})
-
-addContentTypeStories('Taxonomy', 'taxonomy', {
-  id: 1337,
-  term: {
-    name: 'Term name',
+addContentTypeStory({
+  name: 'Text Exercise Group',
+  type: 'text-exercise-group',
+  initialState: {
+    id: 1337,
+    license,
+    changes: '',
+    content: '',
+    'grouped-text-exercise': [
+      {
+        id: 1338,
+        license,
+        changes: '',
+        content: '{"plugin":"exercise"}',
+      },
+      {
+        id: 1339,
+        license,
+        changes: '',
+        content: '{"plugin":"exercise"}',
+        'text-solution': {
+          id: 1340,
+          license,
+          changes: '',
+          content: '{"plugin":"solution"}',
+        },
+      },
+      {
+        id: 1341,
+        license,
+        changes: '',
+        content: '{"plugin":"exercise"}',
+        'text-solution': {
+          id: 1343,
+          license,
+          changes: '',
+          content: '{"plugin":"solution"}',
+        },
+      },
+    ],
   },
-  taxonomy: 1,
-  parent: 2,
-  position: 3,
-  description: '',
+})
+
+addContentTypeStory({
+  name: 'User',
+  type: 'user',
+  initialState: {
+    id: 1337,
+    description: '',
+  },
+})
+
+addContentTypeStory({
+  name: 'Video',
+  type: 'video',
+  initialState: {
+    id: 1337,
+    license,
+    title: 'Title',
+    description: '',
+    content: 'https://www.youtube.com/watch?v=cIzM2XBduuY',
+  },
+})
+
+addContentTypeStory({
+  name: 'Taxonomy',
+  type: 'taxonomy',
+  initialState: {
+    id: 1337,
+    term: {
+      name: 'Term name',
+    },
+    taxonomy: 1,
+    parent: 2,
+    position: 3,
+    description: '',
+  },
 })

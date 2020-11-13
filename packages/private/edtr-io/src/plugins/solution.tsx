@@ -51,10 +51,10 @@ const solutionState = object({
   steps: child({ plugin: 'rows' }),
 })
 
-export type SolutionState = typeof solutionState
-export type SolutionProps = EditorPluginProps<SolutionState>
+export type SolutionPluginState = typeof solutionState
+export type SolutionProps = EditorPluginProps<SolutionPluginState>
 
-export const solutionPlugin: EditorPlugin<SolutionState> = {
+export const solutionPlugin: EditorPlugin<SolutionPluginState> = {
   Component: SolutionEditor,
   state: solutionState,
   config: {},

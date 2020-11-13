@@ -19,13 +19,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import axios from 'axios'
+import fetch from 'unfetch'
 
 describe('/api/event/:id', () => {
   test('returns event when the instance of the event and the url do not match', async () => {
-    const response = await fetchAlias({ instance: 'de', path: '/api/event/10' })
+    const data = await fetchAlias({ instance: 'de', path: '/api/event/10' })
 
-    expect(response.data).toEqual({
+    expect(data).toEqual({
       id: 10,
       instance: 'de',
       date: '2014-03-01T20:36:34+01:00',
@@ -40,21 +40,31 @@ describe('/api/event/:id', () => {
 describe('/api/alias/:alias', () => {
   describe('/api/alias/user/profile/:username', () => {
     test('when user does not exist', async () => {
-      const response = await fetchAlias({
+      const data = await fetchAlias({
         path: '/api/alias/user/profile/not-existing',
       })
 
-      expect(response.data).toBeNull()
+      expect(data).toBeNull()
     })
   })
 })
 
-function fetchAlias({
+describe('/api/subscriptions/:userId', () => {
+  test('returns null when user does not exist', async () => {
+    const data = await fetchAlias({ path: '/api/subscriptions/10000' })
+
+    expect(data).toBeNull()
+  })
+})
+
+async function fetchAlias({
   path,
   instance = 'de',
 }: {
   path: string
   instance?: string
 }) {
-  return axios.get(`http://${instance}.serlo.localhost:4567${path}`)
+  const response = await fetch(`http://${instance}.serlo.localhost:4567${path}`)
+
+  return await response.json()
 }

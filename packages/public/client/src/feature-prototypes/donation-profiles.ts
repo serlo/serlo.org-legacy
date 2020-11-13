@@ -19,8 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { getAsset } from '../frontend/modules/assets'
-import { getAuthenticatedUserID } from '../frontend/modules/user'
+import { getAsset } from '../main/modules/assets'
+import { getAuthenticatedUserID } from '../main/modules/user'
 
 const communityTypes = [
   'activeReviewers',

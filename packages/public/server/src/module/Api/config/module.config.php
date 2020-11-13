@@ -215,6 +215,15 @@ return [
                             ],
                         ],
                     ],
+                    'subscriptions' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/subscriptions/:user-id',
+                            'defaults' => [
+                                'action' => 'subscriptions',
+                            ],
+                        ],
+                    ],
                     'uuid' => [
                         'type' => 'segment',
                         'options' => [

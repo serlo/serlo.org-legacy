@@ -9,7 +9,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "base-64": "^0.1.0",
+    "base-64": "^1.0.0",
     "jquery": "^3.0.0",
     "tslib": "^2.0.0",
     "utf8": "^3.0.0"
