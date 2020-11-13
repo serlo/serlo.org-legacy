@@ -229,18 +229,20 @@ class NotificationApiManager
                     'reason' => $event->getParameter('reason') ?? '',
                 ];
             case 'taxonomy/term/associate':
+                $object = $event->getParameter('object');
                 return [
                     '__typename' => 'CreateTaxonomyLinkNotificationEvent',
                     'actorId' => $event->getActor()->getId(),
                     'parentId' => $event->getObject()->getId(),
-                    'childId' => $event->getParameter('object')->getId(),
+                    'childId' => $object ? $object->getId() : null,
                 ];
             case 'taxonomy/term/dissociate':
+                $object = $event->getParameter('object');
                 return [
                     '__typename' => 'RemoveTaxonomyLinkNotificationEvent',
                     'actorId' => $event->getActor()->getId(),
                     'parentId' => $event->getObject()->getId(),
-                    'childId' => $event->getParameter('object')->getId(),
+                    'childId' => $object ? $object->getId() : null,
                 ];
             case 'taxonomy/term/create':
                 return [
@@ -261,8 +263,10 @@ class NotificationApiManager
                     '__typename' => 'SetTaxonomyParentNotificationEvent',
                     'actorId' => $event->getActor()->getId(),
                     'childId' => $event->getObject()->getId(),
-                    'previousParentId' => $from ? $from->getId() : null,
-                    'parentId' => $to ? $to->getId() : null,
+                    'previousParentId' =>
+                        $from && $from != 'no parent' ? $from->getId() : null,
+                    'parentId' =>
+                        $to && $to != 'no parent' ? $to->getId() : null,
                 ];
             case 'uuid/restore':
                 return [
