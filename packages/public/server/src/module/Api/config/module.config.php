@@ -149,8 +149,10 @@ return [
                     'events' => [
                         'type' => 'segment',
                         'options' => [
-                            'route' => '/event-ids',
+                            'route' => '/events',
                             'defaults' => [
+                                'controller' =>
+                                    NotificationApiController::class,
                                 'action' => 'events',
                             ],
                         ],

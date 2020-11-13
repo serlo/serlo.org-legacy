@@ -26,7 +26,6 @@ namespace Api;
 use Alias\AliasManagerInterface;
 use Alias\Entity\AliasInterface;
 use Api\Service\GraphQLService;
-use Common\Traits\ObjectManagerAwareTrait;
 use DateTime;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
@@ -45,8 +44,6 @@ class ApiManager
     protected $aliasManager;
     /** @var GraphQLService */
     protected $graphql;
-
-    use ObjectManagerAwareTrait;
 
     public function __construct(
         AliasManagerInterface $aliasManager,
@@ -353,53 +350,6 @@ class ApiManager
         return $data;
     }
 
-    public function getEventsData(array $options, int $limit)
-    {
-        $returnLastElements = false;
-        $generalConditions = [];
-
-        if (array_key_exists('userId', $options)) {
-            $generalConditions[] = 'actor_id = ' . $options['userId'];
-        }
-        if (array_key_exists('uuid', $options)) {
-            $generalConditions[] = 'uuid_id = ' . $options['uuid'];
-        }
-
-        $idConditions = $generalConditions;
-
-        if (array_key_exists('after', $options)) {
-            $idConditions[] = 'id > ' . $options['after'];
-        }
-        if (array_key_exists('before', $options)) {
-            $idConditions[] = 'id < ' . $options['before'];
-            $returnLastElements = true;
-        }
-        if (array_key_exists('first', $options)) {
-            $limit = min($limit, intval($options['first']));
-        }
-        if (array_key_exists('last', $options)) {
-            $limit = min($limit, intval($options['last']));
-            $returnLastElements = true;
-        }
-
-        $sqlIds =
-            'SELECT id FROM event_log ' .
-            $this->toWhereClause($idConditions) .
-            'ORDER BY id ' .
-            ($returnLastElements ? 'DESC ' : '') .
-            'LIMIT ' .
-            ($limit + 1);
-        $ids = array_map(function ($x) {
-            return intval($x['id']);
-        }, $this->executeSql($sqlIds));
-        $ids = $returnLastElements ? array_reverse($ids) : $ids;
-
-        return [
-            'eventIds' => array_slice($ids, 0, $limit),
-            'hasNext' => count($ids) > $limit,
-        ];
-    }
-
     private function normalizeType($type)
     {
         $type = str_replace('text-', '', $type);
@@ -431,17 +381,5 @@ class ApiManager
                 }, $remainingSegments)
             )
         );
-    }
-
-    private function executeSql($sql)
-    {
-        $query = $this->objectManager->getConnection()->prepare($sql);
-        $query->execute();
-        return $query->fetchAll();
-    }
-
-    private function toWhereClause(array $conditions)
-    {
-        return $conditions ? 'WHERE ' . join(' AND ', $conditions) . ' ' : '';
     }
 }

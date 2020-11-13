@@ -103,22 +103,6 @@ class ApiController extends AbstractApiController
         );
     }
 
-    public function eventsAction()
-    {
-        $parameters = ['after'];
-        $options = [];
-
-        foreach ($parameters as $p) {
-            if ($this->getRequest()->getQuery($p)) {
-                $options[$p] = $this->getRequest()->getQuery($p);
-            }
-        }
-
-        return new JsonModel(
-            $this->getApiManager()->getEventsData($options, 50000)
-        );
-    }
-
     public function licenseAction()
     {
         $authorizationResponse = $this->assertAuthorization();

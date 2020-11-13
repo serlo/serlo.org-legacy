@@ -45,6 +45,20 @@ class NotificationApiController extends AbstractApiController
         }
     }
 
+    public function eventsAction()
+    {
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
+        // When "after" parameter is malformed or not present (= null), $after becomes 0. Then the beginning of the
+        // event log is returned.
+        $after = (int) $this->getRequest()->getQuery('after');
+
+        return new JsonModel($this->manager->getEventsData($after, 50000));
+    }
+
     public function eventAction()
     {
         $authorizationResponse = $this->assertAuthorization();

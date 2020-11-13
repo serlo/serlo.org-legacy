@@ -20,7 +20,6 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import axios from 'axios'
-import * as R from 'ramda'
 
 describe('/api/event/:id', () => {
   test('returns event when the instance of the event and the url do not match', async () => {
@@ -35,99 +34,6 @@ describe('/api/event/:id', () => {
       parentId: 8,
       childId: 1208,
     })
-  })
-})
-
-describe('/api/events', () => {
-  test('without arguments: returns list of first 100 ids', async () => {
-    const response = await fetchAlias({ path: '/api/events' })
-
-    expect(response.data).toEqual({
-      totalCount: 84706,
-      eventIds: R.range(1, 101),
-      pageInfo: { hasNextPage: true, hasPreviousPage: false },
-    })
-  })
-
-  test('with ?after=1000', async () => {
-    const response = await fetchAlias({ path: '/api/events?after=1000' })
-
-    expect(response.data).toEqual({
-      totalCount: 84706,
-      eventIds: R.range(1001, 1101),
-      pageInfo: { hasNextPage: true, hasPreviousPage: true },
-    })
-  })
-
-  test('with ?before=1000', async () => {
-    const response = await fetchAlias({ path: '/api/events?before=1000' })
-
-    expect(response.data).toEqual({
-      totalCount: 84706,
-      eventIds: R.range(900, 1000),
-      pageInfo: { hasNextPage: true, hasPreviousPage: true },
-    })
-  })
-
-  test('with ?first=2', async () => {
-    const response = await fetchAlias({ path: '/api/events?first=2' })
-
-    expect(response.data).toEqual({
-      totalCount: 84706,
-      eventIds: [1, 2],
-      pageInfo: { hasNextPage: true, hasPreviousPage: false },
-    })
-  })
-
-  test('with ?last=2', async () => {
-    const response = await fetchAlias({ path: '/api/events?last=2' })
-
-    expect(response.data).toEqual({
-      totalCount: 84706,
-      eventIds: [86590, 86591],
-      pageInfo: { hasNextPage: false, hasPreviousPage: true },
-    })
-  })
-
-  test('with ?userId=10', async () => {
-    const response = await fetchAlias({ path: '/api/events?userId=10&first=3' })
-
-    expect(response.data).toEqual({
-      totalCount: 3075,
-      eventIds: [37494, 38065, 38379],
-      pageInfo: { hasNextPage: true, hasPreviousPage: false },
-    })
-  })
-
-  test('with ?uuid=16030', async () => {
-    const response = await fetchAlias({ path: '/api/events?uuid=16030&last=3' })
-
-    expect(response.data).toEqual({
-      totalCount: 10,
-      eventIds: [55786, 59392, 61858],
-      pageInfo: { hasNextPage: false, hasPreviousPage: true },
-    })
-  })
-
-  test('handles empty results correctly', async () => {
-    const notExistingUserId = '111'
-    const response = await fetchAlias({
-      path: '/api/events?userId=' + notExistingUserId,
-    })
-
-    expect(response.data).toEqual({
-      totalCount: 0,
-      eventIds: [],
-      pageInfo: { hasNextPage: false, hasPreviousPage: false },
-    })
-  })
-
-  test('content type is application/json and charset is utf8', async () => {
-    const response = await fetchAlias({ path: '/api/events' })
-
-    expect(response.headers['content-type']).toBe(
-      'application/json; charset=utf-8'
-    )
   })
 })
 
