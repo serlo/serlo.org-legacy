@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import fetch from 'unfetch'
+import fetch from 'node-fetch'
 
 import { testingServerUrl } from './_config'
 
@@ -39,6 +39,8 @@ describe('/api/subscriptions/:userId', () => {
   })
 })
 
-function fetchPath(path: string) {
-  return fetch(testingServerUrl + path).then((response) => response.json())
+async function fetchPath(path: string) {
+  const response = await fetch(testingServerUrl + path)
+
+  return await response.json()
 }
