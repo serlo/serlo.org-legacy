@@ -26,6 +26,7 @@ namespace Api\Controller;
 use Alias\AliasManagerAwareTrait;
 use Api\ApiManagerAwareTrait;
 use Api\Service\AuthorizationService;
+use Discussion\DiscussionManagerAwareTrait;
 use Exception;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Lcobucci\JWT\Parser;
@@ -51,6 +52,7 @@ class ApiController extends AbstractApiController
     use LicenseManagerAwareTrait;
     use UserManagerAwareTrait;
     use UuidManagerAwareTrait;
+    use DiscussionManagerAwareTrait;
     use SubscriptionManagerAwareTrait;
 
     public function __construct(AuthorizationService $authorizationService)
@@ -83,21 +85,13 @@ class ApiController extends AbstractApiController
                     )
                 );
             } catch (UserNotFoundException $exception) {
-                $this->response
-                    ->getHeaders()
-                    ->addHeaderLine('Content-Type', 'application/json');
-                $this->response->setContent('null');
-                return $this->response;
+                $this->createJsonResponse('null');
             }
         }
 
         $aliases = $this->getAliasManager()->findAliases($alias, $instance);
         if (count($aliases) === 0) {
-            $this->response
-                ->getHeaders()
-                ->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
+            return $this->createJsonResponse('null');
         }
 
         $currentAlias = $aliases[0];
@@ -121,11 +115,26 @@ class ApiController extends AbstractApiController
                 $this->getApiManager()->getLicenseData($license)
             );
         } catch (LicenseNotFoundException $exception) {
-            $this->response
-                ->getHeaders()
-                ->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
+            return $this->createJsonResponse('null');
+        }
+    }
+
+    public function threadsAction()
+    {
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
+        $id = $this->params('id');
+        try {
+            $uuid = $this->getUuidManager()->getUuid($id, false, false);
+            $threads = $this->getDiscussionManager()->findDiscussionsOn($uuid);
+            return new JsonModel(
+                $this->getApiManager()->getThreadsData($threads)
+            );
+        } catch (NotFoundException $exception) {
+            return $this->createJsonResponse('[]');
         }
     }
 
@@ -150,11 +159,7 @@ class ApiController extends AbstractApiController
                 'subscriptions' => $subscriptions,
             ]);
         } catch (UserNotFoundException $exception) {
-            $this->response
-                ->getHeaders()
-                ->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
+            $this->createJsonResponse('null');
         }
     }
 
@@ -170,11 +175,16 @@ class ApiController extends AbstractApiController
             $uuid = $this->getUuidManager()->getUuid($id, false, false);
             return new JsonModel($this->getApiManager()->getUuidData($uuid));
         } catch (NotFoundException $exception) {
-            $this->response
-                ->getHeaders()
-                ->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
+            return $this->createJsonResponse('null');
         }
+    }
+
+    protected function createJsonResponse($data)
+    {
+        $this->response
+            ->getHeaders()
+            ->addHeaderLine('Content-Type', 'application/json');
+        $this->response->setContent($data);
+        return $this->response;
     }
 }
