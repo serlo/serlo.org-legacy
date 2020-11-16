@@ -261,8 +261,10 @@ class NotificationApiManager
                     '__typename' => 'SetTaxonomyParentNotificationEvent',
                     'actorId' => $event->getActor()->getId(),
                     'childId' => $event->getObject()->getId(),
-                    'previousParentId' => $from ? $from->getId() : null,
-                    'parentId' => $to ? $to->getId() : null,
+                    'previousParentId' =>
+                        $from && $from != 'no parent' ? $from->getId() : null,
+                    'parentId' =>
+                        $to && $to != 'no parent' ? $to->getId() : null,
                 ];
             case 'uuid/restore':
                 return [
