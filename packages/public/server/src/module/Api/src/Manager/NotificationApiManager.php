@@ -103,6 +103,7 @@ class NotificationApiManager
                 'id' => $event->getId(),
                 'instance' => $event->getInstance()->getSubdomain(),
                 'date' => $this->normalizeDate($event->getTimestamp()),
+                'objectId' => $event->getObject()->getId(),
             ],
             $normalized
         );
@@ -269,14 +270,12 @@ class NotificationApiManager
                 return [
                     '__typename' => 'SetUuidStateNotificationEvent',
                     'actorId' => $event->getActor()->getId(),
-                    'objectId' => $event->getObject()->getId(),
                     'trashed' => false,
                 ];
             case 'uuid/trash':
                 return [
                     '__typename' => 'SetUuidStateNotificationEvent',
                     'actorId' => $event->getActor()->getId(),
-                    'objectId' => $event->getObject()->getId(),
                     'trashed' => true,
                 ];
             default:
