@@ -25,7 +25,6 @@ namespace Alias;
 
 use Alias\Entity\AliasInterface;
 use Alias\Exception;
-use Alias\Options\ManagerOptions;
 use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
 use Common\Filter\Shortify;
@@ -52,11 +51,6 @@ class AliasManager implements AliasManagerInterface
     const CACHE_NONEXISTENT = '~nonexistent~';
 
     /**
-     * @var ManagerOptions
-     */
-    protected $options;
-
-    /**
      * @var StorageInterface
      */
     protected $storage;
@@ -68,7 +62,6 @@ class AliasManager implements AliasManagerInterface
 
     public function __construct(
         ClassResolverInterface $classResolver,
-        ManagerOptions $options,
         ObjectManager $objectManager,
         RouteInterface $router,
         StorageInterface $storage,
@@ -79,7 +72,6 @@ class AliasManager implements AliasManagerInterface
         $this->objectManager = $objectManager;
         $this->router = $router;
         $this->storage = $storage;
-        $this->options = $options;
     }
 
     public function findAliasByObject(
@@ -233,23 +225,6 @@ class AliasManager implements AliasManagerInterface
             $this->inMemoryAliases = [];
         }
         $this->getObjectManager()->flush($object);
-    }
-
-    /**
-     * @return ManagerOptions $options
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * @param ManagerOptions $options
-     * @return void
-     */
-    public function setOptions(ManagerOptions $options)
-    {
-        $this->options = $options;
     }
 
     /**

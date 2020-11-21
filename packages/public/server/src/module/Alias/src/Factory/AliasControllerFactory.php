@@ -20,31 +20,27 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-
 namespace Alias\Factory;
 
-use Alias\Listener\AbstractListener;
-use Zend\ServiceManager\FactoryInterface;
+use Alias\AliasManager;
+use Alias\AliasManagerInterface;
+use Alias\Controller\AliasController;
+use Common\Factory\AbstractControllerFactory;
+use Instance\Manager\InstanceManager;
+use Instance\Manager\InstanceManagerInterface;
+use Zend\Mvc\Router\RouteInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-abstract class AbstractListenerFactory implements FactoryInterface
+class AliasControllerFactory extends AbstractControllerFactory
 {
-    use AliasManagerFactoryTrait;
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return AbstractListener
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    protected function createController(ServiceLocatorInterface $serviceManager)
     {
-        $aliasManager = $this->getAliasManager($serviceLocator);
-        $listener = $this->getClassName();
-
-        return new $listener($aliasManager);
+        /** @var AliasManagerInterface $aliasManager */
+        $aliasManager = $serviceManager->get(AliasManager::class);
+        /** @var InstanceManagerInterface $instanceManager */
+        $instanceManager = $serviceManager->get(InstanceManager::class);
+        /** @var RouteInterface $router */
+        $router = $serviceManager->get('Router');
+        return new AliasController($aliasManager, $instanceManager, $router);
     }
-
-    /**
-     * @return string
-     */
-    abstract protected function getClassName();
 }

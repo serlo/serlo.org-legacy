@@ -22,71 +22,81 @@
  */
 namespace Alias\Controller;
 
-use Alias\Exception\AliasNotFoundException;
-use Alias\Exception\CanonicalUrlNotFoundException;
 use Alias;
+use Alias\AliasManagerInterface;
+use Alias\Exception\AliasNotFoundException;
+use Instance\Manager\InstanceManagerInterface;
 use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Stdlib\ArrayUtils;
+use Zend\Mvc\Router\RouteInterface;
 
 class AliasController extends AbstractActionController
 {
-    use Alias\AliasManagerAwareTrait,
-        \Instance\Manager\InstanceManagerAwareTrait;
+    /** @var AliasManagerInterface */
+    private $aliasManager;
+    /** @var InstanceManagerInterface */
+    private $instanceManager;
+    /** @var RouteInterface */
+    private $router;
 
-    /**
-     * @var mixed
-     */
-    protected $router;
+    public function __construct(
+        AliasManagerInterface $aliasManager,
+        InstanceManagerInterface $instanceManager,
+        RouteInterface $router
+    ) {
+        $this->aliasManager = $aliasManager;
+        $this->instanceManager = $instanceManager;
+        $this->router = $router;
+    }
 
-    public function forwardAction()
+    public function resolveAction()
     {
+        // Note: URLs of the form `/:id` are instead handled by the Normalizer module and redirect to this route instead.
+        // This is necessary because the place in the navigation is determined via route.
+        // Furthermore, we have some special behavior for XHR that are used for injections.
         $alias = $this->params('alias');
-        $instance = $this->getInstanceManager()->getInstanceFromRequest();
+        $url = $this->resolveLegacyAlias($alias);
+        return $url === null
+            ? $this->notFoundResponse()
+            : $this->routerResponse($url);
+    }
 
+    private function resolveLegacyAlias($alias)
+    {
+        $instance = $this->instanceManager->getInstanceFromRequest();
         try {
-            $location = $this->aliasManager->findCanonicalAlias(
-                $alias,
-                $instance
-            );
-            $this->redirect()->toUrl($location);
-            $this->getResponse()->setStatusCode(301);
-            return false;
-        } catch (CanonicalUrlNotFoundException $e) {
-        }
-
-        try {
-            $source = $this->aliasManager->findSourceByAlias(
+            return $this->aliasManager->findSourceByAlias(
                 $alias,
                 $instance,
                 true
             );
         } catch (AliasNotFoundException $e) {
-            $this->getResponse()->setStatusCode(404);
-            return false;
+            return null;
         }
+    }
 
-        $router = $this->getServiceLocator()->get('Router');
+    private function routerResponse($url)
+    {
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
-        $request->setUri($source);
-        $routeMatch = $router->match($request);
+        $request->setUri($url);
+        $routeMatch = $this->router->match($request);
 
         if ($routeMatch === null) {
-            $this->getResponse()->setStatusCode(404);
-            return false;
+            return $this->notFoundResponse();
         }
 
-        $this->getEvent()->setRouteMatch($routeMatch);
-        $params = $routeMatch->getParams();
+        $params = array_merge($routeMatch->getParams(), [
+            'forwarded' => true,
+            'isXmlHttpRequest' => $this->getRequest()->isXmlHttpRequest(),
+        ]);
         $controller = $params['controller'];
-        $return = $this->forward()->dispatch(
-            $controller,
-            ArrayUtils::merge($params, [
-                'forwarded' => true,
-            ])
-        );
+        return $this->forward()->dispatch($controller, $params);
+    }
 
-        return $return;
+    private function notFoundResponse()
+    {
+        $this->getResponse()->setStatusCode(404);
+        return false;
     }
 }

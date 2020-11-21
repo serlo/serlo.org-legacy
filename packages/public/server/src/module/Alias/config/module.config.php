@@ -23,24 +23,13 @@
 
 namespace Alias;
 
+use Alias\Controller\AliasController;
+use Alias\Factory\AliasControllerFactory;
+
 return [
-    'alias_manager' => [
-        'aliases' => [
-            'blogPost' => [
-                'tokenize' => 'blog/{category}/{title}',
-                'provider' => 'Blog\Provider\TokenizerProvider',
-                'fallback' => 'blog/{category}/{id}-{title}',
-            ],
-            'entity' => [
-                'tokenize' => '{path}/{title}',
-                'fallback' => '{path}/{title}-{id}',
-                'provider' => 'Entity\Provider\TokenProvider',
-            ],
-            'taxonomyTerm' => [
-                'tokenize' => '{path}',
-                'fallback' => '{path}-{id}',
-                'provider' => 'Taxonomy\Provider\TokenProvider',
-            ],
+    'controllers' => [
+        'factories' => [
+            AliasController::class => AliasControllerFactory::class,
         ],
     ],
     'controller_plugins' => [
@@ -60,8 +49,8 @@ return [
                 'options' => [
                     'route' => '/:alias',
                     'defaults' => [
-                        'controller' => 'Alias\Controller\AliasController',
-                        'action' => 'forward',
+                        'controller' => AliasController::class,
+                        'action' => 'resolve',
                     ],
                     'constraints' => [
                         'alias' => '(.)+',
@@ -72,8 +61,6 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Options\ManagerOptions' =>
-                __NAMESPACE__ . '\Factory\ManagerOptionsFactory',
             __NAMESPACE__ . '\AliasManager' =>
                 __NAMESPACE__ . '\Factory\AliasManagerFactory',
             __NAMESPACE__ . '\Storage\AliasStorage' =>
@@ -81,19 +68,6 @@ return [
         ],
     ],
     'di' => [
-        'allowed_controllers' => ['Alias\Controller\AliasController'],
-        'definition' => [
-            'class' => [
-                __NAMESPACE__ . '\Controller\AliasController' => [
-                    'setAliasManager' => [
-                        'required' => true,
-                    ],
-                    'setInstanceManager' => [
-                        'required' => true,
-                    ],
-                ],
-            ],
-        ],
         'instance' => [
             'preferences' => [
                 __NAMESPACE__ . '\AliasManagerInterface' =>
