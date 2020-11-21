@@ -53,7 +53,6 @@ class RepositoryForm extends Form
         $this->setHydrator($hydrator);
         $this->setObject($pageRepository);
 
-        $this->add((new Text('slug'))->setLabel('Url:'));
         $this->add(
             (new Checkbox('discussionsEnabled'))->setLabel(
                 'Discussions enabled'
