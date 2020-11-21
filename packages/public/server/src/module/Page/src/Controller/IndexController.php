@@ -281,20 +281,12 @@ class IndexController extends AbstractAPIAwareActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $array = $form->getData(FormInterface::VALUES_AS_ARRAY);
                 $source = $this->url()->fromRoute(
                     'page/view',
                     ['page' => $page->getId()],
                     null,
                     null,
                     false
-                );
-                $this->getAliasManager()->createAlias(
-                    $source,
-                    $array['slug'],
-                    $array['slug'] . $page->getId(),
-                    $page,
-                    $instance
                 );
                 $this->getPageManager()->editPageRepository($form);
                 $this->getPageManager()->flush();

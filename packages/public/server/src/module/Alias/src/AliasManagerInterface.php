@@ -30,36 +30,6 @@ use Uuid\Entity\UuidInterface;
 interface AliasManagerInterface extends Flushable
 {
     /**
-     * @param                   $name
-     * @param                   $source
-     * @param UuidInterface     $object
-     * @param InstanceInterface $instance
-     * @return AliasInterface
-     */
-    public function autoAlias(
-        $name,
-        $source,
-        UuidInterface $object,
-        InstanceInterface $instance
-    );
-
-    /**
-     * @param                   $source
-     * @param                   $alias
-     * @param                   $aliasFallback
-     * @param UuidInterface     $object
-     * @param InstanceInterface $instance
-     * @return AliasInterface
-     */
-    public function createAlias(
-        $source,
-        $alias,
-        $aliasFallback,
-        UuidInterface $object,
-        InstanceInterface $instance
-    );
-
-    /**
      * @param UuidInterface $uuid
      * @param bool $instanceAware
      * @return AliasInterface

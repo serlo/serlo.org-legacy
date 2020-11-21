@@ -24,29 +24,6 @@
 namespace Alias;
 
 return [
-    'controllers' => [
-        'factories' => [
-            __NAMESPACE__ . '\Controller\RefreshController' =>
-                __NAMESPACE__ . '\Factory\RefreshControllerFactory',
-        ],
-    ],
-    'console' => [
-        'router' => [
-            'routes' => [
-                'alias' => [
-                    'options' => [
-                        'route' =>
-                            'alias refresh [--percentile=] [--skip-entities] [--skip-terms] ',
-                        'defaults' => [
-                            'controller' =>
-                                __NAMESPACE__ . '\Controller\RefreshController',
-                            'action' => 'refresh',
-                        ],
-                    ],
-                ],
-            ],
-        ],
-    ],
     'alias_manager' => [
         'aliases' => [
             'blogPost' => [
@@ -99,16 +76,6 @@ return [
                 __NAMESPACE__ . '\Factory\ManagerOptionsFactory',
             __NAMESPACE__ . '\AliasManager' =>
                 __NAMESPACE__ . '\Factory\AliasManagerFactory',
-            __NAMESPACE__ . '\Listener\BlogManagerListener' =>
-                __NAMESPACE__ . '\Factory\BlogManagerListenerFactory',
-            __NAMESPACE__ . '\Listener\BlogManagerListener' =>
-                __NAMESPACE__ . '\Factory\BlogManagerListenerFactory',
-            __NAMESPACE__ . '\Listener\RepositoryManagerListener' =>
-                __NAMESPACE__ . '\Factory\RepositoryManagerListenerFactory',
-            __NAMESPACE__ . '\Listener\PageControllerListener' =>
-                __NAMESPACE__ . '\Factory\PageControllerListenerFactory',
-            __NAMESPACE__ . '\Listener\TaxonomyManagerListener' =>
-                __NAMESPACE__ . '\Factory\TaxonomyManagerListenerFactory',
             __NAMESPACE__ . '\Storage\AliasStorage' =>
                 __NAMESPACE__ . '\Factory\AliasStorageFactory',
         ],
