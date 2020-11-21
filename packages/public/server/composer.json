@@ -65,7 +65,6 @@
       "Subject\\": "src/module/Subject/src",
       "Taxonomy\\": "src/module/Taxonomy/src",
       "Term\\": "src/module/Term/src",
-      "Token\\": "src/module/Token/src",
       "Type\\": "src/module/Type/src",
       "Ui\\": "src/module/Ui/src",
       "User\\": "src/module/User/src",

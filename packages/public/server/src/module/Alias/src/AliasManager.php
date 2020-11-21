@@ -35,8 +35,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Instance\Entity\InstanceInterface;
 use Instance\Manager\InstanceAwareObjectManagerAwareTrait;
 use Instance\Repository\InstanceAwareRepository;
-use Token\TokenizerAwareTrait;
-use Token\TokenizerInterface;
 use Uuid\Entity\UuidInterface;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\EventManager\EventManagerAwareTrait;
@@ -46,7 +44,7 @@ class AliasManager implements AliasManagerInterface
 {
     use InstanceAwareObjectManagerAwareTrait, ClassResolverAwareTrait;
     use EventManagerAwareTrait;
-    use TokenizerAwareTrait, Traits\RouterAwareTrait;
+    use Traits\RouterAwareTrait;
 
     const CACHE_NONEXISTENT = '~nonexistent~';
 
@@ -64,11 +62,9 @@ class AliasManager implements AliasManagerInterface
         ClassResolverInterface $classResolver,
         ObjectManager $objectManager,
         RouteInterface $router,
-        StorageInterface $storage,
-        TokenizerInterface $tokenizer
+        StorageInterface $storage
     ) {
         $this->classResolver = $classResolver;
-        $this->tokenizer = $tokenizer;
         $this->objectManager = $objectManager;
         $this->router = $router;
         $this->storage = $storage;

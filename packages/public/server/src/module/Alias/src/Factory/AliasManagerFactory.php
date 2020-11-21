@@ -38,7 +38,6 @@ class AliasManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $objectManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
-        $tokenizer = $serviceLocator->get('Token\Tokenizer');
         $classResolver = $serviceLocator->get('ClassResolver\ClassResolver');
         $storage = $serviceLocator->get('Alias\Storage\AliasStorage');
         $isConsole = Console::isConsole();
@@ -48,8 +47,7 @@ class AliasManagerFactory implements FactoryInterface
             $classResolver,
             $objectManager,
             $router,
-            $storage,
-            $tokenizer
+            $storage
         );
     }
 }
