@@ -24,11 +24,17 @@ namespace Alias\Controller;
 
 use Alias;
 use Alias\AliasManagerInterface;
+use Alias\Controller\Plugin\Url;
 use Alias\Exception\AliasNotFoundException;
 use Instance\Manager\InstanceManagerInterface;
+use Normalizer\NormalizerInterface;
+use Uuid\Exception\NotFoundException;
+use Uuid\Manager\UuidManagerInterface;
 use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Router\RouteInterface;
+use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
 
 class AliasController extends AbstractActionController
 {
@@ -36,29 +42,39 @@ class AliasController extends AbstractActionController
     private $aliasManager;
     /** @var InstanceManagerInterface */
     private $instanceManager;
+    /** @var UuidManagerInterface */
+    private $uuidManager;
+    /** @var NormalizerInterface */
+    private $normalizer;
     /** @var RouteInterface */
     private $router;
 
     public function __construct(
         AliasManagerInterface $aliasManager,
         InstanceManagerInterface $instanceManager,
+        UuidManagerInterface $uuidManager,
+        NormalizerInterface $normalizer,
         RouteInterface $router
     ) {
         $this->aliasManager = $aliasManager;
         $this->instanceManager = $instanceManager;
+        $this->uuidManager = $uuidManager;
+        $this->normalizer = $normalizer;
         $this->router = $router;
     }
 
     public function resolveAction()
     {
-        // Note: URLs of the form `/:id` are instead handled by the Normalizer module and redirect to this route instead.
-        // This is necessary because the place in the navigation is determined via route.
-        // Furthermore, we have some special behavior for XHR that are used for injections.
         $alias = $this->params('alias');
-        $url = $this->resolveLegacyAlias($alias);
-        return $url === null
-            ? $this->notFoundResponse()
-            : $this->routerResponse($url);
+
+        if (preg_match('/^(?<id>\d+)$/', $alias, $matches)) {
+            return $this->resolveUuid($matches['id']);
+        } else {
+            $url = $this->resolveLegacyAlias($alias);
+            return $url === null
+                ? $this->notFoundResponse()
+                : $this->routerResponse($url);
+        }
     }
 
     private function resolveLegacyAlias($alias)
@@ -75,6 +91,53 @@ class AliasController extends AbstractActionController
         }
     }
 
+    private function resolveUuid($id)
+    {
+        try {
+            $object = $this->uuidManager->getUuid($id, true);
+        } catch (NotFoundException $e) {
+            return $this->notFoundResponse();
+        }
+        $normalized = $this->normalizer->normalize($object);
+
+        $routeName = $normalized->getRouteName();
+        $routeParams = $normalized->getRouteParams();
+
+        /** @var Url $urlHelper */
+        $urlHelper = $this->url();
+        $url = $urlHelper->fromRoute(
+            $routeName,
+            $routeParams,
+            null,
+            null,
+            false
+        );
+        $response = $this->routerResponse($url);
+
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            return $response;
+        }
+
+        // Note: The behavior below is needed for injections. Basically, we override the response when we have an XHR and return JSON instead.
+
+        if ($response instanceof JsonModel) {
+            $response = new ViewModel(['data' => $response->getVariables()]);
+            $response->setTemplate('normalizer/json');
+        }
+
+        $view = new ViewModel([
+            'id' => $object->getId(),
+            'type' => $normalized->getType(),
+            'url' => $url,
+            '__disableTemplateDebugger' => true,
+        ]);
+
+        $view->addChild($response, 'response');
+        $view->setTemplate('normalizer/ref');
+        $view->setTerminal(true);
+        return $view;
+    }
+
     private function routerResponse($url)
     {
         $request = new Request();
@@ -86,6 +149,7 @@ class AliasController extends AbstractActionController
             return $this->notFoundResponse();
         }
 
+        $this->getEvent()->setRouteMatch($routeMatch);
         $params = array_merge($routeMatch->getParams(), [
             'forwarded' => true,
             'isXmlHttpRequest' => $this->getRequest()->isXmlHttpRequest(),

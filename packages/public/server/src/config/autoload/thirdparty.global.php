@@ -59,8 +59,7 @@ return [
                         'entity/page',
                         'page/view',
                         'navigation/render',
-                        'sitemap',
-                        'uuid/get',
+                        'sitemap'
                     ],
                 ],
             ],

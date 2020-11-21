@@ -28,6 +28,10 @@ use Alias\Controller\AliasController;
 use Common\Factory\AbstractControllerFactory;
 use Instance\Manager\InstanceManager;
 use Instance\Manager\InstanceManagerInterface;
+use Normalizer\Normalizer;
+use Normalizer\NormalizerInterface;
+use Uuid\Manager\UuidManager;
+use Uuid\Manager\UuidManagerInterface;
 use Zend\Mvc\Router\RouteInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -39,8 +43,18 @@ class AliasControllerFactory extends AbstractControllerFactory
         $aliasManager = $serviceManager->get(AliasManager::class);
         /** @var InstanceManagerInterface $instanceManager */
         $instanceManager = $serviceManager->get(InstanceManager::class);
+        /** @var UuidManagerInterface $uuidManager */
+        $uuidManager = $serviceManager->get(UuidManager::class);
+        /** @var NormalizerInterface $normalizer */
+        $normalizer = $serviceManager->get(Normalizer::class);
         /** @var RouteInterface $router */
         $router = $serviceManager->get('Router');
-        return new AliasController($aliasManager, $instanceManager, $router);
+        return new AliasController(
+            $aliasManager,
+            $instanceManager,
+            $uuidManager,
+            $normalizer,
+            $router
+        );
     }
 }
