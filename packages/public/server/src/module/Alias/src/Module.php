@@ -22,114 +22,12 @@
  */
 namespace Alias;
 
-use Exception;
-use Zend\EventManager\EventInterface;
-use Zend\Http\Request as HttpRequest;
-use Zend\Http\Response as HttpResponse;
-use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\Mvc\MvcEvent;
 
-class Module implements BootstrapListenerInterface, ConfigProviderInterface
+class Module implements ConfigProviderInterface
 {
     public function getConfig()
     {
         return include __DIR__ . '/../config/module.config.php';
-    }
-
-    public function onBootstrap(EventInterface $e)
-    {
-        $eventManager = $e->getApplication()->getEventManager();
-        $eventManager->attach(
-            MvcEvent::EVENT_DISPATCH,
-            [$this, 'onDispatch'],
-            1000
-        );
-    }
-
-    public function onDispatch(MvcEvent $e)
-    {
-        $application = $e->getApplication();
-        $response = $e->getResponse();
-        $request = $application->getRequest();
-        $serviceManager = $application->getServiceManager();
-        /* @var $aliasManager AliasManagerInterface */
-        $aliasManager = $serviceManager->get('Alias\AliasManager');
-        $instanceManager = $serviceManager->get(
-            'Instance\Manager\InstanceManager'
-        );
-
-        if (
-            !(
-                $response instanceof HttpResponse &&
-                $request instanceof HttpRequest
-            )
-        ) {
-            return null;
-        }
-
-        /* @var $uriClone \Zend\Uri\Http */
-        $uriClone = clone $request->getUri();
-        $uri = $uriClone->getPath();
-        $query = $uriClone->getQuery();
-
-        try {
-            $location = $aliasManager->findAliasBySource(
-                $uri,
-                $instanceManager->getInstanceFromRequest()
-            );
-        } catch (Exception $ex) {
-            return null;
-        }
-
-        if ($query) {
-            $location .= '?' . $query;
-        }
-
-        $response->getHeaders()->addHeaderLine('Location', $location);
-        $response->setStatusCode(301);
-        $response->sendHeaders();
-        $e->stopPropagation();
-        return $response;
-    }
-
-    public function onDispatchError(MvcEvent $e)
-    {
-        $application = $e->getApplication();
-        $response = $e->getResponse();
-        $request = $application->getRequest();
-        $serviceManager = $application->getServiceManager();
-        /* @var $aliasManager AliasManagerInterface */
-        $aliasManager = $serviceManager->get('Alias\AliasManager');
-        $instanceManager = $serviceManager->get(
-            'Instance\Manager\InstanceManager'
-        );
-        if (
-            !(
-                $response instanceof HttpResponse &&
-                $request instanceof HttpRequest
-            )
-        ) {
-            return null;
-        }
-
-        /* @var $uriClone \Zend\Uri\Http */
-        $uriClone = clone $request->getUri();
-
-        try {
-            $uri = $uriClone->makeRelative('/')->getPath();
-            $location = $aliasManager->findCanonicalAlias(
-                $uri,
-                $instanceManager->getInstanceFromRequest()
-            );
-        } catch (Exception $ex) {
-            return null;
-        }
-
-        $response->getHeaders()->addHeaderLine('Location', $location);
-        $response->setStatusCode(301);
-        $response->sendHeaders();
-        $e->stopPropagation();
-        return $response;
     }
 }
