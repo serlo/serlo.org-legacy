@@ -23,17 +23,16 @@
 namespace Alias\Controller\Plugin;
 
 use Alias\AliasManagerInterface;
-use Alias\Exception\AliasNotFoundException;
 use Instance\Manager\InstanceManagerInterface;
 use Zend\Mvc\Controller\Plugin\Url as ZendUrl;
-use Zend\Mvc\Exception;
 
 class Url extends ZendUrl
 {
-    /**
-     * @param AliasManagerInterface    $aliasManager
-     * @param InstanceManagerInterface $instanceManager
-     */
+    /** @var AliasManagerInterface */
+    protected $aliasManager;
+    /** @var InstanceManagerInterface */
+    protected $instanceManager;
+
     public function __construct(
         AliasManagerInterface $aliasManager,
         InstanceManagerInterface $instanceManager
@@ -60,15 +59,6 @@ class Url extends ZendUrl
             return $url;
         }
 
-        $aliasManager = $this->aliasManager;
-        $instance = $this->instanceManager->getInstanceFromRequest();
-
-        try {
-            $url = $aliasManager->findAliasBySource($url, $instance);
-        } catch (AliasNotFoundException $e) {
-            // Nothing to do..
-        }
-
-        return $url;
+        return $this->aliasManager->getAliasOfSource($url) ?? $url;
     }
 }

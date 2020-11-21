@@ -23,6 +23,10 @@
 namespace Alias\Factory;
 
 use Alias\AliasManager;
+use Normalizer\Normalizer;
+use Normalizer\NormalizerInterface;
+use Uuid\Manager\UuidManager;
+use Uuid\Manager\UuidManagerInterface;
 use Zend\Console\Console;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -39,6 +43,10 @@ class AliasManagerFactory implements FactoryInterface
     {
         $objectManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
         $classResolver = $serviceLocator->get('ClassResolver\ClassResolver');
+        /** @var UuidManagerInterface $uuidManager */
+        $uuidManager = $serviceLocator->get(UuidManager::class);
+        /** @var NormalizerInterface $normalizer */
+        $normalizer = $serviceLocator->get(Normalizer::class);
         $storage = $serviceLocator->get('Alias\Storage\AliasStorage');
         $isConsole = Console::isConsole();
         $router = $isConsole ? 'HttpRouter' : 'Router';
@@ -46,6 +54,8 @@ class AliasManagerFactory implements FactoryInterface
         return new AliasManager(
             $classResolver,
             $objectManager,
+            $uuidManager,
+            $normalizer,
             $router,
             $storage
         );

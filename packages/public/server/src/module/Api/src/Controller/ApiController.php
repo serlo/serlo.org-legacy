@@ -89,15 +89,13 @@ class ApiController extends AbstractApiController
             }
         }
 
-        $aliases = $this->getAliasManager()->findAliases($alias, $instance);
-        if (count($aliases) === 0) {
-            return $this->createJsonResponse('null');
-        }
-
-        $currentAlias = $aliases[0];
-        return new JsonModel(
-            $this->getApiManager()->getAliasData($currentAlias)
+        $data = $this->getAliasManager()->resolveAliasInInstance(
+            $alias,
+            $instance
         );
+        return $data === null
+            ? $this->createJsonResponse('null')
+            : new JsonModel($data);
     }
 
     public function licenseAction()

@@ -28,32 +28,49 @@ class Slugify implements FilterInterface
 {
     /**
      * @param string $text
-     * @return bool|mixed
+     * @return bool|string
      */
-    protected static function slugify($text)
+    protected static function slugify(string $text)
     {
-        $text = trim($text, ' ');
-        $text = preg_replace('~ +~u', '-', $text);
+        $replacementTable = [
+            // remove
+            "'" => '',
+            '"' => '',
+            '`' => '',
+            '=' => '',
+            '+' => '',
+            '*' => '',
+            '&' => '',
+            '^' => '',
+            '%' => '',
+            '$' => '',
+            '#' => '',
+            '@' => '',
+            '!' => '',
+            '<' => '',
+            '>' => '',
+            '?' => '',
+            // convert to minus
+            '[' => '-',
+            ']' => '-',
+            '{' => '-',
+            '}' => '-',
+            '(' => '-',
+            ')' => '-',
+            ' ' => '-',
+            ',' => '-',
+            ';' => '-',
+            ':' => '-',
+            '/' => '-',
+            '|' => '-',
+        ];
+        $text = strtr($text, $replacementTable);
+        $text = preg_replace('/-{2,}/', '-', $text);
         $text = strtolower($text);
         if (empty($text)) {
             return false;
         }
         return $text;
-    }
-
-    /**
-     * @param string $str
-     * @param string $delimiter
-     * @return mixed|string
-     */
-    protected static function toAscii($str, $delimiter = '-')
-    {
-        $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
-        $clean = preg_replace('/[^a-zA-Z0-9\/_|+ -]/', '', $clean);
-        $clean = strtolower(trim($clean, '-'));
-        $clean = preg_replace('/[\/_|+ -]+/', $delimiter, $clean);
-
-        return $clean;
     }
 
     /**

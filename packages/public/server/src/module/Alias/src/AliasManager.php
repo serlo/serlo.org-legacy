@@ -23,19 +23,24 @@
 
 namespace Alias;
 
-use Alias\Entity\AliasInterface;
 use Alias\Exception;
 use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
 use Common\Filter\Shortify;
 use Common\Filter\Slugify;
 use Common\Traits;
-use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
+use Entity\Entity\EntityInterface;
 use Instance\Entity\InstanceInterface;
 use Instance\Manager\InstanceAwareObjectManagerAwareTrait;
 use Instance\Repository\InstanceAwareRepository;
+use Normalizer\NormalizerInterface;
+use Page\Entity\PageRepositoryInterface;
+use Taxonomy\Entity\TaxonomyTermInterface;
+use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
+use Uuid\Exception\NotFoundException;
+use Uuid\Manager\UuidManagerInterface;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Mvc\Router\RouteInterface;
@@ -48,131 +53,86 @@ class AliasManager implements AliasManagerInterface
 
     const CACHE_NONEXISTENT = '~nonexistent~';
 
-    /**
-     * @var StorageInterface
-     */
+    /** @var UuidManagerInterface */
+    protected $uuidManager;
+    /** @var NormalizerInterface */
+    protected $normalizer;
+    /** @var StorageInterface */
     protected $storage;
-
-    /**
-     * @var array|AliasInterface[]
-     */
-    protected $inMemoryAliases = [];
 
     public function __construct(
         ClassResolverInterface $classResolver,
         ObjectManager $objectManager,
+        UuidManagerInterface $uuidManager,
+        NormalizerInterface $normalizer,
         RouteInterface $router,
         StorageInterface $storage
     ) {
         $this->classResolver = $classResolver;
         $this->objectManager = $objectManager;
+        $this->uuidManager = $uuidManager;
+        $this->normalizer = $normalizer;
         $this->router = $router;
         $this->storage = $storage;
     }
 
-    public function findAliasByObject(
-        UuidInterface $uuid,
-        $instanceAware = true
-    ) {
-        /* @var $entity Entity\AliasInterface */
-        $criteria = ['uuid' => $uuid->getId()];
-        $order = ['timestamp' => 'DESC'];
-        $results = $this->getAliasRepository()->findBy(
-            $criteria,
-            $order,
-            1,
-            null,
-            $instanceAware
-        );
-        $entity = current($results);
-
-        if (!is_object($entity)) {
-            throw new Exception\AliasNotFoundException();
-        }
-
-        return $entity;
-    }
-
-    public function findAliasBySource($source, InstanceInterface $instance)
+    public function getAliasOfObject(UuidInterface $uuid)
     {
-        if (!is_string($source)) {
-            throw new Exception\InvalidArgumentException(
-                sprintf('Expected string but got %s', gettype($source))
-            );
-        }
+        $id = $uuid->getId();
+        $normalized = $this->normalizer->normalize($uuid);
+        $title = $normalized->getTitle();
+        $alias = '/' . $id . '/' . $this->slugify($title);
 
-        $key = 'alias:by:source:' . $instance->getId() . ':' . $source;
-        if ($this->storage->hasItem($key)) {
-            $item = $this->storage->getItem($key);
-            // The item is null so it didn't get found.
-            if ($item === self::CACHE_NONEXISTENT) {
-                throw new Exception\AliasNotFoundException(
-                    sprintf('Cache says: no alias for `%s` found.', $source)
-                );
+        if ($uuid instanceof EntityInterface) {
+            $subjects = $uuid->getSubjects();
+            if (count($subjects) > 0) {
+                /** @var TaxonomyTermInterface $subject */
+                $subject = $subjects[0];
+                $s = $this->slugify($subject->getName());
+                $alias = '/' . $s . $alias;
             }
-            return $item;
+            return $alias;
+        } elseif ($uuid instanceof PageRepositoryInterface) {
+            // TODO: if we require the subject here, we need to grab it from navigation.
+            return $alias;
+        } elseif ($uuid instanceof TaxonomyTermInterface) {
+            $subject = $uuid->getSecondLevelAncestor();
+            $s = $this->slugify($subject->getName());
+            $alias = '/' . $s . $alias;
+            return $alias;
+        } elseif ($uuid instanceof UserInterface) {
+            return '/user/profile/' . $this->slugify($uuid->getUsername());
         }
 
-        $criteria = ['source' => $source, 'instance' => $instance->getId()];
-        $order = ['timestamp' => 'DESC'];
-        $results = $this->getAliasRepository()->findBy($criteria, $order, 1);
-        $entity = current($results);
-
-        if (!is_object($entity)) {
-            // Set it to null so we know that this doesn't exist
-            $this->storage->setItem($key, self::CACHE_NONEXISTENT);
-            throw new Exception\AliasNotFoundException(
-                sprintf('No alias for `%s` found.', $source)
-            );
-        }
-
-        $router = $this->getRouter();
-        $alias = $router->assemble(
-            ['alias' => $entity->getAlias()],
-            ['name' => 'alias']
-        );
-        $this->storage->setItem($key, $alias);
-
-        return $alias;
+        return null;
     }
 
-    public function findCanonicalAlias($alias, InstanceInterface $instance)
+    public function getAliasOfSource(string $source)
     {
-        /* @var $entity Entity\AliasInterface */
-        $criteria = ['alias' => $alias, 'instance' => $instance->getId()];
-        $order = ['timestamp' => 'DESC'];
-        $results = $this->getAliasRepository()->findBy($criteria, $order, 1);
-        $entity = current($results);
-
-        if (!is_object($entity)) {
-            throw new Exception\CanonicalUrlNotFoundException(
-                sprintf('No canonical url found')
-            );
-        }
-
-        $canonical = $this->findAliasByObject($entity->getObject());
-
-        if ($canonical !== $entity) {
-            $router = $this->getRouter();
-            $url = $router->assemble(
-                ['alias' => $canonical->getAlias()],
-                ['name' => 'alias']
-            );
-            if ($url !== $alias) {
-                return $url;
+        if (
+            preg_match(
+                '/^(:?\/entity\/view\/(?<entityId>\d+))|(:?\/page\/view\/(?<pageId>\d+))|(:?\/taxonomy\/term\/get\/(?<termId>\d+))$/',
+                $source,
+                $matches
+            )
+        ) {
+            $id =
+                $matches['entityId'] ?:
+                $matches['pageId'] ?:
+                $matches['termId'];
+            try {
+                $uuid = $this->uuidManager->getUuid($id, true);
+            } catch (NotFoundException $e) {
+                return null;
             }
+            return $this->getAliasOfObject($uuid);
         }
 
-        throw new Exception\CanonicalUrlNotFoundException(
-            sprintf('No canonical url found')
-        );
+        return null;
     }
 
-    public function findSourceByAlias(
-        $alias,
-        InstanceInterface $instance,
-        $useCache = false
-    ) {
+    public function resolveLegacyAlias($alias, InstanceInterface $instance)
+    {
         if (!is_string($alias)) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
@@ -183,13 +143,11 @@ class AliasManager implements AliasManagerInterface
         }
 
         $key = 'source:by:alias:' . $instance->getId() . ':' . $alias;
-        if ($useCache && $this->storage->hasItem($key)) {
+        if ($this->storage->hasItem($key)) {
             // The item is null so it didn't get found.
             $item = $this->storage->getItem($key);
             if ($item === self::CACHE_NONEXISTENT) {
-                throw new Exception\AliasNotFoundException(
-                    sprintf('Alias `%s` not found.', $alias)
-                );
+                return null;
             }
             return $item;
         }
@@ -202,25 +160,49 @@ class AliasManager implements AliasManagerInterface
 
         if (!is_object($entity)) {
             $this->storage->setItem($key, self::CACHE_NONEXISTENT);
-            throw new Exception\AliasNotFoundException(
-                sprintf('Alias `%s` not found.', $alias)
-            );
+            return null;
         }
 
         $source = $entity->getSource();
-        if ($useCache) {
-            $this->storage->setItem($key, $source);
-        }
+        $this->storage->setItem($key, $source);
 
         return $source;
     }
 
-    public function flush($object = null)
-    {
-        if ($object === null) {
-            $this->inMemoryAliases = [];
+    public function resolveAliasInInstance(
+        string $alias,
+        InstanceInterface $instance
+    ) {
+        if (preg_match('/(?<id>\d+)\//', $alias, $matches)) {
+            try {
+                $uuid = $this->uuidManager->getUuid($matches['id'], true);
+                $path = $this->getAliasOfObject($uuid);
+                if ($path) {
+                    return [
+                        'id' => $uuid->getId(),
+                        'instance' => $instance->getSubdomain(),
+                        'path' => $this->getAliasOfObject($uuid),
+                    ];
+                } else {
+                    return null;
+                }
+            } catch (NotFoundException $e) {
+                // UUID not found, fall through to check if this is a legacy alias
+            }
         }
-        $this->getObjectManager()->flush($object);
+
+        $aliases = $this->findLegacyAliases($alias, $instance);
+        if (count($aliases) === 0) {
+            return null;
+        }
+
+        $currentAlias = $aliases[0];
+        $path = $this->getAliasOfObject($currentAlias->getObject());
+        return [
+            'id' => $currentAlias->getObject()->getId(),
+            'instance' => $currentAlias->getInstance()->getSubdomain(),
+            'path' => $path,
+        ];
     }
 
     /**
@@ -228,46 +210,14 @@ class AliasManager implements AliasManagerInterface
      * @param InstanceInterface $instance
      * @return Entity\AliasInterface[]
      */
-    public function findAliases($alias, InstanceInterface $instance)
+    protected function findLegacyAliases($alias, InstanceInterface $instance)
     {
         $className = $this->getEntityClassName();
         $criteria = ['alias' => $alias, 'instance' => $instance->getId()];
         $order = ['timestamp' => 'DESC'];
-        $aliases = $this->getObjectManager()
+        return $this->getObjectManager()
             ->getRepository($className)
             ->findBy($criteria, $order);
-        foreach ($this->inMemoryAliases as $memoryAlias) {
-            if ($memoryAlias->getAlias() == $alias) {
-                $aliases[] = $memoryAlias;
-            }
-        }
-
-        return $aliases;
-    }
-
-    protected function findUniqueAlias(
-        $alias,
-        $fallback,
-        UuidInterface $object,
-        InstanceInterface $instance
-    ) {
-        $alias = $this->slugify($alias);
-        $aliases = $this->findAliases($alias, $instance);
-        foreach ($aliases as $entity) {
-            if ($entity->getObject() === $object) {
-                // Alias exists and its the same object -> update timestamp
-                $entity->setTimestamp(new DateTime());
-                $this->objectManager->persist($entity);
-                return $entity;
-            }
-            return $this->findUniqueAlias(
-                $fallback,
-                $fallback . '-' . uniqid(),
-                $object,
-                $instance
-            );
-        }
-        return $alias;
     }
 
     /**

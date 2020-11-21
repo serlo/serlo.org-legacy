@@ -24,18 +24,15 @@
 namespace Api;
 
 use Alias\AliasManagerInterface;
-use Alias\Entity\AliasInterface;
 use Api\Service\GraphQLService;
 use DateTime;
 use Discussion\Entity\Comment;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
-use Instance\Entity\InstanceInterface;
 use License\Entity\LicenseInterface;
 use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
 use Taxonomy\Entity\TaxonomyTermInterface;
-use Throwable;
 use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 
@@ -52,30 +49,6 @@ class ApiManager
     ) {
         $this->aliasManager = $aliasManager;
         $this->graphql = $graphql;
-    }
-
-    public function setAlias(AliasInterface $alias)
-    {
-        $value = $this->getAliasData($alias);
-        $cleanPath = str_replace('%2F', '/', urlencode($value['path']));
-        $this->graphql->setCache(
-            $this->graphql->getCacheKey(
-                '/api/alias/' . $cleanPath,
-                $alias->getInstance()->getSubdomain()
-            ),
-            $value
-        );
-    }
-
-    public function getAliasData(AliasInterface $alias)
-    {
-        return [
-            'id' => $alias->getObject()->getId(),
-            'instance' => $alias->getInstance()->getSubdomain(),
-            'path' => '/' . $alias->getAlias(),
-            'source' => $alias->getSource(),
-            'timestamp' => $this->normalizeDate($alias->getTimestamp()),
-        ];
     }
 
     public function getAliasDataForUser(UserInterface $user)
@@ -145,20 +118,10 @@ class ApiManager
 
     public function getUuidData(UuidInterface $uuid)
     {
-        try {
-            $alias =
-                '/' .
-                $this->aliasManager
-                    ->findAliasByObject($uuid, false)
-                    ->getAlias();
-        } catch (Throwable $e) {
-            $alias = null;
-        }
-
         $data = [
             'id' => $uuid->getId(),
             'trashed' => $uuid->getTrashed(),
-            'alias' => $alias,
+            'alias' => $this->aliasManager->getAliasOfObject($uuid),
         ];
 
         if ($uuid instanceof EntityInterface) {

@@ -59,7 +59,7 @@ return [
                         'entity/page',
                         'page/view',
                         'navigation/render',
-                        'sitemap'
+                        'sitemap',
                     ],
                 ],
             ],

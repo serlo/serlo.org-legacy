@@ -28,7 +28,6 @@ use Api\Controller\CacheApiController;
 use Api\Controller\NavigationApiController;
 use Api\Controller\NotificationApiController;
 use Api\Controller\UserApiController;
-use Api\Factory\AliasManagerListenerFactory;
 use Api\Factory\ApiControllerFactory;
 use Api\Factory\ApiManagerFactory;
 use Api\Factory\AuthorizationServiceFactory;
@@ -46,7 +45,6 @@ use Api\Factory\TaxonomyManagerListenerFactory;
 use Api\Factory\UserApiControllerFactory;
 use Api\Factory\UserManagerListenerFactory;
 use Api\Factory\UuidManagerListenerFactory;
-use Api\Listener\AliasManagerListener;
 use Api\Listener\LicenseManagerListener;
 use Api\Listener\LinkServiceListener;
 use Api\Listener\NotificationManagerListener;
@@ -73,7 +71,6 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            AliasManagerListener::class => AliasManagerListenerFactory::class,
             ApiManager::class => ApiManagerFactory::class,
             AuthorizationService::class => AuthorizationServiceFactory::class,
             GraphQLService::class => GraphQLServiceFactory::class,

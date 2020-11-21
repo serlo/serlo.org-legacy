@@ -22,53 +22,37 @@
  */
 namespace Alias;
 
-use Alias\Entity\AliasInterface;
-use Common\ObjectManager\Flushable;
 use Instance\Entity\InstanceInterface;
 use Uuid\Entity\UuidInterface;
 
-interface AliasManagerInterface extends Flushable
+interface AliasManagerInterface
 {
     /**
      * @param UuidInterface $uuid
-     * @param bool $instanceAware
-     * @return AliasInterface
+     * @return string|null
      */
-    public function findAliasByObject(
-        UuidInterface $uuid,
-        $instanceAware = true
-    );
+    public function getAliasOfObject(UuidInterface $uuid);
 
     /**
-     * @param string            $source
-     * @param InstanceInterface $instance
-     * @return string
+     * @param string $source
+     * @return string|null
      */
-    public function findAliasBySource($source, InstanceInterface $instance);
-
-    /**
-     * @param                   $alias
-     * @param InstanceInterface $instance
-     * @return mixed
-     */
-    public function findCanonicalAlias($alias, InstanceInterface $instance);
+    public function getAliasOfSource(string $source);
 
     /**
      * @param string $alias
      * @param InstanceInterface $instance
-     * @param bool   $useCache
-     * @return string
+     * @return string|null
      */
-    public function findSourceByAlias(
-        $alias,
-        InstanceInterface $instance,
-        $useCache = false
-    );
+    public function resolveLegacyAlias($alias, InstanceInterface $instance);
 
     /**
-     * @param $alias,
+     * @param string $alias
      * @param InstanceInterface $instance
-     * @return Entity\AliasInterface[]
+     * @return array|null
      */
-    public function findAliases($alias, InstanceInterface $instance);
+    public function resolveAliasInInstance(
+        string $alias,
+        InstanceInterface $instance
+    );
 }

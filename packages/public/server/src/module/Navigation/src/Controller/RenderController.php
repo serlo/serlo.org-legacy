@@ -24,10 +24,7 @@
 namespace Navigation\Controller;
 
 use Alias\AliasManagerInterface;
-use Alias\Exception\AliasNotFoundException;
 use Taxonomy\Controller\AbstractController;
-use Zend\Http\Request;
-use Zend\Mvc\Router\RouteMatch;
 use Zend\View\Model\ViewModel;
 
 class RenderController extends AbstractController

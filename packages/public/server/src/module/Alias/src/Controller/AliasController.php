@@ -25,7 +25,6 @@ namespace Alias\Controller;
 use Alias;
 use Alias\AliasManagerInterface;
 use Alias\Controller\Plugin\Url;
-use Alias\Exception\AliasNotFoundException;
 use Instance\Manager\InstanceManagerInterface;
 use Normalizer\NormalizerInterface;
 use Uuid\Exception\NotFoundException;
@@ -70,25 +69,27 @@ class AliasController extends AbstractActionController
         if (preg_match('/^(?<id>\d+)$/', $alias, $matches)) {
             return $this->resolveUuid($matches['id']);
         } else {
-            $url = $this->resolveLegacyAlias($alias);
+            $url = $this->resolveAlias($alias);
             return $url === null
                 ? $this->notFoundResponse()
                 : $this->routerResponse($url);
         }
     }
 
-    private function resolveLegacyAlias($alias)
+    private function resolveAlias($alias)
     {
-        $instance = $this->instanceManager->getInstanceFromRequest();
-        try {
-            return $this->aliasManager->findSourceByAlias(
-                $alias,
-                $instance,
-                true
-            );
-        } catch (AliasNotFoundException $e) {
-            return null;
+        if (preg_match('/(?<id>\d+)\//', $alias, $matches)) {
+            try {
+                $object = $this->uuidManager->getUuid($matches['id'], true);
+                $normalized = $this->normalizer->normalize($object);
+                return $this->getUrlOfNormalizedObject($normalized);
+            } catch (NotFoundException $e) {
+                // UUID not found, fall through to check if this is a legacy alias
+            }
         }
+
+        $instance = $this->instanceManager->getInstanceFromRequest();
+        return $this->aliasManager->resolveLegacyAlias($alias, $instance);
     }
 
     private function resolveUuid($id)
@@ -99,19 +100,7 @@ class AliasController extends AbstractActionController
             return $this->notFoundResponse();
         }
         $normalized = $this->normalizer->normalize($object);
-
-        $routeName = $normalized->getRouteName();
-        $routeParams = $normalized->getRouteParams();
-
-        /** @var Url $urlHelper */
-        $urlHelper = $this->url();
-        $url = $urlHelper->fromRoute(
-            $routeName,
-            $routeParams,
-            null,
-            null,
-            false
-        );
+        $url = $this->getUrlOfNormalizedObject($normalized);
         $response = $this->routerResponse($url);
 
         if (!$this->getRequest()->isXmlHttpRequest()) {
@@ -136,6 +125,21 @@ class AliasController extends AbstractActionController
         $view->setTemplate('normalizer/ref');
         $view->setTerminal(true);
         return $view;
+    }
+
+    private function getUrlOfNormalizedObject($normalized)
+    {
+        $routeName = $normalized->getRouteName();
+        $routeParams = $normalized->getRouteParams();
+        /** @var Url $urlPlugin */
+        $urlPlugin = $this->url();
+        return $urlPlugin->fromRoute(
+            $routeName,
+            $routeParams,
+            null,
+            null,
+            false
+        );
     }
 
     private function routerResponse($url)
