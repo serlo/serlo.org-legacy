@@ -19,5 +19,5 @@
  # @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  # @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  #}
-{{ pageHeader('Event log' | trans).setSubtitle(id).setBacklink(url('uuid/get', {'uuid': id})) }}
+{{ pageHeader('Event log' | trans).setSubtitle(id).setBacklink(url('alias', {'alias': id})) }}
 {{ partial('event/helper/events', {'events': events}) }}

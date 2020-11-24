@@ -23,27 +23,27 @@
 <ul class="list-unstyled">
     <li>
         <strong>URL</strong>
-        <pre>{{ url("uuid/get", {"uuid": id}, {"force_canonical": true}) }}</pre>
+        <pre>{{ url("alias", {"alias": id}, {"force_canonical": true}) }}</pre>
     </li>
     <li>
         <strong>{{ "On this site:" | trans }}</strong>
-        <pre>[{{ "Title" | trans }}]({{ url("uuid/get", {"uuid": id}) }})</pre>
+        <pre>[{{ "Title" | trans }}]({{ url("alias", {"alias": id}) }})</pre>
     </li>
     <li>
         <strong>{{ "Directly including in a content on this site" | trans }}</strong>
-        <pre>>[{{ "Title" | trans }}]({{ url("uuid/get", {"uuid": id}) }})</pre>
+        <pre>>[{{ "Title" | trans }}]({{ url("alias", {"alias": id}) }})</pre>
     </li>
     <li>
         <strong>Markdown</strong>
-        <pre>[{{ "Title" | trans }}]({{ url("uuid/get", {"uuid": id}, {"force_canonical": true}) }})</pre>
+        <pre>[{{ "Title" | trans }}]({{ url("alias", {"alias": id}, {"force_canonical": true}) }})</pre>
     </li>
     <li>
         <strong>MediaWiki</strong>
-        <pre>[{{ url("uuid/get", {"uuid": id}, {"force_canonical": true}) }} {{ "Title" | trans }}]</pre>
+        <pre>[{{ url("alias", {"alias": id}, {"force_canonical": true}) }} {{ "Title" | trans }}]</pre>
     </li>
     <li>
         <strong>BBCode</strong>
-        <pre>[url]{{ url("uuid/get", {"uuid": id}, {"force_canonical": true}) }}[/url]</pre>
+        <pre>[url]{{ url("alias", {"alias": id}, {"force_canonical": true}) }}[/url]</pre>
     </li>
 </ul>
 {% endset %}

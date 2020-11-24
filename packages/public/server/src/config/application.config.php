@@ -59,7 +59,6 @@ return [
         'Event',
         'Mailman',
         'Alias',
-        'Token',
         'Discussion',
         'Page',
         'Blog',

@@ -23,15 +23,6 @@
 namespace Blog;
 
 return [
-    'alias_manager' => [
-        'aliases' => [
-            'blogPost' => [
-                'tokenize' => 'blog/{blog}/{title}',
-                'provider' => 'Blog\Provider\TokenizerProvider',
-                'fallback' => 'blog/{blog}/{title}-{id}',
-            ],
-        ],
-    ],
     'taxonomy' => [
         'types' => [
             'blog' => [

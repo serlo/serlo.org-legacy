@@ -66,9 +66,6 @@ return [
         'definition' => [
             'class' => [
                 __NAMESPACE__ . '\Controller\SignpostController' => [
-                    'setNormalizer' => [
-                        'required' => true,
-                    ],
                     'setUuidManager' => [
                         'required' => true,
                     ],
@@ -156,26 +153,6 @@ return [
                             'route' => '/nav.xml',
                             'defaults' => [
                                 'action' => 'index',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'uuid' => [
-                'child_routes' => [
-                    'get' => [
-                        'type' => 'segment',
-                        'priority' => -9000,
-                        'options' => [
-                            'route' => '/:uuid',
-                            'defaults' => [
-                                'controller' =>
-                                    __NAMESPACE__ .
-                                    '\Controller\SignpostController',
-                                'action' => 'index',
-                            ],
-                            'constraints' => [
-                                'uuid' => '[0-9]+',
                             ],
                         ],
                     ],

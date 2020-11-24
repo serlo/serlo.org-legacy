@@ -58,8 +58,8 @@ class PageController extends AbstractController
             if ($redirect->getToType() === 'parent') {
                 $parent = $entity->getParents('link')->first();
                 if (!$parent->isTrashed() && $parent->hasCurrentRevision()) {
-                    return $this->redirect()->toRoute('uuid/get', [
-                        'uuid' => $parent->getId(),
+                    return $this->redirect()->toRoute('alias', [
+                        'alias' => $parent->getId(),
                     ]);
                 }
             } else {
@@ -68,8 +68,8 @@ class PageController extends AbstractController
                     as $child
                 ) {
                     if (!$child->isTrashed() && $child->hasCurrentRevision()) {
-                        return $this->redirect()->toRoute('uuid/get', [
-                            'uuid' => $child->getId(),
+                        return $this->redirect()->toRoute('alias', [
+                            'alias' => $child->getId(),
                         ]);
                     }
                 }

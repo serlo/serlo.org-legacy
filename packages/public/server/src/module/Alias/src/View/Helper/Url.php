@@ -24,12 +24,9 @@ namespace Alias\View\Helper;
 
 use Alias\AliasManagerAwareTrait;
 use Alias\AliasManagerInterface;
-use Alias\Exception\AliasNotFoundException;
-use Common\Traits\ConfigAwareTrait;
 use Instance\Manager\InstanceManagerAwareTrait;
 use Instance\Manager\InstanceManagerInterface;
 use Zend\Cache\Storage\StorageInterface;
-use Zend\Mvc\Router\Console\RouteInterface;
 use Zend\View\Helper\Url as ZendUrl;
 
 class Url extends ZendUrl
@@ -53,36 +50,24 @@ class Url extends ZendUrl
         $name = null,
         $params = [],
         $options = [],
-        $reuseMatchedParams = false,
-        $useAlias = true
+        $reuseMatchedParams = false
     ) {
         $useCanonical =
             isset($options['force_canonical']) && $options['force_canonical'];
         $link = parent::__invoke($name, $params, $options, $reuseMatchedParams);
 
-        if (!$useAlias) {
-            return $link;
+        if ($useCanonical) {
+            $options['force_canonical'] = false;
+            $source = parent::__invoke(
+                $name,
+                $params,
+                $options,
+                $reuseMatchedParams
+            );
+            $alias = $this->aliasManager->getAliasOfSource($source);
+            return $alias ? $this->getView()->serverUrl($alias) : $link;
         }
 
-        try {
-            $aliasManager = $this->getAliasManager();
-            $instance = $this->getInstanceManager()->getInstanceFromRequest();
-            if ($useCanonical) {
-                $options['force_canonical'] = false;
-                $source = parent::__invoke(
-                    $name,
-                    $params,
-                    $options,
-                    $reuseMatchedParams
-                );
-                $link = $aliasManager->findAliasBySource($source, $instance);
-                return $this->getView()->serverUrl($link);
-            }
-            $link = $aliasManager->findAliasBySource($link, $instance);
-        } catch (AliasNotFoundException $e) {
-            // No alias was found -> nothing to do
-        }
-
-        return $link;
+        return $this->aliasManager->getAliasOfSource($link) ?? $link;
     }
 }

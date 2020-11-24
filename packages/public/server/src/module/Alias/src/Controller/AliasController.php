@@ -22,71 +22,149 @@
  */
 namespace Alias\Controller;
 
-use Alias\Exception\AliasNotFoundException;
-use Alias\Exception\CanonicalUrlNotFoundException;
 use Alias;
+use Alias\AliasManagerInterface;
+use Alias\Controller\Plugin\Url;
+use Instance\Manager\InstanceManagerInterface;
+use Normalizer\NormalizerInterface;
+use Uuid\Exception\NotFoundException;
+use Uuid\Manager\UuidManagerInterface;
 use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Stdlib\ArrayUtils;
+use Zend\Mvc\Router\RouteInterface;
+use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
 
 class AliasController extends AbstractActionController
 {
-    use Alias\AliasManagerAwareTrait,
-        \Instance\Manager\InstanceManagerAwareTrait;
+    /** @var AliasManagerInterface */
+    private $aliasManager;
+    /** @var InstanceManagerInterface */
+    private $instanceManager;
+    /** @var UuidManagerInterface */
+    private $uuidManager;
+    /** @var NormalizerInterface */
+    private $normalizer;
+    /** @var RouteInterface */
+    private $router;
 
-    /**
-     * @var mixed
-     */
-    protected $router;
+    public function __construct(
+        AliasManagerInterface $aliasManager,
+        InstanceManagerInterface $instanceManager,
+        UuidManagerInterface $uuidManager,
+        NormalizerInterface $normalizer,
+        RouteInterface $router
+    ) {
+        $this->aliasManager = $aliasManager;
+        $this->instanceManager = $instanceManager;
+        $this->uuidManager = $uuidManager;
+        $this->normalizer = $normalizer;
+        $this->router = $router;
+    }
 
-    public function forwardAction()
+    public function resolveAction()
     {
         $alias = $this->params('alias');
-        $instance = $this->getInstanceManager()->getInstanceFromRequest();
 
-        try {
-            $location = $this->aliasManager->findCanonicalAlias(
-                $alias,
-                $instance
-            );
-            $this->redirect()->toUrl($location);
-            $this->getResponse()->setStatusCode(301);
-            return false;
-        } catch (CanonicalUrlNotFoundException $e) {
+        if (preg_match('/^(?<id>\d+)$/', $alias, $matches)) {
+            return $this->resolveUuid($matches['id']);
+        } else {
+            $url = $this->resolveAlias($alias);
+            return $url === null
+                ? $this->notFoundResponse()
+                : $this->routerResponse($url);
+        }
+    }
+
+    private function resolveAlias($alias)
+    {
+        if (preg_match('/(?<id>\d+)\//', $alias, $matches)) {
+            try {
+                $object = $this->uuidManager->getUuid($matches['id'], true);
+                $normalized = $this->normalizer->normalize($object);
+                return $this->getUrlOfNormalizedObject($normalized);
+            } catch (NotFoundException $e) {
+                // UUID not found, fall through to check if this is a legacy alias
+            }
         }
 
+        $instance = $this->instanceManager->getInstanceFromRequest();
+        return $this->aliasManager->resolveLegacyAlias($alias, $instance);
+    }
+
+    private function resolveUuid($id)
+    {
         try {
-            $source = $this->aliasManager->findSourceByAlias(
-                $alias,
-                $instance,
-                true
-            );
-        } catch (AliasNotFoundException $e) {
-            $this->getResponse()->setStatusCode(404);
-            return false;
+            $object = $this->uuidManager->getUuid($id, true);
+        } catch (NotFoundException $e) {
+            return $this->notFoundResponse();
+        }
+        $normalized = $this->normalizer->normalize($object);
+        $url = $this->getUrlOfNormalizedObject($normalized);
+        $response = $this->routerResponse($url);
+
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            return $response;
         }
 
-        $router = $this->getServiceLocator()->get('Router');
+        // Note: The behavior below is needed for injections. Basically, we override the response when we have an XHR and return JSON instead.
+
+        if ($response instanceof JsonModel) {
+            $response = new ViewModel(['data' => $response->getVariables()]);
+            $response->setTemplate('normalizer/json');
+        }
+
+        $view = new ViewModel([
+            'id' => $object->getId(),
+            'type' => $normalized->getType(),
+            'url' => $url,
+            '__disableTemplateDebugger' => true,
+        ]);
+
+        $view->addChild($response, 'response');
+        $view->setTemplate('normalizer/ref');
+        $view->setTerminal(true);
+        return $view;
+    }
+
+    private function getUrlOfNormalizedObject($normalized)
+    {
+        $routeName = $normalized->getRouteName();
+        $routeParams = $normalized->getRouteParams();
+        /** @var Url $urlPlugin */
+        $urlPlugin = $this->url();
+        return $urlPlugin->fromRoute(
+            $routeName,
+            $routeParams,
+            null,
+            null,
+            false
+        );
+    }
+
+    private function routerResponse($url)
+    {
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
-        $request->setUri($source);
-        $routeMatch = $router->match($request);
+        $request->setUri($url);
+        $routeMatch = $this->router->match($request);
 
         if ($routeMatch === null) {
-            $this->getResponse()->setStatusCode(404);
-            return false;
+            return $this->notFoundResponse();
         }
 
         $this->getEvent()->setRouteMatch($routeMatch);
-        $params = $routeMatch->getParams();
+        $params = array_merge($routeMatch->getParams(), [
+            'forwarded' => true,
+            'isXmlHttpRequest' => $this->getRequest()->isXmlHttpRequest(),
+        ]);
         $controller = $params['controller'];
-        $return = $this->forward()->dispatch(
-            $controller,
-            ArrayUtils::merge($params, [
-                'forwarded' => true,
-            ])
-        );
+        return $this->forward()->dispatch($controller, $params);
+    }
 
-        return $return;
+    private function notFoundResponse()
+    {
+        $this->getResponse()->setStatusCode(404);
+        return false;
     }
 }

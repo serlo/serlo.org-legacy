@@ -80,8 +80,8 @@ class DiscussionController extends AbstractController
     public function commentAction()
     {
         $discussion = $this->getDiscussion($this->params('discussion'));
-        $url = $this->url()->fromRoute('uuid/get', [
-            'uuid' => $this->params('discussion'),
+        $url = $this->url()->fromRoute('alias', [
+            'alias' => $this->params('discussion'),
         ]);
         $ref = $this->params()->fromQuery('redirect');
 
@@ -146,8 +146,8 @@ class DiscussionController extends AbstractController
         $form = $this->getForm('discussion', $this->params('on'));
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
         $author = $this->getUserManager()->getUserFromAuthenticator();
-        $url = $this->url()->fromRoute('uuid/get', [
-            'uuid' => $this->params('on'),
+        $url = $this->url()->fromRoute('alias', [
+            'alias' => $this->params('on'),
         ]);
         $ref = $this->params()->fromQuery('redirect');
 

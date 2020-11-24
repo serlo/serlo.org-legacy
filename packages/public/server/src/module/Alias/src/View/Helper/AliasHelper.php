@@ -23,20 +23,14 @@
 namespace Alias\View\Helper;
 
 use Alias\AliasManagerInterface;
-use Exception;
 use Instance\Manager\InstanceManagerInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class AliasHelper extends AbstractHelper
 {
-    /**
-     * @var AliasManagerInterface
-     */
+    /** @var AliasManagerInterface */
     protected $aliasManager;
-
-    /**
-     * @var InstanceManagerInterface
-     */
+    /** @var InstanceManagerInterface */
     protected $instanceManager;
 
     public function __construct(
@@ -49,11 +43,6 @@ class AliasHelper extends AbstractHelper
 
     public function __invoke($source)
     {
-        try {
-            $instance = $this->instanceManager->getInstanceFromRequest();
-            return $this->aliasManager->findAliasBySource($source, $instance);
-        } catch (Exception $e) {
-            return $source;
-        }
+        return $this->aliasManager->getAliasOfSource($source) ?? $source;
     }
 }

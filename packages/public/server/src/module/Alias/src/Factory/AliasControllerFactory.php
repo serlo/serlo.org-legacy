@@ -23,41 +23,38 @@
 namespace Alias\Factory;
 
 use Alias\AliasManager;
+use Alias\AliasManagerInterface;
+use Alias\Controller\AliasController;
+use Common\Factory\AbstractControllerFactory;
+use Instance\Manager\InstanceManager;
+use Instance\Manager\InstanceManagerInterface;
 use Normalizer\Normalizer;
 use Normalizer\NormalizerInterface;
 use Uuid\Manager\UuidManager;
 use Uuid\Manager\UuidManagerInterface;
-use Zend\Console\Console;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\Mvc\Router\RouteInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class AliasManagerFactory implements FactoryInterface
+class AliasControllerFactory extends AbstractControllerFactory
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    protected function createController(ServiceLocatorInterface $serviceManager)
     {
-        $objectManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
-        $classResolver = $serviceLocator->get('ClassResolver\ClassResolver');
+        /** @var AliasManagerInterface $aliasManager */
+        $aliasManager = $serviceManager->get(AliasManager::class);
+        /** @var InstanceManagerInterface $instanceManager */
+        $instanceManager = $serviceManager->get(InstanceManager::class);
         /** @var UuidManagerInterface $uuidManager */
-        $uuidManager = $serviceLocator->get(UuidManager::class);
+        $uuidManager = $serviceManager->get(UuidManager::class);
         /** @var NormalizerInterface $normalizer */
-        $normalizer = $serviceLocator->get(Normalizer::class);
-        $storage = $serviceLocator->get('Alias\Storage\AliasStorage');
-        $isConsole = Console::isConsole();
-        $router = $isConsole ? 'HttpRouter' : 'Router';
-        $router = $serviceLocator->get($router);
-        return new AliasManager(
-            $classResolver,
-            $objectManager,
+        $normalizer = $serviceManager->get(Normalizer::class);
+        /** @var RouteInterface $router */
+        $router = $serviceManager->get('Router');
+        return new AliasController(
+            $aliasManager,
+            $instanceManager,
             $uuidManager,
             $normalizer,
-            $router,
-            $storage
+            $router
         );
     }
 }

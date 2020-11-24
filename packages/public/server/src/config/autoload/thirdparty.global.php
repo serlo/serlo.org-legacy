@@ -60,7 +60,6 @@ return [
                         'page/view',
                         'navigation/render',
                         'sitemap',
-                        'uuid/get',
                     ],
                 ],
             ],

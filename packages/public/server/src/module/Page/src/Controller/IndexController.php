@@ -111,22 +111,7 @@ class IndexController extends AbstractAPIAwareActionController
                 $repository = $this->getPageManager()->createPageRepository(
                     $form
                 );
-                $data = $form->getData(FormInterface::VALUES_AS_ARRAY);
-                $params = [
-                    'repository' => $repository,
-                    'slug' => $data['slug'],
-                ];
-                $this->getEventManager()->trigger(
-                    'page.create',
-                    $this,
-                    $params
-                );
                 $this->getPageManager()->flush();
-                $this->getEventManager()->trigger(
-                    'page.create.postFlush',
-                    $this,
-                    $params
-                );
                 $this->redirect()->toRoute('page/revision/create', [
                     'page' => $repository->getId(),
                 ]);
@@ -262,39 +247,26 @@ class IndexController extends AbstractAPIAwareActionController
 
     public function updateAction()
     {
-        $instance = $this->getInstanceManager()->getInstanceFromRequest();
         $page = $this->getPageRepository();
         if (!$page) {
             return $this->notFound();
         }
 
-        $alias = $this->getAliasManager()
-            ->findAliasByObject($page)
-            ->getAlias();
         $form = $this->repositoryForm;
 
         $this->assertGranted('page.update', $page);
         $form->bind($page);
-        $form->get('slug')->setValue($alias);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $array = $form->getData(FormInterface::VALUES_AS_ARRAY);
                 $source = $this->url()->fromRoute(
                     'page/view',
                     ['page' => $page->getId()],
                     null,
                     null,
                     false
-                );
-                $this->getAliasManager()->createAlias(
-                    $source,
-                    $array['slug'],
-                    $array['slug'] . $page->getId(),
-                    $page,
-                    $instance
                 );
                 $this->getPageManager()->editPageRepository($form);
                 $this->getPageManager()->flush();
