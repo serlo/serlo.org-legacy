@@ -21,7 +21,7 @@
  */
 /* global CodeMirror */
 import { converter } from '@serlo/markdown'
-import { typeset } from '@serlo/mathjax'
+import { initMathJax, typeset } from '@serlo/mathjax'
 import $ from 'jquery'
 import _ from 'underscore'
 
@@ -46,7 +46,6 @@ import Preview from './editor/serlo_editor_previewer'
 import LayoutBuilderConfiguration from './editor/serlo_layout_builder_configuration'
 import Parser from './editor/serlo_parser'
 import TextEditorHelper from './editor/serlo_texteditor_helper'
-import { initMathJax } from './legacy-content'
 import './libs/quickdiff'
 import Shortcuts from './modules/serlo_shortcuts'
 
