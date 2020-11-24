@@ -19,67 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { typeset } from '@serlo/mathjax'
+import { initMathJax } from '@serlo/mathjax'
 import $ from 'jquery'
 
-let mathjaxInitialized = false
-
 export function initLegacyContent($context: JQuery) {
-  if (mathjaxInitialized) return
   const $elements = $('.requires-mathjax', $context)
-
   if ($elements.length === 0) return
-
-  mathjaxInitialized = true
   initMathJax()
-}
-
-export function initMathJax() {
-  const lang = $('html').attr('lang') || 'en'
-  $('head').append(
-    `
-      <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            displayAlign: 'left',
-            extensions: ['tex2jax.js', 'fast-preview.js'],
-            jax: ['input/TeX', 'output/SVG', 'output/CommonHTML'],
-            skipStartupTypeset: true,
-            tex2jax: {
-                inlineMath: [
-                    ['%%', '%%']
-                ],
-                displayMath: [
-                    ['$$', '$$']
-                ],
-            },
-            'HTML-CSS': {
-                scale: 100,
-                linebreaks: {
-                    automatic: true
-                },
-                preferredFont: 'STIX'
-            },
-            SVG: {
-                linebreaks: {
-                    automatic: true
-                },
-                font: 'STIX-Web'
-            },
-            showProcessingMessages: false,
-            TeX: {
-                extensions: ['mediawiki-texvc.js', 'mhchem.js']
-            }
-        });
-      </script>
-    `
-  )
-  $.ajax({
-    url: `https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML&locale=${lang}`,
-    dataType: 'script',
-    success() {
-      // Initial typeset
-      typeset()
-    },
-    async: true,
-  })
 }
