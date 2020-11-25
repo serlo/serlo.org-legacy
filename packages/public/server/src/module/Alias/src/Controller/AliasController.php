@@ -78,7 +78,13 @@ class AliasController extends AbstractActionController
 
     private function resolveAlias($alias)
     {
-        if (preg_match('/(?<id>\d+)\//', $alias, $matches)) {
+        if (
+            preg_match(
+                '/^(?<subject>[^\/]+\/)?(?<id>\d+)\/(?<title>[^\/]+)$/',
+                $alias,
+                $matches
+            )
+        ) {
             try {
                 $object = $this->uuidManager->getUuid($matches['id'], true);
                 $normalized = $this->normalizer->normalize($object);

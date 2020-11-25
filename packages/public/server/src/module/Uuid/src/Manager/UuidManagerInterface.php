@@ -67,9 +67,14 @@ interface UuidManagerInterface extends Flushable
      *
      * @param int|string|UuidInterface $key
      * @param bool                     $bypassIsolation
+     * @param bool                     $instanceAware
      * @return UuidInterface $uuid
      */
-    public function getUuid($key, $bypassIsolation = false);
+    public function getUuid(
+        $key,
+        $bypassIsolation = false,
+        $instanceAware = true
+    );
 
     /**
      * @param int $id

@@ -32,6 +32,7 @@ use Api\Factory\ApiControllerFactory;
 use Api\Factory\ApiManagerFactory;
 use Api\Factory\AuthorizationServiceFactory;
 use Api\Factory\CacheApiControllerFactory;
+use Api\Factory\DiscussionManagerListenerFactory;
 use Api\Factory\GraphQLServiceFactory;
 use Api\Factory\LicenseManagerListenerFactory;
 use Api\Factory\LinkServiceListenerFactory;
@@ -41,15 +42,18 @@ use Api\Factory\NotificationApiManagerFactory;
 use Api\Factory\NotificationManagerListenerFactory;
 use Api\Factory\PageManagerListenerFactory;
 use Api\Factory\RepositoryManagerListenerFactory;
+use Api\Factory\SubscriptionManagerListenerFactory;
 use Api\Factory\TaxonomyManagerListenerFactory;
 use Api\Factory\UserApiControllerFactory;
 use Api\Factory\UserManagerListenerFactory;
 use Api\Factory\UuidManagerListenerFactory;
+use Api\Listener\DiscussionManagerListener;
 use Api\Listener\LicenseManagerListener;
 use Api\Listener\LinkServiceListener;
 use Api\Listener\NotificationManagerListener;
 use Api\Listener\PageManagerListener;
 use Api\Listener\RepositoryManagerListener;
+use Api\Listener\SubscriptionManagerListener;
 use Api\Listener\TaxonomyManagerListener;
 use Api\Listener\UserManagerListener;
 use Api\Listener\UuidManagerListener;
@@ -74,6 +78,8 @@ return [
             ApiManager::class => ApiManagerFactory::class,
             AuthorizationService::class => AuthorizationServiceFactory::class,
             GraphQLService::class => GraphQLServiceFactory::class,
+            DiscussionManagerListener::class =>
+                DiscussionManagerListenerFactory::class,
             NotificationApiManager::class =>
                 NotificationApiManagerFactory::class,
             NotificationManagerListener::class =>
@@ -84,6 +90,8 @@ return [
                 LicenseManagerListenerFactory::class,
             LinkServiceListener::class => LinkServiceListenerFactory::class,
             PageManagerListener::class => PageManagerListenerFactory::class,
+            SubscriptionManagerListener::class =>
+                SubscriptionManagerListenerFactory::class,
             TaxonomyManagerListener::class =>
                 TaxonomyManagerListenerFactory::class,
             UserManagerListener::class => UserManagerListenerFactory::class,

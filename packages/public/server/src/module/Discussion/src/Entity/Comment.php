@@ -94,6 +94,7 @@ class Comment extends Uuid implements CommentInterface
         $this->votes = new ArrayCollection();
         $this->terms = new ArrayCollection();
         $this->archived = false;
+        $this->date = new \DateTime();
     }
 
     public function isDiscussion()

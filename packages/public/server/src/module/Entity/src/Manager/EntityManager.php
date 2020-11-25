@@ -27,17 +27,11 @@ use ClassResolver\ClassResolverAwareTrait;
 use Common\Traits\FlushableTrait;
 use Common\Traits\ObjectManagerAwareTrait;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Query;
-use Doctrine\ORM\QueryBuilder;
 use Entity\Entity\EntityInterface;
-use Entity\Entity\RevisionInterface;
 use Entity\Exception;
 use Instance\Entity\InstanceInterface;
 use Type\TypeManagerAwareTrait;
-use Uuid\Manager\UuidManagerAwareTrait;
 use Zend\EventManager\EventManagerAwareTrait;
-use Entity\Entity\Entity;
 
 class EntityManager implements EntityManagerInterface
 {

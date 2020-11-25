@@ -121,7 +121,7 @@ class AliasManager implements AliasManagerInterface
                 $matches['pageId'] ?:
                 $matches['termId'];
             try {
-                $uuid = $this->uuidManager->getUuid($id, true);
+                $uuid = $this->uuidManager->getUuid($id, true, false);
             } catch (NotFoundException $e) {
                 return null;
             }

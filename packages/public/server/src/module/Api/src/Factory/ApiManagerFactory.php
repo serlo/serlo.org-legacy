@@ -27,6 +27,10 @@ use Alias\AliasManager;
 use Alias\AliasManagerInterface;
 use Api\ApiManager;
 use Api\Service\GraphQLService;
+use Discussion\DiscussionManager;
+use Discussion\DiscussionManagerInterface;
+use Notification\SubscriptionManager;
+use Notification\SubscriptionManagerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -36,8 +40,17 @@ class ApiManagerFactory implements FactoryInterface
     {
         /** @var AliasManagerInterface $aliasManager */
         $aliasManager = $serviceLocator->get(AliasManager::class);
+        /** @var DiscussionManagerInterface $discussionManager */
+        $discussionManager = $serviceLocator->get(DiscussionManager::class);
+        /** @var SubscriptionManagerInterface $subscriptionManager */
+        $subscriptionManager = $serviceLocator->get(SubscriptionManager::class);
         /** @var GraphQLService $graphql */
         $graphql = $serviceLocator->get(GraphQLService::class);
-        return new ApiManager($aliasManager, $graphql);
+        return new ApiManager(
+            $aliasManager,
+            $discussionManager,
+            $subscriptionManager,
+            $graphql
+        );
     }
 }

@@ -23,11 +23,13 @@
 
 namespace Api;
 
+use Api\Listener\DiscussionManagerListener;
 use Api\Listener\LicenseManagerListener;
 use Api\Listener\LinkServiceListener;
 use Api\Listener\NotificationManagerListener;
 use Api\Listener\PageManagerListener;
 use Api\Listener\RepositoryManagerListener;
+use Api\Listener\SubscriptionManagerListener;
 use Api\Listener\TaxonomyManagerListener;
 use Api\Listener\UserManagerListener;
 use Api\Listener\UuidManagerListener;
@@ -60,7 +62,7 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         $eventManager = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         $sharedEventManager->attachAggregate(
-            $serviceManager->get(RepositoryManagerListener::class)
+            $serviceManager->get(DiscussionManagerListener::class)
         );
         $sharedEventManager->attachAggregate(
             $serviceManager->get(LicenseManagerListener::class)
@@ -76,6 +78,9 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         );
         $sharedEventManager->attachAggregate(
             $serviceManager->get(RepositoryManagerListener::class)
+        );
+        $sharedEventManager->attachAggregate(
+            $serviceManager->get(SubscriptionManagerListener::class)
         );
         $sharedEventManager->attachAggregate(
             $serviceManager->get(TaxonomyManagerListener::class)

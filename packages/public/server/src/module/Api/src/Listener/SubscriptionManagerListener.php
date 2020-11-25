@@ -23,48 +23,34 @@
 
 namespace Api\Listener;
 
+use Notification\SubscriptionManager;
+use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 use Versioning\RepositoryManager;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 
-class RepositoryManagerListener extends AbstractListener
+class SubscriptionManagerListener extends AbstractListener
 {
-    public function onCheckout(Event $e)
+    public function onChange(Event $e)
     {
-        /** @var UuidInterface $repository */
-        $repository = $e->getParam('repository');
-        $this->getApiManager()->setUuid($repository);
-    }
-
-    public function onCommit(Event $e)
-    {
-        /** @var UuidInterface $revision */
-        $revision = $e->getParam('revision');
-        $this->getApiManager()->setUuid($revision);
-        /** @var UuidInterface $repository */
-        $repository = $e->getParam('repository');
-        $this->getApiManager()->setUuid($repository);
+        /** @var UserInterface $user */
+        $user = $e->getParam('user');
+        $this->getApiManager()->setSubscriptions($user);
     }
 
     public function attachShared(SharedEventManagerInterface $events)
     {
         $events->attach(
             $this->getMonitoredClass(),
-            'commit',
-            [$this, 'onCommit'],
-            2
-        );
-        $events->attach(
-            $this->getMonitoredClass(),
-            'checkout',
-            [$this, 'onCheckout'],
+            'change',
+            [$this, 'onChange'],
             2
         );
     }
 
     protected function getMonitoredClass()
     {
-        return RepositoryManager::class;
+        return SubscriptionManager::class;
     }
 }

@@ -23,48 +23,52 @@
 
 namespace Api\Listener;
 
+use Discussion\DiscussionManager;
+use Discussion\Entity\CommentInterface;
 use Uuid\Entity\UuidInterface;
-use Versioning\RepositoryManager;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 
-class RepositoryManagerListener extends AbstractListener
+class DiscussionManagerListener extends AbstractListener
 {
-    public function onCheckout(Event $e)
+    public function onComment(Event $e)
     {
-        /** @var UuidInterface $repository */
-        $repository = $e->getParam('repository');
-        $this->getApiManager()->setUuid($repository);
+        /** @var CommentInterface $comment */
+        $comment = $e->getParam('comment');
+        $this->getApiManager()->setUuid($comment);
+        /** @var CommentInterface $comment */
+        $thread = $e->getParam('discussion');
+        $this->getApiManager()->setUuid($thread);
     }
 
-    public function onCommit(Event $e)
+    public function onStart(Event $e)
     {
-        /** @var UuidInterface $revision */
-        $revision = $e->getParam('revision');
-        $this->getApiManager()->setUuid($revision);
-        /** @var UuidInterface $repository */
-        $repository = $e->getParam('repository');
-        $this->getApiManager()->setUuid($repository);
+        /** @var CommentInterface $thread */
+        $thread = $e->getParam('discussion');
+        $this->getApiManager()->setUuid($thread);
+        /** @var UuidInterface $uuid */
+        $uuid = $e->getParam('on');
+        $this->getApiManager()->setThreads($uuid);
     }
 
     public function attachShared(SharedEventManagerInterface $events)
     {
         $events->attach(
             $this->getMonitoredClass(),
-            'commit',
-            [$this, 'onCommit'],
+            'comment',
+            [$this, 'onComment'],
             2
         );
         $events->attach(
             $this->getMonitoredClass(),
-            'checkout',
-            [$this, 'onCheckout'],
+            'start',
+            [$this, 'onStart'],
             2
         );
     }
 
     protected function getMonitoredClass()
     {
-        return RepositoryManager::class;
+        return DiscussionManager::class;
     }
 }
