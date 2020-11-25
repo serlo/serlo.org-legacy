@@ -29,8 +29,6 @@ use Api\ApiManager;
 use Api\Controller\ApiController;
 use Api\Service\AuthorizationService;
 use Common\Factory\AbstractControllerFactory;
-use Discussion\DiscussionManager;
-use Discussion\DiscussionManagerInterface;
 use Instance\Manager\InstanceManager;
 use Instance\Manager\InstanceManagerInterface;
 use License\Manager\LicenseManager;
@@ -76,10 +74,6 @@ class ApiControllerFactory extends AbstractControllerFactory
         /** @var UuidManagerInterface $uuidManager */
         $uuidManager = $serviceManager->get(UuidManager::class);
         $controller->setUuidManager($uuidManager);
-
-        /** @var DiscussionManagerInterface $discussionManager */
-        $discussionManager = $serviceManager->get(DiscussionManager::class);
-        $controller->setDiscussionManager($discussionManager);
 
         /** @var UserManagerInterface $userManager */
         $userManager = $serviceManager->get(UserManager::class);

@@ -23,25 +23,12 @@
 
 namespace Api\Factory;
 
-use Alias\AliasManager;
-use Alias\AliasManagerInterface;
-use Api\ApiManager;
-use Api\Service\GraphQLService;
-use Discussion\DiscussionManager;
-use Discussion\DiscussionManagerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Api\Listener\DiscussionManagerListener;
 
-class ApiManagerFactory implements FactoryInterface
+class DiscussionManagerListenerFactory extends AbstractListenerFactory
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    protected function getClassName()
     {
-        /** @var AliasManagerInterface $aliasManager */
-        $aliasManager = $serviceLocator->get(AliasManager::class);
-        /** @var DiscussionManagerInterface $discussionManager */
-        $discussionManager = $serviceLocator->get(DiscussionManager::class);
-        /** @var GraphQLService $graphql */
-        $graphql = $serviceLocator->get(GraphQLService::class);
-        return new ApiManager($aliasManager, $discussionManager, $graphql);
+        return DiscussionManagerListener::class;
     }
 }

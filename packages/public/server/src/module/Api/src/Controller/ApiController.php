@@ -26,12 +26,7 @@ namespace Api\Controller;
 use Alias\AliasManagerAwareTrait;
 use Api\ApiManagerAwareTrait;
 use Api\Service\AuthorizationService;
-use Discussion\DiscussionManagerAwareTrait;
-use Exception;
 use Instance\Manager\InstanceManagerAwareTrait;
-use Lcobucci\JWT\Parser;
-use Lcobucci\JWT\Signer\Hmac\Sha256;
-use Lcobucci\JWT\ValidationData;
 use License\Exception\LicenseNotFoundException;
 use License\Manager\LicenseManagerAwareTrait;
 use Notification\Entity\Subscription;
@@ -40,8 +35,6 @@ use User\Exception\UserNotFoundException;
 use User\Manager\UserManagerAwareTrait;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerAwareTrait;
-use Zend\Http\Response;
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
 class ApiController extends AbstractApiController
@@ -52,7 +45,6 @@ class ApiController extends AbstractApiController
     use LicenseManagerAwareTrait;
     use UserManagerAwareTrait;
     use UuidManagerAwareTrait;
-    use DiscussionManagerAwareTrait;
     use SubscriptionManagerAwareTrait;
 
     public function __construct(AuthorizationService $authorizationService)
@@ -127,10 +119,7 @@ class ApiController extends AbstractApiController
         $id = $this->params('id');
         try {
             $uuid = $this->getUuidManager()->getUuid($id, false, false);
-            $threads = $this->getDiscussionManager()->findDiscussionsOn($uuid);
-            return new JsonModel(
-                $this->getApiManager()->getThreadsData($threads)
-            );
+            return new JsonModel($this->getApiManager()->getThreadsData($uuid));
         } catch (NotFoundException $exception) {
             return $this->createJsonResponse('[]');
         }
@@ -142,9 +131,9 @@ class ApiController extends AbstractApiController
             $userId = (int) $this->params('user-id');
             $user = $this->getUserManager()->getUser($userId);
             $subscriptions = array_map(
-                function (Subscription $subcription) {
+                function (Subscription $subscription) {
                     return [
-                        'id' => $subcription->getSubscribedObject()->getId(),
+                        'id' => $subscription->getSubscribedObject()->getId(),
                     ];
                 },
                 $this->getSubscriptionManager()

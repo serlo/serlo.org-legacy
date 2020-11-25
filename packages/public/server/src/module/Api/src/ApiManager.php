@@ -26,7 +26,8 @@ namespace Api;
 use Alias\AliasManagerInterface;
 use Api\Service\GraphQLService;
 use DateTime;
-use Discussion\Entity\Comment;
+use Discussion\DiscussionManagerInterface;
+use Discussion\Entity\CommentInterface;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
 use License\Entity\LicenseInterface;
@@ -40,14 +41,18 @@ class ApiManager
 {
     /** @var AliasManagerInterface */
     protected $aliasManager;
+    /** @var DiscussionManagerInterface */
+    protected $discussionManager;
     /** @var GraphQLService */
     protected $graphql;
 
     public function __construct(
         AliasManagerInterface $aliasManager,
+        DiscussionManagerInterface $discussionManager,
         GraphQLService $graphql
     ) {
         $this->aliasManager = $aliasManager;
+        $this->discussionManager = $discussionManager;
         $this->graphql = $graphql;
     }
 
@@ -285,7 +290,7 @@ class ApiManager
             $data['description'] = $uuid->getDescription();
         }
 
-        if ($uuid instanceof Comment) {
+        if ($uuid instanceof CommentInterface) {
             $data['__typename'] = 'Comment';
             $data['authorId'] = $uuid->getAuthor()->getId();
             $data['title'] = $uuid->getTitle();
@@ -333,12 +338,20 @@ class ApiManager
         return $data;
     }
 
-    public function getThreadsData($threads)
+    public function setThreads(UuidInterface $uuid)
     {
+        $this->graphql->setCache(
+            $this->graphql->getCacheKey('/api/threads/' . $uuid->getId()),
+            $this->getThreadsData($uuid)
+        );
+    }
+
+    public function getThreadsData(UuidInterface $uuid)
+    {
+        $threads = $this->discussionManager->findDiscussionsOn($uuid);
         $threadIds = array_map(function ($thread) {
             return $thread->getId();
         }, $threads->toArray());
-
         return [
             // Sort threads from most to least recent
             'firstCommentIds' => array_reverse($threadIds),
