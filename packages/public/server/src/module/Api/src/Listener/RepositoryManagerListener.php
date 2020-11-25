@@ -42,6 +42,9 @@ class RepositoryManagerListener extends AbstractListener
         /** @var UuidInterface $revision */
         $revision = $e->getParam('revision');
         $this->getApiManager()->setUuid($revision);
+        /** @var UuidInterface $repository */
+        $repository = $e->getParam('repository');
+        $this->getApiManager()->setUuid($repository);
     }
 
     public function attachShared(SharedEventManagerInterface $events)
