@@ -28,9 +28,11 @@ use Common\Traits\ObjectManagerAwareTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 
 class SubscriptionManager implements SubscriptionManagerInterface
 {
+    use EventManagerAwareTrait;
     use ObjectManagerAwareTrait, ClassResolverAwareTrait, FlushableTrait;
 
     public function findSubscriptionsByUser(UserInterface $user)
@@ -121,6 +123,10 @@ class SubscriptionManager implements SubscriptionManagerInterface
 
         if (is_object($subscription)) {
             $this->objectManager->remove($subscription);
+            $this->getEventManager()->trigger('change', $this, [
+                'user' => $user,
+                'object' => $object,
+            ]);
         }
     }
 
@@ -139,6 +145,10 @@ class SubscriptionManager implements SubscriptionManagerInterface
             $entity->setSubscribedObject($object);
             $entity->setNotifyMailman($notifyMailman);
             $this->getObjectManager()->persist($entity);
+            $this->getEventManager()->trigger('change', $this, [
+                'user' => $user,
+                'object' => $object,
+            ]);
         }
     }
 

@@ -130,21 +130,9 @@ class ApiController extends AbstractApiController
         try {
             $userId = (int) $this->params('user-id');
             $user = $this->getUserManager()->getUser($userId);
-            $subscriptions = array_map(
-                function (Subscription $subscription) {
-                    return [
-                        'id' => $subscription->getSubscribedObject()->getId(),
-                    ];
-                },
-                $this->getSubscriptionManager()
-                    ->findSubscriptionsByUser($user)
-                    ->toArray()
+            return new JsonModel(
+                $this->getApiManager()->getSubscriptionsData($user)
             );
-
-            return new JsonModel([
-                'userId' => $userId,
-                'subscriptions' => $subscriptions,
-            ]);
         } catch (UserNotFoundException $exception) {
             $this->createJsonResponse('null');
         }

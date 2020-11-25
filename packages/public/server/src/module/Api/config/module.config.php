@@ -42,6 +42,7 @@ use Api\Factory\NotificationApiManagerFactory;
 use Api\Factory\NotificationManagerListenerFactory;
 use Api\Factory\PageManagerListenerFactory;
 use Api\Factory\RepositoryManagerListenerFactory;
+use Api\Factory\SubscriptionManagerListenerFactory;
 use Api\Factory\TaxonomyManagerListenerFactory;
 use Api\Factory\UserApiControllerFactory;
 use Api\Factory\UserManagerListenerFactory;
@@ -52,6 +53,7 @@ use Api\Listener\LinkServiceListener;
 use Api\Listener\NotificationManagerListener;
 use Api\Listener\PageManagerListener;
 use Api\Listener\RepositoryManagerListener;
+use Api\Listener\SubscriptionManagerListener;
 use Api\Listener\TaxonomyManagerListener;
 use Api\Listener\UserManagerListener;
 use Api\Listener\UuidManagerListener;
@@ -88,6 +90,8 @@ return [
                 LicenseManagerListenerFactory::class,
             LinkServiceListener::class => LinkServiceListenerFactory::class,
             PageManagerListener::class => PageManagerListenerFactory::class,
+            SubscriptionManagerListener::class =>
+                SubscriptionManagerListenerFactory::class,
             TaxonomyManagerListener::class =>
                 TaxonomyManagerListenerFactory::class,
             UserManagerListener::class => UserManagerListenerFactory::class,
