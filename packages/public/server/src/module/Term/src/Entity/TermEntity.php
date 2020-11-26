@@ -22,7 +22,6 @@
  */
 namespace Term\Entity;
 
-use Common\Filter\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Instance\Entity\InstanceAwareTrait;
 

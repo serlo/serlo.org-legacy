@@ -23,6 +23,7 @@
 
 namespace Alias;
 
+use Alias\Entity\AliasInterface;
 use Alias\Exception;
 use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
@@ -206,18 +207,13 @@ class AliasManager implements AliasManagerInterface
     }
 
     /**
-     * @param $alias ,
-     * @param InstanceInterface $instance
      * @return Entity\AliasInterface[]
      */
     protected function findLegacyAliases($alias, InstanceInterface $instance)
     {
-        $className = $this->getEntityClassName();
         $criteria = ['alias' => $alias, 'instance' => $instance->getId()];
         $order = ['timestamp' => 'DESC'];
-        return $this->getObjectManager()
-            ->getRepository($className)
-            ->findBy($criteria, $order);
+        return $this->getAliasRepository()->findBy($criteria, $order);
     }
 
     /**
@@ -226,27 +222,17 @@ class AliasManager implements AliasManagerInterface
     protected function getAliasRepository()
     {
         return $this->getObjectManager()->getRepository(
-            $this->getEntityClassName()
+            $this->getClassResolver()->resolveClassName(AliasInterface::class)
         );
     }
 
-    protected function getEntityClassName()
+    protected function slugify(string $text)
     {
-        return $this->getClassResolver()->resolveClassName(
-            'Alias\Entity\AliasInterface'
-        );
-    }
-
-    protected function slugify($text)
-    {
-        $slugify = new Slugify();
-        $shortify = new Shortify();
         $slugified = [];
-
-        $text = $shortify->filter($text);
+        $text = Shortify::shortify($text);
 
         foreach (explode('/', $text) as $token) {
-            $token = $slugify->filter($token);
+            $token = Slugify::slugify($token);
             if (empty($token)) {
                 continue;
             }
