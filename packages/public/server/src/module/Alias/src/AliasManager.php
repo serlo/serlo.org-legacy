@@ -204,7 +204,7 @@ class AliasManager implements AliasManagerInterface
     {
         if (
             preg_match(
-                '/^(?<subject>[^\/]+\/)?(?<id>\d+)\/(?<title>[^\/]+)$/',
+                '/^(?<subject>[^\/]+\/)?(?<id>\d+)\/(?<title>[^\/]*)$/',
                 $alias,
                 $matches
             )
