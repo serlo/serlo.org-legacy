@@ -173,36 +173,48 @@ class AliasManager implements AliasManagerInterface
         string $alias,
         InstanceInterface $instance
     ) {
-        if (preg_match('/(?<id>\d+)\//', $alias, $matches)) {
+        $uuid = $this->getUuidOfAlias($alias);
+        if ($uuid === null) {
+            $aliases = $this->findLegacyAliases($alias, $instance);
+            if (count($aliases) === 0) {
+                return null;
+            }
+
+            $currentAlias = $aliases[0];
+            $path = $this->getAliasOfObject($currentAlias->getObject());
+            return [
+                'id' => $currentAlias->getObject()->getId(),
+                'instance' => $currentAlias->getInstance()->getSubdomain(),
+                'path' => $path,
+            ];
+        } else {
+            $path = $this->getAliasOfObject($uuid);
+            return $path
+                ? [
+                    'id' => $uuid->getId(),
+                    'instance' => $instance->getSubdomain(),
+                    'path' => $this->getAliasOfObject($uuid),
+                ]
+                : null;
+        }
+    }
+
+    public function getUuidOfAlias(string $alias)
+    {
+        if (
+            preg_match(
+                '/^(?<subject>[^\/]+\/)?(?<id>\d+)\/(?<title>[^\/]+)$/',
+                $alias,
+                $matches
+            )
+        ) {
             try {
-                $uuid = $this->uuidManager->getUuid($matches['id'], true);
-                $path = $this->getAliasOfObject($uuid);
-                if ($path) {
-                    return [
-                        'id' => $uuid->getId(),
-                        'instance' => $instance->getSubdomain(),
-                        'path' => $this->getAliasOfObject($uuid),
-                    ];
-                } else {
-                    return null;
-                }
+                return $this->uuidManager->getUuid(matches['id'], true);
             } catch (NotFoundException $e) {
-                // UUID not found, fall through to check if this is a legacy alias
+                // UUID not found, fall through
             }
         }
-
-        $aliases = $this->findLegacyAliases($alias, $instance);
-        if (count($aliases) === 0) {
-            return null;
-        }
-
-        $currentAlias = $aliases[0];
-        $path = $this->getAliasOfObject($currentAlias->getObject());
-        return [
-            'id' => $currentAlias->getObject()->getId(),
-            'instance' => $currentAlias->getInstance()->getSubdomain(),
-            'path' => $path,
-        ];
+        return null;
     }
 
     /**
