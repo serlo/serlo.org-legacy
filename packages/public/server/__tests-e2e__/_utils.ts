@@ -70,7 +70,7 @@ export async function goto(site: string): Promise<ElementHandle> {
 
 export async function click(element: ElementHandle): Promise<ElementHandle> {
   await element.click()
-  await page.waitFor(200)
+  await page.waitForTimeout(200)
   return element
 }
 
@@ -90,7 +90,7 @@ export async function clickForNewPage(
 ): Promise<ElementHandle> {
   await element.click()
   await page.waitForNavigation()
-  await page.waitFor(300)
+  await page.waitForTimeout(300)
 
   return getDocument(page)
 }
@@ -326,7 +326,7 @@ export async function clear(element: ElementHandle): Promise<ElementHandle> {
   await click(element)
 
   await page.keyboard.down('Control')
-  await page.waitFor(100)
+  await page.waitForTimeout(100)
   await page.keyboard.press('A')
   await page.keyboard.up('Control')
 

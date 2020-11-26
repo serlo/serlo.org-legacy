@@ -43,14 +43,14 @@ describe('static pages', () => {
     await getByText(staticPage, 'x').then(click)
 
     // wait for sideloading animation
-    await page.waitFor(500)
+    await page.waitForTimeout(500)
 
     await getBySelector(staticPage, '.CodeMirror-code pre')
       .then(clear)
       .then((e) => e.type('Test content'))
 
     // wait for rendering the new text
-    await page.waitFor(200)
+    await page.waitForTimeout(200)
 
     await getBySelector(staticPage, '.preview-input')
       .then(clear)
