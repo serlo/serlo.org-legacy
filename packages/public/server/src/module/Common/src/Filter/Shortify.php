@@ -229,7 +229,7 @@ class Shortify implements FilterInterface
      * @param string $text
      * @return bool|mixed
      */
-    protected static function shortify($text)
+    public static function shortify($text)
     {
         $text = preg_replace(self::getRegex(), ' ', $text);
         return trim($text);

@@ -30,7 +30,7 @@ class Slugify implements FilterInterface
      * @param string $text
      * @return bool|string
      */
-    protected static function slugify(string $text)
+    public static function slugify(string $text)
     {
         $replacementTable = [
             // remove

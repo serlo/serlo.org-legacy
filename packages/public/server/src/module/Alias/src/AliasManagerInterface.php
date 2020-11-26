@@ -55,4 +55,10 @@ interface AliasManagerInterface
         string $alias,
         InstanceInterface $instance
     );
+
+    /**
+     * @param string $alias
+     * @return UuidInterface|null
+     */
+    public function getUuidOfAlias(string $alias);
 }

@@ -78,24 +78,14 @@ class AliasController extends AbstractActionController
 
     private function resolveAlias($alias)
     {
-        if (
-            preg_match(
-                '/^(?<subject>[^\/]+\/)?(?<id>\d+)\/(?<title>[^\/]+)$/',
-                $alias,
-                $matches
-            )
-        ) {
-            try {
-                $object = $this->uuidManager->getUuid($matches['id'], true);
-                $normalized = $this->normalizer->normalize($object);
-                return $this->getUrlOfNormalizedObject($normalized);
-            } catch (NotFoundException $e) {
-                // UUID not found, fall through to check if this is a legacy alias
-            }
+        $uuid = $this->aliasManager->getUuidOfAlias($alias);
+        if ($uuid === null) {
+            $instance = $this->instanceManager->getInstanceFromRequest();
+            return $this->aliasManager->resolveLegacyAlias($alias, $instance);
+        } else {
+            $normalized = $this->normalizer->normalize($uuid);
+            return $this->getUrlOfNormalizedObject($normalized);
         }
-
-        $instance = $this->instanceManager->getInstanceFromRequest();
-        return $this->aliasManager->resolveLegacyAlias($alias, $instance);
     }
 
     private function resolveUuid($id)
