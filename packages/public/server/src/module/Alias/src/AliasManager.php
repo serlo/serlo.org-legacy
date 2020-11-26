@@ -210,7 +210,7 @@ class AliasManager implements AliasManagerInterface
             )
         ) {
             try {
-                return $this->uuidManager->getUuid(matches['id'], true);
+                return $this->uuidManager->getUuid($matches['id'], true);
             } catch (NotFoundException $e) {
                 // UUID not found, fall through
             }
