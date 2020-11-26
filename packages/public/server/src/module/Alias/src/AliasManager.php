@@ -27,7 +27,6 @@ use Alias\Entity\AliasInterface;
 use Alias\Exception;
 use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
-use Common\Filter\Shortify;
 use Common\Filter\Slugify;
 use Common\Traits;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -240,20 +239,6 @@ class AliasManager implements AliasManagerInterface
 
     protected function slugify(string $text)
     {
-        $slugified = [];
-        $text = Shortify::shortify($text);
-
-        foreach (explode('/', $text) as $token) {
-            $token = Slugify::slugify($token);
-            if (empty($token)) {
-                continue;
-            }
-
-            $slugified[] = $token;
-        }
-
-        $text = implode('/', $slugified);
-
-        return $text;
+        return Slugify::slugify($text);
     }
 }

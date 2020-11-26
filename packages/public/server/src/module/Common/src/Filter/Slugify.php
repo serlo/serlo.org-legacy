@@ -67,6 +67,7 @@ class Slugify implements FilterInterface
         $text = strtr($text, $replacementTable);
         $text = preg_replace('/-{2,}/', '-', $text);
         $text = strtolower($text);
+        $text = trim($text, '-');
         if (empty($text)) {
             return false;
         }
