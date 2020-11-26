@@ -77,7 +77,6 @@ return [
         'Notification',
         'Ads',
         'Log',
-        'CacheInvalidator',
         'Cache',
         'StaticPage',
         'Newsletter',
