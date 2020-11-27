@@ -173,7 +173,7 @@ class AliasManager implements AliasManagerInterface
         string $alias,
         InstanceInterface $instance
     ) {
-        $uuid = $this->getUuidOfAlias($alias);
+        $uuid = $this->getObjectOfAlias($alias);
         if ($uuid === null) {
             $aliases = $this->findLegacyAliases($alias, $instance);
             if (count($aliases) === 0) {
@@ -199,7 +199,7 @@ class AliasManager implements AliasManagerInterface
         }
     }
 
-    public function getUuidOfAlias(string $alias)
+    public function getObjectOfAlias(string $alias)
     {
         if (
             preg_match(
