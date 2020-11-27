@@ -26,18 +26,8 @@ use Page\Entity\PageRevisionInterface;
 
 class PageRevisionAdapter extends AbstractAdapter
 {
-    /**
-     * @return PageRevisionInterface
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    public function isValid($object)
-    {
-        return $object instanceof PageRevisionInterface;
-    }
+    /** @var PageRevisionInterface */
+    protected $object;
 
     protected function getKeywords()
     {
@@ -46,17 +36,24 @@ class PageRevisionAdapter extends AbstractAdapter
 
     protected function getContent()
     {
-        return $this->getObject()->getContent();
+        return $this->object->getContent();
+    }
+
+    protected function getContext()
+    {
+        $repository = $this->object->getRepository();
+        $repositoryAdapter = $this->createAdapter($repository);
+        return $repositoryAdapter->getContext();
     }
 
     protected function getId()
     {
-        return $this->getObject()->getId();
+        return $this->object->getId();
     }
 
     protected function getPreview()
     {
-        return $this->getObject()->getContent();
+        return $this->object->getContent();
     }
 
     protected function getRouteName()
@@ -67,18 +64,18 @@ class PageRevisionAdapter extends AbstractAdapter
     protected function getRouteParams()
     {
         return [
-            'revision' => $this->getObject()->getId(),
+            'revision' => $this->object->getId(),
         ];
     }
 
     protected function getCreationDate()
     {
-        return $this->getObject()->getDate();
+        return $this->object->getDate();
     }
 
     protected function getTitle()
     {
-        return $this->getObject()->getTitle();
+        return $this->object->getTitle();
     }
 
     protected function getType()
@@ -88,6 +85,6 @@ class PageRevisionAdapter extends AbstractAdapter
 
     protected function isTrashed()
     {
-        return $this->getObject()->isTrashed();
+        return $this->object->isTrashed();
     }
 }

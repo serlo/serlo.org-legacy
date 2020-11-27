@@ -23,41 +23,30 @@
 
 namespace Normalizer;
 
+use Normalizer\Controller\SignpostController;
+use Normalizer\Controller\SitemapController;
+use Normalizer\Factory\NormalizeHelperFactory;
+use Normalizer\Factory\NormalizerFactory;
+
 return [
     'view_helpers' => [
         'factories' => [
-            'normalize' => __NAMESPACE__ . '\Factory\NormalizeHelperFactory',
+            'normalize' => NormalizeHelperFactory::class,
         ],
     ],
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\Normalizer' =>
-                __NAMESPACE__ . '\Factory\NormalizerFactory',
-            __NAMESPACE__ . '\Storage\Storage' =>
-                __NAMESPACE__ . '\Factory\NormalizerStorageFactory',
-        ],
-    ],
-    'normalizer' => [
-        'strategies' => [
-            __NAMESPACE__ . '\Strategy\AttachmentStrategy' => [],
-            __NAMESPACE__ . '\Strategy\CommentStrategy' => [],
-            __NAMESPACE__ . '\Strategy\EntityRevisionStrategy' => [],
-            __NAMESPACE__ . '\Strategy\EntityStrategy' => [],
-            __NAMESPACE__ . '\Strategy\PageRepositoryStrategy' => [],
-            __NAMESPACE__ . '\Strategy\PageRevisionStrategy' => [],
-            __NAMESPACE__ . '\Strategy\PostStrategy' => [],
-            __NAMESPACE__ . '\Strategy\TaxonomyTermStrategy' => [],
-            __NAMESPACE__ . '\Strategy\UserStrategy' => [],
+            Normalizer::class => NormalizerFactory::class,
         ],
     ],
     'di' => [
         'allowed_controllers' => [
-            __NAMESPACE__ . '\Controller\SignpostController',
-            __NAMESPACE__ . '\Controller\SitemapController',
+            SignpostController::class,
+            SitemapController::class,
         ],
         'definition' => [
             'class' => [
-                __NAMESPACE__ . '\Controller\SignpostController' => [
+                SignpostController::class => [
                     'setUuidManager' => [
                         'required' => true,
                     ],
@@ -66,8 +55,7 @@ return [
         ],
         'instance' => [
             'preferences' => [
-                __NAMESPACE__ . '\NormalizerInterface' =>
-                    __NAMESPACE__ . '\Normalizer',
+                NormalizerInterface::class => Normalizer::class,
             ],
         ],
     ],
@@ -78,8 +66,7 @@ return [
                     'options' => [
                         'route' => 'sitemap',
                         'defaults' => [
-                            'controller' =>
-                                __NAMESPACE__ . '\Controller\SitemapController',
+                            'controller' => SitemapController::class,
                             'action' => 'index',
                         ],
                     ],
@@ -94,8 +81,7 @@ return [
                 'options' => [
                     'route' => '/meta/:id',
                     'defaults' => [
-                        'controller' =>
-                            __NAMESPACE__ . '\Controller\SignpostController',
+                        'controller' => SignpostController::class,
                         'action' => 'meta',
                     ],
                 ],
@@ -111,9 +97,7 @@ return [
                         'options' => [
                             'route' => '/ref/:object',
                             'defaults' => [
-                                'controller' =>
-                                    __NAMESPACE__ .
-                                    '\Controller\SignpostController',
+                                'controller' => SignpostController::class,
                                 'action' => 'ref',
                             ],
                         ],
@@ -125,8 +109,7 @@ return [
                 'options' => [
                     'route' => '/sitemap',
                     'defaults' => [
-                        'controller' =>
-                            __NAMESPACE__ . '\Controller\SitemapController',
+                        'controller' => SitemapController::class,
                     ],
                 ],
                 'child_routes' => [

@@ -142,6 +142,7 @@ class Revision extends Uuid implements RevisionInterface
         return $this->getRepository()->getInstance();
     }
 
+    /** @return EntityInterface */
     public function getRepository()
     {
         return $this->repository;

@@ -26,27 +26,22 @@ use User\Entity\UserInterface;
 
 class UserAdapter extends AbstractAdapter
 {
-    /**
-     * @return UserInterface
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    public function isValid($object)
-    {
-        return $object instanceof UserInterface;
-    }
+    /** @var UserInterface */
+    protected $object;
 
     protected function getContent()
     {
-        return $this->getObject()->getUsername();
+        return $this->object->getUsername();
+    }
+
+    protected function getContext()
+    {
+        return 'user';
     }
 
     protected function getId()
     {
-        return $this->getObject()->getId();
+        return $this->object->getId();
     }
 
     protected function getKeywords()
@@ -56,7 +51,7 @@ class UserAdapter extends AbstractAdapter
 
     protected function getPreview()
     {
-        return $this->getObject()->getUsername();
+        return $this->object->getUsername();
     }
 
     protected function getRouteName()
@@ -66,17 +61,17 @@ class UserAdapter extends AbstractAdapter
 
     protected function getRouteParams()
     {
-        return ['id' => $this->getObject()->getId()];
+        return ['id' => $this->object->getId()];
     }
 
     protected function getCreationDate()
     {
-        return $this->getObject()->getDate();
+        return $this->object->getDate();
     }
 
     protected function getTitle()
     {
-        return $this->getObject()->getUsername();
+        return $this->object->getUsername();
     }
 
     protected function getType()
@@ -85,6 +80,6 @@ class UserAdapter extends AbstractAdapter
     }
     protected function isTrashed()
     {
-        return $this->getObject()->isTrashed();
+        return $this->object->isTrashed();
     }
 }

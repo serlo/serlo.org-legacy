@@ -22,31 +22,22 @@
  */
 namespace Normalizer\Factory;
 
+use Common\Factory\AbstractHelperFactory;
+use Instance\Manager\InstanceManager;
+use Instance\Manager\InstanceManagerInterface;
+use Normalizer\Normalizer;
+use Normalizer\NormalizerInterface;
 use Normalizer\View\Helper\Normalize;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class NormalizeHelperFactory implements FactoryInterface
+class NormalizeHelperFactory extends AbstractHelperFactory
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    protected function createHelper(ServiceLocatorInterface $serviceManager)
     {
-        $normalize = new Normalize();
-        $normalizer = $serviceLocator
-            ->getServiceLocator()
-            ->get('Normalizer\Normalizer');
-        $instanceManager = $serviceLocator
-            ->getServiceLocator()
-            ->get('Instance\Manager\InstanceManager');
-
-        $normalize->setNormalizer($normalizer);
-        $normalize->setInstanceManager($instanceManager);
-
-        return $normalize;
+        /** @var InstanceManagerInterface $instanceManager */
+        $instanceManager = $serviceManager->get(InstanceManager::class);
+        /** @var NormalizerInterface $normalizer */
+        $normalizer = $serviceManager->get(Normalizer::class);
+        return new Normalize($instanceManager, $normalizer);
     }
 }

@@ -20,22 +20,24 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Normalizer\Adapter;
 
-use Normalizer\Entity\NormalizedInterface;
-use Zend\I18n\Translator\TranslatorAwareInterface;
+namespace Common\Factory;
 
-interface AdapterInterface extends TranslatorAwareInterface
+use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+abstract class AbstractHelperFactory implements FactoryInterface
 {
-    /**
-     * @param object $object
-     * @return NormalizedInterface
-     */
-    public function normalize($object);
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        /** @var AbstractPluginManager $serviceLocator */
+        /** @var ServiceLocatorInterface $serviceManager */
+        $serviceManager = $serviceLocator->getServiceLocator();
+        return $this->createHelper($serviceManager);
+    }
 
-    /**
-     * @param object $object
-     * @return true
-     */
-    public function isValid($object);
+    abstract protected function createHelper(
+        ServiceLocatorInterface $serviceManager
+    );
 }

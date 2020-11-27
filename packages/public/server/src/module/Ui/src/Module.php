@@ -27,6 +27,7 @@ use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\MvcEvent;
+use Zend\Navigation\Page\AbstractPage;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Navigation\Page\Mvc;
 
@@ -74,7 +75,7 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
 
         // If no active navigation is found, we revert to 1-col layout
         foreach ($container as $page) {
-            /* @var $page Mvc */
+            /* @var $page AbstractPage */
             if ($page->isVisible(false) && $page->isActive(true)) {
                 return;
             }

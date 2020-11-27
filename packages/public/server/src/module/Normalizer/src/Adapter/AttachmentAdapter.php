@@ -27,22 +27,17 @@ use Normalizer\Exception\RuntimeException;
 
 class AttachmentAdapter extends AbstractAdapter
 {
-    /**
-     * @return ContainerInterface
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    public function isValid($object)
-    {
-        return $object instanceof ContainerInterface;
-    }
+    /** @var ContainerInterface */
+    protected $object;
 
     protected function getContent()
     {
         return $this->getFile()->getLocation();
+    }
+
+    protected function getContext()
+    {
+        return 'attachment';
     }
 
     protected function getCreationDate()
@@ -52,9 +47,7 @@ class AttachmentAdapter extends AbstractAdapter
 
     protected function getFile()
     {
-        $file = $this->getObject()
-            ->getFiles()
-            ->current();
+        $file = $this->object->getFiles()->current();
         if (!is_object($file)) {
             throw new RuntimeException('No files have been attached');
         }
@@ -63,7 +56,7 @@ class AttachmentAdapter extends AbstractAdapter
 
     protected function getId()
     {
-        return $this->getObject()->getId();
+        return $this->object->getId();
     }
 
     protected function getKeywords()
@@ -84,7 +77,7 @@ class AttachmentAdapter extends AbstractAdapter
     protected function getRouteParams()
     {
         return [
-            'id' => $this->getObject()->getId(),
+            'id' => $this->object->getId(),
         ];
     }
 
@@ -95,7 +88,7 @@ class AttachmentAdapter extends AbstractAdapter
 
     protected function getType()
     {
-        return $this->getObject()->getType();
+        return $this->object->getType();
     }
 
     protected function isTrashed()

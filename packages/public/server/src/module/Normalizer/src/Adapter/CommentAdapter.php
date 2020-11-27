@@ -26,27 +26,27 @@ use Discussion\Entity\CommentInterface;
 
 class CommentAdapter extends AbstractAdapter
 {
-    /**
-     * @return CommentInterface
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    public function isValid($object)
-    {
-        return $object instanceof CommentInterface;
-    }
+    /** @var CommentInterface */
+    protected $object;
 
     protected function getContent()
     {
-        return $this->getObject()->getContent();
+        return $this->object->getContent();
+    }
+
+    protected function getContext()
+    {
+        $object = $this->object;
+        $object = $object->hasParent()
+            ? $object->getParent()
+            : $object->getObject();
+        $adapter = $this->createAdapter($object);
+        return $adapter->getContext();
     }
 
     protected function getId()
     {
-        return $this->getObject()->getId();
+        return $this->object->getId();
     }
 
     protected function getKeywords()
@@ -67,35 +67,31 @@ class CommentAdapter extends AbstractAdapter
     protected function getRouteParams()
     {
         return [
-            'id' => $this->getObject()->hasParent()
-                ? $this->getObject()
-                    ->getParent()
-                    ->getId()
-                : $this->getObject()->getId(),
+            'id' => $this->object->hasParent()
+                ? $this->object->getParent()->getId()
+                : $this->object->getId(),
         ];
     }
 
     protected function getCreationDate()
     {
-        return $this->getObject()->getTimestamp();
+        return $this->object->getTimestamp();
     }
 
     protected function getTitle()
     {
-        return $this->getObject()->hasParent()
-            ? $this->getObject()
-                ->getParent()
-                ->getTitle()
-            : $this->getObject()->getTitle();
+        return $this->object->hasParent()
+            ? $this->object->getParent()->getTitle()
+            : $this->object->getTitle();
     }
 
     protected function getType()
     {
-        return $this->getObject()->hasParent() ? 'comment' : 'parent';
+        return $this->object->hasParent() ? 'comment' : 'parent';
     }
 
     protected function isTrashed()
     {
-        return $this->getObject()->isTrashed();
+        return $this->object->isTrashed();
     }
 }

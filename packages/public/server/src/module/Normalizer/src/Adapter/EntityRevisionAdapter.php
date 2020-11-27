@@ -22,26 +22,24 @@
  */
 namespace Normalizer\Adapter;
 
-use Entity\Entity\Revision;
+use Entity\Entity\EntityInterface;
+use Entity\Entity\RevisionInterface;
 
 class EntityRevisionAdapter extends AbstractAdapter
 {
-    /**
-     * @return Revision
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    public function isValid($object)
-    {
-        return $object instanceof Revision;
-    }
+    /** @var RevisionInterface */
+    protected $object;
 
     protected function getContent()
     {
-        return $this->getObject()->get('content');
+        return $this->object->get('content');
+    }
+
+    protected function getContext()
+    {
+        $repository = $this->object->getRepository();
+        $repositoryAdapter = $this->createAdapter($repository);
+        return $repositoryAdapter->getContext();
     }
 
     protected function getKeywords()
@@ -51,27 +49,27 @@ class EntityRevisionAdapter extends AbstractAdapter
 
     protected function getField($field, $fallback = null)
     {
-        if ($this->getObject()->get($field) !== null) {
-            return $this->getObject()->get($field);
+        if ($this->object->get($field) !== null) {
+            return $this->object->get($field);
         } elseif (
             $fallback !== null &&
-            $this->getObject()->get($fallback) !== null
+            $this->object->get($fallback) !== null
         ) {
-            return $this->getObject()->get($fallback);
+            return $this->object->get($fallback);
         } else {
-            return $this->getObject()->getId();
+            return $this->object->getId();
         }
     }
 
     protected function getId()
     {
-        return $this->getObject()->getId();
+        return $this->object->getId();
     }
 
     protected function getPreview()
     {
-        $description = $this->getObject()->get('description');
-        $description = $description ?: $this->getObject()->get('content');
+        $description = $this->object->get('description');
+        $description = $description ?: $this->object->get('content');
         return $description;
     }
 
@@ -83,33 +81,30 @@ class EntityRevisionAdapter extends AbstractAdapter
     protected function getRouteParams()
     {
         return [
-            'entity' => $this->getObject()
-                ->getRepository()
-                ->getId(),
-            'revision' => $this->getObject()->getId(),
+            'entity' => $this->object->getRepository()->getId(),
+            'revision' => $this->object->getId(),
         ];
     }
 
     protected function getCreationDate()
     {
-        return $this->getObject()->getTimestamp();
+        return $this->object->getTimestamp();
     }
 
     protected function getTitle()
     {
-        return $this->getObject()->get('title') ?: $this->object->getId();
+        return $this->object->get('title') ?: $this->object->getId();
     }
 
     protected function getType()
     {
-        return $this->getObject()
-            ->getRepository()
-            ->getType()
-            ->getName();
+        /** @var EntityInterface $repository */
+        $repository = $this->object->getRepository();
+        return $repository->getType()->getName();
     }
 
     protected function isTrashed()
     {
-        return $this->getObject()->isTrashed();
+        return $this->object->isTrashed();
     }
 }

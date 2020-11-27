@@ -23,23 +23,16 @@
 namespace Normalizer\Factory;
 
 use Normalizer\Normalizer;
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class NormalizerFactory implements FactoryInterface
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $storage = $serviceLocator->get('Normalizer\Storage\Storage');
+        /** @var TranslatorInterface $translator */
         $translator = $serviceLocator->get('MvcTranslator');
-        $normalizer = new Normalizer($storage);
-        $normalizer->setTranslator($translator);
-        return $normalizer;
+        return new Normalizer($translator);
     }
 }

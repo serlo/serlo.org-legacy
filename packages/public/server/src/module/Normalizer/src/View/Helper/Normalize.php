@@ -23,9 +23,10 @@
 namespace Normalizer\View\Helper;
 
 use Common\Filter\PreviewFilter;
-use Instance\Manager\InstanceManagerAwareTrait;
+use Exception;
+use Instance\Manager\InstanceManagerInterface;
+use Normalizer\NormalizerInterface;
 use Renderer\View\Helper\FormatHelper;
-use Normalizer\NormalizerAwareTrait;
 use Ui\View\Helper\Brand;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\Helper\HeadMeta;
@@ -33,8 +34,19 @@ use Zend\View\Helper\HeadTitle;
 
 class Normalize extends AbstractHelper
 {
-    use InstanceManagerAwareTrait;
-    use NormalizerAwareTrait;
+    /** @var InstanceManagerInterface */
+    protected $instanceManager;
+
+    /** @var NormalizerInterface */
+    protected $normalizer;
+
+    public function __construct(
+        InstanceManagerInterface $instanceManager,
+        NormalizerInterface $normalizer
+    ) {
+        $this->instanceManager = $instanceManager;
+        $this->normalizer = $normalizer;
+    }
 
     public function __invoke($object = null)
     {
@@ -60,14 +72,14 @@ class Normalize extends AbstractHelper
         $meta->appendName('keywords', implode(', ', $keywords));
         $meta->appendName('robots', $robots);
 
-        $this->appendOpenSearchMeta($object);
+        $this->appendOpenSearchMeta();
         $this->appendOpenGraphMeta($object);
         $this->appendFacebookMeta($object);
 
         return $this;
     }
 
-    private function appendOpenSearchMeta($object)
+    private function appendOpenSearchMeta()
     {
         $lang = $this->getSubdomain();
 
@@ -154,9 +166,7 @@ class Normalize extends AbstractHelper
 
     private function getSubdomain()
     {
-        return $this->getInstanceManager()
-            ->getInstanceFromRequest()
-            ->getSubdomain();
+        return $this->instanceManager->getInstanceFromRequest()->getSubdomain();
     }
 
     /**
@@ -194,8 +204,8 @@ class Normalize extends AbstractHelper
             $headTitle($brand->getSlogan(true));
             return $this;
         }
-        //add "– lernen mit Serlo"
-        $titlePostfix = $brand->getHeadTitle(true);
+        // add "– lernen mit Serlo"
+        $titlePostfix = $brand->getHeadTitle();
         if (strlen($title) < $maxStringLen - strlen($titlePostfix)) {
             $headTitle($titlePostfix);
             return $this;
@@ -214,7 +224,7 @@ class Normalize extends AbstractHelper
     {
         try {
             $this->normalize($object);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
 
@@ -265,8 +275,7 @@ class Normalize extends AbstractHelper
         $renderer = $this->getView()->plugin('renderer');
         $content = $renderer->toHtml($string);
         $filter = new PreviewFilter(152);
-        $preview = $filter->filter($content);
-        return $preview;
+        return $filter->filter($content);
     }
 
     public function toTitle($object)
@@ -291,6 +300,6 @@ class Normalize extends AbstractHelper
 
     protected function normalize($object)
     {
-        return $this->getNormalizer()->normalize($object);
+        return $this->normalizer->normalize($object);
     }
 }

@@ -22,82 +22,27 @@
  */
 namespace Normalizer;
 
-use Normalizer\Adapter\AdapterPluginManager;
-use Zend\Cache\Storage\StorageInterface;
+use Doctrine\Common\Collections\Collection;
+use Normalizer\Adapter\AbstractAdapter;
 use Zend\I18n\Translator\TranslatorAwareTrait;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\I18n\Translator\TranslatorInterface;
+use Zend\Navigation\Page\AbstractPage;
 
 class Normalizer implements NormalizerInterface
 {
     use TranslatorAwareTrait;
 
-    /**
-     * @var Adapter\AdapterPluginManager
-     */
-    protected $pluginManager;
-
-    /**
-     * @var StorageInterface
-     */
-    protected $storage;
-
-    /**
-     * @var array
-     */
-    protected $adapters = [
-        'Attachment\Entity\ContainerInterface' =>
-            'Normalizer\Adapter\AttachmentAdapter',
-        'Discussion\Entity\CommentInterface' =>
-            'Normalizer\Adapter\CommentAdapter',
-        'Entity\Entity\EntityInterface' => 'Normalizer\Adapter\EntityAdapter',
-        'Entity\Entity\RevisionInterface' =>
-            'Normalizer\Adapter\EntityRevisionAdapter',
-        'Page\Entity\PageRepositoryInterface' =>
-            'Normalizer\Adapter\PageRepositoryAdapter',
-        'Page\Entity\PageRevisionInterface' =>
-            'Normalizer\Adapter\PageRevisionAdapter',
-        'Blog\Entity\PostInterface' => 'Normalizer\Adapter\PostAdapter',
-        'Taxonomy\Entity\TaxonomyTermInterface' =>
-            'Normalizer\Adapter\TaxonomyTermAdapter',
-        'User\Entity\UserInterface' => 'Normalizer\Adapter\UserAdapter',
-    ];
-
-    public function __construct(
-        StorageInterface $storage,
-        AdapterPluginManager $pluginManager = null
-    ) {
-        if (!$pluginManager) {
-            $pluginManager = new AdapterPluginManager();
-        }
-        $this->pluginManager = $pluginManager;
-        $this->storage = $storage;
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->setTranslator($translator);
     }
 
     public function normalize($object)
     {
-        if (!is_object($object)) {
-            throw new Exception\InvalidArgumentException(
-                sprintf('Expected object but got %s.', gettype($object))
-            );
-        }
-
-        // $key = hash('sha256', serialize($object));
-
-        // if ($this->storage->hasItem($key)) {
-        //    return $this->storage->getItem($key);
-        // }
-
-        foreach ($this->adapters as $class => $adapterClass) {
-            if ($object instanceof $class) {
-                /* @var $adapterClass Adapter\AdapterInterface */
-                $adapter = $this->pluginManager->get($adapterClass);
-                $adapter->setTranslator($this->translator);
-                $normalized = $adapter->normalize($object);
-                // $this->storage->setItem($key, $normalized);
-                return $normalized;
-            }
-        }
-
-        throw new Exception\NoSuitableAdapterFoundException($object);
+        $adapter = AbstractAdapter::create(
+            $object,
+            $this->translator
+        );
+        return $adapter->normalize();
     }
 }
