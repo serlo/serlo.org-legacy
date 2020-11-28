@@ -314,6 +314,12 @@ class Entity extends Uuid implements EntityInterface
         return array_unique($subjects, SORT_REGULAR);
     }
 
+    public function getCanonicalSubject()
+    {
+        $subjects = $this->getSubjects();
+        return count($subjects) > 0 ? $subjects[0] : null;
+    }
+
     public function getTimestamp()
     {
         return $this->date;

@@ -28,22 +28,17 @@ use Taxonomy\Entity\TaxonomyTermInterface;
 
 class TaxonomyTermAdapter extends AbstractAdapter
 {
-    /**
-     * @return TaxonomyTermInterface
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    public function isValid($object)
-    {
-        return $object instanceof TaxonomyTermInterface;
-    }
+    /** @var TaxonomyTermInterface */
+    protected $object;
 
     protected function getContent()
     {
-        return $this->getObject()->getDescription();
+        return $this->object->getDescription();
+    }
+
+    protected function getContext()
+    {
+        return $this->object->getSecondLevelAncestor()->getName();
     }
 
     protected function getCreationDate()
@@ -53,12 +48,12 @@ class TaxonomyTermAdapter extends AbstractAdapter
 
     protected function getId()
     {
-        return $this->getObject()->getId();
+        return $this->object->getId();
     }
 
     protected function getKeywords()
     {
-        $term = $this->getObject();
+        $term = $this->object;
         $keywords = [];
         while ($term->hasParent()) {
             $keywords[] = $term->getName();
@@ -69,12 +64,12 @@ class TaxonomyTermAdapter extends AbstractAdapter
 
     protected function getPreview()
     {
-        return $this->getObject()->getDescription();
+        return $this->object->getDescription();
     }
 
     protected function getRouteName()
     {
-        $object = $this->getObject();
+        $object = $this->object;
         switch ($object->getType()->getName()) {
             case 'blog':
                 return 'blog/view';
@@ -100,10 +95,9 @@ class TaxonomyTermAdapter extends AbstractAdapter
 
     protected function getRouteParams()
     {
-        $object = $this->getObject();
+        $object = $this->object;
         switch ($object->getType()->getName()) {
             case 'blog':
-                return ['id' => $object->getId()];
             case 'forum':
             case 'forum-category':
                 return ['id' => $object->getId()];
@@ -126,7 +120,7 @@ class TaxonomyTermAdapter extends AbstractAdapter
 
     protected function getTitle()
     {
-        return $this->getObject()->getName();
+        return $this->object->getName();
     }
 
     protected function getHeadTitle()
@@ -138,7 +132,7 @@ class TaxonomyTermAdapter extends AbstractAdapter
 
         $title = $this->getTitle();
 
-        //add "(Lehrplan)" etc
+        // add "(Lehrplan)" etc
         if ($type !== 'topic-folder') {
             if (strlen($title) < $maxStringLen - strlen($typeName)) {
                 $title .= ' (' . $typeName . ')';
@@ -150,12 +144,10 @@ class TaxonomyTermAdapter extends AbstractAdapter
 
     protected function getType()
     {
-        return $this->getObject()
-            ->getTaxonomy()
-            ->getName();
+        return $this->object->getTaxonomy()->getName();
     }
     protected function isTrashed()
     {
-        return $this->getObject()->isTrashed();
+        return $this->object->isTrashed();
     }
 }

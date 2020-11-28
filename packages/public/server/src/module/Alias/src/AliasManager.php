@@ -30,14 +30,10 @@ use ClassResolver\ClassResolverInterface;
 use Common\Filter\Slugify;
 use Common\Traits;
 use Doctrine\Common\Persistence\ObjectManager;
-use Entity\Entity\EntityInterface;
 use Instance\Entity\InstanceInterface;
 use Instance\Manager\InstanceAwareObjectManagerAwareTrait;
 use Instance\Repository\InstanceAwareRepository;
 use Normalizer\NormalizerInterface;
-use Page\Entity\PageRepositoryInterface;
-use Taxonomy\Entity\TaxonomyTermInterface;
-use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerInterface;
@@ -78,33 +74,12 @@ class AliasManager implements AliasManagerInterface
 
     public function getAliasOfObject(UuidInterface $uuid)
     {
-        $id = $uuid->getId();
         $normalized = $this->normalizer->normalize($uuid);
-        $title = $normalized->getTitle();
-        $alias = '/' . $id . '/' . $this->slugify($title);
-
-        if ($uuid instanceof EntityInterface) {
-            $subjects = $uuid->getSubjects();
-            if (count($subjects) > 0) {
-                /** @var TaxonomyTermInterface $subject */
-                $subject = $subjects[0];
-                $s = $this->slugify($subject->getName());
-                $alias = '/' . $s . $alias;
-            }
-            return $alias;
-        } elseif ($uuid instanceof PageRepositoryInterface) {
-            // TODO: if we require the subject here, we need to grab it from navigation.
-            return $alias;
-        } elseif ($uuid instanceof TaxonomyTermInterface) {
-            $subject = $uuid->getSecondLevelAncestor();
-            $s = $this->slugify($subject->getName());
-            $alias = '/' . $s . $alias;
-            return $alias;
-        } elseif ($uuid instanceof UserInterface) {
-            return '/user/profile/' . $this->slugify($uuid->getUsername());
-        }
-
-        return null;
+        return $this->getAlias(
+            $normalized->getMetadata()->getContext(),
+            $normalized->getId(),
+            $normalized->getTitle()
+        );
     }
 
     public function getAliasOfSource(string $source)
@@ -173,13 +148,12 @@ class AliasManager implements AliasManagerInterface
         string $alias,
         InstanceInterface $instance
     ) {
-        $uuid = $this->getUuidOfAlias($alias);
+        $uuid = $this->getObjectOfAlias($alias);
         if ($uuid === null) {
             $aliases = $this->findLegacyAliases($alias, $instance);
             if (count($aliases) === 0) {
                 return null;
             }
-
             $currentAlias = $aliases[0];
             $path = $this->getAliasOfObject($currentAlias->getObject());
             return [
@@ -199,7 +173,7 @@ class AliasManager implements AliasManagerInterface
         }
     }
 
-    public function getUuidOfAlias(string $alias)
+    public function getObjectOfAlias(string $alias)
     {
         if (
             preg_match(
@@ -218,13 +192,29 @@ class AliasManager implements AliasManagerInterface
     }
 
     /**
+     * @param string $alias
+     * @param InstanceInterface $instance
      * @return Entity\AliasInterface[]
      */
-    protected function findLegacyAliases($alias, InstanceInterface $instance)
-    {
+    protected function findLegacyAliases(
+        string $alias,
+        InstanceInterface $instance
+    ) {
         $criteria = ['alias' => $alias, 'instance' => $instance->getId()];
         $order = ['timestamp' => 'DESC'];
         return $this->getAliasRepository()->findBy($criteria, $order);
+    }
+
+    protected function getAlias($prefix, $id, $suffix)
+    {
+        $prefix = $this->slugify($prefix ?? '');
+        $suffix = $this->slugify($suffix ?? '');
+        return ($prefix ? '/' . $prefix : '') . '/' . $id . '/' . $suffix;
+    }
+
+    protected function slugify(string $text)
+    {
+        return Slugify::slugify($text);
     }
 
     /**
@@ -235,10 +225,5 @@ class AliasManager implements AliasManagerInterface
         return $this->getObjectManager()->getRepository(
             $this->getClassResolver()->resolveClassName(AliasInterface::class)
         );
-    }
-
-    protected function slugify(string $text)
-    {
-        return Slugify::slugify($text);
     }
 }

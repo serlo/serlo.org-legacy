@@ -22,29 +22,29 @@
  */
 namespace Normalizer\Adapter;
 
+use DateTime;
 use Page\Entity\PageRepositoryInterface;
+use Page\Entity\PageRevisionInterface;
+use Zend\Mvc\Router\RouteMatch;
+use Zend\Navigation\Page\Mvc;
 
 class PageRepositoryAdapter extends AbstractAdapter
 {
-    /**
-     * @return PageRepositoryInterface
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    public function isValid($object)
-    {
-        return $object instanceof PageRepositoryInterface;
-    }
+    /** @var PageRepositoryInterface */
+    protected $object;
 
     protected function getContent()
     {
         $revision = $this->getRevision();
         if ($revision) {
+            /** @var PageRevisionInterface $revision */
             return $revision->getContent();
         }
+        return '';
+    }
+
+    protected function getContext()
+    {
         return '';
     }
 
@@ -52,14 +52,15 @@ class PageRepositoryAdapter extends AbstractAdapter
     {
         $revision = $this->getRevision();
         if ($revision) {
+            /** @var PageRevisionInterface $revision */
             return $revision->getDate();
         }
-        return new \DateTime();
+        return new DateTime();
     }
 
     protected function getId()
     {
-        return $this->getObject()->getId();
+        return $this->object->getId();
     }
 
     protected function getKeywords()
@@ -71,6 +72,7 @@ class PageRepositoryAdapter extends AbstractAdapter
     {
         $revision = $this->getRevision();
         if ($revision) {
+            /** @var PageRevisionInterface $revision */
             return $revision->getContent();
         }
         return '';
@@ -78,11 +80,9 @@ class PageRepositoryAdapter extends AbstractAdapter
 
     protected function getRevision()
     {
-        $revision = $this->getObject()->getCurrentRevision();
+        $revision = $this->object->getCurrentRevision();
         if (!$revision) {
-            $revision = $this->getObject()
-                ->getRevisions()
-                ->current();
+            $revision = $this->object->getRevisions()->current();
         }
         return $revision;
     }
@@ -95,7 +95,7 @@ class PageRepositoryAdapter extends AbstractAdapter
     protected function getRouteParams()
     {
         return [
-            'page' => $this->getObject()->getId(),
+            'page' => $this->object->getId(),
         ];
     }
 
@@ -103,6 +103,7 @@ class PageRepositoryAdapter extends AbstractAdapter
     {
         $revision = $this->getRevision();
         if ($revision) {
+            /** @var PageRevisionInterface $revision */
             return $revision->getTitle();
         }
         return '';
@@ -115,6 +116,6 @@ class PageRepositoryAdapter extends AbstractAdapter
 
     protected function isTrashed()
     {
-        return $this->getObject()->isTrashed();
+        return $this->object->isTrashed();
     }
 }

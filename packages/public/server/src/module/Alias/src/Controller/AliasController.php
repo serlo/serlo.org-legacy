@@ -78,7 +78,7 @@ class AliasController extends AbstractActionController
 
     private function resolveAlias($alias)
     {
-        $uuid = $this->aliasManager->getUuidOfAlias($alias);
+        $uuid = $this->aliasManager->getObjectOfAlias($alias);
         if ($uuid === null) {
             $instance = $this->instanceManager->getInstanceFromRequest();
             return $this->aliasManager->resolveLegacyAlias($alias, $instance);

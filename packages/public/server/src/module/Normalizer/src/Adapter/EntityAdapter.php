@@ -24,30 +24,27 @@ namespace Normalizer\Adapter;
 
 use DateTime;
 use Entity\Entity\EntityInterface;
+use Entity\Entity\RevisionInterface;
 
 class EntityAdapter extends AbstractAdapter
 {
-    /**
-     * @return EntityInterface
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    public function isValid($object)
-    {
-        return $object instanceof EntityInterface;
-    }
+    /** @var EntityInterface */
+    protected $object;
 
     protected function getContent()
     {
         return $this->getField('content');
     }
 
+    protected function getContext()
+    {
+        $subject = $this->object->getCanonicalSubject();
+        return $subject ? $subject->getName() : '';
+    }
+
     protected function getCreationDate()
     {
-        $head = $this->getObject()->getHead();
+        $head = $this->object->getHead();
         if ($head) {
             return $head->getTimestamp();
         }
@@ -64,7 +61,7 @@ class EntityAdapter extends AbstractAdapter
 
     protected function getField($field, $default = '')
     {
-        $entity = $this->getObject();
+        $entity = $this->object;
         $id = $entity->getId();
 
         if (is_array($field)) {
@@ -80,6 +77,7 @@ class EntityAdapter extends AbstractAdapter
             return $value ?: $id;
         }
 
+        /** @var RevisionInterface $revision */
         $revision = $entity->hasCurrentRevision()
             ? $entity->getCurrentRevision()
             : $entity->getHead();
@@ -95,12 +93,12 @@ class EntityAdapter extends AbstractAdapter
 
     protected function getId()
     {
-        return $this->getObject()->getId();
+        return $this->object->getId();
     }
 
     protected function getKeywords()
     {
-        $entity = $this->getObject();
+        $entity = $this->object;
         $keywords = [];
         $terms = $entity->getTaxonomyTerms();
         if (!$terms->count()) {
@@ -123,7 +121,7 @@ class EntityAdapter extends AbstractAdapter
      */
     protected function getLastModified()
     {
-        $head = $this->getObject()->getHead();
+        $head = $this->object->getHead();
         if ($head) {
             return $head->getTimestamp();
         }
@@ -143,7 +141,7 @@ class EntityAdapter extends AbstractAdapter
     protected function getRouteParams()
     {
         return [
-            'entity' => $this->getObject()->getId(),
+            'entity' => $this->object->getId(),
         ];
     }
 
@@ -154,14 +152,12 @@ class EntityAdapter extends AbstractAdapter
 
     protected function getType()
     {
-        return $this->getObject()
-            ->getType()
-            ->getName();
+        return $this->object->getType()->getName();
     }
 
     protected function isTrashed()
     {
-        return $this->getObject()->isTrashed();
+        return $this->object->isTrashed();
     }
 
     protected function getHeadTitle()
@@ -186,16 +182,13 @@ class EntityAdapter extends AbstractAdapter
         }
 
         if ($type === 'course-page') {
-            $parent = $this->getObject()
-                ->getParents('link')
-                ->first();
-            $parentAdapter = new EntityAdapter();
-            $parentAdapter->setTranslator($this->translator);
-            $parentTitle = $parentAdapter->normalize($parent)->getTitle();
+            $parent = $this->object->getParents('link')->first();
+            $parentAdapter = $this->createAdapter($parent);
+            $parentTitle = $parentAdapter->getTitle();
             $title = $parentTitle . ' | ' . $title;
         }
 
-        //add "(Kurs)" etc
+        // add "(Kurs)" etc
         if ($type !== 'article') {
             if (strlen($title) < $maxStringLen - strlen($typeName)) {
                 $title .= ' (' . $typeName . ')';
@@ -214,15 +207,9 @@ class EntityAdapter extends AbstractAdapter
         }
 
         if ($this->getType() === 'course-page') {
-            $parent = $this->getObject()
-                ->getParents('link')
-                ->first();
-            $parentAdapter = new EntityAdapter();
-            $parentAdapter->setTranslator($this->translator);
-            $description = $parentAdapter
-                ->normalize($parent)
-                ->getMetaData()
-                ->getMetaDescription();
+            $parent = $this->object->getParents('link')->first();
+            $parentAdapter = $this->createAdapter($parent);
+            $description = $parentAdapter->getMetaDescription();
         }
 
         return $description;

@@ -22,40 +22,41 @@
  */
 namespace Normalizer\Adapter;
 
-use Normalizer\Entity\Normalized;
+use Attachment\Entity\ContainerInterface;
+use Blog\Entity\PostInterface;
 use DateTime;
-use Normalizer\Exception\RuntimeException;
+use Discussion\Entity\CommentInterface;
+use Entity\Entity\EntityInterface;
+use Entity\Entity\RevisionInterface;
+use Normalizer\Entity\Normalized;
+use Normalizer\Exception\InvalidArgumentException;
+use Normalizer\Exception\NoSuitableAdapterFoundException;
+use Page\Entity\PageRepositoryInterface;
+use Page\Entity\PageRevisionInterface;
+use Taxonomy\Entity\TaxonomyTermInterface;
+use User\Entity\UserInterface;
+use Uuid\Entity\UuidInterface;
 use Zend\I18n\Translator\TranslatorAwareTrait;
+use Zend\I18n\Translator\TranslatorInterface;
 
-abstract class AbstractAdapter implements AdapterInterface
+abstract class AbstractAdapter
 {
     use TranslatorAwareTrait;
+
+    /** @var UuidInterface */
     protected $object;
 
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    public function setObject($object)
-    {
+    public function __construct(
+        UuidInterface $object,
+        TranslatorInterface $translator
+    ) {
         $this->object = $object;
+        $this->setTranslator($translator);
     }
 
-    public function normalize($object)
+    public function normalize()
     {
-        if (!$this->isValid($object)) {
-            throw new RuntimeException(
-                sprintf(
-                    'I don\'t know how to normalize "%s", maybe you used the wrong strategy?',
-                    get_class($object)
-                )
-            );
-        }
-
-        $this->setObject($object);
-
-        $normalized = new Normalized([
+        return new Normalized([
             'title' => $this->getTitle(),
             'content' => $this->getContent(),
             'type' => $this->getType(),
@@ -74,91 +75,107 @@ abstract class AbstractAdapter implements AdapterInterface
                     ? $this->getLastModified()
                     : new DateTime(),
                 'robots' => $this->isTrashed() ? 'noindex' : 'all',
+                'context' => $this->getContext(),
             ],
         ]);
-
-        return $normalized;
     }
 
-    /**
-     * @return string
-     */
+    /** @return string */
     abstract protected function getContent();
 
-    /**
-     * @return string
-     */
+    /** @return string */
+    abstract protected function getContext();
+
+    /** @return string */
     abstract protected function getCreationDate();
 
-    /**
-     * @return string
-     */
+    /** @return string */
     protected function getDescription()
     {
         return $this->getContent();
     }
 
-    /**
-     * @return string
-     */
+    /** @return string */
     protected function getMetaDescription()
     {
         return $this->getDescription();
     }
 
-    /**
-     * @return DateTime
-     */
+    /** @return DateTime */
     protected function getLastModified()
     {
         return new DateTime();
     }
 
-    /**
-     * @return int
-     */
+    /** @return int */
     abstract protected function getId();
 
-    /**
-     * @return string
-     */
+    /** @return string */
     abstract protected function getKeywords();
 
-    /**
-     * @return string
-     */
+    /** @return string */
     abstract protected function getPreview();
 
-    /**
-     * @return string
-     */
+    /** @return string */
     abstract protected function getRouteName();
 
-    /**
-     * @return string
-     */
+    /** @return array */
     abstract protected function getRouteParams();
 
-    /**
-     * @return string
-     */
+    /** @return string */
     abstract protected function getTitle();
 
-    /**
-     * @return string
-     */
+    /** @return string */
     abstract protected function getType();
 
-    /**
-     * @return boolean
-     */
+    /** @return boolean */
     abstract protected function isTrashed();
 
-    /**
-     * @return string
-     */
+    /** @return string */
     protected function getHeadTitle()
     {
         return $this->getTitle();
+    }
+
+    /**
+     * @param mixed $object
+     * @return AbstractAdapter
+     */
+    protected function createAdapter($object)
+    {
+        return AbstractAdapter::create($object, $this->translator);
+    }
+
+    protected static $adapters = [
+        ContainerInterface::class => AttachmentAdapter::class,
+        CommentInterface::class => CommentAdapter::class,
+        EntityInterface::class => EntityAdapter::class,
+        RevisionInterface::class => EntityRevisionAdapter::class,
+        PageRepositoryInterface::class => PageRepositoryAdapter::class,
+        PageRevisionInterface::class => PageRevisionAdapter::class,
+        PostInterface::class => PostAdapter::class,
+        TaxonomyTermInterface::class => TaxonomyTermAdapter::class,
+        UserInterface::class => UserAdapter::class,
+    ];
+
+    /**
+     * @param mixed $object
+     * @param TranslatorInterface $translator
+     * @return AbstractAdapter
+     */
+    public static function create($object, TranslatorInterface $translator)
+    {
+        if (!is_object($object)) {
+            throw new InvalidArgumentException(
+                sprintf('Expected object but got %s.', gettype($object))
+            );
+        }
+
+        foreach (AbstractAdapter::$adapters as $class => $adapterClass) {
+            if ($object instanceof $class) {
+                return new $adapterClass($object, $translator);
+            }
+        }
+        throw new NoSuitableAdapterFoundException($object);
     }
 }

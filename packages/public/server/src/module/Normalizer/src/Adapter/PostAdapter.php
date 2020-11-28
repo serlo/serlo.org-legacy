@@ -26,22 +26,17 @@ use Blog\Entity\PostInterface;
 
 class PostAdapter extends AbstractAdapter
 {
-    /**
-     * @return PostInterface
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    public function isValid($object)
-    {
-        return $object instanceof PostInterface;
-    }
+    /** @var PostInterface */
+    protected $object;
 
     protected function getContent()
     {
-        return $this->getObject()->getContent();
+        return $this->object->getContent();
+    }
+
+    protected function getContext()
+    {
+        return 'blog';
     }
 
     protected function getKeywords()
@@ -51,12 +46,12 @@ class PostAdapter extends AbstractAdapter
 
     protected function getId()
     {
-        return $this->getObject()->getId();
+        return $this->object->getId();
     }
 
     protected function getPreview()
     {
-        return $this->getObject()->getContent();
+        return $this->object->getContent();
     }
 
     protected function getRouteName()
@@ -67,18 +62,18 @@ class PostAdapter extends AbstractAdapter
     protected function getRouteParams()
     {
         return [
-            'post' => $this->getObject()->getId(),
+            'post' => $this->object->getId(),
         ];
     }
 
     protected function getCreationDate()
     {
-        return $this->getObject()->getTimestamp();
+        return $this->object->getTimestamp();
     }
 
     protected function getTitle()
     {
-        return $this->getObject()->getTitle();
+        return $this->object->getTitle();
     }
 
     protected function getType()
@@ -87,6 +82,6 @@ class PostAdapter extends AbstractAdapter
     }
     protected function isTrashed()
     {
-        return $this->getObject()->isTrashed();
+        return $this->object->isTrashed();
     }
 }

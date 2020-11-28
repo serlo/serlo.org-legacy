@@ -26,39 +26,28 @@ use Zend\Stdlib\AbstractOptions;
 
 class Normalized extends AbstractOptions implements NormalizedInterface
 {
-    /**
-     * @var MetadataInterface|array
-     */
+    /** @var MetadataInterface|array */
     protected $metadata;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $routeName;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $type;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $routeParams;
 
-    /**
-     * @var string
-     */
+    /** @var string */
+    protected $section;
+
+    /** @var string */
     protected $title;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $content;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $id;
 
     public function getContent()

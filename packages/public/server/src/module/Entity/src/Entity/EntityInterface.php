@@ -28,6 +28,7 @@ use Instance\Entity\InstanceAwareInterface;
 use License\Entity\LicenseAwareInterface;
 use Link\Entity\LinkableInterface;
 use Taxonomy\Entity\TaxonomyTermAwareInterface;
+use Taxonomy\Entity\TaxonomyTermInterface;
 use Type\Entity\TypeAwareInterface;
 use Uuid\Entity\UuidInterface;
 use Versioning\Entity\RepositoryInterface;
@@ -103,6 +104,9 @@ interface EntityInterface extends
      * @return TaxonomyTermInterface[]|Collection
      */
     public function getSubjects();
+
+    /** @return TaxonomyTermInterface|null */
+    public function getCanonicalSubject();
 
     /**
      * @return bool

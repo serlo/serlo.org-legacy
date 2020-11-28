@@ -60,5 +60,5 @@ interface AliasManagerInterface
      * @param string $alias
      * @return UuidInterface|null
      */
-    public function getUuidOfAlias(string $alias);
+    public function getObjectOfAlias(string $alias);
 }
