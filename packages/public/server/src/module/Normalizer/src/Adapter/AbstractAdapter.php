@@ -143,10 +143,7 @@ abstract class AbstractAdapter
      */
     protected function createAdapter($object)
     {
-        return AbstractAdapter::create(
-            $object,
-            $this->translator
-        );
+        return AbstractAdapter::create($object, $this->translator);
     }
 
     protected static $adapters = [
@@ -166,10 +163,8 @@ abstract class AbstractAdapter
      * @param TranslatorInterface $translator
      * @return AbstractAdapter
      */
-    public static function create(
-        $object,
-        TranslatorInterface $translator
-    ) {
+    public static function create($object, TranslatorInterface $translator)
+    {
         if (!is_object($object)) {
             throw new InvalidArgumentException(
                 sprintf('Expected object but got %s.', gettype($object))

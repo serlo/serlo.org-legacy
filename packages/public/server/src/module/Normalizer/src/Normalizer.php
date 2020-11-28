@@ -39,10 +39,7 @@ class Normalizer implements NormalizerInterface
 
     public function normalize($object)
     {
-        $adapter = AbstractAdapter::create(
-            $object,
-            $this->translator
-        );
+        $adapter = AbstractAdapter::create($object, $this->translator);
         return $adapter->normalize();
     }
 }
