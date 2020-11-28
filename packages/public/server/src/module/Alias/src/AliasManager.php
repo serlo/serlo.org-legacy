@@ -75,10 +75,11 @@ class AliasManager implements AliasManagerInterface
     public function getAliasOfObject(UuidInterface $uuid)
     {
         $normalized = $this->normalizer->normalize($uuid);
-        $prefix = $this->slugify($normalized->getMetadata()->getContext());
-        $id = $normalized->getId();
-        $suffix = $this->slugify($normalized->getTitle());
-        return ($prefix ? '/' . $prefix : '') . '/' . $id . '/' . $suffix;
+        return $this->getAlias(
+            $normalized->getMetadata()->getContext(),
+            $normalized->getId(),
+            $normalized->getTitle()
+        );
     }
 
     public function getAliasOfSource(string $source)
@@ -206,8 +207,8 @@ class AliasManager implements AliasManagerInterface
 
     protected function getAlias($prefix, $id, $suffix)
     {
-        $prefix = $this->slugify($prefix);
-        $suffix = $this->slugify($suffix);
+        $prefix = $this->slugify($prefix ?? '');
+        $suffix = $this->slugify($suffix ?? '');
         return ($prefix ? '/' . $prefix : '') . '/' . $id . '/' . $suffix;
     }
 
