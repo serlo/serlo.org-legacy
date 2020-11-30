@@ -22,11 +22,9 @@
  */
 namespace Normalizer;
 
-use Doctrine\Common\Collections\Collection;
 use Normalizer\Adapter\AbstractAdapter;
 use Zend\I18n\Translator\TranslatorAwareTrait;
 use Zend\I18n\Translator\TranslatorInterface;
-use Zend\Navigation\Page\AbstractPage;
 
 class Normalizer implements NormalizerInterface
 {

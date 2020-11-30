@@ -39,13 +39,6 @@ class PageRevisionAdapter extends AbstractAdapter
         return $this->object->getContent();
     }
 
-    protected function getContext()
-    {
-        $repository = $this->object->getRepository();
-        $repositoryAdapter = $this->createAdapter($repository);
-        return $repositoryAdapter->getContext();
-    }
-
     protected function getId()
     {
         return $this->object->getId();

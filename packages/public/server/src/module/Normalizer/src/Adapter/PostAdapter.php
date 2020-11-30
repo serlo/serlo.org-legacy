@@ -34,11 +34,6 @@ class PostAdapter extends AbstractAdapter
         return $this->object->getContent();
     }
 
-    protected function getContext()
-    {
-        return 'blog';
-    }
-
     protected function getKeywords()
     {
         return [];

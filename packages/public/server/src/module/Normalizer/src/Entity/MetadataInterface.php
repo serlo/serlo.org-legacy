@@ -35,11 +35,6 @@ interface MetadataInterface
     /**
      * @return string
      */
-    public function getContext();
-
-    /**
-     * @return string
-     */
     public function getDescription();
 
     /**

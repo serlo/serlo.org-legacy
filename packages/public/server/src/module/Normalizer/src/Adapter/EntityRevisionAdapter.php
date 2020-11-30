@@ -35,13 +35,6 @@ class EntityRevisionAdapter extends AbstractAdapter
         return $this->object->get('content');
     }
 
-    protected function getContext()
-    {
-        $repository = $this->object->getRepository();
-        $repositoryAdapter = $this->createAdapter($repository);
-        return $repositoryAdapter->getContext();
-    }
-
     protected function getKeywords()
     {
         return [];

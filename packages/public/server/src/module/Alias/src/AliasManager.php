@@ -25,15 +25,24 @@ namespace Alias;
 
 use Alias\Entity\AliasInterface;
 use Alias\Exception;
+use Attachment\Entity\ContainerInterface;
+use Blog\Entity\PostInterface;
 use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
 use Common\Filter\Slugify;
 use Common\Traits;
+use Discussion\Entity\CommentInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Entity\Entity\EntityInterface;
+use Entity\Entity\RevisionInterface;
 use Instance\Entity\InstanceInterface;
 use Instance\Manager\InstanceAwareObjectManagerAwareTrait;
 use Instance\Repository\InstanceAwareRepository;
 use Normalizer\NormalizerInterface;
+use Page\Entity\PageRepositoryInterface;
+use Page\Entity\PageRevisionInterface;
+use Taxonomy\Entity\TaxonomyTermInterface;
+use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerInterface;
@@ -76,7 +85,7 @@ class AliasManager implements AliasManagerInterface
     {
         $normalized = $this->normalizer->normalize($uuid);
         return $this->getAlias(
-            $normalized->getMetadata()->getContext(),
+            $this->getContext($uuid),
             $normalized->getId(),
             $normalized->getTitle()
         );
@@ -189,6 +198,42 @@ class AliasManager implements AliasManagerInterface
             }
         }
         return null;
+    }
+
+    /**
+     * @param UuidInterface $uuid
+     * @return string
+     */
+    protected function getContext(UuidInterface $uuid)
+    {
+        if ($uuid instanceof ContainerInterface) {
+            return 'attachment';
+        } elseif ($uuid instanceof CommentInterface) {
+            return $this->getContext(
+                $uuid->hasParent() ? $uuid->getParent() : $uuid->getObject()
+            );
+        } elseif ($uuid instanceof EntityInterface) {
+            $subject = $uuid->getCanonicalSubject();
+            return $subject ? $subject->getName() : '';
+        } elseif ($uuid instanceof RevisionInterface) {
+            /** @var UuidInterface $repository */
+            $repository = $uuid->getRepository();
+            return $this->getContext($repository);
+        } elseif ($uuid instanceof PageRepositoryInterface) {
+            return '';
+        } elseif ($uuid instanceof PageRevisionInterface) {
+            /** @var UuidInterface $repository */
+            $repository = $uuid->getRepository();
+            return $this->getContext($repository);
+        } elseif ($uuid instanceof PostInterface) {
+            return 'blog';
+        } elseif ($uuid instanceof TaxonomyTermInterface) {
+            $subject = $uuid->getSecondLevelAncestor();
+            return $subject ? $subject->getName() : '';
+        } elseif ($uuid instanceof UserInterface) {
+            return 'user';
+        }
+        return '';
     }
 
     /**

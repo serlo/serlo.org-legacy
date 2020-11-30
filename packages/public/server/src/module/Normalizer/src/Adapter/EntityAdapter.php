@@ -36,12 +36,6 @@ class EntityAdapter extends AbstractAdapter
         return $this->getField('content');
     }
 
-    protected function getContext()
-    {
-        $subject = $this->object->getCanonicalSubject();
-        return $subject ? $subject->getName() : '';
-    }
-
     protected function getCreationDate()
     {
         $head = $this->object->getHead();
