@@ -36,11 +36,6 @@ class TaxonomyTermAdapter extends AbstractAdapter
         return $this->object->getDescription();
     }
 
-    protected function getContext()
-    {
-        return $this->object->getSecondLevelAncestor()->getName();
-    }
-
     protected function getCreationDate()
     {
         return new DateTime();

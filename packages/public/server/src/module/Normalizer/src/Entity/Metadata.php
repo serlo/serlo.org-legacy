@@ -112,23 +112,6 @@ class Metadata extends AbstractOptions implements MetadataInterface
 
     /**
      * {@inheritdoc}
-     * @see \Normalizer\Entity\MetadataInterface::getContext()
-     */
-    public function getContext()
-    {
-        return $this->context;
-    }
-
-    /**
-     * @param string $context
-     */
-    public function setContext($context)
-    {
-        $this->context = $context;
-    }
-
-    /**
-     * {@inheritdoc}
      * @see \Normalizer\Entity\MetadataInterface::getCreationDate()
      */
     public function getCreationDate()

@@ -34,16 +34,6 @@ class CommentAdapter extends AbstractAdapter
         return $this->object->getContent();
     }
 
-    protected function getContext()
-    {
-        $object = $this->object;
-        $object = $object->hasParent()
-            ? $object->getParent()
-            : $object->getObject();
-        $adapter = $this->createAdapter($object);
-        return $adapter->getContext();
-    }
-
     protected function getId()
     {
         return $this->object->getId();

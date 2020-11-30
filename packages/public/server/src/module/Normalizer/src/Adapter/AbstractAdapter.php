@@ -75,16 +75,12 @@ abstract class AbstractAdapter
                     ? $this->getLastModified()
                     : new DateTime(),
                 'robots' => $this->isTrashed() ? 'noindex' : 'all',
-                'context' => $this->getContext(),
             ],
         ]);
     }
 
     /** @return string */
     abstract protected function getContent();
-
-    /** @return string */
-    abstract protected function getContext();
 
     /** @return string */
     abstract protected function getCreationDate();

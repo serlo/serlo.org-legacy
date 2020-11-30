@@ -43,11 +43,6 @@ class PageRepositoryAdapter extends AbstractAdapter
         return '';
     }
 
-    protected function getContext()
-    {
-        return '';
-    }
-
     protected function getCreationDate()
     {
         $revision = $this->getRevision();

@@ -35,11 +35,6 @@ class AttachmentAdapter extends AbstractAdapter
         return $this->getFile()->getLocation();
     }
 
-    protected function getContext()
-    {
-        return 'attachment';
-    }
-
     protected function getCreationDate()
     {
         return $this->getFile()->getDateTime();

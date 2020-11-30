@@ -34,11 +34,6 @@ class UserAdapter extends AbstractAdapter
         return $this->object->getUsername();
     }
 
-    protected function getContext()
-    {
-        return 'user';
-    }
-
     protected function getId()
     {
         return $this->object->getId();
