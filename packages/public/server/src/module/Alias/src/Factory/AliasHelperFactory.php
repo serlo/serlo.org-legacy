@@ -24,13 +24,12 @@
 namespace Alias\Factory;
 
 use Alias\View\Helper\AliasHelper;
-use Instance\Factory\InstanceManagerFactoryTrait;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AliasHelperFactory implements FactoryInterface
 {
-    use AliasManagerFactoryTrait, InstanceManagerFactoryTrait;
+    use AliasManagerFactoryTrait;
 
     /**
      * Create service
@@ -42,7 +41,6 @@ class AliasHelperFactory implements FactoryInterface
     {
         $serviceLocator = $helperPluginManager->getServiceLocator();
         $aliasManager = $this->getAliasManager($serviceLocator);
-        $instanceManager = $this->getInstanceManager($serviceLocator);
-        return new AliasHelper($aliasManager, $instanceManager);
+        return new AliasHelper($aliasManager);
     }
 }

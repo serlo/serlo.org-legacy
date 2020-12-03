@@ -20,25 +20,20 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Alias\View\Helper;
 
 use Alias\AliasManagerInterface;
-use Instance\Manager\InstanceManagerInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class AliasHelper extends AbstractHelper
 {
     /** @var AliasManagerInterface */
     protected $aliasManager;
-    /** @var InstanceManagerInterface */
-    protected $instanceManager;
 
-    public function __construct(
-        AliasManagerInterface $aliasManager,
-        InstanceManagerInterface $instanceManager
-    ) {
+    public function __construct(AliasManagerInterface $aliasManager)
+    {
         $this->aliasManager = $aliasManager;
-        $this->instanceManager = $instanceManager;
     }
 
     public function __invoke($source)

@@ -40,16 +40,13 @@ class UrlHelperFactory implements FactoryInterface
     {
         $serviceLocator = $helperPluginManager->getServiceLocator();
         $aliasManager = $serviceLocator->get('Alias\AliasManager');
-        $tenantManager = $serviceLocator->get(
-            'Instance\Manager\InstanceManager'
-        );
         $isConsole = Console::isConsole();
         $router = $isConsole ? 'HttpRouter' : 'Router';
         $match = $serviceLocator
             ->get('application')
             ->getMvcEvent()
             ->getRouteMatch();
-        $helper = new Url($aliasManager, $tenantManager);
+        $helper = new Url($aliasManager);
 
         $helper->setRouter($serviceLocator->get($router));
 
