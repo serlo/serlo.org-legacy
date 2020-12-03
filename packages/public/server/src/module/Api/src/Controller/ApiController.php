@@ -70,12 +70,11 @@ class ApiController extends AbstractApiController
                     $usernameMatch[1]
                 );
 
-                return new JsonModel(
-                    array_merge(
-                        $this->getApiManager()->getAliasDataForUser($user),
-                        ['instance' => $instance->getSubdomain()]
-                    )
-                );
+                return new JsonModel([
+                    'id' => $user->getId(),
+                    'path' => $this->getAliasManager()->getAliasOfObject($user),
+                    'instance' => $instance->getSubdomain(),
+                ]);
             } catch (UserNotFoundException $exception) {
                 $this->createJsonResponse('null');
             }
