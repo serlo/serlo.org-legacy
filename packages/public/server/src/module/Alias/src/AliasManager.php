@@ -252,14 +252,9 @@ class AliasManager implements AliasManagerInterface
 
     protected function getAlias($prefix, $id, $suffix)
     {
-        $prefix = $this->slugify($prefix ?? '');
-        $suffix = $this->slugify($suffix ?? '');
+        $prefix = Slugify::slugify($prefix ?? '');
+        $suffix = Slugify::slugify($suffix ?? '');
         return ($prefix ? '/' . $prefix : '') . '/' . $id . '/' . $suffix;
-    }
-
-    protected function slugify(string $text)
-    {
-        return Slugify::slugify($text);
     }
 
     /**
