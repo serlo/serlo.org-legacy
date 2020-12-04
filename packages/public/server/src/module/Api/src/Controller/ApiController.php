@@ -61,25 +61,6 @@ class ApiController extends AbstractApiController
 
         $alias = $this->params('alias');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $usernameMatch = [];
-        preg_match('/user\/profile\/(.*)/', $alias, $usernameMatch);
-
-        if (array_key_exists(1, $usernameMatch)) {
-            try {
-                $user = $this->getUserManager()->findUserByUsername(
-                    $usernameMatch[1]
-                );
-
-                return new JsonModel([
-                    'id' => $user->getId(),
-                    'path' => $this->getAliasManager()->getAliasOfObject($user),
-                    'instance' => $instance->getSubdomain(),
-                ]);
-            } catch (UserNotFoundException $exception) {
-                $this->createJsonResponse('null');
-            }
-        }
-
         $data = $this->getAliasManager()->resolveAliasInInstance(
             $alias,
             $instance

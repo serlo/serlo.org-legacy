@@ -43,6 +43,8 @@ use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
 use Taxonomy\Entity\TaxonomyTermInterface;
 use User\Entity\UserInterface;
+use User\Exception\UserNotFoundException;
+use User\Manager\UserManagerInterface;
 use Uuid\Entity\UuidInterface;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerInterface;
@@ -60,6 +62,8 @@ class AliasManager implements AliasManagerInterface
 
     /** @var UuidManagerInterface */
     protected $uuidManager;
+    /** @var UserManagerInterface */
+    protected $userManager;
     /** @var NormalizerInterface */
     protected $normalizer;
     /** @var StorageInterface */
@@ -69,6 +73,7 @@ class AliasManager implements AliasManagerInterface
         ClassResolverInterface $classResolver,
         ObjectManager $objectManager,
         UuidManagerInterface $uuidManager,
+        UserManagerInterface $userManager,
         NormalizerInterface $normalizer,
         RouteInterface $router,
         StorageInterface $storage
@@ -76,6 +81,7 @@ class AliasManager implements AliasManagerInterface
         $this->classResolver = $classResolver;
         $this->objectManager = $objectManager;
         $this->uuidManager = $uuidManager;
+        $this->userManager = $userManager;
         $this->normalizer = $normalizer;
         $this->router = $router;
         $this->storage = $storage;
@@ -197,6 +203,15 @@ class AliasManager implements AliasManagerInterface
                 // UUID not found, fall through
             }
         }
+
+        if (preg_match('/user\/profile\/(.*)/', $alias, $matches)) {
+            try {
+                return $this->userManager->findUserByUsername($matches[1]);
+            } catch (UserNotFoundException $exception) {
+                return null;
+            }
+        }
+
         return null;
     }
 
