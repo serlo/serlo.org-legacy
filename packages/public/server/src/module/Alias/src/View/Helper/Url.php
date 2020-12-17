@@ -20,30 +20,26 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Alias\View\Helper;
 
 use Alias\AliasManagerAwareTrait;
 use Alias\AliasManagerInterface;
-use Instance\Manager\InstanceManagerAwareTrait;
-use Instance\Manager\InstanceManagerInterface;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\View\Helper\Url as ZendUrl;
 
 class Url extends ZendUrl
 {
-    use AliasManagerAwareTrait, InstanceManagerAwareTrait;
+    use AliasManagerAwareTrait;
 
     /**
      * @var StorageInterface
      */
     protected $storage;
 
-    public function __construct(
-        AliasManagerInterface $aliasManager,
-        InstanceManagerInterface $instanceManager
-    ) {
+    public function __construct(AliasManagerInterface $aliasManager)
+    {
         $this->aliasManager = $aliasManager;
-        $this->instanceManager = $instanceManager;
     }
 
     public function __invoke(
