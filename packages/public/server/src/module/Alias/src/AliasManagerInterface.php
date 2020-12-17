@@ -67,5 +67,5 @@ interface AliasManagerInterface
      * @param string $alias
      * @return RouteMatch|null
      */
-    public function routeMatchAlias(string $alias);
+    public function routeMatchUrl(string $alias);
 }

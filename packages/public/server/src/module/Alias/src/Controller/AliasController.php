@@ -134,7 +134,7 @@ class AliasController extends AbstractActionController
 
     private function routerResponse($url)
     {
-        $routeMatch = $this->aliasManager->routeMatchAlias($url);
+        $routeMatch = $this->aliasManager->routeMatchUrl($url);
         if ($routeMatch === null) {
             return $this->notFoundResponse();
         }

@@ -191,7 +191,7 @@ class AliasManager implements AliasManagerInterface
         }
     }
 
-    public function routeMatchAlias(string $url)
+    public function routeMatchUrl(string $url)
     {
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
