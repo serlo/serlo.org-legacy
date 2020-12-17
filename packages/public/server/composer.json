@@ -36,7 +36,6 @@
       "Authorization\\": "src/module/Authorization/src",
       "Blog\\": "src/module/Blog/src",
       "Cache\\": "src/module/Cache/src",
-      "CacheInvalidator\\": "src/module/CacheInvalidator/src",
       "ClassResolver\\": "src/module/ClassResolver/src",
       "Common\\": "src/module/Common/src",
       "Csrf\\": "src/module/Csrf/src",
