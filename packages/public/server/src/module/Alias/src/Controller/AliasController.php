@@ -29,9 +29,7 @@ use Instance\Manager\InstanceManagerInterface;
 use Normalizer\NormalizerInterface;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerInterface;
-use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Mvc\Router\RouteInterface;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
@@ -45,21 +43,17 @@ class AliasController extends AbstractActionController
     private $uuidManager;
     /** @var NormalizerInterface */
     private $normalizer;
-    /** @var RouteInterface */
-    private $router;
 
     public function __construct(
         AliasManagerInterface $aliasManager,
         InstanceManagerInterface $instanceManager,
         UuidManagerInterface $uuidManager,
-        NormalizerInterface $normalizer,
-        RouteInterface $router
+        NormalizerInterface $normalizer
     ) {
         $this->aliasManager = $aliasManager;
         $this->instanceManager = $instanceManager;
         $this->uuidManager = $uuidManager;
         $this->normalizer = $normalizer;
-        $this->router = $router;
     }
 
     public function resolveAction()
@@ -140,15 +134,10 @@ class AliasController extends AbstractActionController
 
     private function routerResponse($url)
     {
-        $request = new Request();
-        $request->setMethod(Request::METHOD_GET);
-        $request->setUri($url);
-        $routeMatch = $this->router->match($request);
-
+        $routeMatch = $this->aliasManager->routeMatchAlias($url);
         if ($routeMatch === null) {
             return $this->notFoundResponse();
         }
-
         $this->getEvent()->setRouteMatch($routeMatch);
         $params = array_merge($routeMatch->getParams(), [
             'forwarded' => true,

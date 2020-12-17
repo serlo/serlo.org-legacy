@@ -29,7 +29,6 @@ use Api\Service\AuthorizationService;
 use Instance\Manager\InstanceManagerAwareTrait;
 use License\Exception\LicenseNotFoundException;
 use License\Manager\LicenseManagerAwareTrait;
-use Notification\Entity\Subscription;
 use Notification\SubscriptionManagerAwareTrait;
 use User\Exception\UserNotFoundException;
 use User\Manager\UserManagerAwareTrait;
@@ -61,26 +60,6 @@ class ApiController extends AbstractApiController
 
         $alias = $this->params('alias');
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
-        $usernameMatch = [];
-        preg_match('/user\/profile\/(.*)/', $alias, $usernameMatch);
-
-        if (array_key_exists(1, $usernameMatch)) {
-            try {
-                $user = $this->getUserManager()->findUserByUsername(
-                    $usernameMatch[1]
-                );
-
-                return new JsonModel(
-                    array_merge(
-                        $this->getApiManager()->getAliasDataForUser($user),
-                        ['instance' => $instance->getSubdomain()]
-                    )
-                );
-            } catch (UserNotFoundException $exception) {
-                $this->createJsonResponse('null');
-            }
-        }
-
         $data = $this->getAliasManager()->resolveAliasInInstance(
             $alias,
             $instance

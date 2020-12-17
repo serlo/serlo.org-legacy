@@ -24,6 +24,7 @@ namespace Alias;
 
 use Instance\Entity\InstanceInterface;
 use Uuid\Entity\UuidInterface;
+use Zend\Mvc\Router\RouteMatch;
 
 interface AliasManagerInterface
 {
@@ -61,4 +62,10 @@ interface AliasManagerInterface
      * @return UuidInterface|null
      */
     public function getObjectOfAlias(string $alias);
+
+    /**
+     * @param string $alias
+     * @return RouteMatch|null
+     */
+    public function routeMatchAlias(string $alias);
 }

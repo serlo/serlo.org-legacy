@@ -62,16 +62,6 @@ class ApiManager
         $this->graphql = $graphql;
     }
 
-    public function getAliasDataForUser(UserInterface $user)
-    {
-        return [
-            'id' => $user->getId(),
-            'path' => '/user/profile/' . $user->getUsername(),
-            'source' => '/user/profile/' . $user->getId(),
-            'timestamp' => $this->normalizeDate($user->getDate()),
-        ];
-    }
-
     private function normalizeDate(DateTime $date)
     {
         // Needed because date-times of the initial Athene2 import are set to "0000-00-00 00:00:00"

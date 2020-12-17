@@ -23,37 +23,44 @@
 namespace Alias\Factory;
 
 use Alias\AliasManager;
+use ClassResolver\ClassResolverInterface;
+use Instance\Manager\InstanceAwareEntityManager;
 use Normalizer\Normalizer;
 use Normalizer\NormalizerInterface;
+use User\Manager\UserManager;
+use User\Manager\UserManagerInterface;
 use Uuid\Manager\UuidManager;
 use Uuid\Manager\UuidManagerInterface;
+use Zend\Cache\Storage\StorageInterface;
 use Zend\Console\Console;
+use Zend\Mvc\Router\RouteInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AliasManagerFactory implements FactoryInterface
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        /** @var InstanceAwareEntityManager $objectManager */
         $objectManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        /** @var ClassResolverInterface $classResolver */
         $classResolver = $serviceLocator->get('ClassResolver\ClassResolver');
+        /** @var UserManagerInterface $userManager */
+        $userManager = $serviceLocator->get(UserManager::class);
         /** @var UuidManagerInterface $uuidManager */
         $uuidManager = $serviceLocator->get(UuidManager::class);
         /** @var NormalizerInterface $normalizer */
         $normalizer = $serviceLocator->get(Normalizer::class);
+        /** @var StorageInterface $storage */
         $storage = $serviceLocator->get('Alias\Storage\AliasStorage');
         $isConsole = Console::isConsole();
         $router = $isConsole ? 'HttpRouter' : 'Router';
+        /** @var RouteInterface $router */
         $router = $serviceLocator->get($router);
         return new AliasManager(
             $classResolver,
             $objectManager,
+            $userManager,
             $uuidManager,
             $normalizer,
             $router,
