@@ -23,19 +23,18 @@
 
 namespace Alias;
 
+use Alias\Controller\AliasController;
 use Alias\Entity\AliasInterface;
 use Alias\Exception;
 use Attachment\Entity\ContainerInterface;
 use Blog\Entity\PostInterface;
-use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
 use Common\Filter\Slugify;
-use Common\Traits;
 use Discussion\Entity\CommentInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
 use Instance\Entity\InstanceInterface;
+use Instance\Manager\InstanceAwareEntityManager;
 use Instance\Manager\InstanceAwareObjectManagerAwareTrait;
 use Instance\Repository\InstanceAwareRepository;
 use Normalizer\NormalizerInterface;
@@ -43,31 +42,40 @@ use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
 use Taxonomy\Entity\TaxonomyTermInterface;
 use User\Entity\UserInterface;
+use User\Exception\UserNotFoundException;
+use User\Manager\UserManagerInterface;
 use Uuid\Entity\UuidInterface;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerInterface;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\EventManager\EventManagerAwareTrait;
+use Zend\Http\Request;
 use Zend\Mvc\Router\RouteInterface;
 
 class AliasManager implements AliasManagerInterface
 {
-    use InstanceAwareObjectManagerAwareTrait, ClassResolverAwareTrait;
     use EventManagerAwareTrait;
-    use Traits\RouterAwareTrait;
+    use InstanceAwareObjectManagerAwareTrait;
 
     const CACHE_NONEXISTENT = '~nonexistent~';
 
+    /** @var ClassResolverInterface */
+    protected $classResolver;
+    /** @var UserManagerInterface */
+    protected $userManager;
     /** @var UuidManagerInterface */
     protected $uuidManager;
     /** @var NormalizerInterface */
     protected $normalizer;
     /** @var StorageInterface */
     protected $storage;
+    /** @var RouteInterface */
+    protected $router;
 
     public function __construct(
         ClassResolverInterface $classResolver,
-        ObjectManager $objectManager,
+        InstanceAwareEntityManager $objectManager,
+        UserManagerInterface $userManager,
         UuidManagerInterface $uuidManager,
         NormalizerInterface $normalizer,
         RouteInterface $router,
@@ -75,6 +83,7 @@ class AliasManager implements AliasManagerInterface
     ) {
         $this->classResolver = $classResolver;
         $this->objectManager = $objectManager;
+        $this->userManager = $userManager;
         $this->uuidManager = $uuidManager;
         $this->normalizer = $normalizer;
         $this->router = $router;
@@ -182,8 +191,30 @@ class AliasManager implements AliasManagerInterface
         }
     }
 
+    public function routeMatchUrl(string $url)
+    {
+        $request = new Request();
+        $request->setMethod(Request::METHOD_GET);
+        $request->setUri($url);
+        return $this->router->match($request);
+    }
+
     public function getObjectOfAlias(string $alias)
     {
+        // Expose /user/profile/:username as alias
+        if (preg_match('/user\/profile\/(.*)/', $alias, $matches)) {
+            try {
+                return $this->userManager->findUserByUsername($matches[1]);
+            } catch (UserNotFoundException $exception) {
+                // User not found, fall through
+            }
+        }
+
+        // Do not expose remaining router routes
+        if ($this->isRouterRoute($alias)) {
+            return null;
+        }
+
         if (
             preg_match(
                 '/^(?<subject>[^\/]+\/)?(?<id>\d+)\/(?<title>[^\/]*)$/',
@@ -198,6 +229,19 @@ class AliasManager implements AliasManagerInterface
             }
         }
         return null;
+    }
+
+    protected function isRouterRoute(string $alias)
+    {
+        if (preg_match('/^(?<id>\d+)$/', $alias)) {
+            return false;
+        }
+        $request = new Request();
+        $request->setMethod(Request::METHOD_GET);
+        $request->setUri('/' . $alias);
+        $match = $this->router->match($request);
+        return $match !== null &&
+            $match->getParams()['controller'] != AliasController::class;
     }
 
     /**
@@ -263,7 +307,7 @@ class AliasManager implements AliasManagerInterface
     protected function getAliasRepository()
     {
         return $this->getObjectManager()->getRepository(
-            $this->getClassResolver()->resolveClassName(AliasInterface::class)
+            $this->classResolver->resolveClassName(AliasInterface::class)
         );
     }
 }
