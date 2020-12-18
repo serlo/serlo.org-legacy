@@ -1,6 +1,6 @@
 {
   "name": "@serlo/client",
-  "version": "17.0.5",
+  "version": "17.0.6",
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
@@ -66,8 +66,8 @@
     "@types/js-cookie": "^2.0.0",
     "@types/lodash": "^4.0.0",
     "@types/ramda": "^0.27.0",
-    "@types/react": "^16.8.0",
-    "@types/react-dom": "^16.8.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
     "@types/request": "^2.0.0",
     "@types/rimraf": "^3.0.0",
     "@types/signale": "^1.0.0",

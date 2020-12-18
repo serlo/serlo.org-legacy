@@ -36,9 +36,9 @@ export const errorState = object({
 
 export type ErrorPluginState = typeof errorState
 
-export const ErrorRenderer: React.FunctionComponent<EditorPluginProps<
-  ErrorPluginState
->> = (props) => {
+export const ErrorRenderer: React.FunctionComponent<
+  EditorPluginProps<ErrorPluginState>
+> = (props) => {
   const i18n = useI18n()
 
   return (

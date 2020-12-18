@@ -214,18 +214,16 @@
     },
   }
 
-  CodeMirror.defineExtension('getSearchCursor', function (
-    query,
-    pos,
-    caseFold
-  ) {
-    return new SearchCursor(this.doc, query, pos, caseFold)
-  })
-  CodeMirror.defineDocExtension('getSearchCursor', function (
-    query,
-    pos,
-    caseFold
-  ) {
-    return new SearchCursor(this, query, pos, caseFold)
-  })
+  CodeMirror.defineExtension(
+    'getSearchCursor',
+    function (query, pos, caseFold) {
+      return new SearchCursor(this.doc, query, pos, caseFold)
+    }
+  )
+  CodeMirror.defineDocExtension(
+    'getSearchCursor',
+    function (query, pos, caseFold) {
+      return new SearchCursor(this, query, pos, caseFold)
+    }
+  )
 })()
