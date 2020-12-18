@@ -21,10 +21,8 @@
  */
 // @ts-ignore FIXME
 import build from '@vercel/ncc'
-import { spawnSync } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
-import rimraf from 'rimraf'
 import * as util from 'util'
 
 const root = path.join(__dirname, '..')
@@ -41,31 +39,26 @@ exec()
   })
 
 async function exec() {
-  const createDir = util.promisify(fs.mkdir)
-  const readDir = util.promisify(fs.readdir)
+  if (process.argv.length !== 3) {
+    throw new Error('Usage: yarn build src/foobar.ts')
+  }
+  const file = process.argv[2]
   const writeFile = util.promisify(fs.writeFile)
-  const rmDir = util.promisify(rimraf)
   const stat = util.promisify(fs.stat)
-
-  await rmDir(dist)
-  await createDir(dist)
-  const files = await readDir(src)
-  await Promise.all(
-    files.map(async (file) => {
-      const stats = await stat(path.join(src, file))
-      if (!stats.isFile()) return
-
-      const { code } = await build(path.join(src, file), {
-        cache: false,
-        sourceMapRegister: false,
-      })
-      await writeFile(
-        path.join(dist, `${path.basename(file, '.ts')}.js`),
-        code,
-        {
-          encoding: 'utf-8',
-        }
-      )
-    })
+  const stats = await stat(file)
+  const absoluteFilePath = path.join(process.cwd(), file)
+  if (!stats.isFile() || path.dirname(absoluteFilePath) !== src) {
+    throw new Error('File does not exist')
+  }
+  const { code } = await build(absoluteFilePath, {
+    cache: false,
+    sourceMapRegister: false,
+  })
+  await writeFile(
+    path.join(dist, `${path.basename(absoluteFilePath, '.ts')}.js`),
+    code,
+    {
+      encoding: 'utf-8',
+    }
   )
 }
