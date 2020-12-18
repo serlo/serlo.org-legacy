@@ -36,9 +36,9 @@ export const deprecatedState = object({
 
 export type DeprecatedPluginState = typeof deprecatedState
 
-export const DeprecatedRenderer: React.FunctionComponent<EditorPluginProps<
-  DeprecatedPluginState
->> = (props) => {
+export const DeprecatedRenderer: React.FunctionComponent<
+  EditorPluginProps<DeprecatedPluginState>
+> = (props) => {
   const i18n = useI18n()
 
   return (

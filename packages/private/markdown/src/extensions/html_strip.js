@@ -101,48 +101,45 @@ function stripUnwantedHTML(html) {
       }
 
       // find and remove unwanted attributes
-      params = params.replace(findAttribs, function (
-        original,
-        space,
-        name,
-        quot,
-        value
-      ) {
-        name = name.toLowerCase()
+      params = params.replace(
+        findAttribs,
+        function (original, space, name, quot, value) {
+          name = name.toLowerCase()
 
-        if (!value && !quot) {
-          value = ''
-          quot = '"'
-        } else if (!value) {
-          value = quot
-          quot = '"'
+          if (!value && !quot) {
+            value = ''
+            quot = '"'
+          } else if (!value) {
+            value = quot
+            quot = '"'
+          }
+
+          // force data: and javascript: links and images to #
+          if (
+            (name === 'href' || name === 'src') &&
+            (value.trim().substr(0, 'javascript:'.length) === 'javascript:' ||
+              value.trim().substr(0, 'data:'.length) === 'data:')
+          ) {
+            value = '#'
+          }
+
+          // scope links and sources to http protocol
+          if (
+            forceProtocol &&
+            (name === 'href' || name === 'src') &&
+            !/^[a-zA-Z]{3,5}:\/\//.test(value)
+          ) {
+            value = 'http://' + value
+          }
+
+          if (
+            (wildcardAttr && name.match(wildcardAttr)) ||
+            (tagAttr && name.match(tagAttr))
+          ) {
+            return space + name + '=' + quot + value + quot
+          } else return ''
         }
-
-        // force data: and javascript: links and images to #
-        if (
-          (name === 'href' || name === 'src') &&
-          (value.trim().substr(0, 'javascript:'.length) === 'javascript:' ||
-            value.trim().substr(0, 'data:'.length) === 'data:')
-        ) {
-          value = '#'
-        }
-
-        // scope links and sources to http protocol
-        if (
-          forceProtocol &&
-          (name === 'href' || name === 'src') &&
-          !/^[a-zA-Z]{3,5}:\/\//.test(value)
-        ) {
-          value = 'http://' + value
-        }
-
-        if (
-          (wildcardAttr && name.match(wildcardAttr)) ||
-          (tagAttr && name.match(tagAttr))
-        ) {
-          return space + name + '=' + quot + value + quot
-        } else return ''
-      })
+      )
 
       return '<' + lslash + tag + (params ? ' ' + params : '') + rslash + '>'
     }

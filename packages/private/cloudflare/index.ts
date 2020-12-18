@@ -31,7 +31,7 @@ export async function uploadWorker({
   name: string
   body: string
 }) {
-  await new Promise((resolve, reject) => {
+  await new Promise<void>((resolve, reject) => {
     request.put(
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/workers/scripts/${name}`,
       {
@@ -65,7 +65,7 @@ export async function shouldDeployPackage({
     return false
   }
 
-  const res = await new Promise((resolve, reject) => {
+  const res = await new Promise<string>((resolve, reject) => {
     request.get(
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${name}@${version}`,
       {
@@ -97,7 +97,7 @@ export async function publishPackage({
   const environments = getEnvironments()
   await Promise.all(
     environments.map((env) => {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         request.put(
           `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${name}@${env}`,
           {

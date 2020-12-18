@@ -90,9 +90,10 @@ function DynamicComponent<P>({
   load: () => Promise<React.ComponentType<P>>
   props: P
 }) {
-  const [Component, setComponent] = React.useState<React.ComponentType<
-    P
-  > | null>(null)
+  const [
+    Component,
+    setComponent,
+  ] = React.useState<React.ComponentType<P> | null>(null)
   React.useEffect(() => {
     load().then((Component) => {
       // Has to be a function. Otherwise, React will interpret the Component as a change handler and try to call it.

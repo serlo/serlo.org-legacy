@@ -57,8 +57,8 @@ async function exec() {
   console.log('succeeded loading')
 }
 
-function execSql(command: string) {
-  return new Promise((resolve, reject) => {
+async function execSql(command: string) {
+  await new Promise<void>((resolve, reject) => {
     const dockerComposeExec = spawn('docker-compose', [
       'exec',
       '-T',

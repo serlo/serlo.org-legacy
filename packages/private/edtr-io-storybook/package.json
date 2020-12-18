@@ -16,8 +16,8 @@
     "@storybook/addon-actions": "^6.1.0-0",
     "@storybook/addon-knobs": "^6.1.0-0",
     "@storybook/react": "^6.1.0-0",
-    "@types/react": "^16.8.0",
-    "@types/react-dom": "^16.8.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
     "i18next-resource-store-loader": "^0.1.0"
   }
 }

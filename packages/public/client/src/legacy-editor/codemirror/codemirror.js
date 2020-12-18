@@ -3519,17 +3519,19 @@ window.CodeMirror = (function () {
     updateDoc(doc, change, spans, selAfter, estimateHeight(cm))
 
     if (!cm.options.lineWrapping) {
-      doc.iter(checkWidthStart, from.line + change.text.length, function (
-        line
-      ) {
-        var len = lineLength(doc, line)
-        if (len > display.maxLineLength) {
-          display.maxLine = line
-          display.maxLineLength = len
-          display.maxLineChanged = true
-          recomputeMaxLength = false
+      doc.iter(
+        checkWidthStart,
+        from.line + change.text.length,
+        function (line) {
+          var len = lineLength(doc, line)
+          if (len > display.maxLineLength) {
+            display.maxLine = line
+            display.maxLineLength = len
+            display.maxLineChanged = true
+            recomputeMaxLength = false
+          }
         }
-      })
+      )
       if (recomputeMaxLength) cm.curOp.updateMaxLine = true
     }
 
@@ -6124,12 +6126,16 @@ window.CodeMirror = (function () {
     var st = [cm.state.modeGen]
     // Compute the base array of styles
     // FNC HACK added lineNo Parameter
-    runMode(cm, lineNo(line), line.text, cm.doc.mode, state, function (
-      end,
-      style
-    ) {
-      st.push(end, style)
-    })
+    runMode(
+      cm,
+      lineNo(line),
+      line.text,
+      cm.doc.mode,
+      state,
+      function (end, style) {
+        st.push(end, style)
+      }
+    )
 
     // Run overlays, adjust style array.
     for (var o = 0; o < cm.state.overlays.length; ++o) {
@@ -6137,29 +6143,33 @@ window.CodeMirror = (function () {
         i = 1,
         at = 0
       // FNC HACK added lineNo Parameter
-      runMode(cm, lineNo(line), line.text, overlay.mode, true, function (
-        end,
-        style
-      ) {
-        var start = i
-        // Ensure there's a token end at the current position, and that i points at it
-        while (at < end) {
-          var i_end = st[i]
-          if (i_end > end) st.splice(i, 1, end, st[i + 1], i_end)
-          i += 2
-          at = Math.min(end, i_end)
-        }
-        if (!style) return
-        if (overlay.opaque) {
-          st.splice(start, i - start, end, style)
-          i = start + 2
-        } else {
-          for (; start < i; start += 2) {
-            var cur = st[start + 1]
-            st[start + 1] = cur ? cur + ' ' + style : style
+      runMode(
+        cm,
+        lineNo(line),
+        line.text,
+        overlay.mode,
+        true,
+        function (end, style) {
+          var start = i
+          // Ensure there's a token end at the current position, and that i points at it
+          while (at < end) {
+            var i_end = st[i]
+            if (i_end > end) st.splice(i, 1, end, st[i + 1], i_end)
+            i += 2
+            at = Math.min(end, i_end)
+          }
+          if (!style) return
+          if (overlay.opaque) {
+            st.splice(start, i - start, end, style)
+            i = start + 2
+          } else {
+            for (; start < i; start += 2) {
+              var cur = st[start + 1]
+              st[start + 1] = cur ? cur + ' ' + style : style
+            }
           }
         }
-      })
+      )
     }
 
     return st
