@@ -6,7 +6,7 @@
 
 ## Setup
 
-You need [Docker](https://docs.docker.com/engine/installation/), [Node.js v12](https://nodejs.org) and [Yarn](https://yarnpkg.com) installed on your system.
+You need [Docker](https://docs.docker.com/engine/installation/), [Node.js v14](https://nodejs.org) and [Yarn](https://yarnpkg.com) installed on your system.
 
 Now follow the upcoming instructions.
 
