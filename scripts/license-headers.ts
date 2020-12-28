@@ -1,4 +1,4 @@
-import { updateCopyrightHeader } from '@splish-me/copyright-headers'
+import { updateCopyrightHeader } from '@inyono/copyright-headers'
 import glob from 'glob'
 import * as path from 'path'
 import * as util from 'util'
