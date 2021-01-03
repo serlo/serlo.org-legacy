@@ -85,11 +85,12 @@ class RepositoryController extends AbstractController
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                return $this->handleAddRevisionPost(
+                $redirectUrl = $this->handleAddRevisionPost(
                     $entity,
                     $form->getData(),
                     true
                 );
+                return $this->redirect()->toUrl($redirectUrl);
             }
         }
 
@@ -437,24 +438,19 @@ class RepositoryController extends AbstractController
                 'Your revision has been saved and is available'
             );
             $route = 'entity/page';
+            $hash = '#revision-saved-accepted';
         } else {
             $successMessage = $translator->translate(
                 'Your revision has been saved, it will be available once it gets approved'
             );
             $route = 'entity/repository/history';
+            $hash = '#revision-saved';
         }
         $this->getEntityManager()->flush();
         $this->flashMessenger()->addSuccessMessage($successMessage);
 
-        if ($this->getRequest()->isXmlHttpRequest()) {
-            return $this->plugin('url')->fromRoute($route, [
-                'entity' => $entity->getId(),
-            ]);
-        }
-
-        return $this->redirect()->toRoute($route, [
-            'entity' => $entity->getId(),
-        ]);
+        $entityId = ['entity' => $entity->getId()];
+        return $this->plugin('url')->fromRoute($route, $entityId) . $hash;
     }
 
     public function checkoutAction()
@@ -477,9 +473,9 @@ class RepositoryController extends AbstractController
         );
         $this->getRepositoryManager()->flush();
 
-        return $this->redirect()->toRoute('entity/page', [
-            'entity' => $entity->getId(),
-        ]);
+        $entityId = ['entity' => $entity->getId()];
+        $url = $this->plugin('url')->fromRoute('entity/page', $entityId);
+        return $this->redirect()->toUrl($url . '#revision-accepted');
     }
 
     public function compareAction()
@@ -556,7 +552,11 @@ class RepositoryController extends AbstractController
         );
         $this->getRepositoryManager()->flush();
 
-        return $this->redirect()->toReferer();
+        $url = $this->getRequest()
+            ->getHeaders()
+            ->get('Referer')
+            ->getFieldValue();
+        return $this->redirect()->toUrl($url . '#revision-rejected');
     }
 
     /**
