@@ -129,6 +129,15 @@ return [
                             ],
                         ],
                     ],
+                    'add-comment' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/add-comment',
+                            'defaults' => [
+                                'action' => 'addComment',
+                            ],
+                        ],
+                    ],
                     'alias' => [
                         'type' => 'Common\Router\Slashable',
                         'options' => [

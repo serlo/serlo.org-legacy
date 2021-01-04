@@ -98,6 +98,12 @@ class DiscussionManager implements DiscussionManagerInterface
         return $comment;
     }
 
+    public function saveComment(CommentInterface $comment)
+    {
+        $this->getObjectManager()->persist($comment);
+        $this->flush();
+    }
+
     public function findDiscussionsByInstance(
         InstanceInterface $instance,
         $page,

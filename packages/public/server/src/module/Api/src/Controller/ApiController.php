@@ -26,20 +26,30 @@ namespace Api\Controller;
 use Alias\AliasManagerAwareTrait;
 use Api\ApiManagerAwareTrait;
 use Api\Service\AuthorizationService;
+use Discussion\DiscussionManagerAwareTrait;
+use Discussion\Entity\Comment;
+use Discussion\Entity\CommentInterface;
+use Entity\Entity\EntityInterface;
 use Instance\Manager\InstanceManagerAwareTrait;
 use License\Exception\LicenseNotFoundException;
 use License\Manager\LicenseManagerAwareTrait;
 use Notification\SubscriptionManagerAwareTrait;
+use Page\Entity\PageRepositoryInterface;
+use Taxonomy\Entity\TaxonomyTermInterface;
 use User\Exception\UserNotFoundException;
 use User\Manager\UserManagerAwareTrait;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerAwareTrait;
+use Zend\Http\Response;
+use Zend\Json\Json;
+use Zend\Json\Exception\RuntimeException as JsonRuntimeException;
 use Zend\View\Model\JsonModel;
 
 class ApiController extends AbstractApiController
 {
     use AliasManagerAwareTrait;
     use ApiManagerAwareTrait;
+    use DiscussionManagerAwareTrait;
     use InstanceManagerAwareTrait;
     use LicenseManagerAwareTrait;
     use UserManagerAwareTrait;
@@ -67,6 +77,91 @@ class ApiController extends AbstractApiController
         return $data === null
             ? $this->createJsonResponse('null')
             : new JsonModel($data);
+    }
+
+    public function addCommentAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
+            return $this->response;
+        }
+
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
+        try {
+            $data = Json::decode(
+                $this->getRequest()->getContent(),
+                Json::TYPE_ARRAY
+            );
+        } catch (JsonRuntimeException $exception) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->response;
+        }
+
+        $isDataValid =
+            is_array($data) &&
+            isset($data['title']) &&
+            is_string($data['title']) &&
+            isset($data['content']) &&
+            is_string($data['content']) &&
+            isset($data['userId']) &&
+            is_numeric($data['userId']) &&
+            isset($data['objectId']) &&
+            is_numeric($data['objectId']);
+
+        if (!$isDataValid) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->response;
+        }
+
+        try {
+            $user = $this->getUserManager()->getUser($data['userId']);
+        } catch (UserNotFoundException $exception) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->response;
+        }
+
+        try {
+            $uuid = $this->getUuidManager()->getUuid(
+                $data['objectId'],
+                false,
+                false
+            );
+        } catch (NotFoundException $exception) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->response;
+        }
+
+        $comment = new Comment();
+        $comment->setTitle($data['title']);
+        $comment->setContent($data['content']);
+        $comment->setAuthor($user);
+
+        if ($uuid instanceof EntityInterface) {
+            $comment->setInstance($uuid->getInstance());
+        } elseif ($uuid instanceof PageRepositoryInterface) {
+            $comment->setInstance($uuid->getInstance());
+        } elseif ($uuid instanceof CommentInterface) {
+            $comment->setInstance($uuid->getInstance());
+        } elseif ($uuid instanceof TaxonomyTermInterface) {
+            $comment->setInstance($uuid->getInstance());
+        } else {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->response;
+        }
+
+        if ($uuid instanceof CommentInterface) {
+            $comment->setParent($uuid);
+        } else {
+            $comment->setObject($uuid);
+        }
+
+        $this->getDiscussionManager()->saveComment($comment);
+
+        return new JsonModel($this->getApiManager()->getUuidData($comment));
     }
 
     public function licenseAction()
