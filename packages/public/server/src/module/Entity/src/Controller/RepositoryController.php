@@ -449,8 +449,9 @@ class RepositoryController extends AbstractController
         $this->getEntityManager()->flush();
         $this->flashMessenger()->addSuccessMessage($successMessage);
 
-        $entityId = ['entity' => $entity->getId()];
-        return $this->plugin('url')->fromRoute($route, $entityId) . $hash;
+        return $this->plugin('url')->fromRoute($route, [
+            'entity' => $entity->getId(),
+        ]) . $hash;
     }
 
     public function checkoutAction()
@@ -473,8 +474,9 @@ class RepositoryController extends AbstractController
         );
         $this->getRepositoryManager()->flush();
 
-        $entityId = ['entity' => $entity->getId()];
-        $url = $this->plugin('url')->fromRoute('entity/page', $entityId);
+        $url = $this->plugin('url')->fromRoute('entity/page', [
+            'entity' => $entity->getId(),
+        ]);
         return $this->redirect()->toUrl($url . '#revision-accepted');
     }
 
