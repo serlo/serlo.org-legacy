@@ -70,6 +70,17 @@ class EntityController extends AbstractController
         return true;
     }
 
+    public function unrevisedAction()
+    {
+        $view = new ViewModel([
+            'revisionsBySubject' => $this->getUnrevisedRevisionsBySubject(),
+            'helpLinks' => $this->getReviewHelpLinks(),
+        ]);
+        $view->setTemplate('entity/unrevised');
+
+        return $view;
+    }
+
     protected function getUnrevisedRevisionsBySubject()
     {
         $revisions = $this->getEntityManager()
@@ -147,16 +158,5 @@ class EntityController extends AbstractController
         ];
 
         return $helpLinks;
-    }
-
-    public function unrevisedAction()
-    {
-        $view = new ViewModel([
-            'revisionsBySubject' => $this->getUnrevisedRevisionsBySubject(),
-            'helpLinks' => $this->getReviewHelpLinks(),
-        ]);
-        $view->setTemplate('entity/unrevised');
-
-        return $view;
     }
 }
