@@ -113,7 +113,7 @@ class ApiController extends AbstractApiController
                 $this->getApiManager()->getSubscriptionsData($user)
             );
         } catch (UserNotFoundException $exception) {
-            $this->createJsonResponse('null');
+            return $this->createJsonResponse('null');
         }
     }
 
