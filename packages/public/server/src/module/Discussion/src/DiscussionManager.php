@@ -89,14 +89,9 @@ class DiscussionManager implements DiscussionManagerInterface
             'instance' => $comment->getInstance(),
             'data' => $form->getData(),
         ]);
+        $this->flush();
 
         return $comment;
-    }
-
-    public function saveComment(CommentInterface $comment)
-    {
-        $this->getObjectManager()->persist($comment);
-        $this->flush();
     }
 
     public function findDiscussionsByInstance(
@@ -234,6 +229,7 @@ class DiscussionManager implements DiscussionManagerInterface
             'instance' => $comment->getInstance(),
             'data' => $form->getData(),
         ]);
+        $this->flush();
 
         return $comment;
     }

@@ -27,7 +27,9 @@ use Api\Controller\NotificationApiController;
 use Api\Manager\NotificationApiManager;
 use Api\Service\AuthorizationService;
 use Api\Service\GraphQLService;
+use ClassResolver\ClassResolver;
 use Common\Factory\AbstractControllerFactory;
+use Common\Factory\EntityManagerFactoryTrait;
 use Event\EventManager;
 use Event\EventManagerInterface;
 use Notification\NotificationManager;
@@ -39,6 +41,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class NotificationApiManagerFactory implements FactoryInterface
 {
+    use EntityManagerFactoryTrait;
+
     public function createService(ServiceLocatorInterface $serviceManager)
     {
         /** @var EventManagerInterface $eventManager */
@@ -50,12 +54,18 @@ class NotificationApiManagerFactory implements FactoryInterface
         /** @var GraphQLService $graphql */
         $graphql = $serviceManager->get(GraphQLService::class);
         $sentry = $serviceManager->get('Log\Sentry');
-        return new NotificationApiManager(
+
+        $manager = new NotificationApiManager(
             $eventManager,
             $notificationManager,
             $userManager,
             $graphql,
             $sentry
         );
+
+        $manager->setEntityManager($this->getEntityManager($serviceManager));
+        $manager->setClassResolver($serviceManager->get(ClassResolver::class));
+
+        return $manager;
     }
 }

@@ -41,33 +41,52 @@ describe('/api/add-comment', () => {
     userId: 10,
   }
 
-  test('starts a new thread when objectId is not a comment', async () => {
-    const response = await fetchApi('/api/add-comment', withJsonBody(payload))
+  describe('starts a new thread when objectId is not a comment', () => {
+    let comment: any
 
-    expect(await response.json()).toEqual({
-      __typename: 'Comment',
-      alias: expect.any(String),
-      archived: false,
-      authorId: 10,
-      childrenIds: [],
-      date: expect.any(String),
-      id: expect.any(Number),
-      content: 'Hello World',
-      parentId: 1855,
-      title: 'A new thread',
-      trashed: false,
+    beforeAll(async () => {
+      const response = await fetchApi('/api/add-comment', withJsonBody(payload))
+      comment = await response.json()
     })
-  })
 
-  test('/api/add-comment returns the same payload as /api/uuid/:id', async () => {
-    const commentResponse = await fetchApi(
-      '/api/add-comment',
-      withJsonBody(payload)
-    )
-    const comment = (await commentResponse.json()) as any
+    test('returns comment payload of newly created comment', async () => {
+      expect(comment).toEqual({
+        __typename: 'Comment',
+        alias: expect.any(String),
+        archived: false,
+        authorId: 10,
+        childrenIds: [],
+        date: expect.any(String),
+        id: expect.any(Number),
+        content: 'Hello World',
+        parentId: 1855,
+        title: 'A new thread',
+        trashed: false,
+      })
+    })
 
-    const uuidResponse = await fetchApi(`/api/uuid/${comment.id}`)
-    expect(await uuidResponse.json()).toEqual(comment)
+    test('returns the same payload as /api/uuid/:id', async () => {
+      const response = await fetchApi(`/api/uuid/${comment.id}`)
+      expect(await response.json()).toEqual(comment)
+    })
+
+    test('creates a new event to the event log', async () => {
+      const response = await fetchApi('/api/last-event')
+      const event = await response.json()
+
+      expect(event).toEqual({
+        id: expect.any(Number),
+        instance: 'de',
+        date: expect.any(String),
+        objectId: comment.parentId,
+        __typename: 'CreateThreadNotificationEvent',
+        actorId: comment.authorId,
+        threadId: comment.id,
+      })
+      expect(
+        toSeconds(event.date) - toSeconds(comment.date)
+      ).toBeLessThanOrEqual(1)
+    })
   })
 
   test('returns 400 when uuid is not commentable', async () => {
@@ -149,4 +168,8 @@ function withBody(body: string): RequestInit {
     body,
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
   }
+}
+
+function toSeconds(date: string) {
+  return Math.round(new Date(date).getTime())
 }

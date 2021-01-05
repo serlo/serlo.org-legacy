@@ -207,6 +207,15 @@ return [
                                     ],
                                 ],
                             ],
+                            'event' => [
+                                'type' => 'segment',
+                                'options' => [
+                                    'route' => '/last-event',
+                                    'defaults' => [
+                                        'action' => 'lastEvent',
+                                    ],
+                                ],
+                            ],
                             'set-notification-state' => [
                                 'type' => 'segment',
                                 'options' => [

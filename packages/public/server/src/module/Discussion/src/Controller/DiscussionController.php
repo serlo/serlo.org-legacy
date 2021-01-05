@@ -105,7 +105,6 @@ class DiscussionController extends AbstractController
             $form->setData(array_merge($this->params()->fromPost(), $data));
             if ($form->isValid()) {
                 $this->getDiscussionManager()->commentDiscussion($form);
-                $this->getDiscussionManager()->flush();
                 $this->flashMessenger()->addSuccessMessage(
                     'Your comment has been saved.'
                 );
@@ -167,7 +166,6 @@ class DiscussionController extends AbstractController
             $form->setData(array_merge($this->params()->fromPost(), $data));
             if ($form->isValid()) {
                 $this->getDiscussionManager()->startDiscussion($form);
-                $this->getDiscussionManager()->flush();
                 if (!$this->getRequest()->isXmlHttpRequest()) {
                     $this->flashMessenger()->addSuccessMessage(
                         'Your discussion has been started.'

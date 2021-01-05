@@ -26,9 +26,11 @@ namespace Api\Controller;
 use Alias\AliasManagerAwareTrait;
 use Api\ApiManagerAwareTrait;
 use Api\Service\AuthorizationService;
+use Authentication\Service\AuthenticationService;
+use Csrf\CsrfTokenContainer;
 use Discussion\DiscussionManagerAwareTrait;
-use Discussion\Entity\Comment;
 use Discussion\Entity\CommentInterface;
+use Discussion\Form\DiscussionForm;
 use Entity\Entity\EntityInterface;
 use Instance\Manager\InstanceManagerAwareTrait;
 use License\Exception\LicenseNotFoundException;
@@ -119,6 +121,9 @@ class ApiController extends AbstractApiController
 
         try {
             $user = $this->getUserManager()->getUser($data['userId']);
+            $this->getServiceLocator()
+                ->get('Zend\Authentication\AuthenticationService')
+                ->setIdentity($user);
         } catch (UserNotFoundException $exception) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
             return $this->response;
@@ -135,31 +140,37 @@ class ApiController extends AbstractApiController
             return $this->response;
         }
 
-        $comment = new Comment();
-        $comment->setTitle($data['title']);
-        $comment->setContent($data['content']);
-        $comment->setAuthor($user);
-
-        if ($uuid instanceof EntityInterface) {
-            $comment->setInstance($uuid->getInstance());
-        } elseif ($uuid instanceof PageRepositoryInterface) {
-            $comment->setInstance($uuid->getInstance());
-        } elseif ($uuid instanceof CommentInterface) {
-            $comment->setInstance($uuid->getInstance());
-        } elseif ($uuid instanceof TaxonomyTermInterface) {
-            $comment->setInstance($uuid->getInstance());
+        if (
+            $uuid instanceof EntityInterface ||
+            $uuid instanceof PageRepositoryInterface ||
+            $uuid instanceof CommentInterface ||
+            $uuid instanceof TaxonomyTermInterface
+        ) {
+            $instance = $uuid->getInstance();
         } else {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
             return $this->response;
         }
 
         if ($uuid instanceof CommentInterface) {
-            $comment->setParent($uuid);
+            // TODO
         } else {
-            $comment->setObject($uuid);
+            /** @var DiscussionForm $form $form */
+            $form = $this->getServiceLocator()->get(DiscussionForm::class);
+            $form->setData([
+                'object' => $uuid,
+                'author' => $user,
+                'instance' => $instance,
+                'title' => $data['title'],
+                'content' => $data['content'],
+                'csrf' => CsrfTokenContainer::getToken(),
+                'subscription' => [
+                    'subscribe' => true,
+                    'mailman' => true,
+                ],
+            ]);
+            $comment = $this->getDiscussionManager()->startDiscussion($form);
         }
-
-        $this->getDiscussionManager()->saveComment($comment);
 
         return new JsonModel($this->getApiManager()->getUuidData($comment));
     }

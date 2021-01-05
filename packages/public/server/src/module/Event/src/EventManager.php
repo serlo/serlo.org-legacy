@@ -31,6 +31,7 @@ use Common\Traits\ObjectManagerAwareTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Event\Entity\EventLogInterface;
 use Event\Exception;
 use Event\Filter\PersistentEventLogFilterChain;
 use Instance\Entity\InstanceInterface;
@@ -109,7 +110,7 @@ class EventManager implements
         }
 
         $className = $this->getClassResolver()->resolveClassName(
-            'Event\Entity\EventLogInterface'
+            EventLogInterface::class
         );
         $repository = $this->getObjectManager()->getRepository($className);
         $results = $repository->findBy(
