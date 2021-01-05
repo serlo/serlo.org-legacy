@@ -22,12 +22,10 @@
  */
 namespace Discussion\Factory;
 
-use Authentication\Factory\AuthenticationServiceFactoryTrait;
 use ClassResolver\ClassResolverFactoryTrait;
 use Common\Factory\AuthorizationServiceFactoryTrait;
 use Common\Factory\EntityManagerFactoryTrait;
 use Discussion\DiscussionManager;
-use Taxonomy\Factory\TaxonomyManagerFactoryTrait;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -35,7 +33,6 @@ class DiscussionManagerFactory implements FactoryInterface
 {
     use AuthorizationServiceFactoryTrait,
         ClassResolverFactoryTrait,
-        TaxonomyManagerFactoryTrait,
         EntityManagerFactoryTrait;
 
     /**

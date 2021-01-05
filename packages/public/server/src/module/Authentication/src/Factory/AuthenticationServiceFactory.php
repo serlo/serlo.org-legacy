@@ -23,7 +23,6 @@
 namespace Authentication\Factory;
 
 use Authentication\Service\AuthenticationService;
-use Zend\Mvc\Application;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
