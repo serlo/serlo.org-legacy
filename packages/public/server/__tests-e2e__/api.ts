@@ -42,50 +42,53 @@ describe('/api/add-comment', () => {
   }
 
   describe('starts a new thread when objectId is not a comment', () => {
-    let comment: any
+    const target = {
+      __typename: 'Comment',
+      alias: expect.any(String),
+      archived: false,
+      authorId: 10,
+      childrenIds: [],
+      date: expect.any(String),
+      id: expect.any(Number),
+      content: 'Hello World',
+      parentId: 1855,
+      title: 'A new thread',
+      trashed: false,
+    }
+    let comment: unknown
 
     beforeAll(async () => {
+      await fetchApi('/api/e2e-tests/set-up')
+
       const response = await fetchApi('/api/add-comment', withJsonBody(payload))
       comment = await response.json()
     })
 
     test('returns comment payload of newly created comment', async () => {
-      expect(comment).toEqual({
-        __typename: 'Comment',
-        alias: expect.any(String),
-        archived: false,
-        authorId: 10,
-        childrenIds: [],
-        date: expect.any(String),
-        id: expect.any(Number),
-        content: 'Hello World',
-        parentId: 1855,
-        title: 'A new thread',
-        trashed: false,
-      })
+      assertEqual(comment, target)
     })
 
     test('returns the same payload as /api/uuid/:id', async () => {
+      assertEqual(comment, target)
       const response = await fetchApi(`/api/uuid/${comment.id}`)
       expect(await response.json()).toEqual(comment)
     })
 
     test('creates a new event to the event log', async () => {
-      const response = await fetchApi('/api/last-event')
-      const event = await response.json()
+      assertEqual(comment, target)
 
-      expect(event).toEqual({
+      const response = await fetchApi('/api/e2e-tests/events-since-set-up')
+      const { events } = await response.json()
+
+      expect(events).toContainEqual({
         id: expect.any(Number),
         instance: 'de',
-        date: expect.any(String),
+        date: matchDate(comment.date),
         objectId: comment.parentId,
         __typename: 'CreateThreadNotificationEvent',
         actorId: comment.authorId,
         threadId: comment.id,
       })
-      expect(
-        toSeconds(event.date) - toSeconds(comment.date)
-      ).toBeLessThanOrEqual(1)
     })
   })
 
@@ -150,6 +153,10 @@ describe('/api/subscriptions/:userId', () => {
   })
 })
 
+function assertEqual<T>(obj: unknown, target: T): asserts obj is T {
+  expect(obj).toEqual(target)
+}
+
 function fetchApi(path: string, init?: RequestInit) {
   return fetch(testingServerUrl + path, init)
 }
@@ -170,6 +177,16 @@ function withBody(body: string): RequestInit {
   }
 }
 
-function toSeconds(date: string) {
-  return Math.round(new Date(date).getTime())
+function matchDate(dateStr: string) {
+  const date = new Date(dateStr)
+  date.setTime(date.getTime() + 60 * 60 * 1000)
+  const regex = [date, new Date(date.getTime() + 1000)]
+    .map(formatDate)
+    .join('|')
+
+  return expect.stringMatching(regex)
+}
+
+function formatDate(date: Date) {
+  return (date.toISOString().substring(0, 19) + '+01:00').replace('+', '\\+')
 }

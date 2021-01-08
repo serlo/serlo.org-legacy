@@ -162,4 +162,7 @@ return [
     )
         ? $mysql_timestamp_for_active_community
         : 'CURDATE()',
+
+    // Whether we are in development mode
+    'is_development_env' => isset($env) && $env == 'development',
 ];

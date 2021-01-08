@@ -65,11 +65,6 @@ class NotificationApiController extends AbstractApiController
         }
     }
 
-    public function lastEventAction()
-    {
-        return new JsonModel($this->manager->getEventDataFromLastEvent());
-    }
-
     public function setNotificationStateAction()
     {
         if (!$this->getRequest()->isPost()) {

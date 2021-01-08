@@ -3,8 +3,6 @@
 namespace Api\Manager;
 
 use Api\Service\GraphQLService;
-use ClassResolver\ClassResolverAwareTrait;
-use Common\Traits\EntityManagerAwareTrait;
 use DateTime;
 use Event\Entity\EventLogInterface;
 use Event\EventManagerInterface;
@@ -30,8 +28,6 @@ class NotificationApiManager
     protected $graphql;
     /** @var Raven_Client */
     protected $sentry;
-
-    use ClassResolverAwareTrait, EntityManagerAwareTrait;
 
     public function __construct(
         EventManagerInterface $eventManager,
@@ -97,21 +93,6 @@ class NotificationApiManager
     {
         $event = $this->eventManager->getEvent($id);
         return $this->getEventData($event);
-    }
-
-    public function getEventDataFromLastEvent()
-    {
-        $className = $this->getClassResolver()->resolveClassName(
-            EventLogInterface::class
-        );
-        $events = $this->getEntityManager()
-            ->createQuery(
-                'Select e from ' . $className . ' e order by e.id desc'
-            )
-            ->setMaxResults(1)
-            ->execute();
-
-        return $this->getEventData($events[0]);
     }
 
     protected function getEventData(EventLogInterface $event)
