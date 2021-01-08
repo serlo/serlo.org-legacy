@@ -68,10 +68,8 @@ class DiscussionManager implements DiscussionManagerInterface
         $this->objectManager = $objectManager;
     }
 
-    public function commentDiscussion(
-        FormInterface $form,
-        UserInterface $user = null
-    ) {
+    public function commentDiscussion(FormInterface $form)
+    {
         /* @var $comment Entity\CommentInterface */
         $comment = $this->getClassResolver()->resolve($this->entityInterface);
         $this->bind($comment, $form);
@@ -84,7 +82,11 @@ class DiscussionManager implements DiscussionManagerInterface
             );
         }
 
-        $this->assertGranted('discussion.comment.create', $comment, $user);
+        $this->assertGranted(
+            'discussion.comment.create',
+            $comment,
+            $comment->getAuthor()
+        );
         $this->getObjectManager()->persist($comment);
         $this->getEventManager()->trigger('comment', $this, [
             'author' => $comment->getAuthor(),
@@ -92,7 +94,6 @@ class DiscussionManager implements DiscussionManagerInterface
             'discussion' => $comment->getParent(),
             'instance' => $comment->getInstance(),
             'data' => $form->getData(),
-            'actor' => $user,
         ]);
         $this->flush();
 
@@ -213,10 +214,8 @@ class DiscussionManager implements DiscussionManagerInterface
         return new ArrayCollection($array);
     }
 
-    public function startDiscussion(
-        FormInterface $form,
-        UserInterface $user = null
-    ) {
+    public function startDiscussion(FormInterface $form)
+    {
         /* @var $comment Entity\CommentInterface */
         $comment = $this->getClassResolver()->resolve($this->entityInterface);
         $this->bind($comment, $form);
@@ -227,7 +226,11 @@ class DiscussionManager implements DiscussionManagerInterface
             );
         }
 
-        $this->assertGranted('discussion.create', $comment, $user);
+        $this->assertGranted(
+            'discussion.create',
+            $comment,
+            $comment->getAuthor()
+        );
         $this->getObjectManager()->persist($comment);
         $this->getEventManager()->trigger('start', $this, [
             'author' => $comment->getAuthor(),
@@ -235,7 +238,6 @@ class DiscussionManager implements DiscussionManagerInterface
             'discussion' => $comment,
             'instance' => $comment->getInstance(),
             'data' => $form->getData(),
-            'actor' => $user,
         ]);
         $this->flush();
 

@@ -68,7 +68,7 @@ class DiscussionManagerListener extends AbstractListener
         $instance = $e->getParam('instance');
         $discussion = $e->getParam('discussion');
         $comment = $e->getParam('comment');
-        $actor = $e->getParam('actor');
+        $actor = $e->getParam('author');
         $params = [
             [
                 'name' => 'discussion',
@@ -113,7 +113,7 @@ class DiscussionManagerListener extends AbstractListener
                 'value' => $e->getParam('on'),
             ],
         ];
-        $actor = $e->getParam('actor');
+        $actor = $e->getParam('author');
 
         $this->logEvent(
             'discussion/create',
