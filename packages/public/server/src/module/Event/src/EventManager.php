@@ -2,7 +2,7 @@
 /**
  * This file is part of Serlo.org.
  *
- * Copyright (c) 2013-2020 Serlo Education e.V.
+ * Copyright (c) 2013-2021 Serlo Education e.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License
@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @copyright Copyright (c) 2013-2020 Serlo Education e.V.
+ * @copyright Copyright (c) 2013-2021 Serlo Education e.V.
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
@@ -228,12 +228,16 @@ class EventManager implements
         return $event;
     }
 
-    public function getEvent($id)
+    public function getEvent($id, $instanceAware = true)
     {
         $className = $this->getClassResolver()->resolveClassName(
             'Event\Entity\EventLogInterface'
         );
-        $event = $this->getObjectManager()->find($className, $id);
+        $event = $this->getObjectManager()->find(
+            $className,
+            $id,
+            $instanceAware
+        );
         if (!is_object($event)) {
             throw new Exception\EntityNotFoundException(
                 sprintf('Could not find an Entity by the ID of `%d`', $id)
