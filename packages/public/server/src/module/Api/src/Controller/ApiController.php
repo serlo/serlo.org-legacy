@@ -26,32 +26,20 @@ namespace Api\Controller;
 use Alias\AliasManagerAwareTrait;
 use Api\ApiManagerAwareTrait;
 use Api\Service\AuthorizationService;
-use Authentication\Service\AuthenticationService;
-use Csrf\CsrfTokenContainer;
-use Discussion\DiscussionManagerAwareTrait;
-use Discussion\Entity\CommentInterface;
-use Discussion\Form\DiscussionForm;
-use Entity\Entity\EntityInterface;
 use Instance\Manager\InstanceManagerAwareTrait;
 use License\Exception\LicenseNotFoundException;
 use License\Manager\LicenseManagerAwareTrait;
 use Notification\SubscriptionManagerAwareTrait;
-use Page\Entity\PageRepositoryInterface;
-use Taxonomy\Entity\TaxonomyTermInterface;
 use User\Exception\UserNotFoundException;
 use User\Manager\UserManagerAwareTrait;
 use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerAwareTrait;
-use Zend\Http\Response;
-use Zend\Json\Json;
-use Zend\Json\Exception\RuntimeException as JsonRuntimeException;
 use Zend\View\Model\JsonModel;
 
 class ApiController extends AbstractApiController
 {
     use AliasManagerAwareTrait;
     use ApiManagerAwareTrait;
-    use DiscussionManagerAwareTrait;
     use InstanceManagerAwareTrait;
     use LicenseManagerAwareTrait;
     use UserManagerAwareTrait;
@@ -79,100 +67,6 @@ class ApiController extends AbstractApiController
         return $data === null
             ? $this->createJsonResponse('null')
             : new JsonModel($data);
-    }
-
-    public function addCommentAction()
-    {
-        if (!$this->getRequest()->isPost()) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
-            return $this->response;
-        }
-
-        $authorizationResponse = $this->assertAuthorization();
-        if ($authorizationResponse) {
-            return $authorizationResponse;
-        }
-
-        try {
-            $data = Json::decode(
-                $this->getRequest()->getContent(),
-                Json::TYPE_ARRAY
-            );
-        } catch (JsonRuntimeException $exception) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $this->response;
-        }
-
-        $isDataValid =
-            is_array($data) &&
-            isset($data['title']) &&
-            is_string($data['title']) &&
-            isset($data['content']) &&
-            is_string($data['content']) &&
-            isset($data['userId']) &&
-            is_numeric($data['userId']) &&
-            isset($data['objectId']) &&
-            is_numeric($data['objectId']);
-
-        if (!$isDataValid) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $this->response;
-        }
-
-        try {
-            $user = $this->getUserManager()->getUser($data['userId']);
-            $this->getServiceLocator()
-                ->get('Zend\Authentication\AuthenticationService')
-                ->setIdentity($user);
-        } catch (UserNotFoundException $exception) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $this->response;
-        }
-
-        try {
-            $uuid = $this->getUuidManager()->getUuid(
-                $data['objectId'],
-                false,
-                false
-            );
-        } catch (NotFoundException $exception) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $this->response;
-        }
-
-        if (
-            $uuid instanceof EntityInterface ||
-            $uuid instanceof PageRepositoryInterface ||
-            $uuid instanceof CommentInterface ||
-            $uuid instanceof TaxonomyTermInterface
-        ) {
-            $instance = $uuid->getInstance();
-        } else {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $this->response;
-        }
-
-        if ($uuid instanceof CommentInterface) {
-            // TODO
-        } else {
-            /** @var DiscussionForm $form $form */
-            $form = $this->getServiceLocator()->get(DiscussionForm::class);
-            $form->setData([
-                'object' => $uuid,
-                'author' => $user,
-                'instance' => $instance,
-                'title' => $data['title'],
-                'content' => $data['content'],
-                'csrf' => CsrfTokenContainer::getToken(),
-                'subscription' => [
-                    'subscribe' => true,
-                    'mailman' => true,
-                ],
-            ]);
-            $comment = $this->getDiscussionManager()->startDiscussion($form);
-        }
-
-        return new JsonModel($this->getApiManager()->getUuidData($comment));
     }
 
     public function licenseAction()

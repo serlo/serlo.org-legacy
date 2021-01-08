@@ -26,6 +26,7 @@ namespace Api;
 use Api\Controller\ApiController;
 use Api\Controller\CacheApiController;
 use Api\Controller\E2ETestsHelperApiController;
+use Api\Controller\MutationApiController;
 use Api\Controller\NavigationApiController;
 use Api\Controller\NotificationApiController;
 use Api\Controller\UserApiController;
@@ -39,6 +40,7 @@ use Api\Factory\E2ETestsHelperApiManagerFactory;
 use Api\Factory\GraphQLServiceFactory;
 use Api\Factory\LicenseManagerListenerFactory;
 use Api\Factory\LinkServiceListenerFactory;
+use Api\Factory\MutationApiControllerFactory;
 use Api\Factory\NavigationApiControllerFactory;
 use Api\Factory\NotificationApiControllerFactory;
 use Api\Factory\NotificationApiManagerFactory;
@@ -72,6 +74,7 @@ return [
             CacheApiController::class => CacheApiControllerFactory::class,
             E2ETestsHelperApiController::class =>
                 E2ETestsHelperApiControllerFactory::class,
+            MutationApiController::class => MutationApiControllerFactory::class,
             NavigationApiController::class =>
                 NavigationApiControllerFactory::class,
             NotificationApiController::class =>
@@ -143,6 +146,7 @@ return [
                             'route' => '/add-comment',
                             'defaults' => [
                                 'action' => 'addComment',
+                                'controller' => MutationApiController::class,
                             ],
                         ],
                     ],
