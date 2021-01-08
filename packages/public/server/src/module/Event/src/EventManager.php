@@ -31,6 +31,7 @@ use Common\Traits\ObjectManagerAwareTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Event\Entity\EventLog;
 use Event\Entity\EventLogInterface;
 use Event\Exception;
 use Event\Filter\PersistentEventLogFilterChain;
@@ -67,6 +68,10 @@ class EventManager implements
      * @var InstanceManagerInterface
      */
     protected $instanceManager;
+    /**
+     * @var \Zend\EventManager\EventManagerInterface
+     */
+    protected $eventManager;
 
     public function __construct(
         AuthorizationService $authorizationService,
@@ -99,6 +104,31 @@ class EventManager implements
             $events = array_merge($results, $events);
         }
         return new ArrayCollection($events);
+    }
+
+    public function findTypeByName($name)
+    {
+        // Avoid MySQL duplicate entry on consecutive checks without flushing.
+        if (array_key_exists($name, $this->inMemoryEvents)) {
+            return $this->inMemoryEvents[$name];
+        }
+
+        $className = $this->getClassResolver()->resolveClassName(
+            'Event\Entity\EventInterface'
+        );
+        $event = $this->getObjectManager()
+            ->getRepository($className)
+            ->findOneBy(['name' => $name]);
+        /* @var $event Entity\EventInterface */
+
+        if (!is_object($event)) {
+            $event = new $className();
+            $event->setName($name);
+            $this->getObjectManager()->persist($event);
+            $this->inMemoryEvents[$name] = $event;
+        }
+
+        return $event;
     }
 
     public function findEventsByActor($userId, $limit = 50)
@@ -203,31 +233,6 @@ class EventManager implements
         return $this->persistentEventLogFilterChain->filter($collection);
     }
 
-    public function findTypeByName($name)
-    {
-        // Avoid MySQL duplicate entry on consecutive checks without flushing.
-        if (array_key_exists($name, $this->inMemoryEvents)) {
-            return $this->inMemoryEvents[$name];
-        }
-
-        $className = $this->getClassResolver()->resolveClassName(
-            'Event\Entity\EventInterface'
-        );
-        $event = $this->getObjectManager()
-            ->getRepository($className)
-            ->findOneBy(['name' => $name]);
-        /* @var $event Entity\EventInterface */
-
-        if (!is_object($event)) {
-            $event = new $className();
-            $event->setName($name);
-            $this->getObjectManager()->persist($event);
-            $this->inMemoryEvents[$name] = $event;
-        }
-
-        return $event;
-    }
-
     public function getEvent($id, $instanceAware = true)
     {
         $className = $this->getClassResolver()->resolveClassName(
@@ -267,25 +272,22 @@ class EventManager implements
     }
 
     public function logEvent(
-        $uri,
+        $eventName,
         InstanceInterface $instance,
         UuidInterface $uuid,
-        array $parameters = []
+        array $parameters = [],
+        UserInterface $actor = null
     ) {
-        $actor = $this->authorizationService->getIdentity();
-
-        if ($actor === null) {
+        if ($actor == null) {
+            $actor = $this->authorizationService->getIdentity();
+        }
+        if ($actor == null) {
             throw new UnauthorizedException();
         }
 
-        $className = $this->getClassResolver()->resolveClassName(
-            'Event\Entity\EventLogInterface'
-        );
+        $log = new EventLog();
 
-        /* @var $log Entity\EventLogInterface */
-        $log = new $className();
-
-        $log->setEvent($this->findTypeByName($uri));
+        $log->setEvent($this->findTypeByName($eventName));
 
         $log->setObject($uuid);
         $log->setTimestamp(new DateTime());
@@ -370,24 +372,6 @@ class EventManager implements
     }
 
     /**
-     * @var \Zend\EventManager\EventManagerInterface
-     */
-    protected $eventManager;
-
-    /**
-     * Inject an EventManager instance
-     *
-     * @param \Zend\EventManager\EventManagerInterface $eventManager
-     */
-    public function setEventManager(
-        \Zend\EventManager\EventManagerInterface $eventManager
-    ) {
-        $className = get_class($this);
-        $eventManager->setIdentifiers([__CLASS__, $className]);
-        $this->eventManager = $eventManager;
-    }
-
-    /**
      * Retrieve the event manager
      *
      * Lazy-loads an EventManager instance if none registered.
@@ -400,5 +384,18 @@ class EventManager implements
             $this->setEventManager(new \Zend\EventManager\EventManager());
         }
         return $this->eventManager;
+    }
+
+    /**
+     * Inject an EventManager instance
+     *
+     * @param \Zend\EventManager\EventManagerInterface $eventManager
+     */
+    public function setEventManager(
+        \Zend\EventManager\EventManagerInterface $eventManager
+    ) {
+        $className = get_class($this);
+        $eventManager->setIdentifiers([__CLASS__, $className]);
+        $this->eventManager = $eventManager;
     }
 }

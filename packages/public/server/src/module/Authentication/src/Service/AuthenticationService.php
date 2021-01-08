@@ -24,7 +24,6 @@ namespace Authentication\Service;
 
 use Authentication\Adapter\UserAuthAdapterInterface;
 use Authentication\Storage\UserSessionStorageInterface;
-use User\Entity\UserInterface;
 use Zend\Authentication\Adapter;
 use Zend\Authentication\AuthenticationService as ZendAuthenticationService;
 use Zend\Authentication\Storage;
@@ -62,11 +61,6 @@ class AuthenticationService extends ZendAuthenticationService implements
      * @var string
      */
     protected $cookiePath = '/';
-
-    /**
-     * @var UserInterface
-     */
-    protected $identity = null;
 
     public function __construct(
         Storage\StorageInterface $storage,
@@ -116,10 +110,6 @@ class AuthenticationService extends ZendAuthenticationService implements
 
     public function getIdentity()
     {
-        if ($this->identity != null) {
-            return $this->identity;
-        }
-
         $return = parent::getIdentity();
         if ($return !== null && !$this->hasIndicator()) {
             $this->clearIdentity();
@@ -130,21 +120,12 @@ class AuthenticationService extends ZendAuthenticationService implements
 
     public function hasIdentity()
     {
-        if ($this->identity != null) {
-            return true;
-        }
-
         $return = parent::hasIdentity();
         if ($return && !$this->hasIndicator()) {
             $this->clearIdentity();
             return false;
         }
         return $return;
-    }
-
-    public function setIdentity(UserInterface $identity)
-    {
-        $this->identity = $identity;
     }
 
     protected function hasIndicator()

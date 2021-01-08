@@ -22,6 +22,7 @@
  */
 namespace Authorization\Service;
 
+use User\Entity\UserInterface;
 use ZfcRbac\Exception\UnauthorizedException;
 use ZfcRbac\Service\AuthorizationServiceAwareTrait;
 
@@ -32,16 +33,21 @@ trait AuthorizationAssertionTrait
     /**
      * Assert that access is granted
      *
-     * @param string $permission
-     * @param mixed  $context
-     * @throws UnauthorizedException
      * @return void
+     * @throws UnauthorizedException
      */
-    protected function assertGranted($permission, $context = null)
-    {
-        if (
-            !$this->getAuthorizationService()->isGranted($permission, $context)
-        ) {
+    protected function assertGranted(
+        string $permission,
+        $context = null,
+        UserInterface $user = null
+    ) {
+        $roles = $user == null ? null : $user->getRoles()->toArray();
+        $isGranted = !$this->getAuthorizationService()->isGranted(
+            $permission,
+            $context,
+            $roles
+        );
+        if ($isGranted) {
             throw new UnauthorizedException(
                 sprintf('Permission %s was not granted.', $permission)
             );

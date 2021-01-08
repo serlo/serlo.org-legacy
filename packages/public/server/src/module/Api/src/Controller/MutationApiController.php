@@ -106,9 +106,6 @@ class MutationApiController extends AbstractApiController
 
         try {
             $user = $this->userManager->getUser($data['userId']);
-            $this->getServiceLocator()
-                ->get('Zend\Authentication\AuthenticationService')
-                ->setIdentity($user);
         } catch (UserNotFoundException $exception) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
             return $this->response;
@@ -154,7 +151,7 @@ class MutationApiController extends AbstractApiController
                     'mailman' => true,
                 ],
             ]);
-            $comment = $this->discussionManager->startDiscussion($form);
+            $comment = $this->discussionManager->startDiscussion($form, $user);
         }
 
         return new JsonModel($this->apiManager->getUuidData($comment));
