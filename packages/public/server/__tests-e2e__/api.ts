@@ -34,56 +34,85 @@ describe('/api/alias/:alias', () => {
 })
 
 describe('/api/add-comment', () => {
-  const payloadStartThread = {
-    title: 'A new thread',
+  const exampleBody = {
+    title: null,
     content: 'Hello World',
     objectId: 1855,
     userId: 10,
   }
 
-  describe('starts a new thread when objectId is not a comment', () => {
-    const target = {
-      __typename: 'Comment',
-      alias: expect.any(String),
-      archived: false,
-      authorId: 10,
-      childrenIds: [],
-      date: expect.any(String),
-      id: expect.any(Number),
-      content: 'Hello World',
-      parentId: 1855,
-      title: 'A new thread',
-      trashed: false,
+  describe('adds a new comment', () => {
+    describe.each([
+      [
+        'when objectId is not a comment and title is a given',
+        { objectId: 1855, title: 'A new thread' },
+        getExpectedCreateThreadEvent,
+      ],
+      [
+        'when objectId is not a comment and title is null',
+        { objectId: 1855, title: null },
+        getExpectedCreateThreadEvent,
+      ],
+      [
+        'comments a new thread when objectId is a comment',
+        { objectId: 27778 },
+        getExpectedCreateCommentEvent,
+      ],
+    ])('%s', (_name, bodyDiff, getTargetEvent) => {
+      const body = { ...exampleBody, ...bodyDiff }
+      let comment: unknown
+
+      beforeAll(async () => {
+        await fetchApi('/api/e2e-tests/set-up')
+
+        const response = await fetchApi('/api/add-comment', withJsonBody(body))
+        comment = await response.json()
+      })
+
+      test('returns comment payload of newly created comment', async () => {
+        assertExpectedPayload(body, comment)
+      })
+
+      test('returns the same payload as /api/uuid/:id', async () => {
+        assertExpectedPayload(body, comment)
+        const response = await fetchApi(`/api/uuid/${comment.id}`)
+        expect(await response.json()).toEqual(comment)
+      })
+
+      test('creates a new event to the event log', async () => {
+        assertExpectedPayload(body, comment)
+        const response = await fetchApi('/api/e2e-tests/events-since-set-up')
+        const { events } = await response.json()
+
+        expect(events).toContainEqual(getTargetEvent(comment))
+      })
+    })
+
+    function assertExpectedPayload(
+      body: Body,
+      comment: unknown
+    ): asserts comment is CommentPayload {
+      expect(comment).toEqual(getExpectedPayload(body))
     }
-    let comment: unknown
 
-    beforeAll(async () => {
-      await fetchApi('/api/e2e-tests/set-up')
+    function getExpectedPayload(body: Body) {
+      return {
+        __typename: 'Comment',
+        alias: expect.any(String),
+        archived: false,
+        authorId: body.userId,
+        childrenIds: [],
+        date: expect.any(String),
+        id: expect.any(Number),
+        content: body.content,
+        parentId: body.objectId,
+        title: body.title,
+        trashed: false,
+      }
+    }
 
-      const response = await fetchApi(
-        '/api/add-comment',
-        withJsonBody(payloadStartThread)
-      )
-      comment = await response.json()
-    })
-
-    test('returns comment payload of newly created comment', async () => {
-      assertEqual(comment, target)
-    })
-
-    test('returns the same payload as /api/uuid/:id', async () => {
-      assertEqual(comment, target)
-      const response = await fetchApi(`/api/uuid/${comment.id}`)
-      expect(await response.json()).toEqual(comment)
-    })
-
-    test('creates a new event to the event log', async () => {
-      assertEqual(comment, target)
-
-      const response = await fetchApi('/api/e2e-tests/events-since-set-up')
-      const { events } = await response.json()
-
-      expect(events).toContainEqual({
+    function getExpectedCreateThreadEvent(comment: CommentPayload) {
+      return {
         id: expect.any(Number),
         instance: 'de',
         date: matchDate(comment.date),
@@ -91,122 +120,68 @@ describe('/api/add-comment', () => {
         __typename: 'CreateThreadNotificationEvent',
         actorId: comment.authorId,
         threadId: comment.id,
-      })
-    })
-  })
-
-  test('title = null is allowed', async () => {
-    const payload = { ...payloadStartThread, title: null }
-    const response = await fetchApi('/api/add-comment', withJsonBody(payload))
-    expect(await response.json()).toEqual({
-      __typename: 'Comment',
-      alias: expect.any(String),
-      archived: false,
-      authorId: 10,
-      childrenIds: [],
-      date: expect.any(String),
-      id: expect.any(Number),
-      content: 'Hello World',
-      parentId: 1855,
-      title: null,
-      trashed: false,
-    })
-  })
-
-  describe('comments a new thread when objectId is a comment', () => {
-    const payloadAnswerThread = { ...payloadStartThread, objectId: 27778 }
-    const target = {
-      __typename: 'Comment',
-      alias: expect.any(String),
-      archived: false,
-      authorId: 10,
-      childrenIds: [],
-      date: expect.any(String),
-      id: expect.any(Number),
-      content: 'Hello World',
-      parentId: 27778,
-      title: 'A new thread',
-      trashed: false,
+      } as unknown
     }
-    let comment: unknown
 
-    beforeAll(async () => {
-      await fetchApi('/api/e2e-tests/set-up')
-
-      const response = await fetchApi(
-        '/api/add-comment',
-        withJsonBody(payloadAnswerThread)
-      )
-      comment = await response.json()
-    })
-
-    test('returns comment payload of newly created comment', async () => {
-      assertEqual(comment, target)
-    })
-
-    test('returns the same payload as /api/uuid/:id', async () => {
-      assertEqual(comment, target)
-      const response = await fetchApi(`/api/uuid/${comment.id}`)
-      expect(await response.json()).toEqual(comment)
-    })
-
-    test('creates a new event to the event log', async () => {
-      assertEqual(comment, target)
-
-      const response = await fetchApi('/api/e2e-tests/events-since-set-up')
-      const { events } = await response.json()
-
-      expect(events).toContainEqual({
+    function getExpectedCreateCommentEvent(comment: CommentPayload) {
+      return {
         id: expect.any(Number),
-        objectId: expect.any(Number),
+        objectId: comment.id,
         instance: 'de',
         date: matchDate(comment.date),
         threadId: comment.parentId,
         __typename: 'CreateCommentNotificationEvent',
         actorId: comment.authorId,
         commentId: comment.id,
-      })
-    })
+      } as unknown
+    }
 
-    test('returns 400 when one wants to comment on an thread answer', async () => {
-      const body = { ...payloadAnswerThread, objectId: 15470 }
-      const response = await fetchApi('/api/add-comment', withJsonBody(body))
-      expect(response.status).toBe(400)
-    })
+    type Body = {
+      title: null | string
+      content: string
+      objectId: number
+      userId: number
+    }
+
+    type CommentPayload = ReturnType<typeof getExpectedPayload>
   })
 
   describe('returns 400 response', () => {
+    test('when one wants to comment a thread answer', async () => {
+      await assert400(withJsonBody({ ...exampleBody, objectId: 15470 }))
+    })
+
     test('when uuid is not commentable', async () => {
-      assert400(withJsonBody({ ...payloadStartThread, objectId: 1 }))
+      await assert400(withJsonBody({ ...exampleBody, objectId: 1 }))
     })
 
     test('when objectId does not belong to an uuid', async () => {
-      assert400(withJsonBody({ ...payloadStartThread, objectId: 100000000 }))
+      await assert400(withJsonBody({ ...exampleBody, objectId: 100000000 }))
     })
 
     test('when userId does not belong to a user', async () => {
-      assert400(withJsonBody({ ...payloadStartThread, userId: 1855 }))
+      await assert400(withJsonBody({ ...exampleBody, userId: 1855 }))
     })
 
     describe('when one of the necessary arguments is missing', () => {
-      test.each(Object.keys(payloadStartThread))('%s', async (key) => {
-        assert400(withJsonBody(R.omit([key], payloadStartThread)))
+      test.each(Object.keys(exampleBody))('%s', async (key) => {
+        await assert400(withJsonBody(R.omit([key], exampleBody)))
       })
     })
 
     describe('when one of the necessary arguments is malformed', () => {
-      test.each(Object.keys(payloadStartThread))('%s', async (key) => {
-        const body = { ...payloadStartThread, [key]: { malformed: true } }
-        assert400(withJsonBody(body))
+      test.each(Object.keys(exampleBody))('%s', async (key) => {
+        const body = { ...exampleBody, [key]: { malformed: true } }
+        await assert400(withJsonBody(body))
       })
     })
 
     test('when body is not a dictionary', async () => {
-      assert400(withJsonBody(true))
+      await assert400(withJsonBody(true))
     })
 
     test('when body is malformed JSON', async () => {
-      assert400(withMalformedJson())
+      await assert400(withMalformedJson())
     })
 
     async function assert400(init: RequestInit) {
@@ -229,10 +204,6 @@ describe('/api/subscriptions/:userId', () => {
     expect(await response.json()).toBeNull()
   })
 })
-
-function assertEqual<T>(obj: unknown, target: T): asserts obj is T {
-  expect(obj).toEqual(target)
-}
 
 function fetchApi(path: string, init?: RequestInit) {
   return fetch(testingServerUrl + path, init)
