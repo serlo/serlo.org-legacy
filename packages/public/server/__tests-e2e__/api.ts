@@ -175,50 +175,44 @@ describe('/api/add-comment', () => {
     })
   })
 
-  test('returns 400 when uuid is not commentable', async () => {
-    const body = { ...payloadStartThread, objectId: 1 }
-    const response = await fetchApi('/api/add-comment', withJsonBody(body))
-    expect(response.status).toBe(400)
-  })
-
-  test('returns 400 when objectId does not belong to an uuid', async () => {
-    const body = { ...payloadStartThread, objectId: 100000000 }
-    const response = await fetchApi('/api/add-comment', withJsonBody(body))
-    expect(response.status).toBe(400)
-  })
-
-  test('returns 400 when userId does not belong to a user', async () => {
-    const body = { ...payloadStartThread, userId: 1855 }
-    const response = await fetchApi('/api/add-comment', withJsonBody(body))
-    expect(response.status).toBe(400)
-  })
-
-  describe('returns 400 when one of the necessary arguments is missing', () => {
-    test.each(Object.keys(payloadStartThread))('%s', async (key) => {
-      const body = R.omit([key], payloadStartThread)
-      const response = await fetchApi('/api/add-comment', withJsonBody(body))
-      expect(response.status).toBe(400)
+  describe('returns 400 response', () => {
+    test('when uuid is not commentable', async () => {
+      assert400(withJsonBody({ ...payloadStartThread, objectId: 1 }))
     })
-  })
 
-  describe('returns 400 when one of the necessary arguments is malformed', () => {
-    test.each(Object.keys(payloadStartThread))('%s', async (key) => {
-      const body = { ...payloadStartThread, [key]: { malformed: true } }
-      const response = await fetchApi('/api/add-comment', withJsonBody(body))
-      expect(response.status).toBe(400)
+    test('when objectId does not belong to an uuid', async () => {
+      assert400(withJsonBody({ ...payloadStartThread, objectId: 100000000 }))
     })
-  })
 
-  test('returns 400 when body is not a dictionary', async () => {
-    const response = await fetchApi('/api/add-comment', withJsonBody(true))
+    test('when userId does not belong to a user', async () => {
+      assert400(withJsonBody({ ...payloadStartThread, userId: 1855 }))
+    })
 
-    expect(response.status).toBe(400)
-  })
+    describe('when one of the necessary arguments is missing', () => {
+      test.each(Object.keys(payloadStartThread))('%s', async (key) => {
+        assert400(withJsonBody(R.omit([key], payloadStartThread)))
+      })
+    })
 
-  test('returns 400 when body is malformed JSON', async () => {
-    const response = await fetchApi('/api/add-comment', withMalformedJson())
+    describe('when one of the necessary arguments is malformed', () => {
+      test.each(Object.keys(payloadStartThread))('%s', async (key) => {
+        const body = { ...payloadStartThread, [key]: { malformed: true } }
+        assert400(withJsonBody(body))
+      })
+    })
 
-    expect(response.status).toBe(400)
+    test('when body is not a dictionary', async () => {
+      assert400(withJsonBody(true))
+    })
+
+    test('when body is malformed JSON', async () => {
+      assert400(withMalformedJson())
+    })
+
+    async function assert400(init: RequestInit) {
+      const response = await fetchApi('/api/add-comment', init)
+      expect(response.status).toBe(400)
+    }
   })
 
   test('returns 404 when request method is not POST', async () => {
