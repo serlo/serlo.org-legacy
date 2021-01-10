@@ -109,7 +109,7 @@ class MutationApiController extends AbstractApiController
                     'parent' => $uuid,
                     'author' => $user,
                     'instance' => $instance,
-                    'title' => Utils::array_get_string($data, 'title'),
+                    'title' => Utils::array_get_string_or_null($data, 'title'),
                     'content' => Utils::array_get_string($data, 'content'),
                     'csrf' => CsrfTokenContainer::getToken(),
                     'subscription' => [
@@ -128,7 +128,7 @@ class MutationApiController extends AbstractApiController
                     'object' => $uuid,
                     'author' => $user,
                     'instance' => $instance,
-                    'title' => Utils::array_get_string($data, 'title'),
+                    'title' => Utils::array_get_string_or_null($data, 'title'),
                     'content' => Utils::array_get_string($data, 'content'),
                     'csrf' => CsrfTokenContainer::getToken(),
                     'subscription' => [

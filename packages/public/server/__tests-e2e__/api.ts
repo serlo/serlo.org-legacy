@@ -95,6 +95,24 @@ describe('/api/add-comment', () => {
     })
   })
 
+  test('title = null is allowed', async () => {
+    const payload = { ...payloadStartThread, title: null }
+    const response = await fetchApi('/api/add-comment', withJsonBody(payload))
+    expect(await response.json()).toEqual({
+      __typename: 'Comment',
+      alias: expect.any(String),
+      archived: false,
+      authorId: 10,
+      childrenIds: [],
+      date: expect.any(String),
+      id: expect.any(Number),
+      content: 'Hello World',
+      parentId: 1855,
+      title: null,
+      trashed: false,
+    })
+  })
+
   describe('comments a new thread when objectId is a comment', () => {
     const payloadAnswerThread = { ...payloadStartThread, objectId: 27778 }
     const target = {

@@ -50,6 +50,20 @@ abstract class Utils
         }
     }
 
+    public static function array_get_string_or_null(array $array, string $key)
+    {
+        if (
+            array_key_exists($key, $array) &&
+            (is_string($array[$key]) || $array[$key] == null)
+        ) {
+            return $array[$key];
+        } else {
+            throw new \TypeError(
+                "string value with key \"" . $key . "\" not found"
+            );
+        }
+    }
+
     public static function array_get_int(array $array, string $key): string
     {
         if (array_key_exists($key, $array) && is_int($array[$key])) {
