@@ -33,8 +33,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Instance\Entity\InstanceInterface;
-use User\Entity\User;
-use User\Entity\UserInterface;
 use Uuid\Entity\UuidInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Form\FormInterface;

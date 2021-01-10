@@ -25,6 +25,7 @@ namespace Api\Controller;
 
 use Api\ApiManager;
 use Api\Service\AuthorizationService;
+use Common\Utils;
 use Csrf\CsrfTokenContainer;
 use Discussion\DiscussionManagerInterface;
 use Discussion\Entity\CommentInterface;
@@ -32,12 +33,9 @@ use Discussion\Form\DiscussionForm;
 use Entity\Entity\EntityInterface;
 use Page\Entity\PageRepositoryInterface;
 use Taxonomy\Entity\TaxonomyTermInterface;
-use User\Exception\UserNotFoundException;
 use User\Manager\UserManagerInterface;
-use Uuid\Exception\NotFoundException;
 use Uuid\Manager\UuidManagerInterface;
 use Zend\Http\Response;
-use Zend\Json\Exception\RuntimeException as JsonRuntimeException;
 use Zend\Json\Json;
 use Zend\View\Model\JsonModel;
 
@@ -83,77 +81,53 @@ class MutationApiController extends AbstractApiController
                 $this->getRequest()->getContent(),
                 Json::TYPE_ARRAY
             );
-        } catch (JsonRuntimeException $exception) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $this->response;
-        }
 
-        $isDataValid =
-            is_array($data) &&
-            isset($data['title']) &&
-            is_string($data['title']) &&
-            isset($data['content']) &&
-            is_string($data['content']) &&
-            isset($data['userId']) &&
-            is_numeric($data['userId']) &&
-            isset($data['objectId']) &&
-            is_numeric($data['objectId']);
-
-        if (!$isDataValid) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $this->response;
-        }
-
-        try {
-            $user = $this->userManager->getUser($data['userId']);
-        } catch (UserNotFoundException $exception) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $this->response;
-        }
-
-        try {
-            $uuid = $this->uuidManager->getUuid(
-                $data['objectId'],
-                false,
-                false
+            $user = $this->userManager->getUser(
+                Utils::array_get_int($data, 'userId')
             );
-        } catch (NotFoundException $exception) {
+
+            $objectId = Utils::array_get_int($data, 'objectId');
+            $uuid = $this->uuidManager->getUuid($objectId, false, false);
+
+            if (
+                $uuid instanceof EntityInterface ||
+                $uuid instanceof PageRepositoryInterface ||
+                $uuid instanceof CommentInterface ||
+                $uuid instanceof TaxonomyTermInterface
+            ) {
+                $instance = $uuid->getInstance();
+            } else {
+                $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+                return $this->response;
+            }
+
+            if ($uuid instanceof CommentInterface) {
+                // TODO
+            } else {
+                /** @var DiscussionForm $form $form */
+                $form = $this->getServiceLocator()->get(DiscussionForm::class);
+                $form->setData([
+                    'object' => $uuid,
+                    'author' => $user,
+                    'instance' => $instance,
+                    'title' => Utils::array_get_string($data, 'title'),
+                    'content' => Utils::array_get_string($data, 'content'),
+                    'csrf' => CsrfTokenContainer::getToken(),
+                    'subscription' => [
+                        'subscribe' => true,
+                        'mailman' => true,
+                    ],
+                ]);
+                $comment = $this->discussionManager->startDiscussion(
+                    $form,
+                    $user
+                );
+            }
+
+            return new JsonModel($this->apiManager->getUuidData($comment));
+        } catch (\Throwable $exception) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
             return $this->response;
         }
-
-        if (
-            $uuid instanceof EntityInterface ||
-            $uuid instanceof PageRepositoryInterface ||
-            $uuid instanceof CommentInterface ||
-            $uuid instanceof TaxonomyTermInterface
-        ) {
-            $instance = $uuid->getInstance();
-        } else {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $this->response;
-        }
-
-        if ($uuid instanceof CommentInterface) {
-            // TODO
-        } else {
-            /** @var DiscussionForm $form $form */
-            $form = $this->getServiceLocator()->get(DiscussionForm::class);
-            $form->setData([
-                'object' => $uuid,
-                'author' => $user,
-                'instance' => $instance,
-                'title' => $data['title'],
-                'content' => $data['content'],
-                'csrf' => CsrfTokenContainer::getToken(),
-                'subscription' => [
-                    'subscribe' => true,
-                    'mailman' => true,
-                ],
-            ]);
-            $comment = $this->discussionManager->startDiscussion($form, $user);
-        }
-
-        return new JsonModel($this->apiManager->getUuidData($comment));
     }
 }

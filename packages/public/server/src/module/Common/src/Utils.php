@@ -38,4 +38,26 @@ abstract class Utils
     {
         return array_sum(array_map($testFunc, $array)) > 0;
     }
+
+    public static function array_get_string(array $array, string $key): string
+    {
+        if (array_key_exists($key, $array) && is_string($array[$key])) {
+            return $array[$key];
+        } else {
+            throw new \TypeError(
+                "string value with key \"" . $key . "\" not found"
+            );
+        }
+    }
+
+    public static function array_get_int(array $array, string $key): string
+    {
+        if (array_key_exists($key, $array) && is_int($array[$key])) {
+            return $array[$key];
+        } else {
+            throw new \TypeError(
+                "int value with key \"" . $key . "\" not found"
+            );
+        }
+    }
 }
