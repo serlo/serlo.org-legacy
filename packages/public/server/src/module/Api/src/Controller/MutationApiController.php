@@ -29,6 +29,7 @@ use Common\Utils;
 use Csrf\CsrfTokenContainer;
 use Discussion\DiscussionManagerInterface;
 use Discussion\Entity\CommentInterface;
+use Discussion\Form\CommentForm;
 use Discussion\Form\DiscussionForm;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
@@ -102,9 +103,26 @@ class MutationApiController extends AbstractApiController
             }
 
             if ($uuid instanceof CommentInterface) {
-                // TODO
+                /** @var CommentForm */
+                $form = $this->getServiceLocator()->get(CommentForm::class);
+                $form->setData([
+                    'parent' => $uuid,
+                    'author' => $user,
+                    'instance' => $instance,
+                    'title' => Utils::array_get_string($data, 'title'),
+                    'content' => Utils::array_get_string($data, 'content'),
+                    'csrf' => CsrfTokenContainer::getToken(),
+                    'subscription' => [
+                        'subscribe' => true,
+                        'mailman' => true,
+                    ],
+                ]);
+                $comment = $this->discussionManager->commentDiscussion(
+                    $form,
+                    $user
+                );
             } else {
-                /** @var DiscussionForm $form $form */
+                /** @var DiscussionForm */
                 $form = $this->getServiceLocator()->get(DiscussionForm::class);
                 $form->setData([
                     'object' => $uuid,

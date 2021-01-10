@@ -26,6 +26,7 @@ use Csrf\Form\Element\CsrfToken;
 use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Notification\Form\OptInHiddenFieldset;
+use Zend\Form\Element\Hidden;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Textarea;
 use Zend\InputFilter\InputFilter;
@@ -70,6 +71,7 @@ class CommentForm extends AbstractForm
         ]);
 
         $this->add(new OptInHiddenFieldset());
+        $this->add(new Hidden('title'));
 
         $this->add(
             (new Textarea('content'))

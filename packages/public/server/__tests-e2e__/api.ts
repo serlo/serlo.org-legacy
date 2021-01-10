@@ -34,7 +34,7 @@ describe('/api/alias/:alias', () => {
 })
 
 describe('/api/add-comment', () => {
-  const payload = {
+  const payloadStartThread = {
     title: 'A new thread',
     content: 'Hello World',
     objectId: 1855,
@@ -60,7 +60,10 @@ describe('/api/add-comment', () => {
     beforeAll(async () => {
       await fetchApi('/api/e2e-tests/set-up')
 
-      const response = await fetchApi('/api/add-comment', withJsonBody(payload))
+      const response = await fetchApi(
+        '/api/add-comment',
+        withJsonBody(payloadStartThread)
+      )
       comment = await response.json()
     })
 
@@ -92,35 +95,91 @@ describe('/api/add-comment', () => {
     })
   })
 
+  describe('comments a new thread when objectId is a comment', () => {
+    const payloadAnswerThread = { ...payloadStartThread, objectId: 27778 }
+    const target = {
+      __typename: 'Comment',
+      alias: expect.any(String),
+      archived: false,
+      authorId: 10,
+      childrenIds: [],
+      date: expect.any(String),
+      id: expect.any(Number),
+      content: 'Hello World',
+      parentId: 27778,
+      title: 'A new thread',
+      trashed: false,
+    }
+    let comment: unknown
+
+    beforeAll(async () => {
+      await fetchApi('/api/e2e-tests/set-up')
+
+      const response = await fetchApi(
+        '/api/add-comment',
+        withJsonBody(payloadAnswerThread)
+      )
+      comment = await response.json()
+    })
+
+    test('returns comment payload of newly created comment', async () => {
+      assertEqual(comment, target)
+    })
+
+    test('returns the same payload as /api/uuid/:id', async () => {
+      assertEqual(comment, target)
+      const response = await fetchApi(`/api/uuid/${comment.id}`)
+      expect(await response.json()).toEqual(comment)
+    })
+
+    test('creates a new event to the event log', async () => {
+      assertEqual(comment, target)
+
+      const response = await fetchApi('/api/e2e-tests/events-since-set-up')
+      const { events } = await response.json()
+
+      expect(events).toContainEqual({
+        id: expect.any(Number),
+        objectId: expect.any(Number),
+        instance: 'de',
+        date: matchDate(comment.date),
+        threadId: comment.parentId,
+        __typename: 'CreateCommentNotificationEvent',
+        actorId: comment.authorId,
+        commentId: comment.id,
+      })
+    })
+  })
+
   test('returns 400 when uuid is not commentable', async () => {
-    const body = { ...payload, objectId: 1 }
+    const body = { ...payloadStartThread, objectId: 1 }
     const response = await fetchApi('/api/add-comment', withJsonBody(body))
     expect(response.status).toBe(400)
   })
 
   test('returns 400 when objectId does not belong to an uuid', async () => {
-    const body = { ...payload, objectId: 100000000 }
+    const body = { ...payloadStartThread, objectId: 100000000 }
     const response = await fetchApi('/api/add-comment', withJsonBody(body))
     expect(response.status).toBe(400)
   })
 
   test('returns 400 when userId does not belong to a user', async () => {
-    const body = { ...payload, userId: 1855 }
+    const body = { ...payloadStartThread, userId: 1855 }
     const response = await fetchApi('/api/add-comment', withJsonBody(body))
     expect(response.status).toBe(400)
   })
 
   describe('returns 400 when one of the necessary arguments is missing', () => {
-    test.each(Object.keys(payload))('%s', async (key) => {
-      const body = R.omit([key], payload)
+    test.each(Object.keys(payloadStartThread))('%s', async (key) => {
+      const body = R.omit([key], payloadStartThread)
       const response = await fetchApi('/api/add-comment', withJsonBody(body))
       expect(response.status).toBe(400)
     })
   })
 
   describe('returns 400 when one of the necessary arguments is malformed', () => {
-    test.each(Object.keys(payload))('%s', async (key) => {
-      const body = { ...payload, [key]: { malformed: true } }
+    test.each(Object.keys(payloadStartThread))('%s', async (key) => {
+      const body = { ...payloadStartThread, [key]: { malformed: true } }
       const response = await fetchApi('/api/add-comment', withJsonBody(body))
       expect(response.status).toBe(400)
     })
