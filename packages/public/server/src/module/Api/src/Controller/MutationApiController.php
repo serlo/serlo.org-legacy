@@ -67,8 +67,7 @@ class MutationApiController extends AbstractApiController
     public function addCommentAction()
     {
         if (!$this->getRequest()->isPost()) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
-            return $this->response;
+            return $this->notFoundResponse();
         }
 
         $authorizationResponse = $this->assertAuthorization();
@@ -97,8 +96,7 @@ class MutationApiController extends AbstractApiController
             ) {
                 $instance = $uuid->getInstance();
             } else {
-                $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-                return $this->response;
+                return $this->badRequestResponse();
             }
 
             if ($uuid instanceof CommentInterface) {
@@ -126,8 +124,7 @@ class MutationApiController extends AbstractApiController
 
             return new JsonModel($this->apiManager->getUuidData($comment));
         } catch (\Throwable $exception) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $this->response;
+            return $this->badRequestResponse();
         }
     }
 }

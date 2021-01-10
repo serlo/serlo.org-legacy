@@ -25,6 +25,7 @@ namespace Api\Controller;
 
 use Api\Exception\AuthorizationException;
 use Api\Service\AuthorizationService;
+use Common\Traits\ControllerHelperTrait;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
@@ -35,6 +36,8 @@ class AbstractApiController extends AbstractActionController
     protected $authorizationService;
     /** @var Response */
     protected $response;
+
+    use ControllerHelperTrait;
 
     public function __construct(AuthorizationService $authorizationService)
     {

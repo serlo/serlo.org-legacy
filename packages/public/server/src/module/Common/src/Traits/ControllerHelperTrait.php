@@ -22,31 +22,19 @@
  */
 namespace Common\Traits;
 
-use Zend\Authentication\AuthenticationService;
+use Zend\Http\Response;
 
-trait AuthenticationServiceAwareTrait
+trait ControllerHelperTrait
 {
-    /**
-     * @var AuthenticationService
-     */
-    protected $authenticationService;
-
-    /**
-     * @return AuthenticationService $authService
-     */
-    public function getAuthenticationService()
+    public function badRequestResponse()
     {
-        return $this->authenticationService;
+        $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+        return $this->response;
     }
 
-    /**
-     * @param AuthenticationService $authService
-     * @return self
-     */
-    public function setAuthenticationService(AuthenticationService $authService)
+    public function notFoundResponse()
     {
-        $this->authenticationService = $authService;
-
-        return $this;
+        $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
+        return $this->response;
     }
 }
