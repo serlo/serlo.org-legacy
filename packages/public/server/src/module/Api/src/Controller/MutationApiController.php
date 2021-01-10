@@ -31,6 +31,7 @@ use Discussion\DiscussionManagerInterface;
 use Discussion\Entity\CommentInterface;
 use Discussion\Form\DiscussionForm;
 use Entity\Entity\EntityInterface;
+use Entity\Entity\RevisionInterface;
 use Page\Entity\PageRepositoryInterface;
 use Taxonomy\Entity\TaxonomyTermInterface;
 use User\Manager\UserManagerInterface;
@@ -92,6 +93,7 @@ class MutationApiController extends AbstractApiController
                 $uuid instanceof EntityInterface ||
                 $uuid instanceof PageRepositoryInterface ||
                 $uuid instanceof CommentInterface ||
+                $uuid instanceof RevisionInterface ||
                 $uuid instanceof TaxonomyTermInterface
             ) {
                 $instance = $uuid->getInstance();
