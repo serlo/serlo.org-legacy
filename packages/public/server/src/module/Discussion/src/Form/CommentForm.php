@@ -71,7 +71,6 @@ class CommentForm extends AbstractForm
         ]);
 
         $this->add(new OptInHiddenFieldset());
-        $this->add(new Hidden('title'));
 
         $this->add(
             (new Textarea('content'))
