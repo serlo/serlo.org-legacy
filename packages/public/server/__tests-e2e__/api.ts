@@ -149,6 +149,12 @@ describe('/api/add-comment', () => {
         commentId: comment.id,
       })
     })
+
+    test('returns 400 when one wants to comment on an thread answer', async () => {
+      const body = { ...payloadAnswerThread, objectId: 15470 }
+      const response = await fetchApi('/api/add-comment', withJsonBody(body))
+      expect(response.status).toBe(400)
+    })
   })
 
   test('returns 400 when uuid is not commentable', async () => {
