@@ -25,6 +25,7 @@ namespace Api\Controller;
 
 use Api\Manager\E2ETestsHelperApiManager;
 use Api\Manager\NotificationApiManager;
+use Common\Traits\ControllerHelperTrait;
 use Event\Entity\EventLogInterface;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\Http\Response;
@@ -42,6 +43,8 @@ class E2ETestsHelperApiController extends AbstractActionController
     /** @var bool */
     protected $isActive;
     protected $lastEventIdKey = 'last-event-id';
+
+    use ControllerHelperTrait;
 
     public function __construct(
         bool $isActive,
@@ -78,8 +81,7 @@ class E2ETestsHelperApiController extends AbstractActionController
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_200);
             return $this->getResponse();
         } else {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
-            return $this->getResponse();
+            return $this->notFoundResponse();
         }
     }
 
@@ -89,8 +91,7 @@ class E2ETestsHelperApiController extends AbstractActionController
             !$this->isActive ||
             !$this->storage->hasItem($this->lastEventIdKey)
         ) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
-            return $this->getResponse();
+            return $this->notFoundResponse();
         }
 
         $lastEventId = $this->storage->getItem($this->lastEventIdKey);
