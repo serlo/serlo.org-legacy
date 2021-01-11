@@ -37,7 +37,6 @@ use Page\Entity\PageRepositoryInterface;
 use Taxonomy\Entity\TaxonomyTermInterface;
 use User\Manager\UserManagerInterface;
 use Uuid\Manager\UuidManagerInterface;
-use Zend\Http\Response;
 use Zend\Json\Json;
 use Zend\View\Model\JsonModel;
 
@@ -66,7 +65,61 @@ class MutationApiController extends AbstractApiController
         $this->uuidManager = $uuidManager;
     }
 
-    public function addCommentAction()
+    public function commentThreadAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->notFoundResponse();
+        }
+
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
+        try {
+            $data = Json::decode(
+                $this->getRequest()->getContent(),
+                Json::TYPE_ARRAY
+            );
+
+            $user = $this->userManager->getUser(
+                Utils::array_get_int($data, 'userId')
+            );
+
+            $objectId = Utils::array_get_int($data, 'objectId');
+            $uuid = $this->uuidManager->getUuid($objectId, false, false);
+
+            if ($uuid instanceof CommentInterface) {
+                $instance = $uuid->getInstance();
+            } else {
+                return $this->badRequestResponse();
+            }
+
+            /** @var CommentForm */
+            $form = $this->getServiceLocator()->get(CommentForm::class);
+            $form->setData([
+                'parent' => $uuid,
+                'author' => $user,
+                'instance' => $instance,
+                'content' => Utils::array_get_string($data, 'content'),
+                'csrf' => CsrfTokenContainer::getToken(),
+                'subscription' => [
+                    'subscribe' => true,
+                    'mailman' => true,
+                ],
+            ]);
+            $comment = $this->discussionManager->commentDiscussion(
+                $form,
+                $user
+            );
+
+            return new JsonModel($this->apiManager->getUuidData($comment));
+        } catch (\Throwable $exception) {
+            return $this->badRequestResponse();
+        }
+    }
+
+    public function startThreadAction()
     {
         if (!$this->getRequest()->isPost()) {
             return $this->notFoundResponse();
@@ -93,7 +146,6 @@ class MutationApiController extends AbstractApiController
             if (
                 $uuid instanceof EntityInterface ||
                 $uuid instanceof PageRepositoryInterface ||
-                $uuid instanceof CommentInterface ||
                 $uuid instanceof RevisionInterface ||
                 $uuid instanceof TaxonomyTermInterface
             ) {
@@ -102,44 +154,21 @@ class MutationApiController extends AbstractApiController
                 return $this->badRequestResponse();
             }
 
-            if ($uuid instanceof CommentInterface) {
-                /** @var CommentForm */
-                $form = $this->getServiceLocator()->get(CommentForm::class);
-                $form->setData([
-                    'parent' => $uuid,
-                    'author' => $user,
-                    'instance' => $instance,
-                    'content' => Utils::array_get_string($data, 'content'),
-                    'csrf' => CsrfTokenContainer::getToken(),
-                    'subscription' => [
-                        'subscribe' => true,
-                        'mailman' => true,
-                    ],
-                ]);
-                $comment = $this->discussionManager->commentDiscussion(
-                    $form,
-                    $user
-                );
-            } else {
-                /** @var DiscussionForm */
-                $form = $this->getServiceLocator()->get(DiscussionForm::class);
-                $form->setData([
-                    'object' => $uuid,
-                    'author' => $user,
-                    'instance' => $instance,
-                    'title' => Utils::array_get_string_or_null($data, 'title'),
-                    'content' => Utils::array_get_string($data, 'content'),
-                    'csrf' => CsrfTokenContainer::getToken(),
-                    'subscription' => [
-                        'subscribe' => true,
-                        'mailman' => true,
-                    ],
-                ]);
-                $comment = $this->discussionManager->startDiscussion(
-                    $form,
-                    $user
-                );
-            }
+            /** @var DiscussionForm */
+            $form = $this->getServiceLocator()->get(DiscussionForm::class);
+            $form->setData([
+                'object' => $uuid,
+                'author' => $user,
+                'instance' => $instance,
+                'title' => Utils::array_get_string_or_null($data, 'title'),
+                'content' => Utils::array_get_string($data, 'content'),
+                'csrf' => CsrfTokenContainer::getToken(),
+                'subscription' => [
+                    'subscribe' => true,
+                    'mailman' => true,
+                ],
+            ]);
+            $comment = $this->discussionManager->startDiscussion($form, $user);
 
             return new JsonModel($this->apiManager->getUuidData($comment));
         } catch (\Throwable $exception) {

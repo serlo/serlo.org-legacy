@@ -140,16 +140,6 @@ return [
                             ],
                         ],
                     ],
-                    'add-comment' => [
-                        'type' => 'segment',
-                        'options' => [
-                            'route' => '/add-comment',
-                            'defaults' => [
-                                'action' => 'addComment',
-                                'controller' => MutationApiController::class,
-                            ],
-                        ],
-                    ],
                     'alias' => [
                         'type' => 'Common\Router\Slashable',
                         'options' => [
@@ -275,6 +265,26 @@ return [
                             'route' => '/threads/:id',
                             'defaults' => [
                                 'action' => 'threads',
+                            ],
+                        ],
+                    ],
+                    'comment-thread' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/thread/comment-thread',
+                            'defaults' => [
+                                'action' => 'commentThread',
+                                'controller' => MutationApiController::class,
+                            ],
+                        ],
+                    ],
+                    'start-thread' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/thread/start-thread',
+                            'defaults' => [
+                                'action' => 'startThread',
+                                'controller' => MutationApiController::class,
                             ],
                         ],
                     ],
