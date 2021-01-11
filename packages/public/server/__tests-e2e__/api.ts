@@ -80,16 +80,14 @@ describe('/api/thread/start-thread', () => {
 
     test('returns the same payload as /api/uuid/:id', async () => {
       assertExpectEqual(comment, expectedPayload)
-      const response = await fetchApi(`/api/uuid/${comment.id}`)
-      expect(await response.json()).toEqual(comment)
+
+      await expectUuid(comment)
     })
 
     test('creates a new event to the event log', async () => {
       assertExpectEqual(comment, expectedPayload)
-      const response = await fetchApi('/api/e2e-tests/events-since-set-up')
-      const { events } = await response.json()
 
-      expect(events).toContainEqual({
+      await expectEvent({
         id: expect.any(Number),
         instance: 'de',
         date: matchDate(comment.date),
@@ -103,7 +101,7 @@ describe('/api/thread/start-thread', () => {
 
   test('returns 400 when uuid is not commentable', async () => {
     const init = withJsonBody({ ...body, objectId: 1 })
-    await assert400('/api/thread/start-thread', init)
+    await expect400('/api/thread/start-thread', init)
   })
 })
 
@@ -140,16 +138,14 @@ describe('/api/thread/comment-thread', () => {
 
     test('returns the same payload as /api/uuid/:id', async () => {
       assertExpectEqual(comment, expectedPayload)
-      const response = await fetchApi(`/api/uuid/${comment.id}`)
-      expect(await response.json()).toEqual(comment)
+
+      await expectUuid(comment)
     })
 
     test('creates a new event to the event log', async () => {
       assertExpectEqual(comment, expectedPayload)
-      const response = await fetchApi('/api/e2e-tests/events-since-set-up')
-      const { events } = await response.json()
 
-      expect(events).toContainEqual({
+      await expectEvent({
         id: expect.any(Number),
         objectId: comment.id,
         instance: 'de',
@@ -164,7 +160,7 @@ describe('/api/thread/comment-thread', () => {
 
   test('returns 400 when one wants to comment a thread answer', async () => {
     const init = withJsonBody({ ...body, objectId: 15470 })
-    await assert400('/api/thread/comment-thread', init)
+    await expect400('/api/thread/comment-thread', init)
   })
 })
 
@@ -173,39 +169,39 @@ describe('api mutation endpoints', () => {
     describe('returns 400', () => {
       describe('when one of the necessary arguments is missing', () => {
         test.each(Object.keys(validBody))('%s', async (key) => {
-          await assert400(url, withJsonBody(R.omit([key], validBody)))
+          await expect400(url, withJsonBody(R.omit([key], validBody)))
         })
       })
 
       describe('when one of the necessary arguments is malformed', () => {
         test.each(Object.keys(validBody))('%s', async (key) => {
           const body = { ...validBody, [key]: { malformed: true } }
-          await assert400(url, withJsonBody(body))
+          await expect400(url, withJsonBody(body))
         })
       })
 
       test('when additional arguments are supplied', async () => {
-        await assert400(url, withJsonBody({ ...validBody, foo: 42 }))
+        await expect400(url, withJsonBody({ ...validBody, foo: 42 }))
       })
 
       test('when body is not a dictionary', async () => {
-        await assert400(url, withJsonBody(true))
+        await expect400(url, withJsonBody(true))
       })
 
       test('when body is malformed JSON', async () => {
-        await assert400(url, withMalformedJson())
+        await expect400(url, withMalformedJson())
       })
 
       if ('userId' in validBody) {
         test('when userId does not belong to a user', async () => {
-          await assert400(url, withJsonBody({ ...validBody, userId: 1855 }))
+          await expect400(url, withJsonBody({ ...validBody, userId: 1855 }))
         })
       }
 
       if ('objectId' in validBody) {
         test('when objectId does not belong to an uuid', async () => {
           const init = withJsonBody({ ...validBody, objectId: 10000000 })
-          await assert400(url, init)
+          await expect400(url, init)
         })
       }
     })
@@ -225,9 +221,21 @@ describe('/api/subscriptions/:userId', () => {
   })
 })
 
-async function assert400(url: string, init: RequestInit) {
+async function expect400(url: string, init: RequestInit) {
   const response = await fetchApi(url, init)
   expect(response.status).toBe(400)
+}
+
+async function expectUuid(payload: { id: number }) {
+  const response = await fetchApi(`/api/uuid/${payload.id}`)
+  expect(await response.json()).toEqual(payload)
+}
+
+async function expectEvent(event: unknown) {
+  const response = await fetchApi('/api/e2e-tests/events-since-set-up')
+  const { events } = await response.json()
+
+  expect(events).toContainEqual(event)
 }
 
 function fetchApi(path: string, init?: RequestInit) {
