@@ -67,7 +67,7 @@ describe('/api/thread/start-thread', () => {
     let comment: unknown
 
     beforeAll(async () => {
-      await fetchApi('/api/e2e-tests/set-up')
+      await setUpTestHelper()
 
       const init = withJsonBody(body)
       const response = await fetchApi('/api/thread/start-thread', init)
@@ -103,6 +103,11 @@ describe('/api/thread/start-thread', () => {
     const init = withJsonBody({ ...body, objectId: 1 })
     await expect400('/api/thread/start-thread', init)
   })
+
+  test('returns 400 when uuid is a comment', async () => {
+    const init = withJsonBody({ ...body, objectId: 27778 })
+    await expect400('/api/thread/start-thread', init)
+  })
 })
 
 describe('/api/thread/comment-thread', () => {
@@ -125,7 +130,7 @@ describe('/api/thread/comment-thread', () => {
     }
 
     beforeAll(async () => {
-      await fetchApi('/api/e2e-tests/set-up')
+      await setUpTestHelper()
 
       const init = withJsonBody(body)
       const response = await fetchApi('/api/thread/comment-thread', init)
@@ -156,6 +161,11 @@ describe('/api/thread/comment-thread', () => {
         commentId: comment.id,
       })
     })
+  })
+
+  test('returns 400 when objectId is not a comment', async () => {
+    const init = withJsonBody({ ...body, objectId: 1855 })
+    await expect400('/api/thread/comment-thread', init)
   })
 
   test('returns 400 when one wants to comment a thread answer', async () => {
@@ -220,6 +230,11 @@ describe('/api/subscriptions/:userId', () => {
     expect(await response.json()).toBeNull()
   })
 })
+
+async function setUpTestHelper() {
+  const response = await fetchApi('/api/e2e-tests/set-up')
+  expect(response.status).toBe(200)
+}
 
 async function expect400(url: string, init: RequestInit) {
   const response = await fetchApi(url, init)
