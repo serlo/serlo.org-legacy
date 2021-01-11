@@ -39,39 +39,8 @@ abstract class Utils
         return array_sum(array_map($testFunc, $array)) > 0;
     }
 
-    public static function array_get_string(array $array, string $key): string
+    public static function array_union(array $array1, array $array2): array
     {
-        if (array_key_exists($key, $array) && is_string($array[$key])) {
-            return $array[$key];
-        } else {
-            throw new \TypeError(
-                "string value with key \"" . $key . "\" not found"
-            );
-        }
-    }
-
-    public static function array_get_string_or_null(array $array, string $key)
-    {
-        if (
-            array_key_exists($key, $array) &&
-            (is_string($array[$key]) || $array[$key] == null)
-        ) {
-            return $array[$key];
-        } else {
-            throw new \TypeError(
-                "string value with key \"" . $key . "\" not found"
-            );
-        }
-    }
-
-    public static function array_get_int(array $array, string $key): string
-    {
-        if (array_key_exists($key, $array) && is_int($array[$key])) {
-            return $array[$key];
-        } else {
-            throw new \TypeError(
-                "int value with key \"" . $key . "\" not found"
-            );
-        }
+        return array_unique(array_merge($array1, $array2));
     }
 }

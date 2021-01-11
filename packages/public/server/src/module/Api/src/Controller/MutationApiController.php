@@ -77,21 +77,19 @@ class MutationApiController extends AbstractApiController
         }
 
         try {
-            $data = Json::decode(
-                $this->getRequest()->getContent(),
-                Json::TYPE_ARRAY
+            $data = $this->getRequestBody([
+                'content' => 'is_string',
+                'userId' => 'is_int',
+                'objectId' => 'is_int',
+            ]);
+            $user = $this->userManager->getUser($data['userId']);
+            $uuid = $this->uuidManager->getUuid(
+                $data['objectId'],
+                false,
+                false
             );
 
-            $user = $this->userManager->getUser(
-                Utils::array_get_int($data, 'userId')
-            );
-
-            $objectId = Utils::array_get_int($data, 'objectId');
-            $uuid = $this->uuidManager->getUuid($objectId, false, false);
-
-            if ($uuid instanceof CommentInterface) {
-                $instance = $uuid->getInstance();
-            } else {
+            if (!($uuid instanceof CommentInterface)) {
                 return $this->badRequestResponse();
             }
 
@@ -100,14 +98,15 @@ class MutationApiController extends AbstractApiController
             $form->setData([
                 'parent' => $uuid,
                 'author' => $user,
-                'instance' => $instance,
-                'content' => Utils::array_get_string($data, 'content'),
+                'instance' => $uuid->getInstance(),
+                'content' => $data['content'],
                 'csrf' => CsrfTokenContainer::getToken(),
                 'subscription' => [
                     'subscribe' => true,
                     'mailman' => true,
                 ],
             ]);
+
             $comment = $this->discussionManager->commentDiscussion(
                 $form,
                 $user
@@ -131,26 +130,26 @@ class MutationApiController extends AbstractApiController
         }
 
         try {
-            $data = Json::decode(
-                $this->getRequest()->getContent(),
-                Json::TYPE_ARRAY
-            );
+            $data = $this->getRequestBody([
+                'title' => 'is_string',
+                'content' => 'is_string',
+                'userId' => 'is_int',
+                'objectId' => 'is_int',
+            ]);
 
-            $user = $this->userManager->getUser(
-                Utils::array_get_int($data, 'userId')
+            $user = $this->userManager->getUser($data['userId']);
+            $uuid = $this->uuidManager->getUuid(
+                $data['objectId'],
+                false,
+                false
             );
-
-            $objectId = Utils::array_get_int($data, 'objectId');
-            $uuid = $this->uuidManager->getUuid($objectId, false, false);
 
             if (
-                $uuid instanceof EntityInterface ||
-                $uuid instanceof PageRepositoryInterface ||
-                $uuid instanceof RevisionInterface ||
-                $uuid instanceof TaxonomyTermInterface
+                !($uuid instanceof EntityInterface) &&
+                !($uuid instanceof PageRepositoryInterface) &&
+                !($uuid instanceof RevisionInterface) &&
+                !($uuid instanceof TaxonomyTermInterface)
             ) {
-                $instance = $uuid->getInstance();
-            } else {
                 return $this->badRequestResponse();
             }
 
@@ -159,15 +158,16 @@ class MutationApiController extends AbstractApiController
             $form->setData([
                 'object' => $uuid,
                 'author' => $user,
-                'instance' => $instance,
-                'title' => Utils::array_get_string_or_null($data, 'title'),
-                'content' => Utils::array_get_string($data, 'content'),
+                'instance' => $uuid->getInstance(),
+                'title' => $data['title'],
+                'content' => $data['content'],
                 'csrf' => CsrfTokenContainer::getToken(),
                 'subscription' => [
                     'subscribe' => true,
                     'mailman' => true,
                 ],
             ]);
+
             $comment = $this->discussionManager->startDiscussion($form, $user);
 
             return new JsonModel($this->apiManager->getUuidData($comment));

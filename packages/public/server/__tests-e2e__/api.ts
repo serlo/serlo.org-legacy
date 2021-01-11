@@ -184,6 +184,10 @@ describe('api mutation endpoints', () => {
         })
       })
 
+      test('when additional arguments are supplied', async () => {
+        await assert400(url, withJsonBody({ ...validBody, foo: 42 }))
+      })
+
       test('when body is not a dictionary', async () => {
         await assert400(url, withJsonBody(true))
       })
