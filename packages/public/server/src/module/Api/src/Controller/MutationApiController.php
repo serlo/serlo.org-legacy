@@ -80,11 +80,11 @@ class MutationApiController extends AbstractApiController
             $data = $this->getRequestBody([
                 'content' => 'is_string',
                 'userId' => 'is_int',
-                'objectId' => 'is_int',
+                'threadId' => 'is_int',
             ]);
             $user = $this->userManager->getUser($data['userId']);
             $uuid = $this->uuidManager->getUuid(
-                $data['objectId'],
+                $data['threadId'],
                 false,
                 false
             );

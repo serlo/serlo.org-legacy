@@ -33,16 +33,21 @@ describe('/api/alias/:alias', () => {
   })
 })
 
+const userId = 1
+const articleId = 1855
+const firstCommentId = 27778
+const answerCommentId = 15470
+
 const mutationEndpoints = {
   '/api/thread/start-thread': {
     title: 'A new thread',
     content: 'Hello World',
-    objectId: 1855,
+    objectId: articleId,
     userId: 10,
   },
   '/api/thread/comment-thread': {
     content: 'Hello World',
-    objectId: 27778,
+    threadId: firstCommentId,
     userId: 10,
   },
 }
@@ -100,12 +105,12 @@ describe('/api/thread/start-thread', () => {
   })
 
   test('returns 400 when uuid is not commentable', async () => {
-    const init = withJsonBody({ ...body, objectId: 1 })
+    const init = withJsonBody({ ...body, objectId: userId })
     await expect400('/api/thread/start-thread', init)
   })
 
   test('returns 400 when uuid is a comment', async () => {
-    const init = withJsonBody({ ...body, objectId: 27778 })
+    const init = withJsonBody({ ...body, objectId: firstCommentId })
     await expect400('/api/thread/start-thread', init)
   })
 })
@@ -124,7 +129,7 @@ describe('/api/thread/comment-thread', () => {
       date: expect.any(String),
       id: expect.any(Number),
       content: body.content,
-      parentId: body.objectId,
+      parentId: body.threadId,
       title: null,
       trashed: false,
     }
@@ -163,13 +168,13 @@ describe('/api/thread/comment-thread', () => {
     })
   })
 
-  test('returns 400 when objectId is not a comment', async () => {
-    const init = withJsonBody({ ...body, objectId: 1855 })
+  test('returns 400 when threadId is not a comment', async () => {
+    const init = withJsonBody({ ...body, threadId: articleId })
     await expect400('/api/thread/comment-thread', init)
   })
 
   test('returns 400 when one wants to comment a thread answer', async () => {
-    const init = withJsonBody({ ...body, objectId: 15470 })
+    const init = withJsonBody({ ...body, threadId: answerCommentId })
     await expect400('/api/thread/comment-thread', init)
   })
 })
