@@ -38,22 +38,13 @@ const articleId = 1855
 const firstCommentId = 27778
 const answerCommentId = 15470
 
-const mutationEndpoints = {
-  '/api/thread/start-thread': {
+describe('/api/thread/start-thread', () => {
+  const body = {
     title: 'A new thread',
     content: 'Hello World',
     objectId: articleId,
-    userId: 10,
-  },
-  '/api/thread/comment-thread': {
-    content: 'Hello World',
-    threadId: firstCommentId,
-    userId: 10,
-  },
-}
-
-describe('/api/thread/start-thread', () => {
-  const body = mutationEndpoints['/api/thread/start-thread']
+    userId,
+  }
 
   describe('starts a new thread', () => {
     const expectedPayload = {
@@ -104,6 +95,11 @@ describe('/api/thread/start-thread', () => {
     })
   })
 
+  test('returns 400 when objectId does not belong to an uuid', async () => {
+    const init = withJsonBody({ ...body, objectId: 10000000 })
+    await expect400('/api/thread/start-thread', init)
+  })
+
   test('returns 400 when uuid is not commentable', async () => {
     const init = withJsonBody({ ...body, objectId: userId })
     await expect400('/api/thread/start-thread', init)
@@ -113,10 +109,18 @@ describe('/api/thread/start-thread', () => {
     const init = withJsonBody({ ...body, objectId: firstCommentId })
     await expect400('/api/thread/start-thread', init)
   })
+
+  testRequestMethodMustBePost('/api/thread/comment-thread')
+
+  testValidatesRequestBody({ url: '/api/thread/start-thread', validBody: body })
 })
 
 describe('/api/thread/comment-thread', () => {
-  const body = mutationEndpoints['/api/thread/comment-thread']
+  const body = {
+    content: 'Hello World',
+    threadId: firstCommentId,
+    userId,
+  }
 
   describe('adds a new comment', () => {
     let comment: unknown
@@ -177,56 +181,67 @@ describe('/api/thread/comment-thread', () => {
     const init = withJsonBody({ ...body, threadId: answerCommentId })
     await expect400('/api/thread/comment-thread', init)
   })
-})
 
-describe('api mutation endpoints', () => {
-  describe.each(R.toPairs(mutationEndpoints))('%s', (url, validBody) => {
-    describe('returns 400', () => {
-      describe('when one of the necessary arguments is missing', () => {
-        test.each(Object.keys(validBody))('%s', async (key) => {
-          await expect400(url, withJsonBody(R.omit([key], validBody)))
-        })
-      })
+  testRequestMethodMustBePost('/api/thread/comment-thread')
 
-      describe('when one of the necessary arguments is malformed', () => {
-        test.each(Object.keys(validBody))('%s', async (key) => {
-          const body = { ...validBody, [key]: { malformed: true } }
-          await expect400(url, withJsonBody(body))
-        })
-      })
+  testUserIdMustBeValid('/api/thread/start-thread', body)
 
-      test('when additional arguments are supplied', async () => {
-        await expect400(url, withJsonBody({ ...validBody, foo: 42 }))
-      })
-
-      test('when body is not a dictionary', async () => {
-        await expect400(url, withJsonBody(true))
-      })
-
-      test('when body is malformed JSON', async () => {
-        await expect400(url, withMalformedJson())
-      })
-
-      if ('userId' in validBody) {
-        test('when userId does not belong to a user', async () => {
-          await expect400(url, withJsonBody({ ...validBody, userId: 1855 }))
-        })
-      }
-
-      if ('objectId' in validBody) {
-        test('when objectId does not belong to an uuid', async () => {
-          const init = withJsonBody({ ...validBody, objectId: 10000000 })
-          await expect400(url, init)
-        })
-      }
-    })
-
-    test('returns 404 when request method is not POST', async () => {
-      const response = await fetchApi(url)
-      expect(response.status).toBe(404)
-    })
+  testValidatesRequestBody({
+    url: '/api/thread/comment-thread',
+    validBody: body,
   })
 })
+
+function testValidatesRequestBody({
+  url,
+  validBody,
+}: {
+  url: string
+  validBody: Record<string, unknown>
+}) {
+  describe('returns 400 for invalid request bodys', () => {
+    describe('when one of the necessary arguments is missing', () => {
+      test.each(Object.keys(validBody))('%s', async (key) => {
+        await expect400(url, withJsonBody(R.omit([key], validBody)))
+      })
+    })
+
+    describe('when one of the necessary arguments is malformed', () => {
+      test.each(Object.keys(validBody))('%s', async (key) => {
+        const body = { ...validBody, [key]: { malformed: true } }
+        await expect400(url, withJsonBody(body))
+      })
+    })
+
+    test('when additional arguments are supplied', async () => {
+      await expect400(url, withJsonBody({ ...validBody, foo: 42 }))
+    })
+
+    test('when body is not a dictionary', async () => {
+      await expect400(url, withJsonBody(true))
+    })
+
+    test('when body is malformed JSON', async () => {
+      await expect400(url, withMalformedJson())
+    })
+  })
+}
+
+function testUserIdMustBeValid(
+  url: string,
+  validBody: Record<string, unknown>
+) {
+  test('returns 400 when no user with given userId exists', async () => {
+    await expect400(url, withJsonBody({ ...validBody, userId: articleId }))
+  })
+}
+
+function testRequestMethodMustBePost(url: string) {
+  test('returns 404 when request method is not POST', async () => {
+    const response = await fetchApi(url)
+    expect(response.status).toBe(404)
+  })
+}
 
 describe('/api/subscriptions/:userId', () => {
   test('returns null when user does not exist', async () => {
