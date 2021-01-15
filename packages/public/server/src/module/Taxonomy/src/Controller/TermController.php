@@ -81,8 +81,14 @@ class TermController extends AbstractController
             ]);
             $form->setData($data);
             if ($form->isValid()) {
-                $this->getTaxonomyManager()->createTerm($form);
-                $this->getTaxonomyManager()->flush();
+                $term = $this->getTaxonomyManager()->createTerm($form);
+                if ($term->getParent()) {
+                    $this->getTaxonomyManager()->flushUpdatesForTerm(
+                        $term->getParent()
+                    );
+                } else {
+                    $this->getTaxonomyManager()->flush();
+                }
                 $this->flashMessenger()->addSuccessMessage(
                     'The node has been added successfully!'
                 );
