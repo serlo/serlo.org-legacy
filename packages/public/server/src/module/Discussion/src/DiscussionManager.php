@@ -242,10 +242,14 @@ class DiscussionManager implements DiscussionManagerInterface
         return $comment;
     }
 
-    public function toggleArchived($commentId)
+    public function toggleArchivedById(int $commentId)
     {
-        $comment = $this->getComment($commentId);
-        $this->assertGranted('discussion.archive', $comment);
+        $this->toggleArchived($this->getComment($commentId));
+    }
+
+    public function toggleArchived(CommentInterface $comment, $user = null)
+    {
+        $this->assertGranted('discussion.archive', $comment, $user);
 
         if ($comment->hasParent()) {
             throw new Exception\RuntimeException(
@@ -258,8 +262,9 @@ class DiscussionManager implements DiscussionManagerInterface
         $this->getEventManager()->trigger(
             $comment->getArchived() ? 'archive' : 'restore',
             $this,
-            ['discussion' => $comment]
+            ['discussion' => $comment, 'author' => $user]
         );
+        $this->flush();
     }
 
     /**

@@ -288,6 +288,16 @@ return [
                             ],
                         ],
                     ],
+                    'thread-set-archive' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/thread/set-archive',
+                            'defaults' => [
+                                'action' => 'setArchiveThread',
+                                'controller' => MutationApiController::class,
+                            ],
+                        ],
+                    ],
                     'uuid' => [
                         'type' => 'segment',
                         'options' => [

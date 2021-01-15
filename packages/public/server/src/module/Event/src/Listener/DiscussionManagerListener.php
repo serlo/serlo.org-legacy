@@ -53,8 +53,15 @@ class DiscussionManagerListener extends AbstractListener
     public function onArchive(Event $e)
     {
         $discussion = $e->getParam('discussion');
+        $actor = $e->getParam('author');
         $instance = $discussion->getInstance();
-        $this->logEvent('discussion/comment/archive', $instance, $discussion);
+        $this->logEvent(
+            'discussion/comment/archive',
+            $instance,
+            $discussion,
+            [],
+            $actor
+        );
     }
 
     /**
