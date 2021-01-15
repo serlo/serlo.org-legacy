@@ -37,11 +37,7 @@ class NotificationApiController extends AbstractApiController
                 )
             );
         } catch (UserNotFoundException $exception) {
-            $this->response
-                ->getHeaders()
-                ->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
+            $this->createJsonResponse('null');
         }
     }
 
@@ -57,19 +53,14 @@ class NotificationApiController extends AbstractApiController
                 $this->manager->getEventDataById((int) $this->params('id'))
             );
         } catch (EntityNotFoundException $exception) {
-            $this->response
-                ->getHeaders()
-                ->addHeaderLine('Content-Type', 'application/json');
-            $this->response->setContent('null');
-            return $this->response;
+            $this->createJsonResponse('null');
         }
     }
 
     public function setNotificationStateAction()
     {
         if (!$this->getRequest()->isPost()) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
-            return $this->response;
+            return $this->notFoundResponse();
         }
 
         $authorizationResponse = $this->assertAuthorization();
@@ -84,8 +75,7 @@ class NotificationApiController extends AbstractApiController
         $unread = $data['unread'];
 
         if (!isset($userId) || !isset($unread)) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return new JsonModel(['reason' => 'Invalid body']);
+            return $this->badRequestResponse('Invalid body');
         }
 
         try {
@@ -94,11 +84,9 @@ class NotificationApiController extends AbstractApiController
                 $this->manager->getNotificationDataByUserId($userId)
             );
         } catch (UserNotFoundException $e) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return new JsonModel(['reason' => 'Invalid user id']);
+            $this->badRequestResponse('Invalid user id');
         } catch (NotificationNotFoundException $e) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_403);
-            return new JsonModel(['reason' => 'Invalid notification id']);
+            $this->forbiddenResponse('Invalid notification id');
         }
     }
 }

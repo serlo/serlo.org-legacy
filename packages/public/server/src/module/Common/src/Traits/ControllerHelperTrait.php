@@ -23,18 +23,38 @@
 namespace Common\Traits;
 
 use Zend\Http\Response;
+use Zend\View\Model\JsonModel;
 
 trait ControllerHelperTrait
 {
-    public function badRequestResponse()
+    protected function badRequestResponse($reason = null)
     {
         $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+        return $reason == null
+            ? $this->response
+            : new JsonModel(['reason' => $reason]);
+    }
+
+    protected function forbiddenResponse($reason = null)
+    {
+        $this->getResponse()->setStatusCode(Response::STATUS_CODE_403);
+        return $reason == null
+            ? $this->response
+            : new JsonModel(['reason' => $reason]);
+    }
+
+    protected function notFoundResponse()
+    {
+        $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
         return $this->response;
     }
 
-    public function notFoundResponse()
+    protected function createJsonResponse($data)
     {
-        $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
+        $this->response
+            ->getHeaders()
+            ->addHeaderLine('Content-Type', 'application/json');
+        $this->response->setContent($data);
         return $this->response;
     }
 }
