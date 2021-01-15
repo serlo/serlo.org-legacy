@@ -34,7 +34,7 @@ class AuthorizationService extends \ZfcRbac\Service\AuthorizationService
      * @param array $roles
      * @return bool
      */
-    public function isGranted($permission, $context = null, array $roles = null)
+    public function isGranted($permission, $context = null, $roles = null)
     {
         if ($roles == null) {
             $roles = $this->roleService->getIdentityRoles();
