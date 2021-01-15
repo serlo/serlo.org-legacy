@@ -47,6 +47,10 @@ $recaptcha = [
     'secret' => '6LfwJFwUAAAAAPVsTPLe00oAb9oUTewOUe31pXSv',
 ];
 
+// Example to connect this to a local api server (see https://stackoverflow.com/q/31324981
+// for linux):
+//
+// $api_options = ["host" => "host.docker.internal:3000/graphql", "secret" => "serlo.org-secret"];
 $api_options = [];
 $smtp_options = [];
 $tracking = [];
