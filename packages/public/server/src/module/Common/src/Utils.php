@@ -38,4 +38,9 @@ abstract class Utils
     {
         return array_sum(array_map($testFunc, $array)) > 0;
     }
+
+    public static function array_union(array $array1, array $array2): array
+    {
+        return array_unique(array_merge($array1, $array2));
+    }
 }

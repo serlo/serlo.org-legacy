@@ -53,8 +53,15 @@ class DiscussionManagerListener extends AbstractListener
     public function onArchive(Event $e)
     {
         $discussion = $e->getParam('discussion');
+        $actor = $e->getParam('author');
         $instance = $discussion->getInstance();
-        $this->logEvent('discussion/comment/archive', $instance, $discussion);
+        $this->logEvent(
+            'discussion/comment/archive',
+            $instance,
+            $discussion,
+            [],
+            $actor
+        );
     }
 
     /**
@@ -68,6 +75,7 @@ class DiscussionManagerListener extends AbstractListener
         $instance = $e->getParam('instance');
         $discussion = $e->getParam('discussion');
         $comment = $e->getParam('comment');
+        $actor = $e->getParam('author');
         $params = [
             [
                 'name' => 'discussion',
@@ -78,7 +86,8 @@ class DiscussionManagerListener extends AbstractListener
             'discussion/comment/create',
             $instance,
             $comment,
-            $params
+            $params,
+            $actor
         );
     }
 
@@ -111,7 +120,14 @@ class DiscussionManagerListener extends AbstractListener
                 'value' => $e->getParam('on'),
             ],
         ];
+        $actor = $e->getParam('author');
 
-        $this->logEvent('discussion/create', $instance, $discussion, $params);
+        $this->logEvent(
+            'discussion/create',
+            $instance,
+            $discussion,
+            $params,
+            $actor
+        );
     }
 }

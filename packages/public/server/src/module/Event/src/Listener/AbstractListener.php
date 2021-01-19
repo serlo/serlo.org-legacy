@@ -61,8 +61,15 @@ abstract class AbstractListener extends AbstractSharedListenerAggregate
         $name,
         InstanceInterface $instance,
         $uuid,
-        array $params = []
+        array $params = [],
+        $actor = null
     ) {
-        $this->getEventManager()->logEvent($name, $instance, $uuid, $params);
+        $this->getEventManager()->logEvent(
+            $name,
+            $instance,
+            $uuid,
+            $params,
+            $actor
+        );
     }
 }

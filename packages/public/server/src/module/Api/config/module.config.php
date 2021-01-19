@@ -25,6 +25,8 @@ namespace Api;
 
 use Api\Controller\ApiController;
 use Api\Controller\CacheApiController;
+use Api\Controller\E2ETestsHelperApiController;
+use Api\Controller\MutationApiController;
 use Api\Controller\NavigationApiController;
 use Api\Controller\NotificationApiController;
 use Api\Controller\UserApiController;
@@ -33,9 +35,12 @@ use Api\Factory\ApiManagerFactory;
 use Api\Factory\AuthorizationServiceFactory;
 use Api\Factory\CacheApiControllerFactory;
 use Api\Factory\DiscussionManagerListenerFactory;
+use Api\Factory\E2ETestsHelperApiControllerFactory;
+use Api\Factory\E2ETestsHelperApiManagerFactory;
 use Api\Factory\GraphQLServiceFactory;
 use Api\Factory\LicenseManagerListenerFactory;
 use Api\Factory\LinkServiceListenerFactory;
+use Api\Factory\MutationApiControllerFactory;
 use Api\Factory\NavigationApiControllerFactory;
 use Api\Factory\NotificationApiControllerFactory;
 use Api\Factory\NotificationApiManagerFactory;
@@ -57,6 +62,7 @@ use Api\Listener\SubscriptionManagerListener;
 use Api\Listener\TaxonomyManagerListener;
 use Api\Listener\UserManagerListener;
 use Api\Listener\UuidManagerListener;
+use Api\Manager\E2ETestsHelperApiManager;
 use Api\Manager\NotificationApiManager;
 use Api\Service\AuthorizationService;
 use Api\Service\GraphQLService;
@@ -66,6 +72,9 @@ return [
         'factories' => [
             ApiController::class => ApiControllerFactory::class,
             CacheApiController::class => CacheApiControllerFactory::class,
+            E2ETestsHelperApiController::class =>
+                E2ETestsHelperApiControllerFactory::class,
+            MutationApiController::class => MutationApiControllerFactory::class,
             NavigationApiController::class =>
                 NavigationApiControllerFactory::class,
             NotificationApiController::class =>
@@ -80,6 +89,8 @@ return [
             GraphQLService::class => GraphQLServiceFactory::class,
             DiscussionManagerListener::class =>
                 DiscussionManagerListenerFactory::class,
+            E2ETestsHelperApiManager::class =>
+                E2ETestsHelperApiManagerFactory::class,
             NotificationApiManager::class =>
                 NotificationApiManagerFactory::class,
             NotificationManagerListener::class =>
@@ -148,6 +159,36 @@ return [
                             'defaults' => [
                                 'controller' => CacheApiController::class,
                                 'action' => 'index',
+                            ],
+                        ],
+                    ],
+                    'e2e-tests' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/e2e-tests',
+                            'defaults' => [
+                                'controller' =>
+                                    E2ETestsHelperApiController::class,
+                            ],
+                        ],
+                        'child_routes' => [
+                            'set-up' => [
+                                'type' => 'segment',
+                                'options' => [
+                                    'route' => '/set-up',
+                                    'defaults' => [
+                                        'action' => 'setUp',
+                                    ],
+                                ],
+                            ],
+                            'events-since-set-up' => [
+                                'type' => 'segment',
+                                'options' => [
+                                    'route' => '/events-since-set-up',
+                                    'defaults' => [
+                                        'action' => 'eventsSinceSetUp',
+                                    ],
+                                ],
                             ],
                         ],
                     ],
@@ -224,6 +265,36 @@ return [
                             'route' => '/threads/:id',
                             'defaults' => [
                                 'action' => 'threads',
+                            ],
+                        ],
+                    ],
+                    'comment-thread' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/thread/comment-thread',
+                            'defaults' => [
+                                'action' => 'commentThread',
+                                'controller' => MutationApiController::class,
+                            ],
+                        ],
+                    ],
+                    'start-thread' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/thread/start-thread',
+                            'defaults' => [
+                                'action' => 'startThread',
+                                'controller' => MutationApiController::class,
+                            ],
+                        ],
+                    ],
+                    'thread-set-archive' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => '/thread/set-archive',
+                            'defaults' => [
+                                'action' => 'setArchiveThread',
+                                'controller' => MutationApiController::class,
                             ],
                         ],
                     ],

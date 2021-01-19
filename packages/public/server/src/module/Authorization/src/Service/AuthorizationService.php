@@ -30,12 +30,15 @@ class AuthorizationService extends \ZfcRbac\Service\AuthorizationService
 {
     /**
      * @param \Rbac\Permission\PermissionInterface|string $permission
-     * @param null                                        $context
+     * @param mixed $context
+     * @param array $roles
      * @return bool
      */
-    public function isGranted($permission, $context = null)
+    public function isGranted($permission, $context = null, $roles = null)
     {
-        $roles = $this->roleService->getIdentityRoles();
+        if ($roles == null) {
+            $roles = $this->roleService->getIdentityRoles();
+        }
 
         $result = $this->createResult($permission, $roles);
 

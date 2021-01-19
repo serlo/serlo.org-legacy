@@ -72,8 +72,9 @@ class DiscussionController extends AbstractController
         }
 
         $this->assertGranted('discussion.archive', $discussion);
-        $this->getDiscussionManager()->toggleArchived($this->params('comment'));
-        $this->getDiscussionManager()->flush();
+        $this->getDiscussionManager()->toggleArchivedById(
+            $this->params('comment')
+        );
         return $this->redirect()->toReferer();
     }
 
@@ -105,7 +106,6 @@ class DiscussionController extends AbstractController
             $form->setData(array_merge($this->params()->fromPost(), $data));
             if ($form->isValid()) {
                 $this->getDiscussionManager()->commentDiscussion($form);
-                $this->getDiscussionManager()->flush();
                 $this->flashMessenger()->addSuccessMessage(
                     'Your comment has been saved.'
                 );
@@ -167,7 +167,6 @@ class DiscussionController extends AbstractController
             $form->setData(array_merge($this->params()->fromPost(), $data));
             if ($form->isValid()) {
                 $this->getDiscussionManager()->startDiscussion($form);
-                $this->getDiscussionManager()->flush();
                 if (!$this->getRequest()->isXmlHttpRequest()) {
                     $this->flashMessenger()->addSuccessMessage(
                         'Your discussion has been started.'

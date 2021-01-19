@@ -25,7 +25,10 @@ namespace Api\Controller;
 
 use Api\Exception\AuthorizationException;
 use Api\Service\AuthorizationService;
+use Common\Traits\ControllerHelperTrait;
+use Common\Utils;
 use Zend\Http\Response;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
@@ -35,6 +38,8 @@ class AbstractApiController extends AbstractActionController
     protected $authorizationService;
     /** @var Response */
     protected $response;
+
+    use ControllerHelperTrait;
 
     public function __construct(AuthorizationService $authorizationService)
     {
@@ -51,6 +56,29 @@ class AbstractApiController extends AbstractActionController
         } catch (AuthorizationException $exception) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_403);
             return new JsonModel(['reason' => 'Invalid authorization header']);
+        }
+    }
+
+    protected function getRequestBody(array $validators): array
+    {
+        $data = Json::decode(
+            $this->getRequest()->getContent(),
+            Json::TYPE_ARRAY
+        );
+        if (!is_array($data)) {
+            throw new \TypeError();
+        }
+        $keys = Utils::array_union(array_keys($data), array_keys($validators));
+        $isValid = Utils::array_every(function ($key) use ($data, $validators) {
+            return isset($validators[$key]) &&
+                isset($data[$key]) &&
+                $validators[$key]($data[$key]);
+        }, $keys);
+
+        if ($isValid) {
+            return $data;
+        } else {
+            throw new \TypeError();
         }
     }
 }

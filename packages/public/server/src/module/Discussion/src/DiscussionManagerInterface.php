@@ -77,9 +77,7 @@ interface DiscussionManagerInterface extends Flushable
      */
     public function startDiscussion(FormInterface $form);
 
-    /**
-     * @param int $commentId
-     * @return void
-     */
-    public function toggleArchived($commentId);
+    public function toggleArchivedById(int $commentId);
+
+    public function toggleArchived(CommentInterface $comment);
 }

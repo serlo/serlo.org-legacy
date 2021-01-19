@@ -20,41 +20,23 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Authentication\Factory;
 
-use Authentication\Service\AuthenticationService;
+namespace Api\Factory;
+
+use Api\Manager\E2ETestsHelperApiManager;
+use ClassResolver\ClassResolver;
+use Doctrine\ORM\EntityManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class AuthenticationServiceFactory implements FactoryInterface
+class E2ETestsHelperApiManagerFactory implements FactoryInterface
 {
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ServiceLocatorInterface $serviceManager)
     {
-        $sessionConfig = $serviceLocator->get(
-            'Zend\Session\Config\SessionConfig'
-        );
-        $request = $serviceLocator->get('Request');
-        $response = $serviceLocator->get('Response');
-        $adapter = $serviceLocator->get(
-            'Authentication\Adapter\UserAuthAdapter'
-        );
-        $storage = $serviceLocator->get(
-            'Authentication\Storage\UserSessionStorage'
-        );
-        $instance = new AuthenticationService(
-            $storage,
-            $adapter,
-            $sessionConfig,
-            $response,
-            $request
-        );
-
-        return $instance;
+        /** @var ClassResolver $classResolver */
+        $classResolver = $serviceManager->get(ClassResolver::class);
+        /** @var EntityManager */
+        $entityManager = $serviceManager->get(EntityManager::class);
+        return new E2ETestsHelperApiManager($classResolver, $entityManager);
     }
 }

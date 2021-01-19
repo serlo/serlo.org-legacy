@@ -71,6 +71,7 @@ class DiscussionForm extends AbstractForm
             ],
         ]);
         $this->add(new Hidden('terms'));
+        $this->add(new Hidden('title'));
 
         $this->add(new OptInHiddenFieldset());
 

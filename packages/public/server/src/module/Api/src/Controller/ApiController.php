@@ -132,13 +132,4 @@ class ApiController extends AbstractApiController
             return $this->createJsonResponse('null');
         }
     }
-
-    protected function createJsonResponse($data)
-    {
-        $this->response
-            ->getHeaders()
-            ->addHeaderLine('Content-Type', 'application/json');
-        $this->response->setContent($data);
-        return $this->response;
-    }
 }

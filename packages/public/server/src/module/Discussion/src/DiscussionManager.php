@@ -25,7 +25,6 @@ namespace Discussion;
 use Authorization\Service\AuthorizationAssertionTrait;
 use ClassResolver\ClassResolverAwareTrait;
 use ClassResolver\ClassResolverInterface;
-use Common\Paginator\DoctrinePaginatorFactory;
 use Common\Traits\FlushableTrait;
 use Common\Traits\ObjectManagerAwareTrait;
 use Discussion\Entity\CommentInterface;
@@ -34,16 +33,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Instance\Entity\InstanceInterface;
-use Taxonomy\Manager\TaxonomyManagerAwareTrait;
 use Uuid\Entity\UuidInterface;
-use Uuid\Manager\UuidManagerAwareTrait;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Form\FormInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
 use ZfcRbac\Service\AuthorizationService;
-
-use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManager;
 
 class DiscussionManager implements DiscussionManagerInterface
@@ -85,7 +80,11 @@ class DiscussionManager implements DiscussionManagerInterface
             );
         }
 
-        $this->assertGranted('discussion.comment.create', $comment);
+        $this->assertGranted(
+            'discussion.comment.create',
+            $comment,
+            $comment->getAuthor()
+        );
         $this->getObjectManager()->persist($comment);
         $this->getEventManager()->trigger('comment', $this, [
             'author' => $comment->getAuthor(),
@@ -94,6 +93,7 @@ class DiscussionManager implements DiscussionManagerInterface
             'instance' => $comment->getInstance(),
             'data' => $form->getData(),
         ]);
+        $this->flush();
 
         return $comment;
     }
@@ -224,7 +224,11 @@ class DiscussionManager implements DiscussionManagerInterface
             );
         }
 
-        $this->assertGranted('discussion.create', $comment);
+        $this->assertGranted(
+            'discussion.create',
+            $comment,
+            $comment->getAuthor()
+        );
         $this->getObjectManager()->persist($comment);
         $this->getEventManager()->trigger('start', $this, [
             'author' => $comment->getAuthor(),
@@ -233,14 +237,19 @@ class DiscussionManager implements DiscussionManagerInterface
             'instance' => $comment->getInstance(),
             'data' => $form->getData(),
         ]);
+        $this->flush();
 
         return $comment;
     }
 
-    public function toggleArchived($commentId)
+    public function toggleArchivedById(int $commentId)
     {
-        $comment = $this->getComment($commentId);
-        $this->assertGranted('discussion.archive', $comment);
+        $this->toggleArchived($this->getComment($commentId));
+    }
+
+    public function toggleArchived(CommentInterface $comment, $user = null)
+    {
+        $this->assertGranted('discussion.archive', $comment, $user);
 
         if ($comment->hasParent()) {
             throw new Exception\RuntimeException(
@@ -253,8 +262,9 @@ class DiscussionManager implements DiscussionManagerInterface
         $this->getEventManager()->trigger(
             $comment->getArchived() ? 'archive' : 'restore',
             $this,
-            ['discussion' => $comment]
+            ['discussion' => $comment, 'author' => $user]
         );
+        $this->flush();
     }
 
     /**
