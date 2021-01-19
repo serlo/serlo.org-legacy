@@ -72,8 +72,9 @@ class DiscussionController extends AbstractController
         }
 
         $this->assertGranted('discussion.archive', $discussion);
-        $this->getDiscussionManager()->toggleArchived($this->params('comment'));
-        $this->getDiscussionManager()->flush();
+        $this->getDiscussionManager()->toggleArchivedById(
+            $this->params('comment')
+        );
         return $this->redirect()->toReferer();
     }
 

@@ -33,13 +33,21 @@ describe('/api/alias/:alias', () => {
   })
 })
 
+describe('/api/subscriptions/:userId', () => {
+  test('returns null when user does not exist', async () => {
+    const response = await fetchApi('/api/subscriptions/10000')
+
+    expect(await response.json()).toBeNull()
+  })
+})
+
 const userId = 1
 const articleId = 1855
 const firstCommentId = 27778
 const answerCommentId = 15470
 
 describe('/api/thread/start-thread', () => {
-  const body = {
+  const validBody = {
     title: 'A new thread',
     content: 'Hello World',
     objectId: articleId,
@@ -51,13 +59,13 @@ describe('/api/thread/start-thread', () => {
       __typename: 'Comment',
       alias: expect.any(String),
       archived: false,
-      authorId: body.userId,
+      authorId: validBody.userId,
       childrenIds: [],
       date: expect.any(String),
       id: expect.any(Number),
-      content: body.content,
-      parentId: body.objectId,
-      title: body.title,
+      content: validBody.content,
+      parentId: validBody.objectId,
+      title: validBody.title,
       trashed: false,
     }
     let comment: unknown
@@ -65,7 +73,7 @@ describe('/api/thread/start-thread', () => {
     beforeAll(async () => {
       await setUpTestHelper()
 
-      const init = withJsonBody(body)
+      const init = withJsonBody(validBody)
       const response = await fetchApi('/api/thread/start-thread', init)
       comment = await response.json()
     })
@@ -96,27 +104,27 @@ describe('/api/thread/start-thread', () => {
   })
 
   test('returns 400 when objectId does not belong to an uuid', async () => {
-    const init = withJsonBody({ ...body, objectId: 10000000 })
+    const init = withJsonBody({ ...validBody, objectId: 10000000 })
     await expect400('/api/thread/start-thread', init)
   })
 
   test('returns 400 when uuid is not commentable', async () => {
-    const init = withJsonBody({ ...body, objectId: userId })
+    const init = withJsonBody({ ...validBody, objectId: userId })
     await expect400('/api/thread/start-thread', init)
   })
 
   test('returns 400 when uuid is a comment', async () => {
-    const init = withJsonBody({ ...body, objectId: firstCommentId })
+    const init = withJsonBody({ ...validBody, objectId: firstCommentId })
     await expect400('/api/thread/start-thread', init)
   })
 
   testRequestMethodMustBePost('/api/thread/comment-thread')
 
-  testValidatesRequestBody({ url: '/api/thread/start-thread', validBody: body })
+  testValidatesRequestBody({ url: '/api/thread/start-thread', validBody })
 })
 
 describe('/api/thread/comment-thread', () => {
-  const body = {
+  const validBody = {
     content: 'Hello World',
     threadId: firstCommentId,
     userId,
@@ -128,12 +136,12 @@ describe('/api/thread/comment-thread', () => {
       __typename: 'Comment',
       alias: expect.any(String),
       archived: false,
-      authorId: body.userId,
+      authorId: validBody.userId,
       childrenIds: [],
       date: expect.any(String),
       id: expect.any(Number),
-      content: body.content,
-      parentId: body.threadId,
+      content: validBody.content,
+      parentId: validBody.threadId,
       title: null,
       trashed: false,
     }
@@ -141,7 +149,7 @@ describe('/api/thread/comment-thread', () => {
     beforeAll(async () => {
       await setUpTestHelper()
 
-      const init = withJsonBody(body)
+      const init = withJsonBody(validBody)
       const response = await fetchApi('/api/thread/comment-thread', init)
       comment = await response.json()
     })
@@ -173,23 +181,115 @@ describe('/api/thread/comment-thread', () => {
   })
 
   test('returns 400 when threadId is not a comment', async () => {
-    const init = withJsonBody({ ...body, threadId: articleId })
+    const init = withJsonBody({ ...validBody, threadId: articleId })
     await expect400('/api/thread/comment-thread', init)
   })
 
   test('returns 400 when one wants to comment a thread answer', async () => {
-    const init = withJsonBody({ ...body, threadId: answerCommentId })
+    const init = withJsonBody({ ...validBody, threadId: answerCommentId })
     await expect400('/api/thread/comment-thread', init)
   })
 
   testRequestMethodMustBePost('/api/thread/comment-thread')
 
-  testUserIdMustBeValid('/api/thread/start-thread', body)
+  testUserIdMustBeValid({ url: '/api/thread/start-thread', validBody })
 
-  testValidatesRequestBody({
-    url: '/api/thread/comment-thread',
-    validBody: body,
+  testValidatesRequestBody({ url: '/api/thread/comment-thread', validBody })
+})
+
+describe('/api/thread/set-archive', () => {
+  const validBody = { userId, archived: false, id: firstCommentId }
+
+  describe('when it changes the archived state', () => {
+    let commentBefore: any
+    let commentAfter: any
+
+    beforeAll(async () => {
+      commentBefore = await givenComment()
+      await setUpTestHelper()
+
+      const response = await fetchApi(
+        '/api/thread/set-archive',
+        withJsonBody({ userId, archived: true, id: commentBefore.id })
+      )
+      expect(response.status).toBe(200)
+      commentAfter = await response.json()
+    })
+
+    test('returns comment payload with archived state changed', async () => {
+      expect(commentAfter).toEqual({ ...commentBefore, archived: true })
+    })
+
+    test('persists the new comment state', async () => {
+      await expectUuid(commentAfter)
+    })
+
+    test('creates a new event in the event log', async () => {
+      await expectEvent({
+        __typename: 'SetThreadStateNotificationEvent',
+        id: expect.any(Number),
+        instance: 'de',
+        date: expect.any(String),
+        objectId: commentAfter.id,
+        actorId: userId,
+        threadId: commentAfter.id,
+        archived: commentAfter.archived,
+      })
+    })
   })
+
+  describe('when it does not change the archived state', () => {
+    let commentBefore: any
+    let commentAfter: any
+
+    beforeAll(async () => {
+      commentBefore = await givenComment()
+      await setUpTestHelper()
+
+      const response = await fetchApi(
+        '/api/thread/set-archive',
+        withJsonBody({ userId, archived: false, id: commentBefore.id })
+      )
+      expect(response.status).toBe(200)
+      commentAfter = await response.json()
+    })
+
+    test('returns comment payload with archived state changed', async () => {
+      expect(commentAfter).toEqual(commentBefore)
+    })
+
+    test('creates no new event in the event log', async () => {
+      const response = await fetchApi('/api/e2e-tests/events-since-set-up')
+      const { events } = await response.json()
+
+      expect(events).not.toContainEqual(
+        expect.objectContaining({
+          __typename: 'SetThreadStateNotificationEvent',
+          threadId: commentAfter.id,
+        })
+      )
+    })
+  })
+
+  test('returns 400 when id does not belong to a comment', async () => {
+    await expect400(
+      '/api/thread/set-archive',
+      withJsonBody({ ...validBody, id: articleId })
+    )
+  })
+
+  test('returns 400 when uuid with given id does not exist', async () => {
+    await expect400(
+      '/api/thread/set-archive',
+      withJsonBody({ ...validBody, id: 1000000000 })
+    )
+  })
+
+  testValidatesRequestBody({ url: '/api/thread/set-archive', validBody })
+
+  testUserIdMustBeValid({ url: '/api/thread/set-archive', validBody })
+
+  testRequestMethodMustBePost('/api/thread/set-archive')
 })
 
 function testValidatesRequestBody({
@@ -227,10 +327,13 @@ function testValidatesRequestBody({
   })
 }
 
-function testUserIdMustBeValid(
-  url: string,
+function testUserIdMustBeValid({
+  url,
+  validBody,
+}: {
+  url: string
   validBody: Record<string, unknown>
-) {
+}) {
   test('returns 400 when no user with given userId exists', async () => {
     await expect400(url, withJsonBody({ ...validBody, userId: articleId }))
   })
@@ -243,13 +346,19 @@ function testRequestMethodMustBePost(url: string) {
   })
 }
 
-describe('/api/subscriptions/:userId', () => {
-  test('returns null when user does not exist', async () => {
-    const response = await fetchApi('/api/subscriptions/10000')
+async function givenComment() {
+  const response = await fetchApi(
+    '/api/thread/start-thread',
+    withJsonBody({
+      title: 'A new thread',
+      content: 'Hello World',
+      objectId: articleId,
+      userId,
+    })
+  )
 
-    expect(await response.json()).toBeNull()
-  })
-})
+  return await response.json()
+}
 
 async function setUpTestHelper() {
   const response = await fetchApi('/api/e2e-tests/set-up')

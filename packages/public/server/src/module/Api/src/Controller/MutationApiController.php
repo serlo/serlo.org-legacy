@@ -175,4 +175,40 @@ class MutationApiController extends AbstractApiController
             return $this->badRequestResponse();
         }
     }
+
+    public function setArchiveThreadAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->notFoundResponse();
+        }
+
+        $authorizationResponse = $this->assertAuthorization();
+        if ($authorizationResponse) {
+            return $authorizationResponse;
+        }
+
+        try {
+            $data = $this->getRequestBody([
+                'userId' => 'is_int',
+                'id' => 'is_int',
+                'archived' => 'is_bool',
+            ]);
+
+            $user = $this->userManager->getUser($data['userId']);
+            $comment = $this->uuidManager->getUuid($data['id'], false, false);
+
+            if (!$comment instanceof CommentInterface) {
+                return $this->badRequestResponse();
+            }
+
+            if ($comment->getArchived() != $data['archived']) {
+                $this->discussionManager->toggleArchived($comment, $user);
+            }
+
+            return new JsonModel($this->apiManager->getUuidData($comment));
+        } catch (\Throwable $exception) {
+            error_log($exception);
+            return $this->badRequestResponse();
+        }
+    }
 }
