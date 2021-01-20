@@ -54,8 +54,7 @@ class AbstractApiController extends AbstractActionController
         try {
             $this->authorizationService->assertAuthorization();
         } catch (AuthorizationException $exception) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_403);
-            return new JsonModel(['reason' => 'Invalid authorization header']);
+            return $this->forbiddenResponse('Invalid authorization header');
         }
     }
 
