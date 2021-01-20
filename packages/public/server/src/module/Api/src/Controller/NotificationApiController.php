@@ -68,25 +68,27 @@ class NotificationApiController extends AbstractApiController
             return $authorizationResponse;
         }
 
-        $id = (int) $this->params('id');
-
-        $data = json_decode($this->getRequest()->getContent(), true);
-        $userId = $data['userId'];
-        $unread = $data['unread'];
-
-        if (!isset($userId) || !isset($unread)) {
-            return $this->badRequestResponse('Invalid body');
-        }
-
         try {
-            $this->manager->setNotificationState($id, $userId, $unread);
+            $data = $this->getRequestBody([
+                'id' => 'is_int',
+                'userId' => 'is_int',
+                'unread' => 'is_bool',
+            ]);
+
+            $this->manager->setNotificationState(
+                $data['id'],
+                $data['userId'],
+                $data['unread']
+            );
             return new JsonModel(
-                $this->manager->getNotificationDataByUserId($userId)
+                $this->manager->getNotificationDataByUserId($data['userId'])
             );
         } catch (UserNotFoundException $e) {
-            $this->badRequestResponse('Invalid user id');
+            return $this->badRequestResponse('Invalid user id');
         } catch (NotificationNotFoundException $e) {
-            $this->forbiddenResponse('Invalid notification id');
+            return $this->forbiddenResponse('Invalid notification id');
+        } catch (\TypeError $e) {
+            return $this->badRequestResponse('Invalid request body');
         }
     }
 }

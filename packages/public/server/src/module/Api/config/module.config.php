@@ -242,7 +242,7 @@ return [
                             'set-notification-state' => [
                                 'type' => 'segment',
                                 'options' => [
-                                    'route' => '/set-notification-state/:id',
+                                    'route' => '/set-notification-state',
                                     'defaults' => [
                                         'action' => 'setNotificationState',
                                     ],
