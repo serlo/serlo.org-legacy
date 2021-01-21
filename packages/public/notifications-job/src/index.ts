@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import base64 from 'base-64'
+import fetch from 'node-fetch'
 import mysql from 'promise-mysql'
 import querystring from 'querystring'
 
