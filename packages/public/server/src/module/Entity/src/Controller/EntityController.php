@@ -125,7 +125,7 @@ class EntityController extends AbstractController
         $instance = $this->getInstanceManager()->getInstanceFromRequest();
 
         if ($instance->getLanguage()->getCode() == 'de') {
-            $reviewHelpUrl = '/140479';
+            $reviewHelpUrl = '/140473';
         } else {
             $reviewHelpUrl =
                 'https://docs.google.com/document/d/1p03xx2KJrFw8Mui4-xllvSTHcEPi8G1bdC8rGXcH6f8/edit';
