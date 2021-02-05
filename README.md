@@ -120,7 +120,6 @@ of the following packages. Check out their READMEs for package-specific details:
   - Use `HEADLESS=false SLOWMO=<number> yarn test:e2e` to introduce a `<number>` of milliseconds delay between actions in tests.
 - `yarn test:js` runs all non-PHP unit tests
 - `yarn test:php` runs all PHP unit tests
-- `yarn pacts` runs the contract tests
 - `yarn migrate:up` runs all the database migration scripts
 - `yarn c` allows running composer commands, see `yarn c --help`
 - `yarn start` spins up the development environment
