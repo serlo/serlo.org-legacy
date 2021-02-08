@@ -19,8 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { AddButton } from '@edtr-io/editor-ui/internal'
-import { EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
+import { AddButton, styled } from '@edtr-io/editor-ui/internal'
+import { boolean, EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
 import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
@@ -39,6 +39,7 @@ export const textExerciseGroupTypeState = entityType(
   {
     ...entity,
     content: editorContent(),
+    cohesive: boolean(false),
   },
   {
     'grouped-text-exercise': list(serializedChild('type-text-exercise')),
@@ -56,11 +57,16 @@ export const textExerciseGroupTypePlugin: EditorPlugin<
 function TextExerciseGroupTypeEditor(
   props: EditorPluginProps<typeof textExerciseGroupTypeState>
 ) {
-  const { content, 'grouped-text-exercise': children } = props.state
+  const { cohesive, content, 'grouped-text-exercise': children } = props.state
   const i18n = useI18n()
+  const isCohesive = cohesive.value ?? false
+
+  console.log(42)
+  console.log(cohesive.value)
 
   return (
     <article className="exercisegroup">
+      {getTypeDescription()}
       {props.renderIntoToolbar(
         <RevisionHistory
           id={props.state.id.value}
@@ -77,7 +83,7 @@ function TextExerciseGroupTypeEditor(
         return (
           <section className="row" key={child.id}>
             <div className="col-sm-1 hidden-xs">
-              <em>{String.fromCharCode(97 + index)})</em>
+              <em>{getExerciseIndex(index)})</em>
             </div>
             <div className="col-sm-11 col-xs-12">
               <OptionalChild
@@ -101,4 +107,31 @@ function TextExerciseGroupTypeEditor(
       <Controls subscriptions {...props.state} />
     </article>
   )
+
+  function getTypeDescription() {
+    if (!props.editable) return null
+
+    return (
+      <h4>
+        Aufgabe mit{' '}
+        <InlineSelect
+          value={isCohesive ? 'cohesive' : 'non-cohesive'}
+          onChange={(e) => cohesive.set(e.target.value === 'cohesive')}
+        >
+          <option value="non-cohesive">nicht zusammenhängenden</option>
+          <option value="cohesive">zusammenhängenden</option>
+        </InlineSelect>{' '}
+        Teilaufgaben:
+      </h4>
+    )
+  }
+
+  function getExerciseIndex(index: number) {
+    return isCohesive ? index + 1 : String.fromCharCode(97 + index)
+  }
 }
+
+const InlineSelect = styled.select`
+  background-color: white;
+  border: none;
+`

@@ -536,6 +536,7 @@ export function deserialize({
           content: serializeEditorState(
             toEdtr(deserializeEditorState(state.content))
           ),
+          cohesive: false,
           'grouped-text-exercise': (state['grouped-text-exercise'] || []).map(
             (s) => deserializeTextExercise(s).initialState.state
           ),
