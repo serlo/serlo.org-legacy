@@ -96,19 +96,13 @@ function TextExerciseGroupTypeEditor(
               <OptionalChild
                 state={child}
                 removeLabel={i18n.t('textExerciseGroup::Remove exercise')}
-                onRemove={() => {
-                  children.remove(index)
-                }}
+                onRemove={() => children.remove(index)}
               />
             </div>
           </section>
         )
       })}
-      <AddButton
-        onClick={() => {
-          children.insert()
-        }}
-      >
+      <AddButton onClick={() => children.insert()}>
         {i18n.t('textExerciseGroup::Add exercise')}
       </AddButton>
       <Controls subscriptions {...props.state} />
