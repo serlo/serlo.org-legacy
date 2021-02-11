@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { AddButton, styled } from '@edtr-io/editor-ui/internal'
+import { AddButton } from '@edtr-io/editor-ui/internal'
 import { boolean, EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
 import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
@@ -61,12 +61,19 @@ function TextExerciseGroupTypeEditor(
   const i18n = useI18n()
   const isCohesive = cohesive.value ?? false
 
-  console.log(42)
-  console.log(cohesive.value)
+  const contentRendered = content.render({
+    renderSettings(children) {
+      return (
+        <React.Fragment>
+          {children}
+          {getSettings()}
+        </React.Fragment>
+      )
+    },
+  })
 
   return (
     <article className="exercisegroup">
-      {getTypeDescription()}
       {props.renderIntoToolbar(
         <RevisionHistory
           id={props.state.id.value}
@@ -76,7 +83,7 @@ function TextExerciseGroupTypeEditor(
       )}
       <section className="row">
         <SemanticSection editable={props.editable}>
-          {content.render()}
+          {contentRendered}
         </SemanticSection>
       </section>
       {children.map((child, index) => {
@@ -108,21 +115,19 @@ function TextExerciseGroupTypeEditor(
     </article>
   )
 
-  function getTypeDescription() {
-    if (!props.editable) return null
-
+  function getSettings() {
     return (
-      <h4>
-        Aufgabe mit{' '}
-        <InlineSelect
+      <div>
+        <label htmlFor="cohesiveSelect">Art der Aufgabengruppe:</label>{' '}
+        <select
+          id="cohesiveSelect"
           value={isCohesive ? 'cohesive' : 'non-cohesive'}
           onChange={(e) => cohesive.set(e.target.value === 'cohesive')}
         >
-          <option value="non-cohesive">nicht zusammenhängenden</option>
-          <option value="cohesive">zusammenhängenden</option>
-        </InlineSelect>{' '}
-        Teilaufgaben:
-      </h4>
+          <option value="non-cohesive">nicht zusammenhängend</option>
+          <option value="cohesive">zusammenhängend</option>
+        </select>
+      </div>
     )
   }
 
@@ -130,8 +135,3 @@ function TextExerciseGroupTypeEditor(
     return isCohesive ? index + 1 : String.fromCharCode(97 + index)
   }
 }
-
-const InlineSelect = styled.select`
-  background-color: white;
-  border: none;
-`
