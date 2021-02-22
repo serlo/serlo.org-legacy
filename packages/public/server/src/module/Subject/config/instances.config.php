@@ -170,7 +170,7 @@ return [
                         'applet',
                     ],
                 ],
-                'boîte à méthodes' => [
+                'conseils pour apprendre' => [
                     'allowed_taxonomies' => ['topic', 'locale'],
                     'allowed_entities' => [
                         'article',
