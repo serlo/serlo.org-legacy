@@ -44,7 +44,7 @@ class TextExerciseGroupForm extends Form
         $this->add(new Changes());
         $this->add(new AgreementFieldset($license));
         $this->add(new Controls());
-        $this->add([ "name" => "cohesive", "required" => false]);
+        $this->add(['name' => 'cohesive', 'required' => false]);
 
         $inputFilter = new InputFilter('text-exercise-group');
         $inputFilter->add(['name' => 'content', 'required' => true]);
