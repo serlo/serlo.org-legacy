@@ -536,7 +536,7 @@ export function deserialize({
           content: serializeEditorState(
             toEdtr(deserializeEditorState(state.content))
           ),
-          cohesive: false,
+          cohesive: state.cohesive === 'true',
           'grouped-text-exercise': (state['grouped-text-exercise'] || []).map(
             (s) => deserializeTextExercise(s).initialState.state
           ),
@@ -712,6 +712,7 @@ export function deserialize({
   }
 
   interface TextExerciseGroupSerializedState extends Entity {
+    cohesive?: string
     content: SerializedEditorState
     'grouped-text-exercise'?: TextExerciseSerializedState[]
   }

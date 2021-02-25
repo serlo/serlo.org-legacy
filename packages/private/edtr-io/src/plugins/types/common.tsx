@@ -254,9 +254,19 @@ export function Controls(props: OwnProps) {
   function handleSave() {
     if (!maySave()) return
     const serializedRoot = serializeRootDocument()(store.getState())
-    const serialized = serializedRoot
-      ? (serializedRoot as { state: object }).state
+    const serialized = R.has('state', serializedRoot)
+      ? serializedRoot.state
       : null
+
+    if (
+      serialized !== null &&
+      serializedRoot?.plugin === 'type-text-exercise-group' &&
+      R.has('cohesive', serialized)
+    ) {
+      // legacy server can only handle string attributes
+      serialized.cohesive = String(serialized.cohesive)
+    }
+
     setPending(true)
     onSave({
       ...serialized,
@@ -427,7 +437,7 @@ export function entityType<
         ...initialisedObject,
         replaceOwnState(newValue) {
           onChange((previousState, helpers) => {
-            return R.mapObjIndexed((value, key) => {
+            return R.mapObjIndexed((_value, key) => {
               if (key in ownTypes) {
                 return ownTypes[key].deserialize(newValue[key], helpers)
               } else {
