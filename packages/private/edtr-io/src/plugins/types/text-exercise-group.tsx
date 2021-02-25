@@ -112,14 +112,20 @@ function TextExerciseGroupTypeEditor(
   function getSettings() {
     return (
       <div>
-        <label htmlFor="cohesiveSelect">Art der Aufgabengruppe:</label>{' '}
+        <label htmlFor="cohesiveSelect">
+          {i18n.t('textExerciseGroup::Kind of exercise group')}:
+        </label>{' '}
         <select
           id="cohesiveSelect"
           value={isCohesive ? 'cohesive' : 'non-cohesive'}
           onChange={(e) => cohesive.set(e.target.value === 'cohesive')}
         >
-          <option value="non-cohesive">nicht zusammenhängend</option>
-          <option value="cohesive">zusammenhängend</option>
+          <option value="non-cohesive">
+            {i18n.t('textExerciseGroup::not cohesive')}
+          </option>
+          <option value="cohesive">
+            {i18n.t('textExerciseGroup::cohesive')}
+          </option>
         </select>
       </div>
     )
