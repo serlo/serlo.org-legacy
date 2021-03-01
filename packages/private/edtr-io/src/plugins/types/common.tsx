@@ -107,7 +107,7 @@ export function Controls(props: OwnProps) {
   const dispatch = useScopedDispatch()
   const pendingChanges = useScopedSelector(getPendingChanges())
   const undoable = pendingChanges > 0
-  const redoable = pendingChanges < 0
+  const redoable = true
   const hasPendingChanges = pendingChanges !== 0
   const getCsrfToken = React.useContext(CsrfContext)
 
