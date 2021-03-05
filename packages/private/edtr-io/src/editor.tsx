@@ -272,22 +272,10 @@ function getStored(): { plugin: string; state?: unknown } | undefined {
 }
 
 export function storeState(state: unknown) {
-  const edtr = localStorage.getItem('edtr')
-  if (!edtr) {
-    localStorage.setItem(
-      'edtr',
-      JSON.stringify({
-        [window.location.pathname]: state,
-      })
-    )
-  } else {
-    const parsed = JSON.parse(edtr)
-    localStorage.setItem(
-      'edtr',
-      JSON.stringify({
-        ...parsed,
-        [window.location.pathname]: state,
-      })
-    )
-  }
+  const currentValue = localStorage.getItem('edtr')
+  const edtr = currentValue ? JSON.parse(currentValue) : {}
+
+  edtr[window.location.pathname] = state
+
+  localStorage.setItem('edtr', JSON.stringify(edtr))
 }
