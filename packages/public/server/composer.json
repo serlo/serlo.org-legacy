@@ -29,6 +29,7 @@
       "Admin\\": "src/module/Admin/src",
       "Ads\\": "src/module/Ads/src",
       "Alias\\": "src/module/Alias/src",
+      "Api\\": "src/module/Api/src",
       "Application\\": "src/module/Application/src",
       "Attachment\\": "src/module/Attachment/src",
       "Authentication\\": "src/module/Authentication/src",
@@ -74,6 +75,7 @@
     "psr-4": {
       "AtheneTest\\": "src/test/AtheneTest",
       "AdminTest\\": "src/module/Admin/test",
+      "ApiTest\\": "src/module/Api/test",
       "AuthenticationTest\\": "src/module/Authentication/test",
       "BlogTest\\": "src/module/Blog/test",
       "ClassResolverTest\\": "src/module/ClassResolver/test",
