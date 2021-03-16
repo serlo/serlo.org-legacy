@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2020-01-10 07:07+0100\n"
-"PO-Revision-Date: 2020-11-01 22:36\n"
+"PO-Revision-Date: 2021-03-16 09:57\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -264,23 +264,23 @@ msgstr "Type :"
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:73
 msgid "Your account has been activated, you may now log in."
-msgstr "Votre compte a été activé, vous pouvez maintenant vous connecter."
+msgstr "Ton compte a été activé, tu peux maintenant te connecter."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:78
 msgid "I couldn't find an account by that token. You can now try to re-activate your account."
-msgstr "Aucun compte avec ce token n'a pu être trouvé. Vous pouvez maintenant essayer de réactiver votre compte."
+msgstr "Aucun compte avec ce token n'a pu être trouvé. Tu peux maintenant essayer de réactiver ton compte."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:96
 msgid "Your have been sent an activation email. Please check your spam folder as well."
-msgstr "Nous vous avons envoyé un e-mail d'activation. Veuillez également voir votre dossier spam."
+msgstr "Nous t'avons envoyé un e-mail d'activation. Veuille également vérifier ton dossier spam."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:134
 msgid "Your password has successfully been changed."
-msgstr "Votre mot de passe a été modifié avec succès."
+msgstr "Ton mot de passe a été modifié avec succès."
 
 #: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:239
 msgid "You have been sent an email with instructions on how to restore your password! Please check your spam folder as well."
-msgstr "Nous vous avons envoyé par mail les instructions de réinitialisation de votre mot de passe! Veuillez également voir votre dossier spam."
+msgstr "Nous t'avons envoyé par mail les instructions de réinitialisation de ton mot de passe! Veuille également vérifier ton dossier spam."
 
 #: ../module/Authentication/src/Authentication/Form/ActivateForm.php:43
 #: ../module/User/src/User/Form/Register.php:54
@@ -346,31 +346,31 @@ msgstr "Uri :"
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:107
 msgid "Your comment has been saved."
-msgstr "Votre commentaire a été enregistré."
+msgstr "Ton commentaire a été enregistré."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:162
 msgid "Your discussion has been started."
-msgstr "Votre conversation a demarré."
+msgstr "Ta discussion a été lancée."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:191
 msgid "You have downvoted this comment."
-msgstr "Vous avez rejeté ce commentaire."
+msgstr "Tu as rejeté ce commentaire."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:193
 msgid "You can't downvote this comment."
-msgstr "Vous ne pouvez pas rejeter ce commentaire."
+msgstr "Tu ne peux pas rejeter ce commentaire."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:197
 msgid "You have upvoted this comment."
-msgstr "Vous avez voté pour ce commentaire."
+msgstr "Tu as voté pour ce commentaire."
 
 #: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:199
 msgid "You can't upvote this comment."
-msgstr "Vous ne pouvez pas voter pour ce commentaire."
+msgstr "Tu ne peux pas voter pour ce commentaire."
 
 #: ../module/Discussion/src/Discussion/Form/CommentForm.php:83
 msgid "Your response"
-msgstr "Votre réponse"
+msgstr "Ta réponse"
 
 #: ../module/Discussion/src/Discussion/Form/CommentForm.php:88
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:139
@@ -379,7 +379,7 @@ msgstr "Répondre"
 
 #: ../module/Discussion/src/Discussion/Form/DiscussionForm.php:83
 msgid "Ask a question or suggest an improvement"
-msgstr "Posez une question ou suggérez une amélioration"
+msgstr "Poser une question ou suggérer une amélioration"
 
 #: ../module/Discussion/src/Discussion/Form/DiscussionForm.php:88
 msgid "Submit"
@@ -404,15 +404,15 @@ msgstr "Questionnaire pour les reviewers"
 #: ../module/Entity/src/Entity/Controller/LinkController.php:65
 #: ../module/Entity/src/Entity/Controller/LinkController.php:89
 msgid "Your changes have been saved."
-msgstr "Vos modifications ont été enregistrées."
+msgstr "Tes modifications ont été enregistrées."
 
 #: ../module/Entity/src/Entity/Controller/RepositoryController.php:358
 msgid "Your revision has been saved and is available"
-msgstr "Votre révision a été enregistrée et est disponible"
+msgstr "Ta révision a été enregistrée et est disponible"
 
 #: ../module/Entity/src/Entity/Controller/RepositoryController.php:361
 msgid "Your revision has been saved, it will be available once it gets approved"
-msgstr "Votre révision a été enregistrée, elle sera disponible une fois qu'elle sera approuvée"
+msgstr "Ta révision a été enregistrée, elle sera disponible une fois qu'elle sera approuvée"
 
 #: ../module/Entity/src/Entity/Form/AppletForm.php:49
 msgid "Applet Url:"
@@ -471,7 +471,7 @@ msgstr "Cet élément a été marqué comme inapproprié."
 
 #: ../module/Flag/src/Flag/Controller/FlagController.php:93
 msgid "Your action was successfull."
-msgstr "Votre action a réussi."
+msgstr "Ta action a réussi."
 
 #: ../module/Flag/src/Flag/Controller/FlagController.php:95
 msgid "The flag could not be removed (validation failed)"
@@ -565,31 +565,31 @@ msgstr "cours"
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:94
 msgid "You are now receiving notifications for this content."
-msgstr "Vous recevez maintenant des notifications pour ce contenu."
+msgstr "Tu reçois maintenant des notifications pour ce contenu."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:112
 msgid "Your subscription has been updated successfully."
-msgstr "Votre abonnement a été mis à jour avec succès."
+msgstr "Ton abonnement a été mis à jour avec succès."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:114
 msgid "The object you are trying to subscribe to does not exist."
-msgstr "L’objet auquel vous vous voulez abonner n’existe pas."
+msgstr "L’objet auquel tu veux t'abonner n’existe pas."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:117
 msgid "You can't update your subscription because you did not subscribe to this object."
-msgstr "Vous ne pouvez pas mettre à jour votre abonnement parce que vous vous n'êtes pas abonné à cet objet."
+msgstr "Tu ne peux pas mettre à jour ton abonnement parce que tu ne t'es pas abonné à cet objet."
 
 #: ../module/Notification/src/Notification/Controller/SubscriptionController.php:142
 msgid "You are no longer receiving notifications for this content."
-msgstr "Vous ne recevez plus de notifications pour ce contenu."
+msgstr "Tu ne reçois plus de notifications pour ce contenu."
 
 #: ../module/Notification/src/Notification/Form/OptInFieldset.php:37
 msgid "Add to watchlist."
-msgstr "Ajouter à votre liste de suivi."
+msgstr "Ajouter à ta liste de suivi."
 
 #: ../module/Notification/src/Notification/Form/OptInFieldset.php:44
 msgid "Receive notifications via email."
-msgstr "Recevez des notifications par e-mail."
+msgstr "Recevoir des notifications par e-mail."
 
 #: ../module/Page/src/Page/Form/RepositoryForm.php:55
 msgid "Discussions enabled"
@@ -613,7 +613,7 @@ msgstr "Les éléments ont été copiés avec succès!"
 
 #: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:253
 msgid "Your changes have been saved!"
-msgstr "Vos modifications ont été enregistrés!"
+msgstr "Tes modifications ont été enregistrés!"
 
 #: ../module/Taxonomy/src/Taxonomy/Form/BatchCopyForm.php:47
 msgid "Copy to:"
@@ -634,11 +634,11 @@ msgstr "description:"
 
 #: ../module/User/src/User/Controller/UserController.php:130
 msgid "You have registered successfully and will soon receive an email with instructions on how to activate your account."
-msgstr "Vous vous êtes inscrit avec succès et allez bientôt recevoir un e-mail avec des consignes concernant l'activation de votre compte utilisateur."
+msgstr "Tu t'es inscrit avec succès et va bientôt recevoir un e-mail avec des consignes concernant l'activation de ton compte."
 
 #: ../module/User/src/User/Controller/UserController.php:197
 msgid "Your profile has been saved"
-msgstr "Votre profil a été enregistré"
+msgstr "Ton profil a été enregistré"
 
 #: ../module/User/src/User/Form/ChangePasswordForm.php:44
 msgid "Current password:"
@@ -709,11 +709,11 @@ msgstr "Nom de famille (facultatif):"
 
 #: ../module/User/src/User/Form/Register.php:74
 msgid "Enter last name"
-msgstr "Entrez votre nom de famille"
+msgstr "Entre ton nom de famille"
 
 #: ../module/User/src/User/Form/Register.php:77
 msgid "I agree that Serlo Education e.V. may contact me via email."
-msgstr "Je suis d’accord que Serlo Education e.V. puisse me contacter par e-mail."
+msgstr "Oui, Serlo Education e.V. peut me contacter par e-mail."
 
 #: ../module/User/src/User/Form/Register.php:82
 msgid "Parent"
@@ -746,23 +746,23 @@ msgstr "Inscription"
 
 #: ../module/User/src/User/Form/RegisterFilter.php:57
 msgid "This email address is already in use. Please use a different one."
-msgstr "Cette adresse e-mail est déjà utilisée. Veuillez utiliser une autre."
+msgstr "Cette adresse e-mail est déjà utilisée. Veuille utiliser une autre."
 
 #: ../module/User/src/User/Form/RegisterFilter.php:78
 msgid "This username is already taken. Please use a different one."
-msgstr "Ce nom d'utilisateur est déjà pris. Veuillez en utiliser un autre."
+msgstr "Ce nom d'utilisateur est déjà pris. Veuille en utiliser un autre."
 
 #: ../module/User/src/User/Form/RegisterFilter.php:89
 msgid "Your username may only contain letters, digits, underscores (_) and hyphens (-). Please use a different one."
-msgstr "Votre nom d'utilisateur ne peut contenir seulement des lettres, chiffres, soulignements (_) et trait d'union (-). Veuillez en utiliser un autre."
+msgstr "Ton nom d'utilisateur ne peut contenir seulement des lettres, chiffres, soulignements (_) et trait d'union (-). Veuille en utiliser un autre."
 
 #: ../module/User/src/User/Form/RegisterFilter.php:109
 msgid "Your password needs to be at least 6 characters long."
-msgstr "Votre mot de passe doit comporter au moins 6 caractères."
+msgstr "Ton mot de passe doit comporter au moins 6 caractères."
 
 #: ../module/User/src/User/Form/RegisterFilter.php:117
 msgid "The password entered does not match the confirmation password. Ensure the passwords entered are identical."
-msgstr "Le mot de passe saisi ne correspond pas à l'adresse de confirmation. Veuillez vous assurer que les mots de passe entrés sont identiques."
+msgstr "Le mot de passe saisi ne correspond pas à l'adresse de confirmation. Veuille t'assurer que les mots de passe entrés sont identiques."
 
 #: ../module/User/src/User/Form/SettingsForm.php:45
 msgid "About me:"
@@ -909,7 +909,7 @@ msgstr "Cette page n'existe pas!"
 
 #: ../module/Ui/templates/error/404.phtml:31
 msgid "It seems like we can't find the page you were looking for. Try checking the URL for errors, then hit the refresh button on your browser."
-msgstr "Il semble que la page que vous cherchez n'existe pas. Vérifiez que l'url ne contienne pas d'erreurs, puis appuyez sur le bouton d'actualisation de votre navigateur."
+msgstr "Il semble que la page que tu cherches n'existe pas. Vérifie que l'url ne contienne pas d'erreurs, puis appuie sur le bouton d'actualisation de ton navigateur."
 
 #: ../module/Ui/templates/error/404.phtml:50
 msgid "The requested controller was unable to dispatch the request."
@@ -977,15 +977,15 @@ msgstr "Une erreur fatale s'est produite"
 
 #: ../module/Ui/templates/error/index.phtml:26
 msgid "While we're resolving this issue, please enjoy the video."
-msgstr "Pendant que nous résolvons ce problème, profitez de cette vidéo."
+msgstr "Pendant que nous résolvons ce problème, profite de cette vidéo."
 
 #: ../module/Ui/templates/error/index.phtml:86
 msgid "No Exception available"
-msgstr "Aucune exception est disponible"
+msgstr "Aucune exception n'est disponible"
 
 #: ../module/Ui/templates/error/index.phtml:101
 msgid "Read the following, if you're really good with computers:"
-msgstr "Lisez ce qui suit, si vous êtes vraiment bon avec les ordinateurs:"
+msgstr "Lis ce qui suit, si tu es vraiment doué avec les ordinateurs:"
 
 #: ../module/Ui/templates/flag/detail.phtml:31
 #: ../module/Ui/templates/flag/manage.phtml:29
@@ -1099,7 +1099,7 @@ msgstr "Tout comme Wikipédia, cette plateforme est créée par une communauté 
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:157
 msgid "Become a Part of Our Movement for Open Education"
-msgstr "Rejoignez notre mouvement pour l'éducation libre"
+msgstr "Rejoigne notre mouvement pour l'éducation libre"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:164
 msgid "We are looking for teachers and enthusiastic educators who are passionate about their subject.\n"
@@ -1148,7 +1148,7 @@ msgstr "Nous sommes une communauté de visionnaires qui travaille sans relâche 
 #: ../module/Ui/templates/layout/partials/footer.phtml:53
 #: ../module/Ui/templates/layout/partials/footer.phtml:81
 msgid "Join the cause"
-msgstr "Rejoignez-nous"
+msgstr "Rejoigne-nous"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:57
 #: ../module/Ui/templates/layout/partials/footer.phtml:87
@@ -1229,11 +1229,11 @@ msgstr "Actions"
 
 #: ../module/Ui/templates/license/manage.phtml:50
 msgid "Caution, deleting a license has serious consequences. You are going to delete a great amount of content, you need to know exactly what you are doing! THIS ACTION CAN NOT BE UNDONE"
-msgstr "Attention, la suppression d'une licence a des conséquences graves. Vous allez supprimer une grande quantité de contenu, vous devez savoir exactement ce que vous faites! CETTE ACTION NE PEUT PAS ÊTRE ANNULÉE"
+msgstr "Attention, la suppression d'une licence a des conséquences graves. Tu vas supprimer une grande quantité de contenu, tu dois savoir exactement ce que tu fait! CETTE ACTION NE PEUT PAS ÊTRE ANNULÉE"
 
 #: ../module/Ui/templates/license/manage.phtml:52
 msgid "DANGER: You are going to delete all contents associated with this license!"
-msgstr "DANGER: Vous allez supprimer tous les contenus associés à cette licence!"
+msgstr "DANGER: Tu vas supprimer tous les contenus associés à cette licence!"
 
 #: ../module/Ui/templates/navigation/containers.phtml:34
 msgid "container"
@@ -1254,7 +1254,7 @@ msgstr "Action"
 
 #: ../module/Ui/templates/subject/entity/trash-bin.phtml:47
 msgid "Do you really want to purge this item? It and all references to it will be lost forever!"
-msgstr "Voulez-vous vraiment supprimer cet objet? L'objet et toutes les références connectées avec lui seront perdues pour toujours!"
+msgstr "Veux-tu vraiment supprimer cet objet? L'objet et toutes les références connectées avec lui seront perdues pour toujours!"
 
 #: ../module/Ui/templates/taxonomy/term/order-associated.phtml:24
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:60
@@ -1309,7 +1309,7 @@ msgstr "ID"
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:55
 #, php-format
 msgid "Do you really want to purge the item <strong>%s</strong>? It and all references to it will be lost forever!"
-msgstr "Voulez-vous vraiment supprimer l'objet <strong>%s</strong>? L'objet et toutes les références connectées avec lui seront perdues pour toujours!"
+msgstr "Veux-tu vraiment supprimer l'objet <strong>%s</strong>? L'objet et toutes les références connectées avec lui seront perdues pour toujours!"
 
 #: ../module/Ui/templates/admin/debugger.twig:22
 msgid "Debugger"
@@ -1333,7 +1333,7 @@ msgstr "Clics"
 
 #: ../module/Ui/templates/ads/setAdPage.twig:22
 msgid "Please enter the id of the adPage"
-msgstr "Veuillez saisir l'id de la adPage"
+msgstr "Veuille saisir l'id de la adPage"
 
 #: ../module/Ui/templates/authentication/activate.twig:24
 msgid "Activate an account"
@@ -1341,7 +1341,7 @@ msgstr "Activer un compte"
 
 #: ../module/Ui/templates/authentication/login.twig:27
 msgid "You must be logged in to access this page."
-msgstr "Vous devez être connecté pour accéder à cette page."
+msgstr "Tu dois être connecté pour accéder à cette page."
 
 #: ../module/Ui/templates/authentication/login.twig:34
 msgid "Log in"
@@ -1349,15 +1349,15 @@ msgstr "Se connecter"
 
 #: ../module/Ui/templates/authentication/login.twig:58
 msgid "Are you new here? %sSign up%s!"
-msgstr "Vous êtes nouveau ici? %sInscrivez-vous%s!"
+msgstr "Tu es nouveau ici? %sInscris-toi%s!"
 
 #: ../module/Ui/templates/authentication/login.twig:61
 msgid "Did you forget your %spassword%s?"
-msgstr "Avez vous oublié votre %smot de passe%s ?"
+msgstr "As-tu oublié ton %smot de passe%s ?"
 
 #: ../module/Ui/templates/authentication/login.twig:64
 msgid "Haven't activated your account yet? %sResend activation mail%s!"
-msgstr "Vous n'avez pas encore activé votre compte? %sEnvoyez à nouveau un e-mail d'activation %s!"
+msgstr "Tu n'as pas encore activé ton compte? %sEnvoye à nouveau un e-mail d'activation %s!"
 
 #: ../module/Ui/templates/authentication/logout.twig:23
 msgid "Log out"
@@ -1399,7 +1399,7 @@ msgstr "Commenter une discussion"
 
 #: ../module/Ui/templates/discussion/discussion/select/forum.twig:27
 msgid "Please select an appropriate category for your discussion. Choosing the right category helps others to find your discussion faster and to answer you quicker. Thank you!"
-msgstr "Veuillez sélectionner une catégorie appropriée pour votre discussion. Choisir la bonne catégorie aide les autres utilisateurs à trouver votre discussion plus rapide et à vous répondre plus vite. Merci!"
+msgstr "Veuille sélectionner une catégorie appropriée pour ta discussion. Choisir la bonne catégorie aide les autres utilisateurs à trouver votre discussion plus rapide et à te répondre plus vite. Merci!"
 
 #: ../module/Ui/templates/discussion/discussion/select/forum.twig:37
 msgid "Saving..."
@@ -1426,12 +1426,12 @@ msgstr "de"
 #: ../module/Ui/templates/discussion/discussion/show.twig:83
 #: ../module/Ui/templates/discussion/helper/default/discussion.twig:81
 msgid "Do you really want to delete this discussion?"
-msgstr "Souhaitez-vous vraiment supprimer cette discussion?"
+msgstr "Souhaites-tu vraiment supprimer cette discussion?"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:115
 #: ../module/Ui/templates/discussion/helper/default/comment.twig:37
 msgid "Do you really want to delete this comment?"
-msgstr "Souhaitez-vous vraiment supprimer ce commentaire?"
+msgstr "Souhaites-tu vraiment supprimer ce commentaire?"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:128
 msgid "Answer discussion:"
@@ -1559,8 +1559,8 @@ msgstr "Histoire"
 #: ../module/Ui/templates/entity/repository/history.twig:25
 msgid "There are multiple recent revisions for this object. Please be aware that they may be of very\n"
 "        different nature. Consider reviewing all of them before accepting or merging."
-msgstr "Il y a plusieurs révisions récentes pour cet objet. Soyez s'il vous plaît conscient qu'elles peuvent être différentes\n"
-" . Pensez à examiner toutes les révisions avant d'accepter ou de fusionner."
+msgstr "Il y a plusieurs révisions récentes pour cet objet. Sois s'il te plaît conscient qu'elles peuvent être différentes\n"
+" . Pense à examiner toutes les révisions avant d'accepter ou de fusionner."
 
 #: ../module/Ui/templates/entity/repository/history.twig:33
 msgid "Current"
@@ -1601,7 +1601,7 @@ msgstr "Rejeter la révision"
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:32
 msgid "Please specify why you are rejecting the submission."
-msgstr "Veuillez préciser pourquoi vous rejetez la soumission."
+msgstr "Veuille préciser pourquoi ru rejettes la soumission."
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:38
 msgid "Reject"
@@ -1716,7 +1716,7 @@ msgstr "Ordonner les sous-éléments"
 
 #: ../module/Ui/templates/entity/view/partials/actions/link/update.twig:31
 msgid "Change parent %name%"
-msgstr "Changer page %name%"
+msgstr "Déplacer ce contenu vers un autre nœud parent (%nom%)"
 
 #: ../module/Ui/templates/entity/view/partials/actions/related-content/manage.twig:27
 msgid "Manage related items"
@@ -1798,7 +1798,7 @@ msgstr "Cacher l'indice"
 #: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:23
 #: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:23
 msgid "Nope. Try again!"
-msgstr "Malheureusemant pas. Réessayez!"
+msgstr "Malheureusemant pas. Réessaye!"
 
 #: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:25
 #: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:25
@@ -1859,7 +1859,7 @@ msgstr "solution"
 
 #: ../module/Ui/templates/entity/view/text-solution.twig:39
 msgid "A solution has been created but no content has been added yet or it is pending approval."
-msgstr "Un solution a été créé mais soit aucun contenu n’a encore été ajouté ou l’approbation du contenu est en attende."
+msgstr "Une solution a été créée mais aucun contenu n'a encore été ajouté ou il est en attente d'approbation."
 
 #: ../module/Ui/templates/entity/view/video.twig:22
 msgid "video"
@@ -1867,7 +1867,7 @@ msgstr "vidéo"
 
 #: ../module/Ui/templates/entity/view/video.twig:58
 msgid "Could not embed video - platform unknown"
-msgstr "La vidéo n'a pas pu être intégrée - plate-form inconnue"
+msgstr "La vidéo n'a pas pu être intégrée - plateforme inconnue"
 
 #: ../module/Ui/templates/event/helper/event/default.twig:27
 msgid "No template found for event %s"
@@ -1970,27 +1970,27 @@ msgstr "Vous pouvez <a href=\"%href%\"> changez les paramètres</a> pour déterm
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/content.twig:25
 msgid "Here's a heads up of what has happened with content you edited or created:"
-msgstr "Voici un apercu de ce qui s'est passé avec le contenu que vous avez édité ou créé :"
+msgstr "Voici un apercu de ce qui s'est passé avec le contenu que tu as édité ou créé :"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/content.twig:29
 msgid "This happened with a content you edited or created:"
-msgstr "Ceci s'est produit avec un contenu que vous avez modifié ou créé :"
+msgstr "Ceci s'est produit avec un contenu que tu as modifié ou créé :"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/discussions.twig:26
 msgid "Users on %brand% have messaged you or replied to comments by you:"
-msgstr "Les utilisateurs sur %brand% vous ont envoyé un message ou ont répondu à vos commentaires:"
+msgstr "Les utilisateurs·utilisatrices sur %brand% t'ont envoyé un message ou ont répondu à tes commentaires:"
 
 #: ../module/Ui/templates/mailman/messages/notification/partials/discussions.twig:30
 msgid "A user on %brand% has messaged you or replied to one of your comments:"
-msgstr "Un utilisateur sur %brand% vous a envoyé un message ou a répondu à un de vos commentaires :"
+msgstr "Un·e utilisateur·utilisatrices sur %brand% vous a envoyé un message ou a répondu à un de vos commentaires :"
 
 #: ../module/Ui/templates/mailman/messages/notification/plain.twig:32
 msgid "You can change the settings for which content you want to receive notifications here: %href%"
-msgstr "Vous pouvez modifier les paramètres pour définir le contenu pour lequel vous souhaitez recevoir des notifications ici : %href%"
+msgstr "Tu peux modifier les paramètres pour définir le contenu pour lequel tu souhaites recevoir des notifications ici : %href%"
 
 #: ../module/Ui/templates/mailman/messages/notification/subject.twig:24
 msgid "You have unread notifications on %brand%"
-msgstr "Vous avez des notifications non lues sur %brand%"
+msgstr "Tu as des notifications non lues sur %brand%"
 
 #: ../module/Ui/templates/mailman/messages/register/body.twig:25
 #: ../module/Ui/templates/mailman/messages/register/plain.twig:25
@@ -2001,11 +2001,11 @@ msgid "Hello %s,\n\n"
 "        We are looking forward to your contribution to %s!\n\n"
 "        Your community support"
 msgstr "Bonjour %s, \n\n"
-"merci pour votre enregistrement sur %s.\n\n"
-"Veuillez confirmer votre compte en cliquant sur le lien suivant: \n"
+"merci pour ton enregistrement sur %s.\n\n"
+"Veuille confirmer ton compte en cliquant sur le lien suivant: \n"
 "%s\n\n"
-"Nous attendons avec impatience votre contribution à %s! \n\n"
-"Votre soutien communautaire"
+"Nous attendons avec impatience ta contribution à %s! \n\n"
+"Ton soutien communautaire"
 
 #: ../module/Ui/templates/mailman/messages/register/body.twig:39
 msgid "Activate account"
@@ -2022,13 +2022,13 @@ msgid "Hi %s,\n"
 "        You can restore your password by clicking the link below:\n\n"
 "        %s"
 msgstr "Bonjour %s,\n"
-"        il semble que vous voulez restaurer votre mot de passe. Si non, vous pouvez ignorer cet e-mail.\n"
-"        Vous pouvez restaurer votre mot de passe en cliquant sur le lien ci-dessous :\n\n"
+"        il semble que tu veux restaurer ton mot de passe. Si ce n'est pas le cas, tu peux ignorer ce e-mail.\n"
+"        Tu peux restaurer ton mot de passe en cliquant sur le lien ci-dessous :\n\n"
 "        %s"
 
 #: ../module/Ui/templates/mailman/messages/restore-password/subject.twig:23
 msgid "Restore your password on %s"
-msgstr "Réinitialisez votre mot de passe sur %s"
+msgstr "Réinitialise ton mot de passe sur %s"
 
 #: ../module/Ui/templates/mailman/messages/welcome/body.twig:24
 msgid "Dear %s,\n\n"
@@ -2037,10 +2037,10 @@ msgid "Dear %s,\n\n"
 "        If you have any questions, problems or feedback for us, feel free to get in touch via <a href=\"mailto:de@serlo.org\">de@serlo.org</a>.\n\n"
 "        Enjoy Serlo!"
 msgstr "Chère/cher %s,\n\n"
-" Nous sommes ravis que vous ayez décidé d'écrire un commentaire ou de faire une contribution sur serlo.org.\n\n"
-" Pour savoir comment modifier et créer du contenu, veuillez visiter la page d'accueil de la communauté: <a href=\"https://fr.serlo.org/community\">community homepage</a>.\n\n"
-" Si vous avez des questions, des problèmes ou des commentaires, n'hésitez pas à nous contacter via <a href=\"mailto:fr@serlo.org\">fr@serlo.org</a>.\n\n"
-"  Nous vous souhaitons beaucoup de plaisir avec Serlo!"
+" Nous sommes ravis que tu aies décidé d'écrire un commentaire ou de faire une contribution sur serlo.org.\n\n"
+" Pour savoir comment modifier et créer du contenu, veuille visiter la page d'accueil de la communauté: <a href=\"https://fr.serlo.org/community\">community homepage</a>.\n\n"
+" Si tu as des questions, des problèmes ou des commentaires, n'hésite pas à nous contacter via <a href=\"mailto:fr@serlo.org\">fr@serlo.org</a>.\n\n"
+"  Nous te souhaitons beaucoup de plaisir avec Serlo!"
 
 #: ../module/Ui/templates/mailman/messages/welcome/plain.twig:24
 msgid "Dear %s,\n\n"
@@ -2049,10 +2049,10 @@ msgid "Dear %s,\n\n"
 "        If you have any questions, problems or feedback for us, feel free to get in touch via de@serlo.org.\n\n"
 "        Enjoy Serlo!"
 msgstr "Chère/cher %s,\n\n"
-"Nous sommes ravis que vous ayez décidé d'écrire un commentaire ou de faire une contribution sur serlo.org.\n\n"
-" Pour savoir comment modifier et créer du contenu, veuillez visiter la page d'accueil de la communauté: https://fr.serlo.org/community.\n\n"
-" Si vous avez des questions, des problèmes ou des commentaires pour nous, n'hésitez pas à nous contacter via community-fr@serlo.org.\n\n"
-" Nous vous souhaitons beaucoup de plaisir avec Serlo!"
+"Nous sommes ravis que tu aies décidé d'écrire un commentaire ou de faire une contribution sur serlo.org.\n\n"
+" Pour savoir comment modifier et créer du contenu, veuille visiter la page d'accueil de la communauté: https://fr.serlo.org/community.\n\n"
+" Si tu as des questions, des problèmes ou des commentaires pour nous, n'hésite pas à nous contacter via community-fr@serlo.org.\n\n"
+" Nous te souhaitons beaucoup de plaisir avec Serlo!"
 
 #: ../module/Ui/templates/mailman/messages/welcome/subject.twig:23
 msgid "How to get started on Serlo!"
@@ -2098,11 +2098,11 @@ msgstr "Aucun modèle n'a été trouvé pour la notification «%type% »"
 
 #: ../module/Ui/templates/notification/notifications.twig:42
 msgid "You have no notifications."
-msgstr "Vous n'avez aucune notification."
+msgstr "Tu n'as aucune notification."
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:22
 msgid "Manage subscriptions"
-msgstr "Gérer votre abonnement"
+msgstr "Gérer les abonnements"
 
 #: ../module/Ui/templates/notification/subscription/manage.twig:27
 msgid "Emails"
@@ -2308,7 +2308,7 @@ msgstr "déclaration de protection de données"
 
 #: ../module/Ui/templates/subject/home/index.twig:23
 msgid "Start learning now!"
-msgstr "Commencez à apprendre maintenant !"
+msgstr "Commence à apprendre maintenant !"
 
 #: ../module/Ui/templates/taxonomy/term/aggregate/siblings.twig:25
 msgid "Further exercises"
@@ -2453,19 +2453,19 @@ msgstr "Dernière visite"
 
 #: ../module/Ui/templates/user/user/register.twig:82
 msgid "Stay in touch!"
-msgstr "Restez en contact!"
+msgstr "Reste en contact!"
 
 #: ../module/Ui/templates/user/user/register.twig:85
 msgid "<strong>Sign up to our newsletter to receive quarterly updates about our work.</strong> Serlo Education e.V. will use the information you provided to send you the newsletter and (optionally) personalise these mailings. We will also supply insights on aspects of Serlo that may be particularly interesting to you, based on the information you provided. To enable us to keep serlo.org free of charge and free of advertising we send out a fundraiser campaign through our newsletter list annually around Christmas. Please confirm below if you would like to give us permission to contact you in this way."
-msgstr "<strong>Inscrivez-vous à notre newsletter pour recevoir les mises à jour trimestrielles sur notre travail.</strong> Serlo Education e.V. utilisera vos données pour vous envoyer la newsletter et (facultativement) personnaliser ces envois. Nous allons vous fournir également avec des idées sur des aspects de Serlo qui pourraient vous intéresser basées sur l’es informations vous avez données. Pour nous permettre de garder serlo.org gratuitement et sans publicité, nous envoyons chaque année autour de Noël une campagne de collecte de fonds. S’il vous plaît confirmer ci-dessous si vous souhaitez nous donnez la permission de vous contacter de cette manière."
+msgstr "<strong>Inscris-toi à notre newsletter pour recevoir les mises à jour trimestrielles sur notre travail.</strong> Serlo Education e.V. utilisera tes données pour t'envoyer la newsletter et (facultativement) personnaliser ces envois. Nous te donnerons également un aperçu des aspects de Serlo qui pourraient t'intéresser particulièrement, sur la base des informations que tu as fournies. Pour nous permettre de garder serlo.org gratuitement et sans publicité, nous envoyons chaque année autour de Noël une campagne de collecte de fonds. Veuille confirmer ci-dessous si tu souhaites nous donner la permission de te contacter de cette manière."
 
 #: ../module/Ui/templates/user/user/register.twig:114
 msgid "You can revoke your consent to contact you via email at any time by clicking the unsubscribe link in any mailing or send us an email at <a href=\"mailto:de@serlo.org\">de@serlo.org</a>. Your privacy is very important to us. For the processing of our mailing activities we work with MailChimp as a service provider. MailChimp underlies a strict data processing agreement with us that ensures the protection of your data in accordance with the European General Data Protection Regulations. By subscribing to our newsletter you agree with our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and acknowledge that your data will be processed by MailChimp in accordance with their <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">Terms</a>."
-msgstr "Vous pouvez révoquer votre consentement de vous contacter par e-mail à tout moment en cliquant sur le lien de désabonnement présent dans toutes les e-mails que nous vous envoyons ou en nous envoyant un e-mail à <a href=\"mailto:fr@serlo.org\">de@serlo.org</a>. Votre vie privée est très importante à nous. Pour le traitement de nos activités d'e-mails, nous travaillons avec MailChimp comme un fournisseur de services. MailChimp sous-tend un contrat stricte concernant le traitement des donnés avec nous qui assure la protection de vos données en conformité avec le règlement européen sur la protection des données générales. En vous abonnant à notre newsletter, vous acceptez notre <a href=\"/22964\" target=\"_blank\"></a> politique de confidentialité et reconnaissez que vos données seront traitées par MailChimp conformément à leur <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">politique de confidentialité</a> et <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">termes</a>."
+msgstr "Tu peux à tout moment révoquer ton consentement à te contacter par courrier électronique en cliquant sur le lien de désabonnement figurant dans tout envoi ou en nous envoyant un courrier électronique à l'adresse suivante : <a href=\"mailto:fr@serlo.org\">fr@serlo.org</a>. La protection de ta vie privée est très importante pour nous. Pour le traitement de nos activités de mailing, nous travaillons avec MailChimp en tant que prestataire de services. MailChimp a conclu avec nous un accord strict de traitement des données qui garantit la protection de tes données conformément au règlement général européen sur la protection des données. En t'inscrivant à notre lettre d'information, tu acceptes notre <a href=\"/22964\" target=\"_blank\">politique de confidentialité</a> et reconnais que tes données seront traitées par MailChimp conformément à sa <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">politique de confidentialité</a> et ses<a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">conditions d'utilisation</a>."
 
 #: ../module/Ui/templates/user/user/register.twig:122
 msgid "By clicking <em>Sign up</em>, you agree to our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and <a href=\"/21654\" target=\"_blank\">Terms</a>. You may receive email notifications from us and can opt out at any time."
-msgstr "En cliquant sur <em>Inscrivez-vous</em>, vous acceptez notre <a href=\"/22964\" target=\"_blank\">termes</a> et <a href=\"/21654\" target=\"_blank\">politique de confidentialité</a>. Vous pouvez recevoir des notifications par email et vous pouvez retirer à tout moment."
+msgstr "En cliquant sur <em>Inscris-toi</em>, tu acceptes nos <a href=\"/22964\" target=\"_blank\">termes</a> et notres <a href=\"/21654\" target=\"_blank\">politique de confidentialité</a>. Tu peux recevoir des notifications par courrier électronique de notre part et tu peux te retirer à tout moment."
 
 #: ../module/Ui/templates/user/user/settings.twig:22
 msgid "My settings"

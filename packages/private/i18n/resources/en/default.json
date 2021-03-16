@@ -214,7 +214,10 @@
   },
   "textExerciseGroup": {
     "Remove exercise": "Remove exercise",
-    "Add exercise": "Add exercise"
+    "Add exercise": "Add exercise",
+    "Kind of exercise group": "Kind of exercise group",
+    "not cohesive": "not cohesive",
+    "cohesive": "cohesive"
   },
   "textExercise": {
     "Remove solution": "Remove solution",
