@@ -29,6 +29,7 @@
       "Admin\\": "src/module/Admin/src",
       "Ads\\": "src/module/Ads/src",
       "Alias\\": "src/module/Alias/src",
+      "Api\\": "src/module/Api/src",
       "Application\\": "src/module/Application/src",
       "Attachment\\": "src/module/Attachment/src",
       "Authentication\\": "src/module/Authentication/src",
