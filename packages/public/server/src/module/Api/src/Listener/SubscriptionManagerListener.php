@@ -25,8 +25,6 @@ namespace Api\Listener;
 
 use Notification\SubscriptionManager;
 use User\Entity\UserInterface;
-use Uuid\Entity\UuidInterface;
-use Versioning\RepositoryManager;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 

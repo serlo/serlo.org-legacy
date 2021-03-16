@@ -43,17 +43,6 @@ class NotificationApiManager
         $this->sentry = $sentry;
     }
 
-    /**
-     * @param int $userId
-     * @return array
-     * @throws UserNotFoundException
-     */
-    public function getNotificationDataByUserId(int $userId)
-    {
-        $user = $this->userManager->getUser($userId);
-        return $this->getNotificationData($user);
-    }
-
     protected function getNotificationData(UserInterface $user)
     {
         $notifications = $this->notificationManager->findNotificationsBySubscriber(
@@ -84,17 +73,6 @@ class NotificationApiManager
         );
     }
 
-    /**
-     * @param int $id
-     * @return array
-     * @throws EntityNotFoundException
-     */
-    public function getEventDataById(int $id)
-    {
-        $event = $this->eventManager->getEvent($id, false);
-        return $this->getEventData($event);
-    }
-
     protected function getEventData(EventLogInterface $event)
     {
         $normalized = $this->normalizeEvent($event);
@@ -115,34 +93,6 @@ class NotificationApiManager
             $this->graphql->getCacheKey('/api/event/' . $event->getId()),
             $this->getEventData($event)
         );
-    }
-
-    /**
-     * @param int $id
-     * @param int $userId
-     * @param bool $unread
-     * @throws UserNotFoundException
-     * @throws NotificationNotFoundException
-     */
-    public function setNotificationState(int $id, int $userId, bool $unread)
-    {
-        $user = $this->userManager->getUser($userId);
-        $notifications = $this->notificationManager->findNotificationsBySubscriber(
-            $user,
-            null
-        );
-        /** @var NotificationInterface $notification */
-        $notification = $notifications
-            ->filter(function (NotificationInterface $n) use ($id) {
-                return $n->getId() === $id;
-            })
-            ->first();
-        if (!$notification) {
-            throw new NotificationNotFoundException();
-        }
-        $notification->setSeen(!$unread);
-        $this->notificationManager->getObjectManager()->persist($notification);
-        $this->notificationManager->flush();
     }
 
     protected function normalizeEvent(EventLogInterface $event)

@@ -23,11 +23,8 @@
 
 namespace Api\Factory;
 
-use Api\Controller\NotificationApiController;
 use Api\Manager\NotificationApiManager;
-use Api\Service\AuthorizationService;
 use Api\Service\GraphQLService;
-use Common\Factory\AbstractControllerFactory;
 use Event\EventManager;
 use Event\EventManagerInterface;
 use Notification\NotificationManager;

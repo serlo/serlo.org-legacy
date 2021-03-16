@@ -23,8 +23,6 @@
 
 namespace Api\Listener;
 
-use Alias\AliasManager;
-use Alias\Entity\AliasInterface;
 use Api\Manager\NotificationApiManager;
 use Common\Listener\AbstractSharedListenerAggregate;
 use Notification\Entity\NotificationInterface;

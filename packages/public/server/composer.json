@@ -75,7 +75,6 @@
     "psr-4": {
       "AtheneTest\\": "src/test/AtheneTest",
       "AdminTest\\": "src/module/Admin/test",
-      "ApiTest\\": "src/module/Api/test",
       "AuthenticationTest\\": "src/module/Authentication/test",
       "BlogTest\\": "src/module/Blog/test",
       "ClassResolverTest\\": "src/module/ClassResolver/test",
