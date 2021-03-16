@@ -27,7 +27,6 @@ use Csrf\Form\Element\CsrfToken;
 use Common\Form\Element\EditorState;
 use License\Entity\LicenseInterface;
 use License\Form\AgreementFieldset;
-use Zend\Form\Element\Textarea;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
 
@@ -45,6 +44,7 @@ class TextExerciseGroupForm extends Form
         $this->add(new Changes());
         $this->add(new AgreementFieldset($license));
         $this->add(new Controls());
+        $this->add(['name' => 'cohesive', 'required' => false]);
 
         $inputFilter = new InputFilter('text-exercise-group');
         $inputFilter->add(['name' => 'content', 'required' => true]);

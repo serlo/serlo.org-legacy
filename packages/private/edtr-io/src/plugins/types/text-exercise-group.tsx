@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { AddButton } from '@edtr-io/editor-ui/internal'
-import { EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
+import { boolean, EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
 import { useI18n } from '@serlo/i18n'
 import * as React from 'react'
 
@@ -39,6 +39,7 @@ export const textExerciseGroupTypeState = entityType(
   {
     ...entity,
     content: editorContent(),
+    cohesive: boolean(false),
   },
   {
     'grouped-text-exercise': list(serializedChild('type-text-exercise')),
@@ -56,8 +57,20 @@ export const textExerciseGroupTypePlugin: EditorPlugin<
 function TextExerciseGroupTypeEditor(
   props: EditorPluginProps<typeof textExerciseGroupTypeState>
 ) {
-  const { content, 'grouped-text-exercise': children } = props.state
+  const { cohesive, content, 'grouped-text-exercise': children } = props.state
   const i18n = useI18n()
+  const isCohesive = cohesive.value ?? false
+
+  const contentRendered = content.render({
+    renderSettings(children) {
+      return (
+        <React.Fragment>
+          {children}
+          {getSettings()}
+        </React.Fragment>
+      )
+    },
+  })
 
   return (
     <article className="exercisegroup">
@@ -70,35 +83,55 @@ function TextExerciseGroupTypeEditor(
       )}
       <section className="row">
         <SemanticSection editable={props.editable}>
-          {content.render()}
+          {contentRendered}
         </SemanticSection>
       </section>
       {children.map((child, index) => {
         return (
           <section className="row" key={child.id}>
             <div className="col-sm-1 hidden-xs">
-              <em>{String.fromCharCode(97 + index)})</em>
+              <em>{getExerciseIndex(index)})</em>
             </div>
             <div className="col-sm-11 col-xs-12">
               <OptionalChild
                 state={child}
                 removeLabel={i18n.t('textExerciseGroup::Remove exercise')}
-                onRemove={() => {
-                  children.remove(index)
-                }}
+                onRemove={() => children.remove(index)}
               />
             </div>
           </section>
         )
       })}
-      <AddButton
-        onClick={() => {
-          children.insert()
-        }}
-      >
+      <AddButton onClick={() => children.insert()}>
         {i18n.t('textExerciseGroup::Add exercise')}
       </AddButton>
       <Controls subscriptions {...props.state} />
     </article>
   )
+
+  function getSettings() {
+    return (
+      <div>
+        <label htmlFor="cohesiveSelect">
+          {i18n.t('textExerciseGroup::Kind of exercise group')}:
+        </label>{' '}
+        <select
+          id="cohesiveSelect"
+          value={isCohesive ? 'cohesive' : 'non-cohesive'}
+          onChange={(e) => cohesive.set(e.target.value === 'cohesive')}
+        >
+          <option value="non-cohesive">
+            {i18n.t('textExerciseGroup::not cohesive')}
+          </option>
+          <option value="cohesive">
+            {i18n.t('textExerciseGroup::cohesive')}
+          </option>
+        </select>
+      </div>
+    )
+  }
+
+  function getExerciseIndex(index: number) {
+    return isCohesive ? index + 1 : String.fromCharCode(97 + index)
+  }
 }

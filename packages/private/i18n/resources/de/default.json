@@ -214,7 +214,10 @@
   },
   "textExerciseGroup": {
     "Remove exercise": "Teilaufgabe entfernen",
-    "Add exercise": "Teilaufgabe hinzufügen"
+    "Add exercise": "Teilaufgabe hinzufügen",
+    "Kind of exercise group": "Art der Aufgabengruppe",
+    "not cohesive": "nicht zusammenhängend",
+    "cohesive": "zusammenhängend"
   },
   "textExercise": {
     "Remove solution": "Lösung entfernen",
