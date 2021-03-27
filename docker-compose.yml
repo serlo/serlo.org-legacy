@@ -9,7 +9,7 @@ services:
       - MYSQL_ROOT_PASSWORD=secret
 
   hydra:
-    image: oryd/hydra:v1.9.0-sqlite
+    image: oryd/hydra:v1.10.1-sqlite
     ports:
       - '4444:4444'
       - '4445:4445'
