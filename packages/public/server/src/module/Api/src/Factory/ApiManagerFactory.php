@@ -26,7 +26,7 @@ namespace Api\Factory;
 use Alias\AliasManager;
 use Alias\AliasManagerInterface;
 use Api\ApiManager;
-use Api\Service\GraphQLService;
+use Api\Service\AbstractGraphQLService;
 use Discussion\DiscussionManager;
 use Discussion\DiscussionManagerInterface;
 use Notification\SubscriptionManager;
@@ -44,8 +44,8 @@ class ApiManagerFactory implements FactoryInterface
         $discussionManager = $serviceLocator->get(DiscussionManager::class);
         /** @var SubscriptionManagerInterface $subscriptionManager */
         $subscriptionManager = $serviceLocator->get(SubscriptionManager::class);
-        /** @var GraphQLService $graphql */
-        $graphql = $serviceLocator->get(GraphQLService::class);
+        /** @var AbstractGraphQLService $graphql */
+        $graphql = $serviceLocator->get(AbstractGraphQLService::class);
         return new ApiManager(
             $aliasManager,
             $discussionManager,

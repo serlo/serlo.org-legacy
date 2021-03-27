@@ -20,19 +20,37 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Authentication\Service;
+namespace Api\Factory;
 
-use Zend\Authentication\AuthenticationServiceInterface as ZendAuthenticationServiceInterface;
-use Zend\Authentication\Result;
+use Zend\Cache\StorageFactory;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-interface AuthenticationServiceInterface extends
-    ZendAuthenticationServiceInterface
+class GraphQLMockStorageFactory implements FactoryInterface
 {
     /**
-     * @param string $email
-     * @param string $password
-     * @param bool $remember
-     * @return Result
+     * Create service
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return mixed
      */
-    public function authenticateWithData($email, $password, $remember = false);
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        $config = [
+            'adapter' => [
+                'name' => 'apc',
+                'options' => [
+                    'namespace' => __NAMESPACE__,
+                    'ttl' => 60 * 60,
+                ],
+            ],
+            'plugins' => [
+                'exception_handler' => [
+                    'throw_exceptions' => false,
+                ],
+                'serializer',
+            ],
+        ];
+        return StorageFactory::factory($config);
+    }
 }
