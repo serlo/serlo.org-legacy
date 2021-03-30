@@ -43,7 +43,7 @@ class GraphQLMockService extends AbstractGraphQLService
 
     public function exec(string $query, array $variables)
     {
-        $list = $this->storage->getItem($this->key);
+        $list = $this->get();
         $list[] = [
             'timestamp' => (new DateTime())->format(DateTime::ATOM),
             'query' => $query,
