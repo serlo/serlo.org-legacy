@@ -20,19 +20,28 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-namespace Authentication\Service;
 
-use Zend\Authentication\AuthenticationServiceInterface as ZendAuthenticationServiceInterface;
-use Zend\Authentication\Result;
+namespace Api\Service;
 
-interface AuthenticationServiceInterface extends
-    ZendAuthenticationServiceInterface
+abstract class AbstractGraphQLService
 {
-    /**
-     * @param string $email
-     * @param string $password
-     * @param bool $remember
-     * @return Result
-     */
-    public function authenticateWithData($email, $password, $remember = false);
+    abstract public function exec(string $query, array $variables);
+
+    public function getCacheKey($path, $instance = 'de')
+    {
+        return $instance . '.serlo.org' . $path;
+    }
+
+    public function setCache($key, $value)
+    {
+        $query = <<<MUTATION
+          mutation _setCache(\$key: String!, \$value: JSON!) {
+            _setCache(key: \$key, value: \$value)
+          }
+MUTATION;
+        $this->exec($query, [
+            'key' => $key,
+            'value' => $value,
+        ]);
+    }
 }

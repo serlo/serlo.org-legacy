@@ -1,19 +1,36 @@
 <?php
-
+/**
+ * This file is part of Serlo.org.
+ *
+ * Copyright (c) 2013-2021 Serlo Education e.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @copyright Copyright (c) 2013-2021 Serlo Education e.V.
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
+ */
 namespace Api\Manager;
 
-use Api\Service\GraphQLService;
+use Api\Service\AbstractGraphQLService;
 use DateTime;
 use Event\Entity\EventLogInterface;
 use Event\EventManagerInterface;
-use Event\Exception\EntityNotFoundException;
 use Notification\Entity\NotificationEventInterface;
 use Notification\Entity\NotificationInterface;
-use Notification\Exception\NotificationNotFoundException;
 use Notification\NotificationManagerInterface;
 use Raven_Client;
 use User\Entity\UserInterface;
-use User\Exception\UserNotFoundException;
 use User\Manager\UserManagerInterface;
 
 class NotificationApiManager
@@ -24,7 +41,7 @@ class NotificationApiManager
     protected $notificationManager;
     /** @var UserManagerInterface */
     protected $userManager;
-    /** @var GraphQLService */
+    /** @var AbstractGraphQLService */
     protected $graphql;
     /** @var Raven_Client */
     protected $sentry;
@@ -33,7 +50,7 @@ class NotificationApiManager
         EventManagerInterface $eventManager,
         NotificationManagerInterface $notificationManager,
         UserManagerInterface $userManager,
-        GraphQLService $graphql,
+        AbstractGraphQLService $graphql,
         $sentry
     ) {
         $this->eventManager = $eventManager;

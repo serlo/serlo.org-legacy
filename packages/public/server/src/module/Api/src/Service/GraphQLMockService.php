@@ -21,27 +21,44 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 
-namespace Api\Factory;
+namespace Api\Service;
 
-use Api\Service\GraphQLMockService;
-use Api\Service\GraphQLService;
+use DateTime;
 use Zend\Cache\Storage\StorageInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
-class GraphQLServiceFactory implements FactoryInterface
+class GraphQLMockService extends AbstractGraphQLService
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    /** @var StorageInterface */
+    protected $storage;
+
+    protected $key = ':GRAPHQL:';
+
+    public function __construct(StorageInterface $storage)
     {
-        $config = $serviceLocator->get('Config');
-        $options = $config['api_options'];
-        $sentry = $serviceLocator->get('Log\Sentry');
-        if (isset($options['host']) && isset($options['secret'])) {
-            return new GraphQLService($options, $sentry);
-        } else {
-            /** @var StorageInterface $storage */
-            $storage = $serviceLocator->get('Api\Storage\GraphQLMockStorage');
-            return new GraphQLMockService($storage);
+        $this->storage = $storage;
+        if (!$this->storage->hasItem($this->key)) {
+            $this->storage->setItem($this->key, []);
         }
+    }
+
+    public function exec(string $query, array $variables)
+    {
+        $list = $this->get();
+        $list[] = [
+            'timestamp' => (new DateTime())->format(DateTime::ATOM),
+            'query' => $query,
+            'variables' => $variables,
+        ];
+        $this->storage->setItem($this->key, $list);
+    }
+
+    public function get()
+    {
+        return $this->storage->getItem($this->key);
+    }
+
+    public function clear()
+    {
+        $this->storage->setItem($this->key, []);
     }
 }

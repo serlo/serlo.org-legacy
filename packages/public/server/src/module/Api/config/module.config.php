@@ -23,8 +23,11 @@
 
 namespace Api;
 
+use Api\Controller\GraphQLMockController;
 use Api\Factory\ApiManagerFactory;
 use Api\Factory\DiscussionManagerListenerFactory;
+use Api\Factory\GraphQLMockControllerFactory;
+use Api\Factory\GraphQLMockStorageFactory;
 use Api\Factory\GraphQLServiceFactory;
 use Api\Factory\LicenseManagerListenerFactory;
 use Api\Factory\LinkServiceListenerFactory;
@@ -47,13 +50,53 @@ use Api\Listener\TaxonomyManagerListener;
 use Api\Listener\UserManagerListener;
 use Api\Listener\UuidManagerListener;
 use Api\Manager\NotificationApiManager;
-use Api\Service\GraphQLService;
+use Api\Service\AbstractGraphQLService;
 
 return [
+    'controllers' => [
+        'factories' => [
+            GraphQLMockController::class => GraphQLMockControllerFactory::class,
+        ],
+    ],
+    'router' => [
+        'routes' => [
+            'api' => [
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/graphql',
+                    'defaults' => [
+                        'controller' => GraphQLMockController::class,
+                    ],
+                ],
+                'child_routes' => [
+                    'list' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/list',
+                            'defaults' => [
+                                'action' => 'list',
+                            ],
+                        ],
+                    ],
+                    'clear' => [
+                        'type' => 'literal',
+                        'options' => [
+                            'route' => '/clear',
+                            'defaults' => [
+                                'action' => 'clear',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
     'service_manager' => [
         'factories' => [
             ApiManager::class => ApiManagerFactory::class,
-            GraphQLService::class => GraphQLServiceFactory::class,
+            AbstractGraphQLService::class => GraphQLServiceFactory::class,
+            __NAMESPACE__ .
+            '\Storage\GraphQLMockStorage' => GraphQLMockStorageFactory::class,
             DiscussionManagerListener::class =>
                 DiscussionManagerListenerFactory::class,
             NotificationApiManager::class =>

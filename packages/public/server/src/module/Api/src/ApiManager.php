@@ -24,7 +24,7 @@
 namespace Api;
 
 use Alias\AliasManagerInterface;
-use Api\Service\GraphQLService;
+use Api\Service\AbstractGraphQLService;
 use DateTime;
 use Discussion\DiscussionManagerInterface;
 use Discussion\Entity\CommentInterface;
@@ -47,14 +47,14 @@ class ApiManager
     protected $discussionManager;
     /** @var SubscriptionManagerInterface */
     protected $subscriptionManager;
-    /** @var GraphQLService */
+    /** @var AbstractGraphQLService */
     protected $graphql;
 
     public function __construct(
         AliasManagerInterface $aliasManager,
         DiscussionManagerInterface $discussionManager,
         SubscriptionManagerInterface $subscriptionManager,
-        GraphQLService $graphql
+        AbstractGraphQLService $graphql
     ) {
         $this->aliasManager = $aliasManager;
         $this->discussionManager = $discussionManager;
