@@ -34,7 +34,6 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
         'Entity\Listener\EntityControllerListener',
         'Entity\Listener\RepositoryControllerListener',
         'Entity\Listener\PageControllerListener',
-        'Entity\Listener\TOCControllerListener',
     ];
 
     public function getConfig()
