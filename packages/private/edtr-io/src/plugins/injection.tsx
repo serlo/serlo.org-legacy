@@ -54,6 +54,7 @@ export function InjectionRenderer(props: { src: string }) {
     fetch(src, {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
+        'X-From': 'legacy-serlo.org',
       },
     })
       .then((response) => response.json())
