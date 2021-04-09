@@ -60,7 +60,7 @@ test('view topic page with subtopics', async () => {
 })
 
 test('view topic page with entities and topic folders', async () => {
-  const topicPath = '/math/example-content/example-topic-1'
+  const topicPath = '/math/35560/example-topic-1'
   const topic = await goto(topicPath).then(getMainContent)
 
   await expect(topic).toMatchElement('h1', { text: 'Example topic 1' })
@@ -80,16 +80,14 @@ test('navigating through the taxonomy', async () => {
     clickForNewPage
   )
 
-  expect(topic1).toHaveUrlPath('/math/example-content/example-topic-1')
+  expect(topic1).toHaveUrlPath('/math/35560/example-topic-1')
   await expect(topic1).toMatchElement('h1', { text: 'Example topic 1' })
 
   const article = await getByText(topic1, 'Example article').then(
     clickForNewPage
   )
 
-  expect(article).toHaveUrlPath(
-    '/math/example-content/example-topic-1/example-article'
-  )
+  expect(article).toHaveUrlPath('/math/35571/example-article')
   await expect(article).toMatchElement('h1', { text: 'Example article' })
 })
 
