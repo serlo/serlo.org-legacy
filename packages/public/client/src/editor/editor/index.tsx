@@ -58,6 +58,7 @@ export function initEntityEditor(
                 'X-Requested-with': 'XMLHttpRequest',
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                'X-From': 'legacy-serlo.org',
               },
               body: JSON.stringify(data),
             })
