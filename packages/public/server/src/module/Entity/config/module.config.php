@@ -60,7 +60,6 @@ return [
             __NAMESPACE__ . '\Controller\TaxonomyController',
             __NAMESPACE__ . '\Controller\LinkController',
             __NAMESPACE__ . '\Controller\LicenseController',
-            __NAMESPACE__ . '\Controller\TOCController',
         ],
         'definition' => [
             'class' => [
@@ -98,15 +97,6 @@ return [
                     ],
                 ],
                 __NAMESPACE__ . '\Controller\PageController' => [
-                    'setEntityManager' => [
-                        'required' => true,
-                    ],
-                    'setModuleOptions' => [
-                        'required' => true,
-                    ],
-                ],
-
-                __NAMESPACE__ . '\Controller\TOCController' => [
                     'setEntityManager' => [
                         'required' => true,
                     ],

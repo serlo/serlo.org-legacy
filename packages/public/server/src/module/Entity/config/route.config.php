@@ -327,20 +327,6 @@ return [
                             ],
                         ],
                         'may_terminate' => true,
-                        'child_routes' => [
-                            'tableOfContents' => [
-                                'type' => 'segment',
-                                'options' => [
-                                    'route' => '/toc',
-                                    'defaults' => [
-                                        'controller' =>
-                                            __NAMESPACE__ .
-                                            '\Controller\TOCController',
-                                        'action' => 'index',
-                                    ],
-                                ],
-                            ],
-                        ],
                     ],
                     'taxonomy' => [
                         'type' => 'literal',
