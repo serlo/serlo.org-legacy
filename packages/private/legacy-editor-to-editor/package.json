@@ -9,8 +9,8 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/core": "^1.0.0",
-    "@edtr-io/plugin-text": "^1.0.0",
+    "@edtr-io/core": "^2.0.0-beta.1",
+    "@edtr-io/plugin-text": "^2.0.0-beta.1",
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",
