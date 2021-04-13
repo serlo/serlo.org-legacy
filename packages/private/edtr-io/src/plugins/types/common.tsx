@@ -41,10 +41,12 @@ import {
 } from '@edtr-io/plugin'
 import {
   getDocument,
-  getPendingChanges,
   redo,
   serializeRootDocument,
   undo,
+  hasRedoActions,
+  hasUndoActions,
+  getPendingChanges,
 } from '@edtr-io/store'
 import { Icon, faTrashAlt, styled } from '@edtr-io/ui'
 import { useI18n } from '@serlo/i18n'
@@ -105,9 +107,9 @@ export function Controls(props: OwnProps) {
   const i18n = useI18n()
   const store = useScopedStore()
   const dispatch = useScopedDispatch()
+  const undoable = useScopedSelector(hasUndoActions())
+  const redoable = useScopedSelector(hasRedoActions())
   const pendingChanges = useScopedSelector(getPendingChanges())
-  const undoable = pendingChanges > 0
-  const redoable = true
   const hasPendingChanges = pendingChanges !== 0
   const getCsrfToken = React.useContext(CsrfContext)
 
