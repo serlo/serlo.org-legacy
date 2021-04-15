@@ -143,13 +143,6 @@ class EntityController extends AbstractController
             ],
             [
                 'url' =>
-                    'https://community.serlo.org/channel/feedback-requests',
-                'title' => $translator->translate(
-                    'Channel #feedback-requests in RocketChat'
-                ),
-            ],
-            [
-                'url' =>
                     'https://docs.google.com/forms/d/e/1FAIpQLSfMjWIZZq2_AoHbqNv3AOEjQRBwA8qEZIMJpk5l0vX7w2nwnQ/viewform',
                 'title' => $translator->translate(
                     'Questionnaire for reviewers'
