@@ -23,9 +23,13 @@
     class="discussion blockquote-box {{ discussion.getArchived() ? 'blockquote-success' : 'blockquote-primary' }} {{ blockquoteClass }}">
     <div class="row">
         <div class="col-xs-{{ leftWidth }}">
-            <div class="blockquote-primary square square-sm">
-                <span class="fa fa-2x {{ discussion.getArchived() ? 'fa-check' : 'fa-comments' }}"></span>
-            </div>
+            {%  if discussion.getArchived() %}
+                <div class="blockquote-primary square" style="width: 72px;">
+                    <span class="fa fa-2x fa-check"></span>
+                </div>
+            {% else %}
+                <img src="https://community.serlo.org/avatar/{{ discussion.getAuthor().getUsername() }}" style="display: box; width: 72px; border-radius: 8px;" />
+            {% endif %}
             <section class="discussion-actions">
                 {% if not discussion.isTrashed() %}
                     <div class="btn-group">

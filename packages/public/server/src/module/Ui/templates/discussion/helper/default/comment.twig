@@ -22,9 +22,7 @@
 <div class="blockquote-box blockquote-info discussion-comment {{ blockquoteClass }}">
     <div class="row">
         <div class="col-xs-{{ leftWidth }}">
-            <div class="square square-sm blockquote-info">
-            <span class="fa fa-2x fa-share"></span>
-            </div>
+            <img src="https://community.serlo.org/avatar/{{ comment.getAuthor().getUsername() }}" style="display: box; width: 72px; border-radius: 8px;" />
             <div class="discussion-actions btn-group">
                 {% if isGranted('flag.create', comment) %}
                     <a class="btn btn-xs btn-default"
