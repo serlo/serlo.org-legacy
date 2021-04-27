@@ -25,6 +25,7 @@ namespace Entity\Controller;
 use Entity\Form\MoveForm;
 use Entity\Options\ModuleOptionsAwareTrait;
 use Link\Service\LinkServiceAwareTrait;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
 class LinkController extends AbstractController
@@ -102,10 +103,11 @@ class LinkController extends AbstractController
 
             $this->getLinkService()->sortChildren($entity, $scope, $data);
             $this->getEntityManager()->flush();
-            $this->flashMessenger()->addSuccessMessage(
-                'Your changes have been saved.'
-            );
-            return $this->redirect()->toUrl($this->referer()->fromStorage());
+
+            return new JsonModel([
+                'success' => true,
+                'redirect' => $this->referer()->fromStorage(),
+            ]);
         } else {
             $this->referer()->store();
         }
