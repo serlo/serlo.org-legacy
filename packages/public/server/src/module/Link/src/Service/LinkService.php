@@ -117,6 +117,10 @@ class LinkService implements LinkServiceInterface
             $i++;
         }
 
+        $this->getEventManager()->trigger('sortChildren', $this, [
+            'parent' => $parent,
+        ]);
+
         return $this;
     }
 
