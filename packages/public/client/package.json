@@ -1,6 +1,6 @@
 {
   "name": "@serlo/client",
-  "version": "19.0.0",
+  "version": "20.0.0",
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
@@ -42,7 +42,7 @@
     "jquery-ui": "^1.0.0",
     "jquery.redirect": "^1.0.0",
     "js-cookie": "^2.0.0",
-    "katex": "^0.12.0",
+    "katex": "^0.13.0",
     "lodash": "^4.0.0",
     "lodash.debounce": "^4.0.0",
     "magnific-popup": "^1.0.0",
