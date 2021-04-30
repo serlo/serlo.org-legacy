@@ -116,7 +116,7 @@ class EntityManager implements EntityManagerInterface
         return $entity;
     }
 
-    public function findAllUnrevisedRevisions()
+    public function findAllUnrevisedRevisions($limit = 100)
     {
         $entityClassName = $this->getClassResolver()->resolveClassName(
             'Entity\Entity\RevisionInterface'
@@ -129,7 +129,8 @@ class EntityManager implements EntityManagerInterface
             'INNER JOIN entity e ON e.id = r.repository_id ' .
             'INNER JOIN `uuid` u_e ON e.id = u_e.id ' .
             'WHERE ( e.current_revision_id IS NULL OR r.id > e.current_revision_id ) ' .
-            'AND u_r.trashed = 0 AND u_e.trashed = 0';
+            'AND u_r.trashed = 0 AND u_e.trashed = 0 LIMIT ' .
+            $limit;
         $q = $this->objectManager->getConnection()->prepare($sql);
         $q->execute();
         $unrevisedRevisionIdsNested = $q->fetchAll();
