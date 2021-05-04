@@ -103,9 +103,8 @@ class ApiManager
 
     public function removeUuid($id)
     {
-        $this->graphql->setCache(
-            $this->graphql->getCacheKey('/api/uuid/' . $id),
-            null
+        $this->graphql->removeCache(
+            $this->graphql->getCacheKey('/api/uuid/' . $id)
         );
     }
 

@@ -44,4 +44,14 @@ MUTATION;
             'value' => $value,
         ]);
     }
+
+    public function removeCache($key)
+    {
+        $query = <<<MUTATION
+            mutation _removeCache(\$key: String!) {
+                _removeCache(key: \$key)
+            }
+MUTATION;
+        $this->exec($query, ['key' => $key]);
+    }
 }
