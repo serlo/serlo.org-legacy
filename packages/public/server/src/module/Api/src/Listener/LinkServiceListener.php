@@ -52,6 +52,13 @@ class LinkServiceListener extends AbstractListener
         $this->getApiManager()->setUuid($term);
     }
 
+    public function onSortChildren(Event $e)
+    {
+        /** @var UuidInterface $parent */
+        $parent = $e->getParam('parent');
+        $this->getApiManager()->removeUuid($parent->getId());
+    }
+
     public function attachShared(SharedEventManagerInterface $events)
     {
         $events->attach(
@@ -64,6 +71,12 @@ class LinkServiceListener extends AbstractListener
             $this->getMonitoredClass(),
             'link',
             [$this, 'onLinkChange'],
+            2
+        );
+        $events->attach(
+            $this->getMonitoredClass(),
+            'sortChildren',
+            [$this, 'onSortChildren'],
             2
         );
     }
