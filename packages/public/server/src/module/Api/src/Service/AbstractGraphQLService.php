@@ -37,7 +37,7 @@ abstract class AbstractGraphQLService
         $query = <<<MUTATION
             mutation _setCache(\$key: String!, \$value: JSON!) {
                 _cache {
-                    setCache(input: { key: \$key, value: \$value }) {
+                    set(input: { key: \$key, value: \$value }) {
                         success
                     }
                 }
@@ -54,7 +54,7 @@ MUTATION;
         $query = <<<MUTATION
             mutation _removeCache(\$key: String!) {
                 _cache {
-                    removeCache(input: { key: \$key }) {
+                    remove(input: { key: \$key }) {
                         success
                     }
                 }
