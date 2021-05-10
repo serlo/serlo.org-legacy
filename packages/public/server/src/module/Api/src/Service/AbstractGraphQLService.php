@@ -35,9 +35,13 @@ abstract class AbstractGraphQLService
     public function setCache($key, $value)
     {
         $query = <<<MUTATION
-          mutation _setCache(\$key: String!, \$value: JSON!) {
-            _setCache(key: \$key, value: \$value)
-          }
+            mutation _setCache(\$key: String!, \$value: JSON!) {
+                _cache {
+                    set(input: { key: \$key, value: \$value }) {
+                        success
+                    }
+                }
+            }
 MUTATION;
         $this->exec($query, [
             'key' => $key,
@@ -49,7 +53,11 @@ MUTATION;
     {
         $query = <<<MUTATION
             mutation _removeCache(\$key: String!) {
-                _removeCache(key: \$key)
+                _cache {
+                    remove(input: { key: \$key }) {
+                        success
+                    }
+                }
             }
 MUTATION;
         $this->exec($query, ['key' => $key]);
