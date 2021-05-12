@@ -169,9 +169,9 @@ class InstanceAwareRepository extends EntityRepository
         /* @var $entityManager InstanceAwareEntityManager */
         $entityManager = $this->_em;
         if ($this->instanceFiltering and $entityManager->getInstance()) {
-            $criteria[
-                $this->instanceField
-            ] = $entityManager->getInstance()->getId();
+            $criteria[$this->instanceField] = $entityManager
+                ->getInstance()
+                ->getId();
         }
 
         return $criteria;

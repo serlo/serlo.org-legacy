@@ -1,6 +1,6 @@
 {
   "name": "@serlo/client",
-  "version": "20.0.0",
+  "version": "20.0.1",
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
@@ -15,7 +15,6 @@
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",
-    "@sentry/browser": "^5.0.0",
     "@serlo/editor-helpers": "^0.0.0",
     "@serlo/edtr-io": "^0.0.0",
     "@serlo/i18n": "^0.0.0",
@@ -30,8 +29,8 @@
     "bootstrap-datepicker": "^1.0.0",
     "bootstrap-sass": "^3.0.0",
     "d3": "^3.0.0",
-    "diff": "^4.0.0",
-    "diff2html": "^2.0.0",
+    "diff": "^5.0.0",
+    "diff2html": "^3.0.0",
     "dnode": "^1.0.0",
     "font-awesome": "^4.0.0",
     "howler": "^2.0.0",
@@ -61,7 +60,7 @@
     "@babel/register": "^7.0.0",
     "@serlo/cloudflare": "^0.0.0",
     "@serlo/gcloud": "^0.0.0",
-    "@types/diff": "^4.0.0",
+    "@types/diff": "^5.0.0",
     "@types/jquery": "^3.0.0",
     "@types/js-cookie": "^2.0.0",
     "@types/lodash": "^4.0.0",
@@ -96,7 +95,7 @@
     "webpack-cli": "^3.0.0",
     "webpack-deduplication-plugin": "^0.0.8",
     "webpack-dev-server": "^3.0.0",
-    "webpack-node-externals": "^2.0.0",
+    "webpack-node-externals": "^3.0.0",
     "webpack-require-http": "^0.4.0"
   }
 }

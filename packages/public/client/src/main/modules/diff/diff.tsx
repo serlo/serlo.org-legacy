@@ -33,15 +33,13 @@ export function initDiff() {
   const $elements = $('.revision-compare')
   if (!$elements.length) return
 
-  import('./helper').then(({ createPatch, Diff2Html }) => {
+  import('./helper').then(({ createPatch, getPrettyHtml }) => {
     $elements.each((_index, el) => {
       const title = $(el).data('field-name')
       const $old = $('.revision-compare-old', el)
       const $new = $('.revision-compare-new', el)
       const diff = createPatch(title, ...prettify($old.text(), $new.text()))
-      const html = Diff2Html.getPrettyHtml(diff, {
-        inputFormat: 'diff',
-        showFiles: false,
+      const html = getPrettyHtml(diff, {
         matching: 'lines',
         maxLineSizeInBlockForComparison: 1000,
         rawTemplates: {
@@ -67,9 +65,7 @@ export function initDiff() {
         },
       })
 
-      const sideBySideHtml = Diff2Html.getPrettyHtml(diff, {
-        inputFormat: 'diff',
-        showFiles: false,
+      const sideBySideHtml = getPrettyHtml(diff, {
         matching: 'lines',
         maxLineSizeInBlockForComparison: 1000,
         outputFormat: 'side-by-side',

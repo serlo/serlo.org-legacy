@@ -25,7 +25,6 @@ import $ from 'jquery'
 import Common from '../../modules/common'
 import '../../modules/content'
 import t from '../../modules/translator'
-import { Sentry } from './sentry'
 
 var Injections
 var cache = {}
@@ -195,9 +194,6 @@ Injections = function () {
       })
       .always(function () {
         totalInjectionsCount -= 1
-        if (totalInjectionsCount === 0 && ggbAppletsCount > 0) {
-          Sentry.captureMessage('Legacy GeoGebra applet')
-        }
       })
       // This error could mean that the injection is of type GeoGebraTube
       .fail(function () {

@@ -26,14 +26,12 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import fetch from 'unfetch'
 
-import { Sentry } from '../../main/modules/sentry'
 import { getCsrfToken } from '../../modules/csrf'
 
 export function initEntityEditor(
   props: Omit<EditorProps, 'onError' | 'onSave'>,
   element: HTMLDivElement
 ) {
-  Sentry.setExtra('type', props.type)
   render(
     <DynamicComponent<React.PropsWithChildren<EditorProps>>
       load={() => {
@@ -44,11 +42,6 @@ export function initEntityEditor(
         getCsrfToken: getCsrfToken,
         onError: (error, context) => {
           console.log('edtr-io error', error, context)
-          Sentry.withScope((scope) => {
-            scope.setTag('edtr-io', 'true')
-            scope.setExtras(context)
-            Sentry.captureException(error)
-          })
         },
         onSave: (data) => {
           return new Promise((resolve, reject) => {
@@ -91,10 +84,8 @@ function DynamicComponent<P>({
   load: () => Promise<React.ComponentType<P>>
   props: P
 }) {
-  const [
-    Component,
-    setComponent,
-  ] = React.useState<React.ComponentType<P> | null>(null)
+  const [Component, setComponent] =
+    React.useState<React.ComponentType<P> | null>(null)
   React.useEffect(() => {
     load().then((Component) => {
       // Has to be a function. Otherwise, React will interpret the Component as a change handler and try to call it.

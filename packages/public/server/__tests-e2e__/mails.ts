@@ -39,9 +39,9 @@ test('Reset password mail renders correctly', async () => {
   }, email)
   const $submit = await queries.getByText($document, 'Wiederherstellen')
   await Promise.all([mailPage.waitForNavigation(), $submit.click()])
-  const data = await fetch(
-    'http://de.serlo.localhost:4567/mails/list'
-  ).then((response) => response.json())
+  const data = await fetch('http://de.serlo.localhost:4567/mails/list').then(
+    (response) => response.json()
+  )
   expect(data.flushed).toHaveLength(1)
   const { to, mail } = data.flushed[0] as {
     to: string

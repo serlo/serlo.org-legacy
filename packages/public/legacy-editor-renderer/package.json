@@ -1,6 +1,6 @@
 {
   "name": "@serlo/legacy-editor-renderer",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "private": true,
   "main": "dist/index.js",
   "scripts": {
