@@ -15,7 +15,7 @@
     "utf8": "^3.0.0"
   },
   "devDependencies": {
-    "@types/base-64": "^0.1.0",
+    "@types/base-64": "^1.0.0",
     "@types/jquery": "^3.0.0",
     "@types/utf8": "^2.0.0",
     "ts-node": "^9.0.0",
