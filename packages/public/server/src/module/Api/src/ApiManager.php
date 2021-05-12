@@ -208,12 +208,12 @@ class ApiManager
                 $data['metaDescription'] = $uuid->get('meta_description', '');
             } elseif ($data['__typename'] === 'CourseRevision') {
                 $data['title'] = $uuid->get('title', '');
-                $data['content'] = $uuid->get('content', '');
+                $data['content'] = $uuid->get('description', '');
                 $data['changes'] = $uuid->get('changes', '');
                 $data['metaDescription'] = $uuid->get('meta_description', '');
             } elseif ($data['__typename'] === 'CoursePageRevision') {
                 $data['title'] = $uuid->get('title', '');
-                $data['content'] = $uuid->get('content', '');
+                $data['content'] = $uuid->get('content', '{"plugin":"rows","state":[{"plugin":"text"}]}');
                 $data['changes'] = $uuid->get('changes', '');
             } elseif ($data['__typename'] === 'EventRevision') {
                 $data['title'] = $uuid->get('title', '');
@@ -235,7 +235,7 @@ class ApiManager
                 $data['changes'] = $uuid->get('changes', '');
             } elseif ($data['__typename'] === 'VideoRevision') {
                 $data['title'] = $uuid->get('title', '');
-                $data['content'] = $uuid->get('description', '');
+                $data['content'] = $uuid->get('description', '{"plugin":"rows","state":[{"plugin":"text"}]}');
                 $data['url'] = $uuid->get('content', '');
                 $data['changes'] = $uuid->get('changes', '');
             }
