@@ -25,6 +25,7 @@ namespace Api;
 
 use Alias\AliasManagerInterface;
 use Api\Service\AbstractGraphQLService;
+use Authorization\Entity\RoleInterface;
 use DateTime;
 use Discussion\DiscussionManagerInterface;
 use Discussion\Entity\CommentInterface;
@@ -60,15 +61,6 @@ class ApiManager
         $this->discussionManager = $discussionManager;
         $this->subscriptionManager = $subscriptionManager;
         $this->graphql = $graphql;
-    }
-
-    private function normalizeDate(DateTime $date)
-    {
-        // Needed because date-times of the initial Athene2 import are set to "0000-00-00 00:00:00"
-        if ($date->getTimestamp() < 0) {
-            $date->setTimestamp(0);
-        }
-        return $date->format(DateTime::ATOM);
     }
 
     public function removeLicense($id)
@@ -283,6 +275,12 @@ class ApiManager
                 ? $this->normalizeDate($uuid->getLastLogin())
                 : null;
             $data['description'] = $uuid->getDescription();
+            $data['roles'] = $uuid
+                ->getRoles()
+                ->map(function (RoleInterface $role) {
+                    return $role->getName();
+                })
+                ->toArray();
         }
 
         if ($uuid instanceof CommentInterface) {
@@ -333,6 +331,58 @@ class ApiManager
         return $data;
     }
 
+    private function normalizeType($type)
+    {
+        $type = str_replace('text-', '', $type);
+        return $this->toPascalCase($type);
+    }
+
+    private function normalizeDate(DateTime $date)
+    {
+        // Needed because date-times of the initial Athene2 import are set to "0000-00-00 00:00:00"
+        if ($date->getTimestamp() < 0) {
+            $date->setTimestamp(0);
+        }
+        return $date->format(DateTime::ATOM);
+    }
+
+    private function getRevisionIds($uuid)
+    {
+        return $uuid
+            ->getRevisions()
+            ->map(function ($revision) {
+                return $revision->getId();
+            })
+            ->toArray();
+    }
+
+    private function toCamelCase($value)
+    {
+        $segments = explode('-', $value);
+        $firstSegment = $segments[0];
+        $remainingSegments = array_slice($segments, 1);
+        return implode(
+            '',
+            array_merge(
+                [$firstSegment],
+                array_map(function ($segment) {
+                    return strtoupper($segment[0]) . substr($segment, 1);
+                }, $remainingSegments)
+            )
+        );
+    }
+
+    private function toPascalCase($value)
+    {
+        $segments = explode('-', $value);
+        return implode(
+            '',
+            array_map(function ($segment) {
+                return strtoupper($segment[0]) . substr($segment, 1);
+            }, $segments)
+        );
+    }
+
     public function setSubscriptions(UserInterface $user)
     {
         $this->graphql->setCache(
@@ -375,48 +425,5 @@ class ApiManager
             // Sort threads from most to least recent
             'firstCommentIds' => array_reverse($threadIds),
         ];
-    }
-
-    private function getRevisionIds($uuid)
-    {
-        return $uuid
-            ->getRevisions()
-            ->map(function ($revision) {
-                return $revision->getId();
-            })
-            ->toArray();
-    }
-
-    private function normalizeType($type)
-    {
-        $type = str_replace('text-', '', $type);
-        return $this->toPascalCase($type);
-    }
-
-    private function toPascalCase($value)
-    {
-        $segments = explode('-', $value);
-        return implode(
-            '',
-            array_map(function ($segment) {
-                return strtoupper($segment[0]) . substr($segment, 1);
-            }, $segments)
-        );
-    }
-
-    private function toCamelCase($value)
-    {
-        $segments = explode('-', $value);
-        $firstSegment = $segments[0];
-        $remainingSegments = array_slice($segments, 1);
-        return implode(
-            '',
-            array_merge(
-                [$firstSegment],
-                array_map(function ($segment) {
-                    return strtoupper($segment[0]) . substr($segment, 1);
-                }, $remainingSegments)
-            )
-        );
     }
 }
