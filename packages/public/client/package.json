@@ -30,7 +30,7 @@
     "bootstrap-sass": "^3.0.0",
     "d3": "^3.0.0",
     "diff": "^5.0.0",
-    "diff2html": "^2.0.0",
+    "diff2html": "^3.0.0",
     "dnode": "^1.0.0",
     "font-awesome": "^4.0.0",
     "howler": "^2.0.0",

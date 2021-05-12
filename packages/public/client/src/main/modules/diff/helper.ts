@@ -19,7 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import 'diff2html/dist/diff2html.css'
+import 'diff2html/bundles/css/diff2html.min.css'
 import './overrides.css'
 export { createPatch } from 'diff'
-export { Diff2Html } from 'diff2html'
+export { html as getPrettyHtml } from 'diff2html'
