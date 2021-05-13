@@ -86,6 +86,7 @@ class DiscussionManager implements DiscussionManagerInterface
             $comment->getAuthor()
         );
         $this->getObjectManager()->persist($comment);
+        $this->flush();
         $this->getEventManager()->trigger('comment', $this, [
             'author' => $comment->getAuthor(),
             'comment' => $comment,
@@ -93,7 +94,6 @@ class DiscussionManager implements DiscussionManagerInterface
             'instance' => $comment->getInstance(),
             'data' => $form->getData(),
         ]);
-        $this->flush();
 
         return $comment;
     }
@@ -230,6 +230,7 @@ class DiscussionManager implements DiscussionManagerInterface
             $comment->getAuthor()
         );
         $this->getObjectManager()->persist($comment);
+        $this->flush();
         $this->getEventManager()->trigger('start', $this, [
             'author' => $comment->getAuthor(),
             'on' => $comment->getObject(),
@@ -237,7 +238,6 @@ class DiscussionManager implements DiscussionManagerInterface
             'instance' => $comment->getInstance(),
             'data' => $form->getData(),
         ]);
-        $this->flush();
 
         return $comment;
     }
