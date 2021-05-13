@@ -42,7 +42,7 @@ class LinkServiceListener extends AbstractListener
 
         /** @var UuidInterface $uuid */
         $parent = $e->getParam('parent');
-        $this->getApiManager()->setUuid($parent);
+        $this->getApiManager()->removeUuid($parent->getId());
     }
 
     public function onChange(Event $e)
