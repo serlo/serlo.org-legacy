@@ -84,7 +84,9 @@ class EntityController extends AbstractController
     protected function getUnrevisedRevisionsBySubject()
     {
         $revisions = $this->getEntityManager()
-            ->findAllUnrevisedRevisions()
+            ->findAllUnrevisedRevisions(
+                $this->getInstanceManager()->getInstanceFromRequest()
+            )
             ->getIterator();
 
         $revisions->uasort(function ($revisionA, $revisionB) {
