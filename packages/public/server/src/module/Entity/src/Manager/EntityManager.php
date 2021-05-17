@@ -116,20 +116,27 @@ class EntityManager implements EntityManagerInterface
         return $entity;
     }
 
-    public function findAllUnrevisedRevisions($limit = 200)
-    {
+    public function findAllUnrevisedRevisions(
+        InstanceInterface $instance,
+        $limit = 100
+    ) {
         $entityClassName = $this->getClassResolver()->resolveClassName(
             'Entity\Entity\RevisionInterface'
         );
         //TODO: unhack
         $sql =
-            'SELECT r.id AS id ' .
+            'SELECT DISTINCT(r.id) AS id ' .
             'FROM entity_revision r ' .
             'INNER JOIN `uuid` u_r ON r.id = u_r.id ' .
             'INNER JOIN entity e ON e.id = r.repository_id ' .
             'INNER JOIN `uuid` u_e ON e.id = u_e.id ' .
+            'INNER JOIN instance i ON i.id = e.instance_id ' .
             'WHERE ( e.current_revision_id IS NULL OR r.id > e.current_revision_id ) ' .
-            'AND u_r.trashed = 0 AND u_e.trashed = 0 order by r.id LIMIT ' .
+            'AND u_r.trashed = 0 AND u_e.trashed = 0 ' .
+            'AND i.id = ' .
+            $instance->getId() .
+            ' ' .
+            'ORDER BY r.id LIMIT ' .
             $limit;
         $q = $this->objectManager->getConnection()->prepare($sql);
         $q->execute();
