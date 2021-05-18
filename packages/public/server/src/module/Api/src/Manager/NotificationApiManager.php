@@ -84,9 +84,8 @@ class NotificationApiManager
 
     public function setNotificationData(UserInterface $user)
     {
-        $this->graphql->setCache(
-            $this->graphql->getCacheKey('/api/notifications/' . $user->getId()),
-            $this->getNotificationData($user)
+        $this->graphql->removeCache(
+            $this->graphql->getCacheKey('/api/notifications/' . $user->getId())
         );
     }
 
