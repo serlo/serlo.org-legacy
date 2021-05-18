@@ -65,7 +65,8 @@ interface EntityManagerInterface extends Flushable
      */
     public function findAllUnrevisedRevisions(
         InstanceInterface $instance,
-        $limit
+        int $limit,
+        int $after
     );
 
     /**

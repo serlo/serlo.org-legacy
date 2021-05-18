@@ -21,6 +21,14 @@
  #}
 <div class="editor-design">
     {{ pageHeader('Unrevised learning resources').render() }}
+    {%  if lastRevisionId %}
+        <p>{% trans %} This page does not show all unrevised revisions: {% endtrans %}</p>
+        <p>
+            <a class="btn btn-success dropdown-toggle" href="/entity/unrevised?after={{ lastRevisionId }}">
+                {% trans %} Show more unrevised revisions {% endtrans %}
+            </a>
+        </p>
+    {% endif %}
     <h2>{% trans %} Support links for reviewing {% endtrans %}</h2>
     <ul>
         {% for helpLink in helpLinks %}

@@ -72,30 +72,34 @@ class EntityController extends AbstractController
 
     public function unrevisedAction()
     {
+        $after = $this->getRequest()
+            ->getQuery()
+            ->get('after');
+        $after = $after ? (int) $after : 0;
+        $limit = 100;
+        $revisions = $this->getEntityManager()->findAllUnrevisedRevisions(
+            $this->getInstanceManager()->getInstanceFromRequest(),
+            $limit,
+            $after
+        );
+
         $view = new ViewModel([
-            'revisionsBySubject' => $this->getUnrevisedRevisionsBySubject(),
+            'revisionsBySubject' => $this->getUnrevisedRevisionsBySubject(
+                $revisions
+            ),
             'helpLinks' => $this->getReviewHelpLinks(),
+            'lastRevisionId' =>
+                count($revisions) == $limit
+                    ? $revisions[$limit - 1]->getId()
+                    : null,
         ]);
         $view->setTemplate('entity/unrevised');
 
         return $view;
     }
 
-    protected function getUnrevisedRevisionsBySubject()
+    protected function getUnrevisedRevisionsBySubject($revisions)
     {
-        $revisions = $this->getEntityManager()
-            ->findAllUnrevisedRevisions(
-                $this->getInstanceManager()->getInstanceFromRequest()
-            )
-            ->getIterator();
-
-        $revisions->uasort(function ($revisionA, $revisionB) {
-            $timestampA = $revisionA->getTimestamp()->getTimestamp();
-            $timestampB = $revisionB->getTimestamp()->getTimestamp();
-
-            return $timestampB - $timestampA;
-        });
-
         $revisionsBySubject = [];
 
         foreach ($revisions as $revision) {
