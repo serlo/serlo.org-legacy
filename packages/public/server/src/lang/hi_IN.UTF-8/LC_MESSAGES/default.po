@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
-"POT-Creation-Date: 2020-01-10 07:07+0100\n"
-"PO-Revision-Date: 2021-03-16 09:57\n"
+"POT-Creation-Date: 2021-05-19 13:04+0200\n"
+"PO-Revision-Date: 2021-05-19 13:09\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: Hindi\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.4.3\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;translate;pageHeader;setSubtitle;addMessage;addSuccessMessage;addErrorMessage;setLabel;setLegend;t\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Crowdin-File-ID: 2\n"
 
 #: ../config/instance/navigation/default.php:27
-#: ../module/Ui/templates/admin/home/index.phtml:24
+#: ../module/Ui/templates/admin/backend.phtml:24
 msgid "Backend"
 msgstr "बैकएंड"
 
@@ -193,604 +193,606 @@ msgstr "सब्सक्रिप्शन"
 msgid "Event log"
 msgstr "इवेंट लॉग"
 
-#: ../module/Admin/src/Admin/Form/DebuggerForm.php:40
+#: ../module/Admin/src/Form/DebuggerForm.php:45
 msgid "Message:"
 msgstr "संदेश:"
 
-#: ../module/Ads/src/Ads/Controller/AdsController.php:112
-#: ../module/RelatedContent/src/RelatedContent/Controller/RelatedContentController.php:165
+#: ../module/Ads/src/Controller/AdsController.php:112
+#: ../module/RelatedContent/src/Controller/RelatedContentController.php:196
 msgid "The element could not be removed (validation failed)"
 msgstr "अनुमति नहीं हटाई जा सकी (मांयता विफल)"
 
-#: ../module/Ads/src/Ads/Form/AdForm.php:47
-#: ../module/Blog/src/Blog/Form/CreatePostForm.php:81
-#: ../module/Blog/src/Blog/Form/UpdatePostForm.php:62
-#: ../module/Common/src/Common/Form/Element/Title.php:35
-#: ../module/Contexter/src/Contexter/Form/ContextForm.php:50
-#: ../module/License/src/License/Form/LicenseForm.php:48
-#: ../module/RelatedContent/src/RelatedContent/Form/CategoryForm.php:43
-#: ../module/RelatedContent/src/RelatedContent/Form/ExternalForm.php:44
-#: ../module/RelatedContent/src/RelatedContent/Form/InternalForm.php:43
+#: ../module/Ads/src/Form/AdForm.php:47
+#: ../module/Blog/src/Form/CreatePostForm.php:78
+#: ../module/Blog/src/Form/UpdatePostForm.php:61
+#: ../module/Common/src/Form/Element/Title.php:35
+#: ../module/License/src/Form/LicenseForm.php:49
+#: ../module/RelatedContent/src/Form/CategoryForm.php:43
+#: ../module/RelatedContent/src/Form/ExternalForm.php:44
+#: ../module/RelatedContent/src/Form/InternalForm.php:43
 #: ../module/Ui/templates/page/revisions.twig:29
 msgid "Title:"
 msgstr "शीर्षक"
 
-#: ../module/Ads/src/Ads/Form/AdForm.php:48
-#: ../module/Page/src/Page/Form/RepositoryForm.php:54
-#: ../module/RelatedContent/src/RelatedContent/Form/ExternalForm.php:45
+#: ../module/Ads/src/Form/AdForm.php:51
+#: ../module/RelatedContent/src/Form/ExternalForm.php:45
 msgid "Url:"
 msgstr "Url:"
 
-#: ../module/Ads/src/Ads/Form/AdForm.php:49
-#: ../module/Blog/src/Blog/Form/CreatePostForm.php:82
-#: ../module/Blog/src/Blog/Form/UpdatePostForm.php:63
-#: ../module/Entity/src/Entity/Form/ArticleForm.php:46
-#: ../module/Entity/src/Entity/Form/EventForm.php:46
-#: ../module/Entity/src/Entity/Form/GroupedTextExerciseForm.php:44
-#: ../module/Entity/src/Entity/Form/MathPuzzleForm.php:44
-#: ../module/Entity/src/Entity/Form/ModulePageForm.php:57
-#: ../module/Entity/src/Entity/Form/MultipleChoiceRightAnswerForm.php:44
-#: ../module/Entity/src/Entity/Form/MultipleChoiceWrongAnswerForm.php:44
-#: ../module/Entity/src/Entity/Form/SingleChoiceAnswerForm.php:44
-#: ../module/Entity/src/Entity/Form/TextExerciseForm.php:44
-#: ../module/Entity/src/Entity/Form/TextExerciseGroupForm.php:44
-#: ../module/Entity/src/Entity/Form/TextHintForm.php:44
-#: ../module/Entity/src/Entity/Form/TextSolutionForm.php:44
-#: ../module/Flag/src/Flag/Form/FlagForm.php:59
-#: ../module/License/src/License/Form/LicenseForm.php:49
-#: ../module/Page/src/Page/Form/RevisionForm.php:51
+#: ../module/Ads/src/Form/AdForm.php:56
+#: ../module/Blog/src/Form/CreatePostForm.php:83
+#: ../module/Blog/src/Form/UpdatePostForm.php:66
+#: ../module/Entity/src/Form/ArticleForm.php:46
+#: ../module/Entity/src/Form/EventForm.php:46
+#: ../module/Entity/src/Form/GroupedTextExerciseForm.php:44
+#: ../module/Entity/src/Form/MathPuzzleForm.php:44
+#: ../module/Entity/src/Form/ModulePageForm.php:57
+#: ../module/Entity/src/Form/MultipleChoiceRightAnswerForm.php:44
+#: ../module/Entity/src/Form/MultipleChoiceWrongAnswerForm.php:44
+#: ../module/Entity/src/Form/SingleChoiceAnswerForm.php:44
+#: ../module/Entity/src/Form/TextExerciseForm.php:44
+#: ../module/Entity/src/Form/TextExerciseGroupForm.php:43
+#: ../module/Entity/src/Form/TextSolutionForm.php:44
+#: ../module/Flag/src/Form/FlagForm.php:57
+#: ../module/License/src/Form/LicenseForm.php:53
+#: ../module/Page/src/Form/RevisionForm.php:51
 msgid "Content:"
 msgstr "सामग्री"
 
-#: ../module/Ads/src/Ads/Form/AdForm.php:58
+#: ../module/Ads/src/Form/AdForm.php:67
 msgid "frequency"
 msgstr "आवृत्ति"
 
-#: ../module/Ads/src/Ads/Form/AdForm.php:60
+#: ../module/Ads/src/Form/AdForm.php:69
 msgid "Banner"
 msgstr "बैनर"
 
-#: ../module/Ads/src/Ads/Form/AdPageForm.php:41
+#: ../module/Ads/src/Form/AdPageForm.php:41
 msgid "Page ID:"
 msgstr "पृष्ठ आइडी"
 
-#: ../module/Attachment/src/Attachment/Form/AttachmentFieldset.php:40
+#: ../module/Attachment/src/Form/AttachmentFieldset.php:41
 msgid "Attach file:"
 msgstr "फ़ाइल संलग्न करें"
 
-#: ../module/Attachment/src/Attachment/Form/AttachmentForm.php:45
+#: ../module/Attachment/src/Form/AttachmentForm.php:46
 msgid "Set type:"
 msgstr "सेट प्रकार:"
 
-#: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:73
+#: ../module/Authentication/src/Controller/AuthenticationController.php:78
 msgid "Your account has been activated, you may now log in."
 msgstr "आपका खाता सक्रिय हो गया है, अब आप लॉग इन कर सकते हैं ।"
 
-#: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:78
+#: ../module/Authentication/src/Controller/AuthenticationController.php:84
 msgid "I couldn't find an account by that token. You can now try to re-activate your account."
 msgstr "मैं उस टोकन द्वारा कोई खाता नहीं मिल सका । अब आप अपने खाते को फिर से सक्रिय करने का प्रयास कर सकते हैं ।"
 
-#: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:96
+#: ../module/Authentication/src/Controller/AuthenticationController.php:106
 msgid "Your have been sent an activation email. Please check your spam folder as well."
 msgstr "आपके पास एक सक्रियण ईमेल भेजा गया है । कृपया अपने स्पैम फ़ोल्डर भी जांच करें ।"
 
-#: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:134
+#: ../module/Authentication/src/Controller/AuthenticationController.php:147
 msgid "Your password has successfully been changed."
 msgstr "आपका पासवर्ड बदल दिया गया है।"
 
-#: ../module/Authentication/src/Authentication/Controller/AuthenticationController.php:239
+#: ../module/Authentication/src/Controller/AuthenticationController.php:266
 msgid "You have been sent an email with instructions on how to restore your password! Please check your spam folder as well."
 msgstr "आप अपने पासवर्ड को पुनर्स्थापित करने के लिए कैसे पर निर्देश के साथ एक ईमेल भेजा गया है! कृपया अपने स्पैम फ़ोल्डर के रूप में अच्छी तरह से जांच करें ।"
 
-#: ../module/Authentication/src/Authentication/Form/ActivateForm.php:43
-#: ../module/User/src/User/Form/Register.php:54
-#: ../module/User/src/User/Form/SelectUserForm.php:43
-#: ../module/User/src/User/Form/SettingsForm.php:44
+#: ../module/Authentication/src/Form/ActivateForm.php:43
+#: ../module/User/src/Form/Register.php:63
+#: ../module/User/src/Form/SelectUserForm.php:43
+#: ../module/User/src/Form/SettingsForm.php:47
 msgid "Email:"
 msgstr "ईमेल:"
 
-#: ../module/Authorization/src/Authorization/Controller/RoleController.php:164
+#: ../module/Authorization/src/Controller/RoleController.php:183
 msgid "Role created."
 msgstr "भूमिका बनाई ।"
 
-#: ../module/Authorization/src/Authorization/Controller/RoleController.php:189
+#: ../module/Authorization/src/Controller/RoleController.php:214
 msgid "The permission could not be removed (validation failed)"
 msgstr "अनुमति नहीं हटाई जा सकी (मांयता विफल)"
 
-#: ../module/Authorization/src/Authorization/Controller/RoleController.php:222
+#: ../module/Authorization/src/Controller/RoleController.php:254
 msgid "The user could not be removed (validation failed)"
 msgstr "अनुमति नहीं हटाई जा सकी (मांयता विफल)"
 
-#: ../module/Authorization/src/Authorization/Form/PermissionForm.php:45
+#: ../module/Authorization/src/Form/PermissionForm.php:47
 msgid "Permission:"
 msgstr "अनुमति"
 
-#: ../module/Authorization/src/Authorization/Form/PermissionForm.php:54
+#: ../module/Authorization/src/Form/PermissionForm.php:60
 msgid "Instance:"
 msgstr "इंस्टेंसेस"
 
-#: ../module/Authorization/src/Authorization/Form/RoleForm.php:58
-#: ../module/Term/src/Term/Form/TermFieldset.php:37
+#: ../module/Authorization/src/Form/RoleForm.php:56
+#: ../module/Term/src/Form/TermFieldset.php:40
 msgid "Name:"
 msgstr "नाम"
 
-#: ../module/Authorization/src/Authorization/Form/UserForm.php:40
-#: ../module/User/src/User/Form/Register.php:48
+#: ../module/Authorization/src/Form/UserForm.php:40
+#: ../module/User/src/Form/Register.php:52
 msgid "Username:"
 msgstr "उपयोगकर्ता:"
 
-#: ../module/Blog/src/Blog/Form/CreatePostForm.php:87
-#: ../module/Blog/src/Blog/Form/UpdatePostForm.php:68
+#: ../module/Blog/src/Form/CreatePostForm.php:90
+#: ../module/Blog/src/Form/UpdatePostForm.php:73
 msgid "Publish date:"
 msgstr "प्रकाशन दिनांक"
 
-#: ../module/Contexter/src/Contexter/Form/ContextForm.php:49
-msgid "Select a type:"
-msgstr "एक टाइप चुने"
-
-#: ../module/Contexter/src/Contexter/Form/ContextForm.php:51
-msgid "Object-ID:"
-msgstr "वस्तु आईडी"
-
-#: ../module/Contexter/src/Contexter/Form/ParameterFieldset.php:38
-msgid "Which parameters should be matched?"
-msgstr "कौन से मापदंडों का मिलान किया जाना चाहिए?"
-
-#: ../module/Contexter/src/Contexter/Form/ParameterFieldset.php:61
-msgid "<strong>"
-msgstr "मजबूत"
-
-#: ../module/Contexter/src/Contexter/Form/UrlForm.php:39
-msgid "Uri:"
-msgstr "Uri"
-
-#: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:107
+#: ../module/Discussion/src/Controller/DiscussionController.php:110
 msgid "Your comment has been saved."
 msgstr "आपकी टिप्पणी को सहेजा गया है ।"
 
-#: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:162
+#: ../module/Discussion/src/Controller/DiscussionController.php:172
 msgid "Your discussion has been started."
 msgstr "आपकी चर्चा शुरू कर दी गई है ।"
 
-#: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:191
+#: ../module/Discussion/src/Controller/DiscussionController.php:203
 msgid "You have downvoted this comment."
 msgstr "आपने इस टिप्पणी को कम कर दिया है।"
 
-#: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:193
+#: ../module/Discussion/src/Controller/DiscussionController.php:207
 msgid "You can't downvote this comment."
 msgstr "आप इस टिप्पणी को कम नहीं कर सकते हैं।"
 
-#: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:197
+#: ../module/Discussion/src/Controller/DiscussionController.php:213
 msgid "You have upvoted this comment."
 msgstr "आपने इस टिप्पणी को ऊपर कर दिया है।"
 
-#: ../module/Discussion/src/Discussion/Controller/DiscussionController.php:199
+#: ../module/Discussion/src/Controller/DiscussionController.php:217
 msgid "You can't upvote this comment."
 msgstr "आप इस टिप्पणी को ऊपर नहीं कर सकते हैं।"
 
-#: ../module/Discussion/src/Discussion/Form/CommentForm.php:83
+#: ../module/Discussion/src/Form/CommentForm.php:77
 msgid "Your response"
 msgstr "आपकी प्रतिक्रिया"
 
-#: ../module/Discussion/src/Discussion/Form/CommentForm.php:88
-#: ../module/Ui/templates/discussion/helper/default/discussion.twig:139
+#: ../module/Discussion/src/Form/CommentForm.php:83
+#: ../module/Ui/templates/discussion/helper/default/discussion.twig:145
 msgid "Reply"
 msgstr "उत्तर दें"
 
-#: ../module/Discussion/src/Discussion/Form/DiscussionForm.php:83
+#: ../module/Discussion/src/Form/DiscussionForm.php:82
 msgid "Ask a question or suggest an improvement"
 msgstr "कोई प्रश्न पूछें या सुधार का सुझाव दें"
 
-#: ../module/Discussion/src/Discussion/Form/DiscussionForm.php:88
+#: ../module/Discussion/src/Form/DiscussionForm.php:89
 msgid "Submit"
 msgstr "जमा करें"
 
-#: ../module/Entity/src/Entity/Controller/EntityController.php:107
+#: ../module/Entity/src/Controller/EntityController.php:114
+msgid "Entities without a subject"
+msgstr ""
+
+#: ../module/Entity/src/Controller/EntityController.php:144
 msgid "Guideline for reviewing"
 msgstr ""
 
-#: ../module/Entity/src/Entity/Controller/EntityController.php:111
+#: ../module/Entity/src/Controller/EntityController.php:148
 msgid "List of all discussions"
 msgstr ""
 
-#: ../module/Entity/src/Entity/Controller/EntityController.php:115
-msgid "Channel #feedback-requests in RocketChat"
-msgstr ""
-
-#: ../module/Entity/src/Entity/Controller/EntityController.php:119
+#: ../module/Entity/src/Controller/EntityController.php:154
 msgid "Questionnaire for reviewers"
 msgstr ""
 
-#: ../module/Entity/src/Entity/Controller/LinkController.php:65
-#: ../module/Entity/src/Entity/Controller/LinkController.php:89
+#: ../module/Entity/src/Controller/LinkController.php:79
 msgid "Your changes have been saved."
 msgstr "आपके परिवर्तन सहेज लिए गए हैं।"
 
-#: ../module/Entity/src/Entity/Controller/RepositoryController.php:358
+#: ../module/Entity/src/Controller/RepositoryController.php:438
 msgid "Your revision has been saved and is available"
 msgstr ""
 
-#: ../module/Entity/src/Entity/Controller/RepositoryController.php:361
+#: ../module/Entity/src/Controller/RepositoryController.php:444
 msgid "Your revision has been saved, it will be available once it gets approved"
 msgstr ""
 
-#: ../module/Entity/src/Entity/Form/AppletForm.php:49
+#: ../module/Entity/src/Form/AppletForm.php:52
 msgid "Applet Url:"
 msgstr ""
 
-#: ../module/Entity/src/Entity/Form/AppletForm.php:50
-#: ../module/Entity/src/Entity/Form/ModuleForm.php:46
-#: ../module/Entity/src/Entity/Form/VideoForm.php:48
+#: ../module/Entity/src/Form/AppletForm.php:54
+#: ../module/Entity/src/Form/ModuleForm.php:48
+#: ../module/Entity/src/Form/VideoForm.php:48
 msgid "Description:"
 msgstr "विवरण:"
 
-#: ../module/Entity/src/Entity/Form/AppletForm.php:51
-#: ../module/Entity/src/Entity/Form/ArticleForm.php:47
-#: ../module/Entity/src/Entity/Form/ModuleForm.php:48
-#: ../module/Entity/src/Entity/Form/VideoForm.php:51
+#: ../module/Entity/src/Form/AppletForm.php:55
+#: ../module/Entity/src/Form/ArticleForm.php:47
+#: ../module/Entity/src/Form/ModuleForm.php:51
+#: ../module/Entity/src/Form/VideoForm.php:56
 msgid "Reasoning:"
 msgstr "कारण:"
 
-#: ../module/Entity/src/Entity/Form/Element/Changes.php:35
+#: ../module/Entity/src/Form/Element/Changes.php:35
 msgid "Changes:"
 msgstr "परिवर्तन"
 
-#: ../module/Entity/src/Entity/Form/Element/MetaDescription.php:35
+#: ../module/Entity/src/Form/Element/MetaDescription.php:35
 msgid "Search Engine Description:"
 msgstr "खोज इंजन विवरण:"
 
-#: ../module/Entity/src/Entity/Form/Element/MetaTitle.php:35
+#: ../module/Entity/src/Form/Element/MetaTitle.php:35
 msgid "Search Engine Title:"
 msgstr "खोज इंजन सूची"
 
-#: ../module/Entity/src/Entity/Form/InputChallengeForm.php:45
+#: ../module/Entity/src/Form/InputChallengeForm.php:48
 msgid "Solution:"
 msgstr "समाधान"
 
-#: ../module/Entity/src/Entity/Form/InputChallengeForm.php:46
-#: ../module/Entity/src/Entity/Form/MultipleChoiceWrongAnswerForm.php:45
-#: ../module/Entity/src/Entity/Form/SingleChoiceAnswerForm.php:45
+#: ../module/Entity/src/Form/InputChallengeForm.php:50
+#: ../module/Entity/src/Form/MultipleChoiceWrongAnswerForm.php:45
+#: ../module/Entity/src/Form/SingleChoiceAnswerForm.php:45
 msgid "Feedback:"
 msgstr "आपके सुझाव"
 
-#: ../module/Entity/src/Entity/Form/MathPuzzleForm.php:46
+#: ../module/Entity/src/Form/MathPuzzleForm.php:48
 msgid "Source code:"
 msgstr "सोर्से कोड:"
 
-#: ../module/Entity/src/Entity/Form/ModulePageForm.php:48
+#: ../module/Entity/src/Form/ModulePageForm.php:48
 msgid "Select an icon"
 msgstr ""
 
-#: ../module/Entity/src/Entity/Form/VideoForm.php:49
+#: ../module/Entity/src/Form/VideoForm.php:52
 msgid "Video url:"
 msgstr "वीडियो यूआरएल:"
 
-#: ../module/Flag/src/Flag/Controller/FlagController.php:54
+#: ../module/Flag/src/Controller/FlagController.php:59
 msgid "The content has been flagged."
 msgstr "सामग्री को ध्वजांकित कर दिया गया है ।"
 
-#: ../module/Flag/src/Flag/Controller/FlagController.php:93
+#: ../module/Flag/src/Controller/FlagController.php:105
 msgid "Your action was successfull."
 msgstr "आपकी क्रिया सफल हुई ।"
 
-#: ../module/Flag/src/Flag/Controller/FlagController.php:95
+#: ../module/Flag/src/Controller/FlagController.php:109
 msgid "The flag could not be removed (validation failed)"
 msgstr "अनुमति नहीं हटाई जा सकी (मांयता विफल)"
 
-#: ../module/Flag/src/Flag/Form/FlagForm.php:52
-#: ../module/Navigation/src/Navigation/Form/ContainerForm.php:53
+#: ../module/Flag/src/Form/FlagForm.php:52
+#: ../module/Navigation/src/Form/ContainerForm.php:55
 msgid "Type:"
 msgstr "प्रकार:"
 
-#: ../module/License/src/License/Controller/LicenseController.php:120
+#: ../module/License/src/Controller/LicenseController.php:132
 msgid "The license could not be removed (validation failed)"
 msgstr "अनुमति नहीं हटाई जा सकी (मांयता विफल)"
 
-#: ../module/License/src/License/Form/LicenseForm.php:50
+#: ../module/License/src/Form/LicenseForm.php:58
 msgid "License url:"
 msgstr "लाइसेंस url:"
 
-#: ../module/License/src/License/Form/LicenseForm.php:51
+#: ../module/License/src/Form/LicenseForm.php:63
 msgid "Agreement:"
 msgstr "समझौता"
 
-#: ../module/License/src/License/Form/LicenseForm.php:55
+#: ../module/License/src/Form/LicenseForm.php:69
 msgid "Icon url:"
 msgstr "आइकन url:"
 
-#: ../module/License/src/License/Form/LicenseForm.php:56
+#: ../module/License/src/Form/LicenseForm.php:74
 msgid "This is the default license for this instance."
 msgstr "यह इस उदाहरण के लिए डिफ़ॉल्ट लायसेंस है ।"
 
-#: ../module/License/src/License/Form/UpdateLicenseForm.php:48
+#: ../module/License/src/Form/UpdateLicenseForm.php:50
 msgid "Select a license:"
 msgstr "एक लाइसेंस का चयन करें"
 
-#: ../module/Navigation/src/Navigation/Controller/NavigationController.php:96
-#: ../module/Navigation/src/Navigation/Controller/NavigationController.php:125
+#: ../module/Navigation/src/Controller/NavigationController.php:99
+#: ../module/Navigation/src/Controller/NavigationController.php:135
 msgid "The container was successfully created"
 msgstr "कंटेनर सफलतापूर्वक बनाया गया था"
 
-#: ../module/Navigation/src/Navigation/Controller/NavigationController.php:127
+#: ../module/Navigation/src/Controller/NavigationController.php:139
 msgid "The container could not be created (validation failed)"
 msgstr "कंटेनर को निकाला नहीं जा सका (मांयता विफल)"
 
-#: ../module/Navigation/src/Navigation/Controller/NavigationController.php:237
+#: ../module/Navigation/src/Controller/NavigationController.php:269
 msgid "The container was successfully removed"
 msgstr "कंटेनर सफलतापूर्वक निकाला गया"
 
-#: ../module/Navigation/src/Navigation/Controller/NavigationController.php:239
+#: ../module/Navigation/src/Controller/NavigationController.php:273
 msgid "The container could not be removed (validation failed)"
 msgstr "कंटेनर को निकाला नहीं जा सका (मांयता विफल)"
 
-#: ../module/Navigation/src/Navigation/Controller/NavigationController.php:255
+#: ../module/Navigation/src/Controller/NavigationController.php:291
 msgid "The page was successfully removed"
 msgstr "पृष्ठ सफलतापूर्वक निकाला गया"
 
-#: ../module/Navigation/src/Navigation/Controller/NavigationController.php:257
+#: ../module/Navigation/src/Controller/NavigationController.php:295
 msgid "The page could not be removed (validation failed)"
 msgstr "पृष्ठ को निकाला नहीं जा सका (मांयता विफल)"
 
-#: ../module/Navigation/src/Navigation/Controller/NavigationController.php:273
+#: ../module/Navigation/src/Controller/NavigationController.php:315
 msgid "The parameter was successfully removed"
 msgstr "पैरामीटर सफलतापूर्वक हटा दिया गया था"
 
-#: ../module/Navigation/src/Navigation/Controller/NavigationController.php:275
+#: ../module/Navigation/src/Controller/NavigationController.php:319
 msgid "The parameter could not be removed (validation failed)"
 msgstr "पैरामीटर नहीं हटाई जा सकी (मांयता विफल)"
 
-#: ../module/Navigation/src/Navigation/Controller/NavigationController.php:294
+#: ../module/Navigation/src/Controller/NavigationController.php:340
 msgid "The page was successfully updated"
 msgstr "पृष्ठ सफलतापूर्वक अद्यतन किया गया"
 
-#: ../module/Navigation/src/Navigation/Form/PageForm.php:72
+#: ../module/Navigation/src/Form/PageForm.php:68
 msgid "Position"
 msgstr "पद/स्थान"
 
-#: ../module/Navigation/src/Navigation/Form/ParameterForm.php:54
+#: ../module/Navigation/src/Form/ParameterForm.php:56
 msgid "Key:"
 msgstr "कुंजी:"
 
-#: ../module/Navigation/src/Navigation/Form/ParameterForm.php:61
+#: ../module/Navigation/src/Form/ParameterForm.php:61
 msgid "Value:"
 msgstr "मूल्य"
 
-#: ../module/Normalizer/src/Normalizer/Adapter/EntityAdapter.php:172
+#: ../module/Normalizer/src/Adapter/EntityAdapter.php:165
 msgid "applet"
 msgstr ""
 
-#: ../module/Normalizer/src/Normalizer/Adapter/EntityAdapter.php:176
+#: ../module/Normalizer/src/Adapter/EntityAdapter.php:169
 msgid "course"
 msgstr ""
 
-#: ../module/Notification/src/Notification/Controller/SubscriptionController.php:94
+#: ../module/Notification/src/Controller/SubscriptionController.php:96
 msgid "You are now receiving notifications for this content."
 msgstr "अब आप इस सामग्री के लिए सूचनाएं प्राप्त कर रहे हैं ।"
 
-#: ../module/Notification/src/Notification/Controller/SubscriptionController.php:112
+#: ../module/Notification/src/Controller/SubscriptionController.php:116
 msgid "Your subscription has been updated successfully."
 msgstr "आपकी सदस्यता सफलतापूर्वक अद्यतन की गई है ।"
 
-#: ../module/Notification/src/Notification/Controller/SubscriptionController.php:114
+#: ../module/Notification/src/Controller/SubscriptionController.php:120
 msgid "The object you are trying to subscribe to does not exist."
 msgstr "जिस ऑब्जेक्ट को आप सब्सक्राइब करने का प्रयास कर रहे है वह मौजूद नहीं है ।"
 
-#: ../module/Notification/src/Notification/Controller/SubscriptionController.php:117
+#: ../module/Notification/src/Controller/SubscriptionController.php:124
 msgid "You can't update your subscription because you did not subscribe to this object."
 msgstr "आप अपनी सदस्यता अद्यतन नहीं कर सकते क्योंकि आपने इस ऑब्जेक्ट की सदस्यता नहीं ली है ।"
 
-#: ../module/Notification/src/Notification/Controller/SubscriptionController.php:142
+#: ../module/Notification/src/Controller/SubscriptionController.php:150
 msgid "You are no longer receiving notifications for this content."
 msgstr "अब आप इस सामग्री के लिए सूचनाएं प्राप्त नहीं कर रहे हैं ।"
 
-#: ../module/Notification/src/Notification/Form/OptInFieldset.php:37
+#: ../module/Notification/src/Form/OptInFieldset.php:37
 msgid "Add to watchlist."
 msgstr "ध्यानसूची में जोड़ें"
 
-#: ../module/Notification/src/Notification/Form/OptInFieldset.php:44
+#: ../module/Notification/src/Form/OptInFieldset.php:43
 msgid "Receive notifications via email."
 msgstr "ईमेल के माध्यम से सूचनाएं प्राप्त करें ।"
 
-#: ../module/Page/src/Page/Form/RepositoryForm.php:55
+#: ../module/Page/src/Form/RepositoryForm.php:58
 msgid "Discussions enabled"
 msgstr "चर्चा सक्षम"
 
-#: ../module/RelatedContent/src/RelatedContent/Form/InternalForm.php:44
+#: ../module/RelatedContent/src/Form/InternalForm.php:44
 msgid "Reference:"
 msgstr "संदर्भ:"
 
-#: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:80
+#: ../module/Taxonomy/src/Controller/TermController.php:93
 msgid "The node has been added successfully!"
 msgstr "नोड सफलतापूर्वक जोड़ा गया है!"
 
-#: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:118
+#: ../module/Taxonomy/src/Controller/TermController.php:154
 msgid "Items moved successfully!"
 msgstr "आइटम सफलतापूर्वक चले गए!"
 
-#: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:155
+#: ../module/Taxonomy/src/Controller/TermController.php:197
 msgid "Items copied successfully!"
 msgstr "आइटम सफलतापूर्वक कॉपी किया गया है"
 
-#: ../module/Taxonomy/src/Taxonomy/Controller/TermController.php:253
+#: ../module/Taxonomy/src/Controller/TermController.php:301
 msgid "Your changes have been saved!"
 msgstr "आपके परिवर्तन सहेजे गए हैं!"
 
-#: ../module/Taxonomy/src/Taxonomy/Form/BatchCopyForm.php:47
+#: ../module/Taxonomy/src/Form/BatchCopyForm.php:47
 msgid "Copy to:"
 msgstr "यहाँ कॉपी करें"
 
-#: ../module/Taxonomy/src/Taxonomy/Form/BatchCopyForm.php:51
-#: ../module/Taxonomy/src/Taxonomy/Form/BatchMoveForm.php:51
+#: ../module/Taxonomy/src/Form/BatchCopyForm.php:52
+#: ../module/Taxonomy/src/Form/BatchMoveForm.php:52
 msgid "Elements"
 msgstr "तत्वों"
 
-#: ../module/Taxonomy/src/Taxonomy/Form/BatchMoveForm.php:47
+#: ../module/Taxonomy/src/Form/BatchMoveForm.php:47
 msgid "Move to:"
 msgstr "यहाँ पर ले जाएं:"
 
-#: ../module/Taxonomy/src/Taxonomy/Form/TermForm.php:74
+#: ../module/Taxonomy/src/Form/TermForm.php:71
 msgid "description:"
 msgstr "विवरण:"
 
-#: ../module/User/src/User/Controller/UserController.php:130
+#: ../module/User/src/Controller/UserController.php:128
 msgid "You have registered successfully and will soon receive an email with instructions on how to activate your account."
 msgstr "आपने सफलतापूर्वक पंजीकरण किया है और जल्द ही आपके खाते को सक्रिय करने के निर्देशों के साथ एक ईमेल प्राप्त होगा"
 
-#: ../module/User/src/User/Controller/UserController.php:197
+#: ../module/User/src/Controller/UserController.php:202
 msgid "Your profile has been saved"
 msgstr "आपकी टिप्पणी को सहेजा गया है ।"
 
-#: ../module/User/src/User/Form/ChangePasswordForm.php:44
+#: ../module/User/src/Form/ChangePasswordForm.php:45
 msgid "Current password:"
 msgstr "वर्तमान पासवर्ड"
 
-#: ../module/User/src/User/Form/ChangePasswordForm.php:45
-#: ../module/User/src/User/Form/LostPassword.php:43
+#: ../module/User/src/Form/ChangePasswordForm.php:47
+#: ../module/User/src/Form/LostPassword.php:43
 msgid "New password:"
 msgstr "नया पासवर्ड"
 
-#: ../module/User/src/User/Form/ChangePasswordForm.php:46
-#: ../module/User/src/User/Form/Register.php:64
+#: ../module/User/src/Form/ChangePasswordForm.php:49
+#: ../module/User/src/Form/Register.php:83
 msgid "Confirm password:"
 msgstr "पासवर्ड की पुष्टि करें:"
 
-#: ../module/User/src/User/Form/Login.php:48
+#: ../module/User/src/Form/Login.php:48
 msgid "Email address:"
 msgstr "ईमेल पता:"
 
-#: ../module/User/src/User/Form/Login.php:50
+#: ../module/User/src/Form/Login.php:52
 msgid "Email address or Username"
 msgstr "ईमेल पता या उपयोगकर्ता नाम"
 
-#: ../module/User/src/User/Form/Login.php:54
-#: ../module/User/src/User/Form/Register.php:59
+#: ../module/User/src/Form/Login.php:57 ../module/User/src/Form/Register.php:73
 msgid "Password:"
 msgstr "पासवर्ड:"
 
-#: ../module/User/src/User/Form/Login.php:56
+#: ../module/User/src/Form/Login.php:61
 msgid "Password"
 msgstr "पासवर्ड"
 
-#: ../module/User/src/User/Form/Login.php:60
+#: ../module/User/src/Form/Login.php:66
 msgid "Remember me"
 msgstr "मुझे याद रखना"
 
-#: ../module/User/src/User/Form/LostPassword.php:44
+#: ../module/User/src/Form/LostPassword.php:45
 msgid "Repeat new password:"
 msgstr "नया पासवर्ड दोहराएं"
 
-#: ../module/User/src/User/Form/Register.php:50
+#: ../module/User/src/Form/Register.php:56
 msgid "Enter username"
 msgstr "उपयोगकर्ता नाम दर्ज करें"
 
-#: ../module/User/src/User/Form/Register.php:56
+#: ../module/User/src/Form/Register.php:67
 msgid "Enter email address"
 msgstr "ईमेल पता दर्ज करें"
 
-#: ../module/User/src/User/Form/Register.php:61
+#: ../module/User/src/Form/Register.php:77
 msgid "Enter password"
 msgstr "अपना पासवोर्ड डाले"
 
-#: ../module/User/src/User/Form/Register.php:66
+#: ../module/User/src/Form/Register.php:87
 msgid "Confirm password"
 msgstr "पासवर्ड की पुष्टि करें"
 
-#: ../module/User/src/User/Form/Register.php:69
+#: ../module/User/src/Form/Register.php:93
 msgid "First name (optional):"
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:70
+#: ../module/User/src/Form/Register.php:96
 msgid "Enter first name"
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:73
+#: ../module/User/src/Form/Register.php:102
 msgid "Last name (optional):"
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:74
+#: ../module/User/src/Form/Register.php:105
 msgid "Enter last name"
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:77
+#: ../module/User/src/Form/Register.php:111
 msgid "I agree that Serlo Education e.V. may contact me via email."
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:82
+#: ../module/User/src/Form/Register.php:119
 msgid "Parent"
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:83
+#: ../module/User/src/Form/Register.php:120
 msgid "Teacher"
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:84
+#: ../module/User/src/Form/Register.php:121
 msgid "Pupil"
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:85
+#: ../module/User/src/Form/Register.php:122
 msgid "University student"
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:86
+#: ../module/User/src/Form/Register.php:123
 msgid "Other"
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:89
+#: ../module/User/src/Form/Register.php:126
 msgid "I am here as…"
 msgstr ""
 
-#: ../module/User/src/User/Form/Register.php:92
+#: ../module/User/src/Form/Register.php:130
 #: ../module/Ui/templates/user/user/register.twig:24
 msgid "Sign up"
 msgstr "साइन अप"
 
-#: ../module/User/src/User/Form/RegisterFilter.php:57
+#: ../module/User/src/Form/RegisterFilter.php:58
 msgid "This email address is already in use. Please use a different one."
 msgstr "यह ईमेल पता पहले से उपयोग में है । कृपया एक अलग ईमेल का उपयोग करें ।"
 
-#: ../module/User/src/User/Form/RegisterFilter.php:78
+#: ../module/User/src/Form/RegisterFilter.php:80
 msgid "This username is already taken. Please use a different one."
 msgstr "यह उपयोगकर्ता नाम पहले से उपयोग में है । कृपया एक अलग उपयोगकर्ता नाम का उपयोग करें ।"
 
-#: ../module/User/src/User/Form/RegisterFilter.php:89
+#: ../module/User/src/Form/RegisterFilter.php:91
 msgid "Your username may only contain letters, digits, underscores (_) and hyphens (-). Please use a different one."
 msgstr "आपके उपयोगकर्ता नाम में केवल अक्षर, अंक, अंडरस्कोर (_) और हाइफ़न (-) हो सकते हैं। कृपया एक अलग का प्रयोग करें।"
 
-#: ../module/User/src/User/Form/RegisterFilter.php:109
+#: ../module/User/src/Form/RegisterFilter.php:110
 msgid "Your password needs to be at least 6 characters long."
 msgstr "पासवर्ड कम से कम 6 अक्षर लंबा होने की जरूरत है।"
 
-#: ../module/User/src/User/Form/RegisterFilter.php:117
+#: ../module/User/src/Form/RegisterFilter.php:119
 msgid "The password entered does not match the confirmation password. Ensure the passwords entered are identical."
 msgstr "दर्ज किया गया पासवर्ड पुष्टिकरण पासवर्ड से मेल नहीं खाता है। सुनिश्चित करें कि दर्ज पासवर्ड समान हैं।"
 
-#: ../module/User/src/User/Form/SettingsForm.php:45
+#: ../module/User/src/Form/SettingsForm.php:52
 msgid "About me:"
 msgstr "मेरे बारे में"
 
-#: ../module/Uuid/src/Uuid/Controller/UuidController.php:53
+#: ../module/Uuid/src/Controller/UuidController.php:56
 msgid "The content has been trashed."
 msgstr "सामग्री को ध्वजांकित कर दिया गया है ।"
 
-#: ../module/Uuid/src/Uuid/Controller/UuidController.php:55
+#: ../module/Uuid/src/Controller/UuidController.php:60
 msgid "The content could not be trashed (validation failed)"
 msgstr "अनुमति नहीं हटाई जा सकी (मांयता विफल)"
 
-#: ../module/Uuid/src/Uuid/Controller/UuidController.php:65
+#: ../module/Uuid/src/Controller/UuidController.php:72
 msgid "The content has been restored."
 msgstr "सामग्री को ध्वजांकित कर दिया गया है ।"
 
-#: ../module/Uuid/src/Uuid/Controller/UuidController.php:78
+#: ../module/Uuid/src/Controller/UuidController.php:89
 msgid "The content has been removed."
 msgstr "सामग्री को ध्वजांकित कर दिया गया है ।"
 
-#: ../module/Uuid/src/Uuid/Controller/UuidController.php:80
+#: ../module/Uuid/src/Controller/UuidController.php:93
 msgid "The content could not be removed (validation failed)"
 msgstr "अनुमति नहीं हटाई जा सकी (मांयता विफल)"
 
-#: ../module/Ui/templates/admin/home/index.phtml:27
+#: ../module/Ui/templates/admin/backend.phtml:27
 msgid "Welcome to the backend. Explore the possiblities on the right!"
 msgstr "बैकएंड में आपका स्वागत है। दाईं ओर संभावनाओं का अन्वेषण करें!"
+
+#: ../module/Ui/templates/admin/debugger.phtml:24
+msgid "Debugger"
+msgstr "डिबगर"
+
+#: ../module/Ui/templates/authentication/login.phtml:36
+msgid "You must be logged in to access this page."
+msgstr "इस पृष्ठ का उपयोग करने के लिए आपको लोग इन करना जरुरी है।"
+
+#: ../module/Ui/templates/authentication/login.phtml:47
+msgid "Log in"
+msgstr "लॉगिन"
+
+#: ../module/Ui/templates/authentication/login.phtml:80
+#, php-format
+msgid "Are you new here? %sSign up%s!"
+msgstr "क्या तुम यहां नए हो? %sसाइन अप%s!"
+
+#: ../module/Ui/templates/authentication/login.phtml:87
+#, php-format
+msgid "Did you forget your %spassword%s?"
+msgstr "क्या आप अपना %sपासवर्ड%s भूल गए है"
+
+#: ../module/Ui/templates/authentication/login.phtml:97
+#, php-format
+msgid "Haven't activated your account yet? %sResend activation mail%s!"
+msgstr "अभी तक अपना खाता सक्रिय नहीं किया है? %sसक्रियण मेल पुनः भेजें%s!"
 
 #: ../module/Ui/templates/authorization/role/partial/users-table.phtml:28
 #: ../module/Ui/templates/user/users/partial/users-table.twig:25
@@ -846,36 +848,6 @@ msgstr "ब्लॉग"
 #: ../module/Ui/templates/blog/blog/post/update.phtml:24
 msgid "Update a blog post"
 msgstr "एक ब्लॉग पोस्ट अद्यतन करें"
-
-#: ../module/Ui/templates/contexter/add/form.phtml:24
-#: ../module/Ui/templates/contexter/add/url-form.phtml:24
-msgid "Add context"
-msgstr "संदर्भ जोड़ें"
-
-#: ../module/Ui/templates/contexter/add/url-form.phtml:24
-msgid "Select uri"
-msgstr "Uri चुने"
-
-#: ../module/Ui/templates/contexter/helper/button.phtml:35
-msgid "There is no help available for this page yet."
-msgstr "इस पृष्ठ के लिए अभी तक कोई मदद उपलब्ध नहीं है ।"
-
-#: ../module/Ui/templates/contexter/helper/button.phtml:61
-#: ../module/Ui/templates/contexter/helper/default.phtml:47
-msgid "Add"
-msgstr "जोड़ें"
-
-#: ../module/Ui/templates/contexter/manage.phtml:24
-msgid "Manage context links"
-msgstr "प्रसंग लिंक्स प्रबंधित करें"
-
-#: ../module/Ui/templates/contexter/manage.phtml:28
-msgid "Link"
-msgstr "लिंक"
-
-#: ../module/Ui/templates/contexter/manage.phtml:29
-msgid "Matching"
-msgstr "मिलान"
 
 #: ../module/Ui/templates/entity/license/update.phtml:24
 #: ../module/Ui/templates/license/update.phtml:24
@@ -997,7 +969,7 @@ msgstr "वस्तु"
 #: ../module/Ui/templates/flag/manage.phtml:30
 #: ../module/Ui/templates/subject/entity/trash-bin.phtml:29
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:30
-#: ../module/Ui/templates/entity/unrevised.twig:38
+#: ../module/Ui/templates/entity/unrevised.twig:47
 #: ../module/Ui/templates/related-content/manage.twig:31
 msgid "Type"
 msgstr "प्रकार"
@@ -1006,7 +978,7 @@ msgstr "प्रकार"
 #: ../module/Ui/templates/flag/manage.phtml:31
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:31
 #: ../module/Ui/templates/entity/repository/history.twig:36
-#: ../module/Ui/templates/entity/unrevised.twig:39
+#: ../module/Ui/templates/entity/unrevised.twig:48
 msgid "Timestamp"
 msgstr "टाइमस्टैम्प"
 
@@ -1077,8 +1049,7 @@ msgid "/serlo"
 msgstr "/112510"
 
 #: ../module/Ui/templates/layout/default/serlo-home.phtml:125
-#: ../module/Ui/templates/layout/partials/footer.phtml:49
-#: ../module/Ui/templates/layout/partials/footer.phtml:73
+#: ../module/Ui/templates/layout/partials/footer.phtml:48
 msgid "Learn more"
 msgstr "और जानो"
 
@@ -1128,48 +1099,36 @@ msgid "Okay"
 msgstr "ठीक है"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:46
-#: ../module/Ui/templates/layout/partials/footer.phtml:71
 msgid "Serlo.org is the Wikipedia for learning."
 msgstr "Serlo.org सीखने की विकिपीडिया है"
 
 #: ../module/Ui/templates/layout/partials/footer.phtml:47
-#: ../module/Ui/templates/layout/partials/footer.phtml:72
 msgid "We are a community of visionaries working tirelessly to make great education freely available to everyone."
 msgstr "हम महान शिक्षा को हर किसी के लिए स्वतंत्र रूप से उपलब्ध कराने के लिए अथक रूप से काम करने वाले दूरदर्शी समुदाय का एक समुदाय हैं"
 
-#: ../module/Ui/templates/layout/partials/footer.phtml:53
-#: ../module/Ui/templates/layout/partials/footer.phtml:81
+#: ../module/Ui/templates/layout/partials/footer.phtml:56
 msgid "Join the cause"
 msgstr "कारण में शामिल हों"
 
-#: ../module/Ui/templates/layout/partials/footer.phtml:57
-#: ../module/Ui/templates/layout/partials/footer.phtml:87
+#: ../module/Ui/templates/layout/partials/footer.phtml:62
 msgid "Donate"
 msgstr "दान करें"
 
-#: ../module/Ui/templates/layout/partials/footer.phtml:61
-#: ../module/Ui/templates/layout/partials/footer.phtml:103
+#: ../module/Ui/templates/layout/partials/footer.phtml:78
 msgid "General"
 msgstr "सामान्य"
 
-#: ../module/Ui/templates/layout/partials/footer.phtml:62
-#: ../module/Ui/templates/layout/partials/footer.phtml:111
+#: ../module/Ui/templates/layout/partials/footer.phtml:86
 msgid "Subjects"
 msgstr "विषय"
 
-#: ../module/Ui/templates/layout/partials/footer.phtml:63
-#: ../module/Ui/templates/layout/partials/footer.phtml:119
+#: ../module/Ui/templates/layout/partials/footer.phtml:94
 msgid "Stay in touch"
 msgstr "संपर्क में रहना"
 
-#: ../module/Ui/templates/layout/partials/footer.phtml:64
-#: ../module/Ui/templates/layout/partials/footer.phtml:127
+#: ../module/Ui/templates/layout/partials/footer.phtml:102
 msgid "Legal terms"
 msgstr "कानूनी शर्तें"
-
-#: ../module/Ui/templates/layout/partials/footer.phtml:148
-msgid "Loading"
-msgstr ""
 
 #: ../module/Ui/templates/layout/partials/noscript.phtml:32
 msgid "This site makes heavy use of JavaScript!"
@@ -1200,7 +1159,7 @@ msgstr "लायसेंस प्रबंधित करें"
 #: ../module/Ui/templates/common/share.twig:34
 #: ../module/Ui/templates/common/share.twig:38
 #: ../module/Ui/templates/common/share.twig:42
-#: ../module/Ui/templates/entity/unrevised.twig:35
+#: ../module/Ui/templates/entity/unrevised.twig:43
 #: ../module/Ui/templates/related-content/manage.twig:28
 msgid "Title"
 msgstr "शीर्षक:"
@@ -1303,53 +1262,21 @@ msgstr "आईडी"
 msgid "Do you really want to purge the item <strong>%s</strong>? It and all references to it will be lost forever!"
 msgstr "क्या आप वास्तव में आइटम को हटाना चाहते हैं <strong>%s</strong>? यह और इसके सभी संदर्भ हमेशा के लिए खो जाएंगे!"
 
-#: ../module/Ui/templates/admin/debugger.twig:22
-msgid "Debugger"
-msgstr "डिबगर"
-
 #: ../module/Ui/templates/ads/ads.twig:22
 msgid "Ads"
 msgstr "विज्ञापन"
 
-#: ../module/Ui/templates/ads/ads.twig:31
-msgid "Edit \"About Horizon\""
-msgstr ""
-
-#: ../module/Ui/templates/ads/ads.twig:62
+#: ../module/Ui/templates/ads/ads.twig:58
 msgid "Frequency"
 msgstr "आवृत्ति"
 
-#: ../module/Ui/templates/ads/ads.twig:71
+#: ../module/Ui/templates/ads/ads.twig:67
 msgid "Clicks"
 msgstr "क्लिक करें"
-
-#: ../module/Ui/templates/ads/setAdPage.twig:22
-msgid "Please enter the id of the adPage"
-msgstr "कृपया विज्ञापनपृष्ठ की आईडी दर्ज करें"
 
 #: ../module/Ui/templates/authentication/activate.twig:24
 msgid "Activate an account"
 msgstr "खाते को सक्रिय करें"
-
-#: ../module/Ui/templates/authentication/login.twig:27
-msgid "You must be logged in to access this page."
-msgstr "इस पृष्ठ का उपयोग करने के लिए आपको लोग इन करना जरुरी है।"
-
-#: ../module/Ui/templates/authentication/login.twig:34
-msgid "Log in"
-msgstr "लॉगिन"
-
-#: ../module/Ui/templates/authentication/login.twig:58
-msgid "Are you new here? %sSign up%s!"
-msgstr "क्या तुम यहां नए हो? %sसाइन अप%s!"
-
-#: ../module/Ui/templates/authentication/login.twig:61
-msgid "Did you forget your %spassword%s?"
-msgstr "क्या आप अपना %sपासवर्ड%s भूल गए है"
-
-#: ../module/Ui/templates/authentication/login.twig:64
-msgid "Haven't activated your account yet? %sResend activation mail%s!"
-msgstr "अभी तक अपना खाता सक्रिय नहीं किया है? %sसक्रियण मेल पुनः भेजें%s!"
 
 #: ../module/Ui/templates/authentication/logout.twig:23
 msgid "Log out"
@@ -1416,12 +1343,12 @@ msgid "by"
 msgstr "द्वारा"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:83
-#: ../module/Ui/templates/discussion/helper/default/discussion.twig:81
+#: ../module/Ui/templates/discussion/helper/default/discussion.twig:87
 msgid "Do you really want to delete this discussion?"
 msgstr "क्या आप वाकई इस चर्चा को हटाना चाहते हैं?"
 
 #: ../module/Ui/templates/discussion/discussion/show.twig:115
-#: ../module/Ui/templates/discussion/helper/default/comment.twig:37
+#: ../module/Ui/templates/discussion/helper/default/comment.twig:35
 msgid "Do you really want to delete this comment?"
 msgstr "क्या आप वास्तव में इस टिप्पणी को हटाना चाहते हैं?"
 
@@ -1443,8 +1370,8 @@ msgstr "चर्चा"
 msgid "There are no discussions on this topic yet."
 msgstr "इस विषय पर अभी तक कोई चर्चा नहीं हो पाई है ।"
 
-#: ../module/Ui/templates/discussion/helper/default/comment.twig:52
-#: ../module/Ui/templates/discussion/helper/default/discussion.twig:118
+#: ../module/Ui/templates/discussion/helper/default/comment.twig:50
+#: ../module/Ui/templates/discussion/helper/default/discussion.twig:124
 msgid "%author% %time%"
 msgstr "%author% %time%"
 
@@ -1453,23 +1380,23 @@ msgstr "%author% %time%"
 msgid "Comments"
 msgstr "टिप्पणियां"
 
-#: ../module/Ui/templates/discussion/helper/default/discussion.twig:62
+#: ../module/Ui/templates/discussion/helper/default/discussion.twig:68
 msgid "Unarchive discussion"
 msgstr "अनारक्षित चर्चा"
 
-#: ../module/Ui/templates/discussion/helper/default/discussion.twig:64
+#: ../module/Ui/templates/discussion/helper/default/discussion.twig:70
 msgid "Archive discussion"
 msgstr "संग्रह चर्चा"
 
-#: ../module/Ui/templates/discussion/helper/default/discussion.twig:73
+#: ../module/Ui/templates/discussion/helper/default/discussion.twig:79
 msgid "Flag discussion"
 msgstr "चर्चा फ्लैग करें"
 
-#: ../module/Ui/templates/discussion/helper/default/discussion.twig:83
+#: ../module/Ui/templates/discussion/helper/default/discussion.twig:89
 msgid "Trash discussion"
 msgstr "कचरा चर्चा"
 
-#: ../module/Ui/templates/discussion/helper/default/discussion.twig:113
+#: ../module/Ui/templates/discussion/helper/default/discussion.twig:119
 msgid "On %type% %object%: %title%"
 msgstr "पर %type% %object%: %title%"
 
@@ -1492,9 +1419,8 @@ msgstr "निरस्त करें"
 msgid "Related taxonomies"
 msgstr "संबंधित वर्गीकरण"
 
-#: ../module/Ui/templates/entity/page/default.twig:29
-#: ../module/Ui/templates/entity/view/default.twig:29
-#: ../module/Ui/templates/entity/view/toc/default.twig:29
+#: ../module/Ui/templates/entity/page/default.twig:27
+#: ../module/Ui/templates/entity/view/default.twig:27
 msgid "No view found for %name%"
 msgstr "%name% के लिए कोई दृश्य नहीं मिला"
 
@@ -1543,7 +1469,6 @@ msgstr "पूर्वावलोकन"
 
 #: ../module/Ui/templates/entity/repository/history.twig:22
 #: ../module/Ui/templates/entity/view/partials/actions/versioning/history.twig:27
-#: ../module/Ui/templates/page/partials/actions.twig:39
 #: ../module/Ui/templates/page/partials/controls.twig:46
 msgid "History"
 msgstr "इतिहास"
@@ -1559,11 +1484,12 @@ msgid "Current"
 msgstr "वर्तमान"
 
 #: ../module/Ui/templates/entity/repository/history.twig:34
-#: ../module/Ui/templates/entity/unrevised.twig:37
+#: ../module/Ui/templates/entity/unrevised.twig:46
 msgid "Changes"
 msgstr "परिवर्तन"
 
 #: ../module/Ui/templates/entity/repository/history.twig:35
+#: ../module/Ui/templates/entity/unrevised.twig:44
 msgid "Author"
 msgstr "लेखक"
 
@@ -1607,15 +1533,23 @@ msgstr "संसाधन सौंपना"
 msgid "Unrevised learning resources"
 msgstr "अपरिवर्तित सीखने के संसाधन"
 
-#: ../module/Ui/templates/entity/unrevised.twig:24
+#: ../module/Ui/templates/entity/unrevised.twig:25
+msgid "This page does not show all unrevised revisions:"
+msgstr ""
+
+#: ../module/Ui/templates/entity/unrevised.twig:28
+msgid "Show more unrevised revisions"
+msgstr ""
+
+#: ../module/Ui/templates/entity/unrevised.twig:32
 msgid "Support links for reviewing"
 msgstr ""
 
-#: ../module/Ui/templates/entity/unrevised.twig:36
+#: ../module/Ui/templates/entity/unrevised.twig:45
 msgid "Revision"
 msgstr ""
 
-#: ../module/Ui/templates/entity/view/applet.twig:38
+#: ../module/Ui/templates/entity/view/applet.twig:37
 msgid "Could not embed geogebra applet. Unknown url format."
 msgstr ""
 
@@ -1626,6 +1560,10 @@ msgstr "आलेख"
 #: ../module/Ui/templates/entity/view/course-page.twig:22
 msgid "course-page"
 msgstr "दौड़ पृष्ठ"
+
+#: ../module/Ui/templates/entity/view/course.twig:22
+msgid "Course has no course page. Please add one."
+msgstr ""
 
 #: ../module/Ui/templates/entity/view/event.twig:22
 msgid "event"
@@ -1660,7 +1598,6 @@ msgid "multiple-choice-wrong-answer"
 msgstr "एकाधिक-विकल्प-गलत-उत्तर"
 
 #: ../module/Ui/templates/entity/view/partials/actions/big.twig:31
-#: ../module/Ui/templates/page/partials/actions.twig:33
 msgid "More"
 msgstr "अधिक"
 
@@ -1681,9 +1618,8 @@ msgid "Whole Course"
 msgstr "पूरे कोर्स"
 
 #: ../module/Ui/templates/entity/view/partials/actions/event/history.twig:26
-#: ../module/Ui/templates/page/partials/actions.twig:45
 #: ../module/Ui/templates/page/partials/controls.twig:52
-#: ../module/Ui/templates/page/revisions.twig:52
+#: ../module/Ui/templates/page/revisions.twig:57
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:37
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:36
 msgid "Log"
@@ -1730,14 +1666,8 @@ msgstr "रद्दी में डालें"
 msgid "Restore"
 msgstr ""
 
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/convert.twig:30
-#: ../module/Ui/templates/page/partials/controls.twig:39
-msgid "Convert"
-msgstr ""
-
-#: ../module/Ui/templates/entity/view/partials/actions/versioning/edit-essential.twig:38
+#: ../module/Ui/templates/entity/view/partials/actions/versioning/edit-essential.twig:34
 #: ../module/Ui/templates/page/pages.twig:40
-#: ../module/Ui/templates/page/partials/actions.twig:26
 msgid "Edit"
 msgstr "संपादित"
 
@@ -1746,46 +1676,36 @@ msgid "Type answer"
 msgstr "प्रकार उत्तर"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:46
-#: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:56
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:84
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:144
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:177
+#: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:47
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:82
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:142
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:168
 msgid "Show solution"
 msgstr "समाधान दिखाएं"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:50
-#: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:57
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:85
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:145
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:178
+#: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:48
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:83
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:143
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:169
 msgid "Hide solution"
 msgstr "समाधान छुपाएं"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:58
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:91
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:151
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:89
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:149
 msgid "Check"
 msgstr "जाँच करें"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:62
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:96
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:156
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:94
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:154
 msgid "Correct!"
 msgstr "सही!"
 
 #: ../module/Ui/templates/entity/view/partials/license/minimalistic.twig:38
 msgid "Info"
 msgstr "सूचना"
-
-#: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:49
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:168
-msgid "Show hint"
-msgstr "संकेत दिखाएँ"
-
-#: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:50
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:169
-msgid "Hide hint"
-msgstr "संकेत छुपाएं"
 
 #: ../module/Ui/templates/entity/view/partials/multiple-choice-answer.twig:23
 #: ../module/Ui/templates/entity/view/partials/single-choice-answer.twig:23
@@ -1797,19 +1717,19 @@ msgstr ""
 msgid "This answer has been created but no content has been added yet or it is pending approval."
 msgstr "यह जवाब बनाया गया है लेकिन अभी तक कोई सामग्री नहीं जोड़ी गई है या यह स्वीकृति लंबित है ।"
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:30
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:28
 msgid "Right!"
 msgstr "सही!"
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:117
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:115
 msgid "This solution is not correct."
 msgstr "यह समाधान सही नहीं है ।"
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:126
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:124
 msgid "This solution is correct!"
 msgstr "यह समाधान सही है!"
 
-#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:135
+#: ../module/Ui/templates/entity/view/partials/text-exercise.twig:133
 msgid "Not quite. There is something missing!"
 msgstr "काफी नहीं. वहां कुछ याद आ रही है!"
 
@@ -1832,18 +1752,6 @@ msgstr "मैं इस टिप्पणी करना चाहते ह�
 #: ../module/Ui/templates/entity/view/text-exercise.twig:22
 msgid "text-exercise"
 msgstr "पाठ-व्यायाम"
-
-#: ../module/Ui/templates/entity/view/text-hint.twig:22
-msgid "text-hint"
-msgstr "पाठ-संकेत"
-
-#: ../module/Ui/templates/entity/view/text-hint.twig:33
-msgid "Hint"
-msgstr "सुझाव:"
-
-#: ../module/Ui/templates/entity/view/text-hint.twig:41
-msgid "A hint has been created but no content has been added yet or it is pending approval."
-msgstr "कोई संकेत बनाया गया है लेकिन अभी तक कोई सामग्री नहीं जोड़ी गई है या यह अनुमोदन लंबित है ।"
 
 #: ../module/Ui/templates/entity/view/text-solution.twig:22
 msgid "text-solution"
@@ -2055,7 +1963,6 @@ msgid "Add page"
 msgstr "पृष्ठ जोड़ें"
 
 #: ../module/Ui/templates/navigation/page/partial/tree.twig:53
-#: ../module/Ui/templates/page/partials/actions.twig:68
 #: ../module/Ui/templates/page/partials/controls.twig:75
 msgid "Settings"
 msgstr "सेटिंग्स"
@@ -2202,9 +2109,8 @@ msgid "No revision checked out yet."
 msgstr "अभी तक कोई संशोधन की जांच नहीं की गई है।"
 
 #: ../module/Ui/templates/page/pages.twig:47
-#: ../module/Ui/templates/page/partials/actions.twig:53
 #: ../module/Ui/templates/page/partials/controls.twig:60
-#: ../module/Ui/templates/page/revisions.twig:59
+#: ../module/Ui/templates/page/revisions.twig:64
 msgid "Trash"
 msgstr "कचरा"
 
@@ -2212,7 +2118,10 @@ msgstr "कचरा"
 msgid "Create a new page"
 msgstr "पृष्ठ बनाएं"
 
-#: ../module/Ui/templates/page/partials/actions.twig:61
+#: ../module/Ui/templates/page/partials/controls.twig:39
+msgid "Convert"
+msgstr ""
+
 #: ../module/Ui/templates/page/partials/controls.twig:68
 msgid "Set as base revision"
 msgstr "आधार संशोधन के रूप में सेट करें"
@@ -2234,15 +2143,15 @@ msgstr "लेखक"
 msgid "Time:"
 msgstr "समय:"
 
-#: ../module/Ui/templates/page/revisions.twig:47
+#: ../module/Ui/templates/page/revisions.twig:52
 msgid "Use for editing"
 msgstr "संपादन के लिए उपयोग करें"
 
-#: ../module/Ui/templates/page/revisions.twig:66
+#: ../module/Ui/templates/page/revisions.twig:71
 msgid "Set as base"
 msgstr "आधार के रूप में सेट करें"
 
-#: ../module/Ui/templates/page/revisions.twig:78
+#: ../module/Ui/templates/page/revisions.twig:83
 msgid "Edit page"
 msgstr "पृष्ठ संपादित करें"
 
@@ -2277,10 +2186,6 @@ msgstr "बाहरी"
 #: ../module/Ui/templates/search/results.twig:24
 msgid "Search results"
 msgstr "खोज परिणाम"
-
-#: ../module/Ui/templates/static/de/datenschutz/partials/header.twig:34
-msgid "Datenschutzerklärung"
-msgstr ""
 
 #: ../module/Ui/templates/subject/home/index.twig:23
 msgid "Start learning now!"
@@ -2390,10 +2295,6 @@ msgstr "विषय"
 #: ../module/Ui/templates/taxonomy/term/update.twig:22
 msgid "Update term"
 msgstr "अद्यतन अवधि करें"
-
-#: ../module/Ui/templates/user/user/profile.twig:22
-msgid "Profile"
-msgstr "प्रोफ़ाइल"
 
 #: ../module/Ui/templates/user/user/profile.twig:29
 msgid "Statistics"

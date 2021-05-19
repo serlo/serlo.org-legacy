@@ -118,7 +118,8 @@ class EntityManager implements EntityManagerInterface
 
     public function findAllUnrevisedRevisions(
         InstanceInterface $instance,
-        $limit = 100
+        int $limit,
+        int $after
     ) {
         $entityClassName = $this->getClassResolver()->resolveClassName(
             'Entity\Entity\RevisionInterface'
@@ -133,6 +134,9 @@ class EntityManager implements EntityManagerInterface
             'INNER JOIN instance i ON i.id = e.instance_id ' .
             'WHERE ( e.current_revision_id IS NULL OR r.id > e.current_revision_id ) ' .
             'AND u_r.trashed = 0 AND u_e.trashed = 0 ' .
+            'AND r.id > ' .
+            $after .
+            ' ' .
             'AND i.id = ' .
             $instance->getId() .
             ' ' .
@@ -145,11 +149,22 @@ class EntityManager implements EntityManagerInterface
         foreach ($unrevisedRevisionIdsNested as $unrevisedRevisionIdArray) {
             $unrevisedRevisionIds[] = $unrevisedRevisionIdArray['id'];
         }
-        $results = $this->getObjectManager()
-            ->getRepository($entityClassName)
-            ->findBy([
-                'id' => $unrevisedRevisionIds,
-            ]);
-        return new ArrayCollection($results);
+
+        $results = new ArrayCollection(
+            $this->getObjectManager()
+                ->getRepository($entityClassName)
+                ->findBy([
+                    'id' => $unrevisedRevisionIds,
+                ])
+        );
+        $results = $results->toArray();
+        uasort($results, function ($revisionA, $revisionB) {
+            $timestampA = $revisionA->getTimestamp()->getTimestamp();
+            $timestampB = $revisionB->getTimestamp()->getTimestamp();
+
+            return $timestampB - $timestampA;
+        });
+
+        return $results;
     }
 }

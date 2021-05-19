@@ -215,9 +215,9 @@
   "textExerciseGroup": {
     "Remove exercise": "Eliminar ejercicio",
     "Add exercise": "Añadir ejercicio",
-    "Kind of exercise group": "Kind of exercise group",
-    "not cohesive": "not cohesive",
-    "cohesive": "cohesive"
+    "Kind of exercise group": "Tipo de grupo de ejercicios",
+    "not cohesive": "no es cohesivo",
+    "cohesive": "cohesivo"
   },
   "textExercise": {
     "Remove solution": "Eliminar solución",
