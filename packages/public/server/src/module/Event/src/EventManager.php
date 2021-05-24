@@ -299,6 +299,7 @@ class EventManager implements
         }
 
         $this->getObjectManager()->persist($log);
+        $this->getObjectManager()->flush();
         $this->getEventManager()->trigger('log', $this, ['log' => $log]);
 
         return $log;
