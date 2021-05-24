@@ -93,6 +93,14 @@ class AliasManager implements AliasManagerInterface
     public function getAliasOfObject(UuidInterface $uuid)
     {
         $normalized = $this->normalizer->normalize($uuid);
+
+        if ($uuid instanceof RevisionInterface) {
+            return '/entity/repository/compare/' .
+                $uuid->getRepository()->getId() .
+                '/' .
+                $uuid->getId();
+        }
+
         return $this->getAlias(
             $this->getContext($uuid),
             $normalized->getId(),
