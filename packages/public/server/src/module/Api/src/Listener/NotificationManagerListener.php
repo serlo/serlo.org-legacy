@@ -25,7 +25,6 @@ namespace Api\Listener;
 
 use Api\Manager\NotificationApiManager;
 use Common\Listener\AbstractSharedListenerAggregate;
-use Notification\Entity\NotificationInterface;
 use Notification\NotificationManager;
 use User\Entity\UserInterface;
 use Zend\EventManager\Event;
@@ -43,11 +42,8 @@ class NotificationManagerListener extends AbstractSharedListenerAggregate
 
     public function onCreate(Event $e)
     {
-        /** @var NotificationInterface $notification */
-        $notification = $e->getParam('notification');
         /** @var UserInterface $user */
         $user = $e->getParam('user');
-        $this->manager->setEventData($notification->getEvents()->first());
         $this->manager->setNotificationData($user);
     }
 

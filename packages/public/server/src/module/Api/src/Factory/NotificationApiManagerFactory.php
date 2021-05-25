@@ -25,12 +25,6 @@ namespace Api\Factory;
 
 use Api\Manager\NotificationApiManager;
 use Api\Service\AbstractGraphQLService;
-use Event\EventManager;
-use Event\EventManagerInterface;
-use Notification\NotificationManager;
-use Notification\NotificationManagerInterface;
-use User\Manager\UserManager;
-use User\Manager\UserManagerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -38,21 +32,8 @@ class NotificationApiManagerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceManager)
     {
-        /** @var EventManagerInterface $eventManager */
-        $eventManager = $serviceManager->get(EventManager::class);
-        /** @var NotificationManagerInterface $notificationManager */
-        $notificationManager = $serviceManager->get(NotificationManager::class);
-        /** @var UserManagerInterface $userManager */
-        $userManager = $serviceManager->get(UserManager::class);
         /** @var AbstractGraphQLService $graphql */
         $graphql = $serviceManager->get(AbstractGraphQLService::class);
-        $sentry = $serviceManager->get('Log\Sentry');
-        return new NotificationApiManager(
-            $eventManager,
-            $notificationManager,
-            $userManager,
-            $graphql,
-            $sentry
-        );
+        return new NotificationApiManager($graphql);
     }
 }
