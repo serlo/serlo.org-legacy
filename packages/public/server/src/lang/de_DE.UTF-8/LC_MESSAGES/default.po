@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2021-05-19 13:04+0200\n"
-"PO-Revision-Date: 2021-05-19 12:37\n"
+"PO-Revision-Date: 2021-06-11 13:23\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1539,7 +1539,7 @@ msgstr "Nicht überprüfte Bearbeitungen"
 
 #: ../module/Ui/templates/entity/unrevised.twig:25
 msgid "This page does not show all unrevised revisions:"
-msgstr "Diese Seite nicht alle ungesichteten Bearbeitungen an:"
+msgstr "Diese Seite zeigt nicht alle ungesichteten Bearbeitungen an:"
 
 #: ../module/Ui/templates/entity/unrevised.twig:28
 msgid "Show more unrevised revisions"
