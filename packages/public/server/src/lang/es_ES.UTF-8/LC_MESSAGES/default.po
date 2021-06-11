@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2021-05-19 13:04+0200\n"
-"PO-Revision-Date: 2021-05-19 13:10\n"
+"PO-Revision-Date: 2021-06-11 13:49\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -277,7 +277,7 @@ msgstr "Tu contraseña se ha cambiado correctamente."
 
 #: ../module/Authentication/src/Controller/AuthenticationController.php:266
 msgid "You have been sent an email with instructions on how to restore your password! Please check your spam folder as well."
-msgstr "Te hemos enviado un correo electrónico con las instrucciones sobre cómo restaurar tu contraseña! Por favor, revisa también la carpeta de spam."
+msgstr "¡Te hemos enviado un correo electrónico con las instrucciones sobre cómo restaurar tu contraseña! Por favor, revisa también la carpeta de spam."
 
 #: ../module/Authentication/src/Form/ActivateForm.php:43
 #: ../module/User/src/Form/Register.php:63
@@ -364,7 +364,7 @@ msgstr "Enviar"
 
 #: ../module/Entity/src/Controller/EntityController.php:114
 msgid "Entities without a subject"
-msgstr ""
+msgstr "Entidades sin tema"
 
 #: ../module/Entity/src/Controller/EntityController.php:144
 msgid "Guideline for reviewing"
@@ -577,15 +577,15 @@ msgstr "Referencia:"
 
 #: ../module/Taxonomy/src/Controller/TermController.php:93
 msgid "The node has been added successfully!"
-msgstr "El nodo ha sido agregado con éxito!"
+msgstr "¡El nodo ha sido agregado con éxito!"
 
 #: ../module/Taxonomy/src/Controller/TermController.php:154
 msgid "Items moved successfully!"
-msgstr "Los elementos han sido movido con éxito!"
+msgstr "¡Los elementos han sido movido con éxito!"
 
 #: ../module/Taxonomy/src/Controller/TermController.php:197
 msgid "Items copied successfully!"
-msgstr "Se han copiado los elementos con éxito!"
+msgstr "¡Se han copiado los elementos con éxito!"
 
 #: ../module/Taxonomy/src/Controller/TermController.php:301
 msgid "Your changes have been saved!"
@@ -765,7 +765,7 @@ msgstr "No se puede eliminar el contenido (fallo de validación)"
 
 #: ../module/Ui/templates/admin/backend.phtml:27
 msgid "Welcome to the backend. Explore the possiblities on the right!"
-msgstr "Bienvenidos a la base de datos. Explora las posibilidades en la derecha!"
+msgstr "Bienvenidos a la base de datos. ¡Explora las posibilidades en la derecha!"
 
 #: ../module/Ui/templates/admin/debugger.phtml:24
 msgid "Debugger"
@@ -1215,7 +1215,7 @@ msgstr "¿Quieres eliminar este elemento? Este y todas sus referencias se perder
 #: ../module/Ui/templates/taxonomy/term/templates/partials/actions.twig:60
 #: ../module/Ui/templates/taxonomy/term/templates/partials/subject-actions.twig:43
 msgid "Order content"
-msgstr "Pedir contenido"
+msgstr "Ordenar contenido"
 
 #: ../module/Ui/templates/taxonomy/term/order-associated.phtml:41
 #: ../module/Ui/templates/entity/link/order.twig:22
@@ -1264,7 +1264,7 @@ msgstr "ID"
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:55
 #, php-format
 msgid "Do you really want to purge the item <strong>%s</strong>? It and all references to it will be lost forever!"
-msgstr "¿Desea borrar el elemento <strong>%s</strong>? Este y todas las referencias se perderán para siempre!"
+msgstr "¿Desea borrar el elemento <strong>%s</strong>? ¡Este y todas las referencias se perderán para siempre!"
 
 #: ../module/Ui/templates/ads/ads.twig:22
 msgid "Ads"
@@ -1523,7 +1523,7 @@ msgstr "Rechazar la revisión"
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:32
 msgid "Please specify why you are rejecting the submission."
-msgstr "Por favor, especifica por qué estás rechazando la presentación."
+msgstr "Por favor, especifica por qué estás rechazando el trabajo."
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:38
 msgid "Reject"
@@ -1539,11 +1539,11 @@ msgstr "Recursos de aprendizaje sin revisión"
 
 #: ../module/Ui/templates/entity/unrevised.twig:25
 msgid "This page does not show all unrevised revisions:"
-msgstr ""
+msgstr "Esta página no muestra todas las revisiones sin revisar:"
 
 #: ../module/Ui/templates/entity/unrevised.twig:28
 msgid "Show more unrevised revisions"
-msgstr ""
+msgstr "Mostrar revisiones sin revisar"
 
 #: ../module/Ui/templates/entity/unrevised.twig:32
 msgid "Support links for reviewing"
@@ -1567,7 +1567,7 @@ msgstr "página del curso"
 
 #: ../module/Ui/templates/entity/view/course.twig:22
 msgid "Course has no course page. Please add one."
-msgstr ""
+msgstr "El curso no tiene página. Por favor, añade una."
 
 #: ../module/Ui/templates/entity/view/event.twig:22
 msgid "event"
@@ -1908,7 +1908,7 @@ msgstr "Hola %s, \n\n"
 "     muchas gracias por tu registro en %s.\n\n"
 "       Por favor, confirma tu cuenta haciendo clic en el siguiente enlace: \n"
 "%s\n\n"
-"   Esperamos con interés su contribución a %s!\n\n"
+"   Esperamos con interés tu contribución a %s!\n\n"
 "      Soporte técnico de la comunidad"
 
 #: ../module/Ui/templates/mailman/messages/register/body.twig:39
@@ -1942,7 +1942,7 @@ msgid "Dear %s,\n\n"
 "        Enjoy Serlo!"
 msgstr "Estimado/a %s,\n\n"
 "        Estamos encantados de que hayas decidido escribir un comentario o contribuir al servidor. rg!\n\n"
-"        Para saber cómo empezar a editar y crear contenido, por favor visite la página <a href=\"https://de.serlo.org/community\">de inicio de la comunidad</a>.\n\n"
+"        Para saber cómo empezar a editar y crear contenido, por favor visita la página <a href=\"https://de.serlo.org/community\">de inicio de la comunidad</a>.\n\n"
 "        Si tienes alguna pregunta, problemas o comentarios para nosotros, no dudes en ponerte en contacto a través de <a href=\"mailto:de@serlo.org\">de@serlo. rg</a>.\n\n"
 "        ¡Disfruta de Serlo!"
 
@@ -2358,11 +2358,11 @@ msgstr "<strong>Suscríbete a nuestro boletín para recibir actualizaciones trim
 
 #: ../module/Ui/templates/user/user/register.twig:114
 msgid "You can revoke your consent to contact you via email at any time by clicking the unsubscribe link in any mailing or send us an email at <a href=\"mailto:de@serlo.org\">de@serlo.org</a>. Your privacy is very important to us. For the processing of our mailing activities we work with MailChimp as a service provider. MailChimp underlies a strict data processing agreement with us that ensures the protection of your data in accordance with the European General Data Protection Regulations. By subscribing to our newsletter you agree with our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and acknowledge that your data will be processed by MailChimp in accordance with their <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\">Terms</a>."
-msgstr "Puede revocar tu consentimiento para el contacto contigo por correo electrónico en cualquier momento haciendo clic en el enlace de cancelación de la suscripción en cualquier correo o enviándonos un correo electrónico a<a href=\"mailto:de@serlo.org\">de@serlo.org</a>Tu privacidad es muy importante para nosotros. Para el procesamiento de nuestras actividades de correo trabajamos con MailChimp como proveedor de servicios. MailChimp tiene un estricto acuerdo de procesamiento de datos con nosotros que asegura la protección de tus datos de acuerdo con las Regulaciones Generales de Protección de Datos Europeas. Al suscribirte a nuestro boletín de noticias estás de acuerdo con nuestro<a href=\"/22964\" target=\"_blank\">Política de privacidad</a>y reconoces que tus datos serán procesados por MailChimp de acuerdo con su<a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">Política de privacidad</a> y <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\"> sus Términos</a>."
+msgstr "Puedes revocar tu consentimiento para que te contactemos correo electrónico en cualquier momento haciendo clic en el enlace de cancelación de la suscripción o enviándonos un correo electrónico a<a href=\"mailto:de@serlo.org\">de@serlo.org</a>. Tu privacidad es muy importante para nosotros. Para el procesamiento de nuestras actividades de correo trabajamos con MailChimp como proveedor de servicios. MailChimp tiene un estricto acuerdo de procesamiento de datos con nosotros que asegura la protección de tus datos de acuerdo con las Regulaciones Generales de Protección de Datos Europeas. Al suscribirte a nuestro boletín de noticias estás de acuerdo con nuestra <a href=\"/22964\" target=\"_blank\">Política de privacidad</a> y reconoces que tus datos serán procesados por MailChimp de acuerdo con su <a href=\"https://mailchimp.com/legal/privacy/\" target=\"_blank\">Política de privacidad</a>  y  <a href=\"https://mailchimp.com/legal/terms/\" target=\"_blank\"> sus Términos</a>."
 
 #: ../module/Ui/templates/user/user/register.twig:122
 msgid "By clicking <em>Sign up</em>, you agree to our <a href=\"/22964\" target=\"_blank\">Privacy Policy</a> and <a href=\"/21654\" target=\"_blank\">Terms</a>. You may receive email notifications from us and can opt out at any time."
-msgstr "Al hacer clic en <em> Inscríbete </em>, estás de acuerdo con nuestra <a href=\"/22964\" target=\"_blank\">Política de privacidad</a>y <a href=\"/21654\" target=\"_blank\"> sus Términos</a>. Puedes recibir notificaciones por correo electrónico de nosotros y puedes optar por no participar en cualquier momento."
+msgstr "Al hacer clic en <em> Inscríbete </em>, estás de acuerdo con nuestra <a href=\"/22964\" target=\"_blank\">Política de privacidad</a> y <a href=\"/21654\" target=\"_blank\"> sus Términos</a>. Puedes recibir notificaciones por correo electrónico de nosotros y puedes optar para no recibir más notificaciones en cualquier momento."
 
 #: ../module/Ui/templates/user/user/settings.twig:22
 msgid "My settings"
