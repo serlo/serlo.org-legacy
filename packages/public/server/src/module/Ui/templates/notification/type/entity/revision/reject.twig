@@ -28,11 +28,11 @@
     {% set revision = 'revision'|trans %}
     {% if reason %}
         {% trans %}
-            {{ user }} rejected a {{ revision }} of {{ repository }}: {{ reason }}
+            {{ user }} did not accept a {{ revision }} of {{ repository }}: {{ reason }}
         {% endtrans %}
     {% else %}
         {% trans %}
-            {{ user }} rejected a {{ revision }} of {{ repository }}
+            {{ user }} did not accept a {{ revision }} of {{ repository }}
         {% endtrans %}
     {% endif %} ({{ normalize().toUrl(event.getObject(), true) }}) - {{ timeago().render(event.getTimestamp(), true) }}
 {% else %}
@@ -43,11 +43,11 @@
     <div class="dropdown-menu-item">
         {% if reason %}
             {% trans %}
-            {{ user }} rejected a {{ revision }} of {{ repository }}: {{ reason }}
+            {{ user }} did not accept a {{ revision }} of {{ repository }}: {{ reason }}
             {% endtrans %}
         {% else %}
             {% trans %}
-            {{ user }} rejected a {{ revision }} of {{ repository }}
+            {{ user }} did not accept a {{ revision }} of {{ repository }}
             {% endtrans %}
         {% endif %}
         <small> - {{ timeago().render(event.getTimestamp()) }}</small>

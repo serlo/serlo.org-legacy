@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Athene2\n"
-"POT-Creation-Date: 2021-05-19 13:04+0200\n"
-"PO-Revision-Date: 2021-05-19 13:04+0200\n"
+"POT-Creation-Date: 2021-06-11 16:25+0200\n"
+"PO-Revision-Date: 2021-06-11 16:25+0200\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: \n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.0\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;translate;pageHeader;"
 "setSubtitle;addMessage;addSuccessMessage;addErrorMessage;setLabel;setLegend;"
 "t\n"
@@ -1565,7 +1565,7 @@ msgid "Reject revision"
 msgstr ""
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:32
-msgid "Please specify why you are rejecting the submission."
+msgid "Please specify why you do not accept the revision:"
 msgstr ""
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:38
@@ -1859,11 +1859,11 @@ msgid "%user% checked out %revision% in %repository%"
 msgstr ""
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:28
-msgid "%user% rejected %revision% in %repository%: \"%reason%\""
+msgid "%user% did not accept %revision% in %repository%: \"%reason%\""
 msgstr ""
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:32
-msgid "%user% rejected %revision% in %repository%"
+msgid "%user% did not accept %revision% in %repository%"
 msgstr ""
 
 #: ../module/Ui/templates/event/helper/event/license/object/set.twig:26
@@ -2162,12 +2162,12 @@ msgstr ""
 
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:31
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:46
-msgid "%user% rejected a %revision% of %repository%: %reason%"
+msgid "%user% did not accept a %revision% of %repository%: %reason%"
 msgstr ""
 
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:35
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:50
-msgid "%user% rejected a %revision% of %repository%"
+msgid "%user% did not accept a %revision% of %repository%"
 msgstr ""
 
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:28

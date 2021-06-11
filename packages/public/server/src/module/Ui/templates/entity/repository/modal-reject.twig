@@ -29,7 +29,7 @@
             <form method="post" action="{{ url('entity/repository/reject', {'entity': entity.getId(), 'revision': revision.getId()}) }}">
                 <div class="modal-body">
                     <p class="form-group">
-                        <label for="revision-reject-reason">{% trans %} Please specify why you are rejecting the submission. {% endtrans %}</label>
+                        <label for="revision-reject-reason">{% trans %} Please specify why you do not accept the revision: {% endtrans %}</label>
                         <textarea class="form-control" row="3" name="reason" id="revision-reject-reason" required></textarea>
                     </p>
                 </div>

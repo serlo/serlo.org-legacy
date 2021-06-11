@@ -25,10 +25,10 @@
 {% set reason = event.getParameter('reason') %}
 {% if reason %}
     {% trans %}
-    {{ user }} rejected {{ revision }} in {{ repository }}: "{{ reason }}"
+    {{ user }} did not accept {{ revision }} in {{ repository }}: "{{ reason }}"
     {% endtrans %}
 {% else %}
     {% trans %}
-    {{ user }} rejected {{ revision }} in {{ repository }}
+    {{ user }} did not accept {{ revision }} in {{ repository }}
     {% endtrans %}
 {% endif %}
