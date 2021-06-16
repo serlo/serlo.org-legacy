@@ -263,11 +263,6 @@ return [
                         'visible' => false,
                     ],
                     [
-                        'label' => t('Public profile'),
-                        'route' => 'user/public',
-                        'translate' => true,
-                    ],
-                    [
                         'label' => t('Edit profile'),
                         'route' => 'user/settings',
                         'icon' => 'wrench',
