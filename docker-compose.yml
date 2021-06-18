@@ -8,24 +8,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=secret
 
-  hydra:
-    image: oryd/hydra:v1.10.1-sqlite
-    ports:
-      - '4444:4444'
-      - '4445:4445'
-    command: serve all --dangerous-force-http
-    environment:
-      - LOG_LEVEL=debug
-      - OAUTH2_EXPOSE_INTERNAL_ERRORS=1
-      - URLS_SELF_ISSUER=http://localhost:4444
-      - URLS_LOGIN=http://de.serlo.localhost:4567/auth/hydra/login
-      - URLS_LOGOUT=http://de.serlo.localhost:4567/auth/hydra/logout
-      - URLS_CONSENT=http://de.serlo.localhost:4567/auth/hydra/consent
-      - DSN=memory
-      - SECRETS_SYSTEM=youReallyNeedToChangeThis
-      - OIDC_SUBJECT_IDENTIFIERS_ENABLED=public,pairwise
-      - OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=youReallyNeedToChangeThis
-
   #  editor-renderer:
   #    build:
   #      context: .
@@ -91,3 +73,8 @@ services:
       - '8082:80'
     volumes:
       - ./packages/public/static-assets/src:/usr/share/nginx/html:delegated
+
+networks:
+  default:
+    # Override the network name so that we can rely on that in serlo.org-hydra
+    name: "serlo.org-network"

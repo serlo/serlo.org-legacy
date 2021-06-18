@@ -114,7 +114,6 @@ of the following packages. Check out their READMEs for package-specific details:
 - `yarn mysql:dump` updates the docker initialization file of the sql database with the current database state (requires `yarn start` beforehand)
 - `yarn mysql:import-anonymous-data` imports the latest anonymized dump (requires `yarn start` beforehand, only works on Unix currently)
 - `yarn mysql:rollback` resets the database (requires `yarn start` beforehand)
-- `yarn oauth` runs a OAuth workflow to manually test Hydra integration
 - `yarn test:e2e` runs all end-to-end tests (requires `yarn start` beforehand)
   - Use `HEADLESS=false yarn test.e2e` to run the tests in an actual browser.
   - Use `HEADLESS=false SLOWMO=<number> yarn test:e2e` to introduce a `<number>` of milliseconds delay between actions in tests.
