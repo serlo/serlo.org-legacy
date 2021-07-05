@@ -38,7 +38,8 @@ test('Real state', async () => {
                     type: 'p',
                     children: [
                       {
-                        text: 'Tipp: Versuche die Zeichnung in eine Skizze mit den Punkten ',
+                        text:
+                          'Tipp: Versuche die Zeichnung in eine Skizze mit den Punkten ',
                       },
                       {
                         type: 'math',
@@ -47,7 +48,8 @@ test('Real state', async () => {
                         children: [{ text: 'Z, A_1, A_2, B_1, B_2' }],
                       },
                       {
-                        text: ' und vier Geraden umzuwandeln, Ã¤hnlich zu den Zeichnungen im Artikel zum ',
+                        text:
+                          ' und vier Geraden umzuwandeln, Ã¤hnlich zu den Zeichnungen im Artikel zum ',
                       },
                       {
                         type: 'a',
@@ -83,7 +85,8 @@ test('Real state', async () => {
                     type: 'p',
                     children: [
                       {
-                        text: 'Die Zeichnung kann in eine Skizze, Ã¤hnlich zu den Skizzen im Artikel zum ',
+                        text:
+                          'Die Zeichnung kann in eine Skizze, Ã¤hnlich zu den Skizzen im Artikel zum ',
                       },
                       {
                         type: 'a',
@@ -91,7 +94,8 @@ test('Real state', async () => {
                         children: [{ text: 'Strahlensatz' }],
                       },
                       {
-                        text: ', umgeformt werden. Das sieht dann folgendermaÃŸen aus:',
+                        text:
+                          ', umgeformt werden. Das sieht dann folgendermaÃŸen aus:',
                       },
                     ],
                   },
@@ -109,7 +113,8 @@ test('Real state', async () => {
                   {
                     plugin: 'image',
                     state: {
-                      src: 'https://assets.serlo.org/legacy/591326a3943a9_b6b9503240e5c544dae8c9427e2f77166a6c9b32.png',
+                      src:
+                        'https://assets.serlo.org/legacy/591326a3943a9_b6b9503240e5c544dae8c9427e2f77166a6c9b32.png',
                       alt: '',
                     },
                   },
@@ -129,7 +134,8 @@ test('Real state', async () => {
                         type: 'p',
                         children: [
                           {
-                            text: 'AnschlieÃŸend kannst du die gegebenen Werte aus der Angabe den Strecken in der Skizze zuordnen.',
+                            text:
+                              'AnschlieÃŸend kannst du die gegebenen Werte aus der Angabe den Strecken in der Skizze zuordnen.',
                           },
                         ],
                       },
@@ -147,7 +153,8 @@ test('Real state', async () => {
                   {
                     plugin: 'image',
                     state: {
-                      src: 'https://assets.serlo.org/legacy/591326cf7016b_9f28b189b35c01d5867283b88a04e3ed447b1039.png',
+                      src:
+                        'https://assets.serlo.org/legacy/591326cf7016b_9f28b189b35c01d5867283b88a04e3ed447b1039.png',
                       alt: '',
                     },
                   },
@@ -174,7 +181,8 @@ test('Real state', async () => {
                             children: [{ text: 'h' }],
                           },
                           {
-                            text: ' auszurechnen schreibst du dir am besten nochmal die gegebenen Werte auf. Dazu benutzt du die Zuordnung aus der Skizze oben.',
+                            text:
+                              ' auszurechnen schreibst du dir am besten nochmal die gegebenen Werte auf. Dazu benutzt du die Zuordnung aus der Skizze oben.',
                           },
                         ],
                       },
@@ -201,7 +209,8 @@ test('Real state', async () => {
                             inline: false,
                             children: [
                               {
-                                text: '\\displaystyle{\\overline{A_1 B_1}=1,8m}',
+                                text:
+                                  '\\displaystyle{\\overline{A_1 B_1}=1,8m}',
                               },
                             ],
                           },
@@ -215,11 +224,13 @@ test('Real state', async () => {
                           },
                           {
                             type: 'math',
-                            src: '\\displaystyle{\\overline{Z A_1}=9,5m-7,5m = 2m}',
+                            src:
+                              '\\displaystyle{\\overline{Z A_1}=9,5m-7,5m = 2m}',
                             inline: false,
                             children: [
                               {
-                                text: '\\displaystyle{\\overline{Z A_1}=9,5m-7,5m = 2m}',
+                                text:
+                                  '\\displaystyle{\\overline{Z A_1}=9,5m-7,5m = 2m}',
                               },
                             ],
                           },
@@ -253,7 +264,8 @@ test('Real state', async () => {
                         type: 'p',
                         children: [
                           {
-                            text: 'Suche anschlieÃŸend den passenden Strahlensatz fÃ¼r die gegebenen Strecken.',
+                            text:
+                              'Suche anschlieÃŸend den passenden Strahlensatz fÃ¼r die gegebenen Strecken.',
                           },
                         ],
                       },
@@ -335,15 +347,18 @@ test('Real state', async () => {
                         type: 'p',
                         children: [
                           {
-                            text: 'Stelle den Strahlensatz nach der gesuchten GrÃ¶ÃŸe  ',
+                            text:
+                              'Stelle den Strahlensatz nach der gesuchten GrÃ¶ÃŸe  ',
                           },
                           {
                             type: 'math',
-                            src: '\\hspace{0,15cm} h = \\overline{A_2 B_2}\\hspace{0,15cm}',
+                            src:
+                              '\\hspace{0,15cm} h = \\overline{A_2 B_2}\\hspace{0,15cm}',
                             inline: true,
                             children: [
                               {
-                                text: '\\hspace{0,15cm} h = \\overline{A_2 B_2}\\hspace{0,15cm}',
+                                text:
+                                  '\\hspace{0,15cm} h = \\overline{A_2 B_2}\\hspace{0,15cm}',
                               },
                             ],
                           },
@@ -369,11 +384,13 @@ test('Real state', async () => {
                         children: [
                           {
                             type: 'math',
-                            src: '\\displaystyle{ \\overline{A_2 B_2} =   \\dfrac{\\hspace{0,15cm}\\overline{Z A_2} \\hspace{0,15cm}}{\\hspace{0,15cm}\\overline{Z A_1}\\hspace{0,15cm}} \\cdot \\overline{A_1 B_1}}',
+                            src:
+                              '\\displaystyle{ \\overline{A_2 B_2} =   \\dfrac{\\hspace{0,15cm}\\overline{Z A_2} \\hspace{0,15cm}}{\\hspace{0,15cm}\\overline{Z A_1}\\hspace{0,15cm}} \\cdot \\overline{A_1 B_1}}',
                             inline: false,
                             children: [
                               {
-                                text: '\\displaystyle{ \\overline{A_2 B_2} =   \\dfrac{\\hspace{0,15cm}\\overline{Z A_2} \\hspace{0,15cm}}{\\hspace{0,15cm}\\overline{Z A_1}\\hspace{0,15cm}} \\cdot \\overline{A_1 B_1}}',
+                                text:
+                                  '\\displaystyle{ \\overline{A_2 B_2} =   \\dfrac{\\hspace{0,15cm}\\overline{Z A_2} \\hspace{0,15cm}}{\\hspace{0,15cm}\\overline{Z A_1}\\hspace{0,15cm}} \\cdot \\overline{A_1 B_1}}',
                               },
                             ],
                           },
@@ -397,7 +414,8 @@ test('Real state', async () => {
                         type: 'p',
                         children: [
                           {
-                            text: 'Setze die Werte ein und berechne die HÃ¶he fÃ¼r das Haus!',
+                            text:
+                              'Setze die Werte ein und berechne die HÃ¶he fÃ¼r das Haus!',
                           },
                         ],
                       },
@@ -420,11 +438,13 @@ test('Real state', async () => {
                         children: [
                           {
                             type: 'math',
-                            src: '\\displaystyle{h =\\overline{A_2 B_2} =  \\dfrac{9,5m}{2m}\\cdot 1,8m=8,55m}',
+                            src:
+                              '\\displaystyle{h =\\overline{A_2 B_2} =  \\dfrac{9,5m}{2m}\\cdot 1,8m=8,55m}',
                             inline: false,
                             children: [
                               {
-                                text: '\\displaystyle{h =\\overline{A_2 B_2} =  \\dfrac{9,5m}{2m}\\cdot 1,8m=8,55m}',
+                                text:
+                                  '\\displaystyle{h =\\overline{A_2 B_2} =  \\dfrac{9,5m}{2m}\\cdot 1,8m=8,55m}',
                               },
                             ],
                           },
@@ -474,7 +494,8 @@ test('Real state', async () => {
                         type: 'p',
                         children: [
                           {
-                            text: 'Das von Klaus gemessene Haus ist 8,55m hoch.',
+                            text:
+                              'Das von Klaus gemessene Haus ist 8,55m hoch.',
                             strong: true,
                           },
                         ],
@@ -507,7 +528,8 @@ test('Real state', async () => {
                 type: 'p',
                 children: [
                   {
-                    text: 'Tipp: Versuche die Zeichnung in eine Skizze mit den Punkten ',
+                    text:
+                      'Tipp: Versuche die Zeichnung in eine Skizze mit den Punkten ',
                   },
                   {
                     type: 'math',
@@ -516,7 +538,8 @@ test('Real state', async () => {
                     children: [{ text: 'Z, A_1, A_2, B_1, B_2' }],
                   },
                   {
-                    text: ' und vier Geraden umzuwandeln, Ã¤hnlich zu den Zeichnungen im Artikel zum ',
+                    text:
+                      ' und vier Geraden umzuwandeln, Ã¤hnlich zu den Zeichnungen im Artikel zum ',
                   },
                   {
                     type: 'a',
@@ -552,7 +575,8 @@ test('Real state', async () => {
                 type: 'p',
                 children: [
                   {
-                    text: 'Die Zeichnung kann in eine Skizze, Ã¤hnlich zu den Skizzen im Artikel zum ',
+                    text:
+                      'Die Zeichnung kann in eine Skizze, Ã¤hnlich zu den Skizzen im Artikel zum ',
                   },
                   {
                     type: 'a',
@@ -560,7 +584,8 @@ test('Real state', async () => {
                     children: [{ text: 'Strahlensatz' }],
                   },
                   {
-                    text: ', umgeformt werden. Das sieht dann folgendermaÃŸen aus:',
+                    text:
+                      ', umgeformt werden. Das sieht dann folgendermaÃŸen aus:',
                   },
                 ],
               },
@@ -569,7 +594,8 @@ test('Real state', async () => {
           {
             plugin: 'image',
             state: {
-              src: 'https://assets.serlo.org/legacy/591326a3943a9_b6b9503240e5c544dae8c9427e2f77166a6c9b32.png',
+              src:
+                'https://assets.serlo.org/legacy/591326a3943a9_b6b9503240e5c544dae8c9427e2f77166a6c9b32.png',
               alt: '',
             },
           },
@@ -580,7 +606,8 @@ test('Real state', async () => {
                 type: 'p',
                 children: [
                   {
-                    text: 'AnschlieÃŸend kannst du die gegebenen Werte aus der Angabe den Strecken in der Skizze zuordnen.',
+                    text:
+                      'AnschlieÃŸend kannst du die gegebenen Werte aus der Angabe den Strecken in der Skizze zuordnen.',
                   },
                 ],
               },
@@ -589,7 +616,8 @@ test('Real state', async () => {
           {
             plugin: 'image',
             state: {
-              src: 'https://assets.serlo.org/legacy/591326cf7016b_9f28b189b35c01d5867283b88a04e3ed447b1039.png',
+              src:
+                'https://assets.serlo.org/legacy/591326cf7016b_9f28b189b35c01d5867283b88a04e3ed447b1039.png',
               alt: '',
             },
           },
@@ -607,7 +635,8 @@ test('Real state', async () => {
                     children: [{ text: 'h' }],
                   },
                   {
-                    text: ' auszurechnen schreibst du dir am besten nochmal die gegebenen Werte auf. Dazu benutzt du die Zuordnung aus der Skizze oben.',
+                    text:
+                      ' auszurechnen schreibst du dir am besten nochmal die gegebenen Werte auf. Dazu benutzt du die Zuordnung aus der Skizze oben.',
                   },
                 ],
               },
@@ -643,7 +672,8 @@ test('Real state', async () => {
                     inline: false,
                     children: [
                       {
-                        text: '\\displaystyle{\\overline{Z A_1}=9,5m-7,5m = 2m}',
+                        text:
+                          '\\displaystyle{\\overline{Z A_1}=9,5m-7,5m = 2m}',
                       },
                     ],
                   },
@@ -666,7 +696,8 @@ test('Real state', async () => {
                 type: 'p',
                 children: [
                   {
-                    text: 'Suche anschlieÃŸend den passenden Strahlensatz fÃ¼r die gegebenen Strecken.',
+                    text:
+                      'Suche anschlieÃŸend den passenden Strahlensatz fÃ¼r die gegebenen Strecken.',
                   },
                 ],
               },
@@ -730,15 +761,18 @@ test('Real state', async () => {
                 type: 'p',
                 children: [
                   {
-                    text: 'Stelle den Strahlensatz nach der gesuchten GrÃ¶ÃŸe  ',
+                    text:
+                      'Stelle den Strahlensatz nach der gesuchten GrÃ¶ÃŸe  ',
                   },
                   {
                     type: 'math',
-                    src: '\\hspace{0,15cm} h = \\overline{A_2 B_2}\\hspace{0,15cm}',
+                    src:
+                      '\\hspace{0,15cm} h = \\overline{A_2 B_2}\\hspace{0,15cm}',
                     inline: true,
                     children: [
                       {
-                        text: '\\hspace{0,15cm} h = \\overline{A_2 B_2}\\hspace{0,15cm}',
+                        text:
+                          '\\hspace{0,15cm} h = \\overline{A_2 B_2}\\hspace{0,15cm}',
                       },
                     ],
                   },
@@ -755,11 +789,13 @@ test('Real state', async () => {
                 children: [
                   {
                     type: 'math',
-                    src: '\\displaystyle{ \\overline{A_2 B_2} =   \\dfrac{\\hspace{0,15cm}\\overline{Z A_2} \\hspace{0,15cm}}{\\hspace{0,15cm}\\overline{Z A_1}\\hspace{0,15cm}} \\cdot \\overline{A_1 B_1}}',
+                    src:
+                      '\\displaystyle{ \\overline{A_2 B_2} =   \\dfrac{\\hspace{0,15cm}\\overline{Z A_2} \\hspace{0,15cm}}{\\hspace{0,15cm}\\overline{Z A_1}\\hspace{0,15cm}} \\cdot \\overline{A_1 B_1}}',
                     inline: false,
                     children: [
                       {
-                        text: '\\displaystyle{ \\overline{A_2 B_2} =   \\dfrac{\\hspace{0,15cm}\\overline{Z A_2} \\hspace{0,15cm}}{\\hspace{0,15cm}\\overline{Z A_1}\\hspace{0,15cm}} \\cdot \\overline{A_1 B_1}}',
+                        text:
+                          '\\displaystyle{ \\overline{A_2 B_2} =   \\dfrac{\\hspace{0,15cm}\\overline{Z A_2} \\hspace{0,15cm}}{\\hspace{0,15cm}\\overline{Z A_1}\\hspace{0,15cm}} \\cdot \\overline{A_1 B_1}}',
                       },
                     ],
                   },
@@ -774,7 +810,8 @@ test('Real state', async () => {
                 type: 'p',
                 children: [
                   {
-                    text: 'Setze die Werte ein und berechne die HÃ¶he fÃ¼r das Haus!',
+                    text:
+                      'Setze die Werte ein und berechne die HÃ¶he fÃ¼r das Haus!',
                   },
                 ],
               },
@@ -788,11 +825,13 @@ test('Real state', async () => {
                 children: [
                   {
                     type: 'math',
-                    src: '\\displaystyle{h =\\overline{A_2 B_2} =  \\dfrac{9,5m}{2m}\\cdot 1,8m=8,55m}',
+                    src:
+                      '\\displaystyle{h =\\overline{A_2 B_2} =  \\dfrac{9,5m}{2m}\\cdot 1,8m=8,55m}',
                     inline: false,
                     children: [
                       {
-                        text: '\\displaystyle{h =\\overline{A_2 B_2} =  \\dfrac{9,5m}{2m}\\cdot 1,8m=8,55m}',
+                        text:
+                          '\\displaystyle{h =\\overline{A_2 B_2} =  \\dfrac{9,5m}{2m}\\cdot 1,8m=8,55m}',
                       },
                     ],
                   },

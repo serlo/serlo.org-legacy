@@ -325,6 +325,8 @@ $.fn.quickdiff = function (method) {
   } else {
     /* else if ( typeof method === 'object' || ! method ) {
     //return methods.init.apply( this, arguments );
-    } */ $.error('Method ' + method + ' does not exist on jQuery.quickdiff')
+    } */ $.error(
+      'Method ' + method + ' does not exist on jQuery.quickdiff'
+    )
   }
 }
