@@ -535,7 +535,8 @@ const cases: {
               cells: [
                 {
                   size: 12,
-                  raw: 'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur -> not a quote',
+                  raw:
+                    'Lorem \n> ipsum\n> dolor\n\n>sit amet\n\nconsectetur -> not a quote',
                 },
               ],
             },
@@ -613,7 +614,8 @@ const cases: {
               cells: [
                 {
                   size: 12,
-                  raw: 'Check this code:\n```javascript\nconsole.log("hello, world!);\n```\nI hope this helped',
+                  raw:
+                    'Check this code:\n```javascript\nconsole.log("hello, world!);\n```\nI hope this helped',
                 },
               ],
             },

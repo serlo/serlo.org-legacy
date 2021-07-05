@@ -44,7 +44,8 @@ addPluginStory({
                     type: 'p',
                     children: [
                       {
-                        text: 'Dies ist der Text des künftigen Multimedia-Plugins',
+                        text:
+                          'Dies ist der Text des künftigen Multimedia-Plugins',
                       },
                     ],
                   },
@@ -61,7 +62,8 @@ addPluginStory({
               {
                 plugin: 'image',
                 state: {
-                  src: 'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
+                  src:
+                    'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
                   alt: 'Edtr.io Logo',
                 },
               },
@@ -94,7 +96,8 @@ addPluginStory({
               {
                 plugin: 'image',
                 state: {
-                  src: 'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
+                  src:
+                    'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
                   alt: 'Edtr.io Logo',
                 },
               },
@@ -113,7 +116,8 @@ addPluginStory({
                     type: 'p',
                     children: [
                       {
-                        text: 'Dies ist der Text des künftigen Multimedia-Plugins',
+                        text:
+                          'Dies ist der Text des künftigen Multimedia-Plugins',
                       },
                     ],
                   },

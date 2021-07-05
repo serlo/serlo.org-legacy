@@ -499,8 +499,9 @@ window.CodeMirror = (function () {
     } else d.gutterFiller.style.display = ''
 
     if (mac_geLion && scrollbarWidth(d.measure) === 0) {
-      d.scrollbarV.style.minWidth = d.scrollbarH.style.minHeight =
-        mac_geMountainLion ? '18px' : '12px'
+      d.scrollbarV.style.minWidth = d.scrollbarH.style.minHeight = mac_geMountainLion
+        ? '18px'
+        : '12px'
       d.scrollbarV.style.pointerEvents = d.scrollbarH.style.pointerEvents =
         'none'
     }
@@ -1296,8 +1297,9 @@ window.CodeMirror = (function () {
     display.cursor.style.visibility = display.otherCursor.style.visibility = ''
     if (cm.options.cursorBlinkRate > 0) {
       display.blinker = setInterval(function () {
-        display.cursor.style.visibility = display.otherCursor.style.visibility =
-          (on = !on) ? '' : 'hidden'
+        display.cursor.style.visibility = display.otherCursor.style.visibility = (on = !on)
+          ? ''
+          : 'hidden'
       }, cm.options.cursorBlinkRate)
     }
   }
@@ -1991,14 +1993,10 @@ window.CodeMirror = (function () {
     }
     if (!updated && op.selectionChanged) updateSelection(cm)
     if (op.updateScrollPos) {
-      display.scroller.scrollTop =
-        display.scrollbarV.scrollTop =
-        doc.scrollTop =
-          newScrollPos.scrollTop
-      display.scroller.scrollLeft =
-        display.scrollbarH.scrollLeft =
-        doc.scrollLeft =
-          newScrollPos.scrollLeft
+      display.scroller.scrollTop = display.scrollbarV.scrollTop = doc.scrollTop =
+        newScrollPos.scrollTop
+      display.scroller.scrollLeft = display.scrollbarH.scrollLeft = doc.scrollLeft =
+        newScrollPos.scrollLeft
       alignHorizontally(cm)
       if (op.scrollToPos) {
         scrollPosIntoView(
@@ -3674,10 +3672,7 @@ window.CodeMirror = (function () {
     sel.to = inv ? anchor : head
 
     if (doc.cm) {
-      doc.cm.curOp.updateInput =
-        doc.cm.curOp.selectionChanged =
-        doc.cm.curOp.cursorActivity =
-          true
+      doc.cm.curOp.updateInput = doc.cm.curOp.selectionChanged = doc.cm.curOp.cursorActivity = true
     }
 
     signalLater(doc, 'cursorActivity', doc)
@@ -4243,11 +4238,8 @@ window.CodeMirror = (function () {
     },
 
     lineAtHeight: function (height, mode) {
-      height = fromCoordSystem(
-        this,
-        { top: height, left: 0 },
-        mode || 'page'
-      ).top
+      height = fromCoordSystem(this, { top: height, left: 0 }, mode || 'page')
+        .top
       return lineAtHeight(this.doc, height + this.display.viewOffset)
     },
     heightAtLine: function (line, mode) {
@@ -4570,8 +4562,7 @@ window.CodeMirror = (function () {
       if (width != null) this.display.wrapper.style.width = interpret(width)
       if (height != null) this.display.wrapper.style.height = interpret(height)
       if (this.options.lineWrapping) {
-        this.display.measureLineCache.length =
-          this.display.measureLineCachePos = 0
+        this.display.measureLineCache.length = this.display.measureLineCachePos = 0
       }
       this.curOp.forceUpdate = true
     }),
@@ -5486,10 +5477,7 @@ window.CodeMirror = (function () {
         }
       }
       runInOp(cm, function () {
-        cm.curOp.selectionChanged =
-          cm.curOp.forceUpdate =
-          cm.curOp.updateMaxLine =
-            true
+        cm.curOp.selectionChanged = cm.curOp.forceUpdate = cm.curOp.updateMaxLine = true
       })
     }
   }
@@ -7729,8 +7717,7 @@ window.CodeMirror = (function () {
     }
   }
 
-  var nonASCIISingleCaseWordChar =
-    /[\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/
+  var nonASCIISingleCaseWordChar = /[\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/
   function isWordChar(ch) {
     return (
       /\w/.test(ch) ||
@@ -7745,8 +7732,7 @@ window.CodeMirror = (function () {
     return true
   }
 
-  var isExtendingChar =
-    /[\u0300-\u036F\u0483-\u0487\u0488-\u0489\u0591-\u05BD\u05BF\u05C1-\u05C2\u05C4-\u05C5\u05C7\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7-\u06E8\u06EA-\u06ED\uA66F\uA670-\uA672\uA674-\uA67D\uA69F\udc00-\udfff]/
+  var isExtendingChar = /[\u0300-\u036F\u0483-\u0487\u0488-\u0489\u0591-\u05BD\u05BF\u05C1-\u05C2\u05C4-\u05C5\u05C7\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7-\u06E8\u06EA-\u06ED\uA66F\uA670-\uA672\uA674-\uA67D\uA69F\udc00-\udfff]/
 
   // DOM UTILITIES
 

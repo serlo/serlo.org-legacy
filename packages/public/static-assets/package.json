@@ -10,7 +10,7 @@
     "@serlo/cloudflare": "^0.0.0",
     "@serlo/gcloud": "^0.0.0",
     "@types/signale": "^1.0.0",
-    "serve": "^11.0.0",
+    "serve": "^12.0.0",
     "signale": "^1.0.0"
   }
 }

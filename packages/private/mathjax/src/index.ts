@@ -46,7 +46,7 @@ function command(command: string, context?: unknown) {
 export function initMathJax() {
   if (typeof window === undefined || mathJaxInitialized) return
   mathJaxInitialized = true
-  const { $ } = window as unknown as { $: JQueryStatic }
+  const { $ } = (window as unknown) as { $: JQueryStatic }
 
   if ($('mathjax-config').length > 0) return
   const lang = $('html').attr('lang') || 'en'

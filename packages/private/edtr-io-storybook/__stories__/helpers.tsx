@@ -33,12 +33,10 @@ interface Story {
 
 export function addStory({ name, type, initialState }: Story) {
   const stories = storiesOf(name, module)
-  const initialStates: { name: string; state: unknown }[] = (
-    initialState as {
-      name: string
-      state: unknown
-    }[]
-  ).length
+  const initialStates: { name: string; state: unknown }[] = (initialState as {
+    name: string
+    state: unknown
+  }[]).length
     ? (initialState as { name: string; state: unknown }[])
     : [{ name: '', state: initialState }]
 
