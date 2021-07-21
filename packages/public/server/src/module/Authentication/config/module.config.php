@@ -22,6 +22,7 @@
  */
 namespace Authentication;
 
+use Authentication\Adapter\UserAuthAdapter;
 use Authentication\Controller\HydraConsentController;
 use Authentication\Controller\HydraLoginController;
 use Authentication\Controller\HydraLogoutController;
@@ -29,6 +30,7 @@ use Authentication\Factory\HydraConsentControllerFactory;
 use Authentication\Factory\HydraLoginControllerFactory;
 use Authentication\Factory\HydraLogoutControllerFactory;
 use Authentication\Factory\HydraServiceFactory;
+use Authentication\Factory\UserAuthAdapterFactory;
 use Authentication\Service\HydraService;
 
 return [
@@ -41,6 +43,7 @@ return [
             __NAMESPACE__ . '\HashService' =>
                 __NAMESPACE__ . '\Factory\HashServiceFactory',
             HydraService::class => HydraServiceFactory::class,
+            UserAuthAdapter::class => UserAuthAdapterFactory::class,
         ],
     ],
     'controllers' => [
