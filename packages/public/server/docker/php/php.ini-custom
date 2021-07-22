@@ -3,6 +3,7 @@ extension=apc.so
 apc.enabled=On
 apc.enable_cli=On
 short_open_tag=Off
+max_input_vars=5000
 memory_limit=1024M
 realpath_cache_ttl=1200
 opcache.enable=1
