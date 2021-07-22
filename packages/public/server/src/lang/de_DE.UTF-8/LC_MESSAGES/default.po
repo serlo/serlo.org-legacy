@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
-"POT-Creation-Date: 2021-06-11 16:25+0200\n"
-"PO-Revision-Date: 2021-06-11 14:32\n"
+"POT-Creation-Date: 2021-07-21 18:20+0200\n"
+"PO-Revision-Date: 2021-07-21 16:23\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -170,23 +170,19 @@ msgid "Me"
 msgstr "Ich"
 
 #: ../config/instance/navigation/default.php:266
-msgid "Public profile"
-msgstr "Öffentliches Profil"
-
-#: ../config/instance/navigation/default.php:271
 msgid "Edit profile"
 msgstr "Profil bearbeiten"
 
-#: ../config/instance/navigation/default.php:277
+#: ../config/instance/navigation/default.php:272
 #: ../module/Ui/templates/authentication/change-password.twig:22
 msgid "Update password"
 msgstr "Passwort aktualisieren"
 
-#: ../config/instance/navigation/default.php:283
+#: ../config/instance/navigation/default.php:278
 msgid "Subscriptions"
 msgstr "Abonnements"
 
-#: ../config/instance/navigation/default.php:289
+#: ../config/instance/navigation/default.php:284
 #: ../module/Ui/templates/event/history/all.twig:22
 #: ../module/Ui/templates/event/history/object.twig:22
 #: ../module/Ui/templates/event/history/user.twig:22
@@ -258,6 +254,19 @@ msgstr "Datei anhängen:"
 #: ../module/Attachment/src/Form/AttachmentForm.php:46
 msgid "Set type:"
 msgstr "Typ wählen:"
+
+#: ../module/Authentication/src/Adapter/UserAuthAdapter.php:100
+msgid "Your account was deleted."
+msgstr "Ihr Benutzerkonto wurde gelöscht."
+
+#: ../module/Authentication/src/Adapter/UserAuthAdapter.php:108
+msgid "You have not activated your account."
+msgstr "Sie haben ihren Account noch nicht aktiviert."
+
+#: ../module/Authentication/src/Adapter/UserAuthAdapter.php:121
+#: ../module/Authentication/src/Adapter/UserAuthAdapter.php:132
+msgid "We have no registered user with this combination of username/email and password."
+msgstr "Wir haben keinen registrierten Benutzer mit dieser Kombination aus Benutzername/E-Mail und Passwort."
 
 #: ../module/Authentication/src/Controller/AuthenticationController.php:78
 msgid "Your account has been activated, you may now log in."
@@ -376,7 +385,7 @@ msgstr "Liste aller Kommentare"
 
 #: ../module/Entity/src/Controller/EntityController.php:154
 msgid "Questionnaire for reviewers"
-msgstr "Fragebogen für Reviewer"
+msgstr "Fragebogen für Reviewer*innen"
 
 #: ../module/Entity/src/Controller/LinkController.php:79
 msgid "Your changes have been saved."
@@ -608,11 +617,11 @@ msgstr "Verschieben nach:"
 msgid "description:"
 msgstr "Beschreibung:"
 
-#: ../module/User/src/Controller/UserController.php:128
+#: ../module/User/src/Controller/UserController.php:115
 msgid "You have registered successfully and will soon receive an email with instructions on how to activate your account."
 msgstr "Du hast dich erfolgreich registriert. In Kürze erhältst du eine E-Mail mit Anweisungen, wie du deinen Account aktivieren kannst."
 
-#: ../module/User/src/Controller/UserController.php:202
+#: ../module/User/src/Controller/UserController.php:189
 msgid "Your profile has been saved"
 msgstr "Dein Profil wurde gespeichert"
 

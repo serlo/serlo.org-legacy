@@ -28,10 +28,11 @@ use Common\Traits\ObjectManagerAwareTrait;
 use Doctrine\Common\Persistence\ObjectManager;
 use User\Exception\UserNotFoundException;
 use Zend\Authentication\Result;
+use Zend\I18n\Translator\TranslatorAwareTrait;
 
 class UserAuthAdapter implements UserAuthAdapterInterface
 {
-    use ObjectManagerAwareTrait, HashServiceAwareTrait;
+    use ObjectManagerAwareTrait, HashServiceAwareTrait, TranslatorAwareTrait;
 
     private $email;
     private $password;
@@ -96,13 +97,21 @@ class UserAuthAdapter implements UserAuthAdapterInterface
                     return new Result(
                         RESULT::FAILURE_IDENTITY_NOT_FOUND,
                         $this->email,
-                        ['Ihr Benutzerkonto wurde gelöscht.']
+                        [
+                            $this->getTranslator()->translate(
+                                'Your account was deleted.'
+                            ),
+                        ]
                     );
                 } elseif (!$user->hasRole($role)) {
                     return new Result(
                         RESULT::FAILURE_IDENTITY_NOT_FOUND,
                         $this->email,
-                        ['Sie haben ihren Account noch nicht aktiviert.']
+                        [
+                            $this->getTranslator()->translate(
+                                'You have not activated your account.'
+                            ),
+                        ]
                     );
                 } else {
                     return new Result(RESULT::SUCCESS, $user);
@@ -112,7 +121,9 @@ class UserAuthAdapter implements UserAuthAdapterInterface
                     RESULT::FAILURE_CREDENTIAL_INVALID,
                     $this->email,
                     [
-                        'Mit dieser Kombination ist bei uns kein Benutzer registriert.',
+                        $this->getTranslator()->translate(
+                            'We have no registered user with this combination of username/email and password.'
+                        ),
                     ]
                 );
             }
@@ -121,7 +132,9 @@ class UserAuthAdapter implements UserAuthAdapterInterface
                 RESULT::FAILURE_IDENTITY_NOT_FOUND,
                 $this->email,
                 [
-                    'Mit dieser Kombination ist bei uns kein Benutzer registriert.',
+                    $this->getTranslator()->translate(
+                        'We have no registered user with this combination of username/email and password.'
+                    ),
                 ]
             );
         }
