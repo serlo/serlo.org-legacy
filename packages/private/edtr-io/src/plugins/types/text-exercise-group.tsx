@@ -34,6 +34,7 @@ import {
 } from './common'
 import { RevisionHistory } from './helpers/settings'
 import { SemanticSection } from '../helpers/semantic-section'
+import { useVirtual } from 'react-virtual'
 
 export const textExerciseGroupTypeState = entityType(
   {
@@ -61,6 +62,14 @@ function TextExerciseGroupTypeEditor(
   const i18n = useI18n()
   const isCohesive = cohesive.value ?? false
 
+  const virtualParent = React.useRef(null)
+
+  const virtualizer = useVirtual({
+    size: children.length,
+    parentRef: virtualParent,
+    estimateSize: React.useCallback(() => 35, []),
+  })
+
   const contentRendered = content.render({
     renderSettings(children) {
       return (
@@ -86,22 +95,52 @@ function TextExerciseGroupTypeEditor(
           {contentRendered}
         </SemanticSection>
       </section>
-      {children.map((child, index) => {
-        return (
-          <section className="row" key={child.id}>
-            <div className="col-sm-1 hidden-xs">
-              <em>{getExerciseIndex(index)})</em>
-            </div>
-            <div className="col-sm-11 col-xs-12">
-              <OptionalChild
-                state={child}
-                removeLabel={i18n.t('textExerciseGroup::Remove exercise')}
-                onRemove={() => children.remove(index)}
-              />
-            </div>
-          </section>
-        )
-      })}
+      <div
+        ref={virtualParent}
+        style={{
+          height: '100%',
+          overflow: 'auto',
+        }}
+      >
+        <div
+          style={{
+            height: `${virtualizer.totalSize}px`,
+            width: '100%',
+            position: 'relative',
+          }}
+        >
+          {virtualizer.virtualItems.map((virtualRow) => {
+            const child = children[virtualRow.index]
+            return (
+              <div
+                key={virtualRow.index}
+                ref={virtualRow.measureRef}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  // height: `${childs[child.index]}px`,
+                  transform: `translateY(${virtualRow.start}px)`,
+                }}
+              >
+                <section className="row" key={child.id}>
+                  <div className="col-sm-1 hidden-xs">
+                    <em>{getExerciseIndex(virtualRow.index)})</em>
+                  </div>
+                  <div className="col-sm-11 col-xs-12">
+                    <OptionalChild
+                      state={child}
+                      removeLabel={i18n.t('textExerciseGroup::Remove exercise')}
+                      onRemove={() => children.remove(virtualRow.index)}
+                    />
+                  </div>
+                </section>
+              </div>
+            )
+          })}
+        </div>
+      </div>
       <AddButton onClick={() => children.insert()}>
         {i18n.t('textExerciseGroup::Add exercise')}
       </AddButton>
