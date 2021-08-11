@@ -35,17 +35,17 @@ class DiscussionManagerListener extends AbstractListener
     {
         /** @var CommentInterface $comment */
         $comment = $e->getParam('comment');
-        $this->getApiManager()->setUuid($comment);
+        $this->getApiManager()->removeUuid($comment);
         /** @var CommentInterface $comment */
         $thread = $e->getParam('discussion');
-        $this->getApiManager()->setUuid($thread);
+        $this->getApiManager()->removeUuid($thread);
     }
 
     public function onStart(Event $e)
     {
         /** @var CommentInterface $thread */
         $thread = $e->getParam('discussion');
-        $this->getApiManager()->setUuid($thread);
+        $this->getApiManager()->removeUuid($thread);
         /** @var UuidInterface $uuid */
         $uuid = $e->getParam('on');
         $this->getApiManager()->setThreads($uuid);
