@@ -35,7 +35,7 @@ class LicenseManagerListener extends AbstractListener
     {
         /** @var UuidInterface $uuid */
         $uuid = $e->getParam('object');
-        $this->getApiManager()->setUuid($uuid);
+        $this->getApiManager()->removeUuid($uuid);
 
         $newlyCreated = $e->getParam('newlyCreated');
         if ($newlyCreated) {

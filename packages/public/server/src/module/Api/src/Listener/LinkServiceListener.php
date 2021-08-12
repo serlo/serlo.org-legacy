@@ -37,7 +37,7 @@ class LinkServiceListener extends AbstractListener
         $child = $e->getParam('entity');
         // Only update child when it is not newly created
         if ($child->getId()) {
-            $this->getApiManager()->setUuid($child);
+            $this->getApiManager()->removeUuid($child);
         }
 
         /** @var UuidInterface $uuid */

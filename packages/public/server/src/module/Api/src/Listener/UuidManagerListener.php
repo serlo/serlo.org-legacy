@@ -34,7 +34,7 @@ class UuidManagerListener extends AbstractListener
     {
         /** @var UuidInterface $uuid */
         $uuid = $e->getParam('object');
-        $this->getApiManager()->setUuid($uuid);
+        $this->getApiManager()->removeUuid($uuid);
     }
 
     public function onRemove(Event $e)

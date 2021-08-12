@@ -43,7 +43,7 @@ class TaxonomyManagerListener extends AbstractListener
             return;
         }
 
-        $this->getApiManager()->setUuid($uuid);
+        $this->getApiManager()->removeUuid($uuid);
 
         /** @var TaxonomyTermInterface $term */
         $term = $e->getParam('term');

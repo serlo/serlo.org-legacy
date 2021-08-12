@@ -34,7 +34,7 @@ class RepositoryManagerListener extends AbstractListener
     {
         /** @var UuidInterface $repository */
         $repository = $e->getParam('repository');
-        $this->getApiManager()->setUuid($repository);
+        $this->getApiManager()->removeUuid($repository);
     }
 
     public function onCommit(Event $e)
@@ -44,7 +44,7 @@ class RepositoryManagerListener extends AbstractListener
         $this->getApiManager()->setUuid($revision);
         /** @var UuidInterface $repository */
         $repository = $e->getParam('repository');
-        $this->getApiManager()->setUuid($repository);
+        $this->getApiManager()->removeUuid($repository);
     }
 
     public function attachShared(SharedEventManagerInterface $events)
