@@ -19,12 +19,24 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { child, EditorPlugin, EditorPluginProps, object } from '@edtr-io/plugin'
+import { AddButton } from '@edtr-io/editor-ui/internal'
+import {
+  child,
+  EditorPlugin,
+  EditorPluginProps,
+  list,
+  object,
+} from '@edtr-io/plugin'
 import * as React from 'react'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+
 import { SemanticSection } from './helpers/semantic-section'
+import { PluginToolbarButton } from '@edtr-io/core'
+import { edtrDragHandle, EdtrIcon, faTrashAlt, Icon } from '@edtr-io/ui'
 
 const articleState = object({
   content: child({ plugin: 'rows' }),
+  exercises: list(child({ plugin: 'injection' })),
 })
 
 export type ArticlePluginState = typeof articleState
@@ -36,12 +48,89 @@ export const articlePlugin: EditorPlugin<ArticlePluginState> = {
   config: {},
 }
 
-function ArticleEditor({ editable, state }: ArticleProps) {
-  const { content } = state
+function ArticleEditor(props: ArticleProps) {
+  const { editable, state } = props
+  const { content, exercises } = state
 
   return (
     <React.Fragment>
       <SemanticSection editable={editable}>{content.render()}</SemanticSection>
+      <SemanticSection editable={editable}>{renderExercises()}</SemanticSection>
     </React.Fragment>
   )
+
+  function renderExercises() {
+    // TODO: i18n
+    const header = <h2>Übungsaufgaben</h2>
+    return (
+      <React.Fragment>
+        {header}
+        <DragDropContext
+          onDragEnd={(result) => {
+            const { source, destination } = result
+            if (!destination) return
+            exercises.move(source.index, destination.index)
+          }}
+        >
+          <Droppable droppableId="default">
+            {(provided: any) => {
+              return (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {exercises.map((exercise, index) => {
+                    return (
+                      <Draggable
+                        key={exercise.id}
+                        draggableId={exercise.id}
+                        index={index}
+                      >
+                        {(provided: any) => {
+                          return (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                            >
+                              {exercise.render({
+                                renderToolbar() {
+                                  return (
+                                    <React.Fragment>
+                                      {/*TODO: Label & i18n*/}
+                                      <span {...provided.dragHandleProps}>
+                                        <EdtrIcon icon={edtrDragHandle} />
+                                      </span>
+                                      <PluginToolbarButton
+                                        icon={<Icon icon={faTrashAlt} />}
+                                        // TODO: i18n
+                                        label="Interaktives Element entfernen"
+                                        onClick={() => {
+                                          exercises.remove(index)
+                                        }}
+                                      />
+                                    </React.Fragment>
+                                  )
+                                },
+                              })}
+                            </div>
+                          )
+                        }}
+                      </Draggable>
+                    )
+                  })}
+                </div>
+              )
+            }}
+          </Droppable>
+        </DragDropContext>
+        {editable ? (
+          <AddButton
+            onClick={() => {
+              exercises.insert(exercises.length)
+            }}
+          >
+            {/*TODO: i18n*/}
+            Add optional exercise
+          </AddButton>
+        ) : null}
+      </React.Fragment>
+    )
+  }
 }
