@@ -44,6 +44,8 @@ import {
 import { InlineSettings } from './helpers/inline-settings'
 import { InlineSettingsInput } from './helpers/inline-settings-input'
 import { InlineInput } from './helpers/inline-input'
+import { ExpandableBox } from '@edtr-io/renderer-ui'
+import { ThemeProvider } from 'styled-components'
 
 const relatedContentItemState = object({ id: string(), title: string() })
 
@@ -56,6 +58,12 @@ const articleState = object({
     videos: list(relatedContentItemState),
     exercises: list(relatedContentItemState),
   }),
+  sources: list(
+    object({
+      href: string(),
+      title: string(),
+    })
+  ),
 })
 
 export type ArticlePluginState = typeof articleState
@@ -69,9 +77,19 @@ export const articlePlugin: EditorPlugin<ArticlePluginState> = {
 
 const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 
+const spoilerTheme = {
+  rendererUi: {
+    expandableBox: {
+      toggleBackgroundColor: '#f5f5f5',
+      toggleColor: '#333',
+      containerBorderColor: '#f5f5f5',
+    },
+  },
+}
+
 function ArticleEditor(props: ArticleProps) {
   const { editable, focused, state } = props
-  const { content, exercises, relatedContent } = state
+  const { content, exercises, relatedContent, sources } = state
 
   return (
     <React.Fragment>
@@ -80,6 +98,7 @@ function ArticleEditor(props: ArticleProps) {
       <SemanticSection editable={editable}>
         {renderRelatedContent()}
       </SemanticSection>
+      <SemanticSection editable={editable}>{renderSources()}</SemanticSection>
     </React.Fragment>
   )
 
@@ -207,9 +226,7 @@ function ArticleEditor(props: ArticleProps) {
                   {relatedContent[section].map((item, index) => {
                     return (
                       <Draggable
-                        // TODO: needs id
                         key={index}
-                        // TODO: needs id
                         draggableId={`${section}-${index}`}
                         index={index}
                       >
@@ -219,7 +236,6 @@ function ArticleEditor(props: ArticleProps) {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                             >
-                              {/*TODO: Label & i18n*/}
                               <span {...provided.dragHandleProps}>
                                 <EdtrIcon icon={edtrDragHandle} />
                               </span>
@@ -274,7 +290,6 @@ function ArticleEditor(props: ArticleProps) {
                                   placeholder={'todo'}
                                 />
                               </a>
-                              {/*<a href={item.id.value}>{item.title.value}</a>*/}
                             </div>
                           )
                         }}
@@ -300,6 +315,110 @@ function ArticleEditor(props: ArticleProps) {
           </Droppable>
         </DragDropContext>
       </React.Fragment>
+    )
+  }
+
+  function renderSources() {
+    // TODO: i18n
+    return (
+      <ThemeProvider theme={spoilerTheme}>
+        <ExpandableBox
+          renderTitle={() => 'Quellen'}
+          editable={editable}
+          alwaysVisible
+        >
+          <DragDropContext
+            onDragEnd={(result) => {
+              const { source, destination } = result
+              if (!destination) return
+              sources.move(source.index, destination.index)
+            }}
+          >
+            <Droppable droppableId="default">
+              {(provided: any) => {
+                return (
+                  <ul ref={provided.innerRef} {...provided.droppableProps}>
+                    {sources.map((source, index) => {
+                      return (
+                        <Draggable
+                          key={index}
+                          draggableId={`${index}`}
+                          index={index}
+                        >
+                          {(provided: any) => {
+                            return (
+                              <li
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                              >
+                                <span {...provided.dragHandleProps}>
+                                  <EdtrIcon icon={edtrDragHandle} />
+                                </span>
+                                <span>
+                                  {focused ? (
+                                    <InlineSettings
+                                      onDelete={() => {
+                                        sources.remove(index)
+                                      }}
+                                      position={'below'}
+                                    >
+                                      <InlineSettingsInput
+                                        value={source.href.value}
+                                        // TODO: placeholder
+                                        placeholder={'todo'}
+                                        onChange={(event) => {
+                                          source.href.set(event.target.value)
+                                        }}
+                                      />
+                                      <a
+                                        target="_blank"
+                                        href={source.href.value}
+                                        rel="noopener noreferrer"
+                                      >
+                                        <OpenInNewTab
+                                          // TODO: title
+                                          title={'todo'}
+                                        >
+                                          <Icon icon={faExternalLinkAlt} />
+                                        </OpenInNewTab>
+                                      </a>
+                                    </InlineSettings>
+                                  ) : null}
+                                  <a>
+                                    <InlineInput
+                                      value={source.title.value}
+                                      onChange={(value) => {
+                                        source.title.set(value)
+                                      }}
+                                      // TODO: placeholder
+                                      placeholder={'todo'}
+                                    />
+                                  </a>
+                                </span>
+                              </li>
+                            )
+                          }}
+                        </Draggable>
+                      )
+                    })}
+                    {provided.placeholder}
+                  </ul>
+                )
+              }}
+            </Droppable>
+          </DragDropContext>
+          {editable ? (
+            <AddButton
+              onClick={() => {
+                sources.insert(sources.length)
+              }}
+            >
+              {/*TODO: i18n*/}
+              Add source
+            </AddButton>
+          ) : null}
+        </ExpandableBox>
+      </ThemeProvider>
     )
   }
 }
