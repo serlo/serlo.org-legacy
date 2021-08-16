@@ -19,10 +19,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { EditorPlugin, EditorPluginProps, object } from '@edtr-io/plugin'
+import { child, EditorPlugin, EditorPluginProps, object } from '@edtr-io/plugin'
 import * as React from 'react'
+import { SemanticSection } from './helpers/semantic-section'
 
-const articleState = object({})
+const articleState = object({
+  content: child({ plugin: 'rows' }),
+})
 
 export type ArticlePluginState = typeof articleState
 export type ArticleProps = EditorPluginProps<ArticlePluginState>
@@ -33,6 +36,12 @@ export const articlePlugin: EditorPlugin<ArticlePluginState> = {
   config: {},
 }
 
-function ArticleEditor(props: ArticleProps) {
-  return <React.Fragment>Hello World</React.Fragment>
+function ArticleEditor({ editable, state }: ArticleProps) {
+  const { content } = state
+
+  return (
+    <React.Fragment>
+      <SemanticSection editable={editable}>{content.render()}</SemanticSection>
+    </React.Fragment>
+  )
 }
