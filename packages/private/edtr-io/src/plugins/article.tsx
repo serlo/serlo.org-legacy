@@ -26,17 +26,36 @@ import {
   EditorPluginProps,
   list,
   object,
+  string,
 } from '@edtr-io/plugin'
 import * as React from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
 import { SemanticSection } from './helpers/semantic-section'
 import { PluginToolbarButton } from '@edtr-io/core'
-import { edtrDragHandle, EdtrIcon, faTrashAlt, Icon } from '@edtr-io/ui'
+import {
+  edtrDragHandle,
+  EdtrIcon,
+  faExternalLinkAlt,
+  faTrashAlt,
+  Icon,
+  styled,
+} from '@edtr-io/ui'
+import { InlineSettings } from './helpers/inline-settings'
+import { InlineSettingsInput } from './helpers/inline-settings-input'
+import { InlineInput } from './helpers/inline-input'
+
+const relatedContentItemState = object({ id: string(), title: string() })
 
 const articleState = object({
   content: child({ plugin: 'rows' }),
   exercises: list(child({ plugin: 'injection' })),
+  relatedContent: object({
+    articles: list(relatedContentItemState),
+    courses: list(relatedContentItemState),
+    videos: list(relatedContentItemState),
+    exercises: list(relatedContentItemState),
+  }),
 })
 
 export type ArticlePluginState = typeof articleState
@@ -48,14 +67,19 @@ export const articlePlugin: EditorPlugin<ArticlePluginState> = {
   config: {},
 }
 
+const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
+
 function ArticleEditor(props: ArticleProps) {
-  const { editable, state } = props
-  const { content, exercises } = state
+  const { editable, focused, state } = props
+  const { content, exercises, relatedContent } = state
 
   return (
     <React.Fragment>
       <SemanticSection editable={editable}>{content.render()}</SemanticSection>
       <SemanticSection editable={editable}>{renderExercises()}</SemanticSection>
+      <SemanticSection editable={editable}>
+        {renderRelatedContent()}
+      </SemanticSection>
     </React.Fragment>
   )
 
@@ -115,6 +139,7 @@ function ArticleEditor(props: ArticleProps) {
                       </Draggable>
                     )
                   })}
+                  {provided.placeholder}
                 </div>
               )
             }}
@@ -130,6 +155,150 @@ function ArticleEditor(props: ArticleProps) {
             Add optional exercise
           </AddButton>
         ) : null}
+      </React.Fragment>
+    )
+  }
+
+  function renderRelatedContent() {
+    const header = (
+      <React.Fragment>
+        {/*TODO: i18n*/}
+        <h2>Du hast noch nicht genug vom Thema?</h2>
+        {/*TODO: i18n*/}
+        <p>Hier findet du noch weitere passende Inhalte zum Thema:</p>
+      </React.Fragment>
+    )
+
+    return (
+      <React.Fragment>
+        {header}
+        {['articles', 'courses', 'videos', 'exercises'].map((section) => {
+          return (
+            <React.Fragment key={section}>
+              {renderRelatedContentSection(section)}
+            </React.Fragment>
+          )
+        })}
+      </React.Fragment>
+    )
+  }
+
+  function renderRelatedContentSection(
+    section: 'articles' | 'courses' | 'videos' | 'exercises'
+  ) {
+    if (!editable && relatedContent[section].length === 0) {
+      return null
+    }
+
+    return (
+      <React.Fragment>
+        ICON {section}
+        <DragDropContext
+          onDragEnd={(result) => {
+            const { source, destination } = result
+            if (!destination) return
+            relatedContent[section].move(source.index, destination.index)
+          }}
+        >
+          <Droppable droppableId="default">
+            {(provided: any) => {
+              return (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {relatedContent[section].map((item, index) => {
+                    return (
+                      <Draggable
+                        // TODO: needs id
+                        key={index}
+                        // TODO: needs id
+                        draggableId={`${section}-${index}`}
+                        index={index}
+                      >
+                        {(provided: any) => {
+                          return (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                            >
+                              {/*TODO: Label & i18n*/}
+                              <span {...provided.dragHandleProps}>
+                                <EdtrIcon icon={edtrDragHandle} />
+                              </span>
+                              {focused ? (
+                                <InlineSettings
+                                  onDelete={() => {
+                                    relatedContent[section].remove(index)
+                                  }}
+                                  position={'below'}
+                                >
+                                  <InlineSettingsInput
+                                    value={
+                                      item.id.value !== ''
+                                        ? `/${item.id.value}`
+                                        : ''
+                                    }
+                                    // TODO: placeholder
+                                    placeholder={'todo'}
+                                    onChange={(event) => {
+                                      const newValue = event.target.value.replace(
+                                        /[^0-9]/g,
+                                        ''
+                                      )
+                                      item.id.set(newValue)
+                                    }}
+                                  />
+                                  <a
+                                    target="_blank"
+                                    href={
+                                      item.id.value !== ''
+                                        ? `/${item.id.value}`
+                                        : ''
+                                    }
+                                    rel="noopener noreferrer"
+                                  >
+                                    <OpenInNewTab
+                                      // TODO: title
+                                      title={'todo'}
+                                    >
+                                      <Icon icon={faExternalLinkAlt} />
+                                    </OpenInNewTab>
+                                  </a>
+                                </InlineSettings>
+                              ) : null}
+                              <a>
+                                <InlineInput
+                                  value={item.title.value}
+                                  onChange={(value) => {
+                                    item.title.set(value)
+                                  }}
+                                  // TODO: placeholder
+                                  placeholder={'todo'}
+                                />
+                              </a>
+                              {/*<a href={item.id.value}>{item.title.value}</a>*/}
+                            </div>
+                          )
+                        }}
+                      </Draggable>
+                    )
+                  })}
+                  {provided.placeholder}
+                  {editable ? (
+                    <AddButton
+                      onClick={() => {
+                        relatedContent[section].insert(
+                          relatedContent[section].length
+                        )
+                      }}
+                    >
+                      {/*TODO: i18n*/}
+                      Add {section}
+                    </AddButton>
+                  ) : null}
+                </div>
+              )
+            }}
+          </Droppable>
+        </DragDropContext>
       </React.Fragment>
     )
   }
