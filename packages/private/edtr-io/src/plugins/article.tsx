@@ -88,8 +88,21 @@ const spoilerTheme = {
 }
 
 function ArticleEditor(props: ArticleProps) {
-  const { editable, focused, state } = props
+  const { editable, state } = props
   const { content, exercises, relatedContent, sources } = state
+
+  const [focusedInlineSetting, setFocusedInlineSetting] = React.useState<{
+    id: string
+    index: number
+  } | null>(null)
+
+  function isFocused(id: string, index: number) {
+    return (
+      focusedInlineSetting &&
+      focusedInlineSetting.id === id &&
+      focusedInlineSetting.index === index
+    )
+  }
 
   return (
     <React.Fragment>
@@ -239,12 +252,12 @@ function ArticleEditor(props: ArticleProps) {
                               <span {...provided.dragHandleProps}>
                                 <EdtrIcon icon={edtrDragHandle} />
                               </span>
-                              {focused ? (
+                              {isFocused(section, index) ? (
                                 <InlineSettings
                                   onDelete={() => {
                                     relatedContent[section].remove(index)
                                   }}
-                                  position={'below'}
+                                  position="below"
                                 >
                                   <InlineSettingsInput
                                     value={
@@ -283,6 +296,12 @@ function ArticleEditor(props: ArticleProps) {
                               <a>
                                 <InlineInput
                                   value={item.title.value}
+                                  onFocus={() => {
+                                    setFocusedInlineSetting({
+                                      id: section,
+                                      index,
+                                    })
+                                  }}
                                   onChange={(value) => {
                                     item.title.set(value)
                                   }}
@@ -355,12 +374,12 @@ function ArticleEditor(props: ArticleProps) {
                                   <EdtrIcon icon={edtrDragHandle} />
                                 </span>
                                 <span>
-                                  {focused ? (
+                                  {isFocused('source', index) ? (
                                     <InlineSettings
                                       onDelete={() => {
                                         sources.remove(index)
                                       }}
-                                      position={'below'}
+                                      position="below"
                                     >
                                       <InlineSettingsInput
                                         value={source.href.value}
@@ -387,6 +406,12 @@ function ArticleEditor(props: ArticleProps) {
                                   <a>
                                     <InlineInput
                                       value={source.title.value}
+                                      onFocus={() => {
+                                        setFocusedInlineSetting({
+                                          id: 'source',
+                                          index,
+                                        })
+                                      }}
                                       onChange={(value) => {
                                         source.title.set(value)
                                       }}
