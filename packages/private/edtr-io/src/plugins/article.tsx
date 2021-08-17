@@ -50,6 +50,7 @@ import { ThemeProvider } from 'styled-components'
 const relatedContentItemState = object({ id: string(), title: string() })
 
 const articleState = object({
+  introduction: child({ plugin: 'articleIntroduction' }),
   content: child({ plugin: 'rows' }),
   exercises: list(child({ plugin: 'injection' })),
   relatedContent: object({
@@ -89,7 +90,7 @@ const spoilerTheme = {
 
 function ArticleEditor(props: ArticleProps) {
   const { editable, state } = props
-  const { content, exercises, relatedContent, sources } = state
+  const { introduction, content, exercises, relatedContent, sources } = state
 
   const [focusedInlineSetting, setFocusedInlineSetting] = React.useState<{
     id: string
@@ -106,6 +107,9 @@ function ArticleEditor(props: ArticleProps) {
 
   return (
     <React.Fragment>
+      <SemanticSection editable={editable}>
+        {introduction.render()}
+      </SemanticSection>
       <SemanticSection editable={editable}>{content.render()}</SemanticSection>
       <SemanticSection editable={editable}>{renderExercises()}</SemanticSection>
       <SemanticSection editable={editable}>

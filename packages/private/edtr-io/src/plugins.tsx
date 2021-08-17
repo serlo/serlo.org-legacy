@@ -98,6 +98,25 @@ export function createPlugins({
       },
     }),
     article: articlePlugin,
+    articleIntroduction: createMultimediaExplanationPlugin({
+      explanation: { plugin: 'text' },
+      plugins: [
+        {
+          name: 'image',
+          title: i18n.t('multimedia::Image'),
+        },
+      ],
+      i18n: {
+        changeMultimediaType: i18n.t('multimedia::Change the multimedia type'),
+        illustrating: {
+          label: i18n.t('multimedia::How important is the multimedia content?'),
+          values: {
+            illustrating: i18n.t('multimedia::It is illustrating'),
+            explaining: i18n.t('multimedia::It is essential'),
+          },
+        },
+      },
+    }),
     blockquote: createBlockquotePlugin({
       content: {
         plugin: 'text',
