@@ -328,6 +328,7 @@ function StepEditor(props: StepEditorProps) {
             Sign.GreaterThanOrEqual,
             Sign.LessThanOrEqual,
             Sign.AlmostEqualTo,
+            Sign.Estimates,
           ].map((sign) => {
             return (
               <option key={sign} value={sign}>

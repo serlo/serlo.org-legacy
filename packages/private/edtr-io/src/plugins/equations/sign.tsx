@@ -19,8 +19,6 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as React from 'react'
-
 export enum Sign {
   Equals = 'equals',
   GreaterThan = 'greater-than',
@@ -28,6 +26,7 @@ export enum Sign {
   LessThan = 'less-than',
   LessThanOrEqual = 'less-than-or-equal',
   AlmostEqualTo = 'almost-equal-to',
+  Estimates = 'estimates',
 }
 
 export function renderSignToString(sign: Sign): string {
@@ -44,5 +43,7 @@ export function renderSignToString(sign: Sign): string {
       return '≤'
     case Sign.AlmostEqualTo:
       return '≈'
+    case Sign.Estimates:
+      return '≙'
   }
 }
