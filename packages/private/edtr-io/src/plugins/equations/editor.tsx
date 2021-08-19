@@ -44,10 +44,9 @@ import { EquationsProps, stepProps } from '.'
 
 enum StepSegment {
   Left = 0,
-  Sign = 1,
-  Right = 2,
-  Transform = 3,
-  Explanation = 4,
+  Right = 1,
+  Transform = 2,
+  Explanation = 3,
 }
 
 const preferenceKey = 'katex:usevisualmath'
@@ -266,14 +265,6 @@ function StepEditor(props: StepEditorProps) {
   const i18n = useI18n()
   const { gridFocus, row, state } = props
 
-  const dropDown = React.useRef<HTMLSelectElement>(null)
-
-  React.useEffect(() => {
-    if (gridFocus.isFocused({ row, column: StepSegment.Sign })) {
-      dropDown.current?.focus()
-    }
-  })
-
   return (
     <>
       <LeftTd
@@ -296,11 +287,7 @@ function StepEditor(props: StepEditorProps) {
           }}
         />
       </LeftTd>
-      <SignTd
-        onClick={() => {
-          gridFocus.setFocus({ row, column: StepSegment.Sign })
-        }}
-      >
+      <SignTd>
         <DropDown
           tabIndex={-1}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -319,7 +306,6 @@ function StepEditor(props: StepEditorProps) {
             e.stopPropagation()
           }}
           value={state.sign.value}
-          ref={dropDown}
         >
           {[
             Sign.Equals,
