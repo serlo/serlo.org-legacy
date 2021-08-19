@@ -38,7 +38,13 @@ import {
   TableWrapper,
   TransformTd,
 } from './renderer'
-import { focusNext, focusPrevious, getFocused, isEmpty } from '@edtr-io/store'
+import {
+  focus,
+  focusNext,
+  focusPrevious,
+  getFocused,
+  isEmpty,
+} from '@edtr-io/store'
 import { renderSignToString, Sign } from './sign'
 import { EquationsProps, stepProps } from '.'
 
@@ -168,6 +174,19 @@ export function EquationsEditor(props: EquationsProps) {
               return (
                 <Table ref={provided.innerRef} {...provided.droppableProps}>
                   {state.steps.map((step, index) => {
+                    const explanation = step.explanation.render({
+                      config: { placeholder: i18n.t('equations::explanation') },
+                    })
+
+                    if (
+                      gridFocus.isFocused({
+                        row: index,
+                        column: StepSegment.Explanation,
+                      })
+                    ) {
+                      store.dispatch(focus(step.explanation.id))
+                    }
+
                     return (
                       <Draggable
                         key={step.explanation.id}
@@ -213,15 +232,7 @@ export function EquationsEditor(props: EquationsProps) {
                                     ? '→'
                                     : '↓'}
                                 </SignTd>
-                                <td colSpan={2}>
-                                  {step.explanation.render({
-                                    config: {
-                                      placeholder: i18n.t(
-                                        'equations::explanation'
-                                      ),
-                                    },
-                                  })}
-                                </td>
+                                <td colSpan={2}>{explanation}</td>
                               </ExplanationTr>
                             </tbody>
                           )
