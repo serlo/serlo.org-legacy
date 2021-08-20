@@ -296,18 +296,6 @@ function StepEditor(props: StepEditorProps) {
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             state.sign.set(e.target.value)
           }}
-          onKeyDown={(e) => {
-            if (e.key === 'Tab') {
-              if (e.shiftKey) {
-                gridFocus.moveLeft()
-              } else {
-                gridFocus.moveRight()
-              }
-            }
-            if (e.key === 'ArrowRight') gridFocus.moveRight()
-            if (e.key === 'ArrowLeft') gridFocus.moveLeft()
-            e.stopPropagation()
-          }}
           value={state.sign.value}
         >
           {[
