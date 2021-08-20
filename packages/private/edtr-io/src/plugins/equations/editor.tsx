@@ -192,7 +192,10 @@ export function EquationsEditor(props: EquationsProps) {
                             >
                               <tr>
                                 <td>
-                                  <DragButton {...provided.dragHandleProps}>
+                                  <DragButton
+                                    tabIndex="-1"
+                                    {...provided.dragHandleProps}
+                                  >
                                     <EdtrIcon icon={edtrDragHandle} />
                                   </DragButton>
                                 </td>
