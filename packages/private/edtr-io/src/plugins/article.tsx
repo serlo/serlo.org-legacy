@@ -28,6 +28,7 @@ import {
   object,
   string,
 } from '@edtr-io/plugin'
+import * as R from 'ramda'
 import * as React from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
@@ -47,6 +48,10 @@ import { InlineInput } from './helpers/inline-input'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from 'styled-components'
 import { useI18n } from '@serlo/i18n'
+import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap'
+import { faCopy, faNewspaper } from '@fortawesome/free-solid-svg-icons'
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons/faPlayCircle'
+import { faFile } from '@fortawesome/free-solid-svg-icons/faFile'
 
 const relatedContentItemState = object({ id: string(), title: string() })
 
@@ -78,6 +83,27 @@ export const articlePlugin: EditorPlugin<ArticlePluginState> = {
 }
 
 const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
+
+const BasePluginToolbarButton = styled.button({
+  background: 'none',
+  border: 'none',
+})
+
+const MinWidthIcon = styled.div({
+  width: '24px',
+})
+
+const PluginToolbarButtonIcon = styled.div({
+  height: '24px',
+  width: '24px',
+  opacity: 0.8,
+  cursor: 'pointer',
+  color: 'rgba(51, 51, 51, 0.95)',
+
+  '&:hover': {
+    color: '#469bff',
+  },
+})
 
 const spoilerTheme = {
   rendererUi: {
@@ -123,8 +149,26 @@ function ArticleEditor(props: ArticleProps) {
 
   function renderExercises() {
     const header = <h2>{i18n.t('article::Exercises')}</h2>
+
+    if (!editable) {
+      if (exercises.length === 0) return null
+
+      return (
+        <>
+          {header}
+          {exercises.map((exercise, index) => {
+            return (
+              <React.Fragment key={exercise.id}>
+                {exercise.render()}
+              </React.Fragment>
+            )
+          })}
+        </>
+      )
+    }
+
     return (
-      <React.Fragment>
+      <>
         {header}
         <DragDropContext
           onDragEnd={(result) => {
@@ -154,12 +198,25 @@ function ArticleEditor(props: ArticleProps) {
                                 renderToolbar() {
                                   return (
                                     <React.Fragment>
-                                      {/*TODO: Label & i18n*/}
-                                      <span {...provided.dragHandleProps}>
-                                        <EdtrIcon icon={edtrDragHandle} />
-                                      </span>
+                                      <div>
+                                        <BasePluginToolbarButton
+                                          icon={<Icon icon={faTrashAlt} />}
+                                          title={i18n.t(
+                                            'article::Drag the exercise'
+                                          )}
+                                          {...provided.dragHandleProps}
+                                        >
+                                          <PluginToolbarButtonIcon>
+                                            <EdtrIcon icon={edtrDragHandle} />
+                                          </PluginToolbarButtonIcon>
+                                        </BasePluginToolbarButton>
+                                      </div>
                                       <PluginToolbarButton
-                                        icon={<Icon icon={faTrashAlt} />}
+                                        icon={
+                                          <MinWidthIcon>
+                                            <Icon icon={faTrashAlt} />
+                                          </MinWidthIcon>
+                                        }
                                         label={i18n.t(
                                           'article::Remove exercise'
                                         )}
@@ -192,7 +249,7 @@ function ArticleEditor(props: ArticleProps) {
             {i18n.t('article::Add optional exercise')}
           </AddButton>
         ) : null}
-      </React.Fragment>
+      </>
     )
   }
 
@@ -210,28 +267,59 @@ function ArticleEditor(props: ArticleProps) {
       section: 'articles' | 'courses' | 'videos' | 'exercises'
       label: string
       addLabel: string
+      idPlaceholder: string
+      openLinkInNewTabPlaceholder: string
+      dragLabel: string
+      icon: React.ReactNode
     }[] = [
       {
+        icon: <Icon icon={faNewspaper} fixedWidth />,
         section: 'articles',
         label: i18n.t('article::Articles'),
         addLabel: i18n.t('article::Add article'),
+        idPlaceholder: i18n.t('article::ID of an article, e.g. 1855'),
+        openLinkInNewTabPlaceholder: i18n.t(
+          'article::Open the article in a new tab:'
+        ),
+        dragLabel: i18n.t('article::Drag the article'),
       },
       {
+        icon: <Icon icon={faGraduationCap} fixedWidth />,
         section: 'courses',
         label: i18n.t('article::Courses'),
         addLabel: i18n.t('article::Add course'),
+        idPlaceholder: i18n.t('article::ID of a course, e.g. 51979'),
+        openLinkInNewTabPlaceholder: i18n.t(
+          'article::Open the course in a new tab:'
+        ),
+        dragLabel: i18n.t('article::Drag the course'),
       },
       {
+        icon: <Icon icon={faPlayCircle} fixedWidth />,
         section: 'videos',
         label: i18n.t('article::Videos'),
         addLabel: i18n.t('article::Add video'),
+        idPlaceholder: i18n.t('article::ID of a video, e.g. 40744'),
+        openLinkInNewTabPlaceholder: i18n.t(
+          'article::Open the video in a new tab:'
+        ),
+        dragLabel: i18n.t('article::Drag the video'),
       },
       {
+        icon: <Icon icon={faCopy} fixedWidth />,
         section: 'exercises',
         label: i18n.t('article::Exercises and exercise folders'),
         addLabel: i18n.t('article::Add exercise'),
+        idPlaceholder: i18n.t('article::ID of an exercise, e.g. 54210'),
+        openLinkInNewTabPlaceholder: i18n.t(
+          'article::Open the exercise in a new tab:'
+        ),
+        dragLabel: i18n.t('article::Drag the exercise'),
       },
     ]
+
+    const allItems = R.flatten(R.values(relatedContent))
+    if (!editable && allItems.length === 0) return null
 
     return (
       <React.Fragment>
@@ -251,14 +339,37 @@ function ArticleEditor(props: ArticleProps) {
     section: 'articles' | 'courses' | 'videos' | 'exercises'
     label: string
     addLabel: string
+    idPlaceholder: string
+    openLinkInNewTabPlaceholder: string
+    dragLabel: string
+    icon: React.ReactNode
   }) {
-    if (!editable && relatedContent[type.section].length === 0) {
-      return null
+    const header = (
+      <>
+        {type.icon} {type.label}
+      </>
+    )
+
+    if (!editable) {
+      if (relatedContent[type.section].length === 0) return null
+
+      return (
+        <>
+          {header}
+          {relatedContent[type.section].map((item, index) => {
+            return (
+              <div key={index}>
+                <a href={`/${item.id.value}`}>{item.title.value}</a>
+              </div>
+            )
+          })}
+        </>
+      )
     }
 
     return (
-      <React.Fragment>
-        ICON {type.label}
+      <>
+        {header}
         <DragDropContext
           onDragEnd={(result) => {
             const { source, destination } = result
@@ -283,66 +394,90 @@ function ArticleEditor(props: ArticleProps) {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                             >
-                              <span {...provided.dragHandleProps}>
-                                <EdtrIcon icon={edtrDragHandle} />
-                              </span>
-                              {isFocused(type.section, index) ? (
-                                <InlineSettings
-                                  onDelete={() => {
-                                    relatedContent[type.section].remove(index)
+                              <div
+                                style={{
+                                  display: 'flex',
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    flexGrow: 1,
                                   }}
-                                  position="below"
                                 >
-                                  <InlineSettingsInput
-                                    value={
-                                      item.id.value !== ''
-                                        ? `/${item.id.value}`
-                                        : ''
-                                    }
-                                    // TODO: placeholder
-                                    placeholder={'todo'}
-                                    onChange={(event) => {
-                                      const newValue = event.target.value.replace(
-                                        /[^0-9]/g,
-                                        ''
-                                      )
-                                      item.id.set(newValue)
-                                    }}
-                                  />
-                                  <a
-                                    target="_blank"
-                                    href={
-                                      item.id.value !== ''
-                                        ? `/${item.id.value}`
-                                        : ''
-                                    }
-                                    rel="noopener noreferrer"
-                                  >
-                                    <OpenInNewTab
-                                      // TODO: title
-                                      title={'todo'}
+                                  {isFocused(type.section, index) ? (
+                                    <InlineSettings
+                                      onDelete={() => {
+                                        relatedContent[type.section].remove(
+                                          index
+                                        )
+                                      }}
+                                      position="below"
                                     >
-                                      <Icon icon={faExternalLinkAlt} />
-                                    </OpenInNewTab>
+                                      <InlineSettingsInput
+                                        value={
+                                          item.id.value !== ''
+                                            ? `/${item.id.value}`
+                                            : ''
+                                        }
+                                        placeholder={type.idPlaceholder}
+                                        onChange={(event) => {
+                                          const newValue =
+                                            event.target.value.replace(
+                                              /[^0-9]/g,
+                                              ''
+                                            )
+                                          item.id.set(newValue)
+                                        }}
+                                      />
+                                      <a
+                                        target="_blank"
+                                        href={
+                                          item.id.value !== ''
+                                            ? `/${item.id.value}`
+                                            : ''
+                                        }
+                                        rel="noopener noreferrer"
+                                      >
+                                        <OpenInNewTab
+                                          title={
+                                            type.openLinkInNewTabPlaceholder
+                                          }
+                                        >
+                                          <Icon icon={faExternalLinkAlt} />
+                                        </OpenInNewTab>
+                                      </a>
+                                    </InlineSettings>
+                                  ) : null}
+                                  <a>
+                                    <InlineInput
+                                      value={item.title.value}
+                                      onFocus={() => {
+                                        setFocusedInlineSetting({
+                                          id: type.section,
+                                          index,
+                                        })
+                                      }}
+                                      onChange={(value) => {
+                                        item.title.set(value)
+                                      }}
+                                      placeholder={i18n.t(
+                                        'article::Title of the link'
+                                      )}
+                                    />
                                   </a>
-                                </InlineSettings>
-                              ) : null}
-                              <a>
-                                <InlineInput
-                                  value={item.title.value}
-                                  onFocus={() => {
-                                    setFocusedInlineSetting({
-                                      id: type.section,
-                                      index,
-                                    })
-                                  }}
-                                  onChange={(value) => {
-                                    item.title.set(value)
-                                  }}
-                                  // TODO: placeholder
-                                  placeholder={'todo'}
-                                />
-                              </a>
+                                </div>
+                                <div>
+                                  <BasePluginToolbarButton
+                                    icon={<Icon icon={faTrashAlt} />}
+                                    title={i18n.t('article::Drag the exercise')}
+                                    {...provided.dragHandleProps}
+                                  >
+                                    <PluginToolbarButtonIcon>
+                                      <EdtrIcon icon={edtrDragHandle} />
+                                    </PluginToolbarButtonIcon>
+                                  </BasePluginToolbarButton>
+                                </div>
+                              </div>
                             </div>
                           )
                         }}
@@ -366,11 +501,35 @@ function ArticleEditor(props: ArticleProps) {
             }}
           </Droppable>
         </DragDropContext>
-      </React.Fragment>
+      </>
     )
   }
 
   function renderSources() {
+    if (!editable) {
+      if (sources.length === 0) return null
+
+      return (
+        <ThemeProvider theme={spoilerTheme}>
+          <ExpandableBox
+            renderTitle={() => i18n.t('article::Sources')}
+            editable={editable}
+            alwaysVisible
+          >
+            <ul>
+              {sources.map((source, index) => {
+                return (
+                  <li key={index}>
+                    <a href={source.href.value}>{source.title.value}</a>
+                  </li>
+                )
+              })}
+            </ul>
+          </ExpandableBox>
+        </ThemeProvider>
+      )
+    }
+
     return (
       <ThemeProvider theme={spoilerTheme}>
         <ExpandableBox
@@ -402,56 +561,81 @@ function ArticleEditor(props: ArticleProps) {
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                               >
-                                <span {...provided.dragHandleProps}>
-                                  <EdtrIcon icon={edtrDragHandle} />
-                                </span>
-                                <span>
-                                  {isFocused('source', index) ? (
-                                    <InlineSettings
-                                      onDelete={() => {
-                                        sources.remove(index)
-                                      }}
-                                      position="below"
-                                    >
-                                      <InlineSettingsInput
-                                        value={source.href.value}
-                                        // TODO: placeholder
-                                        placeholder={'todo'}
-                                        onChange={(event) => {
-                                          source.href.set(event.target.value)
-                                        }}
-                                      />
-                                      <a
-                                        target="_blank"
-                                        href={source.href.value}
-                                        rel="noopener noreferrer"
-                                      >
-                                        <OpenInNewTab
-                                          // TODO: title
-                                          title={'todo'}
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      flexGrow: 1,
+                                    }}
+                                  >
+                                    <span>
+                                      {isFocused('source', index) ? (
+                                        <InlineSettings
+                                          onDelete={() => {
+                                            sources.remove(index)
+                                          }}
+                                          position="below"
                                         >
-                                          <Icon icon={faExternalLinkAlt} />
-                                        </OpenInNewTab>
+                                          <InlineSettingsInput
+                                            value={source.href.value}
+                                            placeholder={i18n.t(
+                                              'article::URL of the link'
+                                            )}
+                                            onChange={(event) => {
+                                              source.href.set(
+                                                event.target.value
+                                              )
+                                            }}
+                                          />
+                                          <a
+                                            target="_blank"
+                                            href={source.href.value}
+                                            rel="noopener noreferrer"
+                                          >
+                                            <OpenInNewTab
+                                              title={i18n.t(
+                                                'article::Open the link in a new tab:'
+                                              )}
+                                            >
+                                              <Icon icon={faExternalLinkAlt} />
+                                            </OpenInNewTab>
+                                          </a>
+                                        </InlineSettings>
+                                      ) : null}
+                                      <a>
+                                        <InlineInput
+                                          value={source.title.value}
+                                          onFocus={() => {
+                                            setFocusedInlineSetting({
+                                              id: 'source',
+                                              index,
+                                            })
+                                          }}
+                                          onChange={(value) => {
+                                            source.title.set(value)
+                                          }}
+                                          placeholder={i18n.t(
+                                            'article::Title of the link'
+                                          )}
+                                        />
                                       </a>
-                                    </InlineSettings>
-                                  ) : null}
-                                  <a>
-                                    <InlineInput
-                                      value={source.title.value}
-                                      onFocus={() => {
-                                        setFocusedInlineSetting({
-                                          id: 'source',
-                                          index,
-                                        })
-                                      }}
-                                      onChange={(value) => {
-                                        source.title.set(value)
-                                      }}
-                                      // TODO: placeholder
-                                      placeholder={'todo'}
-                                    />
-                                  </a>
-                                </span>
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <BasePluginToolbarButton
+                                      icon={<Icon icon={faTrashAlt} />}
+                                      title={i18n.t('article::Drag the source')}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <PluginToolbarButtonIcon>
+                                        <EdtrIcon icon={edtrDragHandle} />
+                                      </PluginToolbarButtonIcon>
+                                    </BasePluginToolbarButton>
+                                  </div>
+                                </div>
                               </li>
                             )
                           }}
