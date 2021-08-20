@@ -87,11 +87,14 @@ export function EquationsEditor(props: EquationsProps) {
   const gridFocus = useGridFocus({
     rows: state.steps.length,
     columns: 4,
-    focusNext() {
-      store.dispatch(focusNext())
-    },
-    focusPrevious() {
-      store.dispatch(focusPrevious())
+    focusNext: () => store.dispatch(focusNext()),
+    focusPrevious: () => store.dispatch(focusPrevious()),
+    onFocusChanged: (state) => {
+      if (state !== null) {
+        const { row, column } = state
+        if (column === StepSegment.Explanation)
+          store.dispatch(focus(props.state.steps[row].explanation.id))
+      }
     },
   })
 
@@ -177,15 +180,6 @@ export function EquationsEditor(props: EquationsProps) {
                     const explanation = step.explanation.render({
                       config: { placeholder: i18n.t('equations::explanation') },
                     })
-
-                    if (
-                      gridFocus.isFocused({
-                        row: index,
-                        column: StepSegment.Explanation,
-                      })
-                    ) {
-                      store.dispatch(focus(step.explanation.id))
-                    }
 
                     return (
                       <Draggable
@@ -451,13 +445,19 @@ function useGridFocus({
   columns,
   focusNext,
   focusPrevious,
+  onFocusChanged,
 }: {
   rows: number
   columns: number
   focusNext: () => void
   focusPrevious: () => void
+  onFocusChanged: (args: GridFocusState) => void
 }): GridFocus {
-  const [focus, setFocus] = React.useState<GridFocusState | null>(null)
+  const [focus, setFocusState] = React.useState<GridFocusState | null>(null)
+  const setFocus = (state: GridFocusState) => {
+    onFocusChanged(state)
+    setFocusState(state)
+  }
 
   return {
     focus,
