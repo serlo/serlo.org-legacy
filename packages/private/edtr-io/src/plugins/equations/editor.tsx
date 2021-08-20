@@ -138,9 +138,7 @@ export function EquationsEditor(props: EquationsProps) {
           })
         },
         FOCUS_PREVIOUS: (e) => {
-          handleKeyDown(e, () => {
-            gridFocus.moveLeft()
-          })
+          handleKeyDown(e, () => gridFocus.moveLeft())
         },
         INSERT: (e) => {
           handleKeyDown(e, () => {
@@ -206,9 +204,7 @@ export function EquationsEditor(props: EquationsProps) {
                                 />
                                 <td>
                                   <RemoveButton
-                                    onClick={() => {
-                                      state.steps.remove(index)
-                                    }}
+                                    onClick={() => state.steps.remove(index)}
                                   >
                                     <Icon icon={faTimes} />
                                   </RemoveButton>
@@ -273,23 +269,15 @@ function StepEditor(props: StepEditorProps) {
   return (
     <>
       <LeftTd
-        onClick={() => {
-          gridFocus.setFocus({ row, column: StepSegment.Left })
-        }}
+        onClick={() => gridFocus.setFocus({ row, column: StepSegment.Left })}
       >
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Left })}
           placeholder={`[${i18n.t('equations::left-hand side')}]`}
           state={state.left}
-          onChange={(src) => {
-            state.left.set(src)
-          }}
-          onFocusNext={() => {
-            gridFocus.moveRight()
-          }}
-          onFocusPrevious={() => {
-            gridFocus.moveLeft()
-          }}
+          onChange={(src) => state.left.set(src)}
+          onFocusNext={() => gridFocus.moveRight()}
+          onFocusPrevious={() => gridFocus.moveLeft()}
         />
       </LeftTd>
       <SignTd>
@@ -330,44 +318,30 @@ function StepEditor(props: StepEditorProps) {
         </DropDown>
       </SignTd>
       <td
-        onClick={() => {
-          gridFocus.setFocus({ row, column: StepSegment.Right })
-        }}
+        onClick={() => gridFocus.setFocus({ row, column: StepSegment.Right })}
       >
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Right })}
           placeholder={`[${i18n.t('equations::right-hand side')}]`}
           state={state.right}
-          onChange={(src) => {
-            state.right.set(src)
-          }}
-          onFocusNext={() => {
-            gridFocus.moveRight()
-          }}
-          onFocusPrevious={() => {
-            gridFocus.moveLeft()
-          }}
+          onChange={(src) => state.right.set(src)}
+          onFocusNext={() => gridFocus.moveRight()}
+          onFocusPrevious={() => gridFocus.moveLeft()}
         />
       </td>
       <TransformTd
-        onClick={() => {
+        onClick={() =>
           gridFocus.setFocus({ row, column: StepSegment.Transform })
-        }}
+        }
       >
         {state.transform.value === '' ? '' : '|'}
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Transform })}
           placeholder={`[${i18n.t('equations::transformation')}]`}
           state={state.transform}
-          onChange={(src) => {
-            state.transform.set(src)
-          }}
-          onFocusNext={() => {
-            gridFocus.moveRight()
-          }}
-          onFocusPrevious={() => {
-            gridFocus.moveLeft()
-          }}
+          onChange={(src) => state.transform.set(src)}
+          onFocusNext={() => gridFocus.moveRight()}
+          onFocusPrevious={() => gridFocus.moveLeft()}
         />
       </TransformTd>
     </>
@@ -402,11 +376,7 @@ function InlineMath(props: InlineMathProps) {
     <MathEditor
       readOnly={!focused}
       state={`${prefix}${state.value}${suffix}`}
-      config={{
-        i18n: {
-          placeholder: props.placeholder,
-        },
-      }}
+      config={{ i18n: { placeholder: props.placeholder } }}
       inline
       disableBlock
       visual={preferences.getKey(preferenceKey) === true}
@@ -414,15 +384,9 @@ function InlineMath(props: InlineMathProps) {
         preferences.setKey(preferenceKey, visual)
       }}
       onInlineChange={() => {}}
-      onChange={(value) => {
-        onChange(value)
-      }}
-      onMoveOutRight={() => {
-        onFocusNext()
-      }}
-      onMoveOutLeft={() => {
-        onFocusPrevious()
-      }}
+      onChange={onChange}
+      onMoveOutRight={onFocusNext}
+      onMoveOutLeft={onFocusPrevious}
     />
   )
 }
