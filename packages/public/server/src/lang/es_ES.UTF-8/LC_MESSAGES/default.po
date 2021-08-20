@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2021-07-21 18:20+0200\n"
-"PO-Revision-Date: 2021-07-21 16:39\n"
+"PO-Revision-Date: 2021-08-20 18:01\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -196,7 +196,7 @@ msgstr "Mensaje:"
 #: ../module/Ads/src/Controller/AdsController.php:112
 #: ../module/RelatedContent/src/Controller/RelatedContentController.php:196
 msgid "The element could not be removed (validation failed)"
-msgstr "El elemento no se puede eliminar (fallo de validación)"
+msgstr "El elemento no ha podido ser eliminado (fallo de validación)"
 
 #: ../module/Ads/src/Form/AdForm.php:47
 #: ../module/Blog/src/Form/CreatePostForm.php:78
@@ -257,16 +257,16 @@ msgstr "Tipo de archivo:"
 
 #: ../module/Authentication/src/Adapter/UserAuthAdapter.php:100
 msgid "Your account was deleted."
-msgstr ""
+msgstr "Tu cuenta ha sido eliminada."
 
 #: ../module/Authentication/src/Adapter/UserAuthAdapter.php:108
 msgid "You have not activated your account."
-msgstr ""
+msgstr "Aún no has activado la cuenta."
 
 #: ../module/Authentication/src/Adapter/UserAuthAdapter.php:121
 #: ../module/Authentication/src/Adapter/UserAuthAdapter.php:132
 msgid "We have no registered user with this combination of username/email and password."
-msgstr ""
+msgstr "No tenemos ningún usuario registrado con esta combinación de nombre de usuario/correo electrónico y contraseña."
 
 #: ../module/Authentication/src/Controller/AuthenticationController.php:78
 msgid "Your account has been activated, you may now log in."
@@ -336,23 +336,23 @@ msgstr "Tu comentario ha sido guardado."
 
 #: ../module/Discussion/src/Controller/DiscussionController.php:172
 msgid "Your discussion has been started."
-msgstr "Su discusión ha sido iniciada."
+msgstr "Se ha iniciado tu discusión."
 
 #: ../module/Discussion/src/Controller/DiscussionController.php:203
 msgid "You have downvoted this comment."
-msgstr "Has devaluado  este comentario."
+msgstr "Has votado en contra de este comentario."
 
 #: ../module/Discussion/src/Controller/DiscussionController.php:207
 msgid "You can't downvote this comment."
-msgstr "No se puede devaluar este comentario."
+msgstr "No se puede votar en contra este comentario."
 
 #: ../module/Discussion/src/Controller/DiscussionController.php:213
 msgid "You have upvoted this comment."
-msgstr "Te gusta este comentario."
+msgstr "Has votado en pro de este comentario."
 
 #: ../module/Discussion/src/Controller/DiscussionController.php:217
 msgid "You can't upvote this comment."
-msgstr "No se puede valorar este comentario."
+msgstr "No se puede votar en pro de este comentario."
 
 #: ../module/Discussion/src/Form/CommentForm.php:77
 msgid "Your response"
@@ -377,7 +377,7 @@ msgstr "Entidades sin tema"
 
 #: ../module/Entity/src/Controller/EntityController.php:144
 msgid "Guideline for reviewing"
-msgstr "Guía para revisar"
+msgstr "Directrices para la revisión"
 
 #: ../module/Entity/src/Controller/EntityController.php:148
 msgid "List of all discussions"
@@ -393,15 +393,15 @@ msgstr "Tus cambios han sido guardados."
 
 #: ../module/Entity/src/Controller/RepositoryController.php:438
 msgid "Your revision has been saved and is available"
-msgstr "Su revisión ha sido guardada y está disponible"
+msgstr "Tu revisión ha sido guardada y está disponible"
 
 #: ../module/Entity/src/Controller/RepositoryController.php:444
 msgid "Your revision has been saved, it will be available once it gets approved"
-msgstr "Su revisión ha sido guardada, estará disponible una vez que sea aprobada"
+msgstr "Tu revisión ha sido guardada, estará disponible una vez que sea aprobada"
 
 #: ../module/Entity/src/Form/AppletForm.php:52
 msgid "Applet Url:"
-msgstr "Url de Applet:"
+msgstr "Url del Applet:"
 
 #: ../module/Entity/src/Form/AppletForm.php:54
 #: ../module/Entity/src/Form/ModuleForm.php:48
@@ -414,7 +414,7 @@ msgstr "Descripción:"
 #: ../module/Entity/src/Form/ModuleForm.php:51
 #: ../module/Entity/src/Form/VideoForm.php:56
 msgid "Reasoning:"
-msgstr "Razonamiento:"
+msgstr "Motivo:"
 
 #: ../module/Entity/src/Form/Element/Changes.php:35
 msgid "Changes:"
@@ -436,7 +436,7 @@ msgstr "Solución:"
 #: ../module/Entity/src/Form/MultipleChoiceWrongAnswerForm.php:45
 #: ../module/Entity/src/Form/SingleChoiceAnswerForm.php:45
 msgid "Feedback:"
-msgstr "Feedback:"
+msgstr "Sugerencias:"
 
 #: ../module/Entity/src/Form/MathPuzzleForm.php:48
 msgid "Source code:"
@@ -448,7 +448,7 @@ msgstr "Seleccione un icono"
 
 #: ../module/Entity/src/Form/VideoForm.php:52
 msgid "Video url:"
-msgstr "Video URL:"
+msgstr "Video url:"
 
 #: ../module/Flag/src/Controller/FlagController.php:59
 msgid "The content has been flagged."
@@ -489,7 +489,7 @@ msgstr "Esta es la licencia estándar para esta instancia."
 
 #: ../module/License/src/Form/UpdateLicenseForm.php:50
 msgid "Select a license:"
-msgstr "Seleccione una licencia:"
+msgstr "Selecciona una licencia:"
 
 #: ../module/Navigation/src/Controller/NavigationController.php:99
 #: ../module/Navigation/src/Controller/NavigationController.php:135
@@ -534,7 +534,7 @@ msgstr "Posición"
 
 #: ../module/Navigation/src/Form/ParameterForm.php:56
 msgid "Key:"
-msgstr "Clave:"
+msgstr "Tecla:"
 
 #: ../module/Navigation/src/Form/ParameterForm.php:61
 msgid "Value:"
@@ -542,7 +542,7 @@ msgstr "Valor:"
 
 #: ../module/Normalizer/src/Adapter/EntityAdapter.php:165
 msgid "applet"
-msgstr "Applet"
+msgstr "applet"
 
 #: ../module/Normalizer/src/Adapter/EntityAdapter.php:169
 msgid "course"
@@ -550,19 +550,19 @@ msgstr "curso"
 
 #: ../module/Notification/src/Controller/SubscriptionController.php:96
 msgid "You are now receiving notifications for this content."
-msgstr "Ahora recibes notificaciones de este contenido."
+msgstr "Ahora estás recibiendo notificaciones de este contenido."
 
 #: ../module/Notification/src/Controller/SubscriptionController.php:116
 msgid "Your subscription has been updated successfully."
-msgstr "Su suscripción se ha actualizado con éxito."
+msgstr "Tu suscripción se ha actualizado con éxito."
 
 #: ../module/Notification/src/Controller/SubscriptionController.php:120
 msgid "The object you are trying to subscribe to does not exist."
-msgstr "No existe el objeto que quiere suscribir."
+msgstr "El objeto al que intentas suscribir no existe."
 
 #: ../module/Notification/src/Controller/SubscriptionController.php:124
 msgid "You can't update your subscription because you did not subscribe to this object."
-msgstr "No puede actualizar su suscripción porque no has suscrito este objeto."
+msgstr "No puedes actualizar tu suscripción porque no te has suscrito a este objeto."
 
 #: ../module/Notification/src/Controller/SubscriptionController.php:150
 msgid "You are no longer receiving notifications for this content."
@@ -578,7 +578,7 @@ msgstr "Recibir notificaciones por correo electrónico."
 
 #: ../module/Page/src/Form/RepositoryForm.php:58
 msgid "Discussions enabled"
-msgstr "Debates permitidos"
+msgstr "Discusiones habilitadas"
 
 #: ../module/RelatedContent/src/Form/InternalForm.php:44
 msgid "Reference:"
@@ -619,7 +619,7 @@ msgstr "Descripción:"
 
 #: ../module/User/src/Controller/UserController.php:115
 msgid "You have registered successfully and will soon receive an email with instructions on how to activate your account."
-msgstr "Usted se ha registrado satisfactoriamente y pronto recibirá un correo con las instrucciones de como activar su cuenta."
+msgstr "Te has registrado con éxito y pronto recibirás un correo con las instrucciones de como activar su cuenta."
 
 #: ../module/User/src/Controller/UserController.php:189
 msgid "Your profile has been saved"
@@ -906,7 +906,7 @@ msgstr "El controlador requerido no era gestionable."
 
 #: ../module/Ui/templates/error/404.phtml:61
 msgid "The requested URL could not be matched by routing."
-msgstr "La URL solicitada no podría ser igualada por enrutamiento."
+msgstr "La URL solicitada no podría ser encontrada por el enrutamiento."
 
 #: ../module/Ui/templates/error/404.phtml:64
 msgid "We cannot determine at this time why a 404 was generated."
@@ -924,7 +924,7 @@ msgstr "se resuelve en %s"
 #: ../module/Ui/templates/error/404.phtml:96
 #: ../module/Ui/templates/error/index.phtml:36
 msgid "Additional information"
-msgstr "Información adicional \t"
+msgstr "Información adicional 	"
 
 #: ../module/Ui/templates/error/404.phtml:99
 #: ../module/Ui/templates/error/404.phtml:124
@@ -945,7 +945,7 @@ msgstr "Mensaje"
 #: ../module/Ui/templates/error/index.phtml:47
 #: ../module/Ui/templates/error/index.phtml:71
 msgid "Stack trace"
-msgstr "Traza del stack"
+msgstr "Seguimiento del stack"
 
 #: ../module/Ui/templates/error/404.phtml:118
 #: ../module/Ui/templates/error/index.phtml:57
@@ -958,7 +958,7 @@ msgstr "Se ha producido un error fatal"
 
 #: ../module/Ui/templates/error/index.phtml:26
 msgid "While we're resolving this issue, please enjoy the video."
-msgstr "Mientras que nosotros estamos resolviendo este problema, por favor, disfruta del video."
+msgstr "Mientras resolvemos este problema, por favor disfruta del video."
 
 #: ../module/Ui/templates/error/index.phtml:86
 msgid "No Exception available"
@@ -966,7 +966,7 @@ msgstr "Ninguna excepción disponible"
 
 #: ../module/Ui/templates/error/index.phtml:101
 msgid "Read the following, if you're really good with computers:"
-msgstr "Lea lo siguiente, si eres muy bueno con las computadoras:"
+msgstr "Lee lo siguiente, si eres realmente bueno con las computadoras:"
 
 #: ../module/Ui/templates/flag/detail.phtml:31
 #: ../module/Ui/templates/flag/manage.phtml:29
@@ -1002,7 +1002,7 @@ msgstr "Contenido"
 
 #: ../module/Ui/templates/flag/manage.phtml:24
 msgid "Manage flags"
-msgstr "Administrar las banderas"
+msgstr "Administrar las marcas"
 
 #: ../module/Ui/templates/flag/manage.phtml:28
 #: ../module/Ui/templates/entity/repository/history.twig:32
@@ -1264,7 +1264,7 @@ msgstr "Página"
 
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:24
 msgid " "
-msgstr ""
+msgstr " "
 
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:28
 msgid "ID"
@@ -1532,7 +1532,7 @@ msgstr "Rechazar la revisión"
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:32
 msgid "Please specify why you do not accept the revision:"
-msgstr ""
+msgstr "Por favor, especifica por qué no aceptas la revisión:"
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:38
 msgid "Reject"
@@ -1822,11 +1822,11 @@ msgstr "%user% ha revisado %revision% en %repository%"
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:28
 msgid "%user% did not accept %revision% in %repository%: \"%reason%\""
-msgstr ""
+msgstr "%user% no aceptó %revision% en %repository%: \"%reason%\""
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:32
 msgid "%user% did not accept %revision% in %repository%"
-msgstr ""
+msgstr "%user% no aceptó %revision% en %repository%"
 
 #: ../module/Ui/templates/event/helper/event/license/object/set.twig:26
 msgid "%user% changed the license of %object%"
@@ -2111,12 +2111,12 @@ msgstr "%user% aceptado a %revision% of %repository%"
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:31
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:46
 msgid "%user% did not accept a %revision% of %repository%: %reason%"
-msgstr ""
+msgstr "%user% no aceptó una %revision% de %repository%: %reason%"
 
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:35
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:50
 msgid "%user% did not accept a %revision% of %repository%"
-msgstr ""
+msgstr "%user% no aceptó una %revision% de %repository%"
 
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:28
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:36
