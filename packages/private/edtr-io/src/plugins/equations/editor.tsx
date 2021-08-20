@@ -117,7 +117,7 @@ export function EquationsEditor(props: EquationsProps) {
             if (
               gridFocus.isFocused({
                 row: state.steps.length - 1,
-                column: StepSegment.Transform,
+                column: StepSegment.Explanation,
               })
             ) {
               const newIndex = state.steps.length
