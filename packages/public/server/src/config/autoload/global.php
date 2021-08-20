@@ -36,7 +36,7 @@ return [
         [
             'assets_host' =>
                 'https://packages.serlo.org/serlo-org-static-assets@2/',
-            'bundle_host' => 'https://packages.serlo.org/serlo-org-client@21/',
+            'bundle_host' => 'https://packages.serlo.org/serlo-org-client@22/',
         ],
         $assets
     ),

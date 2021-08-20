@@ -27,6 +27,7 @@ import { Editor } from 'slate-react'
 
 export function InlineInput(props: {
   onChange: (value: string) => void
+  onFocus?: () => void
   value: string
   placeholder: string
 }) {
@@ -42,6 +43,14 @@ export function InlineInput(props: {
     <Editor
       placeholder={placeholder}
       value={state}
+      onFocus={(event: any, editor: any, next: () => void) => {
+        setTimeout(() => {
+          if (typeof props.onFocus === 'function') {
+            props.onFocus()
+          }
+        })
+        next()
+      }}
       onChange={({ value }: any) => {
         setState(value)
         onChange(Plain.serialize(value))

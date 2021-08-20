@@ -46,7 +46,7 @@ addContentTypeStory({
     license,
     changes: '',
     title: 'Title',
-    content: '',
+    content: '{"plugin":"article"}',
     reasoning: '',
     meta_title: '',
     meta_description: '',
