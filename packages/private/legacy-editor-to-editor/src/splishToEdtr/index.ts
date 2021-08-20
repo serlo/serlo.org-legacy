@@ -26,6 +26,7 @@ import { convertPlugin } from './convertPlugins'
 
 export {
   Plugin,
+  OtherPlugin,
   LayoutPlugin,
   RowsPlugin,
   Edtr,
