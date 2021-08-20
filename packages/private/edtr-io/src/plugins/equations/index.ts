@@ -40,7 +40,7 @@ export const stepProps = object({
 })
 
 const equationsState = object({
-  steps: list(stepProps, 1),
+  steps: list(stepProps, 2),
 })
 
 export type EquationsPluginState = typeof equationsState
