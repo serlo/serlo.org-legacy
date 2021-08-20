@@ -187,8 +187,8 @@ export function EquationsEditor(props: EquationsProps) {
                               <tr>
                                 <td>
                                   <DragButton
-                                    tabIndex="-1"
                                     {...provided.dragHandleProps}
+                                    tabIndex={-1}
                                   >
                                     <EdtrIcon icon={edtrDragHandle} />
                                   </DragButton>
@@ -200,6 +200,7 @@ export function EquationsEditor(props: EquationsProps) {
                                 />
                                 <td>
                                   <RemoveButton
+                                    tabIndex={-1}
                                     onClick={() => state.steps.remove(index)}
                                   >
                                     <Icon icon={faTimes} />
