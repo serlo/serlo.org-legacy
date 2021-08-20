@@ -89,12 +89,9 @@ export function EquationsEditor(props: EquationsProps) {
     columns: 4,
     focusNext: () => store.dispatch(focusNext()),
     focusPrevious: () => store.dispatch(focusPrevious()),
-    onFocusChanged: (state) => {
-      if (state !== null) {
-        const { row, column } = state
-        if (column === StepSegment.Explanation)
-          store.dispatch(focus(props.state.steps[row].explanation.id))
-      }
+    onFocusChanged: ({ row, column }) => {
+      if (column === StepSegment.Explanation)
+        store.dispatch(focus(props.state.steps[row].explanation.id))
     },
   })
 
@@ -430,12 +427,12 @@ function InlineMath(props: InlineMathProps) {
 type GridFocusState = {
   row: number
   column: number
-} | null
+}
 
 interface GridFocus {
-  focus: GridFocusState
-  isFocused: (payload: { row: number; column: number }) => boolean
-  setFocus: (focus: GridFocusState) => void
+  focus: GridFocusState | null
+  isFocused: (cell: GridFocusState) => boolean
+  setFocus: (cell: GridFocusState) => void
   moveRight: () => void
   moveLeft: () => void
 }
