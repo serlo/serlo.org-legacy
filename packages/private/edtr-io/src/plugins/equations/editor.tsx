@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { HotKeys, useScopedSelector, useScopedStore } from '@edtr-io/core'
+import { AddButton } from '@edtr-io/editor-ui/internal'
 import { PreferenceContext, setDefaultPreference } from '@edtr-io/core/beta'
 import { MathEditor } from '@edtr-io/math'
 import { StateTypeReturnType, StringStateType } from '@edtr-io/plugin'
@@ -120,18 +121,7 @@ export function EquationsEditor(props: EquationsProps) {
                 column: StepSegment.Transform,
               })
             ) {
-              const newIndex = state.steps.length
-              state.steps.insert(newIndex, {
-                left: '',
-                sign: state.steps[newIndex - 1].sign.value,
-                right: '',
-                transform: '',
-                explanation: { plugin: 'text' },
-              })
-              gridFocus.setFocus({
-                row: newIndex,
-                column: StepSegment.Left,
-              })
+              insertNewEquationAt(state.steps.length)
             } else {
               gridFocus.moveRight()
             }
@@ -143,18 +133,7 @@ export function EquationsEditor(props: EquationsProps) {
         INSERT: (e) => {
           handleKeyDown(e, () => {
             if (!gridFocus.focus) return
-            const newIndex = gridFocus.focus.row + 1
-            state.steps.insert(newIndex, {
-              left: '',
-              sign: state.steps[newIndex - 1].sign.value,
-              right: '',
-              transform: '',
-              explanation: { plugin: 'text' },
-            })
-            gridFocus.setFocus({
-              row: newIndex,
-              column: StepSegment.Left,
-            })
+            insertNewEquationAt(gridFocus.focus.row + 1)
           })
         },
       }}
@@ -245,6 +224,7 @@ export function EquationsEditor(props: EquationsProps) {
             }}
           </Droppable>
         </DragDropContext>
+        {renderAddButton()}
       </TableWrapper>
     </HotKeys>
   )
@@ -252,6 +232,27 @@ export function EquationsEditor(props: EquationsProps) {
   function handleKeyDown(e: KeyboardEvent | undefined, next: () => void) {
     e && e.preventDefault()
     next()
+  }
+
+  function insertNewEquationAt(index: number) {
+    state.steps.insert(index, {
+      left: '',
+      sign: state.steps[index - 1].sign.value,
+      right: '',
+      transform: '',
+      explanation: { plugin: 'text' },
+    })
+    gridFocus.setFocus({ row: index, column: StepSegment.Left })
+  }
+
+  function renderAddButton() {
+    if (!nestedFocus) return
+
+    return (
+      <AddButton onClick={() => insertNewEquationAt(state.steps.length)}>
+        {i18n.t('equations::add new equation')}
+      </AddButton>
+    )
   }
 }
 
