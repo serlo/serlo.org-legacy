@@ -99,7 +99,12 @@ export function createPlugins({
     }),
     article: articlePlugin,
     articleIntroduction: createMultimediaExplanationPlugin({
-      explanation: { plugin: 'text' },
+      explanation: {
+        plugin: 'text',
+        config: {
+          placeholder: i18n.t('article::Write a short introduction'),
+        },
+      },
       plugins: [
         {
           name: 'image',

@@ -46,6 +46,7 @@ import { InlineSettingsInput } from './helpers/inline-settings-input'
 import { InlineInput } from './helpers/inline-input'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from 'styled-components'
+import { useI18n } from '@serlo/i18n'
 
 const relatedContentItemState = object({ id: string(), title: string() })
 
@@ -92,6 +93,7 @@ function ArticleEditor(props: ArticleProps) {
   const { editable, state } = props
   const { introduction, content, exercises, relatedContent, sources } = state
 
+  const i18n = useI18n()
   const [focusedInlineSetting, setFocusedInlineSetting] = React.useState<{
     id: string
     index: number
@@ -120,8 +122,7 @@ function ArticleEditor(props: ArticleProps) {
   )
 
   function renderExercises() {
-    // TODO: i18n
-    const header = <h2>Übungsaufgaben</h2>
+    const header = <h2>{i18n.t('article::Exercises')}</h2>
     return (
       <React.Fragment>
         {header}
@@ -159,8 +160,9 @@ function ArticleEditor(props: ArticleProps) {
                                       </span>
                                       <PluginToolbarButton
                                         icon={<Icon icon={faTrashAlt} />}
-                                        // TODO: i18n
-                                        label="Interaktives Element entfernen"
+                                        label={i18n.t(
+                                          'article::Remove exercise'
+                                        )}
                                         onClick={() => {
                                           exercises.remove(index)
                                         }}
@@ -187,8 +189,7 @@ function ArticleEditor(props: ArticleProps) {
               exercises.insert(exercises.length)
             }}
           >
-            {/*TODO: i18n*/}
-            Add optional exercise
+            {i18n.t('article::Add optional exercise')}
           </AddButton>
         ) : null}
       </React.Fragment>
@@ -198,20 +199,47 @@ function ArticleEditor(props: ArticleProps) {
   function renderRelatedContent() {
     const header = (
       <React.Fragment>
-        {/*TODO: i18n*/}
-        <h2>Du hast noch nicht genug vom Thema?</h2>
-        {/*TODO: i18n*/}
-        <p>Hier findet du noch weitere passende Inhalte zum Thema:</p>
+        <h2>{i18n.t('article::Still want more?')}</h2>
+        <p>
+          {i18n.t('article::You can find more content on this topic here')}:
+        </p>
       </React.Fragment>
     )
+
+    const types: {
+      section: 'articles' | 'courses' | 'videos' | 'exercises'
+      label: string
+      addLabel: string
+    }[] = [
+      {
+        section: 'articles',
+        label: i18n.t('article::Articles'),
+        addLabel: i18n.t('article::Add article'),
+      },
+      {
+        section: 'courses',
+        label: i18n.t('article::Courses'),
+        addLabel: i18n.t('article::Add course'),
+      },
+      {
+        section: 'videos',
+        label: i18n.t('article::Videos'),
+        addLabel: i18n.t('article::Add video'),
+      },
+      {
+        section: 'exercises',
+        label: i18n.t('article::Exercises and exercise folders'),
+        addLabel: i18n.t('article::Add exercise'),
+      },
+    ]
 
     return (
       <React.Fragment>
         {header}
-        {['articles', 'courses', 'videos', 'exercises'].map((section) => {
+        {types.map((type) => {
           return (
-            <React.Fragment key={section}>
-              {renderRelatedContentSection(section)}
+            <React.Fragment key={type.section}>
+              {renderRelatedContentSection(type)}
             </React.Fragment>
           )
         })}
@@ -219,32 +247,34 @@ function ArticleEditor(props: ArticleProps) {
     )
   }
 
-  function renderRelatedContentSection(
+  function renderRelatedContentSection(type: {
     section: 'articles' | 'courses' | 'videos' | 'exercises'
-  ) {
-    if (!editable && relatedContent[section].length === 0) {
+    label: string
+    addLabel: string
+  }) {
+    if (!editable && relatedContent[type.section].length === 0) {
       return null
     }
 
     return (
       <React.Fragment>
-        ICON {section}
+        ICON {type.label}
         <DragDropContext
           onDragEnd={(result) => {
             const { source, destination } = result
             if (!destination) return
-            relatedContent[section].move(source.index, destination.index)
+            relatedContent[type.section].move(source.index, destination.index)
           }}
         >
           <Droppable droppableId="default">
             {(provided: any) => {
               return (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  {relatedContent[section].map((item, index) => {
+                  {relatedContent[type.section].map((item, index) => {
                     return (
                       <Draggable
                         key={index}
-                        draggableId={`${section}-${index}`}
+                        draggableId={`${type.section}-${index}`}
                         index={index}
                       >
                         {(provided: any) => {
@@ -256,10 +286,10 @@ function ArticleEditor(props: ArticleProps) {
                               <span {...provided.dragHandleProps}>
                                 <EdtrIcon icon={edtrDragHandle} />
                               </span>
-                              {isFocused(section, index) ? (
+                              {isFocused(type.section, index) ? (
                                 <InlineSettings
                                   onDelete={() => {
-                                    relatedContent[section].remove(index)
+                                    relatedContent[type.section].remove(index)
                                   }}
                                   position="below"
                                 >
@@ -302,7 +332,7 @@ function ArticleEditor(props: ArticleProps) {
                                   value={item.title.value}
                                   onFocus={() => {
                                     setFocusedInlineSetting({
-                                      id: section,
+                                      id: type.section,
                                       index,
                                     })
                                   }}
@@ -323,13 +353,12 @@ function ArticleEditor(props: ArticleProps) {
                   {editable ? (
                     <AddButton
                       onClick={() => {
-                        relatedContent[section].insert(
-                          relatedContent[section].length
+                        relatedContent[type.section].insert(
+                          relatedContent[type.section].length
                         )
                       }}
                     >
-                      {/*TODO: i18n*/}
-                      Add {section}
+                      {type.addLabel}
                     </AddButton>
                   ) : null}
                 </div>
@@ -342,11 +371,10 @@ function ArticleEditor(props: ArticleProps) {
   }
 
   function renderSources() {
-    // TODO: i18n
     return (
       <ThemeProvider theme={spoilerTheme}>
         <ExpandableBox
-          renderTitle={() => 'Quellen'}
+          renderTitle={() => i18n.t('article::Sources')}
           editable={editable}
           alwaysVisible
         >
@@ -442,8 +470,7 @@ function ArticleEditor(props: ArticleProps) {
                 sources.insert(sources.length)
               }}
             >
-              {/*TODO: i18n*/}
-              Add source
+              {i18n.t('article::Add source')}
             </AddButton>
           ) : null}
         </ExpandableBox>
