@@ -117,7 +117,7 @@ export function EquationsEditor(props: EquationsProps) {
             if (
               gridFocus.isFocused({
                 row: state.steps.length - 1,
-                column: StepSegment.Explanation,
+                column: StepSegment.Transform,
               })
             ) {
               const newIndex = state.steps.length
@@ -172,10 +172,6 @@ export function EquationsEditor(props: EquationsProps) {
               return (
                 <Table ref={provided.innerRef} {...provided.droppableProps}>
                   {state.steps.map((step, index) => {
-                    const explanation = step.explanation.render({
-                      config: { placeholder: i18n.t('equations::explanation') },
-                    })
-
                     return (
                       <Draggable
                         key={step.explanation.id}
@@ -210,25 +206,37 @@ export function EquationsEditor(props: EquationsProps) {
                                   </RemoveButton>
                                 </td>
                               </tr>
-                              <ExplanationTr>
-                                <td />
-                                <td />
-                                <SignTd>
-                                  {isEmpty(step.explanation.id)(
-                                    store.getState()
-                                  )
-                                    ? null
-                                    : index === state.steps.length - 1
-                                    ? '→'
-                                    : '↓'}
-                                </SignTd>
-                                <td colSpan={2}>{explanation}</td>
-                              </ExplanationTr>
+                              {renderExplantionTr()}
                             </tbody>
                           )
                         }}
                       </Draggable>
                     )
+
+                    function renderExplantionTr() {
+                      if (index === state.steps.length - 1) return null
+
+                      return (
+                        <ExplanationTr>
+                          <td />
+                          <td />
+                          <SignTd>
+                            {isEmpty(step.explanation.id)(store.getState())
+                              ? null
+                              : index === state.steps.length - 1
+                              ? '→'
+                              : '↓'}
+                          </SignTd>
+                          <td colSpan={2}>
+                            {step.explanation.render({
+                              config: {
+                                placeholder: i18n.t('equations::explanation'),
+                              },
+                            })}
+                          </td>
+                        </ExplanationTr>
+                      )
+                    }
                   })}
                   {provided.placeholder}
                 </Table>
