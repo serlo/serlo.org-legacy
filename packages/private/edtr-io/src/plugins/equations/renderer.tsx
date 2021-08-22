@@ -27,6 +27,7 @@ import { EquationsProps } from '.'
 import { renderSignToString, Sign } from './sign'
 import { useScopedStore } from '@edtr-io/core'
 import { isEmpty } from '@edtr-io/store'
+import downArrow from './down-arrow.svg'
 
 export const TableWrapper = styled.div({
   overflowX: 'scroll',
@@ -96,9 +97,7 @@ export function EquationsRenderer({ state }: EquationsProps) {
                 {isEmpty(step.explanation.id)(store.getState()) ? null : (
                   <ExplanationTr>
                     <td />
-                    <SignTd>
-                      {index === state.steps.length - 1 ? '→' : '↓'}
-                    </SignTd>
+                    {renderDownArrow()}
                     <td colSpan={2}>{step.explanation.render()}</td>
                   </ExplanationTr>
                 )}
@@ -108,5 +107,18 @@ export function EquationsRenderer({ state }: EquationsProps) {
         </tbody>
       </Table>
     </TableWrapper>
+  )
+}
+
+export function renderDownArrow() {
+  return (
+    <td
+      style={{
+        backgroundImage: `url(${downArrow})`,
+        backgroundSize: '20px 100%',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+      }}
+    ></td>
   )
 }

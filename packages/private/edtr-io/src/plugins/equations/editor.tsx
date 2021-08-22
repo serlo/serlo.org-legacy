@@ -34,6 +34,7 @@ import {
   EquationsRenderer,
   ExplanationTr,
   LeftTd,
+  renderDownArrow,
   SignTd,
   Table,
   TableWrapper,
@@ -200,13 +201,11 @@ export function EquationsEditor(props: EquationsProps) {
                         <ExplanationTr>
                           <td />
                           <td />
-                          <SignTd>
-                            {isEmpty(step.explanation.id)(store.getState())
-                              ? null
-                              : index === state.steps.length - 1
-                              ? '→'
-                              : '↓'}
-                          </SignTd>
+                          {!isEmpty(step.explanation.id)(store.getState()) ? (
+                            renderDownArrow()
+                          ) : (
+                            <td />
+                          )}
                           <td colSpan={2}>
                             {step.explanation.render({
                               config: {
