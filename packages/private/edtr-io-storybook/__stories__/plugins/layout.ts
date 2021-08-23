@@ -63,7 +63,7 @@ addPluginStory({
                 plugin: 'image',
                 state: {
                   src:
-                    'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
+                    'https://raw.githubusercontent.com/edtr-io/edtr-io/main/README_files/edtrio_full.svg?sanitize=true',
                   alt: 'Edtr.io Logo',
                 },
               },
@@ -97,7 +97,7 @@ addPluginStory({
                 plugin: 'image',
                 state: {
                   src:
-                    'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
+                    'https://raw.githubusercontent.com/edtr-io/edtr-io/main/README_files/edtrio_full.svg?sanitize=true',
                   alt: 'Edtr.io Logo',
                 },
               },
