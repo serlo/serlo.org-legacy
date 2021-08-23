@@ -2,7 +2,7 @@ name: Packages
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   client:
     runs-on: ubuntu-latest
