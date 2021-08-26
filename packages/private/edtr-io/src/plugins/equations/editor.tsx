@@ -34,6 +34,7 @@ import {
   EquationsRenderer,
   ExplanationTr,
   LeftTd,
+  MathTd,
   renderDownArrow,
   SignTd,
   Table,
@@ -314,7 +315,7 @@ function StepEditor(props: StepEditorProps) {
           })}
         </DropDown>
       </SignTd>
-      <td
+      <MathTd
         onClick={() => gridFocus.setFocus({ row, column: StepSegment.Right })}
       >
         <InlineMath
@@ -325,7 +326,7 @@ function StepEditor(props: StepEditorProps) {
           onFocusNext={() => gridFocus.moveRight()}
           onFocusPrevious={() => gridFocus.moveLeft()}
         />
-      </td>
+      </MathTd>
       <TransformTd
         onClick={() =>
           gridFocus.setFocus({ row, column: StepSegment.Transform })

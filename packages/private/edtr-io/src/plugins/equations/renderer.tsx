@@ -38,16 +38,19 @@ export const Table = styled.table({
   whiteSpace: 'nowrap',
 })
 
-export const LeftTd = styled.td({
+export const MathTd = styled.td({ verticalAlign: 'baseline' })
+
+export const LeftTd = styled(MathTd)({
   textAlign: 'right',
 })
 
 export const SignTd = styled.td({
   padding: '0 3px',
   textAlign: 'center',
+  verticalAlign: 'baseline',
 })
 
-export const TransformTd = styled.td({
+export const TransformTd = styled(MathTd)({
   paddingLeft: '5px',
 })
 
@@ -80,11 +83,11 @@ export function EquationsRenderer({ state }: EquationsProps) {
                       state={renderSignToString(step.sign.value as Sign)}
                     />
                   </SignTd>
-                  <td>
+                  <MathTd>
                     {step.right.value ? (
                       <MathRenderer inline state={step.right.value} />
                     ) : null}
-                  </td>
+                  </MathTd>
                   <TransformTd>
                     {step.transform.value ? (
                       <>
