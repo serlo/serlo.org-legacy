@@ -27,7 +27,6 @@ import { EquationsProps } from '.'
 import { renderSignToString, Sign } from './sign'
 import { useScopedStore } from '@edtr-io/core'
 import { isEmpty } from '@edtr-io/store'
-import downArrow from './down-arrow.svg'
 
 export const TableWrapper = styled.div({
   overflowX: 'scroll',
@@ -114,10 +113,45 @@ export function EquationsRenderer({ state }: EquationsProps) {
 }
 
 export function renderDownArrow() {
+  const downArrow = `
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          orient="auto"
+          markerUnits="strokeWidth"
+          refX="10"
+          refY="5"
+          viewBox="0 0 20 10"
+        >
+          <path
+            d="M 0,0 l 10,5 l -10,5"
+            stroke="#007ec1"
+            stroke-width="2"
+            fill="none"
+            vector-effect="non-scaling-size"
+          />
+        </marker>
+      </defs>
+
+      <line
+        x1="10"
+        y1="5%"
+        x2="10"
+        y2="95%"
+        stroke="#007ec1"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+        vector-effect="non-scaling-stroke"
+      />
+    </svg>`
+
   return (
     <td
       style={{
-        backgroundImage: `url(${downArrow})`,
+        backgroundImage: `url('data:image/svg+xml;base64,${btoa(downArrow)}')`,
         backgroundSize: '20px 100%',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
