@@ -55,7 +55,7 @@
   "devDependencies": {
     "@inyono/copyright-headers": "^0.1.0",
     "@types/glob": "^7.0.0",
-    "@types/jest": "^26.0.0",
+    "@types/jest": "^27.0.0",
     "@types/jest-environment-puppeteer": "^4.0.0",
     "@types/ramda": "^0.27.0",
     "@types/rimraf": "^3.0.0",

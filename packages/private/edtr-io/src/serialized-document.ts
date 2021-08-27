@@ -42,11 +42,16 @@ import { TablePluginState } from '@edtr-io/plugin-table'
 import { TextPluginState } from '@edtr-io/plugin-text'
 import { VideoPluginState } from '@edtr-io/plugin-video'
 import { SolutionPluginState } from './plugins/solution'
+import { ArticlePluginState } from './plugins/article'
 
 export type SerializedDocument =
   | {
       plugin: 'anchor'
       state: StateTypeSerializedType<AnchorPluginState>
+    }
+  | {
+      plugin: 'article'
+      state: StateTypeSerializedType<ArticlePluginState>
     }
   | {
       plugin: 'blockquote'

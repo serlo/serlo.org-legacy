@@ -28,6 +28,7 @@ import {
   Edtr,
   Legacy,
   RowsPlugin,
+  OtherPlugin,
   Splish,
 } from '@serlo/legacy-editor-to-editor'
 import * as R from 'ramda'
@@ -133,6 +134,7 @@ export function deserialize({
     state: ArticleSerializedState
   ): DeserializedState<typeof articleTypeState> {
     stack.push({ id: state.id, type: 'article' })
+
     return {
       initialState: {
         plugin: 'type-article',
@@ -140,9 +142,7 @@ export function deserialize({
           ...state,
           changes: '',
           title: state.title || '',
-          content: serializeEditorState(
-            toEdtr(deserializeEditorState(state.content))
-          ),
+          content: getContent(),
           reasoning: serializeEditorState(
             toEdtr(deserializeEditorState(state.reasoning))
           ),
@@ -151,6 +151,38 @@ export function deserialize({
         },
       },
       converted: !isEdtr(deserializeEditorState(state.content) || empty),
+    }
+
+    function getContent() {
+      const deserializedContent = deserializeEditorState(state.content)
+
+      const convertedContent = toEdtr(deserializedContent) as
+        | RowsPlugin
+        | OtherPlugin
+
+      if (
+        deserializedContent !== undefined &&
+        isEdtr(deserializedContent) &&
+        convertedContent.plugin === 'article'
+      ) {
+        return serializeEditorState(convertedContent)
+      }
+
+      return serializeEditorState({
+        plugin: 'article',
+        state: {
+          introduction: { plugin: 'articleIntroduction' },
+          content: convertedContent,
+          exercises: [],
+          relatedContent: {
+            articles: [],
+            courses: [],
+            videos: [],
+            exercises: [],
+          },
+          sources: [],
+        },
+      })
     }
   }
 

@@ -19,13 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  EditorPlugin,
-  StateTypeSerializedType,
-  StateTypesSerializedType,
-} from '@edtr-io/plugin'
+import { EditorPlugin } from '@edtr-io/plugin'
 import { createTextPlugin } from '@edtr-io/plugin-text'
-import { AnchorPluginState, createAnchorPlugin } from '@edtr-io/plugin-anchor'
+import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
@@ -37,7 +33,7 @@ import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-ex
 import { createRowsPlugin, RowsConfig } from '@edtr-io/plugin-rows'
 import { createScMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
-import { createVideoPlugin, VideoConfig } from '@edtr-io/plugin-video'
+import { createVideoPlugin } from '@edtr-io/plugin-video'
 import { i18n } from 'i18next'
 import * as React from 'react'
 
@@ -54,6 +50,7 @@ import { textExerciseGroupTypePlugin } from './plugins/types/text-exercise-group
 import { textSolutionTypePlugin } from './plugins/types/text-solution'
 import { userTypePlugin } from './plugins/types/user'
 import { videoTypePlugin } from './plugins/types/video'
+import { articlePlugin } from './plugins/article'
 import { errorPlugin } from './plugins/error'
 import { equationsPlugin } from './plugins/equations'
 import { exercisePlugin } from './plugins/exercise'
@@ -98,6 +95,31 @@ export function createPlugins({
       i18n: {
         label: i18n.t('anchor::Identifier'),
         placeholder: i18n.t('anchor::ID of the anchor'),
+      },
+    }),
+    article: articlePlugin,
+    articleIntroduction: createMultimediaExplanationPlugin({
+      explanation: {
+        plugin: 'text',
+        config: {
+          placeholder: i18n.t('article::Write a short introduction'),
+        },
+      },
+      plugins: [
+        {
+          name: 'image',
+          title: i18n.t('multimedia::Image'),
+        },
+      ],
+      i18n: {
+        changeMultimediaType: i18n.t('multimedia::Change the multimedia type'),
+        illustrating: {
+          label: i18n.t('multimedia::How important is the multimedia content?'),
+          values: {
+            illustrating: i18n.t('multimedia::It is illustrating'),
+            explaining: i18n.t('multimedia::It is essential'),
+          },
+        },
       },
     }),
     blockquote: createBlockquotePlugin({

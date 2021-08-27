@@ -89,6 +89,7 @@ export type LayoutPlugin = {
 export type OtherPlugin = {
   plugin:
     | 'anchor'
+    | 'article'
     | 'blockquote'
     | 'error'
     | 'exercise'
