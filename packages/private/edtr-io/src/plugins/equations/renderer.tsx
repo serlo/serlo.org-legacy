@@ -138,9 +138,9 @@ export function renderDownArrow() {
 
       <line
         x1="10"
-        y1="5%"
+        y1="0%"
         x2="10"
-        y2="95%"
+        y2="99%"
         stroke="#007ec1"
         stroke-width="2"
         marker-end="url(#arrow)"
@@ -152,9 +152,9 @@ export function renderDownArrow() {
     <td
       style={{
         backgroundImage: `url('data:image/svg+xml;base64,${btoa(downArrow)}')`,
-        backgroundSize: '20px 100%',
+        backgroundSize: '20px calc(100% - 10px)',
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center 5px',
       }}
     ></td>
   )
