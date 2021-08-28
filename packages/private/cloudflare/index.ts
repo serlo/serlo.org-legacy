@@ -24,36 +24,6 @@ import * as request from 'request'
 
 export const accountId = '3bfabc4463c2c3c340f7301d22ed18c0'
 
-export async function uploadWorker({
-  name,
-  body,
-}: {
-  name: string
-  body: string
-}) {
-  await new Promise<void>((resolve, reject) => {
-    request.put(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/workers/scripts/${name}`,
-      {
-        headers: {
-          'X-Auth-Email': process.env.CF_EMAIL,
-          'X-Auth-Key': process.env.CF_KEY,
-          'Content-Type': 'application/javascript',
-        },
-        body,
-      },
-      (error) => {
-        if (error) {
-          reject(error)
-          return
-        }
-
-        resolve()
-      }
-    )
-  })
-}
-
 export async function shouldDeployPackage({
   name,
   version,
