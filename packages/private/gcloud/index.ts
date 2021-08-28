@@ -36,7 +36,11 @@ export function uploadPackage({
   version: string
 }) {
   const target = `${name}@${version}`
-  const dest = `gs://${bucket}/${trimSlashes(target)}/`
+
+  if (target.includes('/'))
+    throw new Error(`package ${target} contains a slash in the name or version`)
+
+  const dest = `gs://${bucket}/${target}/`
 
   if (spawnSync('gsutil', ['ls', dest]).status === 0) {
     signale.info('Destination folder already exists')
@@ -48,8 +52,4 @@ export function uploadPackage({
 
   if (copyResult.status !== 0)
     throw new Error(`Error while copying ${source} to ${dest}`)
-}
-
-function trimSlashes(p: string) {
-  return p.replace(/^\/+/, '').replace('//+$/', '')
 }
