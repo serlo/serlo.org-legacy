@@ -21,7 +21,6 @@ jobs:
         env:
           DEPLOY: true
           CF_KEY: ${{ secrets.CF_KEY }}
-          CF_EMAIL: ${{ secrets.CF_EMAIL }}
   static-assets:
     runs-on: ubuntu-latest
     steps:
@@ -39,4 +38,3 @@ jobs:
         env:
           DEPLOY: true
           CF_KEY: ${{ secrets.CF_KEY }}
-          CF_EMAIL: ${{ secrets.CF_EMAIL }}

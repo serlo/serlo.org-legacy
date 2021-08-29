@@ -78,10 +78,8 @@ async function makeCloudflareApiCall({
   key: string
   value?: string
 }) {
-  const auth_email = process.env.CF_EMAIL
   const auth_key = process.env.CF_KEY
 
-  if (!auth_email) throw new Error('env variable CF_EMAIL needs to be set')
   if (!auth_key) throw new Error('env variable CF_KEY needs to be set')
 
   const url =
@@ -90,7 +88,7 @@ async function makeCloudflareApiCall({
 
   return fetch(url, {
     method: value ? 'POST' : 'GET',
-    headers: { 'X-Auth-Email': auth_email, 'X-Auth-Key': auth_key },
+    headers: { Authorization: `Bearer ${auth_key}` },
     ...(value ? { body: value } : {}),
   })
 }
