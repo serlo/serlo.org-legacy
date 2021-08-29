@@ -3,8 +3,5 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {},
-  "devDependencies": {
-    "@types/request": "^2.0.0",
-    "request": "^2.0.0"
-  }
+  "devDependencies": {}
 }

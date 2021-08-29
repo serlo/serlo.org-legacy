@@ -39,32 +39,21 @@ run().then(() => {})
 async function run() {
   try {
     const name = 'serlo-org-client'
-
     const { version } = await fetchPackageJSON()
 
-    const shouldDeploy = await shouldDeployPackage({
-      name,
-      version,
-    })
-    if (!shouldDeploy) {
+    if (!(await shouldDeployPackage({ name, version }))) {
       signale.info(`Skipping deployment of ${name}@${version}`)
       return
     }
 
     signale.info(`Deploying ${name}@${version}`)
-
     signale.pending('Uploading package…')
-    uploadPackage({
-      source: distPath,
-      name,
-      version,
-    })
+
+    uploadPackage({ source: distPath, name, version })
 
     signale.pending('Publishing package…')
-    await publishPackage({
-      name,
-      version,
-    })
+
+    await publishPackage({ name, version })
 
     signale.success(`Successfully deployed ${name}@${version}`)
   } catch (e) {
@@ -73,6 +62,6 @@ async function run() {
   }
 }
 
-function fetchPackageJSON(): Promise<{ version: string }> {
-  return readFile(packageJsonPath, fsOptions).then(JSON.parse)
+async function fetchPackageJSON(): Promise<{ version: string }> {
+  return JSON.parse(await readFile(packageJsonPath, fsOptions))
 }
