@@ -19,9 +19,10 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import * as request from 'request'
+import fetch from 'node-fetch'
 
-export const accountId = '3bfabc4463c2c3c340f7301d22ed18c0'
+const accountId = '3bfabc4463c2c3c340f7301d22ed18c0'
+const packageKVNamespace = '19f90dc8e6ff49cd8bc42f51346409be'
 
 export async function shouldDeployPackage({
   name,
@@ -33,25 +34,8 @@ export async function shouldDeployPackage({
   if (process.env.DEPLOY !== 'true') return false
 
   const target = `${name}@${version}`
-  const res = await new Promise<string>((resolve, reject) => {
-    request.get(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${target}`,
-      {
-        headers: {
-          'X-Auth-Email': process.env.CF_EMAIL,
-          'X-Auth-Key': process.env.CF_KEY,
-        },
-      },
-      (error, res) => {
-        if (error) {
-          reject(error)
-          return
-        }
-        resolve(res.body)
-      }
-    )
-  })
-  return typeof res !== 'string' || res !== target
+  const response = await getCloudflarePackageValue({ key: target })
+  return (await response.text()) !== target
 }
 
 export async function publishPackage({
@@ -63,32 +47,47 @@ export async function publishPackage({
 }) {
   const environments = getEnvironments()
   await Promise.all(
-    environments.map((env) => {
-      return new Promise<void>((resolve, reject) => {
-        request.put(
-          `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${name}@${env}`,
-          {
-            headers: {
-              'X-Auth-Email': process.env.CF_EMAIL,
-              'X-Auth-Key': process.env.CF_KEY,
-            },
-            body: `${name}@${version}`,
-          },
-          (error) => {
-            if (error) {
-              reject(error)
-              return
-            }
-
-            resolve()
-          }
-        )
+    environments.map((env) =>
+      setCloudflarePackageValue({
+        key: `${name}@${env}`,
+        value: `${name}@${version}`,
       })
-    })
+    )
   )
 
   function getEnvironments() {
     const [major, minor] = version.split('.')
     return [major, `${major}.${minor}`, version]
   }
+}
+
+async function getCloudflarePackageValue(args: { key: string }) {
+  return await makeCloudflareApiCall(args)
+}
+
+async function setCloudflarePackageValue(args: { key: string; value: string }) {
+  return await makeCloudflareApiCall(args)
+}
+
+async function makeCloudflareApiCall({
+  key,
+  value,
+}: {
+  key: string
+  value?: string
+}) {
+  const auth_email = process.env.CF_EMAIL
+  const auth_key = process.env.CF_KEY
+
+  if (!auth_email) throw new Error('env variable CF_EMAIL needs to be set')
+  if (!auth_key) throw new Error('env variable CF_KEY needs to be set')
+
+  const url =
+    `https://api.cloudflare.com/client/v4/accounts/${accountId}` +
+    `/storage/kv/namespaces/${packageKVNamespace}/values/${key}`
+
+  return fetch(url, {
+    headers: { 'X-Auth-Email': auth_email, 'X-Auth-Key': auth_key },
+    ...(value ? { body: value } : {}),
+  })
 }
