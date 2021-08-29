@@ -19,7 +19,6 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-// @ts-ignore
 import * as request from 'request'
 
 export const accountId = '3bfabc4463c2c3c340f7301d22ed18c0'
@@ -31,19 +30,17 @@ export async function shouldDeployPackage({
   name: string
   version: string
 }) {
-  if (process.env.DEPLOY !== 'true') {
-    return false
-  }
+  if (process.env.DEPLOY !== 'true') return false
 
+  const target = `${name}@${version}`
   const res = await new Promise<string>((resolve, reject) => {
     request.get(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${name}@${version}`,
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/19f90dc8e6ff49cd8bc42f51346409be/values/${target}`,
       {
         headers: {
           'X-Auth-Email': process.env.CF_EMAIL,
           'X-Auth-Key': process.env.CF_KEY,
         },
-        body: `${name}@${version}`,
       },
       (error, res) => {
         if (error) {
@@ -54,7 +51,7 @@ export async function shouldDeployPackage({
       }
     )
   })
-  return typeof res !== 'string' || res !== `${name}@${version}`
+  return typeof res !== 'string' || res !== target
 }
 
 export async function publishPackage({
