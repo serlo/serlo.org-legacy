@@ -89,6 +89,7 @@ async function makeCloudflareApiCall({
     `/storage/kv/namespaces/${packageKVNamespace}/values/${key}`
 
   return fetch(url, {
+    method: value ? 'POST' : 'GET',
     headers: { 'X-Auth-Email': auth_email, 'X-Auth-Key': auth_key },
     ...(value ? { body: value } : {}),
   })
