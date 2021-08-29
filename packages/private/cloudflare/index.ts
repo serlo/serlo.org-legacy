@@ -45,9 +45,8 @@ export async function publishPackage({
   name: string
   version: string
 }) {
-  const environments = getEnvironments()
   await Promise.all(
-    environments.map((env) =>
+    getEnvironments().map((env) =>
       setCloudflarePackageValue({
         key: `${name}@${env}`,
         value: `${name}@${version}`,
@@ -56,8 +55,11 @@ export async function publishPackage({
   )
 
   function getEnvironments() {
-    const [major, minor] = version.split('.')
-    return [major, `${major}.${minor}`, version]
+    const [major, minor, patch] = version.split('.')
+    return [
+      ...(!patch.includes('-') ? [major, `${major}.${minor}`] : []),
+      version,
+    ]
   }
 }
 
