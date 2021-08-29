@@ -63,12 +63,28 @@ export async function publishPackage({
   }
 }
 
-async function getCloudflarePackageValue(args: { key: string }) {
-  return await makeCloudflareApiCall(args)
+async function getCloudflarePackageValue({ key }: { key: string }) {
+  const response = await makeCloudflareApiCall({ key })
+
+  if (response.status !== 200)
+    throw new Error(`CF: error while getting key "${key}"`)
+
+  return response
 }
 
-async function setCloudflarePackageValue(args: { key: string; value: string }) {
-  return await makeCloudflareApiCall(args)
+async function setCloudflarePackageValue({
+  key,
+  value,
+}: {
+  key: string
+  value: string
+}) {
+  const response = await makeCloudflareApiCall({ key, value })
+
+  if (response.status !== 200)
+    throw new Error(`CF: error while setting key "${key}" to "${value}"`)
+
+  return response
 }
 
 async function makeCloudflareApiCall({
@@ -78,10 +94,8 @@ async function makeCloudflareApiCall({
   key: string
   value?: string
 }) {
-  const auth_email = process.env.CF_EMAIL
   const auth_key = process.env.CF_KEY
 
-  if (!auth_email) throw new Error('env variable CF_EMAIL needs to be set')
   if (!auth_key) throw new Error('env variable CF_KEY needs to be set')
 
   const url =
@@ -90,7 +104,7 @@ async function makeCloudflareApiCall({
 
   return fetch(url, {
     method: value ? 'POST' : 'GET',
-    headers: { 'X-Auth-Email': auth_email, 'X-Auth-Key': auth_key },
+    headers: { Authorization: `Bearer ${auth_key}` },
     ...(value ? { body: value } : {}),
   })
 }
