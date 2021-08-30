@@ -63,15 +63,14 @@ export async function publishPackage({
     const { major, minor, patch, prerelease } = version
 
     if (!prerelease) {
-      yield major
+      yield `${major}`
       yield `${major}.${minor}`
+      yield `${major}.${minor}.${patch}`
     } else {
-      for (let i = 1; i < prerelease.length - 1; i++) {
+      for (let i = 1; i < prerelease.length; i++) {
         yield `${major}.${minor}.${patch}-${prerelease.slice(0, 1).join('.')}`
       }
     }
-
-    yield version
   }
 }
 
