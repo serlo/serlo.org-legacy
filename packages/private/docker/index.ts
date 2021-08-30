@@ -28,15 +28,30 @@ export function buildDockerImage({
   version,
   Dockerfile,
   context,
-}: DockerImageOptions) {
+}: {
+  name: string
+  version: string
+  Dockerfile: string
+  context: string
+}) {
   if (!semver.valid(version)) {
     return
   }
 
   const remoteName = `eu.gcr.io/serlo-shared/${name}`
-  const result = spawnSync(
-    'gcloud',
-    [
+
+  if (!shouldBuild()) {
+    console.log(
+      `Skipping deployment: ${remoteName}:${version} already in registry`
+    )
+    return
+  }
+
+  runBuild()
+  pushTags()
+
+  function shouldBuild() {
+    const args = [
       'container',
       'images',
       'list-tags',
@@ -45,40 +60,37 @@ export function buildDockerImage({
       `tags=${version}`,
       '--format',
       'json',
-    ],
-    { stdio: 'pipe' }
-  )
-  const images = JSON.parse(String(result.stdout))
+    ]
 
-  if (images.length > 0) {
-    console.log(
-      `Skipping deployment: ${remoteName}:${version} already present in registry`
-    )
-    return
+    const result = spawnSync('gcloud', args, { stdio: 'pipe' })
+    const images = JSON.parse(String(result.stdout))
+
+    return images.length > 0
   }
 
-  spawnSync(
-    'docker',
-    [
+  function runBuild() {
+    const args = [
       'build',
       '-f',
       Dockerfile,
       ...R.flatten(getTags(version).map((tag) => ['-t', `${name}:${tag}`])),
       context,
-    ],
-    {
-      stdio: 'inherit',
-    }
-  )
+    ]
+    const result = spawnSync('docker', args, { stdio: 'inherit' })
 
-  const remoteTags = R.map((tag) => `${remoteName}:${tag}`, getTags(version))
-  remoteTags.forEach((remoteTag) => {
-    console.log('Pushing', remoteTag)
-    spawnSync('docker', ['tag', `${name}:latest`, remoteTag], {
-      stdio: 'inherit',
+    if (result.status !== 0) throw new Error(`Error while building ${name}`)
+  }
+
+  function pushTags() {
+    const remoteTags = getTags(version).map((tag) => `${remoteName}:${tag}`)
+    remoteTags.forEach((remoteTag) => {
+      console.log('Pushing', remoteTag)
+      spawnSync('docker', ['tag', `${name}:latest`, remoteTag], {
+        stdio: 'inherit',
+      })
+      spawnSync('docker', ['push', remoteTag], { stdio: 'inherit' })
     })
-    spawnSync('docker', ['push', remoteTag], { stdio: 'inherit' })
-  })
+  }
 }
 
 function getTags(version: string) {
@@ -90,11 +102,4 @@ function getTags(version: string) {
       version
     )}`,
   ]
-}
-
-export interface DockerImageOptions {
-  name: string
-  version: string
-  Dockerfile: string
-  context: string
 }
