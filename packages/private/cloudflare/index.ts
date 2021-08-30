@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import * as semver from 'semver'
 import fetch from 'node-fetch'
 
 const accountId = '3bfabc4463c2c3c340f7301d22ed18c0'
@@ -45,6 +46,8 @@ export async function publishPackage({
   name: string
   version: string
 }) {
+  if (!semver.valid(version)) throw new Error(`illegal version ${version}`)
+
   await Promise.all(
     getEnvironments().map((env) =>
       setCloudflarePackageValue({
