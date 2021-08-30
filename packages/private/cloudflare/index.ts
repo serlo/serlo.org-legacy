@@ -46,10 +46,12 @@ export async function publishPackage({
   name: string
   version: string
 }) {
-  if (!semver.valid(version)) throw new Error(`illegal version ${version}`)
+  const semanticVersion = semver.parse(version)
+
+  if (semanticVersion === null) throw new Error(`illegal version ${version}`)
 
   await Promise.all(
-    getEnvironments().map((env) =>
+    Array.from(getEnvironments(semanticVersion)).map((env) =>
       setCloudflarePackageValue({
         key: `${name}@${env}`,
         value: `${name}@${version}`,
@@ -57,16 +59,19 @@ export async function publishPackage({
     )
   )
 
-  function getEnvironments() {
-    const [major, minor, patch, patchMinor] = version.split('.')
+  function* getEnvironments(version: semver.SemVer) {
+    const { major, minor, patch, prerelease } = version
 
-    if (!patch) throw new Error(`illegal version number "${version}"`)
+    if (!prerelease) {
+      yield major
+      yield `${major}.${minor}`
+    } else {
+      for (let i = 1; i < prerelease.length - 1; i++) {
+        yield `${major}.${minor}.${patch}-${prerelease.slice(0, 1).join('.')}`
+      }
+    }
 
-    return [
-      ...(!patch.includes('-') ? [major, `${major}.${minor}`] : []),
-      ...(patchMinor ? [`${major}.${minor}.${patch}`] : []),
-      version,
-    ]
+    yield version
   }
 }
 
