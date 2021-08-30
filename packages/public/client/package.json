@@ -1,6 +1,6 @@
 {
   "name": "@serlo/client",
-  "version": "22.0.0-equations",
+  "version": "22.0.0-equations.1",
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
