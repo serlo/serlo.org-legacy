@@ -35,7 +35,7 @@ export function buildDockerImage({
   context: string
 }) {
   if (!semver.valid(version)) {
-    return
+    throw new Error(`illegal version number ${version}`)
   }
 
   const remoteName = `eu.gcr.io/serlo-shared/${name}`
