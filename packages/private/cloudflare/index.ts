@@ -69,8 +69,9 @@ export async function publishPackage({
 async function getCloudflarePackageValue({ key }: { key: string }) {
   const response = await makeCloudflareApiCall({ key })
 
-  if (response.status !== 200)
-    throw new Error(`CF: error while getting key "${key}"`)
+  if (response.status !== 200 && response.status !== 404) {
+    throw new Error(`CF: error getting "${key}": ${await response.text()}`)
+  }
 
   return response
 }
@@ -84,8 +85,10 @@ async function setCloudflarePackageValue({
 }) {
   const response = await makeCloudflareApiCall({ key, value })
 
-  if (response.status !== 200)
-    throw new Error(`CF: error while setting key "${key}" to "${value}"`)
+  if (response.status !== 200) {
+    const error = await response.text()
+    throw new Error(`CF: error setting "${key}" to "${value}": ${error}`)
+  }
 
   return response
 }
