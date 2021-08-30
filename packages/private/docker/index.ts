@@ -69,7 +69,7 @@ export function buildDockerImage({
     const result = spawnSync('gcloud', args, { stdio: 'pipe' })
     const images = JSON.parse(String(result.stdout))
 
-    return images.length > 0
+    return images.length === 0
   }
 
   function runBuild(tags: string[]) {
@@ -106,8 +106,8 @@ function* getTags(version: semver.SemVer) {
     yield `${major}.${minor}`
     yield `${major}.${minor}.${patch}`
   } else {
-    for (let i = 1; i < prerelease.length; i++) {
-      yield `${major}.${minor}.${patch}-${prerelease.slice(0, 1).join('.')}`
+    for (let i = 1; i <= prerelease.length; i++) {
+      yield `${major}.${minor}.${patch}-${prerelease.slice(0, i).join('.')}`
     }
   }
 }
