@@ -34,7 +34,9 @@ export function buildDockerImage({
   Dockerfile: string
   context: string
 }) {
-  if (!semver.valid(version)) {
+  const semanticVersion = semver.parse(version)
+
+  if (!semanticVersion) {
     throw new Error(`illegal version number ${version}`)
   }
 
@@ -47,8 +49,10 @@ export function buildDockerImage({
     return
   }
 
-  runBuild()
-  pushTags()
+  const tags = Array.from(getTags(semanticVersion)).map((t) => t.toString())
+
+  runBuild(tags)
+  pushTags(tags)
 
   function shouldBuild() {
     const args = [
@@ -68,12 +72,12 @@ export function buildDockerImage({
     return images.length > 0
   }
 
-  function runBuild() {
+  function runBuild(tags: string[]) {
     const args = [
       'build',
       '-f',
       Dockerfile,
-      ...R.flatten(getTags(version).map((tag) => ['-t', `${name}:${tag}`])),
+      ...R.flatten(tags.map((tag) => ['-t', `${name}:${tag}`])),
       context,
     ]
     const result = spawnSync('docker', args, { stdio: 'inherit' })
@@ -81,8 +85,8 @@ export function buildDockerImage({
     if (result.status !== 0) throw new Error(`Error while building ${name}`)
   }
 
-  function pushTags() {
-    const remoteTags = getTags(version).map((tag) => `${remoteName}:${tag}`)
+  function pushTags(tags: string[]) {
+    const remoteTags = tags.map((tag) => `${remoteName}:${tag}`)
     remoteTags.forEach((remoteTag) => {
       console.log('Pushing', remoteTag)
       spawnSync('docker', ['tag', `${name}:latest`, remoteTag], {
@@ -93,13 +97,17 @@ export function buildDockerImage({
   }
 }
 
-function getTags(version: string) {
-  return [
-    'latest',
-    semver.major(version),
-    `${semver.major(version)}.${semver.minor(version)}`,
-    `${semver.major(version)}.${semver.minor(version)}.${semver.patch(
-      version
-    )}`,
-  ]
+function* getTags(version: semver.SemVer) {
+  const { major, minor, patch, prerelease } = version
+
+  if (!prerelease) {
+    yield 'latest'
+    yield `${major}`
+    yield `${major}.${minor}`
+    yield `${major}.${minor}.${patch}`
+  } else {
+    for (let i = 1; i < prerelease.length; i++) {
+      yield `${major}.${minor}.${patch}-${prerelease.slice(0, 1).join('.')}`
+    }
+  }
 }
