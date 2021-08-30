@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import * as semver from 'semver'
 import fetch from 'node-fetch'
 
 const accountId = '3bfabc4463c2c3c340f7301d22ed18c0'
@@ -45,8 +46,12 @@ export async function publishPackage({
   name: string
   version: string
 }) {
+  const semanticVersion = semver.parse(version)
+
+  if (semanticVersion === null) throw new Error(`illegal version ${version}`)
+
   await Promise.all(
-    getEnvironments().map((env) =>
+    Array.from(getEnvironments(semanticVersion)).map((env) =>
       setCloudflarePackageValue({
         key: `${name}@${env}`,
         value: `${name}@${version}`,
@@ -54,16 +59,18 @@ export async function publishPackage({
     )
   )
 
-  function getEnvironments() {
-    const [major, minor, patch, patchMinor] = version.split('.')
+  function* getEnvironments(version: semver.SemVer) {
+    const { major, minor, patch, prerelease } = version
 
-    if (!patch) throw new Error(`illegal version number "${version}"`)
-
-    return [
-      ...(!patch.includes('-') ? [major, `${major}.${minor}`] : []),
-      ...(patchMinor ? [`${major}.${minor}.${patch}`] : []),
-      version,
-    ]
+    if (!prerelease) {
+      yield `${major}`
+      yield `${major}.${minor}`
+      yield `${major}.${minor}.${patch}`
+    } else {
+      for (let i = 1; i < prerelease.length; i++) {
+        yield `${major}.${minor}.${patch}-${prerelease.slice(0, 1).join('.')}`
+      }
+    }
   }
 }
 

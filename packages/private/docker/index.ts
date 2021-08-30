@@ -28,15 +28,34 @@ export function buildDockerImage({
   version,
   Dockerfile,
   context,
-}: DockerImageOptions) {
-  if (!semver.valid(version)) {
-    return
+}: {
+  name: string
+  version: string
+  Dockerfile: string
+  context: string
+}) {
+  const semanticVersion = semver.parse(version)
+
+  if (!semanticVersion) {
+    throw new Error(`illegal version number ${version}`)
   }
 
   const remoteName = `eu.gcr.io/serlo-shared/${name}`
-  const result = spawnSync(
-    'gcloud',
-    [
+
+  if (!shouldBuild()) {
+    console.log(
+      `Skipping deployment: ${remoteName}:${version} already in registry`
+    )
+    return
+  }
+
+  const tags = Array.from(getTags(semanticVersion)).map((t) => t.toString())
+
+  runBuild(tags)
+  pushTags(tags)
+
+  function shouldBuild() {
+    const args = [
       'container',
       'images',
       'list-tags',
@@ -45,56 +64,50 @@ export function buildDockerImage({
       `tags=${version}`,
       '--format',
       'json',
-    ],
-    { stdio: 'pipe' }
-  )
-  const images = JSON.parse(String(result.stdout))
+    ]
 
-  if (images.length > 0) {
-    console.log(
-      `Skipping deployment: ${remoteName}:${version} already present in registry`
-    )
-    return
+    const result = spawnSync('gcloud', args, { stdio: 'pipe' })
+    const images = JSON.parse(String(result.stdout))
+
+    return images.length > 0
   }
 
-  spawnSync(
-    'docker',
-    [
+  function runBuild(tags: string[]) {
+    const args = [
       'build',
       '-f',
       Dockerfile,
-      ...R.flatten(getTags(version).map((tag) => ['-t', `${name}:${tag}`])),
+      ...R.flatten(tags.map((tag) => ['-t', `${name}:${tag}`])),
       context,
-    ],
-    {
-      stdio: 'inherit',
-    }
-  )
+    ]
+    const result = spawnSync('docker', args, { stdio: 'inherit' })
 
-  const remoteTags = R.map((tag) => `${remoteName}:${tag}`, getTags(version))
-  remoteTags.forEach((remoteTag) => {
-    console.log('Pushing', remoteTag)
-    spawnSync('docker', ['tag', `${name}:latest`, remoteTag], {
-      stdio: 'inherit',
+    if (result.status !== 0) throw new Error(`Error while building ${name}`)
+  }
+
+  function pushTags(tags: string[]) {
+    const remoteTags = tags.map((tag) => `${remoteName}:${tag}`)
+    remoteTags.forEach((remoteTag) => {
+      console.log('Pushing', remoteTag)
+      spawnSync('docker', ['tag', `${name}:latest`, remoteTag], {
+        stdio: 'inherit',
+      })
+      spawnSync('docker', ['push', remoteTag], { stdio: 'inherit' })
     })
-    spawnSync('docker', ['push', remoteTag], { stdio: 'inherit' })
-  })
+  }
 }
 
-function getTags(version: string) {
-  return [
-    'latest',
-    semver.major(version),
-    `${semver.major(version)}.${semver.minor(version)}`,
-    `${semver.major(version)}.${semver.minor(version)}.${semver.patch(
-      version
-    )}`,
-  ]
-}
+function* getTags(version: semver.SemVer) {
+  const { major, minor, patch, prerelease } = version
 
-export interface DockerImageOptions {
-  name: string
-  version: string
-  Dockerfile: string
-  context: string
+  if (!prerelease) {
+    yield 'latest'
+    yield `${major}`
+    yield `${major}.${minor}`
+    yield `${major}.${minor}.${patch}`
+  } else {
+    for (let i = 1; i < prerelease.length; i++) {
+      yield `${major}.${minor}.${patch}-${prerelease.slice(0, 1).join('.')}`
+    }
+  }
 }
