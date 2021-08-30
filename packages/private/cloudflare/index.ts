@@ -109,7 +109,7 @@ async function makeCloudflareApiCall({
     `/storage/kv/namespaces/${packageKVNamespace}/values/${key}`
 
   return fetch(url, {
-    method: value ? 'POST' : 'GET',
+    method: value ? 'PUT' : 'GET',
     headers: { Authorization: `Bearer ${auth_key}` },
     ...(value ? { body: value } : {}),
   })
