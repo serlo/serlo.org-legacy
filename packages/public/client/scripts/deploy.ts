@@ -34,32 +34,29 @@ const packageJsonPath = path.join(root, 'package.json')
 const fsOptions: { encoding: BufferEncoding } = { encoding: 'utf-8' }
 const signale = new Signale({ interactive: true })
 
-run().then(() => {})
+run()
+  .then(() => {})
+  .catch((err) => signale.fatal(err))
 
 async function run() {
-  try {
-    const name = 'serlo-org-client'
-    const { version } = await fetchPackageJSON()
+  const name = 'serlo-org-client'
+  const { version } = await fetchPackageJSON()
 
-    if (!(await shouldDeployPackage({ name, version }))) {
-      signale.info(`Skipping deployment of ${name}@${version}`)
-      return
-    }
-
-    signale.info(`Deploying ${name}@${version}`)
-    signale.pending('Uploading package…')
-
-    uploadPackage({ source: distPath, name, version })
-
-    signale.pending('Publishing package…')
-
-    await publishPackage({ name, version })
-
-    signale.success(`Successfully deployed ${name}@${version}`)
-  } catch (e) {
-    signale.fatal(e)
-    throw e
+  if (!(await shouldDeployPackage({ name, version }))) {
+    signale.info(`Skipping deployment of ${name}@${version}`)
+    return
   }
+
+  signale.info(`Deploying ${name}@${version}`)
+  signale.pending('Uploading package…')
+
+  uploadPackage({ source: distPath, name, version })
+
+  signale.pending('Publishing package…')
+
+  await publishPackage({ name, version })
+
+  signale.success(`Successfully deployed ${name}@${version}`)
 }
 
 async function fetchPackageJSON(): Promise<{ version: string }> {
