@@ -56,6 +56,9 @@ export async function publishPackage({
 
   function getEnvironments() {
     const [major, minor, patch] = version.split('.')
+
+    if (!patch) throw new Error(`illegal version number "${version}"`)
+
     return [
       ...(!patch.includes('-') ? [major, `${major}.${minor}`] : []),
       version,
