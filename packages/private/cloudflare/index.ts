@@ -67,8 +67,8 @@ export async function publishPackage({
       yield `${major}.${minor}`
       yield `${major}.${minor}.${patch}`
     } else {
-      for (let i = 1; i < prerelease.length; i++) {
-        yield `${major}.${minor}.${patch}-${prerelease.slice(0, 1).join('.')}`
+      for (let i = 1; i <= prerelease.length; i++) {
+        yield `${major}.${minor}.${patch}-${prerelease.slice(0, i).join('.')}`
       }
     }
   }
