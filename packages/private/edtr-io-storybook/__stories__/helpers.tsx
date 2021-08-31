@@ -62,7 +62,7 @@ export function addContentTypeStory({ name, ...other }: Story) {
 }
 
 export function addPluginStory({ name, initialState }: Omit<Story, 'type'>) {
-  addStory({ name: `Plugins/${name}`, type: 'article', initialState })
+  addStory({ name: `Plugins/${name}`, type: 'page', initialState })
 }
 
 export function Provider({ children }: { children: React.ReactNode }) {
