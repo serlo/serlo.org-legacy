@@ -210,16 +210,15 @@
     "ID of a video, e.g. 40744": "ID eines Videos, z.B. 40744",
     "Open the video in a new tab:": "Öffne das Video in einem neuen Tab",
     "Drag the video": "Verschiebe das Video",
-    "Exercises and exercise folders": "Aufgaben und Aufgabenordner",
-    "Add exercise": "Aufgabe hinzufügen",
-    "ID of an exercise, e.g. 54210": "ID einer Aufgabe, z.B. 54210",
-    "Open the exercise in a new tab:": "Öffne die Aufgabe in einem neuen Tab",
     "Title of the link": "Titel des Links",
     "Sources": "Quellen",
     "URL of the link": "URL des Links",
     "Open the link in a new tab:": "Öffne den Link in einem neuen Tab",
     "Drag the source": "Verschiebe die Quellenangabe",
-    "Add source": "Quellenangabe hinzufügen"
+    "Add source": "Quellenangabe hinzufügen",
+    "You can find more exercises in the following folder": "Weitere Aufgaben zum Thema findest du im folgenden Aufgabenordner",
+    "ID of an exercise folder, e.g. 30560": "ID eines Aufgabenordners, z.B. 30560",
+    "Open the exercise folder in a new tab:": "Öffne den Aufgabenordner in einem neuen Tab"
   },
   "coursePage": {
     "Explanation": "Erklärung",

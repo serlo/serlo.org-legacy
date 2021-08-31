@@ -49,9 +49,8 @@ import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from 'styled-components'
 import { useI18n } from '@serlo/i18n'
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap'
-import { faCopy, faNewspaper } from '@fortawesome/free-solid-svg-icons'
+import { faNewspaper } from '@fortawesome/free-solid-svg-icons'
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons/faPlayCircle'
-import { faFile } from '@fortawesome/free-solid-svg-icons/faFile'
 
 const relatedContentItemState = object({ id: string(), title: string() })
 
@@ -59,11 +58,11 @@ const articleState = object({
   introduction: child({ plugin: 'articleIntroduction' }),
   content: child({ plugin: 'rows' }),
   exercises: list(child({ plugin: 'injection' })),
+  exerciseFolder: relatedContentItemState,
   relatedContent: object({
     articles: list(relatedContentItemState),
     courses: list(relatedContentItemState),
     videos: list(relatedContentItemState),
-    exercises: list(relatedContentItemState),
   }),
   sources: list(
     object({
@@ -117,19 +116,27 @@ const spoilerTheme = {
 
 function ArticleEditor(props: ArticleProps) {
   const { editable, state } = props
-  const { introduction, content, exercises, relatedContent, sources } = state
+  const {
+    introduction,
+    content,
+    exercises,
+    exerciseFolder,
+    relatedContent,
+    sources,
+  } = state
 
   const i18n = useI18n()
   const [focusedInlineSetting, setFocusedInlineSetting] = React.useState<{
     id: string
-    index: number
+    index?: number
   } | null>(null)
 
-  function isFocused(id: string, index: number) {
+  function isFocused(id: string, index?: number) {
     return (
       focusedInlineSetting &&
       focusedInlineSetting.id === id &&
-      focusedInlineSetting.index === index
+      (focusedInlineSetting.index === undefined ||
+        focusedInlineSetting.index === index)
     )
   }
 
@@ -149,20 +156,36 @@ function ArticleEditor(props: ArticleProps) {
 
   function renderExercises() {
     const header = <h2>{i18n.t('article::Exercises')}</h2>
+    const folderHeader = (
+      <p>
+        {i18n.t('article::You can find more exercises in the following folder')}
+        :
+      </p>
+    )
 
     if (!editable) {
-      if (exercises.length === 0) return null
+      if (exercises.length === 0 || !exerciseFolder.id.value) return null
 
       return (
         <>
           {header}
-          {exercises.map((exercise, index) => {
+          {exercises.map((exercise) => {
             return (
               <React.Fragment key={exercise.id}>
                 {exercise.render()}
               </React.Fragment>
             )
           })}
+          {exerciseFolder.id.value ? (
+            <>
+              {folderHeader}
+              <div>
+                <a href={`/${exerciseFolder.id.value}`}>
+                  {exerciseFolder.title.value}
+                </a>
+              </div>
+            </>
+          ) : null}
         </>
       )
     }
@@ -240,15 +263,69 @@ function ArticleEditor(props: ArticleProps) {
             }}
           </Droppable>
         </DragDropContext>
-        {editable ? (
-          <AddButton
-            onClick={() => {
-              exercises.insert(exercises.length)
+        <AddButton
+          onClick={() => {
+            exercises.insert(exercises.length)
+          }}
+        >
+          {i18n.t('article::Add optional exercise')}
+        </AddButton>
+        {folderHeader}
+        {isFocused('exerciseFolder') ? (
+          <InlineSettings
+            onDelete={() => {
+              exerciseFolder.title.set('')
+              exerciseFolder.id.set('')
             }}
+            position="below"
           >
-            {i18n.t('article::Add optional exercise')}
-          </AddButton>
+            <InlineSettingsInput
+              value={
+                exerciseFolder.id.value !== ''
+                  ? `/${exerciseFolder.id.value}`
+                  : ''
+              }
+              placeholder={i18n.t(
+                'article::ID of an exercise folder, e.g. 30560'
+              )}
+              onChange={(event) => {
+                const newValue = event.target.value.replace(/[^0-9]/g, '')
+                exerciseFolder.id.set(newValue)
+              }}
+            />
+            <a
+              target="_blank"
+              href={
+                exerciseFolder.id.value !== ''
+                  ? `/${exerciseFolder.id.value}`
+                  : ''
+              }
+              rel="noopener noreferrer"
+            >
+              <OpenInNewTab
+                title={i18n.t(
+                  'article::Open the exercise folder in a new tab:'
+                )}
+              >
+                <Icon icon={faExternalLinkAlt} />
+              </OpenInNewTab>
+            </a>
+          </InlineSettings>
         ) : null}
+        <a>
+          <InlineInput
+            value={exerciseFolder.title.value}
+            onFocus={() => {
+              setFocusedInlineSetting({
+                id: 'exerciseFolder',
+              })
+            }}
+            onChange={(value) => {
+              exerciseFolder.title.set(value)
+            }}
+            placeholder={i18n.t('article::Title of the link')}
+          />
+        </a>
       </>
     )
   }
@@ -264,7 +341,7 @@ function ArticleEditor(props: ArticleProps) {
     )
 
     const types: {
-      section: 'articles' | 'courses' | 'videos' | 'exercises'
+      section: 'articles' | 'courses' | 'videos'
       label: string
       addLabel: string
       idPlaceholder: string
@@ -305,17 +382,6 @@ function ArticleEditor(props: ArticleProps) {
         ),
         dragLabel: i18n.t('article::Drag the video'),
       },
-      {
-        icon: <Icon icon={faCopy} fixedWidth />,
-        section: 'exercises',
-        label: i18n.t('article::Exercises and exercise folders'),
-        addLabel: i18n.t('article::Add exercise'),
-        idPlaceholder: i18n.t('article::ID of an exercise, e.g. 54210'),
-        openLinkInNewTabPlaceholder: i18n.t(
-          'article::Open the exercise in a new tab:'
-        ),
-        dragLabel: i18n.t('article::Drag the exercise'),
-      },
     ]
 
     const allItems = R.flatten(R.values(relatedContent))
@@ -336,7 +402,7 @@ function ArticleEditor(props: ArticleProps) {
   }
 
   function renderRelatedContentSection(type: {
-    section: 'articles' | 'courses' | 'videos' | 'exercises'
+    section: 'articles' | 'courses' | 'videos'
     label: string
     addLabel: string
     idPlaceholder: string
