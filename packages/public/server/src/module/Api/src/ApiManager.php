@@ -32,7 +32,6 @@ use Discussion\Entity\CommentInterface;
 use Entity\Entity\EntityInterface;
 use Entity\Entity\RevisionInterface;
 use License\Entity\LicenseInterface;
-use Notification\Entity\SubscriptionInterface;
 use Notification\SubscriptionManagerInterface;
 use Page\Entity\PageRepositoryInterface;
 use Page\Entity\PageRevisionInterface;
@@ -389,28 +388,11 @@ class ApiManager
         );
     }
 
-    public function setSubscriptions(UserInterface $user)
+    public function removeSubscriptions(UserInterface $user)
     {
-        $this->graphql->setCache(
-            $this->graphql->getCacheKey('/api/subscriptions/' . $user->getId()),
-            $this->getSubscriptionsData($user)
+        $this->graphql->removeCache(
+            $this->graphql->getCacheKey('/api/subscriptions/' . $user->getId())
         );
-    }
-
-    public function getSubscriptionsData(UserInterface $user)
-    {
-        $subscriptions = array_map(function (
-            SubscriptionInterface $subscription
-        ) {
-            return [
-                'id' => $subscription->getSubscribedObject()->getId(),
-            ];
-        },
-        $this->subscriptionManager->findSubscriptionsByUser($user)->toArray());
-        return [
-            'userId' => $user->getId(),
-            'subscriptions' => $subscriptions,
-        ];
     }
 
     public function setThreads(UuidInterface $uuid)
