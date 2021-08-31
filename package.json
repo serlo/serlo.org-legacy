@@ -18,7 +18,7 @@
     "c": "docker-compose run --rm server-composer",
     "deploy:images": "lerna run --stream deploy:image",
     "predeploy:packages": "lerna run --stream build --scope=@serlo/{client,static-assets} --include-filtered-dependencies",
-    "deploy:packages": "cross-env DEPLOY=true lerna run --stream deploy:package",
+    "deploy:packages": "lerna run --stream deploy:package",
     "down:server": "docker-compose down",
     "dump:sql": "ts-node scripts/mysql-dump",
     "format": "yarn _prettier --write",

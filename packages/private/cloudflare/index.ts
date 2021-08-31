@@ -33,8 +33,6 @@ export async function shouldDeployPackage({
   name: string
   version: string
 }) {
-  if (process.env.DEPLOY !== 'true') return false
-
   const target = `${name}@${version}`
   const response = await getCloudflarePackageValue({ key: target })
   return (await response.text()) !== target
