@@ -389,7 +389,7 @@ function InlineMath(props: InlineMathProps) {
   )
 }
 
-type GridFocusState = {
+interface GridFocusState {
   row: number
   column: number
 }

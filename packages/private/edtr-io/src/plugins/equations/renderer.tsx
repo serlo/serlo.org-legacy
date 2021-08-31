@@ -156,6 +156,6 @@ export function renderDownArrow() {
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center 5px',
       }}
-    ></td>
+    />
   )
 }
