@@ -52,7 +52,7 @@ export async function publishPackage({
   if (semanticVersion === null) throw new Error(`illegal version ${version}`)
 
   await Promise.all(
-    getEnvironments(semanticVersion).map((env) =>
+    getTargetVersions(semanticVersion).map((env) =>
       setCloudflarePackageValue({
         key: `${name}@${env}`,
         value: `${name}@${version}`,
@@ -60,7 +60,7 @@ export async function publishPackage({
     )
   )
 
-  function getEnvironments(version: semver.SemVer) {
+  function getTargetVersions(version: semver.SemVer) {
     const { major, minor, patch, prerelease } = version
 
     return !prerelease
