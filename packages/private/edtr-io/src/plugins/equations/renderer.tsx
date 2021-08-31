@@ -147,11 +147,12 @@ export function renderDownArrow() {
         vector-effect="non-scaling-stroke"
       />
     </svg>`
+  const downArrowBase64 = Buffer.from(downArrow).toString('base64')
 
   return (
     <td
       style={{
-        backgroundImage: `url('data:image/svg+xml;base64,${btoa(downArrow)}')`,
+        backgroundImage: `url('data:image/svg+xml;base64,${downArrowBase64}')`,
         backgroundSize: '20px calc(100% - 10px)',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center 5px',
