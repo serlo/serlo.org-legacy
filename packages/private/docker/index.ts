@@ -49,10 +49,10 @@ export function buildDockerImage({
     return
   }
 
-  const tags = Array.from(getTags(semanticVersion)).map((t) => t.toString())
+  const versions = getTargetVersions(semanticVersion).map((t) => t.toString())
 
-  runBuild(tags)
-  pushTags(tags)
+  runBuild(versions)
+  pushTags(versions)
 
   function shouldBuild() {
     const args = [
@@ -72,12 +72,13 @@ export function buildDockerImage({
     return images.length === 0
   }
 
-  function runBuild(tags: string[]) {
+  function runBuild(versions: string[]) {
+    const tags = [...toTags(name, versions), ...toTags(remoteName, versions)]
     const args = [
       'build',
       '-f',
       Dockerfile,
-      ...R.flatten(tags.map((tag) => ['-t', `${name}:${tag}`])),
+      ...tags.flatMap((tag) => ['-t', tag]),
       context,
     ]
     const result = spawnSync('docker', args, { stdio: 'inherit' })
@@ -85,29 +86,28 @@ export function buildDockerImage({
     if (result.status !== 0) throw new Error(`Error while building ${name}`)
   }
 
-  function pushTags(tags: string[]) {
-    const remoteTags = tags.map((tag) => `${remoteName}:${tag}`)
-    remoteTags.forEach((remoteTag) => {
+  function pushTags(versions: string[]) {
+    toTags(remoteName, versions).forEach((remoteTag) => {
       console.log('Pushing', remoteTag)
-      spawnSync('docker', ['tag', `${name}:latest`, remoteTag], {
+      const result = spawnSync('docker', ['push', remoteTag], {
         stdio: 'inherit',
       })
-      spawnSync('docker', ['push', remoteTag], { stdio: 'inherit' })
+      if (result.status !== 0)
+        throw new Error(`Error while pushing ${remoteTag}`)
     })
   }
 }
 
-function* getTags(version: semver.SemVer) {
+function getTargetVersions(version: semver.SemVer) {
   const { major, minor, patch, prerelease } = version
 
-  if (!prerelease) {
-    yield 'latest'
-    yield `${major}`
-    yield `${major}.${minor}`
-    yield `${major}.${minor}.${patch}`
-  } else {
-    for (let i = 1; i <= prerelease.length; i++) {
-      yield `${major}.${minor}.${patch}-${prerelease.slice(0, i).join('.')}`
-    }
-  }
+  return !prerelease
+    ? ['latest', `${major}`, `${major}.${minor}`, `${major}.${minor}.${patch}`]
+    : R.range(1, prerelease.length).map(
+        (i) => `${major}.${minor}.${patch}-${prerelease.slice(0, i).join('.')}`
+      )
+}
+
+function toTags(name: string, versions: string[]) {
+  return versions.map((version) => `${name}:${version}`)
 }
