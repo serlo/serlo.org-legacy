@@ -49,9 +49,7 @@ export function buildDockerImage({
     return
   }
 
-  const versions = Array.from(getTargetVersions(semanticVersion)).map((t) =>
-    t.toString()
-  )
+  const versions = getTargetVersions(semanticVersion).map((t) => t.toString())
 
   runBuild(versions)
   pushTags(versions)
@@ -100,19 +98,14 @@ export function buildDockerImage({
   }
 }
 
-function* getTargetVersions(version: semver.SemVer) {
+function getTargetVersions(version: semver.SemVer) {
   const { major, minor, patch, prerelease } = version
 
-  if (!prerelease) {
-    yield 'latest'
-    yield `${major}`
-    yield `${major}.${minor}`
-    yield `${major}.${minor}.${patch}`
-  } else {
-    for (let i = 1; i <= prerelease.length; i++) {
-      yield `${major}.${minor}.${patch}-${prerelease.slice(0, i).join('.')}`
-    }
-  }
+  return !prerelease
+    ? ['latest', `${major}`, `${major}.${minor}`, `${major}.${minor}.${patch}`]
+    : R.range(1, prerelease.length).map(
+        (i) => `${major}.${minor}.${patch}-${prerelease.slice(0, i).join('.')}`
+      )
 }
 
 function toTags(name: string, versions: string[]) {

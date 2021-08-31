@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import * as R from 'ramda'
 import * as semver from 'semver'
 import fetch from 'node-fetch'
 
@@ -51,7 +52,7 @@ export async function publishPackage({
   if (semanticVersion === null) throw new Error(`illegal version ${version}`)
 
   await Promise.all(
-    Array.from(getEnvironments(semanticVersion)).map((env) =>
+    getEnvironments(semanticVersion).map((env) =>
       setCloudflarePackageValue({
         key: `${name}@${env}`,
         value: `${name}@${version}`,
@@ -59,18 +60,15 @@ export async function publishPackage({
     )
   )
 
-  function* getEnvironments(version: semver.SemVer) {
+  function getEnvironments(version: semver.SemVer) {
     const { major, minor, patch, prerelease } = version
 
-    if (!prerelease) {
-      yield `${major}`
-      yield `${major}.${minor}`
-      yield `${major}.${minor}.${patch}`
-    } else {
-      for (let i = 1; i <= prerelease.length; i++) {
-        yield `${major}.${minor}.${patch}-${prerelease.slice(0, i).join('.')}`
-      }
-    }
+    return !prerelease
+      ? [`${major}`, `${major}.${minor}`, `${major}.${minor}.${patch}`]
+      : R.range(1, prerelease.length).map(
+          (i) =>
+            `${major}.${minor}.${patch}-${prerelease.slice(0, i).join('.')}`
+        )
   }
 }
 
