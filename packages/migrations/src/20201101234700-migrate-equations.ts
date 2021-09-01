@@ -229,7 +229,8 @@ export function migrateEquationsState(
       },
     }
   } catch (e) {
-    console.log('Failed to', e.message)
+    const error = e as Error
+    console.log('Failed to', error.message)
     return {
       plugin: 'deprecated',
       state: {
