@@ -101,11 +101,12 @@ export function buildDockerImage({
 function getTargetVersions(version: semver.SemVer) {
   const { major, minor, patch, prerelease } = version
 
-  return !prerelease
-    ? ['latest', `${major}`, `${major}.${minor}`, `${major}.${minor}.${patch}`]
-    : R.range(1, prerelease.length).map(
-        (i) => `${major}.${minor}.${patch}-${prerelease.slice(0, i).join('.')}`
+  return prerelease.length > 0
+    ? R.range(0, prerelease.length).map(
+        (i) =>
+          `${major}.${minor}.${patch}-${prerelease.slice(0, i + 1).join('.')}`
       )
+    : ['latest', `${major}`, `${major}.${minor}`, `${major}.${minor}.${patch}`]
 }
 
 function toTags(name: string, versions: string[]) {
