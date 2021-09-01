@@ -210,16 +210,15 @@
     "ID of a video, e.g. 40744": "ID of a video, e.g. 40744",
     "Open the video in a new tab:": "Open the video in a new tab:",
     "Drag the video": "Drag the video",
-    "Exercises and exercise folders": "Exercises and exercise folders",
-    "Add exercise": "Add exercise",
-    "ID of an exercise, e.g. 54210": "ID of an exercise, e.g. 54210",
-    "Open the exercise in a new tab:": "Open the exercise in a new tab:",
     "Title of the link": "Title of the link",
     "Sources": "Sources",
     "URL of the link": "URL of the link",
     "Open the link in a new tab:": "Open the link in a new tab:",
     "Drag the source": "Drag the source",
-    "Add source": "Add source"
+    "Add source": "Add source",
+    "You can find more exercises in the following folder": "You can find more exercises in the following folder",
+    "ID of an exercise folder, e.g. 30560": "ID of an exercise folder, e.g. 30560",
+    "Open the exercise folder in a new tab:": "Open the exercise folder in a new tab:"
   },
   "coursePage": {
     "Explanation": "Explicación",
