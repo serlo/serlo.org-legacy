@@ -21,8 +21,10 @@
  */
 import { spawnSync } from 'child_process'
 import * as path from 'path'
+import { Signale } from 'signale'
 
 const bucket = 'packages.serlo.org'
+const signale = new Signale({ interactive: true })
 
 export function uploadPackage({
   source,
@@ -34,19 +36,20 @@ export function uploadPackage({
   version: string
 }) {
   const target = `${name}@${version}`
-  const b = `gs://${bucket}`
-  const dest = `${b}/${trimSlashes(target)}/`
 
-  const { status } = spawnSync('gsutil', ['ls', dest])
-  if (status === 0) {
-    console.log('Destination folder already exists')
+  if (target.includes('/'))
+    throw new Error(`package ${target} contains a slash in the name or version`)
+
+  const dest = `gs://${bucket}/${target}/`
+
+  if (spawnSync('gsutil', ['ls', dest]).status === 0) {
+    signale.info('Destination folder already exists')
     return
   }
-  spawnSync('gsutil', ['-m', 'cp', '-r', path.join(source, '*'), dest], {
-    stdio: 'inherit',
-  })
 
-  function trimSlashes(p: string) {
-    return p.replace(/^\/+/, '').replace('//+$/', '')
-  }
+  const copyArgs = ['-m', 'cp', '-r', path.join(source, '*'), dest]
+  const copyResult = spawnSync('gsutil', copyArgs, { stdio: 'inherit' })
+
+  if (copyResult.status !== 0)
+    throw new Error(`Error while copying ${source} to ${dest}`)
 }
