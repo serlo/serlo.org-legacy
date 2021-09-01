@@ -172,7 +172,7 @@
   },
   "solution": {
     "Optionally explain the solution strategy here": "Beschreibe hier optional die Lösungsstrategie",
-    "For this exercise, you need the following fundamentals:": "Für diese Aufgabe benötigst Du folgendes Grundwissen:",
+    "For this exercise, you need the following fundamentals:": "Für diese Aufgabe benötigst du folgendes Grundwissen:",
     "ID of an article, e.g. 1855": "ID eines Artikels, z.B. 1855",
     "Open the article in a new tab:": "Öffne den Artikel in einem neuen Tab",
     "Title of the link": "Titel der Verlinkung",
@@ -188,7 +188,7 @@
     "Title for search engines": "Titel für Suchmaschinen",
     "Description for search engines": "Beschreibung für Suchmaschinen",
     "Title": "Titel",
-    "Write a short introduction": "Schreibe eine kurze Einführung",
+    "Write a short introduction": "Fasse das Thema des Artikels kurz zusammen",
     "Exercises": "Übungsaufgaben",
     "Drag the exercise": "Verschiebe die Aufgabe",
     "Remove exercise": "Entferne die Aufgabe",
@@ -210,16 +210,15 @@
     "ID of a video, e.g. 40744": "ID eines Videos, z.B. 40744",
     "Open the video in a new tab:": "Öffne das Video in einem neuen Tab",
     "Drag the video": "Verschiebe das Video",
-    "Exercises and exercise folders": "Aufgaben und Aufgabenordner",
-    "Add exercise": "Aufgabe hinzufügen",
-    "ID of an exercise, e.g. 54210": "ID einer Aufgabe, z.B. 54210",
-    "Open the exercise in a new tab:": "Öffne die Aufgabe in einem neuen Tab",
     "Title of the link": "Titel des Links",
     "Sources": "Quellen",
     "URL of the link": "URL des Links",
     "Open the link in a new tab:": "Öffne den Link in einem neuen Tab",
     "Drag the source": "Verschiebe die Quellenangabe",
-    "Add source": "Quellenangabe hinzufügen"
+    "Add source": "Quellenangabe hinzufügen",
+    "You can find more exercises in the following folder": "Weitere Aufgaben zum Thema findest du im folgenden Aufgabenordner",
+    "ID of an exercise folder, e.g. 30560": "ID eines Aufgabenordners, z.B. 30560",
+    "Open the exercise folder in a new tab:": "Öffne den Aufgabenordner in einem neuen Tab"
   },
   "coursePage": {
     "Explanation": "Erklärung",

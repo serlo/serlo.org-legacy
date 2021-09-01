@@ -34,7 +34,7 @@ class SubscriptionManagerListener extends AbstractListener
     {
         /** @var UserInterface $user */
         $user = $e->getParam('user');
-        $this->getApiManager()->setSubscriptions($user);
+        $this->getApiManager()->removeSubscriptions($user);
     }
 
     public function attachShared(SharedEventManagerInterface $events)

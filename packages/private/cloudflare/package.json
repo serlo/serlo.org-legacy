@@ -3,5 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/ramda": "^0.27.0",
+    "@types/semver": "^7.0.0",
+    "node-fetch": "^2.0.0",
+    "ramda": "^0.27.0",
+    "semver": "^7.0.0"
+  }
 }

@@ -19,7 +19,6 @@ jobs:
       - run: yarn lerna run build --include-dependencies --scope=@serlo/client
       - run: yarn lerna run deploy:package --scope=@serlo/client
         env:
-          DEPLOY: true
           CF_KEY: ${{ secrets.CF_KEY }}
   static-assets:
     runs-on: ubuntu-latest
@@ -36,5 +35,4 @@ jobs:
       - run: yarn lerna run build --include-dependencies --scope=@serlo/static-assets
       - run: yarn lerna run deploy:package --scope=@serlo/static-assets
         env:
-          DEPLOY: true
           CF_KEY: ${{ secrets.CF_KEY }}

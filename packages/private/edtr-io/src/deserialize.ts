@@ -85,8 +85,9 @@ export function deserialize({
     const { deserialize } = config[type]
     return succeed(deserialize(initialState))
   } catch (e) {
+    const error = e as Error
     if (typeof onError === 'function') {
-      onError(e, {
+      onError(error, {
         stack: JSON.stringify(stack),
       })
     }

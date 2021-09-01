@@ -27,7 +27,6 @@ addPluginStory({
   initialState: {
     id: 1337,
     license,
-    changes: '',
     title: 'Layout Tests',
     content: JSON.stringify({
       plugin: 'layout',
