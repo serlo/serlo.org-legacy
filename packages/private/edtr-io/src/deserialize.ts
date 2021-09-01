@@ -175,11 +175,11 @@ export function deserialize({
           introduction: { plugin: 'articleIntroduction' },
           content: convertedContent,
           exercises: [],
+          exerciseFolder: { id: '', title: '' },
           relatedContent: {
             articles: [],
             courses: [],
             videos: [],
-            exercises: [],
           },
           sources: [],
         },
