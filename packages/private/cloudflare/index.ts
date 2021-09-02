@@ -61,12 +61,12 @@ export async function publishPackage({
   function getTargetVersions(version: semver.SemVer) {
     const { major, minor, patch, prerelease } = version
 
-    return !prerelease
-      ? [`${major}`, `${major}.${minor}`, `${major}.${minor}.${patch}`]
-      : R.range(1, prerelease.length).map(
+    return prerelease.length > 0
+      ? R.range(0, prerelease.length).map(
           (i) =>
-            `${major}.${minor}.${patch}-${prerelease.slice(0, i).join('.')}`
+            `${major}.${minor}.${patch}-${prerelease.slice(0, i + 1).join('.')}`
         )
+      : [`${major}`, `${major}.${minor}`, `${major}.${minor}.${patch}`]
   }
 }
 
