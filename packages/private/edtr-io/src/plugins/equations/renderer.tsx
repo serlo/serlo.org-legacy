@@ -37,16 +37,19 @@ export const Table = styled.table({
   whiteSpace: 'nowrap',
 })
 
-export const LeftTd = styled.td({
+export const MathTd = styled.td({ verticalAlign: 'baseline' })
+
+export const LeftTd = styled(MathTd)({
   textAlign: 'right',
 })
 
 export const SignTd = styled.td({
   padding: '0 3px',
   textAlign: 'center',
+  verticalAlign: 'baseline',
 })
 
-export const TransformTd = styled.td({
+export const TransformTd = styled(MathTd)({
   paddingLeft: '5px',
 })
 
@@ -79,11 +82,11 @@ export function EquationsRenderer({ state }: EquationsProps) {
                       state={renderSignToString(step.sign.value as Sign)}
                     />
                   </SignTd>
-                  <td>
+                  <MathTd>
                     {step.right.value ? (
                       <MathRenderer inline state={step.right.value} />
                     ) : null}
-                  </td>
+                  </MathTd>
                   <TransformTd>
                     {step.transform.value ? (
                       <>
@@ -96,9 +99,7 @@ export function EquationsRenderer({ state }: EquationsProps) {
                 {isEmpty(step.explanation.id)(store.getState()) ? null : (
                   <ExplanationTr>
                     <td />
-                    <SignTd>
-                      {index === state.steps.length - 1 ? '→' : '↓'}
-                    </SignTd>
+                    {renderDownArrow()}
                     <td colSpan={2}>{step.explanation.render()}</td>
                   </ExplanationTr>
                 )}
@@ -108,5 +109,54 @@ export function EquationsRenderer({ state }: EquationsProps) {
         </tbody>
       </Table>
     </TableWrapper>
+  )
+}
+
+export function renderDownArrow() {
+  const downArrow = `
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          orient="auto"
+          markerUnits="strokeWidth"
+          refX="10"
+          refY="5"
+          viewBox="0 0 20 10"
+        >
+          <path
+            d="M 0,0 l 10,5 l -10,5"
+            stroke="#007ec1"
+            stroke-width="2"
+            fill="none"
+            vector-effect="non-scaling-size"
+          />
+        </marker>
+      </defs>
+
+      <line
+        x1="10"
+        y1="0%"
+        x2="10"
+        y2="99%"
+        stroke="#007ec1"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+        vector-effect="non-scaling-stroke"
+      />
+    </svg>`
+  const downArrowBase64 = Buffer.from(downArrow).toString('base64')
+
+  return (
+    <td
+      style={{
+        backgroundImage: `url('data:image/svg+xml;base64,${downArrowBase64}')`,
+        backgroundSize: '20px calc(100% - 10px)',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center 5px',
+      }}
+    />
   )
 }
