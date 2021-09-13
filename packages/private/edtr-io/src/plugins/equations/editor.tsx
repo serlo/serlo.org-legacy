@@ -101,6 +101,7 @@ export function EquationsEditor(props: EquationsProps) {
   React.useEffect(() => {
     if (nestedFocus) {
       gridFocus.setFocus({ row: 0, column: 0 })
+      store.dispatch(focus(props.id))
     }
   }, [nestedFocus])
 
