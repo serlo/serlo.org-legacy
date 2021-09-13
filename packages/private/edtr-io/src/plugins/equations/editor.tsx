@@ -243,7 +243,7 @@ export function EquationsEditor(props: EquationsProps) {
       transform: '',
       explanation: { plugin: 'text' },
     })
-    gridFocus.setFocus({ row: index, column: StepSegment.Left })
+    gridFocus.setFocus({ row: index - 1, column: StepSegment.Explanation })
   }
 
   function renderAddButton() {
