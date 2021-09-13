@@ -141,7 +141,7 @@ export function EquationsEditor(props: EquationsProps) {
         INSERT: (e) => {
           handleKeyDown(e, () => {
             if (!gridFocus.focus) return
-            insertNewEquationAt(gridFocus.focus.row + 1)
+            insertNewEquationWithFocus(gridFocus.focus.row + 1)
           })
         },
       }}
@@ -250,17 +250,16 @@ export function EquationsEditor(props: EquationsProps) {
     })
   }
 
+  function insertNewEquationWithFocus(index: number) {
+    insertNewEquationAt(index)
+    gridFocus.setFocus({ row: index, column: StepSegment.Left })
+  }
+
   function renderAddButton() {
     if (!nestedFocus) return
 
     return (
-      <AddButton
-        onClick={() => {
-          const index = state.steps.length
-          insertNewEquationAt(index)
-          gridFocus.setFocus({ row: index, column: StepSegment.Left })
-        }}
-      >
+      <AddButton onClick={() => insertNewEquationWithFocus(state.steps.length)}>
         {i18n.t('equations::add new equation')}
       </AddButton>
     )
