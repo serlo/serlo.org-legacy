@@ -249,7 +249,7 @@ export function EquationsEditor(props: EquationsProps) {
           <td colSpan={3} style={{ textAlign: 'center' }}>
             {state.firstExplanation.render({
               config: {
-                placeholder: i18n.t('equations::explanation'),
+                placeholder: i18n.t('equations::frist-explanation'),
               },
             })}
           </td>
@@ -323,7 +323,9 @@ function StepEditor(props: StepEditorProps) {
       >
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Left })}
-          placeholder={`[${i18n.t('equations::left-hand side')}]`}
+          placeholder={
+            row === 0 ? '3x+1' : `[${i18n.t('equations::left-hand side')}]`
+          }
           state={state.left}
           onChange={(src) => state.left.set(src)}
           onFocusNext={() => gridFocus.moveRight()}
@@ -360,7 +362,9 @@ function StepEditor(props: StepEditorProps) {
       >
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Right })}
-          placeholder={`[${i18n.t('equations::right-hand side')}]`}
+          placeholder={
+            row === 0 ? '7x' : `[${i18n.t('equations::right-hand side')}]`
+          }
           state={state.right}
           onChange={(src) => state.right.set(src)}
           onFocusNext={() => gridFocus.moveRight()}
@@ -372,10 +376,12 @@ function StepEditor(props: StepEditorProps) {
           gridFocus.setFocus({ row, column: StepSegment.Transform })
         }
       >
-        {state.transform.value === '' ? '' : '|'}
+        |{' '}
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Transform })}
-          placeholder={`[${i18n.t('equations::transformation')}]`}
+          placeholder={
+            row === 0 ? '-3x' : `[${i18n.t('equations::transformation')}]`
+          }
           state={state.transform}
           onChange={(src) => state.transform.set(src)}
           onFocusNext={() => gridFocus.moveRight()}
