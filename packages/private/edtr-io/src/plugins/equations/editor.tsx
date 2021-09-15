@@ -114,11 +114,13 @@ export function EquationsEditor(props: EquationsProps) {
   return (
     <HotKeys
       allowChanges
-      keyMap={{
+      keyMap={
+        /*{
         FOCUS_NEXT_OR_INSERT: 'tab',
         FOCUS_PREVIOUS: 'shift+tab',
         INSERT: 'return',
-      }}
+      }*/ {}
+      }
       handlers={{
         FOCUS_NEXT_OR_INSERT: (e) => {
           handleKeyDown(e, () => {
@@ -164,12 +166,12 @@ export function EquationsEditor(props: EquationsProps) {
               return (
                 <Table ref={provided.innerRef} {...provided.droppableProps}>
                   {renderFirstExplanation()}
-                  {state.steps.map((step, index) => {
+                  {state.steps.map((step, row) => {
                     return (
                       <Draggable
                         key={step.explanation.id}
                         draggableId={step.explanation.id}
-                        index={index}
+                        index={row}
                       >
                         {(provided: any) => {
                           return (
@@ -188,13 +190,13 @@ export function EquationsEditor(props: EquationsProps) {
                                 </td>
                                 <StepEditor
                                   gridFocus={gridFocus}
-                                  row={index}
+                                  row={row}
                                   state={step}
                                 />
                                 <td>
                                   <RemoveButton
                                     tabIndex={-1}
-                                    onClick={() => state.steps.remove(index)}
+                                    onClick={() => state.steps.remove(row)}
                                   >
                                     <Icon icon={faTimes} />
                                   </RemoveButton>
@@ -208,10 +210,25 @@ export function EquationsEditor(props: EquationsProps) {
                     )
 
                     function renderExplantionTr() {
-                      if (index === state.steps.length - 1) return null
+                      if (row === state.steps.length - 1) return null
 
                       return (
-                        <ExplanationTr>
+                        <ExplanationTr
+                          tabIndex={
+                            gridFocus.isFocused({
+                              row,
+                              column: StepSegment.Explanation,
+                            })
+                              ? -1
+                              : 0
+                          }
+                          onFocus={() =>
+                            gridFocus.setFocus({
+                              row,
+                              column: StepSegment.Explanation,
+                            })
+                          }
+                        >
                           <td />
                           <td />
                           {!isEmpty(step.explanation.id)(store.getState()) ? (
@@ -243,7 +260,10 @@ export function EquationsEditor(props: EquationsProps) {
 
   function renderFirstExplanation() {
     return (
-      <tbody>
+      <tbody
+        onFocus={() => gridFocus.setFocus('firstExplanation')}
+        tabIndex={gridFocus.isFocused('firstExplanation') ? -1 : 0}
+      >
         <ExplanationTr>
           <td />
           <td colSpan={3} style={{ textAlign: 'center' }}>
@@ -319,7 +339,10 @@ function StepEditor(props: StepEditorProps) {
   return (
     <>
       <LeftTd
-        onClick={() => gridFocus.setFocus({ row, column: StepSegment.Left })}
+        tabIndex={
+          gridFocus.isFocused({ row, column: StepSegment.Left }) ? -1 : 0
+        }
+        onFocus={() => gridFocus.setFocus({ row, column: StepSegment.Left })}
       >
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Left })}
@@ -358,7 +381,10 @@ function StepEditor(props: StepEditorProps) {
         </DropDown>
       </SignTd>
       <MathTd
-        onClick={() => gridFocus.setFocus({ row, column: StepSegment.Right })}
+        tabIndex={
+          gridFocus.isFocused({ row, column: StepSegment.Right }) ? -1 : 0
+        }
+        onFocus={() => gridFocus.setFocus({ row, column: StepSegment.Right })}
       >
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Right })}
@@ -372,7 +398,10 @@ function StepEditor(props: StepEditorProps) {
         />
       </MathTd>
       <TransformTd
-        onClick={() =>
+        tabIndex={
+          gridFocus.isFocused({ row, column: StepSegment.Transform }) ? -1 : 0
+        }
+        onFocus={() =>
           gridFocus.setFocus({ row, column: StepSegment.Transform })
         }
       >
