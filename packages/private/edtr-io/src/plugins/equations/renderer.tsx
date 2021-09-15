@@ -67,6 +67,7 @@ export function EquationsRenderer({ state }: EquationsProps) {
     <TableWrapper>
       <Table>
         <tbody>
+          {renderFirstExplanation()}
           {state.steps.map((step, index) => {
             return (
               <React.Fragment key={index}>
@@ -110,6 +111,24 @@ export function EquationsRenderer({ state }: EquationsProps) {
       </Table>
     </TableWrapper>
   )
+
+  function renderFirstExplanation() {
+    if (isEmpty(state.firstExplanation.id)(store.getState())) return
+
+    return (
+      <>
+        <ExplanationTr>
+          <td colSpan={3} style={{ textAlign: 'center' }}>
+            {state.firstExplanation.render()}
+          </td>
+        </ExplanationTr>
+        <tr style={{ height: '30px' }}>
+          <td />
+          {renderDownArrow()}
+        </tr>
+      </>
+    )
+  }
 }
 
 export function renderDownArrow() {

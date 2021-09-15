@@ -85,16 +85,20 @@ export function EquationsEditor(props: EquationsProps) {
     R.includes(
       focusedElement,
       props.state.steps.map((step) => step.explanation.id)
-    )
+    ) ||
+    focusedElement === state.firstExplanation.id
 
   const gridFocus = useGridFocus({
     rows: state.steps.length,
     columns: 4,
     focusNext: () => store.dispatch(focusNext()),
     focusPrevious: () => store.dispatch(focusPrevious()),
-    onFocusChanged: ({ row, column }) => {
-      if (column === StepSegment.Explanation)
-        store.dispatch(focus(props.state.steps[row].explanation.id))
+    onFocusChanged: (state) => {
+      if (state === 'firstExplanation') {
+        store.dispatch(focus(props.state.firstExplanation.id))
+      } else if (state.column === StepSegment.Explanation) {
+        store.dispatch(focus(props.state.steps[state.row].explanation.id))
+      }
     },
   })
 
@@ -140,7 +144,8 @@ export function EquationsEditor(props: EquationsProps) {
         },
         INSERT: (e) => {
           handleKeyDown(e, () => {
-            if (!gridFocus.focus) return
+            if (!gridFocus.focus || gridFocus.focus === 'firstExplanation')
+              return
             insertNewEquationWithFocus(gridFocus.focus.row + 1)
           })
         },
@@ -158,6 +163,7 @@ export function EquationsEditor(props: EquationsProps) {
             {(provided: any) => {
               return (
                 <Table ref={provided.innerRef} {...provided.droppableProps}>
+                  {renderFirstExplanation()}
                   {state.steps.map((step, index) => {
                     return (
                       <Draggable
@@ -234,6 +240,30 @@ export function EquationsEditor(props: EquationsProps) {
       </TableWrapper>
     </HotKeys>
   )
+
+  function renderFirstExplanation() {
+    return (
+      <tbody>
+        <ExplanationTr>
+          <td />
+          <td colSpan={3} style={{ textAlign: 'center' }}>
+            {state.firstExplanation.render({
+              config: {
+                placeholder: i18n.t('equations::explanation'),
+              },
+            })}
+          </td>
+        </ExplanationTr>
+        <tr style={{ height: '30px' }}>
+          <td />
+          <td />
+          {!isEmpty(state.firstExplanation.id)(store.getState())
+            ? renderDownArrow()
+            : null}
+        </tr>
+      </tbody>
+    )
+  }
 
   function handleKeyDown(e: KeyboardEvent | undefined, next: () => void) {
     e && e.preventDefault()
@@ -399,10 +429,12 @@ function InlineMath(props: InlineMathProps) {
   )
 }
 
-interface GridFocusState {
-  row: number
-  column: number
-}
+type GridFocusState =
+  | {
+      row: number
+      column: number
+    }
+  | 'firstExplanation'
 
 interface GridFocus {
   focus: GridFocusState | null
@@ -433,12 +465,23 @@ function useGridFocus({
 
   return {
     focus,
-    isFocused({ row, column }) {
-      return focus !== null && focus.row === row && focus.column === column
+    isFocused(state) {
+      if (focus === null) return false
+      if (focus === 'firstExplanation') return state === focus
+
+      return (
+        state !== 'firstExplanation' &&
+        focus.row === state.row &&
+        focus.column === state.column
+      )
     },
     setFocus,
     moveRight() {
       if (focus === null) return
+      if (focus === 'firstExplanation') {
+        setFocus({ row: 0, column: 0 })
+        return
+      }
       // Last column
       if (focus.column === columns - 1) {
         // Last row
@@ -453,12 +496,16 @@ function useGridFocus({
     },
     moveLeft() {
       if (focus === null) return
+      if (focus === 'firstExplanation') {
+        focusPrevious()
+        return
+      }
 
       // First column
       if (focus.column === 0) {
         // First row
         if (focus.row === 0) {
-          focusPrevious()
+          setFocus('firstExplanation')
         } else {
           setFocus({ row: focus.row - 1, column: columns - 1 })
         }
