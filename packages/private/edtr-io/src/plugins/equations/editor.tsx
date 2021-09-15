@@ -98,6 +98,8 @@ export function EquationsEditor(props: EquationsProps) {
         store.dispatch(focus(props.state.firstExplanation.id))
       } else if (state.column === StepSegment.Explanation) {
         store.dispatch(focus(props.state.steps[state.row].explanation.id))
+      } else {
+        store.dispatch(focus(props.id))
       }
     },
   })
@@ -164,12 +166,12 @@ export function EquationsEditor(props: EquationsProps) {
               return (
                 <Table ref={provided.innerRef} {...provided.droppableProps}>
                   {renderFirstExplanation()}
-                  {state.steps.map((step, index) => {
+                  {state.steps.map((step, row) => {
                     return (
                       <Draggable
                         key={step.explanation.id}
                         draggableId={step.explanation.id}
-                        index={index}
+                        index={row}
                       >
                         {(provided: any) => {
                           return (
@@ -188,13 +190,13 @@ export function EquationsEditor(props: EquationsProps) {
                                 </td>
                                 <StepEditor
                                   gridFocus={gridFocus}
-                                  row={index}
+                                  row={row}
                                   state={step}
                                 />
                                 <td>
                                   <RemoveButton
                                     tabIndex={-1}
-                                    onClick={() => state.steps.remove(index)}
+                                    onClick={() => state.steps.remove(row)}
                                   >
                                     <Icon icon={faTimes} />
                                   </RemoveButton>
@@ -208,10 +210,17 @@ export function EquationsEditor(props: EquationsProps) {
                     )
 
                     function renderExplantionTr() {
-                      if (index === state.steps.length - 1) return null
+                      if (row === state.steps.length - 1) return null
 
                       return (
-                        <ExplanationTr>
+                        <ExplanationTr
+                          onFocus={() =>
+                            gridFocus.setFocus({
+                              row,
+                              column: StepSegment.Explanation,
+                            })
+                          }
+                        >
                           <td />
                           <td />
                           {!isEmpty(step.explanation.id)(store.getState()) ? (
@@ -243,7 +252,7 @@ export function EquationsEditor(props: EquationsProps) {
 
   function renderFirstExplanation() {
     return (
-      <tbody>
+      <tbody onFocus={() => gridFocus.setFocus('firstExplanation')}>
         <ExplanationTr>
           <td />
           <td colSpan={3} style={{ textAlign: 'center' }}>
