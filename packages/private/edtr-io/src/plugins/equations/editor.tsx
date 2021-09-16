@@ -85,16 +85,22 @@ export function EquationsEditor(props: EquationsProps) {
     R.includes(
       focusedElement,
       props.state.steps.map((step) => step.explanation.id)
-    )
+    ) ||
+    focusedElement === state.firstExplanation.id
 
   const gridFocus = useGridFocus({
     rows: state.steps.length,
     columns: 4,
     focusNext: () => store.dispatch(focusNext()),
     focusPrevious: () => store.dispatch(focusPrevious()),
-    onFocusChanged: ({ row, column }) => {
-      if (column === StepSegment.Explanation)
-        store.dispatch(focus(props.state.steps[row].explanation.id))
+    onFocusChanged: (state) => {
+      if (state === 'firstExplanation') {
+        store.dispatch(focus(props.state.firstExplanation.id))
+      } else if (state.column === StepSegment.Explanation) {
+        store.dispatch(focus(props.state.steps[state.row].explanation.id))
+      } else {
+        store.dispatch(focus(props.id))
+      }
     },
   })
 
@@ -140,7 +146,8 @@ export function EquationsEditor(props: EquationsProps) {
         },
         INSERT: (e) => {
           handleKeyDown(e, () => {
-            if (!gridFocus.focus) return
+            if (!gridFocus.focus || gridFocus.focus === 'firstExplanation')
+              return
             insertNewEquationWithFocus(gridFocus.focus.row + 1)
           })
         },
@@ -158,12 +165,13 @@ export function EquationsEditor(props: EquationsProps) {
             {(provided: any) => {
               return (
                 <Table ref={provided.innerRef} {...provided.droppableProps}>
-                  {state.steps.map((step, index) => {
+                  {renderFirstExplanation()}
+                  {state.steps.map((step, row) => {
                     return (
                       <Draggable
                         key={step.explanation.id}
                         draggableId={step.explanation.id}
-                        index={index}
+                        index={row}
                       >
                         {(provided: any) => {
                           return (
@@ -182,13 +190,13 @@ export function EquationsEditor(props: EquationsProps) {
                                 </td>
                                 <StepEditor
                                   gridFocus={gridFocus}
-                                  row={index}
+                                  row={row}
                                   state={step}
                                 />
                                 <td>
                                   <RemoveButton
                                     tabIndex={-1}
-                                    onClick={() => state.steps.remove(index)}
+                                    onClick={() => state.steps.remove(row)}
                                   >
                                     <Icon icon={faTimes} />
                                   </RemoveButton>
@@ -202,10 +210,17 @@ export function EquationsEditor(props: EquationsProps) {
                     )
 
                     function renderExplantionTr() {
-                      if (index === state.steps.length - 1) return null
+                      if (row === state.steps.length - 1) return null
 
                       return (
-                        <ExplanationTr>
+                        <ExplanationTr
+                          onFocus={() =>
+                            gridFocus.setFocus({
+                              row,
+                              column: StepSegment.Explanation,
+                            })
+                          }
+                        >
                           <td />
                           <td />
                           {!isEmpty(step.explanation.id)(store.getState()) ? (
@@ -234,6 +249,30 @@ export function EquationsEditor(props: EquationsProps) {
       </TableWrapper>
     </HotKeys>
   )
+
+  function renderFirstExplanation() {
+    return (
+      <tbody onFocus={() => gridFocus.setFocus('firstExplanation')}>
+        <ExplanationTr>
+          <td />
+          <td colSpan={3} style={{ textAlign: 'center' }}>
+            {state.firstExplanation.render({
+              config: {
+                placeholder: i18n.t('equations::frist-explanation'),
+              },
+            })}
+          </td>
+        </ExplanationTr>
+        <tr style={{ height: '30px' }}>
+          <td />
+          <td />
+          {!isEmpty(state.firstExplanation.id)(store.getState())
+            ? renderDownArrow()
+            : null}
+        </tr>
+      </tbody>
+    )
+  }
 
   function handleKeyDown(e: KeyboardEvent | undefined, next: () => void) {
     e && e.preventDefault()
@@ -293,7 +332,9 @@ function StepEditor(props: StepEditorProps) {
       >
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Left })}
-          placeholder={`[${i18n.t('equations::left-hand side')}]`}
+          placeholder={
+            row === 0 ? '3x+1' : `[${i18n.t('equations::left-hand side')}]`
+          }
           state={state.left}
           onChange={(src) => state.left.set(src)}
           onFocusNext={() => gridFocus.moveRight()}
@@ -330,7 +371,9 @@ function StepEditor(props: StepEditorProps) {
       >
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Right })}
-          placeholder={`[${i18n.t('equations::right-hand side')}]`}
+          placeholder={
+            row === 0 ? '7x' : `[${i18n.t('equations::right-hand side')}]`
+          }
           state={state.right}
           onChange={(src) => state.right.set(src)}
           onFocusNext={() => gridFocus.moveRight()}
@@ -342,10 +385,12 @@ function StepEditor(props: StepEditorProps) {
           gridFocus.setFocus({ row, column: StepSegment.Transform })
         }
       >
-        {state.transform.value === '' ? '' : '|'}
+        |{' '}
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Transform })}
-          placeholder={`[${i18n.t('equations::transformation')}]`}
+          placeholder={
+            row === 0 ? '-3x' : `[${i18n.t('equations::transformation')}]`
+          }
           state={state.transform}
           onChange={(src) => state.transform.set(src)}
           onFocusNext={() => gridFocus.moveRight()}
@@ -399,10 +444,12 @@ function InlineMath(props: InlineMathProps) {
   )
 }
 
-interface GridFocusState {
-  row: number
-  column: number
-}
+type GridFocusState =
+  | {
+      row: number
+      column: number
+    }
+  | 'firstExplanation'
 
 interface GridFocus {
   focus: GridFocusState | null
@@ -433,12 +480,23 @@ function useGridFocus({
 
   return {
     focus,
-    isFocused({ row, column }) {
-      return focus !== null && focus.row === row && focus.column === column
+    isFocused(state) {
+      if (focus === null) return false
+      if (focus === 'firstExplanation') return state === focus
+
+      return (
+        state !== 'firstExplanation' &&
+        focus.row === state.row &&
+        focus.column === state.column
+      )
     },
     setFocus,
     moveRight() {
       if (focus === null) return
+      if (focus === 'firstExplanation') {
+        setFocus({ row: 0, column: 0 })
+        return
+      }
       // Last column
       if (focus.column === columns - 1) {
         // Last row
@@ -453,12 +511,16 @@ function useGridFocus({
     },
     moveLeft() {
       if (focus === null) return
+      if (focus === 'firstExplanation') {
+        focusPrevious()
+        return
+      }
 
       // First column
       if (focus.column === 0) {
         // First row
         if (focus.row === 0) {
-          focusPrevious()
+          setFocus('firstExplanation')
         } else {
           setFocus({ row: focus.row - 1, column: columns - 1 })
         }
