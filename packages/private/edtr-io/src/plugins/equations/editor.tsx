@@ -267,7 +267,13 @@ export function EquationsEditor(props: EquationsProps) {
                           <td colSpan={2}>
                             {step.explanation.render({
                               config: {
-                                placeholder: i18n.t('equations::explanation'),
+                                placeholder: i18n.t(
+                                  row === 0 &&
+                                    transformationTarget ===
+                                      TransformationTarget.Term
+                                    ? 'equations::term-first-explanation'
+                                    : 'equations::explanation'
+                                ),
                               },
                             })}
                           </td>
@@ -422,7 +428,11 @@ function StepEditor(props: StepEditorProps) {
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Right })}
           placeholder={
-            row === 0 ? '7x' : `[${i18n.t('equations::right-hand side')}]`
+            row === 0
+              ? '4x+3x'
+              : row === 1 && transformationTarget === TransformationTarget.Term
+              ? '7x'
+              : `[${i18n.t('equations::right-hand side')}]`
           }
           state={state.right}
           onChange={(src) => state.right.set(src)}
