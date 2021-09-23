@@ -42,6 +42,7 @@ export const stepProps = object({
 const equationsState = object({
   steps: list(stepProps, 2),
   firstExplanation: child({ plugin: 'text' }),
+  transformationTarget: string('equation'),
 })
 
 export type EquationsPluginState = typeof equationsState
