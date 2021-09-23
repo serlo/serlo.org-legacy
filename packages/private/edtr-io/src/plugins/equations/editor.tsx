@@ -258,7 +258,7 @@ export function EquationsEditor(props: EquationsProps) {
           <td colSpan={3} style={{ textAlign: 'center' }}>
             {state.firstExplanation.render({
               config: {
-                placeholder: i18n.t('equations::frist-explanation'),
+                placeholder: i18n.t('equations::first-explanation'),
               },
             })}
           </td>
