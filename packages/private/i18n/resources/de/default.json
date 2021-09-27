@@ -51,8 +51,8 @@
     "Current": "Aktuell",
     "Author": "Verfasser",
     "Created at": "Zeitstempel",
-    "Equations": "Gleichungen",
-    "Create mathematical equations and terms.": "Füge mathematische Gleichungen und Terme hinzu.",
+    "Equations": "Gleichungen und Terme",
+    "Create mathematical equations and terms.": "Löse mehrzeilige Gleichungen und erstelle Termumformungen.",
     "Settings": "Einstellungen"
   },
   "anchor": {
@@ -255,10 +255,13 @@
     "Create solution": "Lösung hinzufügen"
   },
   "equations": {
-    "explanation": "Erklärung",
     "left-hand side": "linke Seite",
-    "right-hand side": "rechte Seite",
-    "transformation": "Umformung"
+    "transformation": "Umformung",
+    "Equate terms": "Terme gleichsetzen",
+    "Add new equation": "Neue Gleichung hinzufügen",
+    "Mode": "Modus",
+    "Transformation of equations": "Gleichungsumformung",
+    "Transformation of terms": "Termumformung"
   },
   "mathPuzzle": {
     "Source code": "Quellcode"

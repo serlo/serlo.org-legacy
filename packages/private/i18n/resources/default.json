@@ -255,10 +255,13 @@
     "Create solution": "Create solution"
   },
   "equations": {
-    "explanation": "explanation",
     "left-hand side": "left-hand side",
-    "right-hand side": "right-hand side",
-    "transformation": "transformation"
+    "transformation": "transformation",
+    "Equate terms": "Equate terms",
+    "Add new equation": "Add new equation",
+    "Mode": "Mode",
+    "Transformation of equations": "Transformation of equations",
+    "Transformation of terms": "Transformation of terms"
   },
   "mathPuzzle": {
     "Source code": "Source code"
