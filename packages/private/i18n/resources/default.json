@@ -258,10 +258,10 @@
     "left-hand side": "left-hand side",
     "transformation": "transformation",
     "Equate terms": "Equate terms",
-    "Add new equation": "Add new equation",
     "Mode": "Mode",
     "Transformation of equations": "Transformation of equations",
-    "Transformation of terms": "Transformation of terms"
+    "Transformation of terms": "Transformation of terms",
+    "Add new row": "Add new row"
   },
   "mathPuzzle": {
     "Source code": "Source code"

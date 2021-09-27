@@ -271,7 +271,7 @@ export function EquationsEditor(props: EquationsProps) {
                                   row === 0 &&
                                     transformationTarget ===
                                       TransformationTarget.Term
-                                    ? 'equations::Summarize term'
+                                    ? 'equations::Summarize terms'
                                     : 'equations::Explanation'
                                 ),
                               },
@@ -346,7 +346,7 @@ export function EquationsEditor(props: EquationsProps) {
 
     return (
       <AddButton onClick={() => insertNewEquationWithFocus(state.steps.length)}>
-        {i18n.t('equations::Add new equation')}
+        {i18n.t('equations::Add new row')}
       </AddButton>
     )
   }

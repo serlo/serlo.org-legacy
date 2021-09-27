@@ -258,10 +258,10 @@
     "left-hand side": "linke Seite",
     "transformation": "Umformung",
     "Equate terms": "Terme gleichsetzen",
-    "Add new equation": "Neue Gleichung hinzufügen",
     "Mode": "Modus",
     "Transformation of equations": "Gleichungsumformung",
-    "Transformation of terms": "Termumformung"
+    "Transformation of terms": "Termumformung",
+    "Add new row": "Neue Zeile hinzufügen"
   },
   "mathPuzzle": {
     "Source code": "Quellcode"
