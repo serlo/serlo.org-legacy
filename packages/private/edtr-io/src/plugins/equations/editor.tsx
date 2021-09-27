@@ -39,6 +39,8 @@ import {
   SignTd,
   Table,
   TableWrapper,
+  toTransformationTarget,
+  TransformationTarget,
   TransformTd,
 } from './renderer'
 import {
@@ -56,11 +58,6 @@ enum StepSegment {
   Right = 1,
   Transform = 2,
   Explanation = 3,
-}
-
-enum TransformationTarget {
-  Equation = 'equation',
-  Term = 'term',
 }
 
 const preferenceKey = 'katex:usevisualmath'
@@ -93,11 +90,9 @@ export function EquationsEditor(props: EquationsProps) {
     ) ||
     focusedElement === state.firstExplanation.id
 
-  const transformationTarget = isTransformationTarget(
+  const transformationTarget = toTransformationTarget(
     state.transformationTarget.value
   )
-    ? state.transformationTarget.value
-    : TransformationTarget.Equation
 
   const gridFocus = useGridFocus({
     rows: state.steps.length,
@@ -349,10 +344,6 @@ export function EquationsEditor(props: EquationsProps) {
       </AddButton>
     )
   }
-}
-
-function isTransformationTarget(text: string): text is TransformationTarget {
-  return Object.values<string>(TransformationTarget).includes(text)
 }
 
 const DropDown = styled.select({

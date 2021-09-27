@@ -62,15 +62,18 @@ export const ExplanationTr = styled.tr({
 
 export function EquationsRenderer({ state }: EquationsProps) {
   const store = useScopedStore()
+  const transformationTarget = toTransformationTarget(
+    state.transformationTarget.value
+  )
 
   return (
     <TableWrapper>
       <Table>
         <tbody>
           {renderFirstExplanation()}
-          {state.steps.map((step, index) => {
+          {state.steps.map((step, row) => {
             return (
-              <React.Fragment key={index}>
+              <React.Fragment key={row}>
                 <tr>
                   <LeftTd>
                     {step.left.value ? (
@@ -78,10 +81,13 @@ export function EquationsRenderer({ state }: EquationsProps) {
                     ) : null}
                   </LeftTd>
                   <SignTd>
-                    <MathRenderer
-                      inline
-                      state={renderSignToString(step.sign.value as Sign)}
-                    />
+                    {(row !== 0 ||
+                      transformationTarget !== TransformationTarget.Term) && (
+                      <MathRenderer
+                        inline
+                        state={renderSignToString(step.sign.value as Sign)}
+                      />
+                    )}
                   </SignTd>
                   <MathTd>
                     {step.right.value ? (
@@ -178,4 +184,17 @@ export function renderDownArrow() {
       }}
     />
   )
+}
+
+export enum TransformationTarget {
+  Equation = 'equation',
+  Term = 'term',
+}
+
+export function toTransformationTarget(text: string): TransformationTarget {
+  return isTransformationTarget(text) ? text : TransformationTarget.Equation
+}
+
+function isTransformationTarget(text: string): text is TransformationTarget {
+  return Object.values<string>(TransformationTarget).includes(text)
 }
