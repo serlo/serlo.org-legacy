@@ -179,10 +179,10 @@ export function EquationsEditor(props: EquationsProps) {
             onChange={(e) => state.transformationTarget.set(e.target.value)}
           >
             <option value={TransformationTarget.Equation}>
-              {i18n.t('equations::Transformation Target::Equation')}
+              {i18n.t('equations::Equation')}
             </option>
             <option value={TransformationTarget.Term}>
-              {i18n.t('equations::Transformation Target::Term')}
+              {i18n.t('equations::Term')}
             </option>
           </select>
         </div>
