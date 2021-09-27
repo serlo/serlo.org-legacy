@@ -420,13 +420,9 @@ function StepEditor(props: StepEditorProps) {
           placeholder={
             row === 0
               ? '4x+3x'
-              : row === 1 && transformationTarget === TransformationTarget.Term
-              ? '7x'
-              : `[${
-                  transformationTarget === TransformationTarget.Term
-                    ? i18n.t('equations::Term')
-                    : i18n.t('equations::right-hand side')
-                }]`
+              : transformationTarget === TransformationTarget.Term
+              ? `[${i18n.t('equations::Term')}]`
+              : `[${i18n.t('equations::right-hand side')}]`
           }
           state={state.right}
           onChange={(src) => state.right.set(src)}
