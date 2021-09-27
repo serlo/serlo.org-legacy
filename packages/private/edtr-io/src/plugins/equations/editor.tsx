@@ -271,8 +271,8 @@ export function EquationsEditor(props: EquationsProps) {
                                   row === 0 &&
                                     transformationTarget ===
                                       TransformationTarget.Term
-                                    ? 'equations::term-first-explanation'
-                                    : 'equations::explanation'
+                                    ? 'equations::Summarize term'
+                                    : 'equations::Explanation'
                                 ),
                               },
                             })}
@@ -302,7 +302,7 @@ export function EquationsEditor(props: EquationsProps) {
           <td colSpan={3} style={{ textAlign: 'center' }}>
             {state.firstExplanation.render({
               config: {
-                placeholder: i18n.t('equations::first-explanation'),
+                placeholder: i18n.t('equations::Equate terms'),
               },
             })}
           </td>
@@ -346,7 +346,7 @@ export function EquationsEditor(props: EquationsProps) {
 
     return (
       <AddButton onClick={() => insertNewEquationWithFocus(state.steps.length)}>
-        {i18n.t('equations::add new equation')}
+        {i18n.t('equations::Add new equation')}
       </AddButton>
     )
   }
