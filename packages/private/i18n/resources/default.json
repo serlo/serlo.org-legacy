@@ -261,7 +261,11 @@
     "Mode": "Mode",
     "Transformation of equations": "Transformation of equations",
     "Transformation of terms": "Transformation of terms",
-    "Add new row": "Add new row"
+    "Add new row": "Add new row",
+    "Summarize terms": "Summarize terms",
+    "Explanation": "Explanation",
+    "Term": "Term",
+    "right-hand side": "right-hand side"
   },
   "mathPuzzle": {
     "Source code": "Source code"

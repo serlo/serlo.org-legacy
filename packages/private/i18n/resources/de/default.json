@@ -261,7 +261,11 @@
     "Mode": "Modus",
     "Transformation of equations": "Gleichungsumformung",
     "Transformation of terms": "Termumformung",
-    "Add new row": "Neue Zeile hinzufügen"
+    "Add new row": "Neue Zeile hinzufügen",
+    "Summarize terms": "Fasse Terme zusammen",
+    "Explanation": "Erklärung",
+    "Term": "Term",
+    "right-hand side": "rechte Seite"
   },
   "mathPuzzle": {
     "Source code": "Quellcode"

@@ -267,13 +267,12 @@ export function EquationsEditor(props: EquationsProps) {
                           <td colSpan={2}>
                             {step.explanation.render({
                               config: {
-                                placeholder: i18n.t(
+                                placeholder:
                                   row === 0 &&
-                                    transformationTarget ===
-                                      TransformationTarget.Term
-                                    ? 'equations::Summarize terms'
-                                    : 'equations::Explanation'
-                                ),
+                                  transformationTarget ===
+                                    TransformationTarget.Term
+                                    ? i18n.t('equations::Summarize terms')
+                                    : i18n.t('equations::Explanation'),
                               },
                             })}
                           </td>
@@ -432,11 +431,11 @@ function StepEditor(props: StepEditorProps) {
               ? '4x+3x'
               : row === 1 && transformationTarget === TransformationTarget.Term
               ? '7x'
-              : `[${i18n.t(
+              : `[${
                   transformationTarget === TransformationTarget.Term
-                    ? 'equations::Term'
-                    : 'equations::right-hand side'
-                )}]`
+                    ? i18n.t('equations::Term')
+                    : i18n.t('equations::right-hand side')
+                }]`
           }
           state={state.right}
           onChange={(src) => state.right.set(src)}
