@@ -569,7 +569,7 @@ function useGridFocus({
             column: firstColumn(transformationTarget),
           })
         }
-      } else if (focus.column === lastColumn(transformationTarget)) {
+      } else if (focus.column === columns - 1) {
         setFocus({ row: focus.row + 1, column: StepSegment.Left })
       } else {
         setFocus({ row: focus.row, column: focus.column + 1 })
