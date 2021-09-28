@@ -51,9 +51,9 @@
     "Current": "Current",
     "Author": "Author",
     "Created at": "Created at",
-    "Equations": "Equations",
-    "Create mathematical equations and terms.": "Create mathematical equations and terms.",
-    "Settings": "Settings"
+    "Settings": "Settings",
+    "Terms and equations": "Terms and equations",
+    "Write term manipulations and solve multiline equations.": "Write term manipulations and solve multiline equations."
   },
   "anchor": {
     "Identifier": "Identifier",
@@ -257,15 +257,15 @@
   "equations": {
     "left-hand side": "left-hand side",
     "transformation": "transformation",
-    "Equate terms": "Equate terms",
     "Mode": "Mode",
     "Transformation of equations": "Transformation of equations",
     "Transformation of terms": "Transformation of terms",
     "Add new row": "Add new row",
-    "Summarize terms": "Summarize terms",
     "Explanation": "Explanation",
     "Term": "Term",
-    "right-hand side": "right-hand side"
+    "right-hand side": "right-hand side",
+    "Combine like terms.": "Combine like terms.",
+    "Set the terms equal to each other.": "Set the terms equal to each other."
   },
   "mathPuzzle": {
     "Source code": "Source code"

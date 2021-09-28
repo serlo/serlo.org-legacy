@@ -51,9 +51,9 @@
     "Current": "Aktuell",
     "Author": "Verfasser",
     "Created at": "Zeitstempel",
-    "Equations": "Gleichungen und Terme",
-    "Create mathematical equations and terms.": "Löse mehrzeilige Gleichungen und erstelle Termumformungen.",
-    "Settings": "Einstellungen"
+    "Settings": "Einstellungen",
+    "Terms and equations": "Terme und Gleichungen",
+    "Write term manipulations and solve multiline equations.": "Erstelle Termumformungen und löse mehrzeilige Gleichungen."
   },
   "anchor": {
     "Identifier": "Name",
@@ -257,15 +257,15 @@
   "equations": {
     "left-hand side": "linke Seite",
     "transformation": "Umformung",
-    "Equate terms": "Terme gleichsetzen",
     "Mode": "Modus",
     "Transformation of equations": "Gleichungsumformung",
     "Transformation of terms": "Termumformung",
     "Add new row": "Neue Zeile hinzufügen",
-    "Summarize terms": "Fasse zusammen",
     "Explanation": "Erklärung",
     "Term": "Term",
-    "right-hand side": "rechte Seite"
+    "right-hand side": "rechte Seite",
+    "Combine like terms.": "Fasse die Terme zusammen.",
+    "Set the terms equal to each other.": "Setze die Terme gleich."
   },
   "mathPuzzle": {
     "Source code": "Quellcode"

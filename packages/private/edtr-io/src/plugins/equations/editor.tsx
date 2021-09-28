@@ -266,7 +266,7 @@ export function EquationsEditor(props: EquationsProps) {
                                   row === 0 &&
                                   transformationTarget ===
                                     TransformationTarget.Term
-                                    ? i18n.t('equations::Summarize terms')
+                                    ? i18n.t('equations::Combine like terms.')
                                     : i18n.t('equations::Explanation'),
                               },
                             })}
@@ -296,7 +296,9 @@ export function EquationsEditor(props: EquationsProps) {
           <td colSpan={3} style={{ textAlign: 'center' }}>
             {state.firstExplanation.render({
               config: {
-                placeholder: i18n.t('equations::Equate terms'),
+                placeholder: i18n.t(
+                  'equations::Set the terms equal to each other.'
+                ),
               },
             })}
           </td>
