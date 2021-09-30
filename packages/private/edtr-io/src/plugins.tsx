@@ -164,10 +164,10 @@ export function createPlugins({
             'inputExercise::Text'
           ),
           [InputExerciseType.InputNumberExactMatchChallenge]: i18n.t(
-            'inputExercise::Number'
+            'inputExercise::Number (exact solution, e.g. "0,5" ≠ "1/2" ≠ "2/4")'
           ),
           [InputExerciseType.InputExpressionEqualMatchChallenge]: i18n.t(
-            'inputExercise::Mathematical expression'
+            'inputExercise::Mathematical expression (equivalent solution, e.g. "0,5" = "1/2" = "2/4")'
           ),
         },
         type: {
