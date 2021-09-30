@@ -29,7 +29,7 @@ import {
   object,
   optional,
 } from '@edtr-io/plugin'
-import { getDocument } from '@edtr-io/store'
+import { focus, getDocument } from '@edtr-io/store'
 import { Icon, faRandom, faTrashAlt } from '@edtr-io/ui'
 import { useI18n, I18n } from '@serlo/i18n'
 import * as React from 'react'
@@ -120,6 +120,13 @@ function ExerciseEditor({ editable, state }: ExerciseProps) {
   const store = useScopedStore()
   const { content, interactive } = state
   const [showOptions, setShowOptions] = React.useState(false)
+  const [focusInteractive, setFocusInteractive] = React.useState(false)
+
+  React.useEffect(() => {
+    if (interactive.defined && focusInteractive) {
+      store.dispatch(focus(interactive.id))
+    }
+  }, [focusInteractive])
 
   return (
     <React.Fragment>
@@ -138,27 +145,21 @@ function ExerciseEditor({ editable, state }: ExerciseProps) {
             <React.Fragment>
               <div
                 style={{ position: 'relative' }}
-                onMouseLeave={() => {
-                  setShowOptions(false)
-                }}
+                onMouseLeave={() => setShowOptions(false)}
               >
                 <PluginToolbarButton
                   icon={<Icon icon={faRandom} />}
                   // TODO: i18n
                   label="Interaktives Element ändern"
-                  onClick={() => {
-                    setShowOptions(true)
-                  }}
+                  onClick={() => setShowOptions(true)}
                 />
                 <PluginToolbarButton
                   icon={<Icon icon={faTrashAlt} />}
                   // TODO: i18n
                   label="Interaktives Element entfernen"
-                  onClick={() => {
-                    interactive.remove()
-                  }}
+                  onClick={() => interactive.remove()}
                 />
-                {showOptions ? (
+                {showOptions && (
                   <InlineOptions>
                     {interactivePlugins
                       .filter(
@@ -180,7 +181,7 @@ function ExerciseEditor({ editable, state }: ExerciseProps) {
                         )
                       })}
                   </InlineOptions>
-                ) : null}
+                )}
               </div>
               {children}
             </React.Fragment>
@@ -201,9 +202,8 @@ function ExerciseEditor({ editable, state }: ExerciseProps) {
                 <AddButton
                   key={plugin.name}
                   onClick={() => {
-                    interactive.create({
-                      plugin: plugin.name,
-                    })
+                    interactive.create({ plugin: plugin.name })
+                    setFocusInteractive(true)
                   }}
                 >
                   {plugin.addLabel(i18n)}
