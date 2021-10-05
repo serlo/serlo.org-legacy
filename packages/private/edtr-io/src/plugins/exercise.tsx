@@ -120,13 +120,12 @@ function ExerciseEditor({ editable, state }: ExerciseProps) {
   const store = useScopedStore()
   const { content, interactive } = state
   const [showOptions, setShowOptions] = React.useState(false)
-  const [focusInteractive, setFocusInteractive] = React.useState(false)
 
   React.useEffect(() => {
-    if (interactive.defined && focusInteractive) {
+    if (interactive.defined) {
       store.dispatch(focus(interactive.id))
     }
-  }, [focusInteractive])
+  }, [interactive.defined])
 
   return (
     <React.Fragment>
@@ -201,10 +200,7 @@ function ExerciseEditor({ editable, state }: ExerciseProps) {
               return (
                 <AddButton
                   key={plugin.name}
-                  onClick={() => {
-                    interactive.create({ plugin: plugin.name })
-                    setFocusInteractive(true)
-                  }}
+                  onClick={() => interactive.create({ plugin: plugin.name })}
                 >
                   {plugin.addLabel(i18n)}
                 </AddButton>
