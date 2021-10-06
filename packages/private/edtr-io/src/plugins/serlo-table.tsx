@@ -34,9 +34,6 @@ export const serloTablePlugin: EditorPlugin<SerloTablePluginState> = {
 
 const Table = styled.table({
   borderCollapse: 'collapse',
-  '& > thead > tr > th, & > tbody > tr > td, & > tr > th,td': {
-    border: '1px solid black',
-  },
   width: '100%',
   height: '100%',
   overflowX: 'scroll',
@@ -47,12 +44,13 @@ const Table = styled.table({
 })
 
 const TableHeader = styled.th({
+  border: '1px solid black',
   minWidth: '8em',
   backgroundColor: '#ddd',
 })
 
-// Todo: Make no border cell
 const TableCell = styled.td({
+  border: '1px solid black',
   height: '1em',
 })
 
@@ -108,9 +106,9 @@ function SerloTableEditor(props: SerloTableProps) {
   return (
     <Table>
       <tr>
-        <td style={{ border: 'none' }} />
+        <td />
         {R.range(0, headers.length).map((column) => (
-          <td style={{ border: 'none' }}>
+          <td>
             <RemoveButton
               onClick={() => {
                 headers.remove(column)
@@ -125,7 +123,7 @@ function SerloTableEditor(props: SerloTableProps) {
         ))}
       </tr>
       <tr>
-        <td style={{ border: 'none' }} />
+        <td />
         {headers.map(({ content }, column) => (
           <TableHeader key={column}>
             {content.render({
@@ -133,10 +131,7 @@ function SerloTableEditor(props: SerloTableProps) {
             })}
           </TableHeader>
         ))}
-        <td
-          rowSpan={rows.length + 1}
-          style={{ border: 'none', height: '100%' }}
-        >
+        <td rowSpan={rows.length + 1} style={{ height: '100%' }}>
           <AddColumnButton
             onClick={() => {
               headers.insert(headers.length, { content: { plugin: 'text' } })
@@ -154,7 +149,7 @@ function SerloTableEditor(props: SerloTableProps) {
       </tr>
       {rows.map(({ columns }, rowIndex) => (
         <tr key={rowIndex}>
-          <td style={{ border: 'none', width: '2em' }}>
+          <td style={{ width: '2em' }}>
             <RemoveButton onClick={() => rows.remove(rowIndex)}>
               <Icon icon={faTimes} />
             </RemoveButton>
@@ -169,8 +164,8 @@ function SerloTableEditor(props: SerloTableProps) {
         </tr>
       ))}
       <tr>
-        <td style={{ border: 'none' }} />
-        <td colSpan={headers.length} style={{ border: 'none' }}>
+        <td />
+        <td colSpan={headers.length}>
           <AddButton
             onClick={() =>
               rows.insert(headers.length, {
