@@ -53,7 +53,8 @@
     "Created at": "Created at",
     "Equations": "Equations",
     "Create mathematical equations and terms.": "Create mathematical equations and terms.",
-    "Settings": "Settings"
+    "Settings": "Settings",
+    "Create tables.": "Create tables."
   },
   "anchor": {
     "Identifier": "Identifier",
@@ -258,12 +259,18 @@
     "explanation": "explanation",
     "left-hand side": "left-hand side",
     "right-hand side": "right-hand side",
-    "transformation": "transformation"
+    "transformation": "transformation",
+    "frist-explanation": "frist-explanation",
+    "add new equation": "add new equation"
   },
   "mathPuzzle": {
     "Source code": "Source code"
   },
   "deprecated": {
     "This part of the document contains features that are no longer supported.": "This part of the document contains features that are no longer supported."
+  },
+  "serloTable": {
+    "Create header": "Create header",
+    "Create content": "Create content"
   }
 }

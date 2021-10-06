@@ -63,6 +63,7 @@ import { solutionPlugin } from './plugins/solution'
 import { tablePlugin } from './plugins/table'
 import { deprecatedPlugin } from './plugins/deprecated'
 import { SerializedDocument } from './serialized-document'
+import { serloTablePlugin } from './plugins/serlo-table'
 
 type PluginType =
   | SerializedDocument['plugin']
@@ -262,6 +263,7 @@ export function createPlugins({
       },
     }),
     separator: separatorPlugin,
+    serloTable: serloTablePlugin,
     solution: solutionPlugin,
     spoiler: createSpoilerPlugin({
       content: { plugin: 'rows' },
