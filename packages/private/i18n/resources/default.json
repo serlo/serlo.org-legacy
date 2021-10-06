@@ -1,5 +1,6 @@
 {
   "edtr-io": {
+    "Settings": "Settings",
     "Extended Settings": "Extended Settings",
     "Close": "Close",
     "This content type isn't supported by the new editor, yet.": "This content type isn't supported by the new editor, yet.",
@@ -17,6 +18,8 @@
     "Highlight the syntax of source code.": "Highlight the syntax of source code.",
     "Anchor": "Anchor",
     "Insert an anchor.": "Insert an anchor.",
+    "Terms and equations": "Terms and equations",
+    "Write term manipulations and solve multiline equations.": "Write term manipulations and solve multiline equations.",
     "Image": "Image",
     "Upload images.": "Upload images.",
     "Important Statement": "Important Statement",
@@ -29,6 +32,7 @@
     "A collapsible box.": "A collapsible box.",
     "Table": "Table",
     "Create tables using Markdown.": "Create tables using Markdown.",
+    "Create tables.": "Create tables.",
     "Video": "Video",
     "Embed YouTube, Vimeo, Wikimedia Commons or BR videos.": "Embed YouTube, Vimeo, Wikimedia Commons or BR videos.",
     "Solution Separator": "Solution Separator",
@@ -50,14 +54,56 @@
     "Switch to another revision": "Switch to another revision",
     "Current": "Current",
     "Author": "Author",
-    "Created at": "Created at",
-    "Settings": "Settings",
-    "Terms and equations": "Terms and equations",
-    "Write term manipulations and solve multiline equations.": "Write term manipulations and solve multiline equations."
+    "Created at": "Created at"
   },
   "anchor": {
     "Identifier": "Identifier",
     "ID of the anchor": "ID of the anchor"
+  },
+  "article": {
+    "Write a short introduction": "Write a short introduction",
+    "Exercises": "Exercises",
+    "You can find more exercises in the following folder": "You can find more exercises in the following folder",
+    "Drag the exercise": "Drag the exercise",
+    "Remove exercise": "Remove exercise",
+    "Add optional exercise": "Add optional exercise",
+    "ID of an exercise folder, e.g. 30560": "ID of an exercise folder, e.g. 30560",
+    "Open the exercise folder in a new tab:": "Open the exercise folder in a new tab:",
+    "Title of the link": "Title of the link",
+    "Still want more?": "Still want more?",
+    "You can find more content on this topic here": "You can find more content on this topic here",
+    "Articles": "Articles",
+    "Add article": "Add article",
+    "ID of an article, e.g. 1855": "ID of an article, e.g. 1855",
+    "Open the article in a new tab:": "Open the article in a new tab:",
+    "Drag the article": "Drag the article",
+    "Courses": "Courses",
+    "Add course": "Add course",
+    "ID of a course, e.g. 51979": "ID of a course, e.g. 51979",
+    "Open the course in a new tab:": "Open the course in a new tab:",
+    "Drag the course": "Drag the course",
+    "Videos": "Videos",
+    "Add video": "Add video",
+    "ID of a video, e.g. 40744": "ID of a video, e.g. 40744",
+    "Open the video in a new tab:": "Open the video in a new tab:",
+    "Drag the video": "Drag the video",
+    "Sources": "Sources",
+    "URL of the link": "URL of the link",
+    "Open the link in a new tab:": "Open the link in a new tab:",
+    "Drag the source": "Drag the source",
+    "Add source": "Add source",
+    "Title for search engines": "Title for search engines",
+    "Description for search engines": "Description for search engines",
+    "Title": "Title"
+  },
+  "multimedia": {
+    "Image": "Image",
+    "Change the multimedia type": "Change the multimedia type",
+    "How important is the multimedia content?": "How important is the multimedia content?",
+    "It is illustrating": "It is illustrating",
+    "It is essential": "It is essential",
+    "Video": "Video",
+    "GeoGebra Applet": "GeoGebra Applet"
   },
   "geogebra": {
     "GeoGebra URL or ID": "GeoGebra URL or ID"
@@ -71,24 +117,15 @@
   },
   "inputExercise": {
     "Text": "Text",
+    "Number (exact solution, e.g. \"0,5\" ≠ \"1/2\" ≠ \"2/4\")": "Number (exact solution, e.g. \"0,5\" ≠ \"1/2\" ≠ \"2/4\")",
+    "Mathematical expression (equivalent solution, e.g. \"0,5\" = \"1/2\" = \"2/4\")": "Mathematical expression (equivalent solution, e.g. \"0,5\" = \"1/2\" = \"2/4\")",
     "Choose the exercise type": "Choose the exercise type",
     "Unit": "Unit",
     "Add answer": "Add answer",
     "Enter the value": "Enter the value",
     "Your solution": "Your solution",
     "Correct": "Correct",
-    "Wrong": "Wrong",
-    "Number (exact solution, e.g. \"0,5\" ≠ \"1/2\" ≠ \"2/4\")": "Number (exact solution, e.g. \"0,5\" ≠ \"1/2\" ≠ \"2/4\")",
-    "Mathematical expression (equivalent solution, e.g. \"0,5\" = \"1/2\" = \"2/4\")": "Mathematical expression (equivalent solution, e.g. \"0,5\" = \"1/2\" = \"2/4\")"
-  },
-  "multimedia": {
-    "Image": "Image",
-    "Video": "Video",
-    "GeoGebra Applet": "GeoGebra Applet",
-    "Change the multimedia type": "Change the multimedia type",
-    "How important is the multimedia content?": "How important is the multimedia content?",
-    "It is illustrating": "It is illustrating",
-    "It is essential": "It is essential"
+    "Wrong": "Wrong"
   },
   "rows": {
     "Search for tools…": "Search for tools…",
@@ -150,6 +187,22 @@
     "URL": "URL",
     "Title for search engines": "Title for search engines"
   },
+  "deprecated": {
+    "This part of the document contains features that are no longer supported.": "This part of the document contains features that are no longer supported."
+  },
+  "equations": {
+    "Mode": "Mode",
+    "Transformation of equations": "Transformation of equations",
+    "Transformation of terms": "Transformation of terms",
+    "Combine like terms.": "Combine like terms.",
+    "Explanation": "Explanation",
+    "Set the terms equal to each other.": "Set the terms equal to each other.",
+    "Add new row": "Add new row",
+    "left-hand side": "left-hand side",
+    "Term": "Term",
+    "right-hand side": "right-hand side",
+    "transformation": "transformation"
+  },
   "error": {
     "This part of the document could not be converted.": "This part of the document could not be converted."
   },
@@ -170,6 +223,9 @@
     "One-column layout": "One-column layout",
     "Multimedia content associated with text": "Multimedia content associated with text"
   },
+  "Create header": "Create header",
+  "<content>": "<content>",
+  "+ Add row": "+ Add row",
   "solution": {
     "Optionally explain the solution strategy here": "Optionally explain the solution strategy here",
     "For this exercise, you need the following fundamentals:": "For this exercise, you need the following fundamentals:",
@@ -183,42 +239,6 @@
     "Title for search engines": "Title for search engines",
     "Description for search engines": "Description for search engines",
     "Title": "Title"
-  },
-  "article": {
-    "Title for search engines": "Title for search engines",
-    "Description for search engines": "Description for search engines",
-    "Title": "Title",
-    "Write a short introduction": "Write a short introduction",
-    "Exercises": "Exercises",
-    "Drag the exercise": "Drag the exercise",
-    "Remove exercise": "Remove exercise",
-    "Add optional exercise": "Add optional exercise",
-    "Still want more?": "Still want more?",
-    "You can find more content on this topic here": "You can find more content on this topic here",
-    "Articles": "Articles",
-    "Add article": "Add article",
-    "ID of an article, e.g. 1855": "ID of an article, e.g. 1855",
-    "Open the article in a new tab:": "Open the article in a new tab:",
-    "Drag the article": "Drag the article",
-    "Courses": "Courses",
-    "Add course": "Add course",
-    "ID of a course, e.g. 51979": "ID of a course, e.g. 51979",
-    "Open the course in a new tab:": "Open the course in a new tab:",
-    "Drag the course": "Drag the course",
-    "Videos": "Videos",
-    "Add video": "Add video",
-    "ID of a video, e.g. 40744": "ID of a video, e.g. 40744",
-    "Open the video in a new tab:": "Open the video in a new tab:",
-    "Drag the video": "Drag the video",
-    "Title of the link": "Title of the link",
-    "Sources": "Sources",
-    "URL of the link": "URL of the link",
-    "Open the link in a new tab:": "Open the link in a new tab:",
-    "Drag the source": "Drag the source",
-    "Add source": "Add source",
-    "You can find more exercises in the following folder": "You can find more exercises in the following folder",
-    "ID of an exercise folder, e.g. 30560": "ID of an exercise folder, e.g. 30560",
-    "Open the exercise folder in a new tab:": "Open the exercise folder in a new tab:"
   },
   "coursePage": {
     "Explanation": "Explanation",
@@ -237,6 +257,9 @@
     "Description for search engines": "Description for search engines",
     "Title": "Title"
   },
+  "mathPuzzle": {
+    "Source code": "Source code"
+  },
   "page": {
     "Title": "Title"
   },
@@ -253,24 +276,5 @@
   "textExercise": {
     "Remove solution": "Remove solution",
     "Create solution": "Create solution"
-  },
-  "equations": {
-    "left-hand side": "left-hand side",
-    "transformation": "transformation",
-    "Mode": "Mode",
-    "Transformation of equations": "Transformation of equations",
-    "Transformation of terms": "Transformation of terms",
-    "Add new row": "Add new row",
-    "Explanation": "Explanation",
-    "Term": "Term",
-    "right-hand side": "right-hand side",
-    "Combine like terms.": "Combine like terms.",
-    "Set the terms equal to each other.": "Set the terms equal to each other."
-  },
-  "mathPuzzle": {
-    "Source code": "Source code"
-  },
-  "deprecated": {
-    "This part of the document contains features that are no longer supported.": "This part of the document contains features that are no longer supported."
   }
 }

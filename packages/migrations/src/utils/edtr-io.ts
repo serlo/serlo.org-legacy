@@ -34,7 +34,7 @@ export function updatePlugins(
       const { plugin, state } = value
       const transformFunc = transformations[plugin]
 
-      if (transformFunc !== undefined) {
+      if (typeof transformFunc === 'function') {
         return { ...value, state: transformFunc({ state, transformState }) }
       }
     }

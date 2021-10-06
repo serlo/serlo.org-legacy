@@ -241,6 +241,11 @@ export function Editor(props: EditorProps) {
         description: i18n.t('edtr-io::Create tables using Markdown.'),
       },
       {
+        name: 'serloTable',
+        title: i18n.t('edtr-io::Table'),
+        description: i18n.t('edtr-io::Create tables.'),
+      },
+      {
         name: 'video',
         title: i18n.t('edtr-io::Video'),
         description: i18n.t(
