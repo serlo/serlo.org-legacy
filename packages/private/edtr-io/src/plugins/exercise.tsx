@@ -125,7 +125,7 @@ function ExerciseEditor({ editable, state }: ExerciseProps) {
     if (interactive.defined) {
       store.dispatch(focus(interactive.id))
     }
-  }, [interactive.defined])
+  }, [interactive.defined && interactive.id])
 
   return (
     <React.Fragment>
