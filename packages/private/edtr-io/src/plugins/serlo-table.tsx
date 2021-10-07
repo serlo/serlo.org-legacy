@@ -13,11 +13,13 @@ import { Icon, faTimes, styled } from '@edtr-io/ui'
 import * as R from 'ramda'
 
 const tableState = object({
+  // TODO: Dont allow headings, bold, italic
+  // TODO: Make this inline text (option in slate)
   headers: list(object({ content: child({ plugin: 'text' }) }), 2),
   rows: list(
     object({
       // TODO: How to fix the bugs when we change this to "rows"?!
-      columns: list(object({ content: child({ plugin: 'text' }) }), 2),
+      columns: list(object({ content: child({ plugin: 'rows' }) }), 2),
     }),
     3
   ),
@@ -38,6 +40,7 @@ const Table = styled.table({
   height: '100%',
   overflowX: 'scroll',
   // TODO: How to unhack
+  // (Lösung: Slate so machen, dass es inline gerendert werden kann)
   div: {
     marginBottom: '0px',
   },
@@ -101,7 +104,7 @@ function SerloTableEditor(props: SerloTableProps) {
         .includes(focusedElement)
     )
 
-  if (!nestedFocus) return <SerloTableRenderer {...props} />
+  //if (!nestedFocus) return <SerloTableRenderer {...props} />
 
   return (
     <Table>
