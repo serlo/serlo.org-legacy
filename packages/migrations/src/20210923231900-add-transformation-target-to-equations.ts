@@ -19,37 +19,16 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  child,
-  list,
-  object,
-  EditorPlugin,
-  EditorPluginProps,
-  string,
-} from '@edtr-io/plugin'
+import { createEdtrIoMigration, updatePlugins } from './utils'
 
-import { EquationsEditor } from './editor'
-import { Sign } from './sign'
+createEdtrIoMigration({
+  exports,
+  migrateState: updatePlugins({
+    equations: ({ state }) => {
+      if (typeof state !== 'object' || state === null)
+        throw new Error('Illegal equation state')
 
-export const stepProps = object({
-  left: string(''),
-  sign: string(Sign.Equals),
-  right: string(''),
-  transform: string(''),
-  explanation: child({ plugin: 'text' }),
+      return { transformationTarget: 'equation', ...state }
+    },
+  }),
 })
-
-const equationsState = object({
-  steps: list(stepProps, 2),
-  firstExplanation: child({ plugin: 'text' }),
-  transformationTarget: string('equation'),
-})
-
-export type EquationsPluginState = typeof equationsState
-export type EquationsProps = EditorPluginProps<EquationsPluginState>
-
-export const equationsPlugin: EditorPlugin<EquationsPluginState> = {
-  Component: EquationsEditor,
-  config: {},
-  state: equationsState,
-}

@@ -51,9 +51,9 @@
     "Current": "Current",
     "Author": "Author",
     "Created at": "Created at",
-    "Equations": "Equations",
-    "Create mathematical equations and terms.": "Create mathematical equations and terms.",
-    "Settings": "Settings"
+    "Settings": "Settings",
+    "Terms and equations": "Terms and equations",
+    "Write term manipulations and solve multiline equations.": "Write term manipulations and solve multiline equations."
   },
   "anchor": {
     "Identifier": "Identifier",
@@ -71,15 +71,15 @@
   },
   "inputExercise": {
     "Text": "Text",
-    "Number": "Number",
-    "Mathematical expression": "Mathematical expression",
     "Choose the exercise type": "Choose the exercise type",
     "Unit": "Unit",
     "Add answer": "Add answer",
     "Enter the value": "Enter the value",
     "Your solution": "Your solution",
     "Correct": "Correct",
-    "Wrong": "Wrong"
+    "Wrong": "Wrong",
+    "Number (exact solution, e.g. \"0,5\" ≠ \"1/2\" ≠ \"2/4\")": "Number (exact solution, e.g. \"0,5\" ≠ \"1/2\" ≠ \"2/4\")",
+    "Mathematical expression (equivalent solution, e.g. \"0,5\" = \"1/2\" = \"2/4\")": "Mathematical expression (equivalent solution, e.g. \"0,5\" = \"1/2\" = \"2/4\")"
   },
   "multimedia": {
     "Image": "Image",
@@ -255,10 +255,17 @@
     "Create solution": "Create solution"
   },
   "equations": {
-    "explanation": "explanation",
     "left-hand side": "left-hand side",
+    "transformation": "transformation",
+    "Mode": "Mode",
+    "Transformation of equations": "Transformation of equations",
+    "Transformation of terms": "Transformation of terms",
+    "Add new row": "Add new row",
+    "Explanation": "Explanation",
+    "Term": "Term",
     "right-hand side": "right-hand side",
-    "transformation": "transformation"
+    "Combine like terms.": "Combine like terms.",
+    "Set the terms equal to each other.": "Set the terms equal to each other."
   },
   "mathPuzzle": {
     "Source code": "Source code"

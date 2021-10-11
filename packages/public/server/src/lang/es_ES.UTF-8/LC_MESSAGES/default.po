@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2021-07-21 18:20+0200\n"
-"PO-Revision-Date: 2021-08-20 18:01\n"
+"PO-Revision-Date: 2021-10-02 12:50\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -873,7 +873,7 @@ msgstr "Actualizar revisión"
 
 #: ../module/Ui/templates/error/403.phtml:28
 msgid "You cannot pass!"
-msgstr "No puedes pasar!"
+msgstr "¡No puedes pasar!"
 
 #: ../module/Ui/templates/error/403.phtml:31
 msgid "I am a servant of the Secret Fire, wielder of the Flame of Anor. The dark fire will not avail you, Flame of Udun! Go back to the shadow. <strong>You shall not pass</strong>!"
@@ -1273,7 +1273,7 @@ msgstr "ID"
 #: ../module/Ui/templates/uuid/recycle-bin.phtml:55
 #, php-format
 msgid "Do you really want to purge the item <strong>%s</strong>? It and all references to it will be lost forever!"
-msgstr "¿Desea borrar el elemento <strong>%s</strong>? ¡Este y todas las referencias se perderán para siempre!"
+msgstr "¿Deseas borrar el elemento <strong>%s</strong>? ¡Este y todas las referencias se perderán para siempre!"
 
 #: ../module/Ui/templates/ads/ads.twig:22
 msgid "Ads"
