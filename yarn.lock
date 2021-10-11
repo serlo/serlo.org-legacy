@@ -14647,7 +14647,7 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-"php-parser@github:glayzzle/php-parser#4c5b0675f52c0baab2e5b10a4e50e5d7a79b2767":
+php-parser@glayzzle/php-parser#4c5b0675f52c0baab2e5b10a4e50e5d7a79b2767:
   version "3.0.2"
   resolved "https://codeload.github.com/glayzzle/php-parser/tar.gz/4c5b0675f52c0baab2e5b10a4e50e5d7a79b2767"
 
