@@ -103,6 +103,7 @@ export function createPlugins({
         plugin: 'text',
         config: {
           placeholder: i18n.t('article::Write a short introduction'),
+          registry: [],
         },
       },
       plugins: [
@@ -157,6 +158,9 @@ export function createPlugins({
     inputExercise: createInputExercisePlugin({
       feedback: {
         plugin: 'text',
+        config: {
+          registry: [],
+        },
       },
       i18n: {
         types: {
@@ -240,8 +244,8 @@ export function createPlugins({
       },
     }),
     scMcExercise: createScMcExercisePlugin({
-      content: { plugin: 'text' },
-      feedback: { plugin: 'text' },
+      content: { plugin: 'text', config: { registry: [] } },
+      feedback: { plugin: 'text', config: { registry: [] } },
       i18n: {
         types: {
           singleChoice: i18n.t('scMcExercise::Single-choice'),
