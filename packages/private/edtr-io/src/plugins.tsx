@@ -176,7 +176,11 @@ export function createPlugins({
         unit: {
           label: i18n.t('inputExercise::Unit'),
         },
+        feedback: {
+          label: i18n.t('inputExercise::Feedback'),
+        },
         answer: {
+          label: i18n.t('inputExercise::Answer'),
           addLabel: i18n.t('inputExercise::Add answer'),
           value: {
             placeholder: i18n.t('inputExercise::Enter the value'),
@@ -246,7 +250,11 @@ export function createPlugins({
         isSingleChoice: {
           label: i18n.t('scMcExercise::Choose the exercise type'),
         },
+        feedback: {
+          label: i18n.t('scMcExercise::Feedback'),
+        },
         answer: {
+          label: i18n.t('scMcExercise::Answer'),
           addLabel: i18n.t('scMcExercise::Add answer'),
           fallbackFeedback: {
             wrong: i18n.t('scMcExercise::Wrong'),

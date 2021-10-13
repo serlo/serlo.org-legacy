@@ -79,7 +79,9 @@
     "Correct": "Correct",
     "Wrong": "Wrong",
     "Number (\"0,5\" ≠ \"1/2\" ≠ \"2/4\")": "Number (\"0,5\" ≠ \"1/2\" ≠ \"2/4\")",
-    "Mathematical expression (\"0,5\" = \"1/2\" = \"2/4\")": "Mathematical expression (\"0,5\" = \"1/2\" = \"2/4\")"
+    "Mathematical expression (\"0,5\" = \"1/2\" = \"2/4\")": "Mathematical expression (\"0,5\" = \"1/2\" = \"2/4\")",
+    "Feedback": "Feedback",
+    "Answer": "Answer"
   },
   "multimedia": {
     "Image": "Image",
@@ -105,7 +107,9 @@
     "Add answer": "Add answer",
     "Wrong": "Wrong",
     "Almost! You missed at least one correct answer": "Almost! You missed at least one correct answer",
-    "Correct": "Correct"
+    "Correct": "Correct",
+    "Feedback": "Feedback",
+    "Answer": "Answer"
   },
   "spoiler": {
     "Enter a title": "Enter a title"
