@@ -78,8 +78,8 @@
     "Your solution": "Your solution",
     "Correct": "Correct",
     "Wrong": "Wrong",
-    "Number (exact solution, e.g. \"0,5\" ≠ \"1/2\" ≠ \"2/4\")": "Number (exact solution, e.g. \"0,5\" ≠ \"1/2\" ≠ \"2/4\")",
-    "Mathematical expression (equivalent solution, e.g. \"0,5\" = \"1/2\" = \"2/4\")": "Mathematical expression (equivalent solution, e.g. \"0,5\" = \"1/2\" = \"2/4\")"
+    "Number (\"0,5\" ≠ \"1/2\" ≠ \"2/4\")": "Number (\"0,5\" ≠ \"1/2\" ≠ \"2/4\")",
+    "Mathematical expression (\"0,5\" = \"1/2\" = \"2/4\")": "Mathematical expression (\"0,5\" = \"1/2\" = \"2/4\")"
   },
   "multimedia": {
     "Image": "Image",
