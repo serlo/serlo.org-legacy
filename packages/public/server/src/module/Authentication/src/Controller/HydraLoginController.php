@@ -74,12 +74,6 @@ class HydraLoginController extends AbstractActionController
                     $challenge
                 );
 
-                $currentInstance = $this->instanceManager->getInstanceFromRequest();
-                $desiredInstance = $this->getInstanceFromLoginResponse($loginResponse);
-                if ($desiredInstance && $desiredInstance !== $currentInstance) {
-                    return $this->redirectToInstance($desiredInstance);
-                }
-
                 // Hydra knows the user already
                 if ($loginResponse['skip']) {
                     return $this->acceptLoginRequest($loginResponse['subject']);
@@ -89,6 +83,12 @@ class HydraLoginController extends AbstractActionController
                 $user = $this->userManager->getUserFromAuthenticator();
                 if ($user) {
                     return $this->acceptLoginRequest((string)$user->getId());
+                }
+
+                $currentInstance = $this->instanceManager->getInstanceFromRequest();
+                $desiredInstance = $this->getInstanceFromLoginResponse($loginResponse);
+                if ($desiredInstance && $desiredInstance !== $currentInstance) {
+                    return $this->redirectToInstance($desiredInstance);
                 }
             }
 

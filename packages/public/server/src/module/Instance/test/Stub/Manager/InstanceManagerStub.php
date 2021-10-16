@@ -91,7 +91,7 @@ class InstanceManagerStub implements InstanceManagerInterface
                 sprintf('Instance %s could not be found', $subDomain)
             );
         }
-        return $result[0];
+        return current($result);
     }
 
     public function getDefaultInstance()

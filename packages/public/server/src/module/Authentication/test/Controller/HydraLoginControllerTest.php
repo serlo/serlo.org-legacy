@@ -29,6 +29,7 @@ use Common\Helper\FetchInterface;
 use CommonTest\Stub\Helper\FetchStub;
 use Csrf\CsrfTokenContainer;
 use Exception;
+use InstanceTest\Stub\Manager\InstanceManagerStub;
 use UserTest\Stub\Entity\UserStub;
 use UserTest\Stub\Manager\UserManagerStub;
 
@@ -40,6 +41,8 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
     protected $authenticationService;
     /** @var FetchStub */
     protected $fetch;
+    /** @var InstanceManagerStub */
+    protected $instanceManager;
     /** @var UserManagerStub */
     protected $userManager;
 
@@ -57,6 +60,9 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
 
         $this->fetch = new FetchStub();
         $serviceManager->setService(FetchInterface::class, $this->fetch);
+
+        $this->instanceManager = new InstanceManagerStub();
+        $serviceManager->setService('Instance\Manager\InstanceManager', $this->instanceManager);
 
         $this->userManager = new UserManagerStub();
         $serviceManager->setService(
@@ -136,6 +142,28 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
                 $this->getLoginChallenge() .
                 '"]'
         );
+    }
+
+    /**
+     * If a non-German user isn't already authenticated, we redirect them to the correct instance.
+     *
+     * @throws Exception
+     */
+    public function testValidLoginChallengeNotAuthenticatedRedirectToCorrectInstance()
+    {
+        $this->initStubs([
+            'httpRequests' => [
+                $this->getLoginUrl() => $this->getSuccessfulLoginResponse(
+                    false,
+                    '',
+                    'en'
+                ),
+            ],
+        ]);
+        $this->dispatch(
+            '/auth/hydra/login?login_challenge=' . $this->getLoginChallenge()
+        );
+        $this->assertResponseStatusCode(302);
     }
 
     /**
@@ -351,7 +379,7 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
             ($challenge ? 'login_challenge=' . $challenge : '');
     }
 
-    protected function getSuccessfulLoginResponse($skip, $subject)
+    protected function getSuccessfulLoginResponse($skip, $subject, $instance = 'de')
     {
         return json_encode([
             'skip' => $skip,
@@ -360,7 +388,7 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
             'client' => [
                 'client_id' => 'client',
             ],
-            'request_url' => 'request_url',
+            'request_url' => 'http://localhost:4444/oauth2/auth?redirect_uri=' . urlencode('https://' . $instance . '.serlo.org/api/auth/callback'),
             'requested_scope' => ['openid'],
             'oidc_context' => [],
         ]);
