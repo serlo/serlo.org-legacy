@@ -20,11 +20,14 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+
 namespace Authentication\Controller;
 
 use Authentication\Exception\HydraException;
 use Authentication\Service\AuthenticationServiceInterface;
 use Authentication\Service\HydraService;
+use Instance\Entity\InstanceInterface;
+use Instance\Manager\InstanceManagerInterface;
 use User\Form\Login;
 use User\Manager\UserManagerInterface;
 use Zend\Http\Response;
@@ -39,6 +42,8 @@ class HydraLoginController extends AbstractActionController
     protected $authenticationService;
     /** @var HydraService */
     protected $hydraService;
+    /** @var InstanceManagerInterface */
+    protected $instanceManager;
     /** @var UserManagerInterface */
     protected $userManager;
     /** @var Translator */
@@ -46,12 +51,15 @@ class HydraLoginController extends AbstractActionController
 
     public function __construct(
         AuthenticationServiceInterface $authenticationService,
-        HydraService $hydraService,
-        UserManagerInterface $userManager,
-        Translator $translator
-    ) {
+        HydraService                   $hydraService,
+        InstanceManagerInterface       $instanceManager,
+        UserManagerInterface           $userManager,
+        Translator                     $translator
+    )
+    {
         $this->authenticationService = $authenticationService;
         $this->hydraService = $hydraService;
+        $this->instanceManager = $instanceManager;
         $this->userManager = $userManager;
         $this->translator = $translator;
     }
@@ -74,7 +82,13 @@ class HydraLoginController extends AbstractActionController
                 // User already authenticated
                 $user = $this->userManager->getUserFromAuthenticator();
                 if ($user) {
-                    return $this->acceptLoginRequest((string) $user->getId());
+                    return $this->acceptLoginRequest((string)$user->getId());
+                }
+
+                $currentInstance = $this->instanceManager->getInstanceFromRequest();
+                $desiredInstance = $this->getInstanceFromLoginResponse($loginResponse);
+                if ($desiredInstance && $desiredInstance !== $currentInstance) {
+                    return $this->redirectToInstance($desiredInstance);
                 }
             }
 
@@ -85,6 +99,34 @@ class HydraLoginController extends AbstractActionController
                 'error' => $exception->getMessage(),
             ]);
         }
+    }
+
+    /**
+     * @param $loginResponse
+     * @return InstanceInterface|null
+     */
+    protected function getInstanceFromLoginResponse($loginResponse) {
+        $query = parse_url($loginResponse['request_url'], PHP_URL_QUERY);
+        parse_str($query, $query);
+        $redirectUri = $query['redirect_uri'];
+        $host = parse_url($redirectUri, PHP_URL_HOST);
+        $domain_parts = explode('.', $host);
+        try {
+            $subdomain = $domain_parts[0];
+            return $this->instanceManager->findInstanceBySubDomain($subdomain);
+        } catch (\Exception $exception) {
+            // Request URL contains no instance (e.g. localhost) or we don't recognize the instance.
+            return null;
+        }
+    }
+
+    protected function redirectToInstance(InstanceInterface $desiredInstance): Response
+    {
+        $currentInstance = $this->instanceManager->getInstanceFromRequest();
+        $currentUrl = $this->getRequest()->getUriString();
+        $desiredUrl = str_replace(
+            '//' . $currentInstance->getSubdomain() . '.', '//' . $desiredInstance->getSubdomain() . '.', $currentUrl);
+        return $this->redirect()->toUrl($desiredUrl);
     }
 
     /**
@@ -117,7 +159,7 @@ class HydraLoginController extends AbstractActionController
                     $user->updateLoginData();
                     $this->userManager->persist($user);
                     $this->userManager->flush();
-                    return $this->acceptLoginRequest((string) $user->getId(), [
+                    return $this->acceptLoginRequest((string)$user->getId(), [
                         'remember' => $data['remember'] == 1,
                         'remember_for' => 60 * 60, // seconds
                     ]);

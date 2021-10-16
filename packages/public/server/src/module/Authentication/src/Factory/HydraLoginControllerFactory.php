@@ -26,6 +26,8 @@ use Authentication\Controller\HydraLoginController;
 use Authentication\Service\AuthenticationServiceInterface;
 use Authentication\Service\HydraService;
 use Common\Factory\AbstractControllerFactory;
+use Instance\Manager\InstanceManager;
+use Instance\Manager\InstanceManagerInterface;
 use User\Manager\UserManager;
 use User\Manager\UserManagerInterface;
 use Zend\Mvc\I18n\Translator;
@@ -39,8 +41,10 @@ class HydraLoginControllerFactory extends AbstractControllerFactory
         $authenticationService = $serviceManager->get(
             'Zend\Authentication\AuthenticationService'
         );
-        /* @var HydraService $hydraService */
+        /** @var HydraService $hydraService */
         $hydraService = $serviceManager->get(HydraService::class);
+        /** @var InstanceManagerInterface $instanceManager */
+        $instanceManager = $serviceManager->get(InstanceManager::class);
         /** @var UserManagerInterface $userManager */
         $userManager = $serviceManager->get(UserManager::class);
         /** @var Translator $translator */
@@ -48,6 +52,7 @@ class HydraLoginControllerFactory extends AbstractControllerFactory
         return new HydraLoginController(
             $authenticationService,
             $hydraService,
+            $instanceManager,
             $userManager,
             $translator
         );
