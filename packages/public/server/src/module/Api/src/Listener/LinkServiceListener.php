@@ -49,7 +49,7 @@ class LinkServiceListener extends AbstractListener
     {
         /** @var TaxonomyTermInterface $term */
         $term = $e->getParam('term');
-        $this->getApiManager()->setUuid($term);
+        $this->getApiManager()->removeUuid($term);
     }
 
     public function onSortChildren(Event $e)

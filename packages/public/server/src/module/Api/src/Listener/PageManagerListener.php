@@ -34,7 +34,7 @@ class PageManagerListener extends AbstractListener
     {
         /** @var PageRepositoryInterface $page */
         $page = $e->getParam('page');
-        $this->getApiManager()->setUuid($page);
+        $this->getApiManager()->removeUuid($page);
     }
 
     public function attachShared(SharedEventManagerInterface $events)

@@ -41,7 +41,7 @@ class LicenseManagerListener extends AbstractListener
         if ($newlyCreated) {
             $taxonomyTerms = $uuid->getTaxonomyTerms()->toArray();
             foreach ($taxonomyTerms as $term) {
-                $this->getApiManager()->setUuid($term);
+                $this->getApiManager()->removeUuid($term);
             }
         }
     }

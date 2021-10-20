@@ -47,14 +47,14 @@ class TaxonomyManagerListener extends AbstractListener
 
         /** @var TaxonomyTermInterface $term */
         $term = $e->getParam('term');
-        $this->getApiManager()->setUuid($term);
+        $this->getApiManager()->removeUuid($term);
     }
 
     public function onChange(Event $e)
     {
         /** @var TaxonomyTermInterface $term */
         $term = $e->getParam('term');
-        $this->getApiManager()->setUuid($term);
+        $this->getApiManager()->removeUuid($term);
     }
 
     public function onParentChange(Event $e)
@@ -62,13 +62,13 @@ class TaxonomyManagerListener extends AbstractListener
         /** @var TaxonomyTermInterface|null $term */
         $from = $e->getParam('from');
         if ($from) {
-            $this->getApiManager()->setUuid($from);
+            $this->getApiManager()->removeUuid($from);
         }
 
         /** @var TaxonomyTermInterface|null $term */
         $to = $e->getParam('to');
         if ($to) {
-            $this->getApiManager()->setUuid($from);
+            $this->getApiManager()->removeUuid($from);
         }
     }
 
