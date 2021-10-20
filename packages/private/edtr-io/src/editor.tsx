@@ -197,9 +197,9 @@ export function Editor(props: EditorProps) {
       },
       {
         name: 'equations',
-        title: i18n.t('edtr-io::Equations'),
+        title: i18n.t('edtr-io::Terms and equations'),
         description: i18n.t(
-          'edtr-io::Create mathematical equations and terms.'
+          'edtr-io::Write term manipulations and solve multiline equations.'
         ),
       },
       {

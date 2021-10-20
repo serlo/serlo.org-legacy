@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2021-07-21 18:20+0200\n"
-"PO-Revision-Date: 2021-07-21 16:37\n"
+"PO-Revision-Date: 2021-10-02 12:50\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: English\n"
 "Language: en\n"
@@ -1688,7 +1688,7 @@ msgstr ""
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:142
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:168
 msgid "Show solution"
-msgstr ""
+msgstr "Show solution"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:50
 #: ../module/Ui/templates/entity/view/partials/math-puzzle.twig:48
@@ -1696,7 +1696,7 @@ msgstr ""
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:143
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:169
 msgid "Hide solution"
-msgstr ""
+msgstr "Hide solution"
 
 #: ../module/Ui/templates/entity/view/partials/input-challenge.twig:58
 #: ../module/Ui/templates/entity/view/partials/text-exercise.twig:89

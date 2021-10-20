@@ -47,6 +47,9 @@ const solutionState = object({
   ),
   strategy: child({
     plugin: 'text',
+    config: {
+      registry: [],
+    },
   }),
   steps: child({ plugin: 'rows' }),
 })

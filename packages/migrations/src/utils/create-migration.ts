@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import { isPlugin } from './edtr-io'
 import { CallbackBasedDatabase, createDatabase, Database } from './database'
 
 export function createMigration(
@@ -56,6 +57,64 @@ export function createMigration(
       cb()
     }
   }
+}
+
+export function createEdtrIoMigration({
+  exports,
+  migrateState,
+}: {
+  exports: any
+  migrateState: (state: any) => any
+}) {
+  createMigration(exports, {
+    up: async (db) => {
+      interface Row {
+        id: number
+        value: string
+        revisionId: number
+      }
+
+      const rows = await db.runSql<Row[]>(`
+        SELECT erf.id, erf.value, er.id as revisionId
+        FROM entity_revision_field erf
+          LEFT JOIN entity_revision er on erf.entity_revision_id = er.id
+          LEFT JOIN entity e on er.repository_id = e.id
+          LEFT JOIN type entity_type on entity_type.id = e.type_id
+        WHERE erf.field = 'content'
+          AND entity_type.name IN ("article", "course-page",
+                                   "event", "grouped-text-excercise",
+                                   "text-exercise", "text-exercise-group",
+                                   "text-solution")
+      `)
+
+      for (const row of rows) {
+        let oldState
+
+        try {
+          oldState = JSON.parse(row.value)
+        } catch (e) {
+          // Ignore (some articles have raw text)
+        }
+
+        if (!isPlugin(oldState)) {
+          // state of legacy markdown editor
+          continue
+        }
+
+        const newState = JSON.stringify(migrateState(oldState))
+
+        if (newState !== row.value) {
+          await db.runSql(
+            `UPDATE entity_revision_field SET value = ? WHERE id = ?`,
+            newState,
+            row.id
+          )
+
+          console.log('Updated revision', row.revisionId)
+        }
+      }
+    },
+  })
 }
 
 type Callback = (error?: Error) => void

@@ -36,7 +36,7 @@ export const articleTypeState = entityType(
   {
     ...entity,
     title: string(),
-    content: editorContent(),
+    content: editorContent('article'),
     reasoning: editorContent(),
     meta_title: string(),
     meta_description: string(),

@@ -19,13 +19,9 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import {
-  EditorPlugin,
-  StateTypeSerializedType,
-  StateTypesSerializedType,
-} from '@edtr-io/plugin'
+import { EditorPlugin } from '@edtr-io/plugin'
 import { createTextPlugin } from '@edtr-io/plugin-text'
-import { AnchorPluginState, createAnchorPlugin } from '@edtr-io/plugin-anchor'
+import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
@@ -37,7 +33,7 @@ import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-ex
 import { createRowsPlugin, RowsConfig } from '@edtr-io/plugin-rows'
 import { createScMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
-import { createVideoPlugin, VideoConfig } from '@edtr-io/plugin-video'
+import { createVideoPlugin } from '@edtr-io/plugin-video'
 import { i18n } from 'i18next'
 import * as React from 'react'
 
@@ -54,6 +50,7 @@ import { textExerciseGroupTypePlugin } from './plugins/types/text-exercise-group
 import { textSolutionTypePlugin } from './plugins/types/text-solution'
 import { userTypePlugin } from './plugins/types/user'
 import { videoTypePlugin } from './plugins/types/video'
+import { articlePlugin } from './plugins/article'
 import { errorPlugin } from './plugins/error'
 import { equationsPlugin } from './plugins/equations'
 import { exercisePlugin } from './plugins/exercise'
@@ -100,6 +97,32 @@ export function createPlugins({
         placeholder: i18n.t('anchor::ID of the anchor'),
       },
     }),
+    article: articlePlugin,
+    articleIntroduction: createMultimediaExplanationPlugin({
+      explanation: {
+        plugin: 'text',
+        config: {
+          placeholder: i18n.t('article::Write a short introduction'),
+          registry: [],
+        },
+      },
+      plugins: [
+        {
+          name: 'image',
+          title: i18n.t('multimedia::Image'),
+        },
+      ],
+      i18n: {
+        changeMultimediaType: i18n.t('multimedia::Change the multimedia type'),
+        illustrating: {
+          label: i18n.t('multimedia::How important is the multimedia content?'),
+          values: {
+            illustrating: i18n.t('multimedia::It is illustrating'),
+            explaining: i18n.t('multimedia::It is essential'),
+          },
+        },
+      },
+    }),
     blockquote: createBlockquotePlugin({
       content: {
         plugin: 'text',
@@ -135,6 +158,9 @@ export function createPlugins({
     inputExercise: createInputExercisePlugin({
       feedback: {
         plugin: 'text',
+        config: {
+          registry: [],
+        },
       },
       i18n: {
         types: {
@@ -142,10 +168,10 @@ export function createPlugins({
             'inputExercise::Text'
           ),
           [InputExerciseType.InputNumberExactMatchChallenge]: i18n.t(
-            'inputExercise::Number'
+            'inputExercise::Number ("0,5" ≠ "1/2" ≠ "2/4")'
           ),
           [InputExerciseType.InputExpressionEqualMatchChallenge]: i18n.t(
-            'inputExercise::Mathematical expression'
+            'inputExercise::Mathematical expression ("0,5" = "1/2" = "2/4")'
           ),
         },
         type: {
@@ -154,7 +180,11 @@ export function createPlugins({
         unit: {
           label: i18n.t('inputExercise::Unit'),
         },
+        feedback: {
+          label: i18n.t('inputExercise::Feedback'),
+        },
         answer: {
+          label: i18n.t('inputExercise::Answer'),
           addLabel: i18n.t('inputExercise::Add answer'),
           value: {
             placeholder: i18n.t('inputExercise::Enter the value'),
@@ -214,8 +244,8 @@ export function createPlugins({
       },
     }),
     scMcExercise: createScMcExercisePlugin({
-      content: { plugin: 'text' },
-      feedback: { plugin: 'text' },
+      content: { plugin: 'text', config: { registry: [] } },
+      feedback: { plugin: 'text', config: { registry: [] } },
       i18n: {
         types: {
           singleChoice: i18n.t('scMcExercise::Single-choice'),
@@ -224,7 +254,11 @@ export function createPlugins({
         isSingleChoice: {
           label: i18n.t('scMcExercise::Choose the exercise type'),
         },
+        feedback: {
+          label: i18n.t('scMcExercise::Feedback'),
+        },
         answer: {
+          label: i18n.t('scMcExercise::Answer'),
           addLabel: i18n.t('scMcExercise::Add answer'),
           fallbackFeedback: {
             wrong: i18n.t('scMcExercise::Wrong'),

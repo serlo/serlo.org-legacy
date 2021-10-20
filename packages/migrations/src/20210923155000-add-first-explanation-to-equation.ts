@@ -19,7 +19,16 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-export * from './clear-dead-uuids'
-export * from './create-migration'
-export * from './database'
-export * from './edtr-io'
+import { createEdtrIoMigration, updatePlugins } from './utils'
+
+createEdtrIoMigration({
+  exports,
+  migrateState: updatePlugins({
+    equations: ({ state }) => {
+      if (typeof state !== 'object' || state === null)
+        throw new Error('Illegal equation state')
+
+      return { firstExplanation: { plugin: 'text' }, ...state }
+    },
+  }),
+})

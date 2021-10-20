@@ -20,6 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { HotKeys, useScopedSelector, useScopedStore } from '@edtr-io/core'
+import { AddButton } from '@edtr-io/editor-ui/internal'
 import { PreferenceContext, setDefaultPreference } from '@edtr-io/core/beta'
 import { MathEditor } from '@edtr-io/math'
 import { StateTypeReturnType, StringStateType } from '@edtr-io/plugin'
@@ -33,21 +34,30 @@ import {
   EquationsRenderer,
   ExplanationTr,
   LeftTd,
+  MathTd,
+  renderDownArrow,
   SignTd,
   Table,
   TableWrapper,
+  toTransformationTarget,
+  TransformationTarget,
   TransformTd,
 } from './renderer'
-import { focusNext, focusPrevious, getFocused, isEmpty } from '@edtr-io/store'
+import {
+  focus,
+  focusNext,
+  focusPrevious,
+  getFocused,
+  isEmpty,
+} from '@edtr-io/store'
 import { renderSignToString, Sign } from './sign'
 import { EquationsProps, stepProps } from '.'
 
 enum StepSegment {
   Left = 0,
-  Sign = 1,
-  Right = 2,
-  Transform = 3,
-  Explanation = 4,
+  Right = 1,
+  Transform = 2,
+  Explanation = 3,
 }
 
 const preferenceKey = 'katex:usevisualmath'
@@ -77,22 +87,37 @@ export function EquationsEditor(props: EquationsProps) {
     R.includes(
       focusedElement,
       props.state.steps.map((step) => step.explanation.id)
-    )
+    ) ||
+    focusedElement === state.firstExplanation.id
+
+  const transformationTarget = toTransformationTarget(
+    state.transformationTarget.value
+  )
 
   const gridFocus = useGridFocus({
     rows: state.steps.length,
     columns: 4,
-    focusNext() {
-      store.dispatch(focusNext())
-    },
-    focusPrevious() {
-      store.dispatch(focusPrevious())
+    focusNext: () => store.dispatch(focusNext()),
+    focusPrevious: () => store.dispatch(focusPrevious()),
+    transformationTarget,
+    onFocusChanged: (state) => {
+      if (state === 'firstExplanation') {
+        store.dispatch(focus(props.state.firstExplanation.id))
+      } else if (state.column === StepSegment.Explanation) {
+        store.dispatch(focus(props.state.steps[state.row].explanation.id))
+      } else {
+        store.dispatch(focus(props.id))
+      }
     },
   })
 
   React.useEffect(() => {
     if (nestedFocus) {
-      gridFocus.setFocus({ row: 0, column: 0 })
+      gridFocus.setFocus({
+        row: 0,
+        column: firstColumn(transformationTarget),
+      })
+      store.dispatch(focus(props.id))
     }
   }, [nestedFocus])
 
@@ -112,20 +137,14 @@ export function EquationsEditor(props: EquationsProps) {
             if (
               gridFocus.isFocused({
                 row: state.steps.length - 1,
-                column: StepSegment.Transform,
+                column: lastColumn(transformationTarget),
               })
             ) {
-              const newIndex = state.steps.length
-              state.steps.insert(newIndex, {
-                left: '',
-                sign: state.steps[newIndex - 1].sign.value,
-                right: '',
-                transform: '',
-                explanation: { plugin: 'text' },
-              })
+              const index = state.steps.length
+              insertNewEquationAt(index)
               gridFocus.setFocus({
-                row: newIndex,
-                column: StepSegment.Left,
+                row: index - 1,
+                column: StepSegment.Explanation,
               })
             } else {
               gridFocus.moveRight()
@@ -133,29 +152,36 @@ export function EquationsEditor(props: EquationsProps) {
           })
         },
         FOCUS_PREVIOUS: (e) => {
-          handleKeyDown(e, () => {
-            gridFocus.moveLeft()
-          })
+          handleKeyDown(e, () => gridFocus.moveLeft())
         },
         INSERT: (e) => {
           handleKeyDown(e, () => {
-            if (!gridFocus.focus) return
-            const newIndex = gridFocus.focus.row + 1
-            state.steps.insert(newIndex, {
-              left: '',
-              sign: state.steps[newIndex - 1].sign.value,
-              right: '',
-              transform: '',
-              explanation: { plugin: 'text' },
-            })
-            gridFocus.setFocus({
-              row: newIndex,
-              column: StepSegment.Left,
-            })
+            if (!gridFocus.focus || gridFocus.focus === 'firstExplanation')
+              return
+            insertNewEquationWithFocus(gridFocus.focus.row + 1)
           })
         },
       }}
     >
+      {props.renderIntoSettings(
+        <div>
+          <label htmlFor="transformationTarget">
+            {i18n.t('equations::Mode')}:
+          </label>{' '}
+          <select
+            id="transformationTarget"
+            value={transformationTarget}
+            onChange={(e) => state.transformationTarget.set(e.target.value)}
+          >
+            <option value={TransformationTarget.Equation}>
+              {i18n.t('equations::Transformation of equations')}
+            </option>
+            <option value={TransformationTarget.Term}>
+              {i18n.t('equations::Transformation of terms')}
+            </option>
+          </select>
+        </div>
+      )}
       <TableWrapper>
         <DragDropContext
           onDragEnd={(result) => {
@@ -168,12 +194,13 @@ export function EquationsEditor(props: EquationsProps) {
             {(provided: any) => {
               return (
                 <Table ref={provided.innerRef} {...provided.droppableProps}>
-                  {state.steps.map((step, index) => {
+                  {renderFirstExplanation()}
+                  {state.steps.map((step, row) => {
                     return (
                       <Draggable
                         key={step.explanation.id}
                         draggableId={step.explanation.id}
-                        index={index}
+                        index={row}
                       >
                         {(provided: any) => {
                           return (
@@ -183,52 +210,70 @@ export function EquationsEditor(props: EquationsProps) {
                             >
                               <tr>
                                 <td>
-                                  <DragButton {...provided.dragHandleProps}>
+                                  <DragButton
+                                    {...provided.dragHandleProps}
+                                    tabIndex={-1}
+                                  >
                                     <EdtrIcon icon={edtrDragHandle} />
                                   </DragButton>
                                 </td>
                                 <StepEditor
                                   gridFocus={gridFocus}
-                                  row={index}
+                                  row={row}
                                   state={step}
+                                  transformationTarget={transformationTarget}
                                 />
                                 <td>
                                   <RemoveButton
-                                    onClick={() => {
-                                      state.steps.remove(index)
-                                    }}
+                                    tabIndex={-1}
+                                    onClick={() => state.steps.remove(row)}
                                   >
                                     <Icon icon={faTimes} />
                                   </RemoveButton>
                                 </td>
                               </tr>
-                              <ExplanationTr>
-                                <td />
-                                <td />
-                                <SignTd>
-                                  {isEmpty(step.explanation.id)(
-                                    store.getState()
-                                  )
-                                    ? null
-                                    : index === state.steps.length - 1
-                                    ? '→'
-                                    : '↓'}
-                                </SignTd>
-                                <td colSpan={2}>
-                                  {step.explanation.render({
-                                    config: {
-                                      placeholder: i18n.t(
-                                        'equations::explanation'
-                                      ),
-                                    },
-                                  })}
-                                </td>
-                              </ExplanationTr>
+                              {renderExplantionTr()}
                             </tbody>
                           )
                         }}
                       </Draggable>
                     )
+
+                    function renderExplantionTr() {
+                      if (row === state.steps.length - 1) return null
+
+                      return (
+                        <ExplanationTr
+                          onFocus={() =>
+                            gridFocus.setFocus({
+                              row,
+                              column: StepSegment.Explanation,
+                            })
+                          }
+                        >
+                          {transformationTarget ===
+                            TransformationTarget.Equation && <td />}
+                          <td />
+                          {!isEmpty(step.explanation.id)(store.getState()) ? (
+                            renderDownArrow()
+                          ) : (
+                            <td />
+                          )}
+                          <td colSpan={2}>
+                            {step.explanation.render({
+                              config: {
+                                placeholder:
+                                  row === 0 &&
+                                  transformationTarget ===
+                                    TransformationTarget.Term
+                                    ? i18n.t('equations::Combine like terms.')
+                                    : i18n.t('equations::Explanation'),
+                              },
+                            })}
+                          </td>
+                        </ExplanationTr>
+                      )
+                    }
                   })}
                   {provided.placeholder}
                 </Table>
@@ -236,13 +281,70 @@ export function EquationsEditor(props: EquationsProps) {
             }}
           </Droppable>
         </DragDropContext>
+        {renderAddButton()}
       </TableWrapper>
     </HotKeys>
   )
 
+  function renderFirstExplanation() {
+    if (transformationTarget === TransformationTarget.Term) return
+
+    return (
+      <tbody onFocus={() => gridFocus.setFocus('firstExplanation')}>
+        <ExplanationTr>
+          <td />
+          <td colSpan={3} style={{ textAlign: 'center' }}>
+            {state.firstExplanation.render({
+              config: {
+                placeholder: i18n.t(
+                  'equations::Set the terms equal to each other.'
+                ),
+              },
+            })}
+          </td>
+        </ExplanationTr>
+        <tr style={{ height: '30px' }}>
+          <td />
+          <td />
+          {!isEmpty(state.firstExplanation.id)(store.getState())
+            ? renderDownArrow()
+            : null}
+        </tr>
+      </tbody>
+    )
+  }
+
   function handleKeyDown(e: KeyboardEvent | undefined, next: () => void) {
     e && e.preventDefault()
     next()
+  }
+
+  function insertNewEquationAt(index: number) {
+    state.steps.insert(index, {
+      left: '',
+      sign: state.steps[index - 1].sign.value,
+      right: '',
+      transform: '',
+      explanation: { plugin: 'text' },
+    })
+  }
+
+  function insertNewEquationWithFocus(index: number) {
+    insertNewEquationAt(index)
+    gridFocus.setFocus({
+      row: index,
+      column: firstColumn(transformationTarget),
+    })
+  }
+
+  function renderAddButton() {
+    if (!nestedFocus) return
+
+    return (
+      <AddButton onClick={() => insertNewEquationWithFocus(state.steps.length)}>
+        {i18n.t('equations::Add new row')}
+      </AddButton>
+    )
   }
 }
 
@@ -260,124 +362,98 @@ interface StepEditorProps {
   gridFocus: GridFocus
   row: number
   state: StateTypeReturnType<typeof stepProps>
+  transformationTarget: TransformationTarget
 }
 
 function StepEditor(props: StepEditorProps) {
   const i18n = useI18n()
-  const { gridFocus, row, state } = props
-
-  const dropDown = React.useRef<HTMLSelectElement>(null)
-
-  React.useEffect(() => {
-    if (gridFocus.isFocused({ row, column: StepSegment.Sign })) {
-      dropDown.current?.focus()
-    }
-  })
+  const { gridFocus, row, state, transformationTarget } = props
 
   return (
     <>
-      <LeftTd
-        onClick={() => {
-          gridFocus.setFocus({ row, column: StepSegment.Left })
-        }}
-      >
-        <InlineMath
-          focused={gridFocus.isFocused({ row, column: StepSegment.Left })}
-          placeholder={`[${i18n.t('equations::left-hand side')}]`}
-          state={state.left}
-          onChange={(src) => {
-            state.left.set(src)
-          }}
-          onFocusNext={() => {
-            gridFocus.moveRight()
-          }}
-          onFocusPrevious={() => {
-            gridFocus.moveLeft()
-          }}
-        />
-      </LeftTd>
-      <SignTd
-        onClick={() => {
-          gridFocus.setFocus({ row, column: StepSegment.Sign })
-        }}
-      >
-        <DropDown
-          tabIndex={-1}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-            state.sign.set(e.target.value)
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Tab') {
-              if (e.shiftKey) {
-                gridFocus.moveLeft()
-              } else {
-                gridFocus.moveRight()
-              }
-            }
-            if (e.key === 'ArrowRight') gridFocus.moveRight()
-            if (e.key === 'ArrowLeft') gridFocus.moveLeft()
-            e.stopPropagation()
-          }}
-          value={state.sign.value}
-          ref={dropDown}
+      {transformationTarget === TransformationTarget.Equation && (
+        <LeftTd
+          onClick={() => gridFocus.setFocus({ row, column: StepSegment.Left })}
         >
-          {[
-            Sign.Equals,
-            Sign.GreaterThan,
-            Sign.LessThan,
-            Sign.GreaterThanOrEqual,
-            Sign.LessThanOrEqual,
-            Sign.AlmostEqualTo,
-          ].map((sign) => {
-            return (
-              <option key={sign} value={sign}>
-                {renderSignToString(sign)}
-              </option>
-            )
-          })}
-        </DropDown>
+          <InlineMath
+            focused={gridFocus.isFocused({ row, column: StepSegment.Left })}
+            placeholder={
+              row === 0 ? '3x+1' : `[${i18n.t('equations::left-hand side')}]`
+            }
+            state={state.left}
+            onChange={(src) => state.left.set(src)}
+            onFocusNext={() => gridFocus.moveRight()}
+            onFocusPrevious={() => gridFocus.moveLeft()}
+          />
+        </LeftTd>
+      )}
+      <SignTd>
+        {(transformationTarget === 'equation' || row !== 0) && (
+          <DropDown
+            tabIndex={-1}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              state.sign.set(e.target.value)
+            }}
+            value={state.sign.value}
+          >
+            {[
+              Sign.Equals,
+              Sign.GreaterThan,
+              Sign.LessThan,
+              Sign.GreaterThanOrEqual,
+              Sign.LessThanOrEqual,
+              Sign.AlmostEqualTo,
+              Sign.Estimates,
+            ].map((sign) => {
+              return (
+                <option key={sign} value={sign}>
+                  {renderSignToString(sign)}
+                </option>
+              )
+            })}
+          </DropDown>
+        )}
       </SignTd>
-      <td
-        onClick={() => {
-          gridFocus.setFocus({ row, column: StepSegment.Right })
-        }}
+      <MathTd
+        onClick={() => gridFocus.setFocus({ row, column: StepSegment.Right })}
       >
         <InlineMath
           focused={gridFocus.isFocused({ row, column: StepSegment.Right })}
-          placeholder={`[${i18n.t('equations::right-hand side')}]`}
+          placeholder={
+            row === 0
+              ? '4x+3x'
+              : transformationTarget === TransformationTarget.Term
+              ? `[${i18n.t('equations::Term')}]`
+              : `[${i18n.t('equations::right-hand side')}]`
+          }
           state={state.right}
-          onChange={(src) => {
-            state.right.set(src)
-          }}
-          onFocusNext={() => {
-            gridFocus.moveRight()
-          }}
-          onFocusPrevious={() => {
-            gridFocus.moveLeft()
-          }}
+          onChange={(src) => state.right.set(src)}
+          onFocusNext={() => gridFocus.moveRight()}
+          onFocusPrevious={() => gridFocus.moveLeft()}
         />
-      </td>
-      <TransformTd
-        onClick={() => {
-          gridFocus.setFocus({ row, column: StepSegment.Transform })
-        }}
-      >
-        {state.transform.value === '' ? '' : '|'}
-        <InlineMath
-          focused={gridFocus.isFocused({ row, column: StepSegment.Transform })}
-          placeholder={`[${i18n.t('equations::transformation')}]`}
-          state={state.transform}
-          onChange={(src) => {
-            state.transform.set(src)
-          }}
-          onFocusNext={() => {
-            gridFocus.moveRight()
-          }}
-          onFocusPrevious={() => {
-            gridFocus.moveLeft()
-          }}
-        />
-      </TransformTd>
+      </MathTd>
+      {transformationTarget === TransformationTarget.Equation && (
+        <TransformTd
+          onClick={() =>
+            gridFocus.setFocus({ row, column: StepSegment.Transform })
+          }
+        >
+          |{' '}
+          <InlineMath
+            focused={gridFocus.isFocused({
+              row,
+              column: StepSegment.Transform,
+            })}
+            placeholder={
+              row === 0 ? '-3x' : `[${i18n.t('equations::transformation')}]`
+            }
+            state={state.transform}
+            onChange={(src) => state.transform.set(src)}
+            onFocusNext={() => gridFocus.moveRight()}
+            onFocusPrevious={() => gridFocus.moveLeft()}
+          />
+        </TransformTd>
+      )}
     </>
   )
 }
@@ -410,11 +486,7 @@ function InlineMath(props: InlineMathProps) {
     <MathEditor
       readOnly={!focused}
       state={`${prefix}${state.value}${suffix}`}
-      config={{
-        i18n: {
-          placeholder: props.placeholder,
-        },
-      }}
+      config={{ i18n: { placeholder: props.placeholder } }}
       inline
       disableBlock
       visual={preferences.getKey(preferenceKey) === true}
@@ -422,28 +494,24 @@ function InlineMath(props: InlineMathProps) {
         preferences.setKey(preferenceKey, visual)
       }}
       onInlineChange={() => {}}
-      onChange={(value) => {
-        onChange(value)
-      }}
-      onMoveOutRight={() => {
-        onFocusNext()
-      }}
-      onMoveOutLeft={() => {
-        onFocusPrevious()
-      }}
+      onChange={onChange}
+      onMoveOutRight={onFocusNext}
+      onMoveOutLeft={onFocusPrevious}
     />
   )
 }
 
-type GridFocusState = {
-  row: number
-  column: number
-} | null
+type GridFocusState =
+  | {
+      row: number
+      column: number
+    }
+  | 'firstExplanation'
 
 interface GridFocus {
-  focus: GridFocusState
-  isFocused: (payload: { row: number; column: number }) => boolean
-  setFocus: (focus: GridFocusState) => void
+  focus: GridFocusState | null
+  isFocused: (cell: GridFocusState) => boolean
+  setFocus: (cell: GridFocusState) => void
   moveRight: () => void
   moveLeft: () => void
 }
@@ -453,48 +521,100 @@ function useGridFocus({
   columns,
   focusNext,
   focusPrevious,
+  onFocusChanged,
+  transformationTarget,
 }: {
   rows: number
   columns: number
   focusNext: () => void
   focusPrevious: () => void
+  onFocusChanged: (args: GridFocusState) => void
+  transformationTarget: TransformationTarget
 }): GridFocus {
-  const [focus, setFocus] = React.useState<GridFocusState | null>(null)
+  const [focus, setFocusState] = React.useState<GridFocusState | null>(null)
+  const setFocus = (state: GridFocusState) => {
+    onFocusChanged(state)
+    setFocusState(state)
+  }
 
   return {
     focus,
-    isFocused({ row, column }) {
-      return focus !== null && focus.row === row && focus.column === column
+    isFocused(state) {
+      if (focus === null) return false
+      if (focus === 'firstExplanation') return state === focus
+
+      return (
+        state !== 'firstExplanation' &&
+        focus.row === state.row &&
+        focus.column === state.column
+      )
     },
     setFocus,
     moveRight() {
       if (focus === null) return
-      // Last column
-      if (focus.column === columns - 1) {
-        // Last row
-        if (focus.row === rows - 1) {
-          focusNext()
+      if (focus === 'firstExplanation') {
+        setFocus({ row: 0, column: firstColumn(transformationTarget) })
+        return
+      }
+
+      if (
+        focus.row === rows - 1 &&
+        focus.column === lastColumn(transformationTarget)
+      ) {
+        focusNext()
+      } else if (transformationTarget === TransformationTarget.Term) {
+        if (focus.column === StepSegment.Right) {
+          setFocus({ row: focus.row, column: StepSegment.Explanation })
         } else {
-          setFocus({ row: focus.row + 1, column: 0 })
+          setFocus({
+            row: focus.row + 1,
+            column: firstColumn(transformationTarget),
+          })
         }
+      } else if (focus.column === columns - 1) {
+        setFocus({ row: focus.row + 1, column: StepSegment.Left })
       } else {
         setFocus({ row: focus.row, column: focus.column + 1 })
       }
     },
     moveLeft() {
       if (focus === null) return
+      if (focus === 'firstExplanation') {
+        focusPrevious()
+        return
+      }
 
-      // First column
-      if (focus.column === 0) {
-        // First row
-        if (focus.row === 0) {
+      if (transformationTarget === TransformationTarget.Term) {
+        if (focus.row === 0 && focus.column === StepSegment.Right) {
           focusPrevious()
+        } else if (focus.column === StepSegment.Right) {
+          setFocus({ row: focus.row - 1, column: StepSegment.Explanation })
         } else {
-          setFocus({ row: focus.row - 1, column: columns - 1 })
+          setFocus({ row: focus.row, column: StepSegment.Right })
         }
       } else {
-        setFocus({ row: focus.row, column: focus.column - 1 })
+        if (focus.column === 0) {
+          if (focus.row === 0) {
+            setFocus('firstExplanation')
+          } else {
+            setFocus({ row: focus.row - 1, column: columns - 1 })
+          }
+        } else {
+          setFocus({ row: focus.row, column: focus.column - 1 })
+        }
       }
     },
   }
+}
+
+function firstColumn(transformationTarget: TransformationTarget) {
+  return transformationTarget === TransformationTarget.Term
+    ? StepSegment.Right
+    : StepSegment.Left
+}
+
+function lastColumn(transformationTarget: TransformationTarget) {
+  return transformationTarget === TransformationTarget.Term
+    ? StepSegment.Right
+    : StepSegment.Transform
 }

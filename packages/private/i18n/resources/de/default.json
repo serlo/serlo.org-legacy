@@ -51,9 +51,9 @@
     "Current": "Aktuell",
     "Author": "Verfasser",
     "Created at": "Zeitstempel",
-    "Equations": "Gleichungen",
-    "Create mathematical equations and terms.": "Füge mathematische Gleichungen und Terme hinzu.",
-    "Settings": "Einstellungen"
+    "Settings": "Einstellungen",
+    "Terms and equations": "Terme und Gleichungen",
+    "Write term manipulations and solve multiline equations.": "Erstelle Termumformungen und löse mehrzeilige Gleichungen."
   },
   "anchor": {
     "Identifier": "Name",
@@ -71,15 +71,17 @@
   },
   "inputExercise": {
     "Text": "Text",
-    "Number": "Zahl",
-    "Mathematical expression": "Mathematischer Ausdruck",
     "Choose the exercise type": "Wähle den Antworttyp",
     "Unit": "Einheit (optional)",
     "Add answer": "Antwort hinzufügen",
     "Enter the value": "Gib hier die Antwort ein",
     "Your solution": "Deine Lösung",
     "Correct": "Richtig",
-    "Wrong": "Falsch"
+    "Wrong": "Falsch",
+    "Number (\"0,5\" ≠ \"1/2\" ≠ \"2/4\")": "Zahl (\"0,5\" ≠ \"1/2\" ≠ \"2/4\")",
+    "Mathematical expression (\"0,5\" = \"1/2\" = \"2/4\")": "Mathematischer Ausdruck (\"0,5\" = \"1/2\" = \"2/4\")",
+    "Feedback": "Feedback",
+    "Answer": "Antwort"
   },
   "multimedia": {
     "Image": "Bild",
@@ -105,7 +107,9 @@
     "Add answer": "Antwort hinzufügen",
     "Wrong": "Falsch",
     "Almost! You missed at least one correct answer": "Fast! Dir fehlt noch mindestens eine richtige Antwort",
-    "Correct": "Richtig"
+    "Correct": "Richtig",
+    "Feedback": "Feedback",
+    "Answer": "Antwort"
   },
   "spoiler": {
     "Enter a title": "Titel eingeben"
@@ -172,7 +176,7 @@
   },
   "solution": {
     "Optionally explain the solution strategy here": "Beschreibe hier optional die Lösungsstrategie",
-    "For this exercise, you need the following fundamentals:": "Für diese Aufgabe benötigst Du folgendes Grundwissen:",
+    "For this exercise, you need the following fundamentals:": "Für diese Aufgabe benötigst du folgendes Grundwissen:",
     "ID of an article, e.g. 1855": "ID eines Artikels, z.B. 1855",
     "Open the article in a new tab:": "Öffne den Artikel in einem neuen Tab",
     "Title of the link": "Titel der Verlinkung",
@@ -187,7 +191,38 @@
   "article": {
     "Title for search engines": "Titel für Suchmaschinen",
     "Description for search engines": "Beschreibung für Suchmaschinen",
-    "Title": "Titel"
+    "Title": "Titel",
+    "Write a short introduction": "Fasse das Thema des Artikels kurz zusammen",
+    "Exercises": "Übungsaufgaben",
+    "Drag the exercise": "Verschiebe die Aufgabe",
+    "Remove exercise": "Entferne die Aufgabe",
+    "Add optional exercise": "Aufgabe hinzufügen",
+    "Still want more?": "Du hast noch nicht genug vom Thema?",
+    "You can find more content on this topic here": "Hier findest du noch weitere passende Inhalte zum Thema",
+    "Articles": "Artikel",
+    "Add article": "Artikel hinzufügen",
+    "ID of an article, e.g. 1855": "ID eines Artikels, z.B. 1855",
+    "Open the article in a new tab:": "Öffne den Artikel in einem neuen Tab",
+    "Drag the article": "Verschiebe den Artikel",
+    "Courses": "Kurse",
+    "Add course": "Kurs hinzufügen",
+    "ID of a course, e.g. 51979": "ID eines Kurses, z.B. 51979",
+    "Open the course in a new tab:": "Öffne den Kurs in einem neuen Tab",
+    "Drag the course": "Verschiebe den Kurs",
+    "Videos": "Videos",
+    "Add video": "Video hinzufügen",
+    "ID of a video, e.g. 40744": "ID eines Videos, z.B. 40744",
+    "Open the video in a new tab:": "Öffne das Video in einem neuen Tab",
+    "Drag the video": "Verschiebe das Video",
+    "Title of the link": "Titel des Links",
+    "Sources": "Quellen",
+    "URL of the link": "URL des Links",
+    "Open the link in a new tab:": "Öffne den Link in einem neuen Tab",
+    "Drag the source": "Verschiebe die Quellenangabe",
+    "Add source": "Quellenangabe hinzufügen",
+    "You can find more exercises in the following folder": "Weitere Aufgaben zum Thema findest du im folgenden Aufgabenordner",
+    "ID of an exercise folder, e.g. 30560": "ID eines Aufgabenordners, z.B. 30560",
+    "Open the exercise folder in a new tab:": "Öffne den Aufgabenordner in einem neuen Tab"
   },
   "coursePage": {
     "Explanation": "Erklärung",
@@ -224,10 +259,17 @@
     "Create solution": "Lösung hinzufügen"
   },
   "equations": {
-    "explanation": "Erklärung",
     "left-hand side": "linke Seite",
+    "transformation": "Umformung",
+    "Mode": "Modus",
+    "Transformation of equations": "Gleichungsumformung",
+    "Transformation of terms": "Termumformung",
+    "Add new row": "Neue Zeile hinzufügen",
+    "Explanation": "Erklärung",
+    "Term": "Term",
     "right-hand side": "rechte Seite",
-    "transformation": "Umformung"
+    "Combine like terms.": "Fasse die Terme zusammen.",
+    "Set the terms equal to each other.": "Setze die Terme gleich."
   },
   "mathPuzzle": {
     "Source code": "Quellcode"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serlo\n"
 "POT-Creation-Date: 2021-07-21 18:20+0200\n"
-"PO-Revision-Date: 2021-07-21 16:40\n"
+"PO-Revision-Date: 2021-10-02 12:50\n"
 "Last-Translator: Aeneas Rekkas <aeneas.rekkas@serlo.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -257,16 +257,16 @@ msgstr "Type :"
 
 #: ../module/Authentication/src/Adapter/UserAuthAdapter.php:100
 msgid "Your account was deleted."
-msgstr ""
+msgstr "Ton compte a été supprimé."
 
 #: ../module/Authentication/src/Adapter/UserAuthAdapter.php:108
 msgid "You have not activated your account."
-msgstr ""
+msgstr "Tu n'as pas encore activé ton compte."
 
 #: ../module/Authentication/src/Adapter/UserAuthAdapter.php:121
 #: ../module/Authentication/src/Adapter/UserAuthAdapter.php:132
 msgid "We have no registered user with this combination of username/email and password."
-msgstr ""
+msgstr "Nous ne pouvons pas trouver un utilisateur avec ce nom d'utilisateur/email et ce mot de passe."
 
 #: ../module/Authentication/src/Controller/AuthenticationController.php:78
 msgid "Your account has been activated, you may now log in."
@@ -373,7 +373,7 @@ msgstr "Soumettre"
 
 #: ../module/Entity/src/Controller/EntityController.php:114
 msgid "Entities without a subject"
-msgstr ""
+msgstr "Entités sans sujet"
 
 #: ../module/Entity/src/Controller/EntityController.php:144
 msgid "Guideline for reviewing"
@@ -1536,7 +1536,7 @@ msgstr "Rejeter la révision"
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:32
 msgid "Please specify why you do not accept the revision:"
-msgstr ""
+msgstr "Veuille indiquer pourquoi tu n'acceptes pas la révision :"
 
 #: ../module/Ui/templates/entity/repository/modal-reject.twig:38
 msgid "Reject"
@@ -1552,11 +1552,11 @@ msgstr "Ressources d'apprentissage non révisées"
 
 #: ../module/Ui/templates/entity/unrevised.twig:25
 msgid "This page does not show all unrevised revisions:"
-msgstr ""
+msgstr "Cette page n'affiche pas toutes les révisions non révisées :"
 
 #: ../module/Ui/templates/entity/unrevised.twig:28
 msgid "Show more unrevised revisions"
-msgstr ""
+msgstr "Afficher plus de révisions non révisées"
 
 #: ../module/Ui/templates/entity/unrevised.twig:32
 msgid "Support links for reviewing"
@@ -1580,7 +1580,7 @@ msgstr "page du cours"
 
 #: ../module/Ui/templates/entity/view/course.twig:22
 msgid "Course has no course page. Please add one."
-msgstr ""
+msgstr "Le cours n'a pas une page de cours. Veuille en ajouter une."
 
 #: ../module/Ui/templates/entity/view/event.twig:22
 msgid "event"
@@ -1826,11 +1826,11 @@ msgstr "%user% a controlé %revision% dans %repository%"
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:28
 msgid "%user% did not accept %revision% in %repository%: \"%reason%\""
-msgstr ""
+msgstr "%user% n'a pas accepté %revision% dans %repository%: \"%reason%\""
 
 #: ../module/Ui/templates/event/helper/event/entity/revision/reject.twig:32
 msgid "%user% did not accept %revision% in %repository%"
-msgstr ""
+msgstr "%user% n'a pas accepté %revision% dans %repository%"
 
 #: ../module/Ui/templates/event/helper/event/license/object/set.twig:26
 msgid "%user% changed the license of %object%"
@@ -2115,12 +2115,12 @@ msgstr "%user% a accepté une %revision% de %repository%"
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:31
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:46
 msgid "%user% did not accept a %revision% of %repository%: %reason%"
-msgstr ""
+msgstr "%user% n'a pas accepté une %revision% dans %repository%: %reason%"
 
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:35
 #: ../module/Ui/templates/notification/type/entity/revision/reject.twig:50
 msgid "%user% did not accept a %revision% of %repository%"
-msgstr ""
+msgstr "%user% n'a pas accepté une %revision% dans %repository%"
 
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:28
 #: ../module/Ui/templates/notification/type/taxonomy/term/associate.twig:36

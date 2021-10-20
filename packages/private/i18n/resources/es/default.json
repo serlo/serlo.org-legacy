@@ -5,7 +5,7 @@
     "This content type isn't supported by the new editor, yet.": "Este tipo de contenido aún no está respaldado por el nuevo editor.",
     "Edit the content in the old editor.": "Edita el contenido en el antiguo editor.",
     "An error occurred during the conversion.": "Se produjo un error durante la conversión.",
-    "We found an old revision created by you. Do you want to restore it?": "Hemos encontrado una revisión anterior creada por usted. ¿Desea restaurarla?",
+    "We found an old revision created by you. Do you want to restore it?": "Hemos encontrado una revisión anterior creada por ti. ¿Deseas restaurarla?",
     "This entity hasn't been converted to the new editor, yet.": "Esta entidad aún no ha sido convertida al nuevo editor.",
     "Text": "Texto",
     "Compose content using rich text and math formulas.": "Redacta el contenido usando texto enriquecido y fórmulas matemáticas.",
@@ -36,9 +36,9 @@
     "Save": "Guardar",
     "Cancel": "Cancelar",
     "Saving…": "Guardando…",
-    "You need to fill out the changes you made": "Necesitas rellenar los cambios que hiciste",
+    "You need to fill out the changes you made": "Tienes que indicar los cambios que has hecho",
     "You need to accept the license terms": "Necesitas aceptar los términos de la licencia",
-    "You need to fill out the changes you made and accept the license terms": "Necesitas rellenar los cambios que has realizado y aceptar los términos de la licencia",
+    "You need to fill out the changes you made and accept the license terms": "Necesitas indicar los cambios que has realizado y aceptar los términos de la licencia",
     "An error occurred during saving.": "Se ha producido un error al guardar.",
     "You can store the revision locally, refresh the page and try to save again.": "Puedes guardar la revisión localmente, actualiza la página e intenta guardar de nuevo.",
     "Revision saved": "Revisión guardada",
@@ -51,9 +51,9 @@
     "Current": "Actual",
     "Author": "Autor",
     "Created at": "Creado el",
-    "Equations": "Ecuaciones",
-    "Create mathematical equations and terms.": "Crea ecuaciones matemáticas y términos.",
-    "Settings": "Configuración"
+    "Settings": "Configuración",
+    "Terms and equations": "Términos y ecuaciones",
+    "Write term manipulations and solve multiline equations.": "Escribe manipulaciones de términos y resuelve ecuaciones múltiples."
   },
   "anchor": {
     "Identifier": "Identificador",
@@ -71,15 +71,15 @@
   },
   "inputExercise": {
     "Text": "Texto",
-    "Number": "Número",
-    "Mathematical expression": "Expresión matemática",
     "Choose the exercise type": "Elige el tipo de ejercicio",
     "Unit": "Unidad",
     "Add answer": "Añadir respuesta",
     "Enter the value": "Introduzca el valor",
     "Your solution": "Tu solución",
     "Correct": "Correcto",
-    "Wrong": "Incorrecto"
+    "Wrong": "Incorrecto",
+    "Number (exact solution, e.g. \"0,5\" ≠ \"1/2\" ≠ \"2/4\")": "Número (solución exacta, por ejemplo \"0,5\" ≠ \"1/2\" ≠ \"2/4\")",
+    "Mathematical expression (equivalent solution, e.g. \"0,5\" = \"1/2\" = \"2/4\")": "Expresión matemática (solución equivaletne, por ejemplo \"0,5\" = \"1/2\" = \"2/4\")"
   },
   "multimedia": {
     "Image": "Imágen",
@@ -187,7 +187,38 @@
   "article": {
     "Title for search engines": "Título para motores de búsqueda",
     "Description for search engines": "Descripción para los motores de búsqueda",
-    "Title": "Título"
+    "Title": "Título",
+    "Write a short introduction": "Escribe una breve introducción",
+    "Exercises": "Ejercicios",
+    "Drag the exercise": "Arrastra el ejercicio",
+    "Remove exercise": "Eliminar ejercicio",
+    "Add optional exercise": "Añadir ejercicio opcional",
+    "Still want more?": "¿Todavía quieres más?",
+    "You can find more content on this topic here": "Puedes encontrar más contenido sobre este tema aquí:",
+    "Articles": "Artículos",
+    "Add article": "Añadir artículo",
+    "ID of an article, e.g. 1855": "ID de un artículo, p. ej., 1855",
+    "Open the article in a new tab:": "Abrir el artículo en una nueva pestaña:",
+    "Drag the article": "Arrastre el artículo",
+    "Courses": "Cursos",
+    "Add course": "Añadir un Curso",
+    "ID of a course, e.g. 51979": "ID de un curso, ej. 51979",
+    "Open the course in a new tab:": "Abrir el artículo en una nueva pestaña:",
+    "Drag the course": "Arrastra el curso",
+    "Videos": "Vídeos",
+    "Add video": "Añadir vídeo",
+    "ID of a video, e.g. 40744": "ID de un vídeo, p. ej., 40744",
+    "Open the video in a new tab:": "Abrir el vídei en una nueva pestaña",
+    "Drag the video": "Arrastra el vídeo",
+    "Title of the link": "Título del enlace",
+    "Sources": "Fuentes",
+    "URL of the link": "URL del enlace",
+    "Open the link in a new tab:": "Abrir el vínculo en una nueva pestaña",
+    "Drag the source": "Arrastra la fuente",
+    "Add source": "Añadir fuente",
+    "You can find more exercises in the following folder": "Puedes encontrar más ejercicios en la siguiente carpeta:",
+    "ID of an exercise folder, e.g. 30560": "ID de una carpeta de ejercicios, ej. 30560",
+    "Open the exercise folder in a new tab:": "Abrir la carpeta de ejercicios en una nueva pestaña:"
   },
   "coursePage": {
     "Explanation": "Explicación",
@@ -224,10 +255,17 @@
     "Create solution": "Crear solución"
   },
   "equations": {
-    "explanation": "Explicación",
     "left-hand side": "Lado izquierdo",
+    "transformation": "transformación",
+    "Mode": "Modalidad",
+    "Transformation of equations": "Transformación de ecuaciones",
+    "Transformation of terms": "Transformación de términos",
+    "Add new row": "Añadir nuevo renglón",
+    "Explanation": "Explicación",
+    "Term": "Término",
     "right-hand side": "Lado derecho",
-    "transformation": "transformación"
+    "Combine like terms.": "Combina como términos.",
+    "Set the terms equal to each other.": "Establecer los términos iguales entre sí."
   },
   "mathPuzzle": {
     "Source code": "Código fuente"
