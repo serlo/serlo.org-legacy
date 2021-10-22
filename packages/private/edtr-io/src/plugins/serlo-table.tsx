@@ -79,12 +79,13 @@ const AddColumnButton = styled(AddButton)({
   height: '100%',
 })
 
-// From edtor-io
+// TODO: From edtor-io -> export it there?!
 const RemoveButton = styled.button({
   outline: 'none',
   width: '35px',
   border: 'none',
   background: 'transparent',
+  color: 'lightgrey',
 })
 
 function SerloTableEditor(props: SerloTableProps) {
