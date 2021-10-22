@@ -125,6 +125,7 @@ function SerloTableEditor(props: SerloTableProps) {
             <td style={{ textAlign: 'center' }} key={key}>
               <RemoveButton
                 onClick={() => {
+                  if (headers.length === 1) return
                   headers.remove(column)
                   for (const row of rows) {
                     row.columns.remove(column)
