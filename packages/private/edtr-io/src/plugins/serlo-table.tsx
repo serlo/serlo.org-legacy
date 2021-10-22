@@ -118,100 +118,102 @@ function SerloTableEditor(props: SerloTableProps) {
 
   return (
     <Table>
-      <tr>
-        <td />
-        {R.range(0, headers.length).map((column) => (
-          <td style={{ textAlign: 'center' }}>
-            <RemoveButton
+      <tbody>
+        <tr>
+          <td />
+          {R.range(0, headers.length).map((column, key) => (
+            <td style={{ textAlign: 'center' }} key={key}>
+              <RemoveButton
+                onClick={() => {
+                  headers.remove(column)
+                  for (const row of rows) {
+                    row.columns.remove(column)
+                  }
+                }}
+              >
+                <Icon icon={faTimes} />
+              </RemoveButton>
+            </td>
+          ))}
+        </tr>
+        <tr>
+          <td />
+          {headers.map(({ content }, column) => (
+            <TableHeader key={column}>
+              {content.render({ config: { placeholder: '' } })}
+            </TableHeader>
+          ))}
+          <td rowSpan={rows.length + 1} style={{ height: '100%' }}>
+            <AddColumnButton
               onClick={() => {
-                headers.remove(column)
+                headers.insert(headers.length, { content: { plugin: 'text' } })
+
                 for (const row of rows) {
-                  row.columns.remove(column)
+                  row.columns.insert(row.columns.length, {
+                    content: { plugin: 'text' },
+                  })
                 }
               }}
             >
-              <Icon icon={faTimes} />
-            </RemoveButton>
+              +
+            </AddColumnButton>
           </td>
-        ))}
-      </tr>
-      <tr>
-        <td />
-        {headers.map(({ content }, column) => (
-          <TableHeader key={column}>
-            {content.render({ config: { placeholder: '' } })}
-          </TableHeader>
-        ))}
-        <td rowSpan={rows.length + 1} style={{ height: '100%' }}>
-          <AddColumnButton
-            onClick={() => {
-              headers.insert(headers.length, { content: { plugin: 'text' } })
+        </tr>
+        {rows.map(({ columns }, rowIndex) => (
+          <tr key={rowIndex}>
+            <td style={{ width: '2em' }}>
+              <RemoveButton onClick={() => rows.remove(rowIndex)}>
+                <Icon icon={faTimes} />
+              </RemoveButton>
+            </td>
+            {columns.map(({ content }, columnIndex) => {
+              const isImage =
+                getDocument(content.get())(store.getState())?.plugin === 'image'
+              const contentHasFocus = isFocused(content.get())(store.getState())
 
-              for (const row of rows) {
-                row.columns.insert(row.columns.length, {
-                  content: { plugin: 'text' },
+              return isImage ? (
+                <ImageCell
+                  key={columnIndex}
+                  style={{ width: `${100 / headers.length}%` }}
+                >
+                  {content.render()}
+                  {contentHasFocus && (
+                    // TODO: Is there a trick to not use onMouseDown?!
+                    <ConvertLink onMouseDown={() => content.replace('text')}>
+                      {i18n.t('convert to text')}
+                    </ConvertLink>
+                  )}
+                </ImageCell>
+              ) : (
+                <TableCell key={columnIndex}>
+                  {content.render({ config: { placeholder: '' } })}
+                  {contentHasFocus && (
+                    <ConvertLink onMouseDown={() => content.replace('image')}>
+                      {i18n.t('convert to image')}
+                    </ConvertLink>
+                  )}
+                </TableCell>
+              )
+            })}
+          </tr>
+        ))}
+        <tr>
+          <td />
+          <td colSpan={headers.length}>
+            <AddButton
+              onClick={() =>
+                rows.insert(headers.length, {
+                  columns: R.range(0, headers.length).map((_) => {
+                    return { content: { plugin: 'text' } }
+                  }),
                 })
               }
-            }}
-          >
-            +
-          </AddColumnButton>
-        </td>
-      </tr>
-      {rows.map(({ columns }, rowIndex) => (
-        <tr key={rowIndex}>
-          <td style={{ width: '2em' }}>
-            <RemoveButton onClick={() => rows.remove(rowIndex)}>
-              <Icon icon={faTimes} />
-            </RemoveButton>
+            >
+              {i18n.t('+ Add row')}
+            </AddButton>
           </td>
-          {columns.map(({ content }, columnIndex) => {
-            const isImage =
-              getDocument(content.get())(store.getState())?.plugin === 'image'
-            const contentHasFocus = isFocused(content.get())(store.getState())
-
-            return isImage ? (
-              <ImageCell
-                key={columnIndex}
-                style={{ width: `${100 / headers.length}%` }}
-              >
-                {content.render()}
-                {contentHasFocus && (
-                  // TODO: Is there a trick to not use onMouseDown?!
-                  <ConvertLink onMouseDown={() => content.replace('text')}>
-                    {i18n.t('convert to text')}
-                  </ConvertLink>
-                )}
-              </ImageCell>
-            ) : (
-              <TableCell key={columnIndex}>
-                {content.render({ config: { placeholder: '' } })}
-                {contentHasFocus && (
-                  <ConvertLink onMouseDown={() => content.replace('image')}>
-                    {i18n.t('convert to image')}
-                  </ConvertLink>
-                )}
-              </TableCell>
-            )
-          })}
         </tr>
-      ))}
-      <tr>
-        <td />
-        <td colSpan={headers.length}>
-          <AddButton
-            onClick={() =>
-              rows.insert(headers.length, {
-                columns: R.range(0, headers.length).map((_) => {
-                  return { content: { plugin: 'text' } }
-                }),
-              })
-            }
-          >
-            {i18n.t('+ Add row')}
-          </AddButton>
-        </td>
-      </tr>
+      </tbody>
     </Table>
   )
 }
