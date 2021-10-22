@@ -18,10 +18,9 @@ const tableState = object({
   headers: list(object({ content: child({ plugin: 'text' }) }), 2),
   rows: list(
     object({
-      // TODO: How to fix the bugs when we change this to "rows"?!
-      columns: list(object({ content: child({ plugin: 'rows' }) }), 2),
+      columns: list(object({ content: child({ plugin: 'text' }) }), 2),
     }),
-    3
+    4
   ),
 })
 
