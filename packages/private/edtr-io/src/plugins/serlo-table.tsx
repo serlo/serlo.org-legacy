@@ -6,7 +6,13 @@ import {
   object,
 } from '@edtr-io/plugin'
 import { useScopedSelector, useScopedStore } from '@edtr-io/core'
-import { getDocument, getFocused, isEmpty, isFocused } from '@edtr-io/store'
+import {
+  focus,
+  getDocument,
+  getFocused,
+  isEmpty,
+  isFocused,
+} from '@edtr-io/store'
 import React from 'react'
 import { useI18n } from '@serlo/i18n'
 import { Icon, faTimes, styled } from '@edtr-io/ui'
@@ -186,7 +192,10 @@ function SerloTableEditor(props: SerloTableProps) {
                   )}
                 </ImageCell>
               ) : (
-                <TableCell key={columnIndex}>
+                <TableCell
+                  key={columnIndex}
+                  onClick={() => store.dispatch(focus(content.get()))}
+                >
                   {content.render({ config: { placeholder: '' } })}
                   {contentHasFocus && (
                     <ConvertLink onMouseDown={() => content.replace('image')}>
