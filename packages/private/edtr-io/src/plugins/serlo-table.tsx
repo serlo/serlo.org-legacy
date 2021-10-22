@@ -4,6 +4,7 @@ import {
   EditorPluginProps,
   list,
   object,
+  string,
 } from '@edtr-io/plugin'
 import { useScopedSelector, useScopedStore } from '@edtr-io/core'
 import {
@@ -18,16 +19,24 @@ import { useI18n } from '@serlo/i18n'
 import { Icon, faTimes, styled } from '@edtr-io/ui'
 import * as R from 'ramda'
 
+enum TableType {
+  OnlyColumnHeader = 'OnlyColumnHeader',
+  OnlyRowHeader = 'OnlyRowHeader',
+  ColumnAndRowHeader = 'RowAndColumnHeader',
+}
+
 const tableState = object({
   // TODO: Dont allow headings, bold, italic
   // TODO: Make this inline text (option in slate)
-  headers: list(object({ content: child({ plugin: 'text' }) }), 2),
+  columnHeaders: list(object({ content: child({ plugin: 'text' }) }), 2),
+  rowHeaders: list(object({ content: child({ plugin: 'text' }) }), 4),
   rows: list(
     object({
       columns: list(object({ content: child({ plugin: 'text' }) }), 2),
     }),
     4
   ),
+  tableType: string(TableType.OnlyColumnHeader),
 })
 
 export type SerloTablePluginState = typeof tableState
@@ -53,7 +62,6 @@ const Table = styled.table({
 
 const TableHeader = styled.th({
   border: '1px solid black',
-  minWidth: '8em',
   backgroundColor: '#ddd',
 })
 
@@ -105,13 +113,16 @@ const ConvertLink = styled.a({
 
 function SerloTableEditor(props: SerloTableProps) {
   const i18n = useI18n()
-  const { headers, rows } = props.state
+  const { rowHeaders, columnHeaders, rows } = props.state
   const store = useScopedStore()
 
   const focusedElement = useScopedSelector(getFocused())
   const nestedFocus =
     props.focused ||
-    headers
+    columnHeaders
+      .map((header) => header.content.id as string | null)
+      .includes(focusedElement) ||
+    rowHeaders
       .map((header) => header.content.id as string | null)
       .includes(focusedElement) ||
     rows.some((row) =>
@@ -120,19 +131,49 @@ function SerloTableEditor(props: SerloTableProps) {
         .includes(focusedElement)
     )
 
+  const tableType = getTableType(props.state.tableType.value)
+  const showRowHeader =
+    tableType === TableType.OnlyRowHeader ||
+    tableType === TableType.ColumnAndRowHeader
+  const showColumnHeader =
+    tableType === TableType.OnlyColumnHeader ||
+    tableType === TableType.ColumnAndRowHeader
+
   if (!nestedFocus) return <SerloTableRenderer {...props} />
 
   return (
     <Table>
+      {props.renderIntoSettings(
+        <div>
+          <label>
+            {i18n.t('serloTable::Mode')}:{' '}
+            <select
+              value={tableType}
+              onChange={(e) => props.state.tableType.set(e.target.value)}
+            >
+              <option value={TableType.OnlyColumnHeader}>
+                {i18n.t('Only column headers')}
+              </option>
+              <option value={TableType.OnlyRowHeader}>
+                {i18n.t('Only row headers')}
+              </option>
+              <option value={TableType.ColumnAndRowHeader}>
+                {i18n.t('Column and row headers')}
+              </option>
+            </select>
+          </label>
+        </div>
+      )}
       <tbody>
         <tr>
           <td />
-          {R.range(0, headers.length).map((column, key) => (
+          {showRowHeader && <td />}
+          {R.range(0, columnHeaders.length).map((column, key) => (
             <td style={{ textAlign: 'center' }} key={key}>
               <RemoveButton
                 onClick={() => {
-                  if (headers.length === 1) return
-                  headers.remove(column)
+                  if (columnHeaders.length === 1) return
+                  columnHeaders.remove(column)
                   for (const row of rows) {
                     row.columns.remove(column)
                   }
@@ -143,36 +184,37 @@ function SerloTableEditor(props: SerloTableProps) {
             </td>
           ))}
         </tr>
-        <tr>
-          <td />
-          {headers.map(({ content }, column) => (
-            <TableHeader key={column}>
-              {content.render({ config: { placeholder: '' } })}
-            </TableHeader>
-          ))}
-          <td rowSpan={rows.length + 1} style={{ height: '100%' }}>
-            <AddColumnButton
-              onClick={() => {
-                headers.insert(headers.length, { content: { plugin: 'text' } })
-
-                for (const row of rows) {
-                  row.columns.insert(row.columns.length, {
-                    content: { plugin: 'text' },
-                  })
-                }
-              }}
-            >
-              +
-            </AddColumnButton>
-          </td>
-        </tr>
+        {showColumnHeader && (
+          <tr>
+            <td />
+            {showRowHeader && <TableHeader />}
+            {columnHeaders.map(({ content }, column) => (
+              <TableHeader key={column}>
+                {content.render({ config: { placeholder: '' } })}
+              </TableHeader>
+            ))}
+            {renderAddColumnButton()}
+          </tr>
+        )}
         {rows.map(({ columns }, rowIndex) => (
           <tr key={rowIndex}>
             <td style={{ width: '2em' }}>
-              <RemoveButton onClick={() => rows.remove(rowIndex)}>
+              <RemoveButton
+                onClick={() => {
+                  rows.remove(rowIndex)
+                  rowHeaders.remove(rowIndex)
+                }}
+              >
                 <Icon icon={faTimes} />
               </RemoveButton>
             </td>
+            {showRowHeader && (
+              <TableHeader>
+                {rowHeaders[rowIndex].content.render({
+                  config: { placeholder: '' },
+                })}
+              </TableHeader>
+            )}
             {columns.map(({ content }, columnIndex) => {
               const isImage =
                 getDocument(content.get())(store.getState())?.plugin === 'image'
@@ -181,7 +223,7 @@ function SerloTableEditor(props: SerloTableProps) {
               return isImage ? (
                 <ImageCell
                   key={columnIndex}
-                  style={{ width: `${100 / headers.length}%` }}
+                  style={{ width: `${100 / columnHeaders.length}%` }}
                 >
                   {content.render()}
                   {contentHasFocus && (
@@ -205,19 +247,27 @@ function SerloTableEditor(props: SerloTableProps) {
                 </TableCell>
               )
             })}
+            {rowIndex === 0 && !showColumnHeader && renderAddColumnButton()}
           </tr>
         ))}
         <tr>
           <td />
-          <td colSpan={headers.length}>
+          <td
+            colSpan={
+              showRowHeader ? columnHeaders.length + 1 : columnHeaders.length
+            }
+          >
             <AddButton
-              onClick={() =>
-                rows.insert(headers.length, {
-                  columns: R.range(0, headers.length).map((_) => {
+              onClick={() => {
+                rows.insert(columnHeaders.length, {
+                  columns: R.range(0, columnHeaders.length).map((_) => {
                     return { content: { plugin: 'text' } }
                   }),
                 })
-              }
+                rowHeaders.insert(rowHeaders.length, {
+                  content: { plugin: 'text' },
+                })
+              }}
             >
               {i18n.t('+ Add row')}
             </AddButton>
@@ -226,48 +276,102 @@ function SerloTableEditor(props: SerloTableProps) {
       </tbody>
     </Table>
   )
+
+  function renderAddColumnButton() {
+    return (
+      <td
+        rowSpan={showColumnHeader ? rows.length + 1 : rows.length}
+        style={{ height: '100%', width: '2em' }}
+      >
+        <AddColumnButton
+          onClick={() => {
+            columnHeaders.insert(columnHeaders.length, {
+              content: { plugin: 'text' },
+            })
+
+            for (const row of rows) {
+              row.columns.insert(row.columns.length, {
+                content: { plugin: 'text' },
+              })
+            }
+          }}
+        >
+          +
+        </AddColumnButton>
+      </td>
+    )
+  }
 }
 
 function SerloTableRenderer(props: SerloTableProps) {
   const store = useScopedStore()
-  const { headers, rows } = props.state
+  const { rowHeaders, columnHeaders, rows } = props.state
+  const tableType = getTableType(props.state.tableType.value)
+  const showRowHeader =
+    tableType === TableType.OnlyRowHeader ||
+    tableType === TableType.ColumnAndRowHeader
+  const showColumnHeader =
+    tableType === TableType.OnlyColumnHeader ||
+    tableType === TableType.ColumnAndRowHeader
 
   return (
     <Table>
-      <thead>
-        <tr>
-          {headers.map(({ content }, column) => (
-            <TableHeader key={column}>
-              {isEmpty(content.id)(store.getState())
-                ? '<Empty>'
-                : content.render()}
-            </TableHeader>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map(({ columns }, rowIndex) => (
-          <tr key={rowIndex}>
-            {columns.map(({ content }, columnIndex) => {
-              const isImage =
-                getDocument(content.get())(store.getState())?.plugin === 'image'
-
-              return isImage ? (
-                <ImageCell
-                  key={columnIndex}
-                  style={{ width: `${100 / headers.length}%` }}
-                >
-                  {!isEmpty(content.id)(store.getState()) && content.render()}
-                </ImageCell>
-              ) : (
-                <TableCell key={columnIndex}>
-                  {!isEmpty(content.id)(store.getState()) && content.render()}
-                </TableCell>
-              )
-            })}
+      {showColumnHeader && (
+        <thead>
+          <tr>
+            {showRowHeader && <TableHeader />}
+            {columnHeaders.map(({ content }, column) => (
+              <TableHeader key={column}>
+                {isEmpty(content.id)(store.getState())
+                  ? '<Empty>'
+                  : content.render()}
+              </TableHeader>
+            ))}
           </tr>
-        ))}
+        </thead>
+      )}
+      <tbody>
+        {rows.map(({ columns }, rowIndex) => {
+          const rowHeader = rowHeaders[rowIndex].content
+          return (
+            <tr key={rowIndex}>
+              {showRowHeader && (
+                <TableHeader>
+                  {isEmpty(rowHeader.id)(store.getState())
+                    ? '<Empty>'
+                    : rowHeader.render()}
+                </TableHeader>
+              )}
+              {columns.map(({ content }, columnIndex) => {
+                const isImage =
+                  getDocument(content.get())(store.getState())?.plugin ===
+                  'image'
+
+                return isImage ? (
+                  <ImageCell
+                    key={columnIndex}
+                    style={{ width: `${100 / columnHeaders.length}%` }}
+                  >
+                    {!isEmpty(content.id)(store.getState()) && content.render()}
+                  </ImageCell>
+                ) : (
+                  <TableCell key={columnIndex}>
+                    {!isEmpty(content.id)(store.getState()) && content.render()}
+                  </TableCell>
+                )
+              })}
+            </tr>
+          )
+        })}
       </tbody>
     </Table>
   )
+}
+
+function getTableType(text: string): TableType {
+  return isTableType(text) ? text : TableType.OnlyColumnHeader
+}
+
+function isTableType(text: string): text is TableType {
+  return Object.values<string>(TableType).includes(text)
 }
