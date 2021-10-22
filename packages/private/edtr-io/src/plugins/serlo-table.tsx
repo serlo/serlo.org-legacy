@@ -103,7 +103,7 @@ function SerloTableEditor(props: SerloTableProps) {
         .includes(focusedElement)
     )
 
-  //if (!nestedFocus) return <SerloTableRenderer {...props} />
+  if (!nestedFocus) return <SerloTableRenderer {...props} />
 
   return (
     <Table>
@@ -128,9 +128,7 @@ function SerloTableEditor(props: SerloTableProps) {
         <td />
         {headers.map(({ content }, column) => (
           <TableHeader key={column}>
-            {content.render({
-              config: { placeholder: i18n.t('Create header') },
-            })}
+            {content.render({ config: { placeholder: '' } })}
           </TableHeader>
         ))}
         <td rowSpan={rows.length + 1} style={{ height: '100%' }}>
@@ -158,9 +156,7 @@ function SerloTableEditor(props: SerloTableProps) {
           </td>
           {columns.map(({ content }, columnIndex) => (
             <TableCell key={columnIndex}>
-              {content.render({
-                config: { placeholder: i18n.t('<content>') },
-              })}
+              {content.render({ config: { placeholder: '' } })}
             </TableCell>
           ))}
         </tr>
