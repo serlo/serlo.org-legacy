@@ -6,7 +6,7 @@ import {
   object,
 } from '@edtr-io/plugin'
 import { useScopedSelector, useScopedStore } from '@edtr-io/core'
-import { getFocused, isEmpty } from '@edtr-io/store'
+import { getDocument, getFocused, isEmpty, isFocused } from '@edtr-io/store'
 import React from 'react'
 import { useI18n } from '@serlo/i18n'
 import { Icon, faTimes, styled } from '@edtr-io/ui'
@@ -56,6 +56,9 @@ const TableCell = styled.td({
   height: '1em',
 })
 
+// TODO: Can we delete it?
+const ImageCell = styled(TableCell)({})
+
 // TODO: Make AddButton of edtr-io stylable
 const AddButton = styled.button({
   border: '2px solid lightgrey',
@@ -88,9 +91,16 @@ const RemoveButton = styled.button({
   color: 'lightgrey',
 })
 
+const ConvertLink = styled.a({
+  display: 'block',
+  marginTop: '1em',
+  fontSize: 'smaller',
+})
+
 function SerloTableEditor(props: SerloTableProps) {
   const i18n = useI18n()
   const { headers, rows } = props.state
+  const store = useScopedStore()
 
   const focusedElement = useScopedSelector(getFocused())
   const nestedFocus =
@@ -155,11 +165,35 @@ function SerloTableEditor(props: SerloTableProps) {
               <Icon icon={faTimes} />
             </RemoveButton>
           </td>
-          {columns.map(({ content }, columnIndex) => (
-            <TableCell key={columnIndex}>
-              {content.render({ config: { placeholder: '' } })}
-            </TableCell>
-          ))}
+          {columns.map(({ content }, columnIndex) => {
+            const isImage =
+              getDocument(content.get())(store.getState())?.plugin === 'image'
+            const contentHasFocus = isFocused(content.get())(store.getState())
+
+            return isImage ? (
+              <ImageCell
+                key={columnIndex}
+                style={{ width: `${100 / headers.length}%` }}
+              >
+                {content.render()}
+                {contentHasFocus && (
+                  // TODO: Is there a trick to not use onMouseDown?!
+                  <ConvertLink onMouseDown={() => content.replace('text')}>
+                    {i18n.t('convert to text')}
+                  </ConvertLink>
+                )}
+              </ImageCell>
+            ) : (
+              <TableCell key={columnIndex}>
+                {content.render({ config: { placeholder: '' } })}
+                {contentHasFocus && (
+                  <ConvertLink onMouseDown={() => content.replace('image')}>
+                    {i18n.t('convert to image')}
+                  </ConvertLink>
+                )}
+              </TableCell>
+            )
+          })}
         </tr>
       ))}
       <tr>
@@ -202,11 +236,23 @@ function SerloTableRenderer(props: SerloTableProps) {
       <tbody>
         {rows.map(({ columns }, rowIndex) => (
           <tr key={rowIndex}>
-            {columns.map(({ content }, columnIndex) => (
-              <TableCell key={columnIndex}>
-                {!isEmpty(content.id)(store.getState()) && content.render()}
-              </TableCell>
-            ))}
+            {columns.map(({ content }, columnIndex) => {
+              const isImage =
+                getDocument(content.get())(store.getState())?.plugin === 'image'
+
+              return isImage ? (
+                <ImageCell
+                  key={columnIndex}
+                  style={{ width: `${100 / headers.length}%` }}
+                >
+                  {!isEmpty(content.id)(store.getState()) && content.render()}
+                </ImageCell>
+              ) : (
+                <TableCell key={columnIndex}>
+                  {!isEmpty(content.id)(store.getState()) && content.render()}
+                </TableCell>
+              )
+            })}
           </tr>
         ))}
       </tbody>
