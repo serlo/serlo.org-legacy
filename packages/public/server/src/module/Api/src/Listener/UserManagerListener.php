@@ -34,7 +34,7 @@ class UserManagerListener extends AbstractListener
     {
         /** @var UserInterface $user */
         $user = $e->getParam('user');
-        $this->getApiManager()->setUuid($user);
+        $this->getApiManager()->removeUuid($user);
     }
 
     public function attachShared(SharedEventManagerInterface $events)

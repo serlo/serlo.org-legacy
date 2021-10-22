@@ -104,6 +104,7 @@ export function createPlugins({
         plugin: 'text',
         config: {
           placeholder: i18n.t('article::Write a short introduction'),
+          registry: [],
         },
       },
       plugins: [
@@ -158,6 +159,9 @@ export function createPlugins({
     inputExercise: createInputExercisePlugin({
       feedback: {
         plugin: 'text',
+        config: {
+          registry: [],
+        },
       },
       i18n: {
         types: {
@@ -165,10 +169,10 @@ export function createPlugins({
             'inputExercise::Text'
           ),
           [InputExerciseType.InputNumberExactMatchChallenge]: i18n.t(
-            'inputExercise::Number'
+            'inputExercise::Number ("0,5" ≠ "1/2" ≠ "2/4")'
           ),
           [InputExerciseType.InputExpressionEqualMatchChallenge]: i18n.t(
-            'inputExercise::Mathematical expression'
+            'inputExercise::Mathematical expression ("0,5" = "1/2" = "2/4")'
           ),
         },
         type: {
@@ -177,7 +181,11 @@ export function createPlugins({
         unit: {
           label: i18n.t('inputExercise::Unit'),
         },
+        feedback: {
+          label: i18n.t('inputExercise::Feedback'),
+        },
         answer: {
+          label: i18n.t('inputExercise::Answer'),
           addLabel: i18n.t('inputExercise::Add answer'),
           value: {
             placeholder: i18n.t('inputExercise::Enter the value'),
@@ -237,8 +245,8 @@ export function createPlugins({
       },
     }),
     scMcExercise: createScMcExercisePlugin({
-      content: { plugin: 'text' },
-      feedback: { plugin: 'text' },
+      content: { plugin: 'text', config: { registry: [] } },
+      feedback: { plugin: 'text', config: { registry: [] } },
       i18n: {
         types: {
           singleChoice: i18n.t('scMcExercise::Single-choice'),
@@ -247,7 +255,11 @@ export function createPlugins({
         isSingleChoice: {
           label: i18n.t('scMcExercise::Choose the exercise type'),
         },
+        feedback: {
+          label: i18n.t('scMcExercise::Feedback'),
+        },
         answer: {
+          label: i18n.t('scMcExercise::Answer'),
           addLabel: i18n.t('scMcExercise::Add answer'),
           fallbackFeedback: {
             wrong: i18n.t('scMcExercise::Wrong'),

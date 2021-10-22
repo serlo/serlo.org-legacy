@@ -51,9 +51,9 @@
     "Current": "Aktuell",
     "Author": "Verfasser",
     "Created at": "Zeitstempel",
-    "Equations": "Gleichungen",
-    "Create mathematical equations and terms.": "Füge mathematische Gleichungen und Terme hinzu.",
-    "Settings": "Einstellungen"
+    "Settings": "Einstellungen",
+    "Terms and equations": "Terme und Gleichungen",
+    "Write term manipulations and solve multiline equations.": "Erstelle Termumformungen und löse mehrzeilige Gleichungen."
   },
   "anchor": {
     "Identifier": "Name",
@@ -71,15 +71,17 @@
   },
   "inputExercise": {
     "Text": "Text",
-    "Number": "Zahl",
-    "Mathematical expression": "Mathematischer Ausdruck",
     "Choose the exercise type": "Wähle den Antworttyp",
     "Unit": "Einheit (optional)",
     "Add answer": "Antwort hinzufügen",
     "Enter the value": "Gib hier die Antwort ein",
     "Your solution": "Deine Lösung",
     "Correct": "Richtig",
-    "Wrong": "Falsch"
+    "Wrong": "Falsch",
+    "Number (\"0,5\" ≠ \"1/2\" ≠ \"2/4\")": "Zahl (\"0,5\" ≠ \"1/2\" ≠ \"2/4\")",
+    "Mathematical expression (\"0,5\" = \"1/2\" = \"2/4\")": "Mathematischer Ausdruck (\"0,5\" = \"1/2\" = \"2/4\")",
+    "Feedback": "Feedback",
+    "Answer": "Antwort"
   },
   "multimedia": {
     "Image": "Bild",
@@ -105,7 +107,9 @@
     "Add answer": "Antwort hinzufügen",
     "Wrong": "Falsch",
     "Almost! You missed at least one correct answer": "Fast! Dir fehlt noch mindestens eine richtige Antwort",
-    "Correct": "Richtig"
+    "Correct": "Richtig",
+    "Feedback": "Feedback",
+    "Answer": "Antwort"
   },
   "spoiler": {
     "Enter a title": "Titel eingeben"
@@ -255,10 +259,17 @@
     "Create solution": "Lösung hinzufügen"
   },
   "equations": {
-    "explanation": "Erklärung",
     "left-hand side": "linke Seite",
+    "transformation": "Umformung",
+    "Mode": "Modus",
+    "Transformation of equations": "Gleichungsumformung",
+    "Transformation of terms": "Termumformung",
+    "Add new row": "Neue Zeile hinzufügen",
+    "Explanation": "Erklärung",
+    "Term": "Term",
     "right-hand side": "rechte Seite",
-    "transformation": "Umformung"
+    "Combine like terms.": "Fasse die Terme zusammen.",
+    "Set the terms equal to each other.": "Setze die Terme gleich."
   },
   "mathPuzzle": {
     "Source code": "Quellcode"
