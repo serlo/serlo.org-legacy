@@ -1,4 +1,4 @@
-FROM node:14-alpine as dev-dependencies
+FROM node:16-alpine as dev-dependencies
 WORKDIR /usr/src/app
 COPY packages/private/editor-helpers/package.json packages/private/editor-helpers/package.json
 COPY packages/private/edtr-io/package.json packages/private/edtr-io/package.json
@@ -11,7 +11,7 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn --frozen-lockfile --production=false --silent
 
-FROM node:14-alpine as prod-dependencies
+FROM node:16-alpine as prod-dependencies
 WORKDIR /usr/src/app
 ENV NODE_ENV production
 COPY packages/private/editor-helpers/package.json packages/private/editor-helpers/package.json
