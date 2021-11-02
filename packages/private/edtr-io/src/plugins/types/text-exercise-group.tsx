@@ -36,7 +36,6 @@ import { RevisionHistory } from './helpers/settings'
 import { SemanticSection } from '../helpers/semantic-section'
 import { useVirtual } from 'react-virtual'
 
-
 // https://github.com/tannerlinsley/react-virtual/issues/167
 function useVirtualResizeObserver<T>(options: {
   size: number
