@@ -1,4 +1,4 @@
-FROM node:14-alpine as dependencies
+FROM node:16-alpine as dependencies
 WORKDIR /usr/src/app
 COPY package.json .
 COPY yarn.lock .
