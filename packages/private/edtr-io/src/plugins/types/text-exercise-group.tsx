@@ -36,6 +36,71 @@ import { RevisionHistory } from './helpers/settings'
 import { SemanticSection } from '../helpers/semantic-section'
 import { useVirtual } from 'react-virtual'
 
+
+// https://github.com/tannerlinsley/react-virtual/issues/167
+function useVirtualResizeObserver<T>(options: {
+  size: number
+  parentRef: React.RefObject<T>
+  estimateSize: () => number
+}) {
+  const measureRefCacheRef = React.useRef<
+    Record<string, (el: HTMLElement | null) => void>
+  >({})
+  const elCacheRef = React.useRef<Record<number, HTMLElement | null>>({})
+
+  const resizeObserverRef = React.useRef(
+    new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        const el = entry.target as HTMLElement
+        const index = el.getAttribute('data-index')
+        if (index !== null) measureRefCacheRef.current[index](el)
+      })
+    })
+  )
+
+  React.useEffect(() => {
+    const resizeObserver = resizeObserverRef.current
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
+
+  const rowVirtualizer = useVirtual<T>(options)
+
+  const refs = React.useMemo(() => {
+    const obj: Record<number, (el: HTMLElement | null) => void> = {}
+    for (let i = 0; i < options.size; i++) {
+      obj[i] = (el: HTMLElement | null) => {
+        const currentElCache = elCacheRef.current[i]
+        if (currentElCache) {
+          resizeObserverRef.current.unobserve(currentElCache)
+        }
+
+        if (el) {
+          // sync
+          measureRefCacheRef.current[i](el)
+
+          el.setAttribute('data-index', i.toString())
+          resizeObserverRef.current.observe(el)
+        }
+
+        elCacheRef.current[i] = el
+      }
+    }
+    return obj
+  }, [options.size])
+
+  for (let i = 0; i < rowVirtualizer.virtualItems.length; i++) {
+    const item = rowVirtualizer.virtualItems[i]
+    if (item.measureRef !== refs[item.index]) {
+      measureRefCacheRef.current[item.index] = item.measureRef
+    }
+    item.measureRef = refs[item.index]
+  }
+
+  return rowVirtualizer
+}
+
 export const textExerciseGroupTypeState = entityType(
   {
     ...entity,
@@ -64,7 +129,7 @@ function TextExerciseGroupTypeEditor(
 
   const virtualParent = React.useRef(null)
 
-  const virtualizer = useVirtual({
+  const virtualizer = useVirtualResizeObserver({
     size: children.length,
     parentRef: virtualParent,
     estimateSize: React.useCallback(() => 35, []),
