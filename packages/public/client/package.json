@@ -1,6 +1,6 @@
 {
   "name": "@serlo/client",
-  "version": "22.1.9-table.2",
+  "version": "22.1.11-staging.0",
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
@@ -79,7 +79,7 @@
     "i18next-resource-store-loader": "^0.1.0",
     "ignore-loader": "^0.1.0",
     "mini-css-extract-plugin": "^0.12.0",
-    "node-sass": "^4.0.0",
+    "node-sass": "^6.0.0",
     "nodemon": "^2.0.0",
     "npm-run-all": "^4.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.0",

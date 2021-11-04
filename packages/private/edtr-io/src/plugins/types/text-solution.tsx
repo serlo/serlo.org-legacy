@@ -82,7 +82,13 @@ function TextSolutionTypeEditor(props: TextSolutionTypeProps) {
         />
       )}
       <ThemeProvider theme={solutionTheme}>
-        <ExpandableBox renderTitle={renderTitle} editable={props.editable}>
+        <ExpandableBox
+          renderTitle={renderTitle}
+          editable={
+            /* Title is not editable. Also rendering collapsed */
+            false
+          }
+        >
           {props.state.content.render()}
         </ExpandableBox>
       </ThemeProvider>

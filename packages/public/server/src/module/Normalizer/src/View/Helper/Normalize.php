@@ -70,7 +70,7 @@ class Normalize extends AbstractHelper
         $meta->appendName('content_type', $type);
         $meta->appendName('description', $this->getMetaDescription($object));
         $meta->appendName('keywords', implode(', ', $keywords));
-        $meta->appendName('robots', $robots);
+        $meta->appendName('robots', 'noindex, follow');
 
         $this->appendOpenSearchMeta();
         $this->appendOpenGraphMeta($object);
