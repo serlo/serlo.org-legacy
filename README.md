@@ -1,8 +1,10 @@
-<img src="https://assets.serlo.org/meta/logo.png" alt="Serlo logo" title="Serlo" align="right" height="60" />
+<img src="https://raw.githubusercontent.com/serlo/frontend/staging/public/_assets/img/serlo-logo-gh.svg" alt="Serlo Logo" title="Serlo" align="right" height="75" />
 
-# Serlo.org
+# serlo.org
 
-[![Kanban board](https://img.shields.io/badge/Kanban-board-brightgreen.svg)](https://github.com/orgs/serlo/projects/1)
+Monolith that still serves parts of [serlo.org](https://serlo.org). Head over to [api.serlo.org](https://github.com/serlo/api.serlo.org) and [frontend](https://github.com/serlo/frontend) for new development.
+
+<a href="https://github.com/orgs/serlo/projects/1"><img align="right" src="https://img.shields.io/badge/Kanban-board-brightgreen.svg" alt="Kanban board"></a>
 
 ## Setup
 
