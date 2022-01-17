@@ -63,17 +63,14 @@ createMigration(exports, {
   },
 })
 
-function migrateState(document: {
-  plugin: string
-  state: any
-}): {
+function migrateState(document: { plugin: string; state: any }): {
   plugin: string
   state: any
 } {
   switch (document.plugin) {
     case 'equations':
       return migrateEquationsState(
-        (document.state as unknown) as LegacyEquationsPluginState
+        document.state as unknown as LegacyEquationsPluginState
       )
     // Layout plugins
     case 'blockquote':
@@ -207,9 +204,7 @@ interface LegacyEquationsPluginState {
   }[]
 }
 
-export function migrateEquationsState(
-  state: LegacyEquationsPluginState
-): {
+export function migrateEquationsState(state: LegacyEquationsPluginState): {
   plugin: string
   state: any
 } {

@@ -62,7 +62,10 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
         $serviceManager->setService(FetchInterface::class, $this->fetch);
 
         $this->instanceManager = new InstanceManagerStub();
-        $serviceManager->setService('Instance\Manager\InstanceManager', $this->instanceManager);
+        $serviceManager->setService(
+            'Instance\Manager\InstanceManager',
+            $this->instanceManager
+        );
 
         $this->userManager = new UserManagerStub();
         $serviceManager->setService(
@@ -379,8 +382,11 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
             ($challenge ? 'login_challenge=' . $challenge : '');
     }
 
-    protected function getSuccessfulLoginResponse($skip, $subject, $instance = 'de')
-    {
+    protected function getSuccessfulLoginResponse(
+        $skip,
+        $subject,
+        $instance = 'de'
+    ) {
         return json_encode([
             'skip' => $skip,
             'subject' => $subject,
@@ -388,7 +394,11 @@ class HydraLoginControllerTest extends AbstractHttpControllerTestCase
             'client' => [
                 'client_id' => 'client',
             ],
-            'request_url' => 'http://localhost:4444/oauth2/auth?redirect_uri=' . urlencode('https://' . $instance . '.serlo.org/api/auth/callback'),
+            'request_url' =>
+                'http://localhost:4444/oauth2/auth?redirect_uri=' .
+                urlencode(
+                    'https://' . $instance . '.serlo.org/api/auth/callback'
+                ),
             'requested_scope' => ['openid'],
             'oidc_context' => [],
         ]);

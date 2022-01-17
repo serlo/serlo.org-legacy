@@ -51,12 +51,11 @@ class HydraLoginController extends AbstractActionController
 
     public function __construct(
         AuthenticationServiceInterface $authenticationService,
-        HydraService                   $hydraService,
-        InstanceManagerInterface       $instanceManager,
-        UserManagerInterface           $userManager,
-        Translator                     $translator
-    )
-    {
+        HydraService $hydraService,
+        InstanceManagerInterface $instanceManager,
+        UserManagerInterface $userManager,
+        Translator $translator
+    ) {
         $this->authenticationService = $authenticationService;
         $this->hydraService = $hydraService;
         $this->instanceManager = $instanceManager;
@@ -82,11 +81,13 @@ class HydraLoginController extends AbstractActionController
                 // User already authenticated
                 $user = $this->userManager->getUserFromAuthenticator();
                 if ($user) {
-                    return $this->acceptLoginRequest((string)$user->getId());
+                    return $this->acceptLoginRequest((string) $user->getId());
                 }
 
                 $currentInstance = $this->instanceManager->getInstanceFromRequest();
-                $desiredInstance = $this->getInstanceFromLoginResponse($loginResponse);
+                $desiredInstance = $this->getInstanceFromLoginResponse(
+                    $loginResponse
+                );
                 if ($desiredInstance && $desiredInstance !== $currentInstance) {
                     return $this->redirectToInstance($desiredInstance);
                 }
@@ -105,7 +106,8 @@ class HydraLoginController extends AbstractActionController
      * @param $loginResponse
      * @return InstanceInterface|null
      */
-    protected function getInstanceFromLoginResponse($loginResponse) {
+    protected function getInstanceFromLoginResponse($loginResponse)
+    {
         $query = parse_url($loginResponse['request_url'], PHP_URL_QUERY);
         parse_str($query, $query);
         $redirectUri = $query['redirect_uri'];
@@ -120,12 +122,16 @@ class HydraLoginController extends AbstractActionController
         }
     }
 
-    protected function redirectToInstance(InstanceInterface $desiredInstance): Response
-    {
+    protected function redirectToInstance(
+        InstanceInterface $desiredInstance
+    ): Response {
         $currentInstance = $this->instanceManager->getInstanceFromRequest();
         $currentUrl = $this->getRequest()->getUriString();
         $desiredUrl = str_replace(
-            '//' . $currentInstance->getSubdomain() . '.', '//' . $desiredInstance->getSubdomain() . '.', $currentUrl);
+            '//' . $currentInstance->getSubdomain() . '.',
+            '//' . $desiredInstance->getSubdomain() . '.',
+            $currentUrl
+        );
         return $this->redirect()->toUrl($desiredUrl);
     }
 
@@ -159,7 +165,7 @@ class HydraLoginController extends AbstractActionController
                     $user->updateLoginData();
                     $this->userManager->persist($user);
                     $this->userManager->flush();
-                    return $this->acceptLoginRequest((string)$user->getId(), [
+                    return $this->acceptLoginRequest((string) $user->getId(), [
                         'remember' => $data['remember'] == 1,
                         'remember_for' => 60 * 60, // seconds
                     ]);

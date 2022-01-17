@@ -120,10 +120,8 @@ export function Controls(props: OwnProps) {
   const { onSave, mayCheckout } = React.useContext(SaveContext)
   const [agreement, setAgreement] = React.useState(false)
   const [emailSubscription, setEmailSubscription] = React.useState(true)
-  const [
-    notificationSubscription,
-    setNotificationSubscription,
-  ] = React.useState(true)
+  const [notificationSubscription, setNotificationSubscription] =
+    React.useState(true)
   const [autoCheckout, setAutoCheckout] = React.useState(false)
 
   React.useEffect(() => {
@@ -417,9 +415,9 @@ export function entityType<
 >(
   ownTypes: Ds,
   children: Childs,
-  getFocusableChildren?: (
-    children: { [K in keyof Ds]: { id: string }[] }
-  ) => { id: string }[]
+  getFocusableChildren?: (children: { [K in keyof Ds]: { id: string }[] }) => {
+    id: string
+  }[]
 ): StateType<
   StateTypesSerializedType<Ds & Childs>,
   StateTypesValueType<Ds & Childs>,
@@ -518,9 +516,7 @@ export function serializedChild(
   }
 }
 
-export function optionalSerializedChild(
-  plugin: string
-): StateType<
+export function optionalSerializedChild(plugin: string): StateType<
   StateTypeSerializedType<ReturnType<typeof serializedChild>> | null,
   StateTypeValueType<ReturnType<typeof serializedChild>> | null,
   StateTypeReturnType<ReturnType<typeof serializedChild>> & {

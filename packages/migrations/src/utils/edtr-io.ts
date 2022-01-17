@@ -21,14 +21,12 @@
  */
 import * as R from 'ramda'
 
-export function updatePlugins(
-  transformations: {
-    [key in string]?: (args: {
-      state: unknown
-      transformState: Transformation
-    }) => unknown
-  }
-): Transformation {
+export function updatePlugins(transformations: {
+  [key in string]?: (args: {
+    state: unknown
+    transformState: Transformation
+  }) => unknown
+}): Transformation {
   function transformState(value: unknown): unknown {
     if (isPlugin(value)) {
       const { plugin, state } = value

@@ -487,10 +487,11 @@ function ArticleEditor(props: ArticleProps) {
                                         }
                                         placeholder={type.idPlaceholder}
                                         onChange={(event) => {
-                                          const newValue = event.target.value.replace(
-                                            /[^0-9]/g,
-                                            ''
-                                          )
+                                          const newValue =
+                                            event.target.value.replace(
+                                              /[^0-9]/g,
+                                              ''
+                                            )
                                           item.id.set(newValue)
                                         }}
                                       />
