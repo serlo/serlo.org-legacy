@@ -69,4 +69,8 @@ module.exports = {
     }),
     new WebpackDeduplicationPlugin({}),
   ],
+  node: {
+    Buffer: false,
+    process: false,
+  },
 }
