@@ -8,7 +8,6 @@
   "repository": "serlo/serlo.org",
   "license": "Apache-2.0",
   "author": "Serlo Education e.V.",
-  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",

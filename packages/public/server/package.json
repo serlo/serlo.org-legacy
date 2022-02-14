@@ -7,7 +7,6 @@
   "scripts": {
     "deploy:image": "ts-node scripts/deploy"
   },
-  "dependencies": {},
   "devDependencies": {
     "@serlo/docker": "^0.0.0",
     "@serlo/legacy-editor-to-editor": "^0.0.0",

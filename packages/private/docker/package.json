@@ -2,7 +2,6 @@
   "name": "@serlo/docker",
   "version": "0.0.0",
   "private": true,
-  "dependencies": {},
   "devDependencies": {
     "@types/ramda": "^0.27.0",
     "@types/semver": "^7.0.0",
