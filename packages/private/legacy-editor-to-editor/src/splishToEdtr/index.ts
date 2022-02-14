@@ -21,19 +21,18 @@
  */
 import * as R from 'ramda'
 
-import { Cell, isContentCell, LayoutPlugin, OtherPlugin, Row } from './types'
+import { isContentCell } from './types'
+import type { Cell, LayoutPlugin, OtherPlugin, Row } from './types'
 import { convertPlugin } from './convertPlugins'
 
-export {
-  Plugin,
+export { isSplish, isEdtr, Plugin } from './types'
+export type {
   OtherPlugin,
   LayoutPlugin,
-  RowsPlugin,
-  Edtr,
   Legacy,
   Splish,
-  isSplish,
-  isEdtr,
+  RowsPlugin,
+  Edtr,
 } from './types'
 
 export function convertRow(row: Row): (LayoutPlugin | OtherPlugin)[] {

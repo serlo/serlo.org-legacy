@@ -52,13 +52,12 @@ export function convertSplishToEdtrIO(content: Splish): RowsPlugin {
   }
 }
 
-export {
+export { isSplish, isEdtr } from './splishToEdtr'
+export type {
   OtherPlugin,
   LayoutPlugin,
-  RowsPlugin,
-  Edtr,
   Legacy,
   Splish,
-  isSplish,
-  isEdtr,
+  RowsPlugin,
+  Edtr,
 } from './splishToEdtr'

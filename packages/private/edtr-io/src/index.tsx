@@ -19,10 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-export { DocumentState } from '@edtr-io/store'
+export type { DocumentState } from '@edtr-io/store'
 
-export { Editor, EditorProps } from './editor'
+export { Editor } from './editor'
+export type { EditorProps } from './editor'
 export { Renderer } from './renderer'
 export { createPlugins } from './plugins'
 export { cleanEdtrState } from './clean-state'
-export { SerializedDocument } from './serialized-document'
+export type { SerializedDocument } from './serialized-document'

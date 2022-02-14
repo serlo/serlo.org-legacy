@@ -1,4 +1,4 @@
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const path = require('path')
 const R = require('ramda')
 const TerserPlugin = require('terser-webpack-plugin')
@@ -26,10 +26,9 @@ module.exports = R.merge(baseConfig, {
   },
   optimization: {
     minimizer: [
-      new OptimizeCssAssetsPlugin(),
+      new CssMinimizerPlugin(),
       new TerserPlugin({
         parallel: true,
-        sourceMap: true,
         exclude: /mathjax\//,
       }),
     ],
