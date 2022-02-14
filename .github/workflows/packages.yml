@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: 16.x
       - uses: google-github-actions/setup-gcloud@master
         with:
-          version: '274.0.0'
+          version: '372.0.0'
           service_account_key: ${{ secrets.GCP_KEY_SERLO_ASSETS }}
-      - run: yarn
+      - run: yarn --immutable --immutable-cache
       - run: yarn lerna run build --include-dependencies --scope=@serlo/client
       - run: yarn lerna run deploy:package --scope=@serlo/client
         env:
@@ -24,14 +24,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: 16.x
       - uses: google-github-actions/setup-gcloud@master
         with:
-          version: '274.0.0'
+          version: '372.0.0'
           service_account_key: ${{ secrets.GCP_KEY_SERLO_ASSETS }}
-      - run: yarn
+      - run: yarn --immutable --immutable-cache
       - run: yarn lerna run build --include-dependencies --scope=@serlo/static-assets
       - run: yarn lerna run deploy:package --scope=@serlo/static-assets
         env:

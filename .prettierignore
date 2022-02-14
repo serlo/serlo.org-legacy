@@ -17,3 +17,7 @@ packages/*/*/dist/
 
 # Mixed PHP and HTML
 *.phtml
+
+# Yarn
+.yarn/
+

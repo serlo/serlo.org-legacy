@@ -27,6 +27,7 @@ import { render } from 'react-dom'
 import fetch from 'unfetch'
 
 import { getCsrfToken } from '../../modules/csrf'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 export function initEntityEditor(
   props: Omit<EditorProps, 'onError' | 'onSave'>,
@@ -96,7 +97,7 @@ function DynamicComponent<P>({
   if (!Component) {
     return (
       <div style={{ textAlign: 'center' }}>
-        <FontAwesomeIcon icon={faSpinner} spin size="2x" />
+        <FontAwesomeIcon icon={faSpinner as IconProp} spin size="2x" />
       </div>
     )
   }
