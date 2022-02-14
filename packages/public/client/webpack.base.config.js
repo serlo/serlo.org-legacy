@@ -1,6 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
-const { WebpackDeduplicationPlugin } = require('webpack-deduplication-plugin')
 
 module.exports = {
   entry: {
@@ -8,9 +7,8 @@ module.exports = {
     'legacy-editor': path.join(__dirname, 'src', 'legacy-editor'),
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
     chunkFilename: '[name].[chunkhash:8].js',
-    filename: '[name].js',
+    assetModuleFilename: '[name].[contenthash:8].[ext]',
   },
   module: {
     rules: [
@@ -50,10 +48,7 @@ module.exports = {
       },
       {
         test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp3|ogg)(\?.*)?$/,
-        loader: require.resolve('file-loader'),
-        options: {
-          name: '[name].[hash:8].[ext]',
-        },
+        type: 'asset/resource',
       },
     ],
   },
@@ -61,16 +56,10 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.mjs', '.js'],
   },
   target: 'web',
-  externals: [require('webpack-require-http')],
   plugins: [
     new MiniCssExtractPlugin({
       chunkFilename: '[id].[chunkhash:8].css',
       filename: '[name].css',
     }),
-    new WebpackDeduplicationPlugin({}),
   ],
-  node: {
-    Buffer: false,
-    process: false,
-  },
 }

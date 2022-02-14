@@ -19,13 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import i18n, {
-  i18n as I18n,
-  Module,
-  Newable,
-  Resource,
-  ThirdPartyModule,
-} from 'i18next'
+import i18n, { Module, Newable, Resource, ThirdPartyModule } from 'i18next'
+import type { i18n as I18n } from 'i18next'
 import { initReactI18next, useTranslation } from 'react-i18next'
 
 export { i18n, I18n }

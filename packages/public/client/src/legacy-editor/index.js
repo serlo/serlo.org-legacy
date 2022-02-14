@@ -41,7 +41,6 @@ import './editor/plugins/injection/injection_default_plugin'
 import './editor/plugins/injection/injection_geogebra_plugin'
 import './editor/plugins/injection/injection_geogebratube_plugin'
 import './editor/plugins/injection/injection_plugin'
-import './editor/plugins/wiris/wiris_plugin'
 import Preview from './editor/serlo_editor_previewer'
 import LayoutBuilderConfiguration from './editor/serlo_layout_builder_configuration'
 import Parser from './editor/serlo_parser'
@@ -489,16 +488,6 @@ $(function () {
           loadImageMaxFileSize: 2 * 1024 * 1024,
           maxNumberOfFiles: 1,
         })
-      )
-      .addPlugin(new EditorPlugin.Wiris())
-      .addPlugin(
-        (function () {
-          // Inline Math Plugin
-          var plugin = new EditorPlugin.Wiris()
-          plugin.state = 'inline-math'
-          plugin.wrap = '%%'
-          return plugin
-        })()
       )
       .addPlugin(new EditorPlugin.DefaultInjection())
       .addPlugin(
