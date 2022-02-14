@@ -5,7 +5,7 @@ COPY packages/public/notifications-job/package.json packages/public/notification
 COPY .yarnrc.yml .
 COPY package.json .
 COPY yarn.lock .
-RUN yarn --immutable --immutable-cache --silent
+RUN yarn --silent
 
 FROM dependencies as build
 COPY packages/public/notifications-job packages/public/notifications-job

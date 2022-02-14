@@ -11,7 +11,7 @@ COPY packages/public/editor-renderer/package.json packages/public/editor-rendere
 COPY .yarnrc.yml .
 COPY package.json .
 COPY yarn.lock .
-RUN yarn --immutable --immutable-cache --silent
+RUN yarn --silent
 
 FROM dependencies as build
 COPY packages/private/editor-helpers packages/private/editor-helpers

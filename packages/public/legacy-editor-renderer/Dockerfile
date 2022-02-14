@@ -6,7 +6,7 @@ COPY packages/public/legacy-editor-renderer/package.json packages/public/legacy-
 COPY .yarnrc.yml .
 COPY package.json .
 COPY yarn.lock .
-RUN yarn --immutable --immutable-cache --silent
+RUN yarn --silent
 
 FROM dependencies as build
 COPY packages/private/markdown packages/private/markdown
