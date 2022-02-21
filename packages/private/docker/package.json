@@ -6,7 +6,7 @@
     "@types/ramda": "^0.27.64",
     "@types/semver": "^7.3.9",
     "node-fetch": "^2.6.7",
-    "ramda": "^0.27.2",
+    "ramda": "^0.28.0",
     "semver": "^7.3.5"
   }
 }

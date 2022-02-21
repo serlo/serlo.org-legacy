@@ -55,8 +55,8 @@
     "jest": "^27.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.0",
-    "@babel/core": "^7.17.2",
+    "@babel/cli": "^7.17.3",
+    "@babel/core": "^7.17.5",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-proposal-export-namespace-from": "^7.16.7",
     "@babel/plugin-proposal-function-sent": "^7.16.7",
@@ -70,7 +70,7 @@
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "@inyono/copyright-headers": "^0.1.0",
-    "@prettier/plugin-php": "^0.18.1",
+    "@prettier/plugin-php": "^0.18.2",
     "@types/glob": "^7.2.0",
     "@types/jest": "^27.4.0",
     "@types/jest-environment-puppeteer": "^4.4.1",
@@ -86,7 +86,7 @@
     "prettier": "^2.5.1",
     "prettier-plugin-packagejson": "^2.2.15",
     "puppeteer": "^10.4.0",
-    "ramda": "^0.27.2",
+    "ramda": "^0.28.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.1.3",
     "ts-node": "^10.5.0",
