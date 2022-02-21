@@ -8,7 +8,7 @@ const baseConfig = require('./webpack.base.config')
 
 const baseDir = path.join(__dirname, '..', '..', '..')
 
-module.exports = R.merge(baseConfig, {
+module.exports = R.mergeDeepRight(baseConfig, {
   mode: 'production',
   devtool: 'source-map',
   plugins: [
