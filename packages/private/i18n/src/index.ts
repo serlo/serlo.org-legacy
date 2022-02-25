@@ -19,8 +19,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import i18n, { Module, Newable, Resource, ThirdPartyModule } from 'i18next'
 import type { i18n as I18n } from 'i18next'
+import i18n, { Module, Newable, NewableModule, Resource } from 'i18next'
 import { initReactI18next, useTranslation } from 'react-i18next'
 
 export { i18n, I18n }
@@ -47,7 +47,7 @@ export async function initI18nWithBackend<B extends Module>({
   options,
   language,
 }: {
-  backend: B | Newable<B> | ThirdPartyModule[] | Newable<ThirdPartyModule>[]
+  backend: B | NewableModule<B> | Newable<B>
   options?: object
   language: string
 }): Promise<void> {
