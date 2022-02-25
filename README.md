@@ -118,7 +118,7 @@ of the following packages. Check out their READMEs for package-specific details:
 - `yarn mysql:rollback` resets the database (requires `yarn start` beforehand)
 - `yarn oauth` runs a OAuth workflow to manually test Hydra integration
 - `yarn test:e2e` runs all end-to-end tests (requires `yarn start` beforehand)
-  - Use `HEADLESS=false yarn test.e2e` to run the tests in an actual browser.
+  - Use `HEADLESS=false yarn test:e2e` to run the tests in an actual browser.
   - Use `HEADLESS=false SLOWMO=<number> yarn test:e2e` to introduce a `<number>` of milliseconds delay between actions in tests.
 - `yarn test:js` runs all non-PHP unit tests
 - `yarn test:php` runs all PHP unit tests

@@ -9,7 +9,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "showdown": "^1.9.1",
+    "showdown": "^2.0.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

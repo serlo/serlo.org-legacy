@@ -39,7 +39,7 @@
     "@serlo/legacy-editor-to-editor": "^0.0.0",
     "@serlo/markdown": "^0.0.0",
     "@serlo/mathjax": "^0.0.0",
-    "i18next": "^19.9.2",
+    "i18next": "^21.6.12",
     "immutable": "^4.0.0",
     "moment": "^2.29.1",
     "prop-types": "^15.8.1",
@@ -62,7 +62,7 @@
     "unfetch": "^4.2.0"
   },
   "devDependencies": {
-    "@types/ramda": "^0.27.64",
+    "@types/ramda": "^0.27.65",
     "@types/react": "^17.0.39",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-bootstrap": "^0.32.29",

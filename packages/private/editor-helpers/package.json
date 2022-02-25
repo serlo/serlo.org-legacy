@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@types/base-64": "^1.0.0",
-    "@types/jquery": "^3.5.13",
+    "@types/jquery": "^3.5.14",
     "@types/utf8": "^3.0.1",
     "ts-node": "^10.5.0",
     "tsdx": "^0.14.1",
