@@ -39,7 +39,7 @@
     "@serlo/legacy-editor-to-editor": "^0.0.0",
     "@serlo/markdown": "^0.0.0",
     "@serlo/mathjax": "^0.0.0",
-    "i18next": "^21.6.12",
+    "i18next": "^21.6.14",
     "immutable": "^4.0.0",
     "moment": "^2.29.1",
     "prop-types": "^15.8.1",
@@ -62,15 +62,15 @@
     "unfetch": "^4.2.0"
   },
   "devDependencies": {
-    "@types/ramda": "^0.27.65",
+    "@types/ramda": "^0.28.1",
     "@types/react": "^17.0.39",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-bootstrap": "^0.32.29",
-    "@types/react-dom": "^17.0.11",
+    "@types/react-dom": "^17.0.13",
     "@types/react-modal": "^3.13.1",
-    "@types/styled-components": "^5.1.23",
-    "ts-node": "^10.5.0",
+    "@types/styled-components": "^5.1.24",
+    "ts-node": "^10.7.0",
     "tsdx": "^0.14.1",
-    "typescript": "^4.5.5"
+    "typescript": "^4.6.2"
   }
 }

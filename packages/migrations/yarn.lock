@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 5
+  version: 6
   cacheKey: 8
 
 "@cspotcode/source-map-consumer@npm:0.8.0":
@@ -12,12 +12,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cspotcode/source-map-support@npm:0.6.1":
-  version: 0.6.1
-  resolution: "@cspotcode/source-map-support@npm:0.6.1"
+"@cspotcode/source-map-support@npm:0.7.0":
+  version: 0.7.0
+  resolution: "@cspotcode/source-map-support@npm:0.7.0"
   dependencies:
     "@cspotcode/source-map-consumer": 0.8.0
-  checksum: da9fb4f6404ebd210537bfa8b2821a747407bf422d2d3d46f29bf85c7c3a68a126de1a9ec41398d57ca116c3bef56d58c2fb4def0800630b1ec82533ad2447c2
+  checksum: 9faddda7757cd778b5fd6812137b2cc265810043680d6399acc20441668fafcdc874053be9dccd0d9110087287bfad27eb3bf342f72bceca9aa9059f5d0c4be8
   languageName: node
   linkType: hard
 
@@ -52,14 +52,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serlo/server-migrate@workspace:."
   dependencies:
-    "@types/ramda": ^0.27.0
-    "@vercel/ncc": ^0.26.0
-    db-migrate: ^0.11.0
-    db-migrate-mysql: ^2.0.0
-    ramda: ^0.27.0
-    ts-node: ^10.0.0
-    tslib: ^2.0.0
-    typescript: ^4.0.0
+    "@types/node": ^16.11.7
+    "@types/ramda": ^0.28.1
+    "@vercel/ncc": ^0.33.3
+    db-migrate: ^0.11.13
+    db-migrate-mysql: ^2.2.0
+    ramda: ^0.28.0
+    ts-node: ^10.7.0
+    tslib: ^2.3.1
+    typescript: ^4.6.2
   languageName: unknown
   linkType: soft
 
@@ -98,23 +99,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ramda@npm:^0.27.0":
-  version: 0.27.45
-  resolution: "@types/ramda@npm:0.27.45"
-  dependencies:
-    ts-toolbelt: ^6.15.1
-  checksum: 524ca41dd99430e9fd86b402bf646e41aca5ba0db50c37f345d23894d5a109e3b76937de8c97027fa554cce366863f6f0257ae0992bedbf469c3fae9e1c41b0d
+"@types/node@npm:^16.11.7":
+  version: 16.11.26
+  resolution: "@types/node@npm:16.11.26"
+  checksum: 57757caaba3f0d95de82198cb276a1002c49b710108c932a1d02d7c91ff2fa57cfe2dd19fde60853b6dd90b0964b3cf35557981d2628e20aed6a909057aedfe6
   languageName: node
   linkType: hard
 
-"@vercel/ncc@npm:^0.26.0":
-  version: 0.26.2
-  resolution: "@vercel/ncc@npm:0.26.2"
+"@types/ramda@npm:^0.28.1":
+  version: 0.28.1
+  resolution: "@types/ramda@npm:0.28.1"
+  dependencies:
+    ts-toolbelt: ^6.15.1
+  checksum: 6589471c023093ca0dc5d1d83b75835f6b2ef966f8b63ac5bdc75f93da7da9ea43270c46c2954d39f57f779f4e3633c916b54243caa551c2210f24939ef1d2af
+  languageName: node
+  linkType: hard
+
+"@vercel/ncc@npm:^0.33.3":
+  version: 0.33.3
+  resolution: "@vercel/ncc@npm:0.33.3"
   dependencies:
     node-gyp: latest
   bin:
     ncc: dist/ncc/cli.js
-  checksum: 716b8c2a2079624eb5d26dcfb94c5a772961a5b3c46b8f994d8bada5dfaae8450ea965420a3f6e70d01573c2439d2b0352dd0828c0d72253f966a7ddeee8de0a
+  checksum: 0dd73aae0df395524eac2086e23305672d907fb184a6d85249e39a6246ee1c36848b38334d279b5f8b755d3e8ba32a680043034acd3c0f28d7ec38915335509d
   languageName: node
   linkType: hard
 
@@ -411,7 +419,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"db-migrate-mysql@npm:^2.0.0":
+"db-migrate-mysql@npm:^2.2.0":
   version: 2.2.0
   resolution: "db-migrate-mysql@npm:2.2.0"
   dependencies:
@@ -430,9 +438,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"db-migrate@npm:^0.11.0":
-  version: 0.11.12
-  resolution: "db-migrate@npm:0.11.12"
+"db-migrate@npm:^0.11.13":
+  version: 0.11.13
+  resolution: "db-migrate@npm:0.11.13"
   dependencies:
     balanced-match: ^1.0.0
     bluebird: ^3.1.1
@@ -451,7 +459,7 @@ __metadata:
     yargs: ^15.3.1
   bin:
     db-migrate: bin/db-migrate
-  checksum: b96f4edcfba56c8c78a4fc8aff1ebde9bcda13fcc4538e42956d3198845b1454f5296400c46c56a34aba9d096a03438a3c076af506e03cfa23b33a269cc3ca45
+  checksum: 49b3e2ebe5ba96c2a8b5fc088b557e8b4c35bc5fea5f3a289700b5914aa051a63d77c3796a4b2c24c06d95fa419a60f5d627a5223ea2c1bab4c844eef2dbb622
   languageName: node
   linkType: hard
 
@@ -1247,10 +1255,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ramda@npm:^0.27.0":
-  version: 0.27.1
-  resolution: "ramda@npm:0.27.1"
-  checksum: 31a0c0ef739b2525d7615f84cbb5d3cb89ee0c795469b711f729ea1d8df0dccc3cd75d3717a1e9742d42315ce86435680b7c87743eb7618111c60c144a5b8059
+"ramda@npm:^0.28.0":
+  version: 0.28.0
+  resolution: "ramda@npm:0.28.0"
+  checksum: 44ea6e5010bba70151b6a92d8114a91915e8b5a16105cce65fae58c9d7386b812c429645e35f21141d7087568550ce383bc10ee1a65cdec951f4b69ea457e6a4
   languageName: node
   linkType: hard
 
@@ -1520,11 +1528,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.0.0":
-  version: 10.2.1
-  resolution: "ts-node@npm:10.2.1"
+"ts-node@npm:^10.7.0":
+  version: 10.7.0
+  resolution: "ts-node@npm:10.7.0"
   dependencies:
-    "@cspotcode/source-map-support": 0.6.1
+    "@cspotcode/source-map-support": 0.7.0
     "@tsconfig/node10": ^1.0.7
     "@tsconfig/node12": ^1.0.7
     "@tsconfig/node14": ^1.0.0
@@ -1535,6 +1543,7 @@ __metadata:
     create-require: ^1.1.0
     diff: ^4.0.1
     make-error: ^1.1.1
+    v8-compile-cache-lib: ^3.0.0
     yn: 3.1.1
   peerDependencies:
     "@swc/core": ">=1.2.50"
@@ -1549,10 +1558,11 @@ __metadata:
   bin:
     ts-node: dist/bin.js
     ts-node-cwd: dist/bin-cwd.js
+    ts-node-esm: dist/bin-esm.js
     ts-node-script: dist/bin-script.js
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
-  checksum: f37d2827a583c51d012cdd3d9b96629fba7a5b5dfad2c26ca48c7c89f904118924689ca56f4b9b2136217194870a76f26aae06e3490ee613b0e960f02dc96bbe
+  checksum: 2a379e43f7478d0b79e1e63af91fe222d83857727957df4bd3bdf3c0a884de5097b12feb9bbf530074526b8874c0338b0e6328cf334f3a5e2c49c71e837273f7
   languageName: node
   linkType: hard
 
@@ -1563,7 +1573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0":
+"tslib@npm:^2.3.1":
   version: 2.3.1
   resolution: "tslib@npm:2.3.1"
   checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9
@@ -1588,23 +1598,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.0.0":
-  version: 4.4.3
-  resolution: "typescript@npm:4.4.3"
+"typescript@npm:^4.6.2":
+  version: 4.6.2
+  resolution: "typescript@npm:4.6.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 05823f21796d450531a7e4ab299715d38fd9ded0e4ce7400876053f4b5166ca3dde7a68cecfe72d9086039f03c0b6edba36516fb10ed83c5837d9600532ea4c2
+  checksum: 8a44ed7e6f6c4cb1ebe8cf236ecda2fb119d84dcf0fbd77e707b2dfea1bbcfc4e366493a143513ce7f57203c75da9d4e20af6fe46de89749366351046be7577c
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.0.0#~builtin<compat/typescript>":
-  version: 4.4.3
-  resolution: "typescript@patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=493e53"
+"typescript@patch:typescript@^4.6.2#~builtin<compat/typescript>":
+  version: 4.6.2
+  resolution: "typescript@patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=bda367"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 79f5c13d21c9dea3eb44d2b7002ff25a0569fefc432e083d65a360e3aca990aca25fc733e14aa6883b5e9a68e3e2f0330a34123e048806f91d701732ece00e6f
+  checksum: 40b493a71747fb89fa70df104e2c4a5e284b43750af5bea024090a5261cefa387f7a9372411b13030f7bf5555cee4275443d08805642ae5c74ef76740854a4c7
   languageName: node
   linkType: hard
 
@@ -1630,6 +1640,13 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 474acf1146cb2701fe3b074892217553dfcf9a031280919ba1b8d651a068c9b15d863b7303cb15bd00a862b498e6cf4ad7b4a08fb134edd5a6f7641681cb54a2
+  languageName: node
+  linkType: hard
+
+"v8-compile-cache-lib@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "v8-compile-cache-lib@npm:3.0.0"
+  checksum: 674e312bbca796584b61dc915f33c7e7dc4e06d196e0048cb772c8964493a1ec723f1dd014d9419fd55c24a6eae148f60769da23f622e05cd13268063fa1ed6b
   languageName: node
   linkType: hard
 
