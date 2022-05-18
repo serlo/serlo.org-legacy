@@ -17226,6 +17226,7 @@ var __createBinding;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const tslib_1 = __nccwpck_require__(4351);
 /**
  * This file is part of Serlo.org.
  *
@@ -17247,6 +17248,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+const R = tslib_1.__importStar(__nccwpck_require__(4119));
 const utils_1 = __nccwpck_require__(6252);
 (0, utils_1.createEdtrIoMigration)({
     exports,
@@ -17254,7 +17256,9 @@ const utils_1 = __nccwpck_require__(6252);
         image: ({ state }) => {
             if (typeof state !== 'object' || state === null)
                 throw new Error('Illegal image state');
-            return Object.assign({ caption: { plugin: 'text', state: [{ type: 'p', children: [{}] }] } }, state);
+            return R.has('caption', state)
+                ? state
+                : Object.assign(Object.assign({}, state), { caption: { plugin: 'text', state: [{ type: 'p', children: [{}] }] } });
         },
     }),
 });

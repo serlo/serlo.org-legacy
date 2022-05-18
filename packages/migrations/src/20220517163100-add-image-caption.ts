@@ -19,6 +19,7 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
+import * as R from 'ramda'
 import { createEdtrIoMigration, updatePlugins } from './utils'
 
 createEdtrIoMigration({
@@ -28,10 +29,12 @@ createEdtrIoMigration({
       if (typeof state !== 'object' || state === null)
         throw new Error('Illegal image state')
 
-      return {
-        caption: { plugin: 'text', state: [{ type: 'p', children: [{}] }] },
-        ...state,
-      }
+      return R.has('caption', state)
+        ? state
+        : {
+            ...state,
+            caption: { plugin: 'text', state: [{ type: 'p', children: [{}] }] },
+          }
     },
   }),
 })
