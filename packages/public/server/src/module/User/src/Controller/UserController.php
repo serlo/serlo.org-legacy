@@ -87,7 +87,7 @@ class UserController extends AbstractUserController
     public function registerAction()
     {
         if ($this->getUserManager()->getUserFromAuthenticator()) {
-            return $this->redirect()->toRoute('home');
+            return $this->redirect()->toUrl($this->params('ref', '/'));
         }
 
         $this->layout('layout/1-col');
@@ -116,7 +116,9 @@ class UserController extends AbstractUserController
                         ' will soon receive an email with instructions on' .
                         ' how to activate your account.'
                 );
-                return $this->redirect()->toUrl($this->params('ref', '/'));
+                return $this->redirect()->toUrl(
+                    $this->params('ref', '/') . '#just-registered'
+                );
             }
         }
 
