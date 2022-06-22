@@ -19,12 +19,12 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
+import { EditorPlugin } from '@edtr-io/plugin'
 import {
   createTablePlugin,
-  TableProps,
+  TableConfig,
   TablePluginState,
-  TablePluginConfig,
+  TableProps,
 } from '@edtr-io/plugin-table'
 import { converter } from '@serlo/markdown'
 import { initMathJax, typeset } from '@serlo/mathjax'
@@ -44,7 +44,7 @@ function MarkdownRenderer(props: { markdown: string }) {
   )
 }
 
-export const tablePlugin: EditorPlugin<TablePluginState, TablePluginConfig> = {
+export const tablePlugin: EditorPlugin<TablePluginState, TableConfig> = {
   ...edtrTablePlugin,
   Component: TableEditor,
 }

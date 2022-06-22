@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@types/ramda": "^0.28.1",
-    "@types/semver": "^7.3.9",
+    "@types/ramda": "^0.28.14",
+    "@types/semver": "^7.3.10",
     "node-fetch": "^2.6.7",
     "ramda": "^0.28.0",
-    "semver": "^7.3.5"
+    "semver": "^7.3.7"
   }
 }
