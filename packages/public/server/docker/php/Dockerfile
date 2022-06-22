@@ -24,7 +24,7 @@ RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN mkdir -p src/data/DoctrineORMModule/Proxy src/logs
 RUN chmod 777 -R src/data src/logs
 
-FROM composer:1.8 as dependencies
+FROM composer:2 as dependencies
 WORKDIR /app
 COPY src/module src/module
 COPY composer.json .
