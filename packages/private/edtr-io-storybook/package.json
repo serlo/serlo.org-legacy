@@ -12,14 +12,14 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
-    "@storybook/addon-actions": "^6.4.19",
+    "@babel/core": "^7.18.5",
+    "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-knobs": "^6.4.0",
-    "@storybook/builder-webpack5": "^6.4.19",
-    "@storybook/manager-webpack5": "^6.4.19",
-    "@storybook/react": "^6.4.19",
-    "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.13",
+    "@storybook/builder-webpack5": "^6.5.9",
+    "@storybook/manager-webpack5": "^6.5.9",
+    "@storybook/react": "^6.5.9",
+    "@types/react": "^17.0.47",
+    "@types/react-dom": "^17.0.17",
     "i18next-resource-store-loader": "^0.1.2"
   }
 }
