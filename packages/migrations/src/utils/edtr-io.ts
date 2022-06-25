@@ -59,7 +59,7 @@ export function isPlugin(value: unknown): value is Plugin {
   )
 }
 
-type Transformation = (value: unknown) => unknown
+export type Transformation = (value: unknown) => unknown
 
 interface Plugin {
   plugin: string
