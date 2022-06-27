@@ -21,6 +21,36 @@
  */
 import * as R from 'ramda'
 
+export function replacePlugins(transformations: {
+  [key in string]?: (args: {
+    state: unknown
+    applyChangeToChildren: Transformation
+  }) => unknown
+}): Transformation {
+  function applyChangeToChildren(value: unknown): unknown {
+    if (isPlugin(value)) {
+      const { plugin, state } = value
+      const transformFunc = transformations[plugin]
+
+      if (typeof transformFunc === 'function') {
+        return transformFunc({ state, applyChangeToChildren })
+      }
+    }
+
+    if (Array.isArray(value)) {
+      return value.map(applyChangeToChildren)
+    }
+
+    if (typeof value === 'object' && value !== null) {
+      return R.mapObjIndexed(applyChangeToChildren, value)
+    }
+
+    return value
+  }
+
+  return applyChangeToChildren
+}
+
 export function updatePlugins(transformations: {
   [key in string]?: (args: {
     state: unknown

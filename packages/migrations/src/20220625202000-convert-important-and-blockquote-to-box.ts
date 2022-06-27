@@ -19,11 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { createEdtrIoMigration, updatePlugins, Transformation } from './utils'
+import { createEdtrIoMigration, replacePlugins, Transformation } from './utils'
 
 createEdtrIoMigration({
   exports,
-  migrateState: updatePlugins({
+  migrateState: replacePlugins({
     important: convertToBox('important'),
     blockquote: convertToBox('blockquote'),
   }),
@@ -32,10 +32,10 @@ createEdtrIoMigration({
 function convertToBox(plugin: string) {
   return ({
     state,
-    transformState,
+    applyChangeToChildren,
   }: {
     state: unknown
-    transformState: Transformation
+    applyChangeToChildren: Transformation
   }) => {
     return {
       plugin: 'box',
@@ -46,7 +46,7 @@ function convertToBox(plugin: string) {
         },
         content: {
           plugin: 'rows',
-          state: transformState(state),
+          state: applyChangeToChildren(state),
         },
         type: plugin === 'blockquote' ? 'quote' : 'blank',
         anchorId: `box${Math.floor(10000 + Math.random() * 90000)}`,

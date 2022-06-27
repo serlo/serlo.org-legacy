@@ -17250,13 +17250,13 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const utils_1 = __nccwpck_require__(6252);
 (0, utils_1.createEdtrIoMigration)({
     exports,
-    migrateState: (0, utils_1.updatePlugins)({
+    migrateState: (0, utils_1.replacePlugins)({
         important: convertToBox('important'),
         blockquote: convertToBox('blockquote'),
     }),
 });
 function convertToBox(plugin) {
-    return ({ state, transformState, }) => {
+    return ({ state, applyChangeToChildren, }) => {
         return {
             plugin: 'box',
             state: {
@@ -17266,7 +17266,7 @@ function convertToBox(plugin) {
                 },
                 content: {
                     plugin: 'rows',
-                    state: transformState(state),
+                    state: applyChangeToChildren(state),
                 },
                 type: plugin === 'blockquote' ? 'quote' : 'blank',
                 anchorId: `box${Math.floor(10000 + Math.random() * 90000)}`,
@@ -17528,7 +17528,7 @@ exports.createDatabase = createDatabase;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.isPlugin = exports.updatePlugins = void 0;
+exports.isPlugin = exports.updatePlugins = exports.replacePlugins = void 0;
 const tslib_1 = __nccwpck_require__(4351);
 /**
  * This file is part of Serlo.org.
@@ -17552,6 +17552,26 @@ const tslib_1 = __nccwpck_require__(4351);
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 const R = tslib_1.__importStar(__nccwpck_require__(4119));
+function replacePlugins(transformations) {
+    function applyChangeToChildren(value) {
+        if (isPlugin(value)) {
+            const { plugin, state } = value;
+            const transformFunc = transformations[plugin];
+            if (typeof transformFunc === 'function') {
+                return transformFunc({ state, applyChangeToChildren });
+            }
+        }
+        if (Array.isArray(value)) {
+            return value.map(applyChangeToChildren);
+        }
+        if (typeof value === 'object' && value !== null) {
+            return R.mapObjIndexed(applyChangeToChildren, value);
+        }
+        return value;
+    }
+    return applyChangeToChildren;
+}
+exports.replacePlugins = replacePlugins;
 function updatePlugins(transformations) {
     function transformState(value) {
         if (isPlugin(value)) {
