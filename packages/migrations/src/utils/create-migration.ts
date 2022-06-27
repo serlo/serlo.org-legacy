@@ -75,16 +75,9 @@ export function createEdtrIoMigration({
       }
 
       const rows = await db.runSql<Row[]>(`
-        SELECT erf.id, erf.value, er.id as revisionId
+        SELECT erf.id, erf.value, erf.entity_revision_id as revisionId
         FROM entity_revision_field erf
-          LEFT JOIN entity_revision er on erf.entity_revision_id = er.id
-          LEFT JOIN entity e on er.repository_id = e.id
-          LEFT JOIN type entity_type on entity_type.id = e.type_id
         WHERE erf.field = 'content'
-          AND entity_type.name IN ("article", "course-page",
-                                   "event", "grouped-text-excercise",
-                                   "text-exercise", "text-exercise-group",
-                                   "text-solution")
       `)
 
       for (const row of rows) {
