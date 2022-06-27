@@ -68,84 +68,78 @@ export function createEdtrIoMigration({
 }) {
   createMigration(exports, {
     up: async (db) => {
-      interface EntityRow {
-        id: number
-        value: string
-        revisionId: number
-      }
-
-      const entityRevisions = await db.runSql<EntityRow[]>(`
-        SELECT erf.id, erf.value, erf.entity_revision_id as revisionId
+      await changeAllRevisions({
+        revisions: await db.runSql<Revision[]>(`
+        SELECT erf.id, erf.value as content, erf.entity_revision_id as revisionId
         FROM entity_revision_field erf
         WHERE erf.field = 'content'
-      `)
-
-      for (const entityRevision of entityRevisions) {
-        let oldState
-
-        try {
-          oldState = JSON.parse(entityRevision.value)
-        } catch (e) {
-          // Ignore (some articles have raw text)
-        }
-
-        if (!isPlugin(oldState)) {
-          // state of legacy markdown editor
-          continue
-        }
-
-        const newState = JSON.stringify(migrateState(oldState))
-
-        if (newState !== entityRevision.value) {
+      `),
+        migrateState,
+        async updateRevision(newContent, revision) {
           await db.runSql(
             `UPDATE entity_revision_field SET value = ? WHERE id = ?`,
-            newState,
-            entityRevision.id
+            newContent,
+            revision.id
           )
+        },
+      })
 
-          console.log('Updated revision', entityRevision.revisionId)
-        }
-      }
-
-      interface PageRow {
-        id: number
-        content: string
-      }
-
-      const pageRevisions = await db.runSql<PageRow[]>(`
+      await changeAllRevisions({
+        revisions: await db.runSql<Revision[]>(`
         SELECT
-          page_revision.id, page_revision.content
+          page_revision.id, page_revision.content, page_revision.id as revisionId
         FROM page_revision
-      `)
-
-      for (const pageRevision of pageRevisions) {
-        let oldState
-
-        try {
-          oldState = JSON.parse(pageRevision.content)
-        } catch (e) {
-          // Ignore (some articles have raw text)
-        }
-
-        if (!isPlugin(oldState)) {
-          // state of legacy markdown editor
-          continue
-        }
-
-        const newState = JSON.stringify(migrateState(oldState))
-
-        if (newState !== pageRevision.content) {
+      `),
+        migrateState,
+        async updateRevision(newContent, revision) {
           await db.runSql(
             `UPDATE page_revision SET content = ? WHERE id = ?`,
-            newState,
-            pageRevision.id
+            newContent,
+            revision.id
           )
-
-          console.log('Updated revision', pageRevision.id)
-        }
-      }
+        },
+      })
     },
   })
+}
+
+async function changeAllRevisions({
+  revisions,
+  updateRevision,
+  migrateState,
+}: {
+  revisions: Revision[]
+  updateRevision: (newContent: string, revision: Revision) => Promise<void>
+  migrateState: (state: any) => any
+}) {
+  for (const revision of revisions) {
+    let oldState
+
+    try {
+      oldState = JSON.parse(revision.content)
+    } catch (e) {
+      // Ignore (some articles have raw text)
+    }
+
+    if (!isPlugin(oldState)) {
+      // state of legacy markdown editor
+      continue
+    }
+
+    const newState = JSON.stringify(migrateState(oldState))
+
+    if (newState !== revision.content) {
+      await updateRevision(newState, revision)
+
+      console.log('Updated revision', revision.revisionId)
+    }
+  }
+}
+
+interface Revision {
+  id: number
+  content: string
+  revisionId: number
 }
 
 type Callback = (error?: Error) => void

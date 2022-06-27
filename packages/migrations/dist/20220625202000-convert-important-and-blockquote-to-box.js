@@ -17406,56 +17406,58 @@ exports.createMigration = createMigration;
 function createEdtrIoMigration({ exports, migrateState, }) {
     createMigration(exports, {
         up: (db) => tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const entityRevisions = yield db.runSql(`
-        SELECT erf.id, erf.value, erf.entity_revision_id as revisionId
+            yield changeAllRevisions({
+                revisions: yield db.runSql(`
+        SELECT erf.id, erf.value as content, erf.entity_revision_id as revisionId
         FROM entity_revision_field erf
         WHERE erf.field = 'content'
-      `);
-            for (const entityRevision of entityRevisions) {
-                let oldState;
-                try {
-                    oldState = JSON.parse(entityRevision.value);
-                }
-                catch (e) {
-                    // Ignore (some articles have raw text)
-                }
-                if (!(0, edtr_io_1.isPlugin)(oldState)) {
-                    // state of legacy markdown editor
-                    continue;
-                }
-                const newState = JSON.stringify(migrateState(oldState));
-                if (newState !== entityRevision.value) {
-                    yield db.runSql(`UPDATE entity_revision_field SET value = ? WHERE id = ?`, newState, entityRevision.id);
-                    console.log('Updated revision', entityRevision.revisionId);
-                }
-            }
-            const pageRevisions = yield db.runSql(`
+      `),
+                migrateState,
+                updateRevision(newContent, revision) {
+                    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+                        yield db.runSql(`UPDATE entity_revision_field SET value = ? WHERE id = ?`, newContent, revision.id);
+                    });
+                },
+            });
+            yield changeAllRevisions({
+                revisions: yield db.runSql(`
         SELECT
-          page_revision.id, page_revision.content
+          page_revision.id, page_revision.content, page_revision.id as revisionId
         FROM page_revision
-      `);
-            for (const pageRevision of pageRevisions) {
-                let oldState;
-                try {
-                    oldState = JSON.parse(pageRevision.content);
-                }
-                catch (e) {
-                    // Ignore (some articles have raw text)
-                }
-                if (!(0, edtr_io_1.isPlugin)(oldState)) {
-                    // state of legacy markdown editor
-                    continue;
-                }
-                const newState = JSON.stringify(migrateState(oldState));
-                if (newState !== pageRevision.content) {
-                    yield db.runSql(`UPDATE page_revision SET content = ? WHERE id = ?`, newState, pageRevision.id);
-                    console.log('Updated revision', pageRevision.id);
-                }
-            }
+      `),
+                migrateState,
+                updateRevision(newContent, revision) {
+                    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+                        yield db.runSql(`UPDATE page_revision SET content = ? WHERE id = ?`, newContent, revision.id);
+                    });
+                },
+            });
         }),
     });
 }
 exports.createEdtrIoMigration = createEdtrIoMigration;
+function changeAllRevisions({ revisions, updateRevision, migrateState, }) {
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        for (const revision of revisions) {
+            let oldState;
+            try {
+                oldState = JSON.parse(revision.content);
+            }
+            catch (e) {
+                // Ignore (some articles have raw text)
+            }
+            if (!(0, edtr_io_1.isPlugin)(oldState)) {
+                // state of legacy markdown editor
+                continue;
+            }
+            const newState = JSON.stringify(migrateState(oldState));
+            if (newState !== revision.content) {
+                yield updateRevision(newState, revision);
+                console.log('Updated revision', revision.revisionId);
+            }
+        }
+    });
+}
 
 
 /***/ }),
