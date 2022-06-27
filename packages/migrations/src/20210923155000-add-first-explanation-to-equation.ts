@@ -19,11 +19,11 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { createEdtrIoMigration, updatePlugins } from './utils'
+import { createEdtrIoMigration, replacePluginState } from './utils'
 
 createEdtrIoMigration({
   exports,
-  migrateState: updatePlugins({
+  migrateState: replacePluginState({
     equations: ({ state }) => {
       if (typeof state !== 'object' || state === null)
         throw new Error('Illegal equation state')

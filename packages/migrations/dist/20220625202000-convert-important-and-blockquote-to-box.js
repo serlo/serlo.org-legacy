@@ -17251,27 +17251,25 @@ const utils_1 = __nccwpck_require__(6252);
 (0, utils_1.createEdtrIoMigration)({
     exports,
     migrateState: (0, utils_1.replacePlugins)({
-        important: convertToBox('important'),
-        blockquote: convertToBox('blockquote'),
+        important: convertToBox,
+        blockquote: convertToBox,
     }),
 });
-function convertToBox(plugin) {
-    return ({ state, applyChangeToChildren, }) => {
-        return {
-            plugin: 'box',
-            state: {
-                title: {
-                    plugin: 'text',
-                    state: [{ type: 'p', children: [{}] }],
-                },
-                content: {
-                    plugin: 'rows',
-                    state: applyChangeToChildren(state),
-                },
-                type: plugin === 'blockquote' ? 'quote' : 'blank',
-                anchorId: `box${Math.floor(10000 + Math.random() * 90000)}`,
+function convertToBox({ plugin, applyChangeToChildren, }) {
+    return {
+        plugin: 'box',
+        state: {
+            title: {
+                plugin: 'text',
+                state: [{ type: 'p', children: [{}] }],
             },
-        };
+            content: {
+                plugin: 'rows',
+                state: applyChangeToChildren(plugin.state),
+            },
+            type: plugin.plugin === 'blockquote' ? 'quote' : 'blank',
+            anchorId: `box${Math.floor(10000 + Math.random() * 90000)}`,
+        },
     };
 }
 
@@ -17528,7 +17526,7 @@ exports.createDatabase = createDatabase;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.isPlugin = exports.updatePlugins = exports.replacePlugins = void 0;
+exports.isPlugin = exports.replacePluginState = exports.replacePlugins = void 0;
 const tslib_1 = __nccwpck_require__(4351);
 /**
  * This file is part of Serlo.org.
@@ -17553,13 +17551,29 @@ const tslib_1 = __nccwpck_require__(4351);
  */
 const R = tslib_1.__importStar(__nccwpck_require__(4119));
 function replacePlugins(transformations) {
+    return updatePlugins((plugin, applyChangeToChildren) => {
+        const transformFunc = transformations[plugin.plugin];
+        if (typeof transformFunc === 'function') {
+            return transformFunc({ plugin, applyChangeToChildren });
+        }
+    });
+}
+exports.replacePlugins = replacePlugins;
+function replacePluginState(transformations) {
+    return updatePlugins(({ plugin, state }, applyChangeToChildren) => {
+        const transformFunc = transformations[plugin];
+        if (typeof transformFunc === 'function') {
+            return { plugin, state: transformFunc({ state, applyChangeToChildren }) };
+        }
+    });
+}
+exports.replacePluginState = replacePluginState;
+function updatePlugins(updatePlugin) {
     function applyChangeToChildren(value) {
         if (isPlugin(value)) {
-            const { plugin, state } = value;
-            const transformFunc = transformations[plugin];
-            if (typeof transformFunc === 'function') {
-                return transformFunc({ state, applyChangeToChildren });
-            }
+            const newPlugin = updatePlugin(value, applyChangeToChildren);
+            if (newPlugin)
+                return newPlugin;
         }
         if (Array.isArray(value)) {
             return value.map(applyChangeToChildren);
@@ -17571,27 +17585,6 @@ function replacePlugins(transformations) {
     }
     return applyChangeToChildren;
 }
-exports.replacePlugins = replacePlugins;
-function updatePlugins(transformations) {
-    function transformState(value) {
-        if (isPlugin(value)) {
-            const { plugin, state } = value;
-            const transformFunc = transformations[plugin];
-            if (typeof transformFunc === 'function') {
-                return Object.assign(Object.assign({}, value), { state: transformFunc({ state, transformState }) });
-            }
-        }
-        if (Array.isArray(value)) {
-            return value.map(transformState);
-        }
-        if (typeof value === 'object' && value !== null) {
-            return R.mapObjIndexed(transformState, value);
-        }
-        return value;
-    }
-    return transformState;
-}
-exports.updatePlugins = updatePlugins;
 function isPlugin(value) {
     return (R.has('plugin', value) &&
         R.has('state', value) &&

@@ -23,18 +23,45 @@ import * as R from 'ramda'
 
 export function replacePlugins(transformations: {
   [key in string]?: (args: {
+    plugin: Plugin
+    applyChangeToChildren: Transformation
+  }) => Plugin
+}): Transformation {
+  return updatePlugins((plugin, applyChangeToChildren) => {
+    const transformFunc = transformations[plugin.plugin]
+
+    if (typeof transformFunc === 'function') {
+      return transformFunc({ plugin, applyChangeToChildren })
+    }
+  })
+}
+
+export function replacePluginState(transformations: {
+  [key in string]?: (args: {
     state: unknown
     applyChangeToChildren: Transformation
   }) => unknown
 }): Transformation {
+  return updatePlugins(({ plugin, state }, applyChangeToChildren) => {
+    const transformFunc = transformations[plugin]
+
+    if (typeof transformFunc === 'function') {
+      return { plugin, state: transformFunc({ state, applyChangeToChildren }) }
+    }
+  })
+}
+
+function updatePlugins(
+  updatePlugin: (
+    plugin: Plugin,
+    applyChangeToChildren: Transformation
+  ) => Plugin | undefined
+): Transformation {
   function applyChangeToChildren(value: unknown): unknown {
     if (isPlugin(value)) {
-      const { plugin, state } = value
-      const transformFunc = transformations[plugin]
+      const newPlugin = updatePlugin(value, applyChangeToChildren)
 
-      if (typeof transformFunc === 'function') {
-        return transformFunc({ state, applyChangeToChildren })
-      }
+      if (newPlugin) return newPlugin
     }
 
     if (Array.isArray(value)) {
@@ -51,36 +78,6 @@ export function replacePlugins(transformations: {
   return applyChangeToChildren
 }
 
-export function updatePlugins(transformations: {
-  [key in string]?: (args: {
-    state: unknown
-    transformState: Transformation
-  }) => unknown
-}): Transformation {
-  function transformState(value: unknown): unknown {
-    if (isPlugin(value)) {
-      const { plugin, state } = value
-      const transformFunc = transformations[plugin]
-
-      if (typeof transformFunc === 'function') {
-        return { ...value, state: transformFunc({ state, transformState }) }
-      }
-    }
-
-    if (Array.isArray(value)) {
-      return value.map(transformState)
-    }
-
-    if (typeof value === 'object' && value !== null) {
-      return R.mapObjIndexed(transformState, value)
-    }
-
-    return value
-  }
-
-  return transformState
-}
-
 export function isPlugin(value: unknown): value is Plugin {
   return (
     R.has('plugin', value) &&
@@ -91,7 +88,7 @@ export function isPlugin(value: unknown): value is Plugin {
 
 export type Transformation = (value: unknown) => unknown
 
-interface Plugin {
+export interface Plugin {
   plugin: string
   state: unknown
 }
