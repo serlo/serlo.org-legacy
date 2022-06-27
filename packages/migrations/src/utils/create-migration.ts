@@ -68,23 +68,23 @@ export function createEdtrIoMigration({
 }) {
   createMigration(exports, {
     up: async (db) => {
-      interface Row {
+      interface EntityRow {
         id: number
         value: string
         revisionId: number
       }
 
-      const rows = await db.runSql<Row[]>(`
+      const entityRevisions = await db.runSql<EntityRow[]>(`
         SELECT erf.id, erf.value, erf.entity_revision_id as revisionId
         FROM entity_revision_field erf
         WHERE erf.field = 'content'
       `)
 
-      for (const row of rows) {
+      for (const entityRevision of entityRevisions) {
         let oldState
 
         try {
-          oldState = JSON.parse(row.value)
+          oldState = JSON.parse(entityRevision.value)
         } catch (e) {
           // Ignore (some articles have raw text)
         }
@@ -96,14 +96,52 @@ export function createEdtrIoMigration({
 
         const newState = JSON.stringify(migrateState(oldState))
 
-        if (newState !== row.value) {
+        if (newState !== entityRevision.value) {
           await db.runSql(
             `UPDATE entity_revision_field SET value = ? WHERE id = ?`,
             newState,
-            row.id
+            entityRevision.id
           )
 
-          console.log('Updated revision', row.revisionId)
+          console.log('Updated revision', entityRevision.revisionId)
+        }
+      }
+
+      interface PageRow {
+        id: number
+        content: string
+      }
+
+      const pageRevisions = await db.runSql<PageRow[]>(`
+        SELECT
+          page_revision.id, page_revision.content
+        FROM page_revision
+      `)
+
+      for (const pageRevision of pageRevisions) {
+        let oldState
+
+        try {
+          oldState = JSON.parse(pageRevision.content)
+        } catch (e) {
+          // Ignore (some articles have raw text)
+        }
+
+        if (!isPlugin(oldState)) {
+          // state of legacy markdown editor
+          continue
+        }
+
+        const newState = JSON.stringify(migrateState(oldState))
+
+        if (newState !== pageRevision.content) {
+          await db.runSql(
+            `UPDATE page_revision SET content = ? WHERE id = ?`,
+            newState,
+            pageRevision.id
+          )
+
+          console.log('Updated revision', pageRevision.id)
         }
       }
     },

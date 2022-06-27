@@ -17406,15 +17406,15 @@ exports.createMigration = createMigration;
 function createEdtrIoMigration({ exports, migrateState, }) {
     createMigration(exports, {
         up: (db) => tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const rows = yield db.runSql(`
+            const entityRevisions = yield db.runSql(`
         SELECT erf.id, erf.value, erf.entity_revision_id as revisionId
         FROM entity_revision_field erf
         WHERE erf.field = 'content'
       `);
-            for (const row of rows) {
+            for (const entityRevision of entityRevisions) {
                 let oldState;
                 try {
-                    oldState = JSON.parse(row.value);
+                    oldState = JSON.parse(entityRevision.value);
                 }
                 catch (e) {
                     // Ignore (some articles have raw text)
@@ -17424,9 +17424,32 @@ function createEdtrIoMigration({ exports, migrateState, }) {
                     continue;
                 }
                 const newState = JSON.stringify(migrateState(oldState));
-                if (newState !== row.value) {
-                    yield db.runSql(`UPDATE entity_revision_field SET value = ? WHERE id = ?`, newState, row.id);
-                    console.log('Updated revision', row.revisionId);
+                if (newState !== entityRevision.value) {
+                    yield db.runSql(`UPDATE entity_revision_field SET value = ? WHERE id = ?`, newState, entityRevision.id);
+                    console.log('Updated revision', entityRevision.revisionId);
+                }
+            }
+            const pageRevisions = yield db.runSql(`
+        SELECT
+          page_revision.id, page_revision.content
+        FROM page_revision
+      `);
+            for (const pageRevision of pageRevisions) {
+                let oldState;
+                try {
+                    oldState = JSON.parse(pageRevision.content);
+                }
+                catch (e) {
+                    // Ignore (some articles have raw text)
+                }
+                if (!(0, edtr_io_1.isPlugin)(oldState)) {
+                    // state of legacy markdown editor
+                    continue;
+                }
+                const newState = JSON.stringify(migrateState(oldState));
+                if (newState !== pageRevision.content) {
+                    yield db.runSql(`UPDATE page_revision SET content = ? WHERE id = ?`, newState, pageRevision.id);
+                    console.log('Updated revision', pageRevision.id);
                 }
             }
         }),
