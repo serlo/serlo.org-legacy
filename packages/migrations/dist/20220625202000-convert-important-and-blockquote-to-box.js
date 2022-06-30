@@ -17265,7 +17265,7 @@ function convertToBox({ plugin, applyChangeToChildren, }) {
             },
             content: {
                 plugin: 'rows',
-                state: applyChangeToChildren(plugin.state),
+                state: [applyChangeToChildren(plugin.state)],
             },
             type: plugin.plugin === 'blockquote' ? 'quote' : 'blank',
             anchorId: `box${Math.floor(10000 + Math.random() * 90000)}`,
