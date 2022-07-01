@@ -54,7 +54,7 @@ MUTATION;
         $query = <<<MUTATION
             mutation _removeCache(\$key: String!) {
                 _cache {
-                    remove(input: { key: \$key }) {
+                    remove(input: { keys: [\$key] }) {
                         success
                     }
                 }
