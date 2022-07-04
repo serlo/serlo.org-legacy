@@ -20,11 +20,11 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import * as R from 'ramda'
-import { createEdtrIoMigration, updatePlugins } from './utils'
+import { createEdtrIoMigration, replacePluginState } from './utils'
 
 createEdtrIoMigration({
   exports,
-  migrateState: updatePlugins({
+  migrateState: replacePluginState({
     image: ({ state }) => {
       if (typeof state !== 'object' || state === null)
         throw new Error('Illegal image state')

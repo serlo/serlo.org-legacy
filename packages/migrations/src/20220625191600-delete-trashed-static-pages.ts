@@ -19,16 +19,13 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { createEdtrIoMigration, replacePluginState } from './utils'
+import { createMigration } from './utils'
 
-createEdtrIoMigration({
-  exports,
-  migrateState: replacePluginState({
-    equations: ({ state }) => {
-      if (typeof state !== 'object' || state === null)
-        throw new Error('Illegal equation state')
-
-      return { firstExplanation: { plugin: 'text' }, ...state }
-    },
-  }),
+createMigration(exports, {
+  up: async (db) => {
+    await db.runSql('DELETE FROM ad_page WHERE page_repository_id = 18340')
+    await db.runSql(
+      'DELETE FROM uuid WHERE trashed = 1 AND discriminator = "page"'
+    )
+  },
 })
