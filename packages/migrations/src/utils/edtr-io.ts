@@ -21,34 +21,61 @@
  */
 import * as R from 'ramda'
 
-export function updatePlugins(transformations: {
+export function replacePlugins(transformations: {
+  [key in string]?: (args: {
+    plugin: Plugin
+    applyChangeToChildren: Transformation
+  }) => Plugin
+}): Transformation {
+  return updatePlugins((plugin, applyChangeToChildren) => {
+    const transformFunc = transformations[plugin.plugin]
+
+    if (typeof transformFunc === 'function') {
+      return transformFunc({ plugin, applyChangeToChildren })
+    }
+  })
+}
+
+export function replacePluginState(transformations: {
   [key in string]?: (args: {
     state: unknown
-    transformState: Transformation
+    applyChangeToChildren: Transformation
   }) => unknown
 }): Transformation {
-  function transformState(value: unknown): unknown {
-    if (isPlugin(value)) {
-      const { plugin, state } = value
-      const transformFunc = transformations[plugin]
+  return updatePlugins(({ plugin, state }, applyChangeToChildren) => {
+    const transformFunc = transformations[plugin]
 
-      if (typeof transformFunc === 'function') {
-        return { ...value, state: transformFunc({ state, transformState }) }
-      }
+    if (typeof transformFunc === 'function') {
+      return { plugin, state: transformFunc({ state, applyChangeToChildren }) }
+    }
+  })
+}
+
+function updatePlugins(
+  updatePlugin: (
+    plugin: Plugin,
+    applyChangeToChildren: Transformation
+  ) => Plugin | undefined
+): Transformation {
+  function applyChangeToChildren(value: unknown): unknown {
+    if (isPlugin(value)) {
+      const newPlugin = updatePlugin(value, applyChangeToChildren)
+
+      if (newPlugin) return newPlugin
     }
 
     if (Array.isArray(value)) {
-      return value.map(transformState)
+      return value.map(applyChangeToChildren)
     }
 
     if (typeof value === 'object' && value !== null) {
-      return R.mapObjIndexed(transformState, value)
+      return R.mapObjIndexed(applyChangeToChildren, value)
     }
 
     return value
   }
 
-  return transformState
+  return applyChangeToChildren
 }
 
 export function isPlugin(value: unknown): value is Plugin {
@@ -59,9 +86,9 @@ export function isPlugin(value: unknown): value is Plugin {
   )
 }
 
-type Transformation = (value: unknown) => unknown
+export type Transformation = (value: unknown) => unknown
 
-interface Plugin {
+export interface Plugin {
   plugin: string
   state: unknown
 }

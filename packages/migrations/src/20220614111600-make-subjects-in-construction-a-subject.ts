@@ -19,16 +19,17 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
-import { createEdtrIoMigration, replacePluginState } from './utils'
+import { createMigration } from './utils'
 
-createEdtrIoMigration({
-  exports,
-  migrateState: replacePluginState({
-    equations: ({ state }) => {
-      if (typeof state !== 'object' || state === null)
-        throw new Error('Illegal equation state')
+createMigration(exports, {
+  up: async (db) => {
+    await db.runSql('DELETE FROM uuid WHERE id = 247317')
 
-      return { firstExplanation: { plugin: 'text' }, ...state }
-    },
-  }),
+    await db.runSql('UPDATE term_taxonomy SET parent_id = 3 WHERE id = 106081')
+    await db.runSql(
+      'UPDATE term_taxonomy SET taxonomy_id = 3 WHERE id = 106081'
+    )
+
+    await db.runSql('UPDATE term_taxonomy SET taxonomy_id = 4 WHERE id = 41107')
+  },
 })
