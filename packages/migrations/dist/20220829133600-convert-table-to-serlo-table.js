@@ -27275,7 +27275,7 @@ const utils_1 = __nccwpck_require__(6252);
     }),
 });
 function convertTable(html) {
-    const dom = (0, htmlparser2_1.parseDocument)(html);
+    const dom = (0, htmlparser2_1.parseDOM)(html);
     const table = dom[0].children.filter((child) => child.type === 'tag')[0];
     if (!table || table.name !== 'table') {
         throw new Error('table is not defined');

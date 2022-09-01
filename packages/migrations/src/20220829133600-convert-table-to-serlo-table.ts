@@ -20,7 +20,7 @@
  * @link      https://github.com/serlo-org/serlo.org for the canonical source repository
  */
 import { converter } from '@serlo/markdown'
-import { parseDocument } from 'htmlparser2'
+import { parseDOM } from 'htmlparser2'
 
 import { createEdtrIoMigration, replacePlugins, Plugin } from './utils'
 
@@ -55,7 +55,7 @@ interface LegacyNode {
 }
 
 function convertTable(html: string): Plugin {
-  const dom = parseDocument(html) as unknown as LegacyNode[]
+  const dom = parseDOM(html) as unknown as LegacyNode[]
 
   const table = dom[0].children.filter((child) => child.type === 'tag')[0]
   if (!table || table.name !== 'table') {
