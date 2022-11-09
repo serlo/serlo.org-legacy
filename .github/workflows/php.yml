@@ -17,5 +17,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: dom, mbstring
-      - run: (cd packages/public/server && composer install --no-interaction --dev --prefer-dist)
+      - run:
+          (cd packages/public/server && composer install --no-interaction --dev
+          --prefer-dist)
       - run: (cd packages/public/server && src/vendor/bin/phpunit)

@@ -32,7 +32,9 @@ jobs:
           version: '372.0.0'
           service_account_key: ${{ secrets.GCP_KEY_SERLO_ASSETS }}
       - run: yarn --immutable --immutable-cache
-      - run: yarn lerna run build --include-dependencies --scope=@serlo/static-assets
+      - run:
+          yarn lerna run build --include-dependencies
+          --scope=@serlo/static-assets
       - run: yarn lerna run deploy:package --scope=@serlo/static-assets
         env:
           CF_KEY: ${{ secrets.CF_KEY }}
